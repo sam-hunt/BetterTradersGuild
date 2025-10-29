@@ -1,0 +1,42 @@
+using RimWorld;
+using RimWorld.Planet;
+
+namespace BetterTradersGuild
+{
+    /// <summary>
+    /// Helper class for checking Traders Guild faction status and relations
+    /// </summary>
+    public static class TradersGuildHelper
+    {
+        /// <summary>
+        /// Checks if a settlement belongs to the Traders Guild faction
+        /// The Traders Guild faction def name in RimWorld 1.6 is "TradersGuild"
+        /// </summary>
+        public static bool IsTradersGuildSettlement(Settlement settlement)
+        {
+            // Null check - make sure the settlement and its faction exist
+            if (settlement == null || settlement.Faction == null)
+                return false;
+
+            // Check if the faction's defName matches the Traders Guild
+            // In RimWorld 1.6+, the Traders Guild faction is called "TradersGuild"
+            return settlement.Faction.def.defName == "TradersGuild";
+        }
+
+        /// <summary>
+        /// Checks if the player can peacefully visit a faction's settlement
+        /// Requires non-hostile relations (neutral or better)
+        /// </summary>
+        public static bool CanPeacefullyVisit(Faction faction)
+        {
+            // Null check
+            if (faction == null)
+                return false;
+
+            // Check if the faction is hostile to the player
+            // PlayerRelationKind.Hostile means they're enemies
+            // We want Neutral or Ally
+            return faction.PlayerRelationKind != FactionRelationKind.Hostile;
+        }
+    }
+}

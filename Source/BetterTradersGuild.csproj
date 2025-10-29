@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BetterTradersGuild</RootNamespace>
+    <AssemblyName>BetterTradersGuild</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Assemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\Prepatcher\Assemblies\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\ModInitializer.cs" />
+    <Compile Include="Core\ModSettings.cs" />
+    <Compile Include="Helpers\TradersGuildHelper.cs" />
+    <Compile Include="Helpers\TileHelper.cs" />
+    <Compile Include="Helpers\TradersGuildTraderRotation.cs" />
+    <Compile Include="Patches\Settlement\SettlementVisitable.cs" />
+    <Compile Include="Patches\Settlement\SettlementGetCaravanGizmos.cs" />
+    <Compile Include="Patches\Settlement\SettlementGetFloatMenuOptions.cs" />
+    <Compile Include="Patches\Settlement\SettlementGetShuttleFloatMenuOptions.cs" />
+    <Compile Include="Patches\Settlement\SettlementGetInspectString.cs" />
+    <Compile Include="Patches\Settlement\SettlementTraderTrackerGetTraderKind.cs" />
+    <Compile Include="Patches\Settlement\SettlementTraderTrackerRegenerateStock.cs" />
+    <Compile Include="Patches\Settlement\SettlementTraderTrackerRegenerateStockEveryDays.cs" />
+    <Compile Include="Patches\Settlement\SettlementTraderTrackerRegenerateStockAlignment.cs" />
+    <Compile Include="Patches\WorldGrid\WorldGridGetRoadMovementDifficulty.cs" />
+    <Compile Include="Patches\WorldGrid\WorldGridFindMostReasonableAdjacentTile.cs" />
+    <Compile Include="Patches\WorldObject\WorldObjectRequiresSignalJammer.cs" />
+    <Compile Include="Patches\PlanetTile\PlanetTileLayerDef.cs" />
+    <Compile Include="Patches\CaravanArrivalActions\CaravanArrivalActionTradeGetFloatMenuOptions.cs" />
+    <Compile Include="Patches\CaravanArrivalActions\CaravanArrivalActionAttackGetFloatMenuOptions.cs" />
+    <Compile Include="Patches\Caravan\CaravanGetGizmos.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
