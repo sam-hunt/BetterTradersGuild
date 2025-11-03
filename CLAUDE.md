@@ -65,8 +65,13 @@ BetterTradersGuild/
 │   └── About.xml           # Mod metadata, dependencies, load order
 ├── Assemblies/             # Compiled DLL output directory
 │   └── BetterTradersGuild.dll
-├── Defs/                   # XML definitions (future: custom game content)
-├── Patches/                # XML patches (future: runtime XML modifications)
+├── Defs/                   # XML definitions for game content
+│   ├── LayoutDefs/         # Phase 3: Custom settlement layouts
+│   │   └── TradersGuild_LayoutDefs.xml
+│   ├── RoomDefs/           # Phase 3: Custom room definitions (optional)
+│   │   └── TradersGuild_MedicalBay.xml
+│   └── PawnKindDefs/       # Phase 3: Enhanced pawn types (optional)
+├── Patches/                # XML patches (runtime XML modifications)
 ├── Source/                 # C# source code (organized by concern)
 │   ├── Core/               # Core mod initialization and settings
 │   │   ├── ModInitializer.cs      # Harmony patching and startup
@@ -75,6 +80,12 @@ BetterTradersGuild/
 │   │   ├── TradersGuildHelper.cs     # Faction/settlement checking
 │   │   ├── TileHelper.cs             # World map tile utilities
 │   │   └── TradersGuildTraderRotation.cs  # Trader rotation timing logic
+│   ├── WorldObjects/       # Phase 3: World object components
+│   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
+│   ├── MapComponents/      # Phase 3: Map-level components
+│   │   └── TradersGuildCargoRefresher.cs  # Cargo despawn/respawn system
+│   ├── BaseGen/            # Phase 3: Map generation symbol resolvers
+│   │   └── SymbolResolver_TradersGuildShuttleBay.cs  # Cargo spawning
 │   ├── Patches/            # Harmony patches organized by target type
 │   │   ├── Settlement/            # Settlement-related patches (10 files)
 │   │   │   ├── SettlementVisitable.cs
@@ -86,6 +97,8 @@ BetterTradersGuild/
 │   │   │   ├── SettlementTraderTrackerRegenerateStock.cs
 │   │   │   ├── SettlementTraderTrackerRegenerateStockEveryDays.cs
 │   │   │   ├── SettlementTraderTrackerRegenerateStockAlignment.cs
+│   │   ├── MapGeneration/         # Phase 3: Map generation patches
+│   │   │   └── GenStepOrbitalPlatformGenerate.cs
 │   │   ├── WorldGrid/             # WorldGrid patches (2 files)
 │   │   ├── WorldObject/           # WorldObject patches (1 file)
 │   │   ├── PlanetTile/            # PlanetTile patches (1 file)
@@ -93,7 +106,6 @@ BetterTradersGuild/
 │   │   └── Caravan/               # Caravan patches (1 file)
 │   ├── BetterTradersGuild.csproj  # Visual Studio project file
 │   └── Properties/
-├── PHASE2_TRADING_PLAN.md  # Phase 2 detailed architecture and issue history
 └── PLAN.md                 # Development roadmap and phase tracking
 ```
 
@@ -130,32 +142,77 @@ The mod uses `[StaticConstructorOnStartup]` attribute on the `BetterTradersGuild
 The mod implements a sophisticated virtual schedule system for trader rotation:
 
 **Virtual Schedules:**
+
 - Each settlement has a deterministic rotation schedule based on its ID
-- Settlement ID offset (using prime multiplier) desynchronizes rotation across settlements
+- Settlement ID offset (using prime multiplier: 123457) desynchronizes rotation across settlements
 - Unvisited settlements show stable previews that match what they'll get when visited
 - Rotation interval is player-configurable (5-30 days, default 15)
 
-**Key Components:**
-1. **TradersGuildTraderRotation helper** - Centralized timing logic
-2. **Virtual schedule alignment** - Ensures preview matches first visit
-3. **RegenerateStockEveryDays patch** - Custom intervals for TradersGuild
-4. **Pending alignment tracking** - Distinguishes first-time from subsequent regenerations
+**Three-Patch Architecture:**
+
+The trader rotation system requires three Harmony patches working together to solve critical synchronization issues:
+
+1. **SettlementTraderTrackerGetTraderKind.cs** (Postfix on `TraderKind` getter)
+   - Provides weighted random orbital trader selection
+   - Uses deterministic seed: `Hash(settlementID, lastStockGenerationTicks)`
+   - Checks flags from other patches to determine which tick value to use
+   - Implements caching to avoid recalculation every frame
+
+2. **SettlementTraderTrackerRegenerateStock.cs** (Prefix/Postfix on `RegenerateStock()`)
+   - **ESSENTIAL** - Sets thread-local flag during stock regeneration
+   - Solves stock/dialog desync problem (see below)
+   - Cannot be removed without breaking trader type consistency
+   - Exposes `IsRegeneratingStock(settlementID)` for other patches
+
+3. **SettlementTraderTrackerRegenerateStockAlignment.cs** (Prefix/Postfix on `RegenerateStock()`)
+   - Aligns first-visit stock generation with virtual preview schedule
+   - Solves preview/visit mismatch problem (see below)
+   - Exposes `HasPendingAlignment(settlementID)` for other patches
+   - Overrides vanilla's `lastStockGenerationTicks = TicksGame` behavior
+
+**Critical Problem #1: Stock/Dialog Desync**
+
+Vanilla `RegenerateStock()` updates `lastStockGenerationTicks` at the END of execution:
+```
+1. Stock cleared
+2. TraderKind getter called (uses OLD lastStockTicks) → Selects Trader A
+3. Stock generated for Trader A
+4. lastStockGenerationTicks = TicksGame (NEW value)
+5. Dialog opens → TraderKind getter called (uses NEW lastStockTicks) → Selects Trader B
+```
+Result: Dialog shows Trader B title but has Trader A's inventory!
+
+**Solution:** The RegenerateStock patch sets a flag during execution. The TraderKind getter detects this flag and uses `Find.TickManager.TicksGame` (the future value) to ensure both calls select the same trader.
+
+**Critical Problem #2: Preview/Visit Mismatch**
+
+Unvisited settlements use virtual schedules for preview, but first-visit generation uses `TicksGame`:
+```
+1. Preview calculates: GetVirtualLastStockTicks(ID) = -865481 → Shows Exotic Trader
+2. Player visits → RegenerateStock() sets lastStockTicks = TicksGame = 12015
+3. Different seeds → Shows Bulk Trader (broken trust!)
+```
+
+**Solution:** The Alignment patch detects first-time generation (lastStockTicks == -1), pre-sets the value to virtual schedule, and restores it after vanilla overwrites it with TicksGame.
 
 **How It Works:**
-- Unvisited: Shows trader based on `GetVirtualLastStockTicks(settlementID)`
-- First visit: Aligns `lastStockGenerationTicks` to virtual value, restores after vanilla overwrite
-- Subsequent: Uses normal regeneration with custom interval
+
+- **Unvisited:** TraderKind getter uses `GetVirtualLastStockTicks(settlementID)` (stable, no flickering)
+- **First visit:** Alignment patch aligns to virtual value → TraderKind getter uses aligned value → stock generates → alignment restored
+- **Subsequent:** RegenerateStock flag active → TraderKind getter uses `TicksGame` → allows rotation while maintaining sync
 
 ### Harmony Patching Strategy
 
 This mod uses **Postfix patches** primarily, with strategic **Prefix patches** where needed:
 
 **Postfix patches** (most common):
+
 - Less invasive and more compatible with other mods
 - Allows modifying return values via `ref` parameters
 - Can yield additional results in enumerable methods (like adding gizmos)
 
 **Prefix patches** (used for):
+
 - Setting flags before method execution (`RegenerateStock` patches)
 - Aligning values before vanilla logic runs (`RegenerateStockAlignment`)
 - Never skip original method execution (always return `true` or void)
@@ -233,6 +290,7 @@ TradersGuild settlements reuse existing orbital trader types (`Orbital_BulkGoods
 - See `PHASE2_TRADING_PLAN.md` for detailed architecture documentation and complete issue resolution history
 
 **Player-Facing Features:**
+
 - **Docked Vessel Display:** Shows current trader type on world map inspection cards (always visible)
 - **Configurable Rotation:** Mod Options → "Better Traders Guild" → Slider (5-30 days, default 15)
 - **Virtual Schedules:** Unvisited settlements show stable, accurate trader previews
@@ -258,11 +316,89 @@ Helper classes are located in `Source/Helpers/` and provide reusable utility fun
 - `GetNextRestockTick(settlementID)` - Calculates when settlement should next regenerate stock
 - `ShouldRegenerateNow(settlement, currentLastStockTicks)` - Checks if stock regeneration is due
 
+### Current Implementation Status (Phase 3)
+
+**Phase 3: Enhanced Settlement Generation** - 🚧 **IN PROGRESS**
+
+Overhauling TradersGuild settlement map generation to reflect their identity as prosperous space merchants with dynamic cargo that changes based on trader rotation.
+
+**Key Design Constraint - Map Persistence:**
+
+RimWorld maps are **generated once and saved permanently**. When players revisit a settlement, the map loads from disk (not regenerated). This creates a critical architectural constraint:
+
+- ❌ **Can't do:** Change room layouts/structures based on trader type (would break on revisit)
+- ✅ **Solution:** Static base infrastructure + ONE dynamic cargo bay that refreshes on trader rotation
+
+**Architecture Overview:**
+
+```
+Static Base (Never Changes):
+├── Custom LayoutDef using vanilla RoomDefs
+├── Modern aesthetics (not ancient/deserted)
+├── Command Center, Medical Bay, Barracks, Hydroponics, etc.
+└── All furniture/structure is permanent
+
+Dynamic Cargo Bay (Refreshes on Rotation):
+├── ONE shuttle bay (OrbitalTransportRoom)
+├── Cargo pulled from settlement's trade inventory (~60%)
+├── Items removed from trade inventory for balance
+├── On revisit after rotation: despawn old → spawn new
+└── Anti-exploit: only refreshes when trader rotates
+```
+
+**Dynamic Inventory-Based Cargo System:**
+
+Instead of hardcoded item lists, cargo is **dynamically generated from the settlement's actual trade inventory**:
+
+1. **On Map Generation:**
+   - Settlement trade inventory generated (lazy if needed)
+   - Calculate budget: `totalInventoryValue × cargoPercentage` (60% default)
+   - Randomly select items from trade inventory
+   - Remove selected items from trade inventory
+   - Spawn cargo in shuttle bay
+
+2. **On Cargo Refresh (After Rotation):**
+   - Vanilla regenerates trade inventory (normal behavior)
+   - Old cargo despawned (NOT restored - it was "sold")
+   - New cargo selected from new trade inventory
+   - Cargo spawned
+
+**Emergent Gameplay Examples:**
+
+- **Sell yayo → attack → steal it back:** If player sells 100 yayo and then attacks, that yayo appears in cargo bay
+- **Steal cargo → trade peacefully:** Stolen items are missing from trade inventory
+- **Multiple raids:** Each revisit after rotation shows new cargo matching new trader type
+
+**Implementation Components:**
+
+1. **TradersGuild_OrbitalSettlement** (`Defs/LayoutDefs/`) - Custom LayoutDef using vanilla RoomDefs with modern aesthetics
+2. **SymbolResolver_TradersGuildShuttleBay** (`Source/BaseGen/`) - Spawns cargo from trade inventory
+3. **TradersGuildSettlementComponent** (`Source/WorldObjects/`) - Tracks `lastCargoRefreshTicks` for anti-exploit
+4. **TradersGuildCargoRefresher** (`Source/MapComponents/`) - Detects rotation, despawns/respawns cargo on map entry
+
+**Key Advantages:**
+
+- ✅ **Automatic mod compatibility** - Works with any trader type
+- ✅ **No hardcoded manifests** - Uses vanilla stock generation
+- ✅ **Trade/cargo consistency** - Actions have realistic consequences
+- ✅ **Lore-accurate** - Station infrastructure permanent, cargo temporary
+
+**Mod Settings:**
+
+- **Cargo Bay Inventory Percentage** (30-100%, default 60%) - How much of trade inventory appears as cargo
+
+**Technical Notes:**
+
+- Uses `Settlement_TraderTracker.stock` for inventory access
+- Triggers lazy stock generation: `TryGenerateStock()`
+- Cargo items tagged for despawn (ThingComp or region marking)
+- Map persistence constraint documented in PLAN.md "Common Pitfalls"
+- See PLAN.md Phase 3 section for detailed implementation phases
+
 ### Future Phases (Not Yet Implemented)
 
-- **Phase 3:** Enhanced map generation with Vanilla Base Generation Expanded
 - **Phase 4:** Additional reputation systems (trade quotas, escort missions)
-- **Phase 5:** ~~Mod settings UI~~ (completed early in Phase 2), final polish
+- **Phase 5:** Final polish and documentation
 
 ### Development Environment
 
@@ -323,11 +459,6 @@ sudo update-binfmts --disable cli
    monodis --output=output.txt "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/Managed/Assembly-CSharp.dll"
    ```
 
-4. **Common Issues:**
-   - InvalidCastException in WorldGrid methods → Check tile type handling patches
-   - Gizmo not appearing → Verify `Settlement.Visitable` returns true
-   - Signal jammer blocking → Check `RequiresSignalJammerToReach` patch
-
 ### Working with Harmony Patches
 
 **File Organization:**
@@ -376,3 +507,4 @@ public static bool Prefix(ref ReturnType __result)
 - **About.xml** - Mod metadata, load order, and dependencies
 - RimWorld modding wiki: https://rimworldwiki.com/wiki/Modding_Tutorials
 - Harmony documentation: https://harmony.pardeike.net/
+

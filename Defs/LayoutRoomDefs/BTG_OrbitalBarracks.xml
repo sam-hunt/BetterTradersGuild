@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Barracks
+
+    Crew quarters with modern sleeping arrangements.
+
+    Features:
+    - Carpet flooring for comfort
+    - Metal tile edges
+    - Modern beds (not ancient/rusted) with dressers and end tables
+    - More beds than vanilla (6-18 range instead of 4-12)
+    - Recreation items (TV, tables)
+    - Personal storage (lockers, shelves)
+    - Minimal threat level (living quarters)
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalBarracks</defName>
+    <minSingleRectWidth>10</minSingleRectWidth>
+    <minSingleRectHeight>10</minSingleRectHeight>
+
+    <!-- Comfortable carpet flooring -->
+    <floorTypes>
+      <li>CarpetBrownLight</li>
+      <li>CarpetGranite</li>
+    </floorTypes>
+    <edgeTerrain>MetalTile</edgeTerrain>
+
+    <prefabs>
+      <!-- Modern beds with furniture (more beds than vanilla) -->
+      <BTG_BarracksBeds_Edge>
+        <countPerTenEdgeCells>5</countPerTenEdgeCells>
+        <minMaxRange>6~18</minMaxRange>
+      </BTG_BarracksBeds_Edge>
+
+      <!-- Lockers for personal storage -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>4~12</minMaxRange>
+      </AncientLockerBank_Row>
+
+      <!-- Recreation and furniture -->
+      <TableWithStools_1x2>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>0~2</minMaxRange>
+      </TableWithStools_1x2>
+
+      <TVWithArmchairs>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </TVWithArmchairs>
+
+      <!-- Personal storage shelves -->
+      <Shelves_Rows>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </Shelves_Rows>
+    </prefabs>
+
+    <!-- Minimal threat (living quarters) -->
+    <parts>
+      <WaspDrone>0.05</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

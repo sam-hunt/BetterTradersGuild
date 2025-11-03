@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Medicine Shelf Prefab
+
+    Medical storage shelf stocked with industrial medicine.
+    Features:
+    - Shelf (excellent quality steel)
+    - MedicineIndustrial (stacked on shelf, 8-16 units)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_MedicineShelf_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,2)</size>
+    <things>
+      <!-- Steel shelf for medicine storage -->
+      <Shelf>
+        <position>(1,0,1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>Steel</stuff>
+      </Shelf>
+
+      <!-- Industrial medicine stocked on shelf -->
+      <MedicineIndustrial>
+        <position>(1,0,1)</position>
+        <stackCountRange>8~12</stackCountRange>
+      </MedicineIndustrial>
+    </things>
+  </PrefabDef>
+</Defs>

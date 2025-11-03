@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Nursery (Biotech DLC)
+
+    Childcare facility for station crew families.
+  -->
+
+  <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_OrbitalNursery</defName>
+
+    <floorTypes>
+      <li>CarpetPink</li>
+      <li>CarpetBlueLight</li>
+    </floorTypes>
+
+    <scatter>
+      <ToyBox>
+        <groupsPerHundredCells>1</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <minGroups>1</minGroups>
+        <stuff>Steel</stuff>
+      </ToyBox>
+
+      <BabyDecoration>
+        <groupsPerHundredCells>1~3</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <minGroups>1</minGroups>
+        <stuff>Steel</stuff>
+      </BabyDecoration>
+    </scatter>
+
+    <prefabs>
+      <!-- Cribs for infants -->
+      <Subroom_Crib>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </Subroom_Crib>
+
+      <!-- Seating for caregivers -->
+      <Couch_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~1</minMaxRange>
+      </Couch_Edge>
+
+      <!-- Storage -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~8</minMaxRange>
+      </AncientLockerBank_Row>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.05</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Storeroom
+
+    General storage with mixed loot crates.
+    Note: 2 instances of this room appear in the layout.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalStoreroom</defName>
+    <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Industrial shelving -->
+      <IndustrialShelf_InnerWall>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </IndustrialShelf_InnerWall>
+
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~15</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <IndustrialShelf_Rows>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </IndustrialShelf_Rows>
+
+      <!-- Mixed loot crates -->
+      <AncientCratePallet_Cluster>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientCratePallet_Cluster>
+
+      <AncientCratesWithComponents>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientCratesWithComponents>
+
+      <AncientSpacerCrate_Cluster>
+        <countPerHundredCells>4</countPerHundredCells>
+        <minMaxRange>2~8</minMaxRange>
+      </AncientSpacerCrate_Cluster>
+
+      <!-- Safety equipment -->
+      <FirefoamPopper>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </FirefoamPopper>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.15</WaspDrone>
+      <CornerArmoredTurret>0.2</CornerArmoredTurret>
+      <AncientBarricades />
+    </parts>
+  </LayoutRoomDef>
+</Defs>

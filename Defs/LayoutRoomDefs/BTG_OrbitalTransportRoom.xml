@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Transport Room / Shuttle Bay
+
+    Landing pad for shuttles and staging area for dynamic cargo.
+
+    NOTE: This room will be enhanced in Phase 3.4+ with dynamic cargo spawning
+    based on the current trader type. For now, it uses vanilla TransportRoom
+    behavior with landing pad and basic layout.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalTransportRoom</defName>
+    <roomContentsWorkerType>RoomContents_TransportRoom</roomContentsWorkerType>
+    <requiresSingleRectRoom>true</requiresSingleRectRoom>
+    <noRoof>true</noRoof>
+    <minSingleRectWidth>11</minSingleRectWidth>
+    <minSingleRectHeight>11</minSingleRectHeight>
+
+    <prefabs>
+      <!-- Broken forklift for industrial atmosphere -->
+      <AncientForklift>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~1</minMaxRange>
+      </AncientForklift>
+    </prefabs>
+  </LayoutRoomDef>
+</Defs>

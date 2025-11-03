@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Hydroponic Healroot Prefab
+
+    Single hydroponics basin for growing healroot in medical bay.
+
+    NOTE: Spawning the healroot plant INSIDE the basin requires a custom
+    C# SymbolResolver (planned for Phase 3.3+). For now, this prefab just
+    places the empty hydroponics basin.
+  -->
+
+  <PrefabDef>
+    <defName>BTG_HydroponicHealroot</defName>
+    <size>(2,2)</size>
+    <things>
+      <!-- Hydroponics basin for healroot cultivation -->
+      <HydroponicsBasin>
+        <position>(0,0,0)</position>
+      </HydroponicsBasin>
+
+      <!-- Hidden conduit for power connection -->
+      <HiddenConduit>
+        <positions>
+          <li>(0, 0, 1)</li>
+          <li>(1, 0, 1)</li>
+        </positions>
+      </HiddenConduit>
+    </things>
+  </PrefabDef>
+</Defs>

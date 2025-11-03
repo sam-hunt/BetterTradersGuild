@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Hydroponics
+
+    Food production facility with growing crops.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalHydroponics</defName>
+    <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Functional hydroponics basins -->
+      <HydroponicsBasin_Cluster>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>2~4</minMaxRange>
+      </HydroponicsBasin_Cluster>
+
+      <!-- Drug lab for medicine production -->
+      <AncientTableDrugLab>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientTableDrugLab>
+
+      <!-- Storage for harvested crops -->
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~8</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <WoodenCratesWithSomeLoot>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </WoodenCratesWithSomeLoot>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.1</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

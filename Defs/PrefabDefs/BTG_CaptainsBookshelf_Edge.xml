@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Captain's Bookshelf Prefab
+
+    Personal library for the station leader.
+    Features:
+    - Bookshelf (excellent quality wood)
+    - 2-3 random recreation books spawned inside with cooincidental positioning
+      (TradersGuildCaptainsQuartersInitializer)
+
+    TODO: Use Building_Storage.slotGroup.HeldThings API to properly
+    add books to the bookshelf's storage, as documented in STORAGE_API_RESEARCH.md
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CaptainsBookshelf_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
+    <things>
+      <!-- Bookcase for captain's library -->
+      <Bookcase>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>BlocksVacstone</stuff>
+      </Bookcase>
+
+      <!-- Recreation books stored in the bookcase -->
+      <Novel>
+        <position>(1, 0, 1)</position>
+      </Novel>
+      <Novel>
+        <position>(1, 0, 1)</position>
+      </Novel>
+      <Novel>
+        <position>(2, 0, 1)</position>
+      </Novel>
+    </things>
+  </PrefabDef>
+</Defs>

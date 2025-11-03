@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Dining Room
+
+    Communal dining and food preparation area.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalDiningRoom</defName>
+    <minSingleRectWidth>10</minSingleRectWidth>
+    <minSingleRectHeight>10</minSingleRectHeight>
+
+    <!-- Fine flooring for dining area -->
+    <floorTypes>
+      <li>CarpetMarble</li>
+      <li>WoodPlankFloor</li>
+    </floorTypes>
+    <edgeTerrain>MetalTile</edgeTerrain>
+
+    <prefabs>
+      <!-- Kitchen area -->
+      <Subroom_ElectricStove>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </Subroom_ElectricStove>
+
+      <!-- Dining tables -->
+      <DiningTable_VeryLarge>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~1</minMaxRange>
+      </DiningTable_VeryLarge>
+
+      <DiningTable_Large>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </DiningTable_Large>
+
+      <!-- Food storage -->
+      <Shelf>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~6</minMaxRange>
+      </Shelf>
+
+      <SurvivalMealPallet>
+        <countRange>1~2</countRange>
+      </SurvivalMealPallet>
+
+      <!-- Decoration -->
+      <SculptureSmall>
+        <countRange>0~2</countRange>
+      </SculptureSmall>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.05</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

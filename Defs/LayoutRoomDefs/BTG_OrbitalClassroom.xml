@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Classroom (Biotech DLC)
+
+    Education facility for station crew children.
+  -->
+
+  <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_OrbitalClassroom</defName>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+
+    <floorTypes>
+      <li>CarpetMarble</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- School desks and blackboards -->
+      <SchoolDesksAndBlackboards>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>2~3</minMaxRange>
+      </SchoolDesksAndBlackboards>
+
+      <!-- Teaching aids -->
+      <FlatscreenTelevision>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~1</minMaxRange>
+      </FlatscreenTelevision>
+
+      <!-- Book storage (using bookcases with textbooks) -->
+      <BTG_ClassroomBookshelf_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~3</minMaxRange>
+      </BTG_ClassroomBookshelf_Edge>
+
+      <!-- Storage lockers -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~8</minMaxRange>
+      </AncientLockerBank_Row>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.05</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

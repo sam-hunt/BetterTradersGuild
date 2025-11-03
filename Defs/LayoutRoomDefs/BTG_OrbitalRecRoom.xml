@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Recreation Room
+
+    Crew leisure and entertainment area.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalRecRoom</defName>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+
+    <floorTypes>
+      <li>CarpetGreen</li>
+      <li>CarpetGranite</li>
+    </floorTypes>
+    <edgeTerrain>MetalTile</edgeTerrain>
+
+    <prefabs>
+      <!-- Recreation items -->
+      <BilliardsTable>
+        <countRange>0~2</countRange>
+      </BilliardsTable>
+
+      <PokerTable>
+        <countRange>0~2</countRange>
+      </PokerTable>
+
+      <ChessTable>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>0~2</minMaxRange>
+      </ChessTable>
+
+      <!-- Entertainment -->
+      <FlatscreenTelevision>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~1</minMaxRange>
+      </FlatscreenTelevision>
+
+      <!-- Seating -->
+      <Couch_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </Couch_Edge>
+
+      <Armchairs_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>2~4</minMaxRange>
+      </Armchairs_Edge>
+
+      <!-- Storage lockers -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~8</minMaxRange>
+      </AncientLockerBank_Row>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.05</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

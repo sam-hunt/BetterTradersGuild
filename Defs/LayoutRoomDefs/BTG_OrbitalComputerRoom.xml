@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Computer Room
+
+    Command center with terminals, consoles, and server equipment.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalComputerRoom</defName>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Computer terminals and consoles -->
+      <AncientSecurityTerminal>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientSecurityTerminal>
+
+      <AncientDestroyedConsole_Large>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientDestroyedConsole_Large>
+
+      <!-- Server racks and filing cabinets -->
+      <AncientSystemRacks_Rows>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>1~8</minMaxRange>
+      </AncientSystemRacks_Rows>
+
+      <AncientFilingCabinet_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientFilingCabinet_Edge>
+
+      <!-- Components storage -->
+      <AncientSpacerCrateWithComponentSpacer>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientSpacerCrateWithComponentSpacer>
+    </prefabs>
+
+    <parts>
+      <HunterDrone>0.1</HunterDrone>
+      <CornerArmoredTurret>0.2</CornerArmoredTurret>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

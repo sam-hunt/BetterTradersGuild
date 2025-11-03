@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Medical Bay
+
+    Healthcare facility with modern hospital beds, medicine storage, and
+    hydroponic healroot cultivation.
+
+    Features:
+    - Sterile tile flooring (white medical floors)
+    - Sterile tile edges (not metal)
+    - Modern hospital beds (not ancient/rusted)
+    - Medicine storage shelves (stocked with 8-16 industrial medicine per shelf)
+    - Single hydroponic basin growing healroot
+    - Low threat level (vulnerable medical area)
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalMedicalBay</defName>
+    <minSingleRectWidth>9</minSingleRectWidth>
+    <minSingleRectHeight>9</minSingleRectHeight>
+
+    <!-- Sterile flooring for medical operations -->
+    <floorTypes>
+      <li>SterileTile</li>
+    </floorTypes>
+    <edgeTerrain>SterileTile</edgeTerrain>
+
+    <prefabs>
+      <!-- Modern hospital beds with vitals monitors -->
+      <BTG_HospitalBeds_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>3~6</minMaxRange>
+      </BTG_HospitalBeds_Edge>
+
+      <!-- Medicine storage shelves -->
+      <BTG_MedicineShelf_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>2~3</minMaxRange>
+      </BTG_MedicineShelf_Edge>
+
+      <!-- Plasteel shelf along wall edge (guaranteed spawn) -->
+      <IndustrialShelf_InnerWall>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~1</minMaxRange>
+      </IndustrialShelf_InnerWall>
+
+      <!-- Hydroponic basin for healroot cultivation -->
+      <BTG_HydroponicHealroot>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~1</minMaxRange>
+      </BTG_HydroponicHealroot>
+    </prefabs>
+
+    <!-- Low threat level (vulnerable medical area) -->
+    <parts>
+      <WaspDrone>0.3</WaspDrone>
+      <CornerArmoredTurret>0.2</CornerArmoredTurret>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

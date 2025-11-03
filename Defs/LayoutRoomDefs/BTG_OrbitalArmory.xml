@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Armory
+
+    Weapons and armor storage facility.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalArmory</defName>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Weapon and equipment storage -->
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>4</countPerTenEdgeCells>
+        <minMaxRange>3~12</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <IndustrialShelf_Rows>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </IndustrialShelf_Rows>
+
+      <!-- Equipment crates -->
+      <AncientSpacerCrate_Cluster>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>2~6</minMaxRange>
+      </AncientSpacerCrate_Cluster>
+
+      <!-- Lockers for personal gear -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>3~10</minMaxRange>
+      </AncientLockerBank_Row>
+    </prefabs>
+
+    <!-- Higher threat level (weapons storage) -->
+    <parts>
+      <HunterDrone>0.2</HunterDrone>
+      <CornerArmoredTurret>0.3</CornerArmoredTurret>
+      <AncientBarricades />
+    </parts>
+  </LayoutRoomDef>
+</Defs>

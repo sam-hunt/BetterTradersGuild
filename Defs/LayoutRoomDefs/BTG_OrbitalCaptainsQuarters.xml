@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Captain's Quarters
+
+    Luxury living quarters for the station leader.
+
+    Features:
+    - Fine carpet flooring for luxury aesthetic
+    - Medium floor area to accomodate inner secure bedroom prefab and outer lounge area
+    - Excellent quality furniture throughout
+    - Bookcase with books
+    - Decorative sculpture
+    - Minimal threat level (VIP quarters)
+
+    TODO: Add C# MapComponent to spawn a tame, bonded cat near the animal bed
+          after map generation. Cannot be done via XML prefabs/parts as vanilla
+          doesn't support setting faction/tame status for spawned animals.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalCaptainsQuarters</defName>
+    <minSingleRectWidth>16</minSingleRectWidth>
+    <minSingleRectHeight>14</minSingleRectHeight>
+    <requiresSingleRectRoom>true</requiresSingleRectRoom>
+    <canMergeWithAdjacentRoom>false</canMergeWithAdjacentRoom>
+    <minAdjRooms>1</minAdjRooms>
+
+    <!-- Fine luxury carpet flooring -->
+    <!-- TODO: Swap to fine carpet if royalty DLC active? -->
+    <floorTypes>
+      <li>CarpetRed</li>
+    </floorTypes>
+
+    <prefabs>
+      <!--
+        BEDROOM EDGE: Private sleeping area with internal walls and hackable door
+        This creates an 8x6 walled bedroom within the larger room.
+        Contains: bed, dresser, end table, pet bed, safe, and revolver display.
+      -->
+      <BTG_CaptainsBedroom_Edge>
+        <countRange>1~1</countRange>
+      </BTG_CaptainsBedroom_Edge>
+
+      <!--
+        LOUNGE FURNITURE: Placed in outer area around the bedroom edge prefab
+        These spawn in the remaining space, creating a living/lounge area.
+      -->
+
+      <!-- Personal library with books -->
+      <BTG_CaptainsBookshelf_Edge>
+        <countRange>2~2</countRange>
+      </BTG_CaptainsBookshelf_Edge>
+
+      <!-- Decorative art -->
+      <SculptureSmall>
+        <countRange>1~2</countRange>
+      </SculptureSmall>
+
+      <!-- Potplants -->
+      <!-- TODO -->
+
+      <!-- Comfortable seating -->
+      <Armchairs_Edge>
+        <countRange>2~3</countRange>
+      </Armchairs_Edge>
+    </prefabs>
+
+    <!-- Minimal threat (VIP living quarters) -->
+    <parts>
+      <WaspDrone>0.2</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

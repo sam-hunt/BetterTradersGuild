@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Workshop
+
+    Crafting and repair facility.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalWorkshop</defName>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Component storage -->
+      <AncientSpacerCrateWithComponentSpacer>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientSpacerCrateWithComponentSpacer>
+
+      <!-- Tool and material storage -->
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>3~10</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <IndustrialShelf_Rows>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </IndustrialShelf_Rows>
+
+      <!-- General supplies -->
+      <AncientSpacerCrate_Cluster>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>2~6</minMaxRange>
+      </AncientSpacerCrate_Cluster>
+    </prefabs>
+
+    <parts>
+      <WaspDrone>0.1</WaspDrone>
+      <CornerArmoredTurret>0.15</CornerArmoredTurret>
+    </parts>
+  </LayoutRoomDef>
+</Defs>
