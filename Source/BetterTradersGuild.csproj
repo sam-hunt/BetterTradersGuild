@@ -85,6 +85,7 @@
     <Compile Include="Patches\Caravan\CaravanGetGizmos.cs" />
     <Compile Include="Patches\MapGeneration\GenStepOrbitalPlatformGenerate.cs" />
     <Compile Include="Patches\Debug\RoomContentsWorkerFillRoom.cs" />
+    <Compile Include="RoomContents\RoomContents_CaptainsQuarters.cs" />
     <Compile Include="WorldObjects\TradersGuildSettlementComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

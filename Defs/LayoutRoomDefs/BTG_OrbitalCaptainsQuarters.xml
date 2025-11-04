@@ -7,10 +7,11 @@
 
     Features:
     - Fine carpet flooring for luxury aesthetic
-    - Medium floor area to accomodate inner secure bedroom prefab and outer lounge area
-    - Excellent quality furniture throughout
-    - Bookcase with books
-    - Decorative sculpture
+    - Medium floor area to accommodate inner secure bedroom prefab and outer lounge area
+    - Excellent quality furniture throughout (wolf leather upholstery, vacstone accents)
+    - Personal library with bookshelves
+    - Entertainment (flatscreen TV with wolf leather couch, good-quality vacstone pool table)
+    - Good-quality vacstone sculptures (small and large) and potted plants
     - Minimal threat level (VIP quarters)
 
     TODO: Add C# MapComponent to spawn a tame, bonded cat near the animal bed
@@ -20,51 +21,73 @@
 
   <LayoutRoomDef>
     <defName>BTG_OrbitalCaptainsQuarters</defName>
-    <minSingleRectWidth>16</minSingleRectWidth>
-    <minSingleRectHeight>14</minSingleRectHeight>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CaptainsQuarters</roomContentsWorkerType>
+    <minSingleRectWidth>12</minSingleRectWidth>
+    <minSingleRectHeight>10</minSingleRectHeight>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
     <canMergeWithAdjacentRoom>false</canMergeWithAdjacentRoom>
-    <minAdjRooms>1</minAdjRooms>
+    <minAdjRooms>0</minAdjRooms>
 
     <!-- Fine luxury carpet flooring -->
     <!-- TODO: Swap to fine carpet if royalty DLC active? -->
     <floorTypes>
       <li>CarpetRed</li>
     </floorTypes>
+    <edgeTerrain>CarpetRed</edgeTerrain>
 
     <prefabs>
       <!--
-        BEDROOM EDGE: Private sleeping area with internal walls and hackable door
-        This creates an 8x6 walled bedroom within the larger room.
-        Contains: bed, dresser, end table, pet bed, safe, and revolver display.
-      -->
-      <BTG_CaptainsBedroom_Edge>
-        <countRange>1~1</countRange>
-      </BTG_CaptainsBedroom_Edge>
+        BEDROOM: Spawned programmatically by RoomContents_CaptainsQuarters worker
+        The worker places the bedroom in a corner (preferred) or along an edge (fallback),
+        ensuring no conflicts with doors and proper wall alignment.
 
-      <!--
-        LOUNGE FURNITURE: Placed in outer area around the bedroom edge prefab
-        These spawn in the remaining space, creating a living/lounge area.
+        LOUNGE FURNITURE: Placed in outer area around the bedroom
+        These spawn in the remaining space (controlled via IsValidCellBase), creating a living/lounge area.
       -->
 
       <!-- Personal library with books -->
       <BTG_CaptainsBookshelf_Edge>
-        <countRange>2~2</countRange>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
       </BTG_CaptainsBookshelf_Edge>
 
-      <!-- Decorative art -->
-      <SculptureSmall>
-        <countRange>1~2</countRange>
-      </SculptureSmall>
+      <!-- Entertainment: TV with wolf leather couch -->
+      <BTG_FlatscreenTelevisionWolfLeather_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_FlatscreenTelevisionWolfLeather_Edge>
 
-      <!-- Potplants -->
-      <!-- TODO -->
-
-      <!-- Comfortable seating -->
-      <Armchairs_Edge>
-        <countRange>2~3</countRange>
-      </Armchairs_Edge>
+      <!-- Comfortable seating with decorative potplants -->
+      <BTG_ArmchairsWithPlantpot_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_ArmchairsWithPlantpot_Edge>
     </prefabs>
+
+    <!-- High-quality vacstone furniture and art scattered throughout the lounge -->
+    <scatter>
+      <SculptureSmall>
+        <stuff>BlocksVacstone</stuff>
+        <groupsPerHundredCells>1~1</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <groupDistRange>4~8</groupDistRange>
+        <minGroups>1</minGroups>
+      </SculptureSmall>
+      <SculptureLarge>
+        <stuff>BlocksVacstone</stuff>
+        <groupsPerHundredCells>1~1</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <groupDistRange>5~10</groupDistRange>
+        <minGroups>1</minGroups>
+      </SculptureLarge>
+      <BilliardsTable>
+        <stuff>BlocksVacstone</stuff>
+        <groupsPerHundredCells>0~1</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <groupDistRange>8~12</groupDistRange>
+        <minGroups>1</minGroups>
+      </BilliardsTable>
+    </scatter>
 
     <!-- Minimal threat (VIP living quarters) -->
     <parts>

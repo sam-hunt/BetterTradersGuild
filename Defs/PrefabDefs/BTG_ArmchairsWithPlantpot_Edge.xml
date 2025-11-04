@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Armchairs with Center Potplant
+
+    Luxury seating arrangement for the Captain's Quarters lounge.
+    Features:
+    - Two wolf pelt armchairs spaced 1 tile apart
+    - Vacstone block potplant in center position
+    - Edge-only placement (against walls)
+    - 3x1 footprint
+
+    Design: [Armchair] [Potplant] [Armchair]
+  -->
+
+  <PrefabDef>
+    <defName>BTG_ArmchairsWithPlantpot_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,1)</size>
+    <things>
+      <Armchair>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(2, 0, 0)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Leather_Wolf</stuff>
+        <quality>Good</quality>
+      </Armchair>
+      <PlantPot>
+        <position>(1, 0, 0)</position>
+        <stuff>BlocksVacstone</stuff>
+        <quality>Good</quality>
+      </PlantPot>
+    </things>
+  </PrefabDef>
+</Defs>

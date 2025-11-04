@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Captain's Bedroom (L-Shaped Prefab)
+
+    A self-contained bedroom structure designed for flexible corner/edge placement.
+    Semantically a 7x7 subroom (including all 4 walls), but only contains 2 walls
+    in the XML (front + right side), giving an apparent 6x6 size.
+
+    L-Shaped Wall Configuration:
+    - INCLUDED: Front wall (z=0) with AncientBlastDoor
+    - INCLUDED: Right side wall (x=6, z=1-6)
+    - REMOVED: Back wall (z=6) - room provides this
+    - REMOVED: Left side wall (x=0, z=1-6) - room provides in corners, spawned for edges
+
+    Placement Strategy:
+    - Corner placement (preferred): Rotate so missing LHS and back align with room corner walls
+    - Edge placement (fallback): Rotate so missing back aligns with room edge wall,
+      then spawn missing LHS wall procedurally in post-spawn step
+
+    Coordinates (local space, facing north):
+    - z=0: Front (door opening to room interior)
+    - z=1-5: Interior space (6x5 usable area)
+    - z=6: Missing back wall (room provides)
+    - x=0: Missing left side wall (room provides or spawned)
+    - x=6: Right side wall (included)
+  -->
+  <PrefabDef>
+    <defName>BTG_CaptainsBedroom</defName>
+    <size>(6,6)</size>
+    <things>
+      <PlantPot>
+        <position>(0, 0, 1)</position>
+        <stuff>BlocksVacstone</stuff>
+        <quality>Excellent</quality>
+      </PlantPot>
+      <AnimalBed>
+        <position>(4, 0, 1)</position>
+        <stuff>Leather_Wolf</stuff>
+        <quality>Excellent</quality>
+      </AnimalBed>
+      <RoyalBed>
+        <position>(3, 0, 5)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>BlocksVacstone</stuff>
+        <quality>Excellent</quality>
+      </RoyalBed>
+      <Dresser>
+        <position>(0, 0, 4)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>BlocksVacstone</stuff>
+        <quality>Excellent</quality>
+      </Dresser>
+      <LifeSupportUnit>
+        <position>(4, 0, 3)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </LifeSupportUnit>
+      <AncientSafe>
+        <position>(0, 0, 5)</position>
+      </AncientSafe>
+      <HiddenConduit>
+        <rects>
+          <li>(4,0,5,0)</li>
+          <li>(5,1,5,3)</li>
+        </rects>
+      </HiddenConduit>
+      <AncientBlastDoor>
+        <position>(1, 0, 0)</position>
+      </AncientBlastDoor>
+      <ShelfSmall>
+        <position>(4, 0, 5)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>BlocksVacstone</stuff>
+      </ShelfSmall>
+      <OrbitalAncientFortifiedWall>
+        <rects>
+          <li>(0,0,0,0)</li>
+          <li>(2,0,5,0)</li>
+          <li>(5,1,5,5)</li>
+        </rects>
+      </OrbitalAncientFortifiedWall>
+      <EndTable>
+        <position>(1, 0, 5)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>BlocksVacstone</stuff>
+        <quality>Normal</quality>
+      </EndTable>
+      <FlatscreenTelevision>
+        <position>(2, 0, 1)</position>
+      </FlatscreenTelevision>
+      <AncientEmergencyLight_Blue>
+        <position>(0, 0, 3)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </AncientEmergencyLight_Blue>
+    </things>
+  </PrefabDef>
+
+</Defs>
