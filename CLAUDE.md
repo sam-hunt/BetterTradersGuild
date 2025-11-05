@@ -17,8 +17,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - RimWorld 1.6 (Odyssey DLC required)
 - Harmony
-- Vanilla Expanded Framework
-- Vanilla Base Generation Expanded
 
 ## Build and Development Commands
 
@@ -66,12 +64,38 @@ BetterTradersGuild/
 ├── Assemblies/             # Compiled DLL output directory
 │   └── BetterTradersGuild.dll
 ├── Defs/                   # XML definitions for game content
-│   ├── LayoutDefs/         # Phase 3: Custom settlement layouts
-│   │   └── TradersGuild_LayoutDefs.xml
-│   ├── RoomDefs/           # Phase 3: Custom room definitions (optional)
-│   │   └── TradersGuild_MedicalBay.xml
-│   └── PawnKindDefs/       # Phase 3: Enhanced pawn types (optional)
-├── Patches/                # XML patches (runtime XML modifications)
+│   ├── LayoutDefs/         # Phase 3: Custom settlement layout
+│   │   └── BTG_OrbitalSettlement.xml
+│   ├── LayoutRoomDefs/     # Phase 3: Custom room definitions (18 files)
+│   │   ├── BTG_OrbitalArmory.xml
+│   │   ├── BTG_OrbitalBarracks.xml
+│   │   ├── BTG_OrbitalCaptainsQuarters.xml  # 🚧 IN PROGRESS
+│   │   ├── BTG_OrbitalCargoStorage.xml
+│   │   ├── BTG_OrbitalClassroom.xml
+│   │   ├── BTG_OrbitalComputerRoom.xml
+│   │   ├── BTG_OrbitalCorridor.xml
+│   │   ├── BTG_OrbitalDiningRoom.xml
+│   │   ├── BTG_OrbitalHydroponics.xml
+│   │   ├── BTG_OrbitalMedicalBay.xml
+│   │   ├── BTG_OrbitalNursery.xml
+│   │   ├── BTG_OrbitalRecRoom.xml
+│   │   ├── BTG_OrbitalSecurityStation.xml
+│   │   ├── BTG_OrbitalStoreroom.xml
+│   │   ├── BTG_OrbitalTradeShowcase.xml
+│   │   ├── BTG_OrbitalTransportRoom.xml
+│   │   └── BTG_OrbitalWorkshop.xml
+│   └── PrefabDefs/         # Phase 3: Custom prefabs (10 files)
+│       ├── BTG_ArmchairsWithPlantpot_Edge.xml
+│       ├── BTG_BarracksBeds_Edge.xml
+│       ├── BTG_BilliardsTable.xml
+│       ├── BTG_CaptainsBedroom.xml
+│       ├── BTG_CaptainsBookshelf_Edge.xml
+│       ├── BTG_ClassroomBookshelf.xml
+│       ├── BTG_FlatscreenTelevisionWolfLeather_Edge.xml
+│       ├── BTG_HospitalBeds_Edge.xml
+│       ├── BTG_HydroponicHealroot.xml
+│       └── BTG_MedicineShelf_Edge.xml
+├── Patches/                # XML patches (empty - reserved for future use)
 ├── Source/                 # C# source code (organized by concern)
 │   ├── Core/               # Core mod initialization and settings
 │   │   ├── ModInitializer.cs      # Harmony patching and startup
@@ -80,14 +104,8 @@ BetterTradersGuild/
 │   │   ├── TradersGuildHelper.cs     # Faction/settlement checking
 │   │   ├── TileHelper.cs             # World map tile utilities
 │   │   └── TradersGuildTraderRotation.cs  # Trader rotation timing logic
-│   ├── WorldObjects/       # Phase 3: World object components
-│   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
-│   ├── MapComponents/      # Phase 3: Map-level components
-│   │   └── TradersGuildCargoRefresher.cs  # Cargo despawn/respawn system
-│   ├── BaseGen/            # Phase 3: Map generation symbol resolvers
-│   │   └── SymbolResolver_TradersGuildShuttleBay.cs  # Cargo spawning
 │   ├── Patches/            # Harmony patches organized by target type
-│   │   ├── Settlement/            # Settlement-related patches (10 files)
+│   │   ├── Settlement/            # Settlement-related patches (9 files)
 │   │   │   ├── SettlementVisitable.cs
 │   │   │   ├── SettlementGetCaravanGizmos.cs
 │   │   │   ├── SettlementGetFloatMenuOptions.cs
@@ -96,18 +114,47 @@ BetterTradersGuild/
 │   │   │   ├── SettlementTraderTrackerGetTraderKind.cs
 │   │   │   ├── SettlementTraderTrackerRegenerateStock.cs
 │   │   │   ├── SettlementTraderTrackerRegenerateStockEveryDays.cs
-│   │   │   ├── SettlementTraderTrackerRegenerateStockAlignment.cs
-│   │   ├── MapGeneration/         # Phase 3: Map generation patches
+│   │   │   └── SettlementTraderTrackerRegenerateStockAlignment.cs
+│   │   ├── MapGeneration/         # Phase 3: Map generation patches (1 file)
 │   │   │   └── GenStepOrbitalPlatformGenerate.cs
 │   │   ├── WorldGrid/             # WorldGrid patches (2 files)
+│   │   │   ├── WorldGridFindMostReasonableAdjacentTile.cs
+│   │   │   └── WorldGridGetRoadMovementDifficulty.cs
 │   │   ├── WorldObject/           # WorldObject patches (1 file)
+│   │   │   └── WorldObjectRequiresSignalJammer.cs
 │   │   ├── PlanetTile/            # PlanetTile patches (1 file)
+│   │   │   └── PlanetTileLayerDef.cs
 │   │   ├── CaravanArrivalActions/ # CaravanArrivalAction patches (2 files)
-│   │   └── Caravan/               # Caravan patches (1 file)
-│   ├── BetterTradersGuild.csproj  # Visual Studio project file
-│   └── Properties/
-└── PLAN.md                 # Development roadmap and phase tracking
+│   │   │   ├── CaravanArrivalActionAttackGetFloatMenuOptions.cs
+│   │   │   └── CaravanArrivalActionTradeGetFloatMenuOptions.cs
+│   │   ├── Caravan/               # Caravan patches (1 file)
+│   │   │   └── CaravanGetGizmos.cs
+│   │   └── Debug/                 # Debug logging patches (1 file)
+│   │       └── RoomContentsWorkerFillRoom.cs
+│   ├── RoomContents/       # Phase 3: Custom room generation workers
+│   │   └── RoomContents_CaptainsQuarters.cs  # 🚧 IN PROGRESS
+│   ├── WorldObjects/       # Phase 3: World object components
+│   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
+│   ├── Properties/
+│   │   └── AssemblyInfo.cs
+│   ├── BetterTradersGuild.csproj  # SDK-style project file
+│   └── BetterTradersGuild.sln     # Visual Studio solution
+├── docs/                   # Technical documentation (9 files)
+│   ├── CAPTAINS_QUARTERS_IMPLEMENTATION.md
+│   ├── CARGO_IMPLEMENTATION_GUIDE.md
+│   ├── EDGEONLY_LIMITATIONS.md
+│   ├── LAYOUT_CONSTRAINTS_README.md
+│   ├── PREFAB_EDGEONLY_GUIDE.md
+│   ├── STORAGE_API_RESEARCH.md
+│   ├── STORAGE_API_SUMMARY.txt
+│   ├── STORAGE_DOCUMENTATION_INDEX.md
+│   └── STYLING_QUICK_REF.md
+├── CLAUDE.md               # Developer guidance (THIS FILE)
+├── PLAN.md                 # Development roadmap and phase tracking
+└── README.md               # GitHub repository landing page
 ```
+
+**Note:** Files marked "🚧 IN PROGRESS" are functional but have incomplete features.
 
 ## Architecture and Key Concepts
 
@@ -153,12 +200,14 @@ The mod implements a sophisticated virtual schedule system for trader rotation:
 The trader rotation system requires three Harmony patches working together to solve critical synchronization issues:
 
 1. **SettlementTraderTrackerGetTraderKind.cs** (Postfix on `TraderKind` getter)
+
    - Provides weighted random orbital trader selection
    - Uses deterministic seed: `Hash(settlementID, lastStockGenerationTicks)`
    - Checks flags from other patches to determine which tick value to use
    - Implements caching to avoid recalculation every frame
 
 2. **SettlementTraderTrackerRegenerateStock.cs** (Prefix/Postfix on `RegenerateStock()`)
+
    - **ESSENTIAL** - Sets thread-local flag during stock regeneration
    - Solves stock/dialog desync problem (see below)
    - Cannot be removed without breaking trader type consistency
@@ -173,6 +222,7 @@ The trader rotation system requires three Harmony patches working together to so
 **Critical Problem #1: Stock/Dialog Desync**
 
 Vanilla `RegenerateStock()` updates `lastStockGenerationTicks` at the END of execution:
+
 ```
 1. Stock cleared
 2. TraderKind getter called (uses OLD lastStockTicks) → Selects Trader A
@@ -180,6 +230,7 @@ Vanilla `RegenerateStock()` updates `lastStockGenerationTicks` at the END of exe
 4. lastStockGenerationTicks = TicksGame (NEW value)
 5. Dialog opens → TraderKind getter called (uses NEW lastStockTicks) → Selects Trader B
 ```
+
 Result: Dialog shows Trader B title but has Trader A's inventory!
 
 **Solution:** The RegenerateStock patch sets a flag during execution. The TraderKind getter detects this flag and uses `Find.TickManager.TicksGame` (the future value) to ensure both calls select the same trader.
@@ -187,6 +238,7 @@ Result: Dialog shows Trader B title but has Trader A's inventory!
 **Critical Problem #2: Preview/Visit Mismatch**
 
 Unvisited settlements use virtual schedules for preview, but first-visit generation uses `TicksGame`:
+
 ```
 1. Preview calculates: GetVirtualLastStockTicks(ID) = -865481 → Shows Exotic Trader
 2. Player visits → RegenerateStock() sets lastStockTicks = TicksGame = 12015
@@ -351,6 +403,7 @@ Dynamic Cargo Bay (Refreshes on Rotation):
 Instead of hardcoded item lists, cargo is **dynamically generated from the settlement's actual trade inventory**:
 
 1. **On Map Generation:**
+
    - Settlement trade inventory generated (lazy if needed)
    - Calculate budget: `totalInventoryValue × cargoPercentage` (60% default)
    - Randomly select items from trade inventory

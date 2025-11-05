@@ -46,8 +46,8 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
 **Current Focus:**
 
 - 🚧 Phase 3.1 (Revised): Creating comprehensive custom room layouts with modern aesthetics
-  - 16+ custom BTG_Orbital\* RoomDefs with metal tile flooring
-  - Custom PrefabDefs for hospital equipment, furniture
+  - 18 custom BTG_Orbital\* RoomDefs with metal tile flooring
+  - 10 custom PrefabDefs for hospital equipment, furniture, and room-specific items
   - Biotech-gated nursery and classroom rooms
   - New room types: Armory, TradeShowcase, SecurityStation, Workshop, 🚧 **CaptainsQuarters (IN PROGRESS)**, CargoStorage
   - **CaptainsQuarters Status:**
@@ -1286,39 +1286,102 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
 ```
 BetterTradersGuild/
 ├── About/
-│   └── About.xml (dependencies removed: VEF, VBGE)
+│   └── About.xml           # Mod metadata (Harmony + Odyssey DLC dependencies)
 ├── Assemblies/
-│   └── BetterTradersGuild.dll
+│   └── BetterTradersGuild.dll  # Compiled mod DLL
 ├── Defs/
 │   ├── LayoutDefs/
-│   │   └── TradersGuild_LayoutDefs.xml (NEW)
-│   ├── RoomDefs/
-│   │   ├── TradersGuild_BaseRooms.xml (NEW)
-│   │   └── TradersGuild_ThemedRooms.xml (NEW)
-│   └── PawnKindDefs/
-│       └── TradersGuild_EnhancedPawns.xml (NEW)
+│   │   └── BTG_OrbitalSettlement.xml  # Custom settlement layout (Phase 3)
+│   ├── LayoutRoomDefs/         # Custom room definitions (18 files, Phase 3)
+│   │   ├── BTG_OrbitalArmory.xml
+│   │   ├── BTG_OrbitalBarracks.xml
+│   │   ├── BTG_OrbitalCaptainsQuarters.xml  # 🚧 IN PROGRESS
+│   │   ├── BTG_OrbitalCargoStorage.xml
+│   │   ├── BTG_OrbitalClassroom.xml
+│   │   ├── BTG_OrbitalComputerRoom.xml
+│   │   ├── BTG_OrbitalCorridor.xml
+│   │   ├── BTG_OrbitalDiningRoom.xml
+│   │   ├── BTG_OrbitalHydroponics.xml
+│   │   ├── BTG_OrbitalMedicalBay.xml
+│   │   ├── BTG_OrbitalNursery.xml
+│   │   ├── BTG_OrbitalRecRoom.xml
+│   │   ├── BTG_OrbitalSecurityStation.xml
+│   │   ├── BTG_OrbitalStoreroom.xml
+│   │   ├── BTG_OrbitalTradeShowcase.xml
+│   │   ├── BTG_OrbitalTransportRoom.xml
+│   │   └── BTG_OrbitalWorkshop.xml
+│   └── PrefabDefs/             # Custom prefab definitions (10 files, Phase 3)
+│       ├── BTG_ArmchairsWithPlantpot_Edge.xml
+│       ├── BTG_BarracksBeds_Edge.xml
+│       ├── BTG_BilliardsTable.xml
+│       ├── BTG_CaptainsBedroom.xml
+│       ├── BTG_CaptainsBookshelf_Edge.xml
+│       ├── BTG_ClassroomBookshelf.xml
+│       ├── BTG_FlatscreenTelevisionWolfLeather_Edge.xml
+│       ├── BTG_HospitalBeds_Edge.xml
+│       ├── BTG_HydroponicHealroot.xml
+│       └── BTG_MedicineShelf_Edge.xml
+├── Patches/                    # Empty (reserved for XML patches)
 ├── Source/
 │   ├── Core/
-│   │   ├── ModInitializer.cs
-│   │   └── ModSettings.cs (updated with new settings)
+│   │   ├── ModInitializer.cs       # Harmony patching and startup
+│   │   └── ModSettings.cs          # Mod configuration UI
 │   ├── Helpers/
-│   │   ├── TradersGuildHelper.cs
-│   │   ├── TileHelper.cs
-│   │   ├── TradersGuildTraderRotation.cs
-│   │   └── TradersGuildMapGenHelper.cs (NEW)
-│   ├── BaseGen/ (NEW)
-│   │   ├── SymbolResolver_TradersGuildRoom.cs
-│   │   ├── SymbolResolver_TradersGuildThemedRoom.cs
-│   │   └── SymbolResolver_TradersGuildShuttleBay.cs
-│   └── Patches/
-│       ├── Settlement/ (existing Phase 2 patches)
-│       ├── MapGeneration/ (NEW)
-│       │   ├── GenStepOrbitalPlatformGenerate.cs
-│       │   └── ApplyBiocoding.cs
-│       └── Raid/ (NEW)
-│           └── TradersGuildRaidPointsMultiplier.cs
-└── PLAN.md (THIS FILE)
+│   │   ├── TileHelper.cs                   # World map tile utilities
+│   │   ├── TradersGuildHelper.cs           # Faction/settlement checking
+│   │   └── TradersGuildTraderRotation.cs   # Trader rotation timing logic
+│   ├── Patches/                # Harmony patches (organized by target type)
+│   │   ├── Caravan/
+│   │   │   └── CaravanGetGizmos.cs
+│   │   ├── CaravanArrivalActions/
+│   │   │   ├── CaravanArrivalActionAttackGetFloatMenuOptions.cs
+│   │   │   └── CaravanArrivalActionTradeGetFloatMenuOptions.cs
+│   │   ├── Debug/
+│   │   │   └── RoomContentsWorkerFillRoom.cs  # Debug logging for map gen
+│   │   ├── MapGeneration/
+│   │   │   └── GenStepOrbitalPlatformGenerate.cs  # Phase 3 layout override
+│   │   ├── PlanetTile/
+│   │   │   └── PlanetTileLayerDef.cs
+│   │   ├── Settlement/         # Phase 2 trading system patches (9 files)
+│   │   │   ├── SettlementGetCaravanGizmos.cs
+│   │   │   ├── SettlementGetFloatMenuOptions.cs
+│   │   │   ├── SettlementGetInspectString.cs
+│   │   │   ├── SettlementGetShuttleFloatMenuOptions.cs
+│   │   │   ├── SettlementTraderTrackerGetTraderKind.cs
+│   │   │   ├── SettlementTraderTrackerRegenerateStock.cs
+│   │   │   ├── SettlementTraderTrackerRegenerateStockAlignment.cs
+│   │   │   ├── SettlementTraderTrackerRegenerateStockEveryDays.cs
+│   │   │   └── SettlementVisitable.cs
+│   │   ├── WorldGrid/
+│   │   │   ├── WorldGridFindMostReasonableAdjacentTile.cs
+│   │   │   └── WorldGridGetRoadMovementDifficulty.cs
+│   │   └── WorldObject/
+│   │       └── WorldObjectRequiresSignalJammer.cs
+│   ├── Properties/
+│   │   └── AssemblyInfo.cs
+│   ├── RoomContents/           # Custom room generation workers (Phase 3)
+│   │   └── RoomContents_CaptainsQuarters.cs  # 🚧 IN PROGRESS
+│   ├── WorldObjects/           # World object components (Phase 3)
+│   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
+│   ├── BetterTradersGuild.csproj  # SDK-style project file
+│   └── BetterTradersGuild.sln     # Visual Studio solution
+├── docs/                       # Technical documentation
+│   ├── CAPTAINS_QUARTERS_IMPLEMENTATION.md
+│   ├── CARGO_IMPLEMENTATION_GUIDE.md
+│   ├── EDGEONLY_LIMITATIONS.md
+│   ├── LAYOUT_CONSTRAINTS_README.md
+│   ├── PREFAB_EDGEONLY_GUIDE.md
+│   ├── STORAGE_API_RESEARCH.md
+│   ├── STORAGE_API_SUMMARY.txt
+│   ├── STORAGE_DOCUMENTATION_INDEX.md
+│   ├── STYLING_QUICK_REF.md
+│   └── STYLING_RESEARCH.md
+├── CLAUDE.md                   # Developer guidance for Claude Code
+├── PLAN.md                     # Development roadmap (THIS FILE)
+└── README.md                   # GitHub repository landing page
 ```
+
+**Note:** Files marked "🚧 IN PROGRESS" are functional but have incomplete features. See individual file comments or implementation docs for details.
 
 ---
 
