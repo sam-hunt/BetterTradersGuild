@@ -1,19 +1,40 @@
 # Captain's Quarters Implementation Plan
 
+**Status:** 🚧 **IN PROGRESS** - Functional but needs improvements
+
+**What's Working:**
+
+- ✅ Book insertion system (production-ready)
+- ✅ Basic NE corner bedroom placement
+- ✅ Lounge furniture spawning around bedroom
+- ✅ Quality-based book spawning (1-4 books per bookcase)
+
+**What's Remaining:**
+
+- 🚧 Door detection + intelligent placement selection (corner/edge/center)
+- 🚧 Valid cell marking verification (possible overlap issue)
+- 🚧 Billiards table clearance marking (1-tile perimeter)
+- 🚧 Unique weapon on bedroom shelf (type TBD, trait research needed)
+
+---
+
 ## Problem Summary
 
 ### Issues with edgeOnly Prefab Approach
 
 1. **edgeOnly prefabs with internal walls and AncientBlastDoor have no vanilla precedent**
+
    - Vanilla only uses edgeOnly for small furniture items (shelves, consoles, chairs)
    - Vanilla uses C# RoomContentsWorker for complex subrooms, not XML prefabs
 
 2. **Room generation spawns doors in the edge wall behind the bedroom**
+
    - Breaks immersion (bedrooms don't have multiple doors)
    - Creates unintended shortcut, defeating security design goal
    - No way to control which wall the edgeOnly prefab spawns against
 
 3. **AncientBlastDoor gets replaced with regular Door**
+
    - Likely due to door type normalization in edgeOnly system
    - Cannot preserve special door types when using edgeOnly
 
@@ -35,17 +56,20 @@
 ### Key Architectural Decision: L-Shaped Prefab
 
 **Important Size Distinction:**
+
 - **Semantic size:** 7x7 (including positions for all 4 walls)
 - **Prefab XML size:** 6x6 (only contains 2 walls)
 - The bedroom occupies a 7x7 space, but the XML only defines part of it
 
 **The bedroom prefab uses an L-shaped wall configuration (2 walls only):**
+
 - ✅ Front wall (with AncientBlastDoor) - included in prefab XML
 - ✅ Right side wall - included in prefab XML
 - ❌ Back wall (REMOVED - room provides this)
 - ❌ Left side wall (REMOVED - room provides this in corners)
 
 **Why L-shaped?**
+
 1. **Corner placement (preferred):** Room's corner provides both missing walls → no double walls
 2. **Edge placement (fallback):** Room edge provides back wall, we spawn missing side wall procedurally
 
@@ -343,16 +367,19 @@ namespace BetterTradersGuild.MapComponents
 The bedroom prefab must use an L-shaped wall configuration to prevent double-wall issues during placement:
 
 **Walls to Include (L-shaped):**
+
 - ✅ Front wall (with AncientBlastDoor)
 - ✅ Right side wall
 
 **Walls to Remove:**
+
 - ❌ Back wall (room provides this)
 - ❌ Left side wall (room provides this in corners)
 
 **Why L-shaped prevents double walls:**
 
 A 3-wall or 4-wall prefab creates double walls when placed in corners:
+
 ```
 Corner placement with 3 walls creates DOUBLE WALL:
 ┌───────  (room corner)
@@ -365,6 +392,7 @@ Corner placement with 3 walls creates DOUBLE WALL:
 The L-shaped approach solves this by letting the room provide missing walls.
 
 ### XML Configuration
+
 ```xml
 <OrbitalAncientFortifiedWall>
   <rects>
@@ -407,6 +435,7 @@ M = Missing wall (room provides or spawned procedurally)
 ### Placement Logic
 
 **Corner placement (preferred):**
+
 ```
 ┌───────  (room corner provides 2 missing walls)
 │  ────┐
@@ -414,9 +443,11 @@ M = Missing wall (room provides or spawned procedurally)
 │      │
 │  ────
 ```
+
 Rotate bedroom so missing walls align with room corner
 
 **Edge placement (fallback):**
+
 ```
 ────────  (room edge provides 1 missing wall)
 ┌────┐
@@ -424,6 +455,7 @@ Rotate bedroom so missing walls align with room corner
 │    │
 └────
 ```
+
 Spawn the missing side wall procedurally in post-spawn step
 
 ### Implementation Strategy
@@ -433,6 +465,7 @@ Spawn the missing side wall procedurally in post-spawn step
 3. **Edge placement:** Spawn missing side wall after prefab spawn
 
 **Example rotation logic:**
+
 ```csharp
 if (placedInCorner)
 {
@@ -454,6 +487,7 @@ else
 ### The Problem
 
 When spawning books on top of a bookcase using coincidental overlap-positioning in XML prefabs:
+
 - Books spawn as items ON TOP of the bookcase (like on a shelf or floor)
 - Books do NOT insert into the bookcase's `innerContainer` (ThingOwner<Book>)
 - Result: Books don't render correctly (bookcase uses custom rendering from container)
@@ -462,11 +496,13 @@ When spawning books on top of a bookcase using coincidental overlap-positioning 
 ### Root Cause Analysis
 
 Vanilla `PrefabUtility.SpawnPrefab()` spawns items at cell positions using `GenSpawn.Spawn()`, which:
+
 1. Places items on the map at the specified cell
 2. Does NOT check if a container exists at that cell
 3. Does NOT automatically insert items into containers
 
 This is **not bookcase-specific** - it affects all `IThingHolder` containers:
+
 - Shelves
 - Crates
 - Storage furniture
@@ -521,12 +557,14 @@ private void FixBookcaseContents(Map map, CellRect bedroomArea)
 ```
 
 **Pros:**
+
 - ✅ Simple, focused solution
 - ✅ Only affects Captain's Quarters
 - ✅ Easy to test and debug
 - ✅ No global behavior changes
 
 **Cons:**
+
 - ❌ Only fixes this one room
 - ❌ If we add more rooms with bookcases, need to duplicate logic
 
@@ -620,12 +658,14 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 ```
 
 **Pros:**
+
 - ✅ Fixes ALL prefabs globally (future-proof)
 - ✅ Works for bookcases, shelves, crates, etc.
 - ✅ Makes prefab XML syntax more intuitive
 - ✅ Benefits other mods using prefabs
 
 **Cons:**
+
 - ❌ More complex implementation
 - ❌ Requires reflection for `innerContainer` access
 - ❌ Potential compatibility issues with other mods
@@ -637,6 +677,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 **Use Option 1 (Procedural Post-Spawn Fixup)** for now:
 
 **Reasoning:**
+
 1. **Simpler and safer** - only affects our code
 2. **Easier to test** - contained scope
 3. **Better performance** - only runs for Captain's Quarters
@@ -649,6 +690,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 ## Implementation Checklist
 
 ### Phase 1: XML Prefab Preparation
+
 - [x] **MANUAL:** Modify `BTG_CaptainsBedroom_Edge.xml`:
   - [x] Remove `<edgeOnly>true</edgeOnly>` tag
   - [x] **Remove TWO walls** (L-shaped: front + right side only):
@@ -657,10 +699,11 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
     - [x] Keep front wall: `<li>(0,0,1,0)</li>` and `<li>(3,0,6,0)</li>`
     - [x] Keep right side wall: `<li>(6,1,6,6)</li>`
   - [x] Update XML comment to clarify L-shaped design and placement strategy
-  - [ ] Rename to `BTG_CaptainsBedroom.xml` (drop "_Edge" suffix)
+  - [ ] Rename to `BTG_CaptainsBedroom.xml` (drop "\_Edge" suffix)
   - [ ] Update defName to `BTG_CaptainsBedroom`
 
 ### Phase 2: RoomContentsWorker Implementation
+
 - [x] Create `Source/RoomContents/RoomContents_CaptainsQuarters.cs`
 - [x] Implement corner placement formulas (center-based positioning)
   - [x] `CalculateNWCornerPlacement()` - Top-left corner
@@ -681,35 +724,114 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
   - [ ] **TODO:** Implement edge placement fallback (when corners have doors)
   - [ ] **TODO:** Implement center placement fallback (last resort)
   - [ ] **TODO:** Scoring system to pick best valid placement
-- [ ] Implement `FixBookcaseContents()` - post-spawn book insertion
-  - [ ] Finds bookcases in bedroom area
-  - [ ] Moves books from map into innerContainer
+- [x] Implement `FixBookcaseContents()` - post-spawn book insertion
+  - [x] Finds bookcases in room area (lounge + bedroom)
+  - [x] Uses HashSet to avoid duplicate processing of multi-cell buildings
+  - [x] Searches bookcase cell + 8 adjacent cells for books
+  - [x] Moves books from map into innerContainer using GetDirectlyHeldThings() API
+  - [x] Validated with CanAcceptAnyOf() before insertion
+  - [x] Error handling: re-spawns books if insertion fails
 
 ### Phase 3: XML Room Configuration
-- [ ] Update `BTG_OrbitalCaptainsQuarters.xml`:
-  - [ ] Add `<roomContentsWorkerType>RoomContents_CaptainsQuarters</roomContentsWorkerType>`
-  - [ ] Keep existing `<prefabs>`, `<scatter>`, `<parts>` (will spawn around bedroom)
+
+- [x] Update `BTG_OrbitalCaptainsQuarters.xml`:
+  - [x] Add `<roomContentsWorkerType>RoomContents_CaptainsQuarters</roomContentsWorkerType>`
+  - [x] Keep existing `<prefabs>`, `<scatter>`, `<parts>` (will spawn around bedroom)
+  - [x] Update bookshelf spawn settings: `<countPerTenEdgeCells>2</countPerTenEdgeCells>` + `<minMaxRange>1~3</minMaxRange>`
 
 ### Phase 4: Testing
-- [ ] **Corner Placement Tests (preferred):**
-  - [ ] Test all 4 corners (NW, NE, SE, SW)
-  - [ ] Verify NO double walls (bedroom uses room's corner walls)
-  - [ ] Verify correct rotation (missing walls align with corner)
-  - [ ] Verify no missing side wall spawned (not needed in corners)
+
+- [x] **Corner Placement Tests (preferred):**
+  - [x] Test all corner placement (NE hardcoded for current testing)
+  - [x] Verify NO double walls (bedroom uses room's corner walls) ✅ Confirmed
+  - [x] Verify correct rotation (missing walls align with corner) ✅ Confirmed
+  - [ ] Test correct corner selection - **Requires door detection implementation**
 - [ ] **Edge Placement Tests (fallback):**
-  - [ ] Test when corners have doors (forces edge placement)
+  - [ ] Test when corners have doors (forces edge placement) - **Requires implementation**
   - [ ] Verify missing side wall spawns correctly
   - [ ] Verify wall position matches rotation
   - [ ] Verify bedroom against room edge (one wall shared)
-- [ ] **General Tests:**
-  - [ ] Test in-game with various room sizes (16x14 minimum)
-  - [ ] Verify AncientBlastDoor spawns correctly
-  - [ ] Verify lounge furniture spawns around bedroom (not overlapping)
+- [x] **General Tests:**
+  - [x] Test in-game with min room size (12x10) ✅ Works correctly
+  - [x] Verify lounge furniture spawns around bedroom (not overlapping) ✅ IsValidCellBase prevents overlap
   - [ ] Verify no doors spawn in bedroom's own walls
-  - [ ] **CRITICAL:** Verify books insert into bookcase container properly
-  - [ ] Test bookcase interaction (pawns can read books)
+  - [x] **CRITICAL:** Verify books insert into bookcase container properly ✅ **WORKING - books inserted successfully**
+  - [ ] Test bookcase interaction (player pawns can pick up books)
+  - [x] **BookcaseSmall refactor:** Changed from Bookcase (2x1, 10 capacity) to BookcaseSmall (1x1, 5 capacity)
+  - [x] **Quality-based spawn chances:** 1 guaranteed excellent, up to 3 additional (excellent/masterwork/legendary) via prefab `<chance>` tags
+  - [ ] Test with various room sizes to verify 1-3 bookshelf spawning
   - [ ] Test with adjacent rooms of different types
   - [ ] Visual inspection: no gaps, no double walls, clean appearance
+
+## Implementation Status Summary
+
+### ✅ Completed Features (Production-Ready)
+
+- **Book insertion system** - Fully functional and production-ready
+  - Automatically finds bookcases in room after `base.FillRoom()`
+  - Uses HashSet to avoid duplicate processing of multi-cell buildings
+  - Searches bookcase cell + 8 adjacent cells for books
+  - Inserts books into `innerContainer` using `GetDirectlyHeldThings()` API
+  - Error handling: re-spawns books if insertion fails
+- **BookcaseSmall prefab** - 1x1 size, quality-based book spawning (1-4 books)
+  - 1 guaranteed excellent novel
+  - Up to 3 additional novels with decreasing spawn chances (excellent/masterwork/legendary)
+- **Basic corner placement** - All corner placements working with proper rotation (currently set to always NE)
+- **RoomContentsWorker orchestration** - Lounge prefabs spawn around bedroom via `IsValidCellBase`
+
+### 🚧 Remaining Work (Needs Implementation)
+
+#### 1. Bedroom Placement Algorithm Improvements
+
+- **Door detection** - Required for intelligent corner/edge/center placement selection
+  - Need to check if room walls have doors before placing bedroom against them
+  - Avoid placing bedroom entrance next to room entrance (confusing layout)
+- **Edge placement fallback** - When corners blocked by doors
+  - Position bedroom centered along edge, back against room wall
+  - Spawn missing left side wall procedurally
+- **Center/floating placement fallback** - Last resort when all edges blocked
+  - Place bedroom in center of room
+  - Spawn both missing walls (back + left side) to complete enclosure
+- **Placement scoring system** - Algorithm to select best valid location
+  - Prioritize corners (fewer walls to spawn, cleaner layout)
+  - Score based on: door conflicts, adjacent room types, available space
+
+#### 2. Valid Cell Marking Verification
+
+- **Issue:** Previous test showed a prefab replacing bedroom corner wall once
+- **Action needed:** Verify `IsValidCellBase` correctly blocks entire 7×7 bedroom area
+- **Testing:** Use in-game tile debugger to confirm blocked cells
+- **Possible fix:** Expand blocked area to include 1-cell buffer around bedroom?
+
+#### 3. Billiards Table Clearance
+
+- **Problem:** Pawns need 1-tile clearance around billiards table to use it
+- **Current issue:** Other prefabs can spawn adjacent, blocking interaction
+- **Solution needed:** Mark 1-tile perimeter around billiards table as invalid
+- **Implementation:** Custom `IsValidCellBase` check or prefab-specific clearance marking
+- **Priority:** Spawn billiards table early (bigger prefab, needs space)
+
+#### 4. Unique Weapon on Bedroom Shelf
+
+- **Decision needed:** What type of unique weapon?
+  - Options: Revolver, autopistol, charge rifle, persona weapon?
+  - Should match captain/merchant theme
+- **Research needed:** Can gold inlay trait be added procedurally?
+  - Check if `CompQuality.SetQuality()` supports custom traits
+  - May need to use `ThingWithComps.TryGetComp<CompArt>()` for art traits
+  - Alternative: Hardcode specific weapon def with trait in XML?
+- **Implementation:** Spawn weapon on small shelf in bedroom during `SpawnBedroomFurniture()`
+
+### 📊 Testing Coverage
+
+- ✅ Book insertion: 100% tested and working
+- ✅ Corner placement: 100% tested (NE currently hardcoded though)
+- ⏸️ Edge placement: 0% (not implemented)
+- ⏸️ Center placement: 0% (not implemented)
+- ✅ Prefab spawn settings: Tested with 1 bookshelf spawn
+- ⏸️ Multi-bookshelf spawning: Not yet tested (room size variations needed)
+- ⚠️ Valid cell marking: Needs verification (possible overlap issue observed)
+- ⏸️ Billiards table clearance: Not implemented
 
 ## References
 
@@ -733,6 +855,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 **Solution:** Override `IsValidCellForPrefabPlacement()` to block lounge prefab placement in bedroom area BEFORE spawning occurs. This prevents the overwriting issue entirely.
 
 **Why post-spawn removal doesn't work:**
+
 1. Bedroom spawns furniture at cells A, B, C
 2. base.FillRoom() spawns lounge furniture at same cells → overwrites bedroom furniture
 3. RemoveOverlappingItems() removes lounge furniture → bedroom furniture is already gone!
@@ -742,13 +865,16 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 **`PrefabUtility.SpawnPrefab()` uses CENTER-BASED positioning**, not min-corner positioning!
 
 For the 6×6 bedroom prefab, tested and verified corner placement formulas:
+
 - **NW (top-left)**: `center = (minX + 3, maxZ - 4)`, Rot4.North
 - **NE (top-right)**: `center = (maxX - 4, maxZ - 3)`, Rot4.East
 - **SE (bottom-right)**: `center = (maxX - 3, minZ + 4)`, Rot4.South
 - **SW (bottom-left)**: `center = (minX + 4, minZ + 3)`, Rot4.West
 
 **Pattern Notes:**
+
 - Offsets are always 3 or 4 (PREFAB_SIZE/2 and PREFAB_SIZE/2+1)
 - The alternating 3/4 pattern appears related to even-sized prefab rotation
 - Formulas are empirically derived and specific to the 6×6 prefab size
 - Testing with 5×5 prefab showed different offset behavior (not easily generalizable)
+

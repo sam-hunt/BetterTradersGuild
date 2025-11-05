@@ -15,7 +15,7 @@
   -->
 
   <StructureLayoutDef ParentName="OrbitalAncientPlatformBase">
-    <defName>TradersGuild_OrbitalSettlement</defName>
+    <defName>BTG_OrbitalSettlement</defName>
 
     <!--
       Settlement-specific settings:

@@ -416,6 +416,24 @@ Instead of hardcoded item lists, cargo is **dynamically generated from the settl
 
 **Important:** All DLL references have `<Private>False</Private>` to prevent copying to output directory.
 
+**Project File Format:**
+
+This project uses **SDK-style .csproj format** (introduced with .NET Core, backported to Framework):
+
+- **Auto-includes all `.cs` files** - No manual file listing required
+- **Shorter, cleaner syntax** - Modern MSBuild features
+- **NuGet restore required** - First build requires `/t:Restore` (automatic in subsequent builds)
+
+```bash
+# First time building after cloning
+MSBuild.exe BetterTradersGuild.csproj /t:Restore
+
+# Normal builds
+MSBuild.exe BetterTradersGuild.csproj /p:Configuration=Debug
+```
+
+**Key benefit:** When you create a new `.cs` file, it's automatically included in compilation - no .csproj editing needed!
+
 **WSL Setup (Linux/WSL2):**
 
 If developing from WSL and using `monodis` for API introspection, there is a one-time step required to disable Mono's `cli` binary format handler to allow WSL to execute Windows executables like MSBuild and PowerShell:

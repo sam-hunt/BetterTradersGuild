@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Billiards Table Prefab
+
+    High-quality vacstone billiards table for the Captain's Quarters lounge.
+
+    Features:
+    - 2x3 billiards table footprint
+    - 1-tile clearance on all sides for pawn interaction
+    - Total prefab size: 4x5 (accommodates table + clearance)
+    - Centered placement within allocated area
+
+    Design (top view, North rotation):
+    [ ][ ][ ][ ]  <- clearance
+    [ ][T][T][ ]  <- table + clearance
+    [ ][T][T][ ]  <- table + clearance
+    [ ][T][T][ ]  <- table + clearance
+    [ ][ ][ ][ ]  <- clearance
+
+    Note: The table is positioned at (1,0,1) to center it within the 4x5 footprint.
+  -->
+
+  <PrefabDef>
+    <defName>BTG_BilliardsTable</defName>
+    <size>(4,5)</size>
+    <things>
+      <BilliardsTable>
+        <position>(1,0,1)</position>
+        <stuff>BlocksVacstone</stuff>
+      </BilliardsTable>
+    </things>
+  </PrefabDef>
+</Defs>

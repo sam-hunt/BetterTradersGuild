@@ -49,7 +49,32 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
   - 16+ custom BTG_Orbital\* RoomDefs with metal tile flooring
   - Custom PrefabDefs for hospital equipment, furniture
   - Biotech-gated nursery and classroom rooms
-  - New room types: Armory, TradeShowcase, SecurityStation, Workshop, CaptainsQuarters, CargoStorage
+  - New room types: Armory, TradeShowcase, SecurityStation, Workshop, 🚧 **CaptainsQuarters (IN PROGRESS)**, CargoStorage
+  - **CaptainsQuarters Status:**
+    - ✅ Custom RoomContentsWorker with programmatic bedroom placement (basic corner placement working)
+    - ✅ Book insertion system (automatically inserts books into bookcase containers)
+    - ✅ Quality-based book spawning (1-4 books per small bookcase, excellent to legendary)
+    - ✅ L-shaped secure bedroom subroom with AncientBlastDoor
+    - ✅ Lounge area with dynamic furniture spawning around bedroom
+    - 🚧 **Remaining Work:**
+      - **Bedroom placement algorithm improvements:**
+        - Add door detection to avoid placing bedroom against doors
+        - Implement edge placement fallback (with missing wall spawning)
+        - Implement center/floating placement fallback (spawn the two missing walls)
+        - Add scoring system to select best valid location
+      - **Valid cell marking verification:**
+        - Confirm IsValidCellBase prevents prefabs from overlapping bedroom walls
+        - Previous test showed a prefab replacing bedroom corner wall once
+      - **Billiards table clearance:**
+        - Mark 1-tile area around billiards table as invalid for other prefabs
+        - Pawns need clearance to use it; blocking breaks immersion
+        - Prioritize billiards spawning early (bigger prefab needs space)
+        - Investigate whether bedroom edge wall can be considered for lounge edgeOnly prefab placements
+        - Increase minMaxRange of edgeOnly lounge prefabs
+      - **Unique weapon on bedroom shelf:**
+        - Decision needed: what type of unique weapon?
+        - Research: can gold inlay trait be added procedurally?
+        - Implement weapon spawning on small shelf in bedroom
 
 ### 🔮 Phase 4: Reputation & Quest Systems (FUTURE)
 
@@ -699,16 +724,29 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - Crafting benches for repairs
      - Tool storage, component shelves
 
-   - `BTG_OrbitalCaptainsQuarters`:
+   - `BTG_OrbitalCaptainsQuarters`: 🚧 **IN PROGRESS** (functional but needs improvements)
 
-     - Fine carpet flooring
-     - Small floor area
-     - Single locked/hackable heavy door
-     - Double bed, end table, dresser, statue
-     - Animal bed, cat, single bookshelf containing 1-2 random books
-     - Pedestal/Single shelf containing unique revolver with gold inlay trait
-     - Excellent quality furniture
-     - Rusted safe
+     - **Custom RoomContentsWorker** - Programmatic bedroom placement with lounge area
+     - Fine carpet flooring throughout
+     - Medium floor area (12x10 minimum)
+     - **Secure bedroom subroom:**
+       - ✅ 7x7 L-shaped prefab spawned in NE corner (hardcoded for testing)
+       - 🚧 **TODO:** Door detection + edge/center fallback placement
+       - ✅ AncientBlastDoor entrance (hackable)
+       - ✅ Royal bed (vacstone, excellent), dresser, end table
+       - ✅ Animal bed for bonded pet, life support unit
+       - ✅ Ancient safe, flatscreen TV, potted plants
+       - 🚧 **TODO:** Small shelf with unique weapon (type TBD, research gold inlay trait)
+     - **Lounge area (around bedroom):**
+       - ✅ 1-3 small bookshelves with 1-4 quality-based books each
+       - ✅ **Book insertion system:** Books automatically inserted into bookcase containers via post-spawn fixup
+       - ✅ Flatscreen TV with wolf leather couch
+       - ✅ Armchairs with decorative potplants
+       - ✅ Billiards table, vacstone sculptures
+       - 🚧 **TODO:** Billiards table needs 1-tile clearance marking (prevent blocking pawn interaction)
+       - 🚧 **TODO:** Verify IsValidCellBase prevents prefab overlap with bedroom walls
+     - Excellent quality furniture throughout
+     - Minimal threat (VIP quarters)
 
    - `BTG_OrbitalCargoStorage`:
 

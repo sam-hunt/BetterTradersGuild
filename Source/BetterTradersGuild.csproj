@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
-    Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}</ProjectGuid>
+    <!-- Target .NET Framework 4.7.2 (RimWorld requirement) -->
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BetterTradersGuild</RootNamespace>
     <AssemblyName>BetterTradersGuild</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+
+    <!-- Output to mod's Assemblies folder -->
+    <OutputPath>..\Assemblies\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+    <!-- Use existing AssemblyInfo.cs instead of auto-generation -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- Build settings -->
     <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <Optimize>false</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <Optimize>true</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+
+  <!-- RimWorld and Harmony DLL References -->
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\Prepatcher\Assemblies\0Harmony.dll</HintPath>
@@ -52,42 +52,7 @@
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Core\ModInitializer.cs" />
-    <Compile Include="Core\ModSettings.cs" />
-    <Compile Include="Helpers\TradersGuildHelper.cs" />
-    <Compile Include="Helpers\TileHelper.cs" />
-    <Compile Include="Helpers\TradersGuildTraderRotation.cs" />
-    <Compile Include="Patches\Settlement\SettlementVisitable.cs" />
-    <Compile Include="Patches\Settlement\SettlementGetCaravanGizmos.cs" />
-    <Compile Include="Patches\Settlement\SettlementGetFloatMenuOptions.cs" />
-    <Compile Include="Patches\Settlement\SettlementGetShuttleFloatMenuOptions.cs" />
-    <Compile Include="Patches\Settlement\SettlementGetInspectString.cs" />
-    <Compile Include="Patches\Settlement\SettlementTraderTrackerGetTraderKind.cs" />
-    <Compile Include="Patches\Settlement\SettlementTraderTrackerRegenerateStock.cs" />
-    <Compile Include="Patches\Settlement\SettlementTraderTrackerRegenerateStockEveryDays.cs" />
-    <Compile Include="Patches\Settlement\SettlementTraderTrackerRegenerateStockAlignment.cs" />
-    <Compile Include="Patches\WorldGrid\WorldGridGetRoadMovementDifficulty.cs" />
-    <Compile Include="Patches\WorldGrid\WorldGridFindMostReasonableAdjacentTile.cs" />
-    <Compile Include="Patches\WorldObject\WorldObjectRequiresSignalJammer.cs" />
-    <Compile Include="Patches\PlanetTile\PlanetTileLayerDef.cs" />
-    <Compile Include="Patches\CaravanArrivalActions\CaravanArrivalActionTradeGetFloatMenuOptions.cs" />
-    <Compile
-      Include="Patches\CaravanArrivalActions\CaravanArrivalActionAttackGetFloatMenuOptions.cs" />
-    <Compile Include="Patches\Caravan\CaravanGetGizmos.cs" />
-    <Compile Include="Patches\MapGeneration\GenStepOrbitalPlatformGenerate.cs" />
-    <Compile Include="Patches\Debug\RoomContentsWorkerFillRoom.cs" />
-    <Compile Include="RoomContents\RoomContents_CaptainsQuarters.cs" />
-    <Compile Include="WorldObjects\TradersGuildSettlementComponent.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <!-- All .cs files automatically included! No manual listing needed. -->
 </Project>

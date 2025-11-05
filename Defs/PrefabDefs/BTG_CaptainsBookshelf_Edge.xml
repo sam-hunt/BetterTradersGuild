@@ -5,36 +5,45 @@
 
     Personal library for the station leader.
     Features:
-    - Bookshelf (excellent quality wood)
-    - 2-3 random recreation books spawned inside with cooincidental positioning
-      (TradersGuildCaptainsQuartersInitializer)
-
-    TODO: Use Building_Storage.slotGroup.HeldThings API to properly
-    add books to the bookshelf's storage, as documented in STORAGE_API_RESEARCH.md
+    - Small bookshelf (1x1, holds 5 books, excellent quality Vacstone)
+    - Between 1-4 random recreation books of increasing quality
+    - Books automatically inserted into bookcase container via RoomContents_CaptainsQuarters
   -->
 
   <PrefabDef>
     <defName>BTG_CaptainsBookshelf_Edge</defName>
     <edgeOnly>true</edgeOnly>
-    <size>(2,1)</size>
+    <size>(1,1)</size>
     <things>
-      <!-- Bookcase for captain's library -->
-      <Bookcase>
-        <position>(0, 0, 1)</position>
-        <relativeRotation>Opposite</relativeRotation>
+      <!-- Small bookcase for captain's personal library (against wall) -->
+      <BookcaseSmall>
         <quality>Excellent</quality>
+        <position>(0, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
         <stuff>BlocksVacstone</stuff>
-      </Bookcase>
+      </BookcaseSmall>
 
-      <!-- Recreation books stored in the bookcase -->
+      <!-- Recreation books -->
+      <!-- Spawned at bookcase position, automatically inserted via FixBookcaseContents() -->
       <Novel>
-        <position>(1, 0, 1)</position>
+        <chance>1</chance>
+        <quality>Excellent</quality>
+        <position>(0, 0, 0)</position>
       </Novel>
       <Novel>
-        <position>(1, 0, 1)</position>
+        <chance>0.6</chance>
+        <quality>Excellent</quality>
+        <position>(0, 0, 0)</position>
       </Novel>
       <Novel>
-        <position>(2, 0, 1)</position>
+        <chance>0.25</chance>
+        <quality>Masterwork</quality>
+        <position>(0, 0, 0)</position>
+      </Novel>
+      <Novel>
+        <chance>0.15</chance>
+        <quality>Legendary</quality>
+        <position>(0, 0, 0)</position>
       </Novel>
     </things>
   </PrefabDef>

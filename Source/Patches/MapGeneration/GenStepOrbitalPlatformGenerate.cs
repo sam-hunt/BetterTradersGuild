@@ -12,7 +12,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     /// Harmony patch for GenStep_OrbitalPlatform.Generate() to override layout for TradersGuild settlements.
     ///
     /// PURPOSE:
-    /// Makes TradersGuild settlements use custom TradersGuild_OrbitalSettlement layout
+    /// Makes TradersGuild settlements use custom BTG_OrbitalSettlement layout
     /// instead of vanilla OrbitalSettlementPlatform layout.
     ///
     /// TECHNICAL APPROACH:
@@ -44,7 +44,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
         private static FieldInfo layoutDefField = null;
 
         /// <summary>
-        /// Cached reference to TradersGuild_OrbitalSettlement LayoutDef.
+        /// Cached reference to BTG_OrbitalSettlement LayoutDef.
         /// Looked up once on first use for performance.
         /// </summary>
         private static LayoutDef tradersGuildLayoutDef = null;
@@ -99,12 +99,12 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             // STEP 4: Cache custom LayoutDef (lazy lookup)
             if (tradersGuildLayoutDef == null)
             {
-                tradersGuildLayoutDef = DefDatabase<LayoutDef>.GetNamedSilentFail("TradersGuild_OrbitalSettlement");
+                tradersGuildLayoutDef = DefDatabase<LayoutDef>.GetNamedSilentFail("BTG_OrbitalSettlement");
 
                 if (tradersGuildLayoutDef == null)
                 {
-                    Log.Error("[Better Traders Guild] Failed to find TradersGuild_OrbitalSettlement LayoutDef. " +
-                              "Ensure Defs/LayoutDefs/TradersGuild_LayoutDefs.xml is loaded correctly.");
+                    Log.Error("[Better Traders Guild] Failed to find BTG_OrbitalSettlement LayoutDef. " +
+                              "Ensure Defs/LayoutDefs/BTG_OrbitalSettlement.xml is loaded correctly.");
                     return true; // Continue with vanilla layout
                 }
             }
@@ -113,7 +113,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             layoutDefField.SetValue(__instance, tradersGuildLayoutDef);
 
             Log.Message($"[Better Traders Guild] Overriding layout for TradersGuild settlement '{settlement.Name}' " +
-                        $"(ID: {settlement.ID}) to use TradersGuild_OrbitalSettlement layout.");
+                        $"(ID: {settlement.ID}) to use BTG_OrbitalSettlement layout.");
 
             // STEP 6: Initialize TradersGuildSettlementComponent for cargo tracking
             // Check if component already exists (shouldn't, but safety check)
