@@ -56,6 +56,12 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
     - ✅ Quality-based book spawning (1-4 books per small bookcase, excellent to legendary)
     - ✅ L-shaped secure bedroom subroom with AncientBlastDoor
     - ✅ Lounge area with dynamic furniture spawning around bedroom
+    - ✅ **Unique weapon system:**
+      - Spawns unique weapon on bedroom shelf with custom traits
+      - Weighted random selection (Revolver, ChargeRifle, ChargeLance, BeamRepeater)
+      - Quality: Excellent/Masterwork/Legendary (via QualityUtility.GenerateQualitySuper)
+      - Three traits: weapon-specific primary + GoldInlay + random compatible
+      - Reflection-based name/color regeneration after trait modification
     - 🚧 **Remaining Work:**
       - **Bedroom placement algorithm improvements:**
         - Add door detection to avoid placing bedroom against doors
@@ -71,10 +77,6 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
         - Prioritize billiards spawning early (bigger prefab needs space)
         - Investigate whether bedroom edge wall can be considered for lounge edgeOnly prefab placements
         - Increase minMaxRange of edgeOnly lounge prefabs
-      - **Unique weapon on bedroom shelf:**
-        - Decision needed: what type of unique weapon?
-        - Research: can gold inlay trait be added procedurally?
-        - Implement weapon spawning on small shelf in bedroom
 
 ### 🔮 Phase 4: Reputation & Quest Systems (FUTURE)
 

@@ -8,13 +8,13 @@
 - ✅ Basic NE corner bedroom placement
 - ✅ Lounge furniture spawning around bedroom
 - ✅ Quality-based book spawning (1-4 books per bookcase)
+- ✅ Unique weapon generation (3 traits, high quality, 4 weapon types)
 
 **What's Remaining:**
 
 - 🚧 Door detection + intelligent placement selection (corner/edge/center)
 - 🚧 Valid cell marking verification (possible overlap issue)
 - 🚧 Billiards table clearance marking (1-tile perimeter)
-- 🚧 Unique weapon on bedroom shelf (type TBD, trait research needed)
 
 ---
 
@@ -811,16 +811,45 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 - **Implementation:** Custom `IsValidCellBase` check or prefab-specific clearance marking
 - **Priority:** Spawn billiards table early (bigger prefab, needs space)
 
-#### 4. Unique Weapon on Bedroom Shelf
+#### 4. Unique Weapon on Bedroom Shelf ✅ **COMPLETED**
 
-- **Decision needed:** What type of unique weapon?
-  - Options: Revolver, autopistol, charge rifle, persona weapon?
-  - Should match captain/merchant theme
-- **Research needed:** Can gold inlay trait be added procedurally?
-  - Check if `CompQuality.SetQuality()` supports custom traits
-  - May need to use `ThingWithComps.TryGetComp<CompArt>()` for art traits
-  - Alternative: Hardcode specific weapon def with trait in XML?
-- **Implementation:** Spawn weapon on small shelf in bedroom during `SpawnBedroomFurniture()`
+**Implementation:** `GenerateCaptainsWeapon()` and `SpawnUniqueWeaponOnShelf()` in RoomContents_CaptainsQuarters.cs
+
+**Weapon Selection (weighted random):**
+- 30% Gun_Revolver_Unique
+- 30% Gun_ChargeRifle_Unique
+- 20% Gun_ChargeLance_Unique
+- 20% Gun_BeamRepeater_Unique
+
+**Quality System:**
+- Uses `QualityUtility.GenerateQualitySuper()` (biased toward Excellent/Masterwork/Legendary)
+
+**Trait System (3 traits per weapon):**
+1. **Weapon-specific primary trait** (added first):
+   - Revolver: PulseCharger (retrofits pulse-charge tech)
+   - Charge Rifle/Lance: ChargeCapacitor (+35% damage, +20% armor pen)
+   - Beam Repeater: FrequencyAmplifier (+50% damage, +30% range, +50% cooldown)
+2. **Gold Inlay** (always) - 2x market value, +20 beauty, forces gold weapon color
+3. **Random compatible third trait** (filtered via `CompUniqueWeapon.CanAddTrait()`)
+
+**Technical Implementation:**
+- Weapons spawned with correct `_Unique` defNames (required for CompUniqueWeapon)
+- Auto-generated traits cleared via `CompUniqueWeapon.TraitsListForReading.Clear()`
+- Three custom traits added via `CompUniqueWeapon.AddTrait()` with compatibility checking
+- **Reflection-based name/color regeneration** via `UniqueWeaponNameColorRegenerator.RegenerateNameAndColor()`
+  - Bypasses `PostPostMake()` early return guard (only works on first initialization)
+  - Directly sets private `name` and `color` fields using reflection
+  - Respects `forcedColor` from traits (GoldInlay forces gold appearance)
+  - Generates names from trait adjectives: "[adjective] [color] [weapon_type]"
+- **Robust placement:** Searches for ShelfSmall within entire room after prefab spawn
+- **Direct spawn:** Uses `GenSpawn.Spawn()` at shelf position
+- **Rotation-agnostic:** No hardcoded position math, works with any bedroom placement
+- Expected market values: 1400-10000 silver depending on weapon type and quality
+
+**Generated Names Examples:**
+- "Brilliant Gold Revolver"
+- "Overcharged Gold Rifle"
+- "Amplified Gold Repeater"
 
 ### 📊 Testing Coverage
 
