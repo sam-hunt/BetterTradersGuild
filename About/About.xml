@@ -3,14 +3,21 @@
   <name>Better Traders Guild</name>
   <author>Sam Hunt</author>
   <packageId>samhunt.bettertradersguild</packageId>
-  <description>Expands interactions with the Traders Guild faction in RimWorld 1.6.
+  <version>0.1.0-alpha.1</version>
+  <description>[ALPHA] Expands interactions with the Traders Guild faction in RimWorld 1.6.
 
-    Features:
-    - Visit Traders Guild bases peacefully via shuttle for trading (requires good relations)
-    - Enhanced map generation for Traders Guild bases with high-risk high-reward colony layouts
-    - Give gifts and launch goods via transport pods to gain reputation
+    Current Features (Alpha):
+    - Visit Traders Guild orbital bases peacefully for trading (requires good relations)
+    - Dynamic orbital trader rotation system - different trader types dock every few days
+    - Configurable trader rotation interval (5-30 days)
+    - "Docked Vessel" display shows current trader on world map
+    - Custom settlement layouts with 18 room types (in progress)
 
-    Requires the Odyssey DLC</description>
+    Planned Features:
+    - Enhanced reputation systems and trade quotas
+    - Additional goodwill quests
+
+    Requires the Odyssey DLC. Save-game safe.</description>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>

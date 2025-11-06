@@ -4,7 +4,12 @@
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey%20Required-orange.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
+[![Version](https://img.shields.io/badge/Version-0.1.0--alpha.1-yellow.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 [![Development Status](https://img.shields.io/badge/Status-Phase%202%20Complete-green.svg)](https://github.com/sam-hunt/BetterTradersGuild/blob/main/PLAN.md)
+
+## 🚨 Alpha Release
+
+This is an **alpha release** (v0.1.0-alpha.1) for early testing. Phase 2 (Peaceful Trading) is complete and fully functional. Phase 3 (Enhanced Settlement Generation) is partially implemented. See [Known Limitations](#alpha-limitations) below.
 
 Transform the Traders Guild from hostile orbital raiders into valuable trading partners. Visit their orbital settlements peacefully for dynamic trading opportunities, or maintain the vanilla hostile relationship if you prefer the challenge. Your choice.
 
@@ -110,6 +115,28 @@ Access mod settings via: **Options → Mod Settings → Better Traders Guild**
 - Space tile pathfinding may show minor performance overhead on large world maps (negligible in testing)
 
 Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTradersGuild/issues) page.
+
+### Alpha Limitations
+
+**Phase 3 (Enhanced Settlement Generation) is partially complete** in this alpha release. Current limitations:
+
+- **Captain's Quarters Room** - Basic implementation working, but some edge cases unhandled:
+  - Door detection algorithm incomplete (bedroom may occasionally block doorways)
+  - Edge placement fallbacks need refinement
+  - Cell marking verification incomplete
+  - Billiards table clearance calculation needs improvement
+
+- **Other Custom Rooms** - Fully defined but using vanilla generation until Captain's Quarters patterns are finalized
+
+- **Dynamic Cargo System** - Designed but not yet implemented (planned for Phase 3 completion)
+
+**What works in this alpha:**
+- ✅ All Phase 2 peaceful trading features (fully complete and stable)
+- ✅ Custom settlement layout system (18 room types defined)
+- ✅ 10 custom prefabs for furniture arrangements
+- ✅ Captain's Quarters basic generation (bedroom, bookcase, unique weapons)
+
+Phase 3 will be completed in a future alpha release. Current implementation is functional but may have minor aesthetic issues in Captain's Quarters.
 
 ## FAQ
 
