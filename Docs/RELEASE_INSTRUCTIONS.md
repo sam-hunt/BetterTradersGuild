@@ -29,7 +29,7 @@ Follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html) with pre-relea
 Before starting the release process, verify:
 
 - [ ] **CHANGELOG.md updated** with new version section documenting all changes
-- [ ] **ALPHA_TESTING_CHECKLIST.md updated** (for alpha releases) with version number and new test cases
+- [ ] **docs/ALPHA_TESTING_CHECKLIST.md updated** (for alpha releases) with version number and new test cases
 - [ ] **Clean build completed** with 0 errors and 0 warnings
 - [ ] **All changes committed** to git (working directory clean)
 - [ ] **Git status verified** - no uncommitted changes
@@ -74,7 +74,7 @@ Patch release fixing two bugs discovered in alpha.1.
 - Invalid floor type in Nursery definition
 ```
 
-**2. Update ALPHA_TESTING_CHECKLIST.md (for alpha releases)**
+**2. Update docs/ALPHA_TESTING_CHECKLIST.md (for alpha releases)**
 
 Update version in title and add "What's New" section if needed.
 
@@ -120,7 +120,7 @@ powershell.exe -Command "
 Copy-Item -Recurse 'About' \"\$tempDir/About\"
 Copy-Item -Recurse 'Defs' \"\$tempDir/Defs\"
 Copy-Item -Recurse 'Patches' \"\$tempDir/Patches\"
-Copy-Item 'ALPHA_TESTING_CHECKLIST.md' \"\$tempDir/\"  # For alpha releases
+Copy-Item 'docs/ALPHA_TESTING_CHECKLIST.md' \"\$tempDir/\"  # For alpha releases
 
 # Create Assemblies folder and copy the Release DLL
 New-Item -ItemType Directory -Force -Path \"\$tempDir/Assemblies\" | Out-Null
@@ -324,7 +324,7 @@ This is an alpha release of Better Traders Guild. [Brief status summary]
 
 ## 🧪 Testing
 
-Please help test! See the included `ALPHA_TESTING_CHECKLIST.md` for a comprehensive testing guide.
+Please help test! See the included `ALPHA_TESTING_CHECKLIST.md` (in the package root) for a comprehensive testing guide.
 
 ## 📝 Requirements
 
@@ -400,7 +400,7 @@ After publishing the release:
 
 ```bash
 # 1. Update docs
-# Edit CHANGELOG.md, ALPHA_TESTING_CHECKLIST.md
+# Edit CHANGELOG.md, docs/ALPHA_TESTING_CHECKLIST.md
 
 # 2. Build
 cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild/Source"
@@ -416,7 +416,7 @@ powershell.exe -Command "
 Copy-Item -Recurse 'About' \"\$tempDir/About\"
 Copy-Item -Recurse 'Defs' \"\$tempDir/Defs\"
 Copy-Item -Recurse 'Patches' \"\$tempDir/Patches\"
-Copy-Item 'ALPHA_TESTING_CHECKLIST.md' \"\$tempDir/\"
+Copy-Item 'docs/ALPHA_TESTING_CHECKLIST.md' \"\$tempDir/\"
 New-Item -ItemType Directory -Force -Path \"\$tempDir/Assemblies\" | Out-Null
 Copy-Item 'Source/bin/Release/BetterTradersGuild.dll' \"\$tempDir/Assemblies/\"
 Compress-Archive -Path 'temp_zip/BetterTradersGuild' -DestinationPath 'BetterTradersGuild-v0.1.0-alpha.2.zip' -Force
