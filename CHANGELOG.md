@@ -5,6 +5,24 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.2] - 2025-11-09
+
+### Overview
+
+Patch release fixing two bugs discovered in alpha.1. No new features added.
+
+### Fixed
+
+- **Signal Jammer Logic** - Gift transport pods can now reach TradersGuild settlements even when hostile, preserving vanilla behavior for repairing relations through gifts
+  - Previously: Signal jammer override only worked for non-hostile relations
+  - Now: Transport pods bypass signal jammer regardless of hostility (too small for weapons platforms to target)
+  - Note: Peaceful trading visits still require non-hostile relations (working as intended)
+- **Nursery Floor Type** - Corrected invalid floor type definition in BTG_OrbitalNursery.xml
+  - Changed: `CarpetBlueLight` → `CarpetBluePastel` (valid RimWorld floor type)
+  - This prevents red error on mod load
+
+---
+
 ## [0.1.0-alpha.1] - 2025-11-06
 
 ### Overview
@@ -144,5 +162,6 @@ Please report bugs and feedback via:
 
 ---
 
+[0.1.0-alpha.2]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.1.0-alpha.1
 

@@ -13,6 +13,7 @@
 Source/bin/
 Source/obj/
 *.cache
+*.zip
 
 # Debug symbols
 *.pdb

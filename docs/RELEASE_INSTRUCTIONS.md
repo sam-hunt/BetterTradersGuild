@@ -1,120 +1,319 @@
-# GitHub Release Instructions for v0.1.0-alpha.1
+# GitHub Release Instructions
+
+This document provides a generic, reusable workflow for creating GitHub releases of Better Traders Guild.
+
+## Version Naming Conventions
+
+Follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html) with pre-release identifiers:
+
+**Pattern:** `MAJOR.MINOR.PATCH-prerelease.BUILD`
+
+**Examples:**
+
+- `0.1.0-alpha.1` - First alpha build of version 0.1.0
+- `0.1.0-alpha.2` - Second alpha build (bug fixes/iterations)
+- `0.1.0-beta.1` - First beta build (feature complete, testing phase)
+- `0.1.0-rc.1` - First release candidate
+- `0.1.0` - Stable release
+- `0.1.1` - Patch release with bug fixes
+- `0.2.0` - Minor release with new features
+
+**Alpha iteration strategy:**
+
+- Increment alpha number for bug fixes within the same version (e.g., `0.1.0-alpha.1` → `0.1.0-alpha.2`)
+- Move to beta when feature-complete and ready for broader testing
+- Reserve patch version increments for stable releases
 
 ## Pre-Release Checklist
 
-- [x] About.xml updated with version 0.1.0-alpha.1
-- [x] Preview.png created (920x920 placeholder)
-- [x] CHANGELOG.md created and comprehensive
-- [x] README.md updated with alpha status and limitations
-- [x] Clean build completed (0 errors, 0 warnings)
-- [x] Release package created: BetterTradersGuild-v0.1.0-alpha.1.zip (223 KB)
+Before starting the release process, verify:
 
-## Release Package Location
+- [ ] **CHANGELOG.md updated** with new version section documenting all changes
+- [ ] **ALPHA_TESTING_CHECKLIST.md updated** (for alpha releases) with version number and new test cases
+- [ ] **Clean build completed** with 0 errors and 0 warnings
+- [ ] **All changes committed** to git (working directory clean)
+- [ ] **Git status verified** - no uncommitted changes
 
-The release package is ready at:
+## Release Workflow
+
+### Step 1: Update Documentation
+
+**1. Update CHANGELOG.md**
+
+Add a new section at the top following Keep a Changelog format:
+
+```markdown
+## [VERSION] - YYYY-MM-DD
+
+### Overview
+
+Brief description of the release.
+
+### Added / Changed / Fixed / Removed
+
+- Feature or fix description
+- Another change
+
+### Technical Details
+
+Any relevant technical information.
+```
+
+**Example:**
+
+```markdown
+## [0.1.0-alpha.2] - 2025-11-09
+
+### Overview
+
+Patch release fixing two bugs discovered in alpha.1.
+
+### Fixed
+
+- Signal jammer logic for gift pods
+- Invalid floor type in Nursery definition
+```
+
+**2. Update ALPHA_TESTING_CHECKLIST.md (for alpha releases)**
+
+Update version in title and add "What's New" section if needed.
+
+**3. Verify About.xml**
+
+Note: Do NOT add `<version>` tag to About.xml as RimWorld logs errors for unknown tags.
+
+### Step 2: Build and Package
+
+**1. Clean Build**
+
+From WSL/Linux:
+
+```bash
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild/Source"
+
+# Clean previous build
+"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe" \
+  BetterTradersGuild.csproj /t:Clean /p:Configuration=Release
+
+# Build release configuration
+"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe" \
+  BetterTradersGuild.csproj /p:Configuration=Release
+```
+
+Verify output shows `0 Error(s)` and `0 Warning(s)`.
+
+**2. Create Release Package**
+
+Package only runtime-required files directly from source (no staging needed):
+
+```powershell
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+
+# PowerShell packaging script (run from WSL or Windows)
+powershell.exe -Command "
+\$ErrorActionPreference = 'Stop'
+
+# Create temp zip directory structure
+\$tempDir = New-Item -ItemType Directory -Force -Path 'temp_zip/BetterTradersGuild'
+
+# Copy runtime files directly from source locations
+Copy-Item -Recurse 'About' \"\$tempDir/About\"
+Copy-Item -Recurse 'Defs' \"\$tempDir/Defs\"
+Copy-Item -Recurse 'Patches' \"\$tempDir/Patches\"
+Copy-Item 'ALPHA_TESTING_CHECKLIST.md' \"\$tempDir/\"  # For alpha releases
+
+# Create Assemblies folder and copy the Release DLL
+New-Item -ItemType Directory -Force -Path \"\$tempDir/Assemblies\" | Out-Null
+Copy-Item 'Source/bin/Release/BetterTradersGuild.dll' \"\$tempDir/Assemblies/\"
+
+# Create ZIP
+Compress-Archive -Path 'temp_zip/BetterTradersGuild' -DestinationPath 'BetterTradersGuild-{VERSION}.zip' -Force
+
+# Cleanup
+Remove-Item -Recurse -Force 'temp_zip'
+
+Write-Host 'Package created successfully'
+Get-Item 'BetterTradersGuild-{VERSION}.zip' | Select-Object Name, Length
+"
+```
+
+**Example:**
+
+```powershell
+# Replace {VERSION} with actual version (e.g., v0.1.0-alpha.2)
+Compress-Archive -Path 'temp_zip/BetterTradersGuild' -DestinationPath 'BetterTradersGuild-v0.1.0-alpha.2.zip' -Force
+```
+
+**Note on Build Configurations:**
+
+- **Debug builds** output to `../Assemblies/` for immediate RimWorld testing
+- **Release builds** output to `Source/bin/Release/` for clean packaging
+- Always build in Release configuration before creating packages
+
+**Expected package structure:**
 
 ```
-/tmp/BetterTradersGuild-v0.1.0-alpha.1.zip
+BetterTradersGuild/
+├── About/
+│   ├── About.xml
+│   └── Preview.png
+├── Assemblies/
+│   └── BetterTradersGuild.dll
+├── Defs/
+│   ├── LayoutDefs/
+│   ├── LayoutRoomDefs/
+│   └── PrefabDefs/
+├── Patches/
+└── ALPHA_TESTING_CHECKLIST.md
 ```
 
-## Creating the GitHub Release
+### Step 3: Commit and Tag
 
-### Step 1: Commit and Push Changes
-
-First, commit all the release preparation changes:
+**1. Stage all changes**
 
 ```bash
 cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
 
-# Stage all changes
 git add -A
+git status  # Verify changes
+```
 
-# Create release commit
+**2. Create release commit**
+
+Use a descriptive commit message following conventional commits:
+
+```bash
+git commit -m "{type}: {description}
+
+{detailed changes if needed}"
+```
+
+**Examples:**
+
+For major releases:
+
+```bash
 git commit -m "chore: Prepare v0.1.0-alpha.1 release
 
-- Add version to About.xml
-- Create CHANGELOG.md with comprehensive release notes
-- Update README.md with alpha status and limitations
-- Generate Preview.png placeholder
-- Clean build verified (0 errors, 0 warnings)
-"
+- Add version tracking to CHANGELOG.md
+- Create comprehensive release documentation
+- Generate mod preview image
+- Clean build verified (0 errors, 0 warnings)"
+```
 
-# Push to GitHub
+For patch releases:
+
+```bash
+git commit -m "fix: Prepare v0.1.0-alpha.2 patch release
+
+- Fix signal jammer logic for gift pods
+- Fix invalid floor type in Nursery definition
+- Update CHANGELOG.md and testing documentation"
+```
+
+**3. Push changes**
+
+```bash
 git push origin main
 ```
 
-### Step 2: Create Git Tag
+**4. Create and push tag**
 
 ```bash
-# Create annotated tag for the release
-git tag -a v0.1.0-alpha.1 -m "Release v0.1.0-alpha.1 - Phase 2 Trading Features
+# Create annotated tag
+git tag -a {VERSION} -m "{Release title}
 
-First alpha release with peaceful trading fully implemented.
-See CHANGELOG.md for detailed release notes."
+{Brief description of release highlights}"
 
 # Push tag to GitHub
+git push origin {VERSION}
+```
+
+**Examples:**
+
+```bash
+git tag -a v0.1.0-alpha.1 -m "Release v0.1.0-alpha.1 - Phase 2 Trading Features
+
+First alpha release with peaceful trading fully implemented."
+
 git push origin v0.1.0-alpha.1
 ```
 
-### Step 3: Create GitHub Release via Web Interface
+```bash
+git tag -a v0.1.0-alpha.2 -m "Release v0.1.0-alpha.2 - Bug Fix Patch
 
-1. **Navigate to your repository** on GitHub
-2. **Click "Releases"** in the right sidebar (or go to `https://github.com/yourusername/BetterTradersGuild/releases`)
-3. **Click "Draft a new release"**
-4. **Fill in release details:**
+Fixes signal jammer logic and floor type definition."
 
-   **Tag:** `v0.1.0-alpha.1` (select existing tag you just pushed)
+git push origin v0.1.0-alpha.2
+```
 
-   **Release title:** `v0.1.0-alpha.1 - Phase 2 Trading Features (Alpha)`
+### Step 4: Create GitHub Release
 
-   **Description:** Copy from the template below
+**Option A: Web Interface**
 
-   **Pre-release checkbox:** ✅ **Check "This is a pre-release"**
+1. Navigate to: `https://github.com/sam-hunt/BetterTradersGuild/releases`
+2. Click **"Draft a new release"**
+3. Fill in details:
+   - **Tag:** Select the tag you just pushed (e.g., `v0.1.0-alpha.2`)
+   - **Release title:** `{VERSION} - {Title}`
+   - **Description:** Use template below
+   - **Pre-release:** ✅ Check for alpha/beta releases
+   - **Attach binary:** Upload `BetterTradersGuild-{VERSION}.zip`
+4. Click **"Publish release"**
 
-   **Attach binary:** Upload `BetterTradersGuild-v0.1.0-alpha.1.zip`
+**Option B: GitHub CLI** (if `gh` is installed)
 
-5. **Click "Publish release"**
+```bash
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+
+gh release create {VERSION} \
+  --title "{VERSION} - {Title}" \
+  --notes-file CHANGELOG.md \
+  --prerelease \
+  /tmp/release-staging/BetterTradersGuild-{VERSION}.zip
+```
+
+**Example:**
+
+```bash
+gh release create v0.1.0-alpha.2 \
+  --title "v0.1.0-alpha.2 - Bug Fix Patch" \
+  --notes-file CHANGELOG.md \
+  --prerelease \
+  /tmp/release-staging/BetterTradersGuild-v0.1.0-alpha.2.zip
+```
 
 ### GitHub Release Description Template
 
+**For Alpha Releases:**
+
 ```markdown
-# Better Traders Guild v0.1.0-alpha.1
+# Better Traders Guild {VERSION}
 
 ## 🚨 Alpha Release
 
-This is the first alpha release of Better Traders Guild! **Phase 2 (Peaceful Trading)** is complete and fully functional. **Phase 3 (Enhanced Settlement Generation)** is partially implemented.
+This is an alpha release of Better Traders Guild. [Brief status summary]
 
 ## 🎯 What's New
 
-### Phase 2: Peaceful Trading (Complete)
+[Highlight key changes - new features, bug fixes, etc.]
 
-- **Visit Traders Guild Bases** - Travel via shuttle or caravan when relations are good
-- **Dynamic Orbital Trader Rotation** - 4+ trader types rotate every few days
-- **Virtual Schedules** - Preview which trader is docked before visiting
-- **Configurable Rotation** - Adjust trader rotation interval (5-30 days)
-- **Docked Vessel Display** - See current trader on world map
-- **Mod Compatible** - Automatically supports custom orbital trader types
+### [If applicable] Phase X: [Feature Name] (Status)
 
-### Phase 3: Enhanced Settlement Generation (In Progress)
-
-- Custom settlement layouts with 18 room types
-- 10 custom prefabs for furniture arrangements
-- Captain's Quarters with unique weapon generation (partial)
+- Feature bullet points
+- More details
 
 ## 📋 Alpha Limitations
 
-**Phase 3 is incomplete** - See [CHANGELOG.md](https://github.com/yourusername/BetterTradersGuild/blob/main/CHANGELOG.md) for detailed list of known limitations.
+**Known issues:**
 
-**What's fully working:**
-
-- ✅ All peaceful trading features (Phase 2)
-- ✅ Custom settlement layouts
-- ✅ Basic Captain's Quarters generation
+- List any known bugs or incomplete features
+- Reference CHANGELOG.md for details
 
 ## 📥 Installation
 
 1. **Ensure you have Harmony installed** ([Steam Workshop](https://steamcommunity.com/workshop/filedetails/?id=2009463077))
-2. **Download `BetterTradersGuild-v0.1.0-alpha.1.zip`** from this release
+2. **Download `BetterTradersGuild-{VERSION}.zip`** from this release
 3. **Extract to your RimWorld Mods folder:**
    - Windows: `C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\`
    - Mac: `~/Library/Application Support/Steam/steamapps/common/RimWorld/RimWorldMac.app/Mods/`
@@ -123,17 +322,9 @@ This is the first alpha release of Better Traders Guild! **Phase 2 (Peaceful Tra
 5. **Load order:** Core → Harmony → Odyssey DLC → Better Traders Guild
 6. **Restart RimWorld**
 
-## 🧪 Testing Checklist
+## 🧪 Testing
 
-Please help test by verifying:
-
-- [ ] Can visit Traders Guild bases with good relations
-- [ ] Trade dialog opens with orbital trader inventory
-- [ ] Trader type rotates after configured interval
-- [ ] Docked vessel displays on world map inspection
-- [ ] Mod settings work (trader rotation slider)
-- [ ] No errors in Player.log
-- [ ] Can add/remove from existing saves
+Please help test! See the included `ALPHA_TESTING_CHECKLIST.md` for a comprehensive testing guide.
 
 ## 📝 Requirements
 
@@ -143,67 +334,124 @@ Please help test by verifying:
 
 ## 🐛 Bug Reports
 
-Found a bug? Please [open an issue](https://github.com/yourusername/BetterTradersGuild/issues) with:
+Found a bug? Please [open an issue](https://github.com/sam-hunt/BetterTradersGuild/issues) with:
 
 - Your Player.log file
 - Steps to reproduce
 - Mod list
 - Screenshots if applicable
 
-## 🙏 Credits
-
-- **Author:** Sam Hunt
-- **Powered by:** Harmony 2.3.3+ by Andreas Pardeike
-- **RimWorld:** Ludeon Studios
-
 ## 📖 Full Changelog
 
-See [CHANGELOG.md](https://github.com/yourusername/BetterTradersGuild/blob/main/CHANGELOG.md) for complete details.
+See [CHANGELOG.md](https://github.com/sam-hunt/BetterTradersGuild/blob/main/CHANGELOG.md) for complete details.
 
 ---
 
 **Save-game safe** - Can be added or removed from existing saves ✅
 ```
 
-### Step 4: Update README.md Links
+**For Stable Releases:**
 
-After publishing the release, update any placeholder links in README.md to point to the actual release:
+Adjust the template:
+
+- Remove "🚨 Alpha Release" section
+- Remove "Alpha Limitations" section
+- Change "🧪 Testing" to focus on user feedback rather than bug hunting
+- Keep installation, requirements, and bug reports sections
+
+## Post-Release Checklist
+
+After publishing the release:
+
+- [ ] **Test the download** - Download ZIP from GitHub and verify it extracts correctly
+- [ ] **Verify mod loads** - Test in clean RimWorld installation
+- [ ] **Update any documentation** that references the latest release
+- [ ] **Monitor GitHub Issues** for bug reports
+- [ ] **Announce to testers** (for alpha releases) with link to release and testing checklist
+
+## Troubleshooting
+
+**Build fails with errors:**
+
+- Check `Source/BetterTradersGuild.csproj` for correct DLL references
+- Verify .NET Framework 4.7.2 is installed
+- Check Player.log for compilation errors
+
+**ZIP package too large:**
+
+- Verify you're not including `Source/`, `docs/`, `.git/`, or other dev files
+- Only runtime files should be included
+
+**Tag already exists:**
+
+- Delete local tag: `git tag -d {VERSION}`
+- Delete remote tag: `git push origin --delete {VERSION}`
+- Recreate with correct details
+
+**GitHub release upload fails:**
+
+- Verify ZIP file is under 2GB (should be ~200-500KB for this mod)
+- Try using GitHub CLI (`gh`) instead of web interface
+- Check internet connection stability
+
+## Examples
+
+### Example 1: Patch Release (v0.1.0-alpha.2)
 
 ```bash
-# Edit README.md to replace GitHub username placeholders
-# Replace "yourusername" with your actual GitHub username
-# Replace release URL placeholders
-```
+# 1. Update docs
+# Edit CHANGELOG.md, ALPHA_TESTING_CHECKLIST.md
 
-### Step 5: Announce to Testers
+# 2. Build
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild/Source"
+"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe" \
+  BetterTradersGuild.csproj /t:Clean /p:Configuration=Release
+"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe" \
+  BetterTradersGuild.csproj /p:Configuration=Release
 
-Send your friend:
-
-1. Link to the GitHub release
-2. Link to ALPHA_TESTING_CHECKLIST.md (created next)
-3. Instructions to report issues via GitHub Issues
-
-## Alternative: Using GitHub CLI
-
-If you have `gh` CLI installed:
-
-```bash
+# 3. Package
 cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+powershell.exe -Command "
+\$tempDir = New-Item -ItemType Directory -Force -Path 'temp_zip/BetterTradersGuild'
+Copy-Item -Recurse 'About' \"\$tempDir/About\"
+Copy-Item -Recurse 'Defs' \"\$tempDir/Defs\"
+Copy-Item -Recurse 'Patches' \"\$tempDir/Patches\"
+Copy-Item 'ALPHA_TESTING_CHECKLIST.md' \"\$tempDir/\"
+New-Item -ItemType Directory -Force -Path \"\$tempDir/Assemblies\" | Out-Null
+Copy-Item 'Source/bin/Release/BetterTradersGuild.dll' \"\$tempDir/Assemblies/\"
+Compress-Archive -Path 'temp_zip/BetterTradersGuild' -DestinationPath 'BetterTradersGuild-v0.1.0-alpha.2.zip' -Force
+Remove-Item -Recurse -Force 'temp_zip'
+"
 
-# Create release
-gh release create v0.1.0-alpha.1 \
-  --title "v0.1.0-alpha.1 - Phase 2 Trading Features (Alpha)" \
+# 4. Commit and tag
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+git add -A
+git commit -m "fix: Prepare v0.1.0-alpha.2 patch release
+
+- Fix signal jammer logic for gift pods
+- Fix invalid floor type in Nursery definition
+- Update CHANGELOG.md and testing documentation"
+git push origin main
+git tag -a v0.1.0-alpha.2 -m "Release v0.1.0-alpha.2 - Bug Fix Patch"
+git push origin v0.1.0-alpha.2
+
+# 5. Create GitHub release
+gh release create v0.1.0-alpha.2 \
+  --title "v0.1.0-alpha.2 - Bug Fix Patch" \
   --notes-file CHANGELOG.md \
   --prerelease \
-  BetterTradersGuild-v0.1.0-alpha.1.zip
+  BetterTradersGuild-v0.1.0-alpha.2.zip
 ```
 
-## Post-Release
+### Example 2: Major Feature Release (v0.2.0-alpha.1)
 
-After publishing:
+Same steps, but:
 
-1. **Test the download** - Download from GitHub and verify it extracts correctly
-2. **Update any documentation** that references the release
-3. **Monitor GitHub Issues** for bug reports
-4. **Thank your testers!** 🎉
+- Update version to `0.2.0-alpha.1` (minor version bump for new features)
+- Commit message: `feat: Prepare v0.2.0-alpha.1 release`
+- Tag message highlights new phase/features
+
+---
+
+**Remember:** This is a living document. Update it as the release process evolves!
 

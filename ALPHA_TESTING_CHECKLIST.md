@@ -1,6 +1,13 @@
-# Alpha Testing Checklist - Better Traders Guild v0.1.0-alpha.1
+# Alpha Testing Checklist - Better Traders Guild v0.1.0-alpha.2
 
 Thank you for testing the Better Traders Guild alpha! This checklist will help ensure comprehensive testing of all implemented features.
+
+## What's New in Alpha.2
+
+This patch release fixes two bugs from alpha.1:
+
+- **Fixed:** Signal jammer logic now allows gift pods to reach TradersGuild settlements even when hostile (vanilla behavior for repairing relations)
+- **Fixed:** Corrected invalid floor type in Nursery room definition (`CarpetBlueLight` → `CarpetBluePastel`)
 
 ## Pre-Testing Setup
 
@@ -18,10 +25,10 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
 
 ### Test Environment
 
-**RimWorld Version:** ****\_\_\_****
-**Mods Installed (list any besides BTG):** ****\_\_\_****
+**RimWorld Version:** \***\*\_\_\_\*\***
+**Mods Installed (list any besides BTG):** \***\*\_\_\_\*\***
 **Save Type:** [ ] New game [ ] Existing save
-**Date Started Testing:** ****\_\_\_****
+**Date Started Testing:** \***\*\_\_\_\*\***
 
 ---
 
@@ -44,9 +51,21 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
   - [ ] "Visit for Trade" gizmo does NOT appear
   - [ ] Settlement still requires signal jammer for hostile approach
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 2. Trading Dialog
+### 2. Gift Pod Mechanics (New in Alpha.2)
+
+**Goal:** Verify gift pods can reach hostile TradersGuild settlements.
+
+- [ ] **Make TradersGuild hostile** (attack them or let goodwill decay to negative)
+- [ ] **Prepare a transport pod** with gift items
+- [ ] **Target a hostile TradersGuild settlement** with the pod
+- [ ] **Pod should reach successfully** (no signal jammer requirement)
+- [ ] **Goodwill should increase** (standard gift mechanics)
+
+**Notes:** \***\*\_\_\_\*\***
+
+### 3. Trading Dialog
 
 **Goal:** Verify trade interactions work correctly.
 
@@ -61,9 +80,9 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
 - [ ] **Can sell items** successfully
 - [ ] **Silver transfers correctly**
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 3. Trader Rotation System
+### 4. Trader Rotation System
 
 **Goal:** Verify traders rotate dynamically over time.
 
@@ -75,9 +94,9 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
 - [ ] **New inventory generated** (different items than before)
 - [ ] **Inspection string updates** to show new trader
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 4. Virtual Schedule System
+### 5. Virtual Schedule System
 
 **Goal:** Verify unvisited settlements show accurate trader previews.
 
@@ -87,9 +106,9 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
 - [ ] **Trader in trade dialog matches** the inspection string preview
 - [ ] **Test with multiple settlements** (previews should be stable and accurate)
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 5. Desynchronized Schedules
+### 6. Desynchronized Schedules
 
 **Goal:** Verify settlements rotate independently.
 
@@ -98,9 +117,9 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
 - [ ] **Wait for one rotation interval**
 - [ ] **Not all settlements change simultaneously** (each has its own schedule)
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 6. Mod Settings Configuration
+### 7. Mod Settings Configuration
 
 **Goal:** Verify configuration options work.
 
@@ -111,13 +130,13 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
 - [ ] **Change interval to 30 days** → Test again
 - [ ] **Settings persist** after restarting RimWorld
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
 ---
 
 ## Phase 3: Enhanced Settlement Generation (Lower Priority)
 
-### 7. Settlement Map Generation
+### 8. Settlement Map Generation
 
 **Goal:** Check custom settlement layouts.
 
@@ -128,9 +147,9 @@ Thank you for testing the Better Traders Guild alpha! This checklist will help e
   - Any rooms stand out as obviously custom?
 - [ ] **Captain's Quarters identified** (should have a bedroom, bookshelves, unique weapon)
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 8. Known Phase 3 Limitations (Don't Report These)
+### 9. Known Phase 3 Limitations (Don't Report These)
 
 These are **expected** limitations in this alpha:
 
@@ -143,7 +162,7 @@ These are **expected** limitations in this alpha:
 
 ## Compatibility & Stability Testing
 
-### 9. Performance & Errors
+### 10. Performance & Errors
 
 - [ ] **No red error messages** in dev mode console (press ` key)
 - [ ] **Check Player.log** for errors after testing:
@@ -152,9 +171,9 @@ These are **expected** limitations in this alpha:
 - [ ] **No noticeable performance issues** (FPS drops, stuttering)
 - [ ] **Worldmap pathfinding works** (caravans can path to space settlements)
 
-**Errors Found:** ****\_\_\_****
+**Errors Found:** \***\*\_\_\_\*\***
 
-### 10. Save-Game Safety
+### 11. Save-Game Safety
 
 - [ ] **Save the game** with mod enabled
 - [ ] **Reload the save** → Verify everything still works
@@ -162,15 +181,15 @@ These are **expected** limitations in this alpha:
 - [ ] **Save still loads** without errors (save-safe removal test)
 - [ ] **Re-enable mod** → Verify functionality restored
 
-**Notes:** ****\_\_\_****
+**Notes:** \***\*\_\_\_\*\***
 
-### 11. Mod Compatibility (If Applicable)
+### 12. Mod Compatibility (If Applicable)
 
 If you're testing with other mods:
 
-- [ ] **List other mods installed:** ****\_\_\_****
-- [ ] **Any conflicts or errors?** ****\_\_\_****
-- [ ] **Trade still works normally?** ****\_\_\_****
+- [ ] **List other mods installed:** \***\*\_\_\_\*\***
+- [ ] **Any conflicts or errors?** \***\*\_\_\_\*\***
+- [ ] **Trade still works normally?** \***\*\_\_\_\*\***
 
 ---
 
@@ -215,10 +234,10 @@ If you encounter any issues, please report them on [GitHub Issues](https://githu
 
 Feel free to suggest improvements or new features! Things to consider:
 
-- **What worked well?** ****\_\_\_****
-- **What was confusing?** ****\_\_\_****
-- **What would you like to see added?** ****\_\_\_****
-- **How's the balance/difficulty?** ****\_\_\_****
+- **What worked well?** \***\*\_\_\_\*\***
+- **What was confusing?** \***\*\_\_\_\*\***
+- **What would you like to see added?** \***\*\_\_\_\*\***
+- **How's the balance/difficulty?** \***\*\_\_\_\*\***
 
 ---
 
@@ -233,5 +252,5 @@ Your testing helps make this mod better! Once you've completed testing:
 **Overall Experience:** [ ] Great [ ] Good [ ] Needs Work [ ] Broken
 **Would Recommend:** [ ] Yes [ ] Maybe [ ] No
 
-**Additional Comments:** ****\_\_\_****
+**Additional Comments:** \***\*\_\_\_\*\***
 

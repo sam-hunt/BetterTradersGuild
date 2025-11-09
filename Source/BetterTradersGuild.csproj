@@ -7,8 +7,7 @@
     <RootNamespace>BetterTradersGuild</RootNamespace>
     <AssemblyName>BetterTradersGuild</AssemblyName>
 
-    <!-- Output to mod's Assemblies folder -->
-    <OutputPath>..\Assemblies\</OutputPath>
+    <!-- Common output settings -->
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 
     <!-- Use existing AssemblyInfo.cs instead of auto-generation -->
@@ -21,11 +20,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <!-- Debug: Output directly to mod Assemblies folder for easy RimWorld testing -->
+    <OutputPath>..\Assemblies\</OutputPath>
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <!-- Release: Output to standard bin/Release for packaging -->
+    <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>

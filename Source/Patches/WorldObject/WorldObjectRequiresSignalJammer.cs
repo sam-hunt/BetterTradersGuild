@@ -6,8 +6,9 @@ using Verse;
 namespace BetterTradersGuild.Patches.WorldObjectPatches
 {
     /// <summary>
-    /// Harmony patch: Override RequiresSignalJammerToReach for Traders Guild when player has good relations
-    /// This is context-aware to preserve vanilla gravship signal jammer requirement
+    /// Harmony patch: Override RequiresSignalJammerToReach for Traders Guild settlements
+    /// Allows transport pods (e.g., gifts) and shuttles to reach TradersGuild regardless of hostility
+    /// Context-aware: Preserves vanilla gravship signal jammer requirement for attacks
     /// </summary>
     [HarmonyPatch(typeof(RimWorld.Planet.WorldObject), nameof(RimWorld.Planet.WorldObject.RequiresSignalJammerToReach), MethodType.Getter)]
     public static class WorldObjectRequiresSignalJammer
@@ -28,12 +29,9 @@ namespace BetterTradersGuild.Patches.WorldObjectPatches
             if (settlement == null)
                 return;
 
-            // Check if this is a Traders Guild settlement
+            // Double check it belongs to the Trader's guild in case other mods add factions
+            // that inhabit the orbital layer but expect vanilla behavior
             if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
-                return;
-
-            // Check if the player has good relations (non-hostile)
-            if (!TradersGuildHelper.CanPeacefullyVisit(settlement.Faction))
                 return;
 
             // GRAVSHIP CONTEXT DETECTION:
@@ -55,7 +53,10 @@ namespace BetterTradersGuild.Patches.WorldObjectPatches
             }
 
             // Not gravship context (shuttles/caravans/pods) - override!
-            // The Traders Guild will let friendly traders through their signal jammer
+            // Transport pods are too small for heavy weapons platforms to target
+            // This preserves vanilla behavior where you can send gift pods to repair relations
+            // We handle targeting for shuttle raids via SettlementGetShuttleFloatMenuOptions
+            // Note: Peaceful trading visits still require non-hostile relations (SettlementVisitable patch)
             __result = false;
         }
     }
