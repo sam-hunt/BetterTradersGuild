@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
+using UnityEngine;
 using BetterTradersGuild.Helpers;
 
 namespace BetterTradersGuild.RoomContents
@@ -91,6 +92,10 @@ namespace BetterTradersGuild.RoomContents
             {
                 CellRect roomRect = room.rects.First();
                 FixBookcaseContents(map, roomRect);
+
+                // 7. Spawn decorative plants (roses) in all plant pots
+                ThingDef rosePlant = DefDatabase<ThingDef>.GetNamed("Plant_Rose", false);
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, rosePlant, growth: 1.0f);
             }
         }
 

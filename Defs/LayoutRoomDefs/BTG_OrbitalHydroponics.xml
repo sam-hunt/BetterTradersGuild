@@ -8,6 +8,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_OrbitalHydroponics</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Hydroponics</roomContentsWorkerType>
     <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
 
     <floorTypes>

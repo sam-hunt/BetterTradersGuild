@@ -17,6 +17,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_OrbitalMedicalBay</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_MedicalBay</roomContentsWorkerType>
     <minSingleRectWidth>9</minSingleRectWidth>
     <minSingleRectHeight>9</minSingleRectHeight>
 
