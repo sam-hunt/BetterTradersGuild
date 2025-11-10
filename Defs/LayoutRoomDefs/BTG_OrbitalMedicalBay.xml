@@ -40,17 +40,17 @@
         <minMaxRange>2~3</minMaxRange>
       </BTG_MedicineShelf_Edge>
 
-      <!-- Plasteel shelf along wall edge (guaranteed spawn) -->
-      <IndustrialShelf_InnerWall>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>1~1</minMaxRange>
-      </IndustrialShelf_InnerWall>
-
       <!-- Hydroponic basin for healroot cultivation -->
       <BTG_HydroponicHealroot>
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~1</minMaxRange>
       </BTG_HydroponicHealroot>
+
+      <!-- Trash shelf along wall edge -->
+      <IndustrialShelf_InnerWall>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </IndustrialShelf_InnerWall>
     </prefabs>
 
     <!-- Low threat level (vulnerable medical area) -->

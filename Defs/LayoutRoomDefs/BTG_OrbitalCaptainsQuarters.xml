@@ -33,7 +33,7 @@
     <floorTypes>
       <li>CarpetRed</li>
     </floorTypes>
-    <edgeTerrain>CarpetRed</edgeTerrain>
+    <edgeTerrain>TileSilver</edgeTerrain>
 
     <prefabs>
       <!--
@@ -79,13 +79,13 @@
         <groupDistRange>4~8</groupDistRange>
         <minGroups>1</minGroups>
       </SculptureSmall>
-      <SculptureLarge>
+      <SculptureGrand>
         <stuff>BlocksVacstone</stuff>
         <groupsPerHundredCells>1~1</groupsPerHundredCells>
         <itemsPerGroup>1~1</itemsPerGroup>
         <groupDistRange>5~10</groupDistRange>
         <minGroups>1</minGroups>
-      </SculptureLarge>
+      </SculptureGrand>
     </scatter>
 
     <!-- Minimal threat (VIP living quarters) -->

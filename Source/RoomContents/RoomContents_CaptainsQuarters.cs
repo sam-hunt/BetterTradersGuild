@@ -21,7 +21,7 @@ namespace BetterTradersGuild.RoomContents
     public class RoomContents_CaptainsQuarters : RoomContentsWorker
     {
         // Prefab actual size (6×6) - the content defined in XML
-        private const int PREFAB_SIZE = 6;
+        private const int BEDROOM_PREFAB_SIZE = 6;
 
         // Semantic bedroom size (7×7) - includes conceptual space for missing walls
         // The prefab is 6×6, but occupies 7×7 when accounting for room walls it uses
@@ -30,7 +30,7 @@ namespace BetterTradersGuild.RoomContents
         // Prefab defName for the L-shaped bedroom structure
         private const string BEDROOM_PREFAB_DEFNAME = "BTG_CaptainsBedroom";
 
-        // NOTE: The offset formulas (using PREFAB_SIZE/2 and PREFAB_SIZE/2+1) are empirically
+        // NOTE: The offset formulas (using BEDROOM_PREFAB_SIZE/2 and BEDROOM_PREFAB_SIZE/2+1) are empirically
         // derived for the 6×6 bedroom prefab. Testing with a 5×5 prefab showed these formulas
         // are not easily generalizable - they appear to be specific to each prefab size/rotation.
 
@@ -91,7 +91,7 @@ namespace BetterTradersGuild.RoomContents
             if (room.rects != null && room.rects.Count > 0)
             {
                 CellRect roomRect = room.rects.First();
-                FixBookcaseContents(map, roomRect);
+                RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
 
                 // 7. Spawn decorative plants (roses) in all plant pots
                 ThingDef rosePlant = DefDatabase<ThingDef>.GetNamed("Plant_Rose", false);
@@ -162,7 +162,7 @@ namespace BetterTradersGuild.RoomContents
         /// </summary>
         private PlacementResult CalculateNWCornerPlacement(CellRect rect)
         {
-            IntVec3 center = new IntVec3(rect.minX + PREFAB_SIZE / 2, 0, (rect.maxZ - 1) - PREFAB_SIZE / 2);
+            IntVec3 center = new IntVec3(rect.minX + BEDROOM_PREFAB_SIZE / 2, 0, (rect.maxZ - 1) - BEDROOM_PREFAB_SIZE / 2);
 
             return new PlacementResult
             {
@@ -180,7 +180,7 @@ namespace BetterTradersGuild.RoomContents
         /// </summary>
         private PlacementResult CalculateNECornerPlacement(CellRect rect)
         {
-            IntVec3 center = new IntVec3(rect.maxX - (PREFAB_SIZE / 2 + 1), 0, rect.maxZ - PREFAB_SIZE / 2);
+            IntVec3 center = new IntVec3(rect.maxX - (BEDROOM_PREFAB_SIZE / 2 + 1), 0, rect.maxZ - BEDROOM_PREFAB_SIZE / 2);
 
             return new PlacementResult
             {
@@ -198,7 +198,7 @@ namespace BetterTradersGuild.RoomContents
         /// </summary>
         private PlacementResult CalculateSECornerPlacement(CellRect rect)
         {
-            IntVec3 center = new IntVec3(rect.maxX - PREFAB_SIZE / 2, 0, rect.minZ + (PREFAB_SIZE / 2 + 1));
+            IntVec3 center = new IntVec3(rect.maxX - BEDROOM_PREFAB_SIZE / 2, 0, rect.minZ + (BEDROOM_PREFAB_SIZE / 2 + 1));
 
             return new PlacementResult
             {
@@ -216,7 +216,7 @@ namespace BetterTradersGuild.RoomContents
         /// </summary>
         private PlacementResult CalculateSWCornerPlacement(CellRect rect)
         {
-            IntVec3 center = new IntVec3(rect.minX + (PREFAB_SIZE / 2 + 1), 0, rect.minZ + PREFAB_SIZE / 2);
+            IntVec3 center = new IntVec3(rect.minX + (BEDROOM_PREFAB_SIZE / 2 + 1), 0, rect.minZ + BEDROOM_PREFAB_SIZE / 2);
 
             return new PlacementResult
             {
@@ -246,7 +246,7 @@ namespace BetterTradersGuild.RoomContents
         {
             // Convert center to semantic min corner based on rotation
             // For corners, the semantic min depends on which walls are missing
-            int halfSize = PREFAB_SIZE / 2;  // = 3
+            int halfSize = BEDROOM_PREFAB_SIZE / 2;  // = 3
 
             switch (rotation.AsInt)
             {
@@ -359,99 +359,6 @@ namespace BetterTradersGuild.RoomContents
             {
                 Thing wall = ThingMaker.MakeThing(wallDef);
                 GenSpawn.Spawn(wall, cell, map);
-            }
-        }
-
-        /// <summary>
-        /// Fixes bookcase contents by moving books from map into innerContainer.
-        ///
-        /// LEARNING NOTE: Vanilla PrefabUtility.SpawnPrefab() spawns items at cell positions
-        /// using GenSpawn.Spawn(), which does NOT automatically insert items into containers.
-        /// This affects all IThingHolder containers (bookcases, shelves, crates, etc).
-        ///
-        /// This post-spawn fixup finds books spawned at the same position as bookcases and
-        /// properly inserts them into the bookcase's innerContainer for correct rendering
-        /// and interaction mechanics.
-        /// </summary>
-        private void FixBookcaseContents(Map map, CellRect searchArea)
-        {
-            // Find all unique bookcases in search area
-            // Use HashSet to avoid duplicates (multi-cell buildings appear at multiple positions)
-            HashSet<Building_Bookcase> uniqueBookcases = new HashSet<Building_Bookcase>();
-            foreach (IntVec3 cell in searchArea.Cells)
-            {
-                List<Thing> things = cell.GetThingList(map);
-                if (things != null)
-                {
-                    foreach (Thing thing in things)
-                    {
-                        if (thing is Building_Bookcase bookcase)
-                        {
-                            uniqueBookcases.Add(bookcase);
-                        }
-                    }
-                }
-            }
-
-            if (uniqueBookcases.Count == 0)
-            {
-                return;  // No bookcases found (may not be an error - some prefab variations might not include them)
-            }
-
-            List<Building_Bookcase> bookcases = uniqueBookcases.ToList();
-
-            // Fix each bookcase by inserting books into container
-            foreach (Building_Bookcase bookcase in bookcases)
-            {
-                IntVec3 pos = bookcase.Position;
-
-                // Find books at same position AND adjacent cells (books might be slightly offset)
-                List<Book> booksToInsert = new List<Book>();
-
-                // Check the bookcase's cell and all adjacent cells
-                List<IntVec3> cellsToCheck = new List<IntVec3> { pos };
-                cellsToCheck.AddRange(GenAdj.CellsAdjacent8Way(pos, Rot4.North, bookcase.def.size));
-
-                foreach (IntVec3 cell in cellsToCheck)
-                {
-                    if (!cell.InBounds(map)) continue;
-
-                    List<Thing> thingsAtPos = cell.GetThingList(map);
-                    if (thingsAtPos != null)
-                    {
-                        foreach (Thing thing in thingsAtPos)
-                        {
-                            if (thing is Book book)
-                            {
-                                booksToInsert.Add(book);
-                            }
-                        }
-                    }
-                }
-
-                // Insert books into bookcase container
-                foreach (Book book in booksToInsert)
-                {
-                    // Get the innerContainer (ThingOwner) using the public API
-                    Verse.ThingOwner container = bookcase.GetDirectlyHeldThings();
-
-                    // Check if bookcase can accept this book
-                    if (container != null && container.CanAcceptAnyOf(book, true))
-                    {
-                        // Remove from map
-                        book.DeSpawn(DestroyMode.Vanish);
-
-                        // Insert into bookcase container
-                        bool inserted = container.TryAdd(book, true);
-
-                        if (!inserted)
-                        {
-                            // Re-spawn the book if insertion failed
-                            Log.Warning($"[Better Traders Guild] Failed to insert book '{book.def.defName}' into bookcase at {pos}");
-                            GenSpawn.Spawn(book, pos, map);
-                        }
-                    }
-                }
             }
         }
 

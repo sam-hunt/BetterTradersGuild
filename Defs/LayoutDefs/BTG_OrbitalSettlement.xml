@@ -28,14 +28,9 @@
     <corridorDef>BTG_OrbitalCorridor</corridorDef>
 
     <!--
-      Wall attachments: Life support units are essential for orbital platforms
-      These spawn on walls throughout the settlement
+      Wall attachments: Removed for now due to PrefabDef compatibility issues
+      Can revisit adding decorative wall elements later (Phase 3.3+)
     -->
-    <wallAttachments>
-      <LifeSupportUnit>
-        <countRange>1~1</countRange>
-      </LifeSupportUnit>
-    </wallAttachments>
 
     <!--
       Room Composition:

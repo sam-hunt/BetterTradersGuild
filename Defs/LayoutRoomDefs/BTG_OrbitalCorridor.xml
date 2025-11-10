@@ -13,12 +13,10 @@
   <!-- Base corridor definition -->
   <LayoutRoomDef Name="BTG_OrbitalCorridor">
     <defName>BTG_OrbitalCorridor</defName>
+
+    <!-- TODO: Extend worker class to override terrain and maybe add airlocks -->
     <roomContentsWorkerType>RoomContents_Orbital_Corridor</roomContentsWorkerType>
 
-    <!-- Modern metal tile flooring (not ancient tiles) -->
-    <floorTypes>
-      <li>MetalTile</li>
-    </floorTypes>
   </LayoutRoomDef>
 
   <!-- Defensive corridor variant with barricades -->

@@ -10,6 +10,7 @@
     <defName>BTG_OrbitalClassroom</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
+    <roomContentsWorkerClass>BetterTradersGuild.RoomContents.RoomContents_Classroom</roomContentsWorkerClass>
 
     <floorTypes>
       <li>CarpetMarble</li>

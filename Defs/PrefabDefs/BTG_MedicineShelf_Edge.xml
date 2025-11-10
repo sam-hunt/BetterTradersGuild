@@ -5,7 +5,7 @@
 
     Medical storage shelf stocked with industrial medicine.
     Features:
-    - Shelf (excellent quality steel)
+    - Shelf (excellent quality plasteel)
     - MedicineIndustrial (stacked on shelf, 8-16 units)
   -->
 
@@ -14,12 +14,12 @@
     <edgeOnly>true</edgeOnly>
     <size>(3,2)</size>
     <things>
-      <!-- Steel shelf for medicine storage -->
+      <!-- Plasteel shelf for medicine storage -->
       <Shelf>
         <position>(1,0,1)</position>
         <relativeRotation>Opposite</relativeRotation>
         <quality>Excellent</quality>
-        <stuff>Steel</stuff>
+        <stuff>Plasteel</stuff>
       </Shelf>
 
       <!-- Industrial medicine stocked on shelf -->
