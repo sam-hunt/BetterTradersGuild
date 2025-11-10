@@ -33,7 +33,7 @@
     <floorTypes>
       <li>CarpetRed</li>
     </floorTypes>
-    <edgeTerrain>TileSilver</edgeTerrain>
+    <edgeTerrain>SilverTile</edgeTerrain>
 
     <prefabs>
       <!--

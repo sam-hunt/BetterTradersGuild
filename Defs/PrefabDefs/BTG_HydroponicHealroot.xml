@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Hydroponic Healroot Prefab
+    Better Traders Guild - Hydroponic Healroot Prefab (EdgeOnly)
 
-    Single hydroponics basin for growing healroot in medical bay.
+    Self-contained hydroponics setup for medical bay healroot cultivation.
+
+    Features:
+    - SunLamp at front (z=0) providing light for growth
+    - HydroponicsBasin (1x4) at back (z=2), rotated to span x=0-3 perpendicular to wall
+    - LifeSupportUnit on back wall for power generation and oxygen backup
+    - AncientEmergencyLight_Blue on back wall for illumination
+    - HiddenConduit power network connecting all components
+
+    EdgeOnly Configuration:
+    - z=0: Front (sunlamp, opens to room interior)
+    - z=1: Growing space (open for light radius)
+    - z=2: Back (basin against room wall, life support mounted on wall)
 
     NOTE: Spawning the healroot plant INSIDE the basin requires a custom
-    C# SymbolResolver (planned for Phase 3.3+). For now, this prefab just
-    places the empty hydroponics basin.
+    C# SymbolResolver (planned for Phase 3.3+). For now, this prefab places
+    the empty basin with full infrastructure support.
   -->
 
   <PrefabDef>
     <defName>BTG_HydroponicHealroot</defName>
-    <size>(2,2)</size>
+    <edgeOnly>true</edgeOnly>
+    <size>(4,3)</size>
     <things>
-      <!-- Hydroponics basin for healroot cultivation -->
+      <!-- Sunlamp at front center for plant growth light -->
+      <SunLamp>
+        <position>(1, 0, 0)</position>
+      </SunLamp>
+
+      <!-- Hydroponics basin rotated to span full width at back wall -->
       <HydroponicsBasin>
-        <position>(0,0,0)</position>
+        <position>(0, 0, 2)</position>
+        <relativeRotation>Clockwise</relativeRotation>
       </HydroponicsBasin>
 
-      <!-- Hidden conduit for power connection -->
+      <!-- Life support unit on back wall (power generation + oxygen backup) -->
+      <LifeSupportUnit>
+        <position>(2, 0, 2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </LifeSupportUnit>
+
+      <!-- Ancient emergency light blue for illumination -->
+      <AncientEmergencyLight_Blue>
+        <position>(3, 0, 2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </AncientEmergencyLight_Blue>
+
+      <!-- Hidden conduit power network -->
       <HiddenConduit>
-        <positions>
-          <li>(0, 0, 1)</li>
-          <li>(1, 0, 1)</li>
-        </positions>
+        <rects>
+          <!-- Vertical connection: sunlamp to back wall -->
+          <li>(1, 0, 1, 2)</li>
+          <!-- Horizontal connection: along back wall (powers basin, life support, light) -->
+          <li>(0, 2, 3, 2)</li>
+        </rects>
       </HiddenConduit>
     </things>
   </PrefabDef>
