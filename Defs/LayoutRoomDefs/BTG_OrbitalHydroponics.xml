@@ -18,8 +18,8 @@
     <prefabs>
       <!-- Functional hydroponics basins -->
       <HydroponicsBasin_Cluster>
-        <countPerHundredCells>3</countPerHundredCells>
-        <minMaxRange>2~4</minMaxRange>
+        <countPerHundredCells>5</countPerHundredCells>
+        <minMaxRange>2~8</minMaxRange>
       </HydroponicsBasin_Cluster>
 
       <!-- Drug lab for medicine production -->
@@ -31,7 +31,7 @@
       <!-- Storage for harvested crops -->
       <IndustrialShelf_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>2~8</minMaxRange>
+        <minMaxRange>2~4</minMaxRange>
       </IndustrialShelf_Edge>
 
       <WoodenCratesWithSomeLoot>

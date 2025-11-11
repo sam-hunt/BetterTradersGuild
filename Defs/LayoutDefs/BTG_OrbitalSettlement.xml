@@ -28,9 +28,21 @@
     <corridorDef>BTG_OrbitalCorridor</corridorDef>
 
     <!--
-      Wall attachments: Removed for now due to PrefabDef compatibility issues
-      Can revisit adding decorative wall elements later (Phase 3.3+)
+      Wall attachments: Life support units provide power generation throughout the settlement
     -->
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>1~1</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
+    <!--
+      Loot Control: Disable random littered loot across the structure
+      - junkScaterrers: Prevents random debris/items from spawning in corridors/open areas
+      - Loot is intentionally placed via room-specific prefabs (storage rooms, cargo bay)
+      - This ensures thematic, curated loot placement rather than random scattering
+    -->
+    <junkScaterrers />
 
     <!--
       Room Composition:
@@ -68,7 +80,7 @@
         <countRange>1~1</countRange>
       </BTG_OrbitalComputerRoom>
       <BTG_OrbitalHydroponics>
-        <countRange>1~2</countRange>
+        <countRange>1~4</countRange>
       </BTG_OrbitalHydroponics>
       <BTG_OrbitalDiningRoom>
         <countRange>1~1</countRange>

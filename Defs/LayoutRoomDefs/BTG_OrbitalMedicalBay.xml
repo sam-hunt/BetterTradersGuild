@@ -28,10 +28,10 @@
     <edgeTerrain>SterileTile</edgeTerrain>
 
     <prefabs>
-      <!-- Modern hospital beds with vitals monitors -->
+      <!-- Modern hospital beds with vitals monitors (edge) -->
       <BTG_HospitalBeds_Edge>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>3~6</minMaxRange>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>2~6</minMaxRange>
       </BTG_HospitalBeds_Edge>
 
       <!-- Medicine storage shelves -->
@@ -39,6 +39,12 @@
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>2~3</minMaxRange>
       </BTG_MedicineShelf_Edge>
+
+      <!-- Compact hospital bed units (interior, low priority) -->
+      <BTG_HospitalBeds>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~2</minMaxRange>
+      </BTG_HospitalBeds>
 
       <!-- Hydroponic basin for healroot cultivation -->
       <BTG_HydroponicHealroot>

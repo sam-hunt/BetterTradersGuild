@@ -718,12 +718,13 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 - [x] Implement `SpawnMissingWallsForCenter()` - for center placement (preparatory)
 - [x] Implement `IsValidCellBase()` - **CRITICAL** prevents lounge prefabs from overwriting bedroom furniture
 - [x] Implement `FillRoom()` - main orchestration method
-- [ ] Implement `FindBestPlacementForBedroom()` - **IN PROGRESS**
+- [x] Implement `FindBestPlacementForBedroom()` - **COMPLETED (Phase 1 - Corner Selection)**
   - [x] Corner placement formulas complete
-  - [ ] **TODO:** Add door detection to validate corner placements
+  - [x] **COMPLETED:** Door detection validates corner placements (checks North/South/East/West walls)
+  - [x] **COMPLETED:** Corner iteration stops at first valid placement without door conflicts
   - [ ] **TODO:** Implement edge placement fallback (when corners have doors)
   - [ ] **TODO:** Implement center placement fallback (last resort)
-  - [ ] **TODO:** Scoring system to pick best valid placement
+  - [ ] **TODO:** Scoring system to pick best valid placement (optional enhancement)
 - [x] Implement `FixBookcaseContents()` - post-spawn book insertion
   - [x] Finds bookcases in room area (lounge + bedroom)
   - [x] Uses HashSet to avoid duplicate processing of multi-cell buildings
@@ -776,16 +777,22 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 - **BookcaseSmall prefab** - 1x1 size, quality-based book spawning (1-4 books)
   - 1 guaranteed excellent novel
   - Up to 3 additional novels with decreasing spawn chances (excellent/masterwork/legendary)
-- **Basic corner placement** - All corner placements working with proper rotation (currently set to always NE)
+- **Intelligent corner placement with door detection** - All corner placements working with door validation
+  - Iterates through all 4 corners (NW → NE → SE → SW)
+  - Detects doors in room walls using `GetEdifice()` API
+  - Skips corners where bedroom would overlap with doors
+  - Stops at first valid corner without door conflicts
 - **RoomContentsWorker orchestration** - Lounge prefabs spawn around bedroom via `IsValidCellBase`
 
 ### 🚧 Remaining Work (Needs Implementation)
 
 #### 1. Bedroom Placement Algorithm Improvements
 
-- **Door detection** - Required for intelligent corner/edge/center placement selection
-  - Need to check if room walls have doors before placing bedroom against them
-  - Avoid placing bedroom entrance next to room entrance (confusing layout)
+- ✅ **Door detection** - **COMPLETED** - Intelligent corner placement with door validation
+  - `HasDoorsInWall()` checks if room walls have doors using `GetEdifice()` API
+  - `GetWallCells()` enumerates cells along North/South/East/West walls
+  - `BedroomWallsConflictWithDoors()` validates each corner against door positions
+  - Corner iteration stops at first valid placement (NW → NE → SE → SW order)
 - **Edge placement fallback** - When corners blocked by doors
   - Position bedroom centered along edge, back against room wall
   - Spawn missing left side wall procedurally
@@ -854,7 +861,11 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 ### 📊 Testing Coverage
 
 - ✅ Book insertion: 100% tested and working
-- ✅ Corner placement: 100% tested (NE currently hardcoded though)
+- 🧪 Corner placement with door detection: Implemented, needs testing
+  - Need to test with various door configurations (North/South/East/West walls)
+  - Verify corner selection skips corners with doors
+  - Verify first valid corner is selected (NW → NE → SE → SW order)
+  - Test edge case: all corners have doors (should log warning)
 - ⏸️ Edge placement: 0% (not implemented)
 - ⏸️ Center placement: 0% (not implemented)
 - ✅ Prefab spawn settings: Tested with 1 bookshelf spawn

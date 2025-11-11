@@ -25,7 +25,7 @@
   <PrefabDef>
     <defName>BTG_HydroponicHealroot</defName>
     <edgeOnly>true</edgeOnly>
-    <size>(4,3)</size>
+    <size>(4,2)</size>
     <things>
       <!-- Sunlamp at front center for plant growth light -->
       <SunLamp>
@@ -34,31 +34,19 @@
 
       <!-- Hydroponics basin rotated to span full width at back wall -->
       <HydroponicsBasin>
-        <position>(0, 0, 2)</position>
+        <position>(0, 0, 1)</position>
         <relativeRotation>Clockwise</relativeRotation>
       </HydroponicsBasin>
 
       <!-- Life support unit on back wall (power generation + oxygen backup) -->
       <LifeSupportUnit>
-        <position>(2, 0, 2)</position>
-        <relativeRotation>Opposite</relativeRotation>
+        <position>(2, 0, 1)</position>
       </LifeSupportUnit>
 
-      <!-- Ancient emergency light blue for illumination -->
+      <!-- Ancient emergency light blue for nighttime illumination -->
       <AncientEmergencyLight_Blue>
-        <position>(3, 0, 2)</position>
-        <relativeRotation>Opposite</relativeRotation>
+        <position>(3, 0, 1)</position>
       </AncientEmergencyLight_Blue>
-
-      <!-- Hidden conduit power network -->
-      <HiddenConduit>
-        <rects>
-          <!-- Vertical connection: sunlamp to back wall -->
-          <li>(1, 0, 1, 2)</li>
-          <!-- Horizontal connection: along back wall (powers basin, life support, light) -->
-          <li>(0, 2, 3, 2)</li>
-        </rects>
-      </HiddenConduit>
     </things>
   </PrefabDef>
 </Defs>

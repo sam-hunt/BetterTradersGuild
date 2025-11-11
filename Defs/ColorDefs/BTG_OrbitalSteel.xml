@@ -4,7 +4,12 @@
     Custom ColorDef for Better Traders Guild orbital settlements.
 
     This color is applied to steel metal tiles in TradersGuild orbital settlements
-    to give them a distinct "orbital steel" aesthetic with blue-tinted metallic sheen.
+    to give them a distinct "orbital steel" aesthetic with very slight blue-tinted
+    metallic sheen.
+
+    Using this coloring over the ancient tiles looks less decrepit, and the lighter
+    shading is less ominous and depressing than the default unpainted metal tile
+    color.
 
     TECHNICAL NOTES:
     - colorType="Structure" makes this color available for floors and buildings

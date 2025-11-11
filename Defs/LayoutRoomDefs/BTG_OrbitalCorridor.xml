@@ -14,8 +14,8 @@
   <LayoutRoomDef Name="BTG_OrbitalCorridor">
     <defName>BTG_OrbitalCorridor</defName>
 
-    <!-- TODO: Extend worker class to override terrain and maybe add airlocks -->
-    <roomContentsWorkerType>RoomContents_Orbital_Corridor</roomContentsWorkerType>
+    <!-- Custom worker with pre/post-fill hooks for blast door logging and airlock placement -->
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_BTG_OrbitalCorridor</roomContentsWorkerType>
 
   </LayoutRoomDef>
 
