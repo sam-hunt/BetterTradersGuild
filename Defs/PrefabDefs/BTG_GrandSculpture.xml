@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Grand Sculpture Prefab
+
+    High-quality marble grand sculpture for luxury areas.
+
+    Features:
+    - 2x2 grand sculpture footprint
+    - 1-tile clearance on all sides to prevent overlap
+    - Total prefab size: 4x4 (accommodates sculpture + spacing)
+    - Centered placement within allocated area
+
+    Design (top view, North rotation):
+    [ ][ ][ ][ ]  <- clearance
+    [ ][S][S][ ]  <- sculpture + clearance
+    [ ][S][S][ ]  <- sculpture + clearance
+    [ ][ ][ ][ ]  <- clearance
+
+    Note: The sculpture is positioned at (1,0,1) to center it within the 4x4 footprint.
+  -->
+
+  <PrefabDef>
+    <defName>BTG_GrandSculpture</defName>
+    <size>(4,4)</size>
+    <things>
+      <SculptureGrand>
+        <position>(1,0,1)</position>
+        <stuff>BlocksMarble</stuff>
+        <quality>Good</quality>
+      </SculptureGrand>
+    </things>
+  </PrefabDef>
+</Defs>

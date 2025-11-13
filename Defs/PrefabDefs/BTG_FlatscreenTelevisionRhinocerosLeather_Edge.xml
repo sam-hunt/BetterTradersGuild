@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Flatscreen TV with Wolf Leather Couch
+    Better Traders Guild - Flatscreen TV with Rhinoceros Leather Couch
 
     Luxury entertainment setup for the Captain's Quarters lounge.
     Features:
     - Flatscreen television mounted on wall
-    - Wolf leather couch facing the TV
+    - Rhinoceros leather couch facing the TV
     - Edge-only placement (against walls)
     - 2x3 footprint
 
@@ -17,7 +17,7 @@
   -->
 
   <PrefabDef>
-    <defName>BTG_FlatscreenTelevisionWolfLeather_Edge</defName>
+    <defName>BTG_FlatscreenTVRhinoLeather_Edge</defName>
     <edgeOnly>true</edgeOnly>
     <size>(2,3)</size>
     <things>
@@ -26,7 +26,7 @@
       <Couch>
         <position>(1,0,2)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <stuff>Leather_Wolf</stuff>
+        <stuff>Leather_Rhinoceros</stuff>
       </Couch>
     </things>
   </PrefabDef>

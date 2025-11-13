@@ -3,7 +3,7 @@
   <!--
     Better Traders Guild - Billiards Table Prefab
 
-    High-quality vacstone billiards table for the Captain's Quarters lounge.
+    High-quality marble billiards table for the Captain's Quarters lounge.
 
     Features:
     - 2x3 billiards table footprint
@@ -27,7 +27,8 @@
     <things>
       <BilliardsTable>
         <position>(1,0,1)</position>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
+        <quality>Excellent</quality>
       </BilliardsTable>
     </things>
   </PrefabDef>

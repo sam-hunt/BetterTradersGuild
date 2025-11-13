@@ -5,7 +5,7 @@
 
     Personal library for the station leader.
     Features:
-    - Small bookshelf (1x1, holds 5 books, excellent quality Vacstone)
+    - Small bookshelf (1x1, holds 5 books, excellent quality marble)
     - Between 1-4 random recreation books of increasing quality
     - Books automatically inserted into bookcase container via RoomContents_CaptainsQuarters
   -->
@@ -20,7 +20,7 @@
         <quality>Excellent</quality>
         <position>(0, 0, 0)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
       </BookcaseSmall>
 
       <!-- Recreation books -->

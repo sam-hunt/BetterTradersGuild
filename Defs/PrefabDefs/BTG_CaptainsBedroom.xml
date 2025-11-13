@@ -31,24 +31,24 @@
     <things>
       <PlantPot>
         <position>(0, 0, 1)</position>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </PlantPot>
       <AnimalBed>
         <position>(4, 0, 1)</position>
-        <stuff>Leather_Wolf</stuff>
+        <stuff>Leather_Rhinoceros</stuff>
         <quality>Excellent</quality>
       </AnimalBed>
       <RoyalBed>
         <position>(3, 0, 5)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </RoyalBed>
       <Dresser>
         <position>(0, 0, 4)</position>
         <relativeRotation>Clockwise</relativeRotation>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </Dresser>
       <LifeSupportUnit>
@@ -70,7 +70,7 @@
       <ShelfSmall>
         <position>(4, 0, 5)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
       </ShelfSmall>
       <OrbitalAncientFortifiedWall>
         <rects>
@@ -82,7 +82,7 @@
       <EndTable>
         <position>(1, 0, 5)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <stuff>BlocksVacstone</stuff>
+        <stuff>BlocksMarble</stuff>
         <quality>Normal</quality>
       </EndTable>
       <FlatscreenTelevision>

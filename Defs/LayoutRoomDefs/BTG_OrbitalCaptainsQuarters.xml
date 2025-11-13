@@ -8,10 +8,10 @@
     Features:
     - Fine carpet flooring for luxury aesthetic
     - Medium floor area to accommodate inner secure bedroom prefab and outer lounge area
-    - Excellent quality furniture throughout (wolf leather upholstery, vacstone accents)
+    - Excellent quality furniture throughout (rhinoceros leather upholstery, marble accents)
     - Personal library with bookshelves
-    - Entertainment (flatscreen TV with wolf leather couch, good-quality vacstone pool table)
-    - Good-quality vacstone sculptures (small and large) and potted plants
+    - Entertainment (flatscreen TV with rhinoceros leather couch, good-quality marble pool table)
+    - Good-quality marble sculptures (small and grand) and potted plants
     - Minimal threat level (VIP quarters)
 
     TODO: Add C# MapComponent to spawn a tame, bonded cat near the animal bed
@@ -45,48 +45,42 @@
         These spawn in the remaining space (controlled via IsValidCellBase), creating a living/lounge area.
       -->
 
-      <!-- Personal library with books (high priority - player reward) -->
-      <BTG_CaptainsBookshelf_Edge>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>1~3</minMaxRange>
-      </BTG_CaptainsBookshelf_Edge>
-
-      <!-- Entertainment: TV with wolf leather couch -->
-      <BTG_FlatscreenTelevisionWolfLeather_Edge>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_FlatscreenTelevisionWolfLeather_Edge>
-
-      <!-- Comfortable seating with decorative potplants -->
-      <BTG_ArmchairsWithPlantpot_Edge>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
-      </BTG_ArmchairsWithPlantpot_Edge>
-
-      <!-- High-quality vacstone billiards table (with clearance for interaction) -->
+      <!-- High-quality marble billiards table (with clearance for interaction) -->
       <BTG_BilliardsTable>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~1</minMaxRange>
       </BTG_BilliardsTable>
-    </prefabs>
 
-    <!-- High-quality vacstone furniture and art scattered throughout the lounge -->
-    <scatter>
-      <SculptureSmall>
-        <stuff>BlocksVacstone</stuff>
-        <groupsPerHundredCells>1~1</groupsPerHundredCells>
-        <itemsPerGroup>1~1</itemsPerGroup>
-        <groupDistRange>4~8</groupDistRange>
-        <minGroups>1</minGroups>
-      </SculptureSmall>
-      <SculptureGrand>
-        <stuff>BlocksVacstone</stuff>
-        <groupsPerHundredCells>1~1</groupsPerHundredCells>
-        <itemsPerGroup>1~1</itemsPerGroup>
-        <groupDistRange>5~10</groupDistRange>
-        <minGroups>1</minGroups>
-      </SculptureGrand>
-    </scatter>
+      <!-- Entertainment: TV with rhinoceros leather couch -->
+      <BTG_FlatscreenTVRhinoLeather_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_FlatscreenTVRhinoLeather_Edge>
+
+      <!-- Comfortable seating with decorative potplants -->
+      <BTG_ArmchairsWithPlantpot_Edge>
+        <countPerTenEdgeCells>5</countPerTenEdgeCells>
+        <minMaxRange>3~5</minMaxRange>
+      </BTG_ArmchairsWithPlantpot_Edge>
+
+      <!-- Personal library with books (high priority - player reward) -->
+      <BTG_CaptainsBookshelf_Edge>
+        <countPerTenEdgeCells>6</countPerTenEdgeCells>
+        <minMaxRange>3~6</minMaxRange>
+      </BTG_CaptainsBookshelf_Edge>
+
+      <!-- High-quality marble grand sculpture (4x4 footprint with clearance, center placement) -->
+      <BTG_GrandSculpture>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_GrandSculpture>
+
+      <!-- High-quality marble small sculptures (edge placement) -->
+      <BTG_SmallSculpture>
+        <countPerTenEdgeCells>5</countPerTenEdgeCells>
+        <minMaxRange>3~6</minMaxRange>
+      </BTG_SmallSculpture>
+    </prefabs>
 
     <!-- Minimal threat (VIP living quarters) -->
     <parts>
