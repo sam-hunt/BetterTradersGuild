@@ -22,8 +22,8 @@
   <LayoutRoomDef>
     <defName>BTG_OrbitalCaptainsQuarters</defName>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CaptainsQuarters</roomContentsWorkerType>
-    <minSingleRectWidth>12</minSingleRectWidth>
-    <minSingleRectHeight>10</minSingleRectHeight>
+    <minSingleRectWidth>11</minSingleRectWidth>
+    <minSingleRectHeight>11</minSingleRectHeight>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
     <canMergeWithAdjacentRoom>false</canMergeWithAdjacentRoom>
     <minAdjRooms>0</minAdjRooms>

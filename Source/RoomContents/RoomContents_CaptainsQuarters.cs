@@ -5,6 +5,7 @@ using RimWorld.BaseGen;
 using Verse;
 using UnityEngine;
 using BetterTradersGuild.Helpers;
+using static BetterTradersGuild.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.RoomContents
 {
@@ -53,7 +54,7 @@ namespace BetterTradersGuild.RoomContents
             // 1. Find best location for bedroom (prefer corners, avoid walls with doors)
             PlacementResult placement = FindBestPlacementForBedroom(room, map);
 
-            if (placement.IsValid)
+            if (placement.Type != PlacementType.Invalid)
             {
                 // 2. Calculate and store bedroom area for validation (prevents lounge overlap)
                 this.bedroomRect = GetBedroomRect(placement.Position, placement.Rotation);
@@ -65,19 +66,24 @@ namespace BetterTradersGuild.RoomContents
                 SpawnUniqueWeaponOnShelf(map, placement, room);
 
                 // 5. Spawn missing walls based on placement type
-                if (placement.IsCenter)
+                switch (placement.Type)
                 {
-                    // Center placement: spawn BOTH missing walls (back + left side)
-                    // Prefab has front + right side, we need to complete all 4 walls
-                    SpawnMissingWallsForCenter(map, placement);
+                    case PlacementType.Corner:
+                        // Corner placement: no additional walls needed (room provides back + left)
+                        break;
+
+                    case PlacementType.Edge:
+                        // Edge placement: spawn missing left side wall only
+                        // Back wall is provided by room edge
+                        SpawnMissingSideWall(map, placement);
+                        break;
+
+                    case PlacementType.Floating:
+                        // Center/floating placement: spawn BOTH missing walls (back + left side)
+                        // Prefab has front + right side, we need to complete all 4 walls
+                        SpawnMissingWallsForCenter(map, placement);
+                        break;
                 }
-                else if (!placement.IsCorner)
-                {
-                    // Edge placement: spawn missing left side wall only
-                    // Back wall is provided by room edge
-                    SpawnMissingSideWall(map, placement);
-                }
-                // Corner placement: no additional walls needed (room provides back + left)
             }
             else
             {
@@ -125,97 +131,6 @@ namespace BetterTradersGuild.RoomContents
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
         }
 
-        /// <summary>
-        /// Checks if any wall of the room has doors within the specified segment.
-        /// Used to validate corner placements - bedroom should not be placed against walls with doors.
-        /// </summary>
-        private bool HasDoorsInWall(CellRect roomRect, Rot4 wallDirection, Map map)
-        {
-            // Get all cells along the specified wall
-            foreach (IntVec3 cell in GetWallCells(roomRect, wallDirection))
-            {
-                if (!cell.InBounds(map))
-                    continue;
-
-                // Check if cell has a door edifice
-                Building edifice = cell.GetEdifice(map);
-                if (edifice != null && edifice.def.IsDoor)
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Enumerates all cells along a specific wall of the room rectangle.
-        /// </summary>
-        private IEnumerable<IntVec3> GetWallCells(CellRect rect, Rot4 direction)
-        {
-            if (direction == Rot4.North)
-            {
-                // North wall (maxZ edge)
-                for (int x = rect.minX; x <= rect.maxX; x++)
-                    yield return new IntVec3(x, 0, rect.maxZ);
-            }
-            else if (direction == Rot4.South)
-            {
-                // South wall (minZ edge)
-                for (int x = rect.minX; x <= rect.maxX; x++)
-                    yield return new IntVec3(x, 0, rect.minZ);
-            }
-            else if (direction == Rot4.East)
-            {
-                // East wall (maxX edge)
-                for (int z = rect.minZ; z <= rect.maxZ; z++)
-                    yield return new IntVec3(rect.maxX, 0, z);
-            }
-            else // Rot4.West
-            {
-                // West wall (minX edge)
-                for (int z = rect.minZ; z <= rect.maxZ; z++)
-                    yield return new IntVec3(rect.minX, 0, z);
-            }
-        }
-
-        /// <summary>
-        /// Checks if the bedroom placement would conflict with doors in the room's walls.
-        /// The bedroom's back and side walls should be against doorless room walls.
-        ///
-        /// LEARNING NOTE: The L-shaped bedroom prefab has "missing walls" (back + left side)
-        /// that must align with room walls in corner placements. We check if those room
-        /// walls have doors to avoid placing the bedroom entrance next to a room entrance.
-        /// </summary>
-        private bool BedroomWallsConflictWithDoors(PlacementResult placement, CellRect roomRect, Map map)
-        {
-            // For each rotation, the bedroom's "missing walls" (back + left side) should align
-            // with the room's corner walls. We need to check if those walls have doors.
-
-            switch (placement.Rotation.AsInt)
-            {
-                case 0: // Rot4.North - NW corner placement
-                    // Missing walls: North (back) + West (left side)
-                    return HasDoorsInWall(roomRect, Rot4.North, map) ||
-                           HasDoorsInWall(roomRect, Rot4.West, map);
-
-                case 1: // Rot4.East - NE corner placement
-                    // Missing walls: North (back) + East (left side)
-                    return HasDoorsInWall(roomRect, Rot4.North, map) ||
-                           HasDoorsInWall(roomRect, Rot4.East, map);
-
-                case 2: // Rot4.South - SE corner placement
-                    // Missing walls: South (back) + East (left side)
-                    return HasDoorsInWall(roomRect, Rot4.South, map) ||
-                           HasDoorsInWall(roomRect, Rot4.East, map);
-
-                case 3: // Rot4.West - SW corner placement
-                    // Missing walls: South (back) + West (left side)
-                    return HasDoorsInWall(roomRect, Rot4.South, map) ||
-                           HasDoorsInWall(roomRect, Rot4.West, map);
-
-                default:
-                    return true; // Invalid rotation, mark as conflict
-            }
-        }
 
         /// <summary>
         /// Finds the best corner or edge placement for the bedroom.
@@ -224,152 +139,71 @@ namespace BetterTradersGuild.RoomContents
         private PlacementResult FindBestPlacementForBedroom(LayoutRoom room, Map map)
         {
             if (room.rects == null || room.rects.Count == 0)
-                return default;
+                return new PlacementResult { Type = PlacementType.Invalid };
 
             CellRect rect = room.rects.First();
+
+            // DEBUG: Log room dimensions to verify if CellRect includes walls
+            Log.Message($"[Better Traders Guild] Captain's Quarters room dimensions: " +
+                       $"{rect.Width}x{rect.Height} " +
+                       $"(minX={rect.minX}, maxX={rect.maxX}, minZ={rect.minZ}, maxZ={rect.maxZ}). " +
+                       $"Please visually count tiles in-game to verify if this includes/excludes walls.");
 
             if (rect.Width < BEDROOM_SIZE || rect.Height < BEDROOM_SIZE)
             {
                 Log.Warning($"[Better Traders Guild] Room too small for bedroom: {rect.Width}x{rect.Height}, need {BEDROOM_SIZE}x{BEDROOM_SIZE}");
-                return default;
+                return new PlacementResult { Type = PlacementType.Invalid };
             }
 
-            // Phase 1: Try all 4 corners (preferred - no extra walls needed)
-            PlacementResult[] corners = new PlacementResult[]
+            // Get door positions from the room
+            List<DoorPosition> doors = RoomDoorsHelper.GetDoorPositions(room, map);
+
+            // Convert CellRect to SimpleRect
+            SimpleRect simpleRoom = new SimpleRect
             {
-                CalculateNWCornerPlacement(rect),
-                CalculateNECornerPlacement(rect),
-                CalculateSECornerPlacement(rect),
-                CalculateSWCornerPlacement(rect)
+                MinX = rect.minX,
+                MinZ = rect.minZ,
+                Width = rect.Width,
+                Height = rect.Height
             };
 
-            foreach (var corner in corners)
+            // Use unified placement algorithm
+            PlacementCalculator.PlacementResult calcResult = PlacementCalculator.CalculateBestPlacement(
+                simpleRoom,
+                BEDROOM_PREFAB_SIZE,
+                doors);
+
+            // Convert back to RoomContents PlacementResult
+            if (calcResult.Type == PlacementType.Invalid)
             {
-                if (corner.IsValid && !BedroomWallsConflictWithDoors(corner, rect, map))
-                {
-                    // Found valid corner without door conflicts - use it!
-                    return corner;
-                }
+                Log.Warning($"[Better Traders Guild] Could not find valid placement for bedroom in room at {rect}");
+                return new PlacementResult { Type = PlacementType.Invalid };
             }
 
-            // TODO: Phase 2 - Edge placement fallback (when all corners have doors)
-            // TODO: Phase 3 - Center placement fallback (last resort)
-
-            // No valid placement found
-            Log.Warning($"[Better Traders Guild] Could not find valid corner placement for bedroom in room at {rect} (all corners have door conflicts)");
-            return default;
-        }
-
-        /// <summary>
-        /// Calculates bedroom placement for NW (top-left) corner.
-        /// Door faces South, missing walls on North+West.
-        /// NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning for the 6×6 prefab.
-        /// </summary>
-        private PlacementResult CalculateNWCornerPlacement(CellRect rect)
-        {
-            IntVec3 center = new IntVec3(rect.minX + BEDROOM_PREFAB_SIZE / 2, 0, (rect.maxZ - 1) - BEDROOM_PREFAB_SIZE / 2);
-
             return new PlacementResult
             {
-                Position = center,
-                Rotation = Rot4.North,
-                IsCorner = true,
-                IsCenter = false,
-                IsValid = true
+                Position = new IntVec3(calcResult.CenterX, 0, calcResult.CenterZ),
+                Rotation = new Rot4(calcResult.Rotation),
+                Type = calcResult.Type
             };
         }
 
-        /// <summary>
-        /// Calculates bedroom placement for NE (top-right) corner.
-        /// Door faces West, missing walls on North+East.
-        /// </summary>
-        private PlacementResult CalculateNECornerPlacement(CellRect rect)
-        {
-            IntVec3 center = new IntVec3(rect.maxX - (BEDROOM_PREFAB_SIZE / 2 + 1), 0, rect.maxZ - BEDROOM_PREFAB_SIZE / 2);
-
-            return new PlacementResult
-            {
-                Position = center,
-                Rotation = Rot4.East,
-                IsCorner = true,
-                IsCenter = false,
-                IsValid = true
-            };
-        }
 
         /// <summary>
-        /// Calculates bedroom placement for SE (bottom-right) corner.
-        /// Door faces North, missing walls on South+East.
-        /// </summary>
-        private PlacementResult CalculateSECornerPlacement(CellRect rect)
-        {
-            IntVec3 center = new IntVec3(rect.maxX - BEDROOM_PREFAB_SIZE / 2, 0, rect.minZ + (BEDROOM_PREFAB_SIZE / 2 + 1));
-
-            return new PlacementResult
-            {
-                Position = center,
-                Rotation = Rot4.South,
-                IsCorner = true,
-                IsCenter = false,
-                IsValid = true
-            };
-        }
-
-        /// <summary>
-        /// Calculates bedroom placement for SW (bottom-left) corner.
-        /// Door faces East, missing walls on South+West.
-        /// </summary>
-        private PlacementResult CalculateSWCornerPlacement(CellRect rect)
-        {
-            IntVec3 center = new IntVec3(rect.minX + (BEDROOM_PREFAB_SIZE / 2 + 1), 0, rect.minZ + BEDROOM_PREFAB_SIZE / 2);
-
-            return new PlacementResult
-            {
-                Position = center,
-                Rotation = Rot4.West,
-                IsCorner = true,
-                IsCenter = false,
-                IsValid = true
-            };
-        }
-
-        // TODO: Implement edge placement methods
-        // Edge placement positions bedroom along one wall, centered on that edge
-        // Requires spawning missing side wall procedurally
-        // Format: CalculateNorthEdgePlacement(), CalculateEastEdgePlacement(), etc.
-
-        // TODO: Implement center placement method
-        // Center placement is last resort when all corners and edges have door conflicts
-        // Requires spawning both missing walls (back + left side)
-        // Format: CalculateCenterPlacement()
-
-        /// <summary>
-        /// Calculates the 7×7 semantic bedroom area rectangle from center position.
-        /// The semantic area includes the room walls that the bedroom uses.
+        /// Calculates the bedroom blocking area from placement result.
+        /// Returns the area that should be reserved to prevent lounge furniture overlap.
+        /// For corner placements: returns prefab bounds (room walls provide the rest).
+        /// For edge/floating: returns prefab bounds + extra cell(s) for spawned walls.
         /// </summary>
         private CellRect GetBedroomRect(IntVec3 center, Rot4 rotation)
         {
-            // Convert center to semantic min corner based on rotation
-            // For corners, the semantic min depends on which walls are missing
-            int halfSize = BEDROOM_PREFAB_SIZE / 2;  // = 3
+            // Get the actual prefab spawn bounds
+            var prefabBounds = PlacementCalculator.GetPrefabSpawnBounds(
+                center.x, center.z, rotation.AsInt, BEDROOM_PREFAB_SIZE);
 
-            switch (rotation.AsInt)
-            {
-                case 0: // North (NW corner): missing walls on North+West
-                    return new CellRect(center.x - halfSize, center.z - halfSize, BEDROOM_SIZE, BEDROOM_SIZE);
-
-                case 1: // East (NE corner): missing walls on North+East
-                    return new CellRect(center.x - halfSize - 1, center.z - halfSize, BEDROOM_SIZE, BEDROOM_SIZE);
-
-                case 2: // South (SE corner): missing walls on South+East
-                    return new CellRect(center.x - halfSize, center.z - halfSize - 1, BEDROOM_SIZE, BEDROOM_SIZE);
-
-                case 3: // West (SW corner): missing walls on South+West
-                    return new CellRect(center.x - halfSize - 1, center.z - halfSize, BEDROOM_SIZE, BEDROOM_SIZE);
-
-                default:
-                    return new CellRect(center.x - halfSize, center.z - halfSize, BEDROOM_SIZE, BEDROOM_SIZE);
-            }
+            // For now, just return the prefab bounds
+            // TODO: Expand this for edge/floating placements when they spawn additional walls
+            return new CellRect(prefabBounds.MinX, prefabBounds.MinZ, prefabBounds.Width, prefabBounds.Height);
         }
 
         /// <summary>
@@ -399,71 +233,92 @@ namespace BetterTradersGuild.RoomContents
         /// <summary>
         /// Spawns the missing left side wall for edge placements.
         /// Corner placements don't need this because the room's corner walls provide both missing walls.
+        ///
+        /// LEARNING NOTE: Since PrefabUtility uses CENTER-BASED positioning, wall coordinates must be
+        /// calculated relative to the prefab center, not as absolute local coordinates.
+        /// For a 6×6 prefab, the center is at local (3, 3), so x=0 becomes center-relative x=-3.
         /// </summary>
         private void SpawnMissingSideWall(Map map, PlacementResult placement)
         {
-            // Calculate which wall is missing based on rotation
-            // The L-shaped prefab includes front (z=0) and right side (x=6)
+            // The L-shaped prefab includes front (z=0) and right side (x=6) walls
             // Missing: back (z=6) and left side (x=0)
-
-            // For edge placement:
-            // - Back wall is provided by room edge
-            // - Left side wall needs to be spawned
+            // For edge placement: back wall provided by room edge, need to spawn left side
 
             List<IntVec3> wallCells = new List<IntVec3>();
+            ThingDef wallDef = ThingDefOf.OrbitalAncientFortifiedWall;
 
-            // Calculate left side wall positions (x=0, z=1 to z=5 in local coordinates)
-            // These need to be transformed by rotation and offset
+            // Calculate left side wall positions in CENTER-RELATIVE coordinates
+            // Original: x=0, z=1 to z=6 (absolute local coords) - 6 cells total
+            // Center of 6×6 prefab: (3, 3)
+            // Center-relative: x=-3, z=-2 to z=+3
 
-            for (int z = 1; z <= BEDROOM_SIZE - 2; z++)
+            int halfSize = BEDROOM_PREFAB_SIZE / 2;  // = 3
+
+            for (int z = 1; z <= BEDROOM_PREFAB_SIZE; z++)  // z=1 to z=6
             {
-                IntVec3 localPos = new IntVec3(0, 0, z);
-                IntVec3 worldPos = placement.Position + localPos.RotatedBy(placement.Rotation);
+                // Convert absolute local to center-relative
+                IntVec3 centerRelative = new IntVec3(-halfSize, 0, z - halfSize);  // (-3, 0, z-3)
+
+                // Rotate and offset from center to get world position
+                IntVec3 worldPos = placement.Position + centerRelative.RotatedBy(placement.Rotation);
                 wallCells.Add(worldPos);
             }
 
-            // Spawn walls
-            ThingDef wallDef = ThingDefOf.OrbitalAncientFortifiedWall;
+            // Spawn all wall cells
             foreach (IntVec3 cell in wallCells)
             {
-                Thing wall = ThingMaker.MakeThing(wallDef);
-                GenSpawn.Spawn(wall, cell, map);
+                // Check if cell is valid and not already occupied
+                if (cell.InBounds(map) && cell.GetEdifice(map) == null)
+                {
+                    Thing wall = ThingMaker.MakeThing(wallDef);
+                    GenSpawn.Spawn(wall, cell, map);
+                }
             }
         }
 
         /// <summary>
         /// Spawns both missing walls for center placements.
         /// Center placements don't have any room walls to rely on, so we need to spawn:
-        /// - Back wall (z=6 in local coordinates)
-        /// - Left side wall (x=0 in local coordinates)
-        /// Combined with prefab's front (z=0) and right side (x=6), this completes all 4 walls.
+        /// - Back wall (z=6 in absolute local coordinates, z=+3 in center-relative)
+        /// - Left side wall (x=0 in absolute local coordinates, x=-3 in center-relative)
+        /// Combined with prefab's front and right side, this completes all 4 walls.
+        ///
+        /// LEARNING NOTE: Uses CENTER-RELATIVE coordinates like SpawnMissingSideWall().
         /// </summary>
         private void SpawnMissingWallsForCenter(Map map, PlacementResult placement)
         {
             List<IntVec3> wallCells = new List<IntVec3>();
             ThingDef wallDef = ThingDefOf.OrbitalAncientFortifiedWall;
 
-            // Back wall: z=6, x=1 to x=5 (in local coordinates)
-            for (int x = 1; x <= BEDROOM_SIZE - 2; x++)
+            int halfSize = BEDROOM_PREFAB_SIZE / 2;  // = 3
+
+            // Back wall: absolute z=6, x=1 to x=5
+            // Center-relative: z=+3, x=-2 to x=+2
+            for (int x = 1; x <= BEDROOM_SIZE - 2; x++)  // x=1 to x=5
             {
-                IntVec3 localPos = new IntVec3(x, 0, BEDROOM_SIZE - 1);
-                IntVec3 worldPos = placement.Position + localPos.RotatedBy(placement.Rotation);
+                IntVec3 centerRelative = new IntVec3(x - halfSize, 0, halfSize);  // (x-3, 0, +3)
+                IntVec3 worldPos = placement.Position + centerRelative.RotatedBy(placement.Rotation);
                 wallCells.Add(worldPos);
             }
 
-            // Left side wall: x=0, z=1 to z=5 (in local coordinates)
-            for (int z = 1; z <= BEDROOM_SIZE - 2; z++)
+            // Left side wall: absolute x=0, z=1 to z=5
+            // Center-relative: x=-3, z=-2 to z=+2
+            for (int z = 1; z <= BEDROOM_SIZE - 2; z++)  // z=1 to z=5
             {
-                IntVec3 localPos = new IntVec3(0, 0, z);
-                IntVec3 worldPos = placement.Position + localPos.RotatedBy(placement.Rotation);
+                IntVec3 centerRelative = new IntVec3(-halfSize, 0, z - halfSize);  // (-3, 0, z-3)
+                IntVec3 worldPos = placement.Position + centerRelative.RotatedBy(placement.Rotation);
                 wallCells.Add(worldPos);
             }
 
-            // Spawn all walls
+            // Spawn all wall cells
             foreach (IntVec3 cell in wallCells)
             {
-                Thing wall = ThingMaker.MakeThing(wallDef);
-                GenSpawn.Spawn(wall, cell, map);
+                // Check if cell is valid and not already occupied
+                if (cell.InBounds(map) && cell.GetEdifice(map) == null)
+                {
+                    Thing wall = ThingMaker.MakeThing(wallDef);
+                    GenSpawn.Spawn(wall, cell, map);
+                }
             }
         }
 
@@ -512,7 +367,11 @@ namespace BetterTradersGuild.RoomContents
                         }
                     }
 
-                    if (shelf != null) break;
+                    if (shelf != null) {
+						// Spawn weapon at the shelf's position
+            			GenSpawn.Spawn(weapon, shelf.Position, map, Rot4.North);
+						break;
+					}
                 }
             }
 
@@ -520,11 +379,9 @@ namespace BetterTradersGuild.RoomContents
             {
                 Log.Warning($"[Better Traders Guild] Could not find ShelfSmall in captain's quarters - spawning weapon at bedroom center");
                 GenSpawn.Spawn(weapon, this.bedroomRect.CenterCell, map, Rot4.North);
-                return;
             }
 
-            // Spawn weapon at the shelf's position
-            GenSpawn.Spawn(weapon, shelf.Position, map, Rot4.North);
+            weapon.SetForbidden(true, false);
         }
 
         /// <summary>
@@ -659,9 +516,7 @@ namespace BetterTradersGuild.RoomContents
         {
             public IntVec3 Position;
             public Rot4 Rotation;
-            public bool IsCorner;
-            public bool IsCenter;  // True if placed in center (spawn all 4 walls)
-            public bool IsValid;
+            public PlacementType Type;
         }
     }
 }

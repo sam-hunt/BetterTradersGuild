@@ -1,0 +1,510 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BetterTradersGuild.RoomContents
+{
+    /// <summary>
+    /// Pure placement calculation logic for Captain's Quarters bedroom prefab.
+    /// Contains no RimWorld dependencies - all methods work with primitives for easy unit testing.
+    /// </summary>
+    public static class PlacementCalculator
+    {
+        /// <summary>
+        /// Offset to account for RimWorld's center-based prefab spawning with even-sized prefabs.
+        /// Even-sized prefabs (6×6) cannot center symmetrically, so RimWorld's spawn API rounds
+        /// the position. This offset ensures the prefab aligns flush with room walls/corners.
+        /// </summary>
+        private const int EVEN_SIZE_CENTER_OFFSET = 1;
+
+        /// <summary>
+        /// Type of placement for the prefab within the room.
+        /// </summary>
+        public enum PlacementType
+        {
+            Invalid,   // No valid placement found
+            Corner,    // Placed in room corner (uses 2 room walls)
+            Edge,      // Placed along room edge (uses 1 room wall)
+            Floating   // Placed in room center (uses 0 room walls)
+        }
+
+        /// <summary>
+        /// Result of a placement calculation containing position, rotation, and placement type.
+        /// </summary>
+        public struct PlacementResult
+        {
+            public int CenterX;
+            public int CenterZ;
+            public int Rotation;  // 0=North, 1=East, 2=South, 3=West (matches Rot4.AsInt)
+            public PlacementType Type;
+        }
+
+        /// <summary>
+        /// Simple rectangle representation for testing without RimWorld dependencies.
+        /// </summary>
+        public struct SimpleRect
+        {
+            public int MinX;
+            public int MinZ;
+            public int Width;
+            public int Height;
+
+            public int MaxX => MinX + Width - 1;
+            public int MaxZ => MinZ + Height - 1;
+        }
+
+        /// <summary>
+        /// Represents a door position in a room.
+        /// </summary>
+        public struct DoorPosition
+        {
+            public int X;
+            public int Z;
+        }
+
+        /// <summary>
+        /// Calculates the best placement for a prefab within a room, accounting for door positions.
+        /// Uses priority-based fallback: corners (all 4) → edges (North only) → invalid.
+        /// </summary>
+        /// <param name="room">Room dimensions</param>
+        /// <param name="prefabSize">Size of the prefab (assumed square)</param>
+        /// <param name="doors">List of door positions in the room</param>
+        /// <returns>Placement result with position, rotation, and type</returns>
+        public static PlacementResult CalculateBestPlacement(
+            SimpleRect room,
+            int prefabSize,
+            List<DoorPosition> doors)
+        {
+            // Phase 1: Try all 4 corners (preferred - uses 2 room walls)
+            PlacementResult[] corners = new PlacementResult[]
+            {
+                CalculateNWCornerPlacement(room, prefabSize),
+                CalculateNECornerPlacement(room, prefabSize),
+                CalculateSECornerPlacement(room, prefabSize),
+                CalculateSWCornerPlacement(room, prefabSize)
+            };
+
+            foreach (var corner in corners)
+            {
+                if (!HasDoorConflict(corner, room, doors, prefabSize))
+                {
+                    return corner;
+                }
+            }
+
+            // Phase 2: Try North edge placement (only edge currently implemented)
+            PlacementResult northEdge = TryEdgePlacement(room, 0 /* North */, prefabSize, doors);
+            if (northEdge.Type != PlacementType.Invalid)
+            {
+                return northEdge;
+            }
+
+            // Phase 3: No valid placement found
+            return new PlacementResult { Type = PlacementType.Invalid };
+        }
+
+        /// <summary>
+        /// Checks if a placement would conflict with doors in the room's walls.
+        /// For corner placements, checks if doors exist on the two walls the prefab uses.
+        /// For edge placements, checks if doors exist within the prefab's wall segment.
+        /// </summary>
+        private static bool HasDoorConflict(PlacementResult placement, SimpleRect room, List<DoorPosition> doors, int prefabSize = 6)
+        {
+            if (placement.Type == PlacementType.Corner)
+            {
+                // Corner placements: check the two walls within the prefab's footprint
+                return CheckCornerDoorConflict(placement.Rotation, room, doors, prefabSize);
+            }
+            else if (placement.Type == PlacementType.Edge)
+            {
+                // Edge placements: check if doors exist within the prefab's segment
+                // (This is already handled during edge placement calculation)
+                return false;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if corner placement has doors on walls adjacent to the prefab's footprint.
+        /// Calculates actual prefab bounds, then checks for doors adjacent to those bounds.
+        /// </summary>
+        private static bool CheckCornerDoorConflict(int rotation, SimpleRect room, List<DoorPosition> doors, int prefabSize)
+        {
+            // Calculate the actual placement position for this corner
+            PlacementResult placement;
+            switch (rotation)
+            {
+                case 0: placement = CalculateNWCornerPlacement(room, prefabSize); break;
+                case 1: placement = CalculateNECornerPlacement(room, prefabSize); break;
+                case 2: placement = CalculateSECornerPlacement(room, prefabSize); break;
+                case 3: placement = CalculateSWCornerPlacement(room, prefabSize); break;
+                default: return true;
+            }
+
+            // Get the actual prefab bounds
+            var prefabBounds = GetPrefabSpawnBounds(placement.CenterX, placement.CenterZ, rotation, prefabSize);
+
+            // Check doors on the two walls that align with this corner
+            switch (rotation)
+            {
+                case 0:  // North (NW corner) - check North + West walls
+                    // North wall: check x range where prefab's north edge is
+                    // West wall: check z range where prefab's west edge is
+                    return HasDoorsOnWallSegment(doors, room, 0, prefabBounds.MinX, prefabBounds.MaxX) ||
+                           HasDoorsOnWallSegment(doors, room, 3, prefabBounds.MinZ, prefabBounds.MaxZ);
+
+                case 1:  // East (NE corner) - check North + East walls
+                    return HasDoorsOnWallSegment(doors, room, 0, prefabBounds.MinX, prefabBounds.MaxX) ||
+                           HasDoorsOnWallSegment(doors, room, 1, prefabBounds.MinZ, prefabBounds.MaxZ);
+
+                case 2:  // South (SE corner) - check South + East walls
+                    return HasDoorsOnWallSegment(doors, room, 2, prefabBounds.MinX, prefabBounds.MaxX) ||
+                           HasDoorsOnWallSegment(doors, room, 1, prefabBounds.MinZ, prefabBounds.MaxZ);
+
+                case 3:  // West (SW corner) - check South + West walls
+                    return HasDoorsOnWallSegment(doors, room, 2, prefabBounds.MinX, prefabBounds.MaxX) ||
+                           HasDoorsOnWallSegment(doors, room, 3, prefabBounds.MinZ, prefabBounds.MaxZ);
+
+                default:
+                    return true;
+            }
+        }
+
+        /// <summary>
+        /// Checks if any door exists on a specific wall segment.
+        /// This is more precise than checking the entire wall - only checks within a range.
+        /// </summary>
+        /// <param name="doors">List of door positions</param>
+        /// <param name="room">Room rectangle</param>
+        /// <param name="wallDirection">0=North, 1=East, 2=South, 3=West</param>
+        /// <param name="rangeStart">Start of range to check (X for horizontal walls, Z for vertical walls)</param>
+        /// <param name="rangeEnd">End of range to check (inclusive)</param>
+        private static bool HasDoorsOnWallSegment(List<DoorPosition> doors, SimpleRect room, int wallDirection, int rangeStart, int rangeEnd)
+        {
+            foreach (var door in doors)
+            {
+                switch (wallDirection)
+                {
+                    case 0:  // North wall (maxZ) - check X range
+                        if (door.Z == room.MaxZ && door.X >= rangeStart && door.X <= rangeEnd)
+                            return true;
+                        break;
+                    case 1:  // East wall (maxX) - check Z range
+                        if (door.X == room.MaxX && door.Z >= rangeStart && door.Z <= rangeEnd)
+                            return true;
+                        break;
+                    case 2:  // South wall (minZ) - check X range
+                        if (door.Z == room.MinZ && door.X >= rangeStart && door.X <= rangeEnd)
+                            return true;
+                        break;
+                    case 3:  // West wall (minX) - check Z range
+                        if (door.X == room.MinX && door.Z >= rangeStart && door.Z <= rangeEnd)
+                            return true;
+                        break;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to find a valid edge placement along a specific wall.
+        /// Searches for a contiguous segment without doors.
+        /// </summary>
+        private static PlacementResult TryEdgePlacement(SimpleRect room, int wallDirection, int prefabSize, List<DoorPosition> doors)
+        {
+            // Calculate required segment length (prefab size + 1 for safety margin)
+            int segmentLength = prefabSize + 1;
+            int cornerOffset = 2;  // Avoid corner overlap
+
+            // Get wall cells
+            var wallCells = GetWallCells(room, wallDirection);
+
+            if (wallCells.Count < segmentLength)
+                return new PlacementResult { Type = PlacementType.Invalid };
+
+            // Find contiguous segment without doors
+            for (int startIdx = cornerOffset; startIdx <= wallCells.Count - segmentLength - cornerOffset; startIdx++)
+            {
+                bool hasDoorsInSegment = false;
+
+                for (int i = 0; i < segmentLength; i++)
+                {
+                    var cell = wallCells[startIdx + i];
+                    if (doors.Any(door => door.X == cell.x && door.Z == cell.z))
+                    {
+                        hasDoorsInSegment = true;
+                        break;
+                    }
+                }
+
+                if (!hasDoorsInSegment)
+                {
+                    // Found valid segment - calculate placement
+                    // Center the prefab within the segment, accounting for the extra margin cell
+                    // For prefabSize=6 in segmentLength=7: offset = 7 - 3 = 4 (right-biased)
+                    int centerIdx = startIdx + segmentLength - (prefabSize / 2);
+                    var wallCell = wallCells[centerIdx];
+                    return CalculateEdgePlacement(wallCell.x, wallCell.z, wallDirection, prefabSize);
+                }
+            }
+
+            return new PlacementResult { Type = PlacementType.Invalid };
+        }
+
+        /// <summary>
+        /// Gets all cells along a specific wall.
+        /// </summary>
+        private static List<(int x, int z)> GetWallCells(SimpleRect room, int wallDirection)
+        {
+            var cells = new List<(int x, int z)>();
+
+            switch (wallDirection)
+            {
+                case 0:  // North wall (maxZ)
+                    for (int x = room.MinX; x <= room.MaxX; x++)
+                        cells.Add((x, room.MaxZ));
+                    break;
+                case 1:  // East wall (maxX)
+                    for (int z = room.MinZ; z <= room.MaxZ; z++)
+                        cells.Add((room.MaxX, z));
+                    break;
+                case 2:  // South wall (minZ)
+                    for (int x = room.MinX; x <= room.MaxX; x++)
+                        cells.Add((x, room.MinZ));
+                    break;
+                case 3:  // West wall (minX)
+                    for (int z = room.MinZ; z <= room.MaxZ; z++)
+                        cells.Add((room.MinX, z));
+                    break;
+            }
+
+            return cells;
+        }
+
+        /// <summary>
+        /// Calculates bedroom placement for NW (top-left) corner.
+        /// Door faces South, missing walls on North+West (align with room corner).
+        /// Uses center-based positioning for 6×6 prefab.
+        /// </summary>
+        private static PlacementResult CalculateNWCornerPlacement(SimpleRect room, int prefabSize = 6)
+        {
+            int centerX = room.MinX + prefabSize / 2;
+            int centerZ = room.MaxZ - (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+
+            return new PlacementResult
+            {
+                CenterX = centerX,
+                CenterZ = centerZ,
+                Rotation = 0,  // North
+                Type = PlacementType.Corner
+            };
+        }
+
+        /// <summary>
+        /// Calculates bedroom placement for NE (top-right) corner.
+        /// Door faces West, missing walls on North+East (align with room corner).
+        /// </summary>
+        private static PlacementResult CalculateNECornerPlacement(SimpleRect room, int prefabSize = 6)
+        {
+            int centerX = room.MaxX - (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+            int centerZ = room.MaxZ - prefabSize / 2;
+
+            return new PlacementResult
+            {
+                CenterX = centerX,
+                CenterZ = centerZ,
+                Rotation = 1,  // East
+                Type = PlacementType.Corner
+            };
+        }
+
+        /// <summary>
+        /// Calculates bedroom placement for SE (bottom-right) corner.
+        /// Door faces North, missing walls on South+East (align with room corner).
+        /// </summary>
+        private static PlacementResult CalculateSECornerPlacement(SimpleRect room, int prefabSize = 6)
+        {
+            int centerX = room.MaxX - prefabSize / 2;
+            int centerZ = room.MinZ + (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+
+            return new PlacementResult
+            {
+                CenterX = centerX,
+                CenterZ = centerZ,
+                Rotation = 2,  // South
+                Type = PlacementType.Corner
+            };
+        }
+
+        /// <summary>
+        /// Calculates bedroom placement for SW (bottom-left) corner.
+        /// Door faces East, missing walls on South+West (align with room corner).
+        /// </summary>
+        private static PlacementResult CalculateSWCornerPlacement(SimpleRect room, int prefabSize = 6)
+        {
+            int centerX = room.MinX + (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+            int centerZ = room.MinZ + prefabSize / 2;
+
+            return new PlacementResult
+            {
+                CenterX = centerX,
+                CenterZ = centerZ,
+                Rotation = 3,  // West
+                Type = PlacementType.Corner
+            };
+        }
+
+        /// <summary>
+        /// Calculates bedroom placement along an edge, centered at the specified wall cell.
+        /// The bedroom's back wall aligns with the room's edge wall.
+        /// </summary>
+        /// <param name="wallCenterX">X coordinate of the wall center cell</param>
+        /// <param name="wallCenterZ">Z coordinate of the wall center cell</param>
+        /// <param name="wallDirection">0=North, 1=East, 2=South, 3=West</param>
+        /// <param name="prefabSize">Size of the prefab (default 6)</param>
+        private static PlacementResult CalculateEdgePlacement(
+            int wallCenterX,
+            int wallCenterZ,
+            int wallDirection,
+            int prefabSize = 6)
+        {
+            int bedroomRotation;
+            int centerX = wallCenterX;
+            int centerZ = wallCenterZ;
+
+            switch (wallDirection)
+            {
+                case 0:  // North wall (maxZ) - bedroom faces South into room
+                    bedroomRotation = 0;  // North
+                    centerZ -= (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);  // Offset inward from wall
+                    break;
+
+                case 1:  // East wall (maxX) - bedroom faces West into room
+                    bedroomRotation = 1;  // East
+                    centerX -= (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+                    break;
+
+                case 2:  // South wall (minZ) - bedroom faces North into room
+                    bedroomRotation = 2;  // South
+                    centerZ += (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+                    break;
+
+                case 3:  // West wall (minX) - bedroom faces East into room
+                    bedroomRotation = 3;  // West
+                    centerX += (prefabSize / 2 + EVEN_SIZE_CENTER_OFFSET);
+                    break;
+
+                default:
+                    return new PlacementResult { Type = PlacementType.Invalid };
+            }
+
+            return new PlacementResult
+            {
+                CenterX = centerX,
+                CenterZ = centerZ,
+                Rotation = bedroomRotation,
+                Type = PlacementType.Edge
+            };
+        }
+
+        /// <summary>
+        /// Calculates the actual prefab spawn bounds from center position.
+        /// Returns the exact cell area that RimWorld will spawn the prefab into, accounting for
+        /// EVEN_SIZE_CENTER_OFFSET asymmetry. This is used for diagram generation and validation.
+        ///
+        /// IMPORTANT: RimWorld's spawning behavior for even-sized prefabs has inherent asymmetry
+        /// that does NOT rotate with the prefab. The prefab always extends [-3, +2] from center
+        /// in both axes (for 6×6), regardless of rotation. The placement calculator functions
+        /// pre-offset the center position to achieve desired wall alignment, but additional
+        /// per-rotation corrections are needed here to match RimWorld's actual spawn behavior.
+        ///
+        /// Why rotation matrices don't work: RimWorld doesn't geometrically rotate the bounds.
+        /// The asymmetric offset is always applied in the same direction (relative to world axes,
+        /// not prefab axes), so each rotation requires a different Min coordinate adjustment.
+        /// </summary>
+        /// <param name="centerX">X coordinate of prefab center</param>
+        /// <param name="centerZ">Z coordinate of prefab center</param>
+        /// <param name="rotation">Rotation value (0=North, 1=East, 2=South, 3=West)</param>
+        /// <param name="prefabSize">Size of the prefab (default 6)</param>
+        /// <returns>Rectangle representing the actual prefab spawn bounds</returns>
+        public static SimpleRect GetPrefabSpawnBounds(
+            int centerX,
+            int centerZ,
+            int rotation,
+            int prefabSize = 6)
+        {
+            int halfSize = prefabSize / 2;  // For 6×6: halfSize = 3
+
+            // Base calculation: Even-sized prefabs always extend [-halfSize, +halfSize-1] from center
+            // For 6×6, this means 3 cells left/down, 2 cells right/up from center
+            int baseMinX = centerX - halfSize +1;
+            int baseMinZ = centerZ - halfSize +1;
+
+            // Apply rotation-specific corrections to match RimWorld's spawn behavior
+            // These corrections compensate for the interaction between:
+            // 1. The placement calculator's center pre-offsetting
+            // 2. RimWorld's fixed asymmetric spawn behavior (which doesn't rotate)
+            switch (rotation)
+            {
+                case 0:  // North (door faces south)
+                    // No correction needed - base calculation is correct
+                    return new SimpleRect
+                    {
+                        MinX = baseMinX,
+                        MinZ = baseMinZ,
+                        Width = prefabSize,
+                        Height = prefabSize
+                    };
+
+                case 1:  // East (door faces west)
+                    // X axis needs correction due to placement calculator's pre-offset
+                    return new SimpleRect
+                    {
+                        MinX = baseMinX,
+                        MinZ = baseMinZ - EVEN_SIZE_CENTER_OFFSET,
+                        Width = prefabSize,
+                        Height = prefabSize
+                    };
+
+                case 2:  // South (door faces north)
+                    // Z axis needs correction
+                    return new SimpleRect
+                    {
+                        MinX = baseMinX - EVEN_SIZE_CENTER_OFFSET,
+                        MinZ = baseMinZ - EVEN_SIZE_CENTER_OFFSET,
+                        Width = prefabSize,
+                        Height = prefabSize
+                    };
+
+                case 3:  // West (door faces east)
+                    // X axis needs correction (same as East rotation)
+                    return new SimpleRect
+                    {
+                        MinX = baseMinX - EVEN_SIZE_CENTER_OFFSET,
+                        MinZ = baseMinZ,
+                        Width = prefabSize,
+                        Height = prefabSize
+                    };
+
+                default:
+                    // Fallback for invalid rotation
+                    return new SimpleRect
+                    {
+                        MinX = baseMinX,
+                        MinZ = baseMinZ,
+                        Width = prefabSize,
+                        Height = prefabSize
+                    };
+            }
+        }
+
+        /// <summary>
+        /// Checks if a cell is contained within a rectangle.
+        /// </summary>
+        public static bool ContainsCell(SimpleRect rect, int x, int z)
+        {
+            return x >= rect.MinX && x <= rect.MaxX && z >= rect.MinZ && z <= rect.MaxZ;
+        }
+    }
+}

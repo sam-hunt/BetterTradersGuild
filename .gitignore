@@ -12,6 +12,11 @@
 # Build results
 Source/bin/
 Source/obj/
+Tests/bin/
+Tests/obj/
+Tests/Tools/*.dll
+Tests/Tools/*.exe
+Tests/Tools/*.pdb
 *.cache
 *.zip
 
@@ -43,6 +48,12 @@ desktop.ini
 *~
 *.bak
 *.orig
+
+# Temporary debug/test files
+debug_*.cs
+debug_*.exe
+test_*.cs
+test_*.exe
 
 # Logs
 *.log
