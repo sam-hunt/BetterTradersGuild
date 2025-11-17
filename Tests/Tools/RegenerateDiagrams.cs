@@ -37,12 +37,13 @@ namespace BetterTradersGuild.Tests.Tools
         {
             // Pattern to match CalculateBestPlacement calls
             // Matches: var result = CalculateBestPlacement(new SimpleRect { MinX = 0, MinZ = 0, Width = 12, Height = 10 }, prefabSize: 6, doors: ...)
+            // Uses [\s\S]*? to match across multiple lines including nested braces
             var placementPattern = new Regex(
                 @"var result = CalculateBestPlacement\(\s*" +
                 @"new SimpleRect \{ MinX = (\d+), MinZ = (\d+), Width = (\d+), Height = (\d+) \},\s*" +
                 @"prefabSize:\s*(\d+),\s*" +
-                @"doors:.*?\}\);",
-                RegexOptions.Singleline);
+                @"doors:[\s\S]*?\}\s*\);",
+                RegexOptions.None);
 
             // Pattern to extract expected values from assertions
             var centerXPattern = new Regex(@"Assert\.Equal\((\d+), result\.CenterX\);");
@@ -52,7 +53,13 @@ namespace BetterTradersGuild.Tests.Tools
             var matches = placementPattern.Matches(content);
             Console.WriteLine($"Found {matches.Count} placement calculations");
 
+            // Process matches in REVERSE order so content modifications don't affect earlier positions
+            var matchList = new List<Match>();
             foreach (Match match in matches)
+                matchList.Add(match);
+            matchList.Reverse();
+
+            foreach (Match match in matchList)
             {
                 try
                 {
@@ -151,17 +158,17 @@ namespace BetterTradersGuild.Tests.Tools
 
                     // Check if there's already a comment block before the attribute
                     int commentStart = -1;
-                    for (int i = attrLineStart - 1; i >= 0; i--)
+                    // Search backwards from attribute for comment start marker
+                    for (int i = attrLineStart - 1; i >= 10; i--)
                     {
                         if (i > 0 && window[i] == '*' && window[i - 1] == '/')
                         {
+                            // Found comment start - now find the line start
                             commentStart = i - 1;
+                            while (commentStart > 0 && window[commentStart - 1] != '\n')
+                                commentStart--;
                             break;
                         }
-                        // Stop if we hit non-whitespace/non-comment content
-                        char c = window[i];
-                        if (c != ' ' && c != '\t' && c != '\n' && c != '\r' && c != '*' && c != '/')
-                            break;
                     }
 
                     // If comment exists before attribute, return comment start; otherwise return attribute line start
@@ -236,8 +243,30 @@ namespace BetterTradersGuild.Tests.Tools
                     while (attrLineStart > 0 && methodContent[attrLineStart - 1] != '\n')
                         attrLineStart--;
 
-                    // Get indentation from attribute line
-                    string indent = GetIndentation(methodContent, attrLineStart);
+                    // Get indentation from the method signature line (public void), not the [Fact] line
+                    // which may have accumulated wrong indentation from previous buggy runs
+                    int publicVoidPos = methodContent.IndexOf("public void", newAttrPos);
+                    if (publicVoidPos == -1)
+                        publicVoidPos = methodContent.IndexOf("public static", newAttrPos);
+
+                    int publicLineStart = publicVoidPos;
+                    while (publicLineStart > 0 && methodContent[publicLineStart - 1] != '\n')
+                        publicLineStart--;
+
+                    string indent = GetIndentation(methodContent, publicLineStart);
+
+                    // First, normalize the [Fact] line indentation
+                    // Find the end of the [Fact] line
+                    int attrLineEnd = attrLineStart;
+                    while (attrLineEnd < methodContent.Length && methodContent[attrLineEnd] != '\n')
+                        attrLineEnd++;
+
+                    // Extract the [Fact] line without indentation
+                    string attrLineText = methodContent.Substring(attrLineStart, attrLineEnd - attrLineStart).TrimStart();
+
+                    // Replace with correctly indented version
+                    methodContent = methodContent.Remove(attrLineStart, attrLineEnd - attrLineStart);
+                    methodContent = methodContent.Insert(attrLineStart, indent + attrLineText);
 
                     // Build comment block
                     var commentBuilder = new StringBuilder();
@@ -245,7 +274,6 @@ namespace BetterTradersGuild.Tests.Tools
                     commentBuilder.AppendLine();
                     commentBuilder.Append(indent);
                     commentBuilder.AppendLine("*/");
-                    commentBuilder.Append(indent);  // Preserve indentation before [Fact]
 
                     // Insert comment BEFORE [Fact]
                     methodContent = methodContent.Insert(attrLineStart, commentBuilder.ToString());
@@ -309,13 +337,36 @@ namespace BetterTradersGuild.Tests.Tools
                     while (attrLineStart > 0 && methodContent[attrLineStart - 1] != '\n')
                         attrLineStart--;
 
+                    // Get indentation from the method signature line (public void), not the [Fact] line
+                    int publicVoidPos = methodContent.IndexOf("public void", attrPos);
+                    if (publicVoidPos == -1)
+                        publicVoidPos = methodContent.IndexOf("public static", attrPos);
+
+                    int publicLineStart = publicVoidPos;
+                    while (publicLineStart > 0 && methodContent[publicLineStart - 1] != '\n')
+                        publicLineStart--;
+
+                    indent = GetIndentation(methodContent, publicLineStart);
+
+                    // First, normalize the [Fact] line indentation
+                    // Find the end of the [Fact] line
+                    int attrLineEnd = attrLineStart;
+                    while (attrLineEnd < methodContent.Length && methodContent[attrLineEnd] != '\n')
+                        attrLineEnd++;
+
+                    // Extract the [Fact] line without indentation
+                    string attrLineText = methodContent.Substring(attrLineStart, attrLineEnd - attrLineStart).TrimStart();
+
+                    // Replace with correctly indented version
+                    methodContent = methodContent.Remove(attrLineStart, attrLineEnd - attrLineStart);
+                    methodContent = methodContent.Insert(attrLineStart, indent + attrLineText);
+
                     // Build new comment block and insert before [Fact]
                     var commentBuilder = new StringBuilder();
                     commentBuilder.Append(FormatDescriptionAndDiagramWithMarkers(description, newDiagram, indent));
                     commentBuilder.AppendLine();
                     commentBuilder.Append(indent);
                     commentBuilder.AppendLine("*/");
-                    commentBuilder.Append(indent);
 
                     methodContent = methodContent.Insert(attrLineStart, commentBuilder.ToString());
                     content = content.Remove(methodStart, methodEnd - methodStart);
@@ -345,36 +396,23 @@ namespace BetterTradersGuild.Tests.Tools
         {
             var sb = new StringBuilder();
 
-            // Add opening of comment block with first description line
+            // Add opening of comment block
+            sb.Append(baseIndentation);
+            sb.AppendLine("/*  <!-- DIAGRAM_START -->");
+
+            // Add description lines INSIDE the markers (so they get regenerated)
             var descLines = description.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            if (descLines.Length > 0)
+            foreach (var descLine in descLines)
             {
                 sb.Append(baseIndentation);
-                sb.AppendLine("/*  " + descLines[0]);
-
-                // Add remaining description lines
-                for (int i = 1; i < descLines.Length; i++)
-                {
-                    sb.Append(baseIndentation);
-                    sb.Append(" *  ");
-                    sb.AppendLine(descLines[i]);
-                }
-            }
-            else
-            {
-                sb.Append(baseIndentation);
-                sb.AppendLine("/*");
+                sb.Append(" *  ");
+                sb.AppendLine(descLine);
             }
 
             sb.Append(baseIndentation);
             sb.AppendLine(" *");
 
-            // Add diagram with markers
-            sb.Append(baseIndentation);
-            sb.AppendLine(" *  <!-- DIAGRAM_START -->");
-            sb.Append(baseIndentation);
-            sb.AppendLine(" *");
-
+            // Add diagram lines
             var diagramLines = diagram.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             foreach (var line in diagramLines)
             {
