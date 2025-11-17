@@ -17,39 +17,38 @@ namespace BetterTradersGuild.Tests.RoomContents
 		 *  Visual: 13x11 room (0,0 to 12,10)
 		 *  Prefab: 6×6 at center (3,6), rotation 0 (North - door faces south ↓)
 		 *
-		 *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← North wall
+		 *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
 		 *   z=9  ■ ↓ ↓ ↓ ↓ ↓ ↓ . . . . . ■
 		 *   z=8  ■ ↓ ↓ ↓ ↓ ↓ ↓ . . . . . ■
 		 *   z=7  ■ ↓ ↓ ↓ ↓ ↓ ↓ . . . . . ■
 		 *   z=6  ■ ↓ ↓ C ↓ ↓ ↓ . . . . . ■  ← Prefab center
-		 *   z=5  ■ ↓ ↓ ↓ ↓ ↓ ↓ . . . . . ■
+		 *   z=5  ■ ↓ ↓ ↓ ↓ ↓ ↓ . . . . . D
 		 *   z=4  ■ ↓ ↓ ↓ ↓ ↓ ↓ . . . . . ■
 		 *   z=3  ■ . . . . . . . . . . . ■
 		 *   z=2  ■ . . . . . . . . . . . ■
 		 *   z=1  ■ . . . . . . . . . . . ■
-		 *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← South wall
+		 *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
 		 *          West (x=0), East (x=12)
 		 *
-		 *  Generated: 2025-11-17 21:51:51
+		 *  Generated: 2025-11-17 23:39:07
 		 *  <!-- DIAGRAM_END -->
 		*/
 		[Fact]
-		public void NWCorner_PlacesCorrectly()
+		public void NW_Corner_PlacesCorrectly()
 		{
 			var result = CalculateBestPlacement(
 				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
 				prefabSize: 6,
 				doors: new List<DoorPosition>
 				{
-					new DoorPosition { X = 11, Z = 10 },  // NE corner
-                    new DoorPosition { X = 11, Z = 0 },  // SE corner
-                    new DoorPosition { X = 1, Z = 0 }    // SW corner
+					new DoorPosition { X = 12, Z = 5 },  // NE, SE corner blocked
+                    new DoorPosition { X = 6, Z = 0 },  // SW, SE corners blocked
                 }
 			);
 			Assert.Equal(PlacementType.Corner, result.Type);
-			Assert.Equal(0, result.Rotation);  // North (door faces south ↓)
-			Assert.Equal(3, result.CenterX);   // minX + prefabSize/2 = 0+3
-			Assert.Equal(6, result.CenterZ);   // maxZ - (prefabSize/2+1) = 10-4
+			Assert.Equal(0, result.Rotation);
+			Assert.Equal(3, result.CenterX);
+			Assert.Equal(6, result.CenterZ);
 		}
 
 		#endregion
@@ -60,39 +59,38 @@ namespace BetterTradersGuild.Tests.RoomContents
 		 *  Visual: 13x11 room (0,0 to 12,10)
 		 *  Prefab: 6×6 at center (8,7), rotation 1 (East - door faces west ←)
 		 *
-		 *  z=10  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
+		 *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
 		 *   z=9  ■ . . . . . ← ← ← ← ← ← ■
 		 *   z=8  ■ . . . . . ← ← ← ← ← ← ■
 		 *   z=7  ■ . . . . . ← ← C ← ← ← ■  ← Prefab center
 		 *   z=6  ■ . . . . . ← ← ← ← ← ← ■
-		 *   z=5  ■ . . . . . ← ← ← ← ← ← ■
+		 *   z=5  D . . . . . ← ← ← ← ← ← ■
 		 *   z=4  ■ . . . . . ← ← ← ← ← ← ■
 		 *   z=3  ■ . . . . . . . . . . . ■
 		 *   z=2  ■ . . . . . . . . . . . ■
 		 *   z=1  ■ . . . . . . . . . . . ■
-		 *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← South wall
+		 *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
 		 *          West (x=0), East (x=12)
 		 *
-		 *  Generated: 2025-11-17 21:51:51
+		 *  Generated: 2025-11-17 23:39:07
 		 *  <!-- DIAGRAM_END -->
 		*/
 		[Fact]
-		public void NECorner_PlacesCorrectly()
+		public void NE_Corner_PlacesCorrectly()
 		{
 			var result = CalculateBestPlacement(
 				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
 				prefabSize: 6,
 				doors: new List<DoorPosition>
 				{
-					new DoorPosition { X = 1, Z = 10 },   // NW corner
-					new DoorPosition { X = 11, Z = 0 },  // SE corner
-					new DoorPosition { X = 1, Z = 0 }    // SW corner
+					new DoorPosition { X = 0, Z = 5 },   // NW, SW corners blocked
+					new DoorPosition { X = 6, Z = 0 }    // SW, SE corners blocked
 				}
 			);
 			Assert.Equal(PlacementType.Corner, result.Type);
-			Assert.Equal(1, result.Rotation);  // East (door faces west ←)
-			Assert.Equal(8, result.CenterX);   // maxX - (prefabSize/2+1) = 12-4 = 8
-			Assert.Equal(7, result.CenterZ);   // maxZ - prefabSize/2 = 10-3 = 7
+			Assert.Equal(1, result.Rotation);
+			Assert.Equal(8, result.CenterX);
+			Assert.Equal(7, result.CenterZ);
 		}
 
 		#endregion
@@ -103,37 +101,36 @@ namespace BetterTradersGuild.Tests.RoomContents
 		 *  Visual: 13x11 room (0,0 to 12,10)
 		 *  Prefab: 6×6 at center (9,4), rotation 2 (South - door faces north ↑)
 		 *
-		 *  z=10  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← North wall
+		 *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
 		 *   z=9  ■ . . . . . . . . . . . ■
 		 *   z=8  ■ . . . . . . . . . . . ■
 		 *   z=7  ■ . . . . . . . . . . . ■
 		 *   z=6  ■ . . . . . ↑ ↑ ↑ ↑ ↑ ↑ ■
-		 *   z=5  ■ . . . . . ↑ ↑ ↑ ↑ ↑ ↑ ■
+		 *   z=5  D . . . . . ↑ ↑ ↑ ↑ ↑ ↑ ■
 		 *   z=4  ■ . . . . . ↑ ↑ ↑ C ↑ ↑ ■  ← Prefab center
 		 *   z=3  ■ . . . . . ↑ ↑ ↑ ↑ ↑ ↑ ■
 		 *   z=2  ■ . . . . . ↑ ↑ ↑ ↑ ↑ ↑ ■
 		 *   z=1  ■ . . . . . ↑ ↑ ↑ ↑ ↑ ↑ ■
-		 *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
+		 *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
 		 *          West (x=0), East (x=12)
 		 *
-		 *  Generated: 2025-11-17 21:51:51
+		 *  Generated: 2025-11-17 23:39:07
 		 *  <!-- DIAGRAM_END -->
 		*/
 		[Fact]
-		public void SECorner_PlacesCorrectly()
+		public void SE_Corner_PlacesCorrectly()
 		{
 			var result = CalculateBestPlacement(
 				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
 				prefabSize: 6,
 				doors: new List<DoorPosition>
 				{
-					new DoorPosition { X = 1, Z = 10 },   // NW corner
-					new DoorPosition { X = 11, Z = 10 },  // NE corner
-					new DoorPosition { X = 1, Z = 0 }    // SW corner
+					new DoorPosition { X = 6, Z = 10 },   // NW, NE corners blocked
+					new DoorPosition { X = 0, Z = 5 }    // NE, SE corners blocked
 				}
 			);
 			Assert.Equal(PlacementType.Corner, result.Type);
-			Assert.Equal(2, result.Rotation);  // South (door faces north ↑)
+			Assert.Equal(2, result.Rotation);
 			Assert.Equal(9, result.CenterX);
 			Assert.Equal(4, result.CenterZ);
 		}
@@ -146,44 +143,43 @@ namespace BetterTradersGuild.Tests.RoomContents
 		 *  Visual: 13x11 room (0,0 to 12,10)
 		 *  Prefab: 6×6 at center (4,3), rotation 3 (West - door faces east →)
 		 *
-		 *  z=10  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← North wall
+		 *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
 		 *   z=9  ■ . . . . . . . . . . . ■
 		 *   z=8  ■ . . . . . . . . . . . ■
 		 *   z=7  ■ . . . . . . . . . . . ■
 		 *   z=6  ■ → → → → → → . . . . . ■
-		 *   z=5  ■ → → → → → → . . . . . ■
+		 *   z=5  ■ → → → → → → . . . . . D
 		 *   z=4  ■ → → → → → → . . . . . ■
 		 *   z=3  ■ → → → C → → . . . . . ■  ← Prefab center
 		 *   z=2  ■ → → → → → → . . . . . ■
 		 *   z=1  ■ → → → → → → . . . . . ■
-		 *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← South wall
+		 *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
 		 *          West (x=0), East (x=12)
 		 *
-		 *  Generated: 2025-11-17 21:51:51
+		 *  Generated: 2025-11-17 23:39:07
 		 *  <!-- DIAGRAM_END -->
 		*/
 		[Fact]
-		public void SWCorner_PlacesCorrectly()
+		public void SW_Corner_PlacesCorrectly()
 		{
 			var result = CalculateBestPlacement(
 				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
 				prefabSize: 6,
 				doors: new List<DoorPosition>
 				{
-					new DoorPosition { X = 1, Z = 10 },   // NW corner
-                    new DoorPosition { X = 11, Z = 10 },  // NE corner
-                    new DoorPosition { X = 11, Z = 0 },  // SE corner
+					new DoorPosition { X = 6, Z = 10 },   // NW, NE corners blocked
+                    new DoorPosition { X = 12, Z = 5 },  // NE, SE corners blocked
 				}
 			);
 			Assert.Equal(PlacementType.Corner, result.Type);
-			Assert.Equal(3, result.Rotation);  // West (door faces east →)
+			Assert.Equal(3, result.Rotation);
 			Assert.Equal(4, result.CenterX);
 			Assert.Equal(3, result.CenterZ);
 		}
 
 		#endregion
 
-		#region North Edge Placement
+		#region NE Edge Placement
 
 		/*  <!-- DIAGRAM_START -->
 		 *  Visual: 13x11 room (0,0 to 12,10)
@@ -199,30 +195,288 @@ namespace BetterTradersGuild.Tests.RoomContents
 		 *   z=3  ■ . . . . . . . . . . . ■
 		 *   z=2  ■ . . . . . . . . . . . ■
 		 *   z=1  ■ . . . . . . . . . . . ■
-		 *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← South wall
+		 *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
 		 *          West (x=0), East (x=12)
 		 *
-		 *  Generated: 2025-11-17 21:51:51
+		 *  Generated: 2025-11-17 23:39:07
 		 *  <!-- DIAGRAM_END -->
 		*/
 		[Fact]
-		public void NorthEdge_PlacesFirstPossibleLeft()
+		public void NE_Edge_PlacesCorrectly()
 		{
 			var result = CalculateBestPlacement(
 				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
 				prefabSize: 6,
 				doors: new List<DoorPosition>
 				{
-					new DoorPosition { X = 1, Z = 10 },   // NW corner
-					new DoorPosition { X = 11, Z = 10 },  // NE corner
-					new DoorPosition { X = 11, Z = 0 },  // SE corner
-					new DoorPosition { X = 1, Z = 0 }    // SW corner
+					new DoorPosition { X = 1, Z = 10 },   // NW corner blocked
+					new DoorPosition { X = 11, Z = 10 },  // NE corner blocked
+					new DoorPosition { X = 6, Z = 0 }  // SW, SE corners blocked
 				}
 			);
-			Assert.Equal(PlacementType.Edge, result.Type);  // Edge fallback
-			Assert.Equal(0, result.Rotation);  // North (door faces south ↓)
-			Assert.Equal(5, result.CenterX);   // Left-most viable position
-			Assert.Equal(6, result.CenterZ);   // Offset inward from wall (9 - 4 = 5)
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(0, result.Rotation);
+			Assert.Equal(5, result.CenterX);
+			Assert.Equal(6, result.CenterZ);
+		}
+
+		#endregion
+
+		#region NW Edge Placement
+
+		/*  <!-- DIAGRAM_START -->
+		 *  Visual: 13x11 room (0,0 to 12,10)
+		 *  Prefab: 6×6 at center (7,6), rotation 0 (North - door faces south ↓)
+		 *
+		 *  z=10  ■ ■ ■ D ■ ■ ■ ■ ■ ■ ■ D ■  ← North wall
+		 *   z=9  ■ . . . . ↓ ↓ ↓ ↓ ↓ ↓ . ■
+		 *   z=8  ■ . . . . ↓ ↓ ↓ ↓ ↓ ↓ . ■
+		 *   z=7  ■ . . . . ↓ ↓ ↓ ↓ ↓ ↓ . ■
+		 *   z=6  ■ . . . . ↓ ↓ C ↓ ↓ ↓ . ■  ← Prefab center
+		 *   z=5  ■ . . . . ↓ ↓ ↓ ↓ ↓ ↓ . ■
+		 *   z=4  ■ . . . . ↓ ↓ ↓ ↓ ↓ ↓ . ■
+		 *   z=3  ■ . . . . . . . . . . . ■
+		 *   z=2  ■ . . . . . . . . . . . ■
+		 *   z=1  ■ . . . . . . . . . . . ■
+		 *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
+		 *          West (x=0), East (x=12)
+		 *
+		 *  Generated: 2025-11-17 23:39:07
+		 *  <!-- DIAGRAM_END -->
+		*/
+		[Fact]
+		public void NW_Edge_PlacesCorrectly()
+		{
+			var result = CalculateBestPlacement(
+				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
+				prefabSize: 6,
+				doors: new List<DoorPosition>
+				{
+					new DoorPosition { X = 3, Z = 10 },   // NW corner blocked
+					new DoorPosition { X = 11, Z = 10 },  // NE corner blocked
+					new DoorPosition { X = 6, Z = 0 }  // SW, SE corners blocked
+				}
+			);
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(0, result.Rotation);
+			Assert.Equal(7, result.CenterX);
+			Assert.Equal(6, result.CenterZ);
+		}
+
+		#endregion
+
+		#region E Edge Placement
+
+		/*  <!-- DIAGRAM_START -->
+		 *  Visual: 13x11 room (0,0 to 12,10)
+		 *  Prefab: 6×6 at center (8,5), rotation 1 (East - door faces west ←)
+		 *
+		 *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
+		 *   z=9  ■ . . . . . . . . . . . D
+		 *   z=8  ■ . . . . . . . . . . . ■
+		 *   z=7  ■ . . . . . ← ← ← ← ← ← ■
+		 *   z=6  ■ . . . . . ← ← ← ← ← ← ■
+		 *   z=5  D . . . . . ← ← C ← ← ← ■  ← Prefab center
+		 *   z=4  ■ . . . . . ← ← ← ← ← ← ■
+		 *   z=3  ■ . . . . . ← ← ← ← ← ← ■
+		 *   z=2  ■ . . . . . ← ← ← ← ← ← ■
+		 *   z=1  ■ . . . . . . . . . . . D
+		 *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
+		 *          West (x=0), East (x=12)
+		 *
+		 *  Generated: 2025-11-17 23:39:07
+		 *  <!-- DIAGRAM_END -->
+		*/
+		[Fact]
+		public void E_Edge_PlacesCorrectly()
+		{
+			var result = CalculateBestPlacement(
+				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
+				prefabSize: 6,
+				doors: new List<DoorPosition>
+				{
+					new DoorPosition { X = 12, Z = 9 },  // NE corner blocked
+					new DoorPosition { X = 12, Z = 1 },  // SE corner blocked
+					new DoorPosition { X = 0, Z = 5 }  // NW, SW corners blocked
+				}
+			);
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(1, result.Rotation);
+			Assert.Equal(8, result.CenterX);
+			Assert.Equal(5, result.CenterZ);
+		}
+
+		#endregion
+
+		#region SE Edge Placement
+
+		/*  <!-- DIAGRAM_START -->
+		 *  Visual: 13x11 room (0,0 to 12,10)
+		 *  Prefab: 6×6 at center (7,4), rotation 2 (South - door faces north ↑)
+		 *
+		 *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
+		 *   z=9  ■ . . . . . . . . . . . ■
+		 *   z=8  ■ . . . . . . . . . . . ■
+		 *   z=7  ■ . . . . . . . . . . . ■
+		 *   z=6  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
+		 *   z=5  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
+		 *   z=4  ■ . . . ↑ ↑ ↑ C ↑ ↑ . . ■  ← Prefab center
+		 *   z=3  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
+		 *   z=2  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
+		 *   z=1  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
+		 *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← South wall
+		 *          West (x=0), East (x=12)
+		 *
+		 *  Generated: 2025-11-17 23:39:07
+		 *  <!-- DIAGRAM_END -->
+		*/
+		[Fact]
+		public void SE_Edge_PlacesCorrectly1()
+		{
+			var result = CalculateBestPlacement(
+				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
+				prefabSize: 6,
+				doors: new List<DoorPosition>
+				{
+					new DoorPosition { X = 6, Z = 10 },   // NW, NE corners blocked
+					new DoorPosition { X = 11, Z = 0 },  // SE corner blocked
+					new DoorPosition { X = 1, Z = 0 }    // SW corner blocked
+				}
+			);
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(2, result.Rotation);
+			Assert.Equal(7, result.CenterX);
+			Assert.Equal(4, result.CenterZ);
+		}
+
+		#endregion
+
+		#region SW Edge Placement
+
+		/*  <!-- DIAGRAM_START -->
+		 *  Visual: 13x11 room (0,0 to 12,10)
+		 *  Prefab: 6×6 at center (5,4), rotation 2 (South - door faces north ↑)
+		 *
+		 *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
+		 *   z=9  ■ . . . . . . . . . . . ■
+		 *   z=8  ■ . . . . . . . . . . . ■
+		 *   z=7  ■ . . . . . . . . . . . ■
+		 *   z=6  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
+		 *   z=5  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
+		 *   z=4  ■ . ↑ ↑ ↑ C ↑ ↑ . . . . ■  ← Prefab center
+		 *   z=3  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
+		 *   z=2  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
+		 *   z=1  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
+		 *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ D ■ ■ ■  ← South wall
+		 *          West (x=0), East (x=12)
+		 *
+		 *  Generated: 2025-11-17 23:39:07
+		 *  <!-- DIAGRAM_END -->
+		*/
+		[Fact]
+		public void SW_Edge_PlacesCorrectly()
+		{
+			var result = CalculateBestPlacement(
+				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
+				prefabSize: 6,
+				doors: new List<DoorPosition>
+				{
+					new DoorPosition { X = 6, Z = 10 },   // NW, NE corners blocked
+					new DoorPosition { X = 9, Z = 0 },  // SE corner blocked
+					new DoorPosition { X = 1, Z = 0 }    // SW corner blocked
+				}
+			);
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(2, result.Rotation);
+			Assert.Equal(5, result.CenterX);
+			Assert.Equal(4, result.CenterZ);
+		}
+
+		#endregion
+
+		#region W Edge Placement
+
+		/*  <!-- DIAGRAM_START -->
+		 *  Visual: 13x11 room (0,0 to 12,10)
+		 *  Prefab: 6×6 at center (4,5), rotation 3 (West - door faces east →)
+		 *
+		 *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
+		 *   z=9  D . . . . . . . . . . . ■
+		 *   z=8  ■ → → → → → → . . . . . ■
+		 *   z=7  ■ → → → → → → . . . . . ■
+		 *   z=6  ■ → → → → → → . . . . . ■
+		 *   z=5  ■ → → → C → → . . . . . D  ← Prefab center
+		 *   z=4  ■ → → → → → → . . . . . ■
+		 *   z=3  ■ → → → → → → . . . . . ■
+		 *   z=2  ■ . . . . . . . . . . . ■
+		 *   z=1  D . . . . . . . . . . . ■
+		 *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
+		 *          West (x=0), East (x=12)
+		 *
+		 *  Generated: 2025-11-17 23:39:07
+		 *  <!-- DIAGRAM_END -->
+		*/
+		[Fact]
+		public void W_Edge_PlacesCorrectly()
+		{
+			var result = CalculateBestPlacement(
+				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
+				prefabSize: 6,
+				doors: new List<DoorPosition>
+				{
+					new DoorPosition { X = 0, Z = 9 },  // NW corner blocked
+					new DoorPosition { X = 0, Z = 1 },  // SW corner blocked
+					new DoorPosition { X = 12, Z = 5 }  // NE, SE corners blocked
+				}
+			);
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(3, result.Rotation);
+			Assert.Equal(4, result.CenterX);
+			Assert.Equal(5, result.CenterZ);
+		}
+
+		#endregion
+
+		#region Center Placement
+
+		/*  <!-- DIAGRAM_START -->
+		 *  Visual: 13x11 room (0,0 to 12,10)
+		 *  Prefab: 6×6 at center (5,4), rotation 0 (North - door faces south ↓)
+		 *
+		 *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
+		 *   z=9  ■ . . . . . . . . . . . ■
+		 *   z=8  ■ . . . . . . . . . . . ■
+		 *   z=7  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+		 *   z=6  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+		 *   z=5  D . . ↓ ↓ ↓ ↓ ↓ ↓ . . . D
+		 *   z=4  ■ . . ↓ ↓ C ↓ ↓ ↓ . . . ■  ← Prefab center
+		 *   z=3  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+		 *   z=2  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+		 *   z=1  ■ . . . . . . . . . . . ■
+		 *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
+		 *          West (x=0), East (x=12)
+		 *
+		 *  Generated: 2025-11-17 23:39:07
+		 *  <!-- DIAGRAM_END -->
+		*/
+		[Fact]
+		public void Center_PlacesCorrectly()
+		{
+			var result = CalculateBestPlacement(
+				new SimpleRect { MinX = 0, MinZ = 0, Width = 13, Height = 11 },
+				prefabSize: 6,
+				doors: new List<DoorPosition>
+				{
+					new DoorPosition { X = 6, Z = 10 }, // N edge blocked
+					new DoorPosition { X = 12, Z = 5 }, // E edge blocked
+					new DoorPosition { X = 6, Z = 0 },  // S edge blocked
+					new DoorPosition { X = 0, Z = 5 }  // W edge blocked
+				}
+			);
+			Assert.Equal(PlacementType.Edge, result.Type);
+			Assert.Equal(0, result.Rotation);
+			Assert.Equal(5, result.CenterX);
+			Assert.Equal(4, result.CenterZ);
 		}
 
 		#endregion
