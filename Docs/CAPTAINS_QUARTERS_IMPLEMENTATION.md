@@ -786,22 +786,26 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 
 ### 🚧 Remaining Work (Needs Implementation)
 
-#### 1. Bedroom Placement Algorithm Improvements
+#### 1. Bedroom Placement Algorithm ✅ **COMPLETE**
+
+**Status:** Full placement logic implemented in `PlacementCalculator.cs` with 11 passing unit tests covering all placement scenarios.
 
 - ✅ **Door detection** - **COMPLETED** - Intelligent corner placement with door validation
   - `HasDoorsInWall()` checks if room walls have doors using `GetEdifice()` API
   - `GetWallCells()` enumerates cells along North/South/East/West walls
   - `BedroomWallsConflictWithDoors()` validates each corner against door positions
   - Corner iteration stops at first valid placement (NW → NE → SE → SW order)
-- **Edge placement fallback** - When corners blocked by doors
-  - Position bedroom centered along edge, back against room wall
-  - Spawn missing left side wall procedurally
-- **Center placement fallback** - Last resort when all edges blocked
-  - Place bedroom in center of room
-  - Spawn both missing walls (back + left side) to complete enclosure
-- **Placement scoring system** - Algorithm to select best valid location
-  - Prioritize corners (fewer walls to spawn, cleaner layout)
-  - Score based on: door conflicts, adjacent room types, available space
+- ✅ **Edge placement fallback** - **COMPLETED** - All 4 walls supported with procedural wall spawning
+  - `TryEdgePlacement()` searches for contiguous door-free wall segments
+  - Tries North → East → South → West wall directions in priority order
+  - Centers bedroom along wall segment, back against room wall
+  - `CalculateEdgeWall()` spawns missing left side wall (adjacent to prefab footprint)
+  - Comprehensive test coverage for all 4 edge directions in PlacementCalculatorTests.cs
+- ✅ **Center placement fallback** - **COMPLETED** - Floating placement when all edges blocked
+  - `CalculateCenterPlacement()` positions bedroom at room center
+  - `CalculateCenterWalls()` spawns two-wall L-shaped enclosure (left + back walls)
+  - Walls positioned outside prefab footprint to form complete subroom
+  - Test coverage confirms correct wall segment calculation and placement
 
 #### 2. Valid Cell Marking Verification
 

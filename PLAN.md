@@ -62,12 +62,13 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
       - Quality: Excellent/Masterwork/Legendary (via QualityUtility.GenerateQualitySuper)
       - Three traits: weapon-specific primary + GoldInlay + random compatible
       - Reflection-based name/color regeneration after trait modification
+    - ✅ **Bedroom placement algorithm (PlacementCalculator.cs):**
+      - Door detection and avoidance for all corner placements
+      - Edge placement fallback (all 4 walls: North, East, South, West) with procedural wall spawning
+      - Center placement fallback with two-wall L-shaped enclosure
+      - Priority system: corners → edges → center → invalid
+      - Comprehensive test coverage: 11 passing tests in PlacementCalculatorTests.cs
     - 🚧 **Remaining Work:**
-      - **Bedroom placement algorithm improvements:**
-        - Add door detection to avoid placing bedroom against doors
-        - Implement edge placement fallback (with missing wall spawning)
-        - Implement center placement fallback (spawn the two missing walls)
-        - Add scoring system to select best valid location
       - **Valid cell marking verification:**
         - Confirm IsValidCellBase prevents prefabs from overlapping bedroom walls
         - Previous test showed a prefab replacing bedroom corner wall once
@@ -83,6 +84,13 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
 - Trade quotas and reputation rewards
 - Escort missions and diplomatic opportunities
 - Dynamic faction relations
+
+**Stretch Goals:**
+- **Placement randomization** - Add variety to bedroom placement across different settlements
+  - Randomize corner iteration order (clockwise vs counterclockwise)
+  - Randomize initial rotation (North/East/South/West instead of always North)
+  - Use settlement ID as seed for consistent but varied placement per station
+  - Prevents every CaptainsQuarters from looking identical
 
 ---
 

@@ -188,6 +188,7 @@ BetterTradersGuild/
 │   │   └── Debug/                 # Debug logging patches (1 file)
 │   │       └── RoomContentsWorkerFillRoom.cs
 │   ├── RoomContents/       # Phase 3: Custom room generation workers
+│   │   ├── PlacementCalculator.cs  # ✅ Pure placement logic (fully tested)
 │   │   └── RoomContents_CaptainsQuarters.cs  # 🚧 IN PROGRESS
 │   ├── WorldObjects/       # Phase 3: World object components
 │   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
