@@ -31,7 +31,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -73,7 +73,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -115,7 +115,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -157,7 +157,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -199,7 +199,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -221,7 +221,6 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(5, result.CenterX);
             Assert.Equal(6, result.CenterZ);
 
-            // Verify required wall (West wall at x=2, from z=4 to z=9)
             Assert.Single(result.RequiredWalls);
             AssertWallSegment(result.RequiredWalls[0], startX: 2, startZ: 4, endX: 2, endZ: 9);
         }
@@ -247,7 +246,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -268,7 +267,6 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(7, result.CenterX);
             Assert.Equal(6, result.CenterZ);
 
-            // Verify required wall (West wall at x=4, from z=4 to z=9)
             Assert.Single(result.RequiredWalls);
             AssertWallSegment(result.RequiredWalls[0], startX: 4, startZ: 4, endX: 4, endZ: 9);
         }
@@ -283,7 +281,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *
          *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
          *   z=9  ■ . . . . . . . . . . . D
-         *   z=8  ■ . . . . . . . . . . . ■
+         *   z=8  ■ . . . . . W W W W W W ■
          *   z=7  ■ . . . . . ← ← ← ← ← ← ■
          *   z=6  ■ . . . . . ← ← ← ← ← ← ■
          *   z=5  D . . . . . ← ← C ← ← ← ■  ← Prefab center
@@ -294,7 +292,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact(Skip = "TODO: Implement East edge handling in TryEdgePlacement")]
@@ -314,6 +312,9 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(PlacementRotation.East, result.Rotation);
             Assert.Equal(8, result.CenterX);
             Assert.Equal(5, result.CenterZ);
+
+            Assert.Single(result.RequiredWalls);
+            AssertWallSegment(result.RequiredWalls[0], startX: 6, startZ: 8, endX: 11, endZ: 8);
         }
 
         #endregion
@@ -329,16 +330,16 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=9  ■ . . . . . . . . . . . ■
          *   z=8  ■ . . . . . . . . . . . ■
          *   z=7  ■ . . . . . . . . . . . ■
-         *   z=6  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
-         *   z=5  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
-         *   z=4  ■ . . . ↑ ↑ ↑ C ↑ ↑ . . ■  ← Prefab center
-         *   z=3  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
-         *   z=2  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
-         *   z=1  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ . . ■
+         *   z=6  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ W . ■
+         *   z=5  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ W . ■
+         *   z=4  ■ . . . ↑ ↑ ↑ C ↑ ↑ W . ■  ← Prefab center
+         *   z=3  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ W . ■
+         *   z=2  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ W . ■
+         *   z=1  ■ . . . ↑ ↑ ↑ ↑ ↑ ↑ W . ■
          *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact(Skip = "TODO: Implement handling")]
@@ -358,6 +359,9 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(PlacementRotation.South, result.Rotation);
             Assert.Equal(7, result.CenterX);
             Assert.Equal(4, result.CenterZ);
+
+            Assert.Single(result.RequiredWalls);
+            AssertWallSegment(result.RequiredWalls[0], startX: 10, startZ: 1, endX: 10, endZ: 6);
         }
 
         #endregion
@@ -372,16 +376,16 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=9  ■ . . . . . . . . . . . ■
          *   z=8  ■ . . . . . . . . . . . ■
          *   z=7  ■ . . . . . . . . . . . ■
-         *   z=6  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
-         *   z=5  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
-         *   z=4  ■ . ↑ ↑ ↑ C ↑ ↑ . . . . ■  ← Prefab center
-         *   z=3  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
-         *   z=2  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
-         *   z=1  ■ . ↑ ↑ ↑ ↑ ↑ ↑ . . . . ■
+         *   z=6  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
+         *   z=5  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
+         *   z=4  ■ . ↑ ↑ ↑ C ↑ ↑ W . . . ■  ← Prefab center
+         *   z=3  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
+         *   z=2  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
+         *   z=1  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
          *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ D ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact(Skip = "TODO: Implement handling")]
@@ -401,6 +405,9 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(PlacementRotation.South, result.Rotation);
             Assert.Equal(5, result.CenterX);
             Assert.Equal(4, result.CenterZ);
+
+            Assert.Single(result.RequiredWalls);
+            AssertWallSegment(result.RequiredWalls[0], startX: 8, startZ: 1, endX: 8, endZ: 6);
         }
 
         #endregion
@@ -419,12 +426,12 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=5  ■ → → → C → → . . . . . D  ← Prefab center
          *   z=4  ■ → → → → → → . . . . . ■
          *   z=3  ■ → → → → → → . . . . . ■
-         *   z=2  ■ . . . . . . . . . . . ■
+         *   z=2  ■ W W W W W W . . . . . ■
          *   z=1  D . . . . . . . . . . . ■
          *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact(Skip = "TODO: Implement handling")]
@@ -444,6 +451,9 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(PlacementRotation.West, result.Rotation);
             Assert.Equal(4, result.CenterX);
             Assert.Equal(5, result.CenterZ);
+
+            Assert.Single(result.RequiredWalls);
+            AssertWallSegment(result.RequiredWalls[0], startX: 1, startZ: 2, endX: 6, endZ: 2);
         }
 
         #endregion
@@ -456,18 +466,18 @@ namespace BetterTradersGuild.Tests.RoomContents
          *
          *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
          *   z=9  ■ . . . . . . . . . . . ■
-         *   z=8  ■ . . . . . . . . . . . ■
-         *   z=7  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
-         *   z=6  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
-         *   z=5  D . . ↓ ↓ ↓ ↓ ↓ ↓ . . . D
-         *   z=4  ■ . . ↓ ↓ C ↓ ↓ ↓ . . . ■  ← Prefab center
-         *   z=3  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
-         *   z=2  ■ . . ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+         *   z=8  ■ . W W W W W W W . . . ■
+         *   z=7  ■ . W ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+         *   z=6  ■ . W ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+         *   z=5  D . W ↓ ↓ ↓ ↓ ↓ ↓ . . . D
+         *   z=4  ■ . W ↓ ↓ C ↓ ↓ ↓ . . . ■  ← Prefab center
+         *   z=3  ■ . W ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
+         *   z=2  ■ . W ↓ ↓ ↓ ↓ ↓ ↓ . . . ■
          *   z=1  ■ . . . . . . . . . . . ■
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 16:09:33
+         *  Generated: 2025-11-22 17:15:37
          *  <!-- DIAGRAM_END -->
         */
         [Fact(Skip = "TODO: Implement handling")]
@@ -488,6 +498,9 @@ namespace BetterTradersGuild.Tests.RoomContents
             Assert.Equal(PlacementRotation.North, result.Rotation);
             Assert.Equal(5, result.CenterX);
             Assert.Equal(4, result.CenterZ);
+
+            AssertWallSegment(result.RequiredWalls[0], startX: 2, startZ: 2, endX: 2, endZ: 7);
+            AssertWallSegment(result.RequiredWalls[1], startX: 2, startZ: 8, endX: 8, endZ: 8);
         }
 
         #endregion
