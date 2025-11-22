@@ -31,7 +31,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -75,7 +75,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -119,7 +119,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -161,7 +161,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -203,7 +203,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -251,7 +251,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -298,7 +298,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -347,7 +347,7 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ D ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
         [Fact]
@@ -386,18 +386,18 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=8  ■ . . . . . . . . . . . ■
          *   z=7  ■ . . . . . . . . . . . ■
          *   z=6  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
-         *   z=5  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
+         *   z=5  D . ↑ ↑ ↑ ↑ ↑ ↑ W . . . D
          *   z=4  ■ . ↑ ↑ ↑ C ↑ ↑ W . . . ■  ← Prefab center
          *   z=3  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
          *   z=2  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
          *   z=1  ■ . ↑ ↑ ↑ ↑ ↑ ↑ W . . . ■
-         *   z=0  ■ D ■ ■ ■ ■ ■ ■ ■ D ■ ■ ■  ← South wall
+         *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ D ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
-        [Fact(Skip = "TODO: Implement handling")]
+        [Fact]
         public void SW_Edge_PlacesCorrectly()
         {
             var result = CalculateBestPlacement(
@@ -405,9 +405,10 @@ namespace BetterTradersGuild.Tests.RoomContents
                 prefabSize: 6,
                 doors: new List<DoorPosition>
                 {
-                    new DoorPosition { X = 6, Z = 10 },   // NW, NE corners blocked
-                    new DoorPosition { X = 9, Z = 0 },  // SE corner blocked
-                    new DoorPosition { X = 1, Z = 0 }    // SW corner blocked
+                    new DoorPosition { X = 6, Z = 10 },   // NW, NE, N blocked
+                    new DoorPosition { X = 12, Z = 5 },  // E blocked
+                    new DoorPosition { X = 9, Z = 0 },  // SE blocked
+                    new DoorPosition { X = 0, Z = 5 },    // W blocked
                 }
             );
             Assert.Equal(PlacementType.Edge, result.Type);
@@ -427,8 +428,8 @@ namespace BetterTradersGuild.Tests.RoomContents
          *  Visual: 13x11 room (0,0 to 12,10)
          *  Prefab: 6×6 at center (4,5), rotation 3 (West - door faces east →)
          *
-         *  z=10  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← North wall
-         *   z=9  D . . . . . . . . . . . ■
+         *  z=10  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← North wall
+         *   z=9  ■ . . . . . . . . . . . ■
          *   z=8  ■ → → → → → → . . . . . ■
          *   z=7  ■ → → → → → → . . . . . ■
          *   z=6  ■ → → → → → → . . . . . ■
@@ -436,14 +437,14 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=4  ■ → → → → → → . . . . . ■
          *   z=3  ■ → → → → → → . . . . . ■
          *   z=2  ■ W W W W W W . . . . . ■
-         *   z=1  D . . . . . . . . . . . ■
-         *   z=0  ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■  ← South wall
+         *   z=1  ■ . . . . . . . . . . . ■
+         *   z=0  ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
-        [Fact(Skip = "TODO: Implement handling")]
+        [Fact]
         public void W_Edge_PlacesCorrectly()
         {
             var result = CalculateBestPlacement(
@@ -451,9 +452,9 @@ namespace BetterTradersGuild.Tests.RoomContents
                 prefabSize: 6,
                 doors: new List<DoorPosition>
                 {
-                    new DoorPosition { X = 0, Z = 9 },  // NW corner blocked
-                    new DoorPosition { X = 0, Z = 1 },  // SW corner blocked
-                    new DoorPosition { X = 12, Z = 5 }  // NE, SE corners blocked
+                    new DoorPosition { X = 6, Z = 10 },  // N blocked
+                    new DoorPosition { X = 12, Z = 5 },  // NE, SE, E blocked
+                    new DoorPosition { X = 5, Z = 0 },  // S blocked
                 }
             );
             Assert.Equal(PlacementType.Edge, result.Type);
@@ -486,10 +487,10 @@ namespace BetterTradersGuild.Tests.RoomContents
          *   z=0  ■ ■ ■ ■ ■ ■ D ■ ■ ■ ■ ■ ■  ← South wall
          *      x=0 1 2 3 4 5 6 7 8 9 10  12
          *
-         *  Generated: 2025-11-22 22:08:06
+         *  Generated: 2025-11-23 00:03:16
          *  <!-- DIAGRAM_END -->
         */
-        [Fact(Skip = "TODO: Implement handling")]
+        [Fact]
         public void Center_PlacesCorrectly()
         {
             var result = CalculateBestPlacement(
@@ -503,7 +504,7 @@ namespace BetterTradersGuild.Tests.RoomContents
                     new DoorPosition { X = 0, Z = 5 }  // W edge blocked
                 }
             );
-            Assert.Equal(PlacementType.Edge, result.Type);
+            Assert.Equal(PlacementType.Center, result.Type);
             Assert.Equal(PlacementRotation.North, result.Rotation);
             Assert.Equal(5, result.CenterX);
             Assert.Equal(4, result.CenterZ);

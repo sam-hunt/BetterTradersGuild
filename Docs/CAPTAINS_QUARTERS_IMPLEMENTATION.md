@@ -796,7 +796,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 - **Edge placement fallback** - When corners blocked by doors
   - Position bedroom centered along edge, back against room wall
   - Spawn missing left side wall procedurally
-- **Center/floating placement fallback** - Last resort when all edges blocked
+- **Center placement fallback** - Last resort when all edges blocked
   - Place bedroom in center of room
   - Spawn both missing walls (back + left side) to complete enclosure
 - **Placement scoring system** - Algorithm to select best valid location
@@ -823,15 +823,18 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 **Implementation:** `GenerateCaptainsWeapon()` and `SpawnUniqueWeaponOnShelf()` in RoomContents_CaptainsQuarters.cs
 
 **Weapon Selection (weighted random):**
+
 - 30% Gun_Revolver_Unique
 - 30% Gun_ChargeRifle_Unique
 - 20% Gun_ChargeLance_Unique
 - 20% Gun_BeamRepeater_Unique
 
 **Quality System:**
+
 - Uses `QualityUtility.GenerateQualitySuper()` (biased toward Excellent/Masterwork/Legendary)
 
 **Trait System (3 traits per weapon):**
+
 1. **Weapon-specific primary trait** (added first):
    - Revolver: PulseCharger (retrofits pulse-charge tech)
    - Charge Rifle/Lance: ChargeCapacitor (+35% damage, +20% armor pen)
@@ -840,6 +843,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 3. **Random compatible third trait** (filtered via `CompUniqueWeapon.CanAddTrait()`)
 
 **Technical Implementation:**
+
 - Weapons spawned with correct `_Unique` defNames (required for CompUniqueWeapon)
 - Auto-generated traits cleared via `CompUniqueWeapon.TraitsListForReading.Clear()`
 - Three custom traits added via `CompUniqueWeapon.AddTrait()` with compatibility checking
@@ -854,6 +858,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 - Expected market values: 1400-10000 silver depending on weapon type and quality
 
 **Generated Names Examples:**
+
 - "Brilliant Gold Revolver"
 - "Overcharged Gold Rifle"
 - "Amplified Gold Repeater"

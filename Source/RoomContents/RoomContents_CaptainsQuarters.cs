@@ -70,7 +70,7 @@ namespace BetterTradersGuild.RoomContents
                 // PlacementCalculator.RequiredWalls contains all walls needed for this placement type:
                 // - Corner: empty list (room walls provide everything)
                 // - Edge: one wall segment (left side)
-                // - Floating: two wall segments (back + left)
+                // - Center: two wall segments (back + left)
                 if (placement.RequiredWalls != null && placement.RequiredWalls.Count > 0)
                 {
                     SpawnWallsFromSegments(map, placement.RequiredWalls);
@@ -185,7 +185,7 @@ namespace BetterTradersGuild.RoomContents
         /// Calculates the bedroom blocking area from placement result.
         /// Returns the area that should be reserved to prevent lounge furniture overlap.
         /// For corner placements: returns prefab bounds (room walls provide the rest).
-        /// For edge/floating: returns prefab bounds + extra cell(s) for spawned walls.
+        /// For edge/center: returns prefab bounds + extra cell(s) for spawned walls.
         /// </summary>
         private CellRect GetBedroomRect(IntVec3 center, Rot4 rotation)
         {
@@ -195,7 +195,7 @@ namespace BetterTradersGuild.RoomContents
                 center.x, center.z, intRotation, BEDROOM_PREFAB_SIZE);
 
             // For now, just return the prefab bounds
-            // TODO: Expand this for edge/floating placements when they spawn additional walls
+            // TODO: Expand this for edge/center placements when they spawn additional walls
             return new CellRect(prefabBounds.MinX, prefabBounds.MinZ, prefabBounds.Width, prefabBounds.Height);
         }
 

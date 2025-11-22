@@ -25,7 +25,7 @@ namespace BetterTradersGuild.RoomContents
             Invalid,   // No valid placement found
             Corner,    // Placed in room corner (uses 2 room walls)
             Edge,      // Placed along room edge (uses 1 room wall)
-            Floating   // Placed in room center (uses 0 room walls)
+            Center   // Placed in room center (uses 0 room walls)
         }
 
         /// <summary>
@@ -131,7 +131,14 @@ namespace BetterTradersGuild.RoomContents
                 }
             }
 
-            // Phase 3: No valid placement found
+            // Phase 3: Try center (floating) placement as final fallback
+            PlacementResult center = CalculateCenterPlacement(room, prefabSize);
+            if (center.Type != PlacementType.Invalid)
+            {
+                return center;
+            }
+
+            // Phase 4: No valid placement found
             return new PlacementResult
             {
                 Type = PlacementType.Invalid,
@@ -404,7 +411,28 @@ namespace BetterTradersGuild.RoomContents
         }
 
         /// <summary>
-        /// Calculates the wall segments that must be spawned for a center (floating) placement.
+        /// Calculates center (floating) placement in the middle of the room.
+        /// Used as final fallback when all corners and edges are blocked.
+        /// The prefab floats in the center with spawned walls creating an enclosed subroom.
+        /// </summary>
+        private static PlacementResult CalculateCenterPlacement(SimpleRect room, int prefabSize = 6)
+        {
+            // Calculate center position, slightly biased for even-sized rooms
+            int centerX = room.MinX + (room.Width / 2) - 1;
+            int centerZ = room.MinZ + (room.Height / 2) - 1;
+
+            return new PlacementResult
+            {
+                CenterX = centerX,
+                CenterZ = centerZ,
+                Rotation = PlacementRotation.North,  // Default to North for center placement
+                Type = PlacementType.Center,
+                RequiredWalls = CalculateCenterWalls(centerX, centerZ, PlacementRotation.North, prefabSize)
+            };
+        }
+
+        /// <summary>
+        /// Calculates the wall segments that must be spawned for a center placement.
         /// Center placements have no room walls, so both back wall and left side wall must be spawned.
         /// Returns a list of two wall segments: back wall and left wall.
         /// </summary>
@@ -417,25 +445,25 @@ namespace BetterTradersGuild.RoomContents
         {
             var bounds = GetPrefabSpawnBounds(centerX, centerZ, rotation, prefabSize);
 
-            // Back wall fills in the open back edge of the L-shaped prefab (within prefab footprint)
-            // Left wall is adjacent to the prefab (outside prefab footprint)
+            // Both walls are outside the prefab footprint, forming an L-shape enclosure
+            // Left wall is vertical (west side), back wall is horizontal (north side)
             return new List<WallSegment>
             {
-                // Back wall (horizontal, at MaxZ, spans full width)
-                new WallSegment
-                {
-                    StartX = bounds.MinX,
-                    StartZ = bounds.MaxZ,
-                    EndX = bounds.MaxX,
-                    EndZ = bounds.MaxZ
-                },
-                // Left wall (vertical, at MinX-1, spans full height)
+                // Left wall (vertical, at MinX-1, spans full height of prefab)
                 new WallSegment
                 {
                     StartX = bounds.MinX - 1,
                     StartZ = bounds.MinZ,
                     EndX = bounds.MinX - 1,
                     EndZ = bounds.MaxZ
+                },
+                // Back wall (horizontal, at MaxZ+1, connects with left wall)
+                new WallSegment
+                {
+                    StartX = bounds.MinX - 1,  // Start at left wall position to connect
+                    StartZ = bounds.MaxZ + 1,  // One cell above prefab
+                    EndX = bounds.MaxX,
+                    EndZ = bounds.MaxZ + 1
                 }
             };
         }

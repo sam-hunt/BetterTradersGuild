@@ -66,7 +66,7 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
       - **Bedroom placement algorithm improvements:**
         - Add door detection to avoid placing bedroom against doors
         - Implement edge placement fallback (with missing wall spawning)
-        - Implement center/floating placement fallback (spawn the two missing walls)
+        - Implement center placement fallback (spawn the two missing walls)
         - Add scoring system to select best valid location
       - **Valid cell marking verification:**
         - Confirm IsValidCellBase prevents prefabs from overlapping bedroom walls
