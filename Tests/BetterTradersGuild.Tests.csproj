@@ -16,11 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Reference the compiled mod DLL -->
-    <Reference Include="BetterTradersGuild">
-      <HintPath>..\Assemblies\BetterTradersGuild.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <!-- Reference the source project -->
+    <ProjectReference Include="..\Source\BetterTradersGuild.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,5 +30,11 @@
       <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Exclude non-test files -->
+    <Compile Remove="Tools\**" />
+    <Compile Remove="Helpers\DiagramGeneratorTests.cs" />
   </ItemGroup>
 </Project>

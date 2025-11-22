@@ -22,7 +22,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Building the Project
 
-**From WSL (Linux/WSL2):**
+**Using .NET CLI (Recommended - works from project root):**
+
+```bash
+# From project root - builds both main project and test project
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+
+# Build solution (both projects)
+dotnet build
+
+# Build in Release mode
+dotnet build -c Release
+
+# Clean build artifacts
+dotnet clean
+```
+
+**Using MSBuild directly (alternative):**
 
 ```bash
 # Navigate to Source directory
@@ -41,18 +57,58 @@ cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTrader
 **From Windows (CMD/PowerShell):**
 
 ```bash
-cd "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\BetterTradersGuild\Source"
+cd "C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\BetterTradersGuild"
+dotnet build
+
+# Or from Source directory
+cd Source
 msbuild BetterTradersGuild.csproj /p:Configuration=Debug
 ```
 
-**Output:** Compiled DLL is placed in `../Assemblies/BetterTradersGuild.dll`
+**Output:** Compiled DLL is placed in `Assemblies/BetterTradersGuild.dll`
 
 **Build Output:** All compilation errors and warnings are visible directly in the terminal output with file paths, line numbers, and error codes (e.g., `CS0246`, `CS0219`).
 
 ### Testing
 
-- No automated tests currently exist
-- Testing is done manually in RimWorld with Dev Mode enabled
+**Using bash script (Recommended for WSL):**
+
+```bash
+# From project root - builds and runs tests using VSTest.Console.exe
+bash run-tests.sh
+```
+
+The script:
+
+- Builds the solution using `dotnet build`
+- Runs tests using VSTest.Console.exe directly (much faster on WSL than `dotnet test`)
+- Currently runs only `PlacementCalculatorTests` (other test files are excluded from the test project)
+
+**Using .NET CLI (works on Windows, slow on WSL):**
+
+```bash
+# From project root
+cd "/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+
+# Run all tests
+dotnet test
+
+# Run with verbose output
+dotnet test --verbosity normal
+```
+
+⚠️ **WSL Note:** `dotnet test` has timeout issues on WSL with .NET Framework 4.7.2 projects due to protocol negotiation failures between the .NET CLI (Linux) and testhost.exe (Windows). Use `./run-tests.sh` instead for reliable test execution.
+
+**Excluded Test Files:**
+
+- `Tests/Tools/RegenerateDiagrams.cs` - Utility tool with Main method, not a test file
+- `Tests/Helpers/DiagramGeneratorTests.cs` - Additional tests not currently in use
+
+These are excluded via `<Compile Remove="..." />` in `Tests/BetterTradersGuild.Tests.csproj`.
+
+**Manual Testing:**
+
+- In-game testing is done in RimWorld with Dev Mode enabled
 - The mod loads automatically from the Steam mods directory when RimWorld launches
 
 ### Project Structure
@@ -137,8 +193,15 @@ BetterTradersGuild/
 │   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
 │   ├── Properties/
 │   │   └── AssemblyInfo.cs
-│   ├── BetterTradersGuild.csproj  # SDK-style project file
-│   └── BetterTradersGuild.sln     # Visual Studio solution
+│   └── BetterTradersGuild.csproj  # SDK-style project file
+├── Tests/                  # XUnit test project
+│   ├── BetterTradersGuild.Tests.csproj  # Test project file
+│   ├── Helpers/            # Test utilities
+│   │   └── DiagramGenerator.cs
+│   ├── RoomContents/       # Room generation tests
+│   │   └── PlacementCalculatorTests.cs
+│   └── Tools/              # Test tooling
+│       └── (test diagrams)
 ├── docs/                   # Technical documentation (9 files)
 │   ├── CAPTAINS_QUARTERS_IMPLEMENTATION.md
 │   ├── CARGO_IMPLEMENTATION_GUIDE.md
@@ -149,9 +212,14 @@ BetterTradersGuild/
 │   ├── STORAGE_API_SUMMARY.txt
 │   ├── STORAGE_DOCUMENTATION_INDEX.md
 │   └── STYLING_QUICK_REF.md
+├── .editorconfig           # Editor formatting rules
+├── .gitattributes          # Git line ending rules
+├── .gitignore              # Git ignore patterns
+├── BetterTradersGuild.sln  # Root solution file (includes Source + Tests)
 ├── CLAUDE.md               # Developer guidance (THIS FILE)
 ├── PLAN.md                 # Development roadmap and phase tracking
-└── README.md               # GitHub repository landing page
+├── README.md               # GitHub repository landing page
+└── run-tests.sh            # Test runner script
 ```
 
 **Note:** Files marked "🚧 IN PROGRESS" are functional but have incomplete features.
@@ -578,4 +646,3 @@ public static bool Prefix(ref ReturnType __result)
 - **About.xml** - Mod metadata, load order, and dependencies
 - RimWorld modding wiki: https://rimworldwiki.com/wiki/Modding_Tutorials
 - Harmony documentation: https://harmony.pardeike.net/
-

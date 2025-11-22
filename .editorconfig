@@ -62,3 +62,7 @@ indent_size = 2
 [*.{yml,yaml}]
 indent_style = space
 indent_size = 2
+
+# Shell scripts (WSL/Linux only)
+[*.sh]
+end_of_line = lf
