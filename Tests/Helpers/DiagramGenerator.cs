@@ -21,7 +21,7 @@ namespace BetterTradersGuild.Tests.Helpers
 			int centerX,
 			int centerZ,
 			int prefabSize = 6,
-			int rotation = 0)
+			PlacementCalculator.PlacementRotation rotation = PlacementCalculator.PlacementRotation.North)
 		{
 			// Use the actual placement calculator to get accurate bounds
 			return PlacementCalculator.GetPrefabSpawnBounds(centerX, centerZ, rotation, prefabSize);
@@ -35,8 +35,9 @@ namespace BetterTradersGuild.Tests.Helpers
 		/// <param name="roomHeight">Room height (number of cells)</param>
 		/// <param name="prefabCenterX">X coordinate of prefab center (null for no prefab)</param>
 		/// <param name="prefabCenterZ">Z coordinate of prefab center (null for no prefab)</param>
-		/// <param name="rotation">Prefab rotation (0=North, 1=East, 2=South, 3=West)</param>
+		/// <param name="rotation">Prefab rotation</param>
 		/// <param name="doorPositions">List of door positions (null for no doors)</param>
+		/// <param name="requiredWalls">List of wall segments that must be spawned (null for no walls)</param>
 		/// <param name="showCoordinates">Show coordinate labels</param>
 		/// <returns>Multi-line ASCII diagram</returns>
 		public static string GenerateRoomDiagram(
@@ -44,12 +45,14 @@ namespace BetterTradersGuild.Tests.Helpers
 			int roomHeight,
 			int? prefabCenterX = null,
 			int? prefabCenterZ = null,
-			int rotation = 0,
+			PlacementCalculator.PlacementRotation rotation = PlacementCalculator.PlacementRotation.North,
 			List<(int x, int z)> doorPositions = null,
+			List<PlacementCalculator.WallSegment> requiredWalls = null,
 			bool showCoordinates = false)
 		{
 			var sb = new StringBuilder();
 			doorPositions = doorPositions ?? new List<(int x, int z)>();
+			requiredWalls = requiredWalls ?? new List<PlacementCalculator.WallSegment>();
 
 			// Calculate 6×6 prefab rect if center is provided
 			PlacementCalculator.SimpleRect? prefabRect = null;
@@ -72,7 +75,7 @@ namespace BetterTradersGuild.Tests.Helpers
 
 				for (int x = 0; x < roomWidth; x++)
 				{
-					char cell = GetCellChar(x, z, roomWidth, roomHeight, prefabRect, rotation, doorPositions, prefabCenterX, prefabCenterZ);
+					char cell = GetCellChar(x, z, roomWidth, roomHeight, prefabRect, rotation, doorPositions, requiredWalls, prefabCenterX, prefabCenterZ);
 					sb.Append(cell);
 					sb.Append(' ');  // Space after cell
 				}
@@ -88,11 +91,36 @@ namespace BetterTradersGuild.Tests.Helpers
 				sb.AppendLine();
 			}
 
-			// X-axis label
+			// X-axis coordinate labels
 			if (showCoordinates)
 			{
-				sb.Append(zPadding);
-				sb.Append("    West (x=0), East (x=" + (roomWidth - 1) + ")");
+				// Format: "x=" right-padded to (zLabelWidth + 2) so "0" aligns with first cell
+				// For zLabelWidth=4: "    x=" (2 spaces + x=) + "0" → total 6 chars to "0"
+				// This matches z-label format: "z=10" (4 chars) + "  " (2 spaces) = 6 chars to first cell
+				sb.Append("x=".PadLeft(zLabelWidth + 2));
+
+				for (int x = 0; x < roomWidth; x++)
+				{
+					if (x >= 0 && x <= 9)
+					{
+						// Single digit: show digit and space (2 chars per cell)
+						sb.Append(x);
+						sb.Append(' ');
+					}
+					else if (x >= 10)
+					{
+						// Double digits: only show even numbers (2 chars per cell)
+						if (x % 2 == 0)
+						{
+							sb.Append(x.ToString().PadRight(2));
+						}
+						else
+						{
+							sb.Append("  ");  // Two spaces for odd numbers
+						}
+					}
+				}
+
 				sb.AppendLine();
 			}
 
@@ -112,7 +140,7 @@ namespace BetterTradersGuild.Tests.Helpers
 			int roomHeight,
 			int centerX,
 			int centerZ,
-			int rotation,
+			PlacementCalculator.PlacementRotation rotation,
 			int prefabSize = 6)
 		{
 			int roomMinX = 0;
@@ -122,16 +150,16 @@ namespace BetterTradersGuild.Tests.Helpers
 
 			string rotationName = rotation switch
 			{
-				0 => "North - door faces south ↓",
-				1 => "East - door faces west ←",
-				2 => "South - door faces north ↑",
-				3 => "West - door faces east →",
+				PlacementCalculator.PlacementRotation.North => "North - door faces south ↓",
+				PlacementCalculator.PlacementRotation.East => "East - door faces west ←",
+				PlacementCalculator.PlacementRotation.South => "South - door faces north ↑",
+				PlacementCalculator.PlacementRotation.West => "West - door faces east →",
 				_ => "Unknown"
 			};
 
 			var sb = new StringBuilder();
 			sb.AppendLine($"Visual: {roomWidth}x{roomHeight} room ({roomMinX},{roomMinZ} to {roomMaxX},{roomMaxZ})");
-			sb.Append($"Prefab: {prefabSize}×{prefabSize} at center ({centerX},{centerZ}), rotation {rotation} ({rotationName})");
+			sb.Append($"Prefab: {prefabSize}×{prefabSize} at center ({centerX},{centerZ}), rotation {(int)rotation} ({rotationName})");
 
 			return sb.ToString();
 		}
@@ -181,14 +209,14 @@ namespace BetterTradersGuild.Tests.Helpers
 		/// Gets directional arrow character based on rotation.
 		/// Arrow shows which direction the bedroom door faces (entrance into room).
 		/// </summary>
-		private static char GetArrowChar(int rotation)
+		private static char GetArrowChar(PlacementCalculator.PlacementRotation rotation)
 		{
 			switch (rotation)
 			{
-				case 0: return '↓';  // North rotation → door faces South
-				case 1: return '←';  // East rotation → door faces West
-				case 2: return '↑';  // South rotation → door faces North
-				case 3: return '→';  // West rotation → door faces East
+				case PlacementCalculator.PlacementRotation.North: return '↓';
+				case PlacementCalculator.PlacementRotation.East: return '←';
+				case PlacementCalculator.PlacementRotation.South: return '↑';
+				case PlacementCalculator.PlacementRotation.West: return '→';
 				default: return 'X';
 			}
 		}
@@ -198,8 +226,9 @@ namespace BetterTradersGuild.Tests.Helpers
 			int roomWidth,
 			int roomHeight,
 			PlacementCalculator.SimpleRect? prefabRect,
-			int rotation,
+			PlacementCalculator.PlacementRotation rotation,
 			List<(int x, int z)> doorPositions,
+			List<PlacementCalculator.WallSegment> requiredWalls,
 			int? centerX = null,
 			int? centerZ = null)
 		{
@@ -209,6 +238,10 @@ namespace BetterTradersGuild.Tests.Helpers
 			// Check for door first (highest priority, overrides everything)
 			if (doorPositions.Any(d => d.x == x && d.z == z))
 				return 'D';
+
+			// Check if this cell is part of a required wall segment (second priority)
+			if (IsInRequiredWalls(x, z, requiredWalls))
+				return 'W';
 
 			// Check if this is the prefab center (high priority)
 			if (centerX.HasValue && centerZ.HasValue && x == centerX.Value && z == centerZ.Value)
@@ -224,6 +257,28 @@ namespace BetterTradersGuild.Tests.Helpers
 
 			// Empty interior space
 			return '.';
+		}
+
+		/// <summary>
+		/// Checks if a cell is part of any required wall segment.
+		/// Handles both vertical (StartX == EndX) and horizontal (StartZ == EndZ) wall segments.
+		/// </summary>
+		private static bool IsInRequiredWalls(int x, int z, List<PlacementCalculator.WallSegment> requiredWalls)
+		{
+			foreach (var wall in requiredWalls)
+			{
+				if (wall.StartX == wall.EndX)  // Vertical wall
+				{
+					if (x == wall.StartX && z >= Math.Min(wall.StartZ, wall.EndZ) && z <= Math.Max(wall.StartZ, wall.EndZ))
+						return true;
+				}
+				else  // Horizontal wall
+				{
+					if (z == wall.StartZ && x >= Math.Min(wall.StartX, wall.EndX) && x <= Math.Max(wall.StartX, wall.EndX))
+						return true;
+				}
+			}
+			return false;
 		}
 	}
 }

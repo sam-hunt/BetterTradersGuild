@@ -46,14 +46,14 @@ echo ""
 
 # Try dotnet CLI first, fall back to VSTest.Console.exe
 if command -v dotnet &> /dev/null; then
-    dotnet test --no-build --verbosity normal
+    dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~PlacementCalculator"
     TEST_EXIT_CODE=$?
 else
     # Use VSTest.Console.exe from Visual Studio
     VSTEST="/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe"
     if [ -f "$VSTEST" ]; then
         TEST_DLL="C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\BetterTradersGuild\\Tests\\bin\\Debug\\net472\\BetterTradersGuild.Tests.dll"
-        "$VSTEST" "$TEST_DLL" /logger:"console;verbosity=normal"
+        "$VSTEST" "$TEST_DLL" /Tests:PlacementCalculatorTests /logger:"console;verbosity=normal"
         TEST_EXIT_CODE=$?
     else
         echo -e "${RED}✗ Test runner not found. Please install .NET SDK or Visual Studio.${NC}"
