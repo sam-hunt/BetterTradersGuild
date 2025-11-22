@@ -13,6 +13,8 @@ namespace BetterTradersGuild.Tests.Helpers
     /// </summary>
     public static class DiagramGenerator
     {
+        // Use Windows line endings (CRLF) for consistency with test files
+        private const string LineEnding = "\r\n";
         /// <summary>
         /// Calculates the prefab rectangle from center position using the actual placement logic.
         /// This uses PlacementCalculator.GetPrefabSpawnBounds to ensure diagrams match reality.
@@ -88,7 +90,7 @@ namespace BetterTradersGuild.Tests.Helpers
                 else if (showCoordinates && prefabCenterZ.HasValue && z == prefabCenterZ.Value)
                     sb.Append(" ← Prefab center");
 
-                sb.AppendLine();
+                sb.Append(LineEnding);
             }
 
             // X-axis coordinate labels
@@ -121,11 +123,11 @@ namespace BetterTradersGuild.Tests.Helpers
                     }
                 }
 
-                sb.AppendLine();
+                sb.Append(LineEnding);
             }
 
             // Generation timestamp (with blank line separator)
-            sb.AppendLine();
+            sb.Append(LineEnding);
             sb.Append("Generated: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
             return sb.ToString();
@@ -158,7 +160,8 @@ namespace BetterTradersGuild.Tests.Helpers
             };
 
             var sb = new StringBuilder();
-            sb.AppendLine($"Visual: {roomWidth}x{roomHeight} room ({roomMinX},{roomMinZ} to {roomMaxX},{roomMaxZ})");
+            sb.Append($"Visual: {roomWidth}x{roomHeight} room ({roomMinX},{roomMinZ} to {roomMaxX},{roomMaxZ})");
+            sb.Append(LineEnding);
             sb.Append($"Prefab: {prefabSize}×{prefabSize} at center ({centerX},{centerZ}), rotation {(int)rotation} ({rotationName})");
 
             return sb.ToString();
@@ -174,7 +177,8 @@ namespace BetterTradersGuild.Tests.Helpers
             string wallName = "North")
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"{wallName} wall (z={wallZ}): {wallLength} cells");
+            sb.Append($"{wallName} wall (z={wallZ}): {wallLength} cells");
+            sb.Append(LineEnding);
 
             for (int x = 0; x < wallLength; x++)
             {
@@ -182,7 +186,7 @@ namespace BetterTradersGuild.Tests.Helpers
                 sb.Append(hasDoor ? 'D' : '#');
             }
 
-            sb.AppendLine();
+            sb.Append(LineEnding);
 
             // Add position markers every 5 cells
             for (int x = 0; x < wallLength; x++)
@@ -192,7 +196,7 @@ namespace BetterTradersGuild.Tests.Helpers
                 else
                     sb.Append(" ");
             }
-            sb.AppendLine();
+            sb.Append(LineEnding);
 
             for (int x = 0; x < wallLength; x++)
             {

@@ -15,6 +15,9 @@ namespace BetterTradersGuild.Tests.Tools
     /// </summary>
     class RegenerateDiagrams
     {
+        // Use Windows line endings (CRLF) for consistency with test files
+        private const string LineEnding = "\r\n";
+
         static void Main(string[] args)
         {
             string testFilePath = @"C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\BetterTradersGuild\Tests\RoomContents\PlacementCalculatorTests.cs";
@@ -279,9 +282,10 @@ namespace BetterTradersGuild.Tests.Tools
                     // Build comment block
                     var commentBuilder = new StringBuilder();
                     commentBuilder.Append(FormatDescriptionAndDiagramWithMarkers(description, newDiagram, indent));
-                    commentBuilder.AppendLine();
+                    commentBuilder.Append(LineEnding);
                     commentBuilder.Append(indent);
-                    commentBuilder.AppendLine("*/");
+                    commentBuilder.Append("*/");
+                    commentBuilder.Append(LineEnding);
 
                     // Insert comment BEFORE [Fact]
                     methodContent = methodContent.Insert(attrLineStart, commentBuilder.ToString());
@@ -373,9 +377,10 @@ namespace BetterTradersGuild.Tests.Tools
                     // Build new comment block and insert before [Fact]
                     var commentBuilder = new StringBuilder();
                     commentBuilder.Append(FormatDescriptionAndDiagramWithMarkers(description, newDiagram, indent));
-                    commentBuilder.AppendLine();
+                    commentBuilder.Append(LineEnding);
                     commentBuilder.Append(indent);
-                    commentBuilder.AppendLine("*/");
+                    commentBuilder.Append("*/");
+                    commentBuilder.Append(LineEnding);
 
                     methodContent = methodContent.Insert(attrLineStart, commentBuilder.ToString());
                     content = content.Remove(methodStart, methodEnd - methodStart);
@@ -407,7 +412,8 @@ namespace BetterTradersGuild.Tests.Tools
 
             // Add opening of comment block
             sb.Append(baseIndentation);
-            sb.AppendLine("/*  <!-- DIAGRAM_START -->");
+            sb.Append("/*  <!-- DIAGRAM_START -->");
+            sb.Append(LineEnding);
 
             // Add description lines INSIDE the markers (so they get regenerated)
             var descLines = description.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -415,11 +421,13 @@ namespace BetterTradersGuild.Tests.Tools
             {
                 sb.Append(baseIndentation);
                 sb.Append(" *  ");
-                sb.AppendLine(descLine);
+                sb.Append(descLine);
+                sb.Append(LineEnding);
             }
 
             sb.Append(baseIndentation);
-            sb.AppendLine(" *");
+            sb.Append(" *");
+            sb.Append(LineEnding);
 
             // Add diagram lines
             var diagramLines = diagram.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
@@ -430,7 +438,8 @@ namespace BetterTradersGuild.Tests.Tools
                     continue;
                 sb.Append(baseIndentation);
                 sb.Append(" *  ");
-                sb.AppendLine(line);
+                sb.Append(line);
+                sb.Append(LineEnding);
             }
 
             sb.Append(baseIndentation);
