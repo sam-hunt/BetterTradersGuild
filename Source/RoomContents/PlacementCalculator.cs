@@ -121,11 +121,14 @@ namespace BetterTradersGuild.RoomContents
             }
 
 
-            // Phase 2: Try North edge placement (only edge currently implemented)
-            PlacementResult northEdge = TryEdgePlacement(room, 0 /* North */, prefabSize, doors);
-            if (northEdge.Type != PlacementType.Invalid)
+            // Phase 2: Try all 4 edge placements (North, East, South, West)
+            for (int wallDirection = 0; wallDirection < 4; wallDirection++)
             {
-                return northEdge;
+                PlacementResult edge = TryEdgePlacement(room, wallDirection, prefabSize, doors);
+                if (edge.Type != PlacementType.Invalid)
+                {
+                    return edge;
+                }
             }
 
             // Phase 3: No valid placement found
