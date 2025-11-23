@@ -12,8 +12,6 @@
 
 **What's Remaining:**
 
-- 🚧 Door detection + intelligent placement selection (corner/edge/center)
-- 🚧 Valid cell marking verification (possible overlap issue)
 - 🚧 Billiards table clearance marking (1-tile perimeter)
 
 ---
@@ -746,16 +744,16 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
   - [x] Test all corner placement (NE hardcoded for current testing)
   - [x] Verify NO double walls (bedroom uses room's corner walls) ✅ Confirmed
   - [x] Verify correct rotation (missing walls align with corner) ✅ Confirmed
-  - [ ] Test correct corner selection - **Requires door detection implementation**
-- [ ] **Edge Placement Tests (fallback):**
-  - [ ] Test when corners have doors (forces edge placement) - **Requires implementation**
-  - [ ] Verify missing side wall spawns correctly
-  - [ ] Verify wall position matches rotation
-  - [ ] Verify bedroom against room edge (one wall shared)
+  - [x] Test correct corner selection ✅ Door detection working
+- [x] **Edge Placement Tests (fallback):**
+  - [x] Test when corners have doors (forces edge placement) ✅ Implemented and tested
+  - [x] Verify missing side wall spawns correctly ✅ Confirmed
+  - [x] Verify wall position matches rotation ✅ Confirmed
+  - [x] Verify bedroom against room edge (one wall shared) ✅ Confirmed
 - [x] **General Tests:**
   - [x] Test in-game with min room size (12x10) ✅ Works correctly
   - [x] Verify lounge furniture spawns around bedroom (not overlapping) ✅ IsValidCellBase prevents overlap
-  - [ ] Verify no doors spawn in bedroom's own walls
+  - [x] Verify no doors spawn in bedroom's own walls ✅ Confirmed
   - [x] **CRITICAL:** Verify books insert into bookcase container properly ✅ **WORKING - books inserted successfully**
   - [ ] Test bookcase interaction (player pawns can pick up books)
   - [x] **BookcaseSmall refactor:** Changed from Bookcase (2x1, 10 capacity) to BookcaseSmall (1x1, 5 capacity)
@@ -784,7 +782,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
   - Stops at first valid corner without door conflicts
 - **RoomContentsWorker orchestration** - Lounge prefabs spawn around bedroom via `IsValidCellBase`
 
-### 🚧 Remaining Work (Needs Implementation)
+### 🚧 Remaining Work
 
 #### 1. Bedroom Placement Algorithm ✅ **COMPLETE**
 
@@ -807,14 +805,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
   - Walls positioned outside prefab footprint to form complete subroom
   - Test coverage confirms correct wall segment calculation and placement
 
-#### 2. Valid Cell Marking Verification
-
-- **Issue:** Previous test showed a prefab replacing bedroom corner wall once
-- **Action needed:** Verify `IsValidCellBase` correctly blocks entire 7×7 bedroom area
-- **Testing:** Use in-game tile debugger to confirm blocked cells
-- **Possible fix:** Expand blocked area to include 1-cell buffer around bedroom?
-
-#### 3. Billiards Table Clearance
+#### 2. Billiards Table Clearance
 
 - **Problem:** Pawns need 1-tile clearance around billiards table to use it
 - **Current issue:** Other prefabs can spawn adjacent, blocking interaction
@@ -822,7 +813,7 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 - **Implementation:** Custom `IsValidCellBase` check or prefab-specific clearance marking
 - **Priority:** Spawn billiards table early (bigger prefab, needs space)
 
-#### 4. Unique Weapon on Bedroom Shelf ✅ **COMPLETED**
+#### 3. Unique Weapon on Bedroom Shelf ✅ **COMPLETED**
 
 **Implementation:** `GenerateCaptainsWeapon()` and `SpawnUniqueWeaponOnShelf()` in RoomContents_CaptainsQuarters.cs
 
@@ -870,17 +861,15 @@ public static class PrefabUtility_SpawnPrefab_PostContainerInsertion
 ### 📊 Testing Coverage
 
 - ✅ Book insertion: 100% tested and working
-- 🧪 Corner placement with door detection: Implemented, needs testing
-  - Need to test with various door configurations (North/South/East/West walls)
-  - Verify corner selection skips corners with doors
-  - Verify first valid corner is selected (NW → NE → SE → SW order)
-  - Test edge case: all corners have doors (should log warning)
-- ⏸️ Edge placement: 0% (not implemented)
-- ⏸️ Center placement: 0% (not implemented)
-- ✅ Prefab spawn settings: Tested with 1 bookshelf spawn
-- ⏸️ Multi-bookshelf spawning: Not yet tested (room size variations needed)
-- ⚠️ Valid cell marking: Needs verification (possible overlap issue observed)
-- ⏸️ Billiards table clearance: Not implemented
+- ✅ Corner placement with door detection: Fully tested and working
+  - Door detection properly validates corner placements
+  - Corner iteration working correctly (NW → NE → SE → SW order)
+  - Edge case handling (all corners have doors) working as expected
+- ✅ Edge placement: Fully implemented with all 4 directions supported
+- ✅ Center placement: Fully implemented with procedural wall spawning
+- ✅ Prefab spawn settings: Tested with multiple bookshelf spawns
+- ✅ Valid cell marking: Verified working correctly (no overlap issues observed)
+- ⏸️ Billiards table clearance: Not implemented (non-critical UX polish)
 
 ## References
 

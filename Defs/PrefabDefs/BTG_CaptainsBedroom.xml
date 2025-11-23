@@ -93,6 +93,13 @@
         <relativeRotation>Counterclockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
     </things>
+    <terrain>
+      <CarpetPurpleDeep>
+        <rects>
+          <li>(0,0,5,5)</li>
+        </rects>
+      </CarpetPurpleDeep>
+    </terrain>
   </PrefabDef>
 
 </Defs>
