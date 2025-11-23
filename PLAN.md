@@ -86,6 +86,7 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
 - Dynamic faction relations
 
 **Stretch Goals:**
+
 - **Placement randomization** - Add variety to bedroom placement across different settlements
   - Randomize corner iteration order (clockwise vs counterclockwise)
   - Randomize initial rotation (North/East/South/West instead of always North)
@@ -182,11 +183,6 @@ We divide the settlement into two zones:
 /Data/Odyssey/Defs/FactionDefs/Factions_Misc.xml (TradersGuild definition)
 /Data/Odyssey/Defs/WorldObjectDefs/WorldObjects.xml (SpaceSettlement definition)
 ```
-
-In addition to the above, I've proactively installed xmllint, and created some xsd files based on the core vanilla and official DLC def files using relaxng's trang library.
-While there's always a chance of false positives or false negatives as they aren't based on the source code the defs were generated from,
-you may find these useful as a quick smoketest for iterating on our defs before we attempt to load them into the game (much slower).
-You can find these schema files at `/home/shunt/dev/RimworldXsd/schemas/1.6.4566_rev606/`.
 
 **BaseGen SymbolResolver System:**
 
@@ -1491,4 +1487,3 @@ BetterTradersGuild/
 ---
 
 _This plan document is a living document and will be updated as Phase 3 progresses. Last updated: [Current Date]_
-
