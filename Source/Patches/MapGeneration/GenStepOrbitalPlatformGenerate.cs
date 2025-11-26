@@ -53,10 +53,11 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
         /// Harmony Prefix patch that runs before GenStep_OrbitalPlatform.Generate().
         ///
         /// EXECUTION FLOW:
-        /// 1. Check if map parent is a TradersGuild settlement
-        /// 2. If yes: Override layoutDef field with custom layout
-        /// 3. Initialize TradersGuildSettlementComponent for cargo tracking
-        /// 4. Return true to allow vanilla Generate() to run
+        /// 1. Check if custom layouts feature enabled in mod settings
+        /// 2. Check if map parent is a TradersGuild settlement
+        /// 3. If yes: Override layoutDef field with custom layout
+        /// 4. Initialize TradersGuildSettlementComponent for cargo tracking (if cargo system enabled)
+        /// 5. Return true to allow vanilla Generate() to run
         ///
         /// PARAMETERS:
         /// - __instance: The GenStep_OrbitalPlatform instance
@@ -66,7 +67,14 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
         [HarmonyPrefix]
         public static bool Prefix(GenStep_OrbitalPlatform __instance, Map map, GenStepParams parms)
         {
-            // STEP 1: Get settlement from map parent
+            // STEP 1: Check if custom layouts feature enabled
+            if (!BetterTradersGuildMod.Settings.useCustomLayouts)
+            {
+                // Feature disabled - use vanilla/other mod generation
+                return true;
+            }
+
+            // STEP 2: Get settlement from map parent
             // Maps generated from settlements have their parent set to the Settlement object
             Settlement settlement = map?.Parent as Settlement;
             if (settlement == null)
@@ -74,13 +82,13 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
                 return true; // Not a settlement map, continue normally
             }
 
-            // STEP 2: Check if this is a TradersGuild settlement
+            // STEP 3: Check if this is a TradersGuild settlement
             if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
             {
                 return true; // Not TradersGuild, continue normally
             }
 
-            // STEP 3: Initialize reflection (lazy, only once)
+            // STEP 4: Initialize reflection (lazy, only once)
             if (layoutDefField == null)
             {
                 layoutDefField = typeof(GenStep_OrbitalPlatform).GetField(
@@ -96,7 +104,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
                 }
             }
 
-            // STEP 4: Cache custom LayoutDef (lazy lookup)
+            // STEP 5: Cache custom LayoutDef (lazy lookup)
             if (tradersGuildLayoutDef == null)
             {
                 tradersGuildLayoutDef = DefDatabase<LayoutDef>.GetNamedSilentFail("BTG_OrbitalSettlement");
@@ -109,25 +117,34 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
                 }
             }
 
-            // STEP 5: Override layoutDef field with custom layout
+            // STEP 6: Override layoutDef field with custom layout
             layoutDefField.SetValue(__instance, tradersGuildLayoutDef);
 
             Log.Message($"[Better Traders Guild] Overriding layout for TradersGuild settlement '{settlement.Name}' " +
                         $"(ID: {settlement.ID}) to use BTG_OrbitalSettlement layout.");
 
-            // STEP 6: Initialize TradersGuildSettlementComponent for cargo tracking
-            // Check if component already exists (shouldn't, but safety check)
-            TradersGuildSettlementComponent component = settlement.GetComponent<TradersGuildSettlementComponent>();
-
-            if (component == null)
+            // STEP 7: Initialize TradersGuildSettlementComponent for cargo tracking (if enabled)
+            // Only add component if cargo system is enabled (percentage > 0)
+            if (BetterTradersGuildMod.Settings.cargoInventoryPercentage > 0f)
             {
-                // Add component to settlement
-                component = new TradersGuildSettlementComponent();
-                settlement.AllComps.Add(component);
-                component.parent = settlement;
+                // Check if component already exists (shouldn't, but safety check)
+                TradersGuildSettlementComponent component = settlement.GetComponent<TradersGuildSettlementComponent>();
 
-                Log.Message($"[Better Traders Guild] Initialized TradersGuildSettlementComponent for settlement '{settlement.Name}' " +
-                            $"(ID: {settlement.ID}) to track cargo refresh state.");
+                if (component == null)
+                {
+                    // Add component to settlement
+                    component = new TradersGuildSettlementComponent();
+                    settlement.AllComps.Add(component);
+                    component.parent = settlement;
+
+                    Log.Message($"[Better Traders Guild] Initialized TradersGuildSettlementComponent for settlement '{settlement.Name}' " +
+                                $"(ID: {settlement.ID}) to track cargo refresh state.");
+                }
+            }
+            else
+            {
+                Log.Message($"[Better Traders Guild] Cargo system disabled (0%) - skipping TradersGuildSettlementComponent " +
+                            $"for settlement '{settlement.Name}' (ID: {settlement.ID}).");
             }
 
             // Return true to allow vanilla Generate() to proceed with our custom layout

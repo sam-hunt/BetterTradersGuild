@@ -87,23 +87,48 @@ The mod should load last among Traders Guild-related mods to ensure compatibilit
 
 Access mod settings via: **Options → Mod Settings → Better Traders Guild**
 
-### Available Settings
+### Core Features
 
 - **Trader Rotation Interval** (5-30 days, default: 15)
-
   - How often settlements rotate their docked trader
   - Shorter intervals = more variety, less strategic planning
   - Longer intervals = more strategic scouting, fewer "check all settlements" trips
 
-- **Cargo Bay Inventory Percentage** _(Phase 3 - Coming Soon)_
-  - How much of trade inventory appears as lootable cargo (30-100%, default: 60%)
+### Map Generation (Phase 3 Features)
+
+- **Use custom settlement layouts** (checkbox, default: ON)
+
+  - Generate TradersGuild settlements with custom merchant aesthetics (18 room types)
+  - Disable if using other map generation mods or prefer vanilla layouts
+  - When disabled: TradersGuild settlements use vanilla/other mod generation
+
+- **Use enhanced pawn generation** (checkbox, default: ON)
+  - Spawn specialized crew members in custom rooms
+  - Requires custom layouts to be enabled
+  - _Currently in development (Phase 3.3)_
+
+### Cargo System (Phase 3 Features)
+
+- **Cargo bay inventory percentage** (0-100%, default: 60%)
+  - How much of trade inventory spawns as cargo in shuttle bay
+  - Set to 0% to disable cargo spawning (reduces save file size)
+  - Requires custom layouts to be enabled
+  - _Currently in development (Phase 3.4-3.5)_
 
 ## Compatibility
 
 ### Save-Game Safety
 
-✅ **Safe to add** to existing saves - traders will begin rotating immediately
-✅ **Safe to remove** from saves - no permanent changes to world state
+✅ **Safe to add** to existing saves - orbital traders begin docking immediately
+
+✅ **Removing mid-playthrough:**
+
+- A one-time red error log entry may be ignored.
+- Any already-generated settlement maps will persist.
+- Shuttle caravans in space will still be able to launch back to the planet or into other space maps.
+- Most features can be toggled or tweaked via mod settings menu however.
+
+**Recommendation:** Disable cargo system in mod settings before removing mod from active saves
 
 ### Load Order Compatibility
 
@@ -121,6 +146,7 @@ Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTr
 **Phase 3 (Enhanced Settlement Generation) is partially complete** in this alpha release. Current limitations:
 
 - **Captain's Quarters Room** - Basic implementation working, but some edge cases unhandled:
+
   - Door detection algorithm incomplete (bedroom may occasionally block doorways)
   - Edge placement fallbacks need refinement
   - Cell marking verification incomplete
@@ -131,6 +157,7 @@ Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTr
 - **Dynamic Cargo System** - Designed but not yet implemented (planned for Phase 3 completion)
 
 **What works in this alpha:**
+
 - ✅ All Phase 2 peaceful trading features (fully complete and stable)
 - ✅ Custom settlement layout system (18 room types defined)
 - ✅ 10 custom prefabs for furniture arrangements
@@ -140,23 +167,26 @@ Phase 3 will be completed in a future alpha release. Current implementation is f
 
 ## FAQ
 
-**Q: Can I still raid Traders Guild settlements?**
-A: Yes! If relations are Hostile, settlements behave like vanilla (require signal jammer, but more heavily defended). This mod only adds peaceful options when relations are good.
+**Q: Can I add this to my saved game?**
+A: Yes.
 
-**Q: Does this make the game easier?**
-A: It adds convenience and player choice, but settlements still require good relations (built through gifts/quests) and travel resources (shuttles/caravans). The configurable rotation interval lets you tune difficulty - longer rotations require more strategic planning and impose more limited trade supplies.
+**Q: Can I safely remove this from my saved game?**
+A: Yes. Any already-generated settlement maps will persist. Shuttle caravans in space will still be able to launch. There may be a one-time red error log entry. Most features can be toggled or tweaked via mod settings menu however.
 
 **Q: What if I don't have the Odyssey DLC?**
 A: This mod requires Odyssey and will not function without it. Odyssey introduces the Traders Guild faction and orbital settlements that this mod enhances.
 
+**Q: Do I still need a signal jammer to attack them?**
+A: Yes.
+
+**Q: Does this make the game _easier_?**
+A: Yes. You can spend chemfuel instead of goodwill to trade with the traders and that's easier to produce. Their settlements also have better loot because they're rich and orbital trader ships push inventory through their settlements.
+
+**Q: Does this make the game _harder_?**
+A: Yes. You may run out of chemfuel for other things because orbital trading is so addictive. Their settlements are also much better defended than in vanilla because they're rich but also their bosses will fire them if inventory goes missing.
+
 **Q: Why isn't Trader Type X showing up?**
-A: Trader types are selected randomly based on their `commonality` values in the game files. Some traders (like Pirate Merchant) are rarer than others. Visit more settlements or wait for rotations to see all types.
-
-**Q: Can I change rotation intervals mid-save?**
-A: Yes! Changes apply immediately. Existing settlements will respect the new interval on their next rotation.
-
-**Q: Do I need to visit a settlement before traders start rotating?**
-A: No - virtual schedules begin immediately. Unvisited settlements show accurate previews of their current trader type.
+A: Trader types are selected randomly based on their `commonality` values in the game files. This mod respects that. Some traders (like Pirate Merchant) are rarer than others. Check more distant settlements or wait for rotations to see more types. Other mods which add orbital trader types might have imbalanced `commonality` or might change vanilla trader type `commonality`, so checking those is a good place to start if you're seeing issues.
 
 ## Support & Contributing
 
@@ -191,4 +221,3 @@ This is a personal project, but contributions are welcome. Check [CLAUDE.md](CLA
 - Ludeon Studios for RimWorld and the modding API
 - The RimWorld modding community for ideas, examples, and support
 - [Claude Code](https://claude.com/claude-code) for wading through `monodis` output and writing my C#
-

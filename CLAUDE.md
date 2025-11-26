@@ -505,10 +505,6 @@ Instead of hardcoded item lists, cargo is **dynamically generated from the settl
 - ✅ **Trade/cargo consistency** - Actions have realistic consequences
 - ✅ **Lore-accurate** - Station infrastructure permanent, cargo temporary
 
-**Mod Settings:**
-
-- **Cargo Bay Inventory Percentage** (30-100%, default 60%) - How much of trade inventory appears as cargo
-
 **Technical Notes:**
 
 - Uses `Settlement_TraderTracker.stock` for inventory access
@@ -516,6 +512,57 @@ Instead of hardcoded item lists, cargo is **dynamically generated from the settl
 - Cargo items tagged for despawn (ThingComp or region marking)
 - Map persistence constraint documented in PLAN.md "Common Pitfalls"
 - See PLAN.md Phase 3 section for detailed implementation phases
+
+### Optional Features System
+
+**Phase 3 features are optional and controllable via mod settings.** This provides:
+
+- Player control over which features to enable
+- Load order flexibility (no automatic mod detection)
+- Save compatibility protection (component only added when cargo enabled)
+- Graceful coexistence with other map generation mods
+
+**Mod Settings (Options → Mod Settings → Better Traders Guild):**
+
+1. **Use custom settlement layouts** (bool, default: true)
+   - Controls Phase 3.1-3.2 custom BTG_OrbitalSettlement generation
+   - When disabled: TradersGuild settlements use vanilla/other mod layouts
+   - Settings access: `BetterTradersGuildMod.Settings.useCustomLayouts`
+
+2. **Use enhanced pawn generation** (bool, default: true)
+   - Controls Phase 3.3 specialized crew member spawning
+   - Grayed out in UI if custom layouts disabled (requires custom rooms)
+   - Settings access: `BetterTradersGuildMod.Settings.useEnhancedPawnGeneration`
+
+3. **Cargo bay inventory percentage** (float, 0-100%, default: 60%)
+   - Controls Phase 3.4-3.5 dynamic cargo spawning
+   - 0% = disabled (no cargo spawns, no TradersGuildSettlementComponent added)
+   - Grayed out in UI if custom layouts disabled (requires shuttle bay room)
+   - Settings access: `BetterTradersGuildMod.Settings.cargoInventoryPercentage`
+
+**Implementation Pattern:**
+
+Throughout the codebase, use direct settings access (no helper classes):
+
+```csharp
+// In GenStep patch - check if custom layouts enabled
+if (!BetterTradersGuildMod.Settings.useCustomLayouts)
+    return true; // Use vanilla/other mod generation
+
+// In component addition - check if cargo system enabled
+if (BetterTradersGuildMod.Settings.cargoInventoryPercentage > 0f)
+{
+    // Add TradersGuildSettlementComponent
+}
+```
+
+**Save Compatibility:**
+
+- Custom layouts: LOW RISK - Maps generated once and saved as concrete objects
+- Settlement component: HIGH RISK - Only added when cargo percentage > 0 to minimize save corruption if mod removed
+- Reflection-based field modification: VERY LOW RISK - One-time operation during generation
+
+For detailed compatibility analysis, see `Docs/COMPATIBILITY_PLAN.md`.
 
 ### Future Phases (Not Yet Implemented)
 
