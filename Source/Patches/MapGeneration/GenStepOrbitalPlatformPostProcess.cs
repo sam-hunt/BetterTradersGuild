@@ -14,6 +14,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     /// 1. Replace all ancient tiles with modern metal tiles (from Gauss cannons,
     ///    corridors, exterior prefabs, etc.)
     /// 2. Paint all metal tiles with custom "orbital steel" color for consistent aesthetic
+    /// 3. Set all WallLamps to blue glow color (powered alternative to AncientEmergencyLight_Blue)
     ///
     /// ARCHITECTURE:
     /// This runs AFTER GenStep_OrbitalPlatform.Generate() completes, making it the
@@ -72,6 +73,21 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             else
             {
                 Log.Warning("[Better Traders Guild] Could not find BTG_OrbitalSteel ColorDef. Metal tiles will not be painted.");
+            }
+
+            // Step 3: Set all WallLamps to blue color (matches AncientEmergencyLight_Blue aesthetic)
+            // WallLamp is used instead of inherited AncientEmergencyLight_Blue to utilize
+            // the settlement's power grid. Color is set via CompGlower's public API.
+            ThingDef wallLampDef = ThingDefOf.WallLamp;
+            ColorInt blueGlowColor = new ColorInt(187, 187, 221); // AncientEmergencyLight_Blue glow color
+
+            foreach (Thing lamp in map.listerThings.ThingsOfDef(wallLampDef))
+            {
+                CompGlower glower = lamp.TryGetComp<CompGlower>();
+                if (glower != null)
+                {
+                    glower.GlowColor = blueGlowColor;
+                }
             }
         }
     }

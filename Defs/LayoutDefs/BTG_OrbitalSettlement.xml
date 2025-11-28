@@ -22,10 +22,12 @@
       - clearDoorFaction=false: Keeps doors owned by faction (prevents instant entry)
       - ensureOneDoorUnlocked=true: Allows player entry (at least one unlocked door)
       - corridorDef: Custom corridor with MetalTile flooring (not AncientTile)
+      - wallLampDef: Powered WallLamp instead of AncientEmergencyLight_Blue (color set via postfix)
     -->
     <clearDoorFaction>false</clearDoorFaction>
     <ensureOneDoorUnlocked>false</ensureOneDoorUnlocked>
     <corridorDef>BTG_OrbitalCorridor</corridorDef>
+    <wallLampDef>WallLamp</wallLampDef>
 
     <!--
       Wall attachments: Life support units provide power generation throughout the settlement
