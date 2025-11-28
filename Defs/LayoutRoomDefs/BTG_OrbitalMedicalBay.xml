@@ -30,8 +30,8 @@
     <prefabs>
       <!-- Modern hospital beds with vitals monitors (edge) -->
       <BTG_HospitalBeds_Edge>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>2~6</minMaxRange>
+        <countPerTenEdgeCells>5</countPerTenEdgeCells>
+        <minMaxRange>3~8</minMaxRange>
       </BTG_HospitalBeds_Edge>
 
       <!-- Medicine storage shelves -->
@@ -40,17 +40,17 @@
         <minMaxRange>2~3</minMaxRange>
       </BTG_MedicineShelf_Edge>
 
-      <!-- Compact hospital bed units (interior, low priority) -->
-      <BTG_HospitalBeds>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~2</minMaxRange>
-      </BTG_HospitalBeds>
-
       <!-- Hydroponic basin for healroot cultivation -->
       <BTG_HydroponicHealroot>
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~1</minMaxRange>
       </BTG_HydroponicHealroot>
+
+      <!-- Compact hospital bed units (interior, low priority) -->
+      <BTG_HospitalBeds>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>0~4</minMaxRange>
+      </BTG_HospitalBeds>
 
       <!-- Trash shelf along wall edge -->
       <IndustrialShelf_InnerWall>

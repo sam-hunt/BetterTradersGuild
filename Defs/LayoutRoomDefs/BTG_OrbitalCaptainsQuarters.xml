@@ -14,9 +14,8 @@
     - Good-quality marble sculptures (small and grand) and potted plants
     - Minimal threat level (VIP quarters)
 
-    TODO: Add C# MapComponent to spawn a tame, bonded cat near the animal bed
-          after map generation. Cannot be done via XML prefabs/parts as vanilla
-          doesn't support setting faction/tame status for spawned animals.
+    TODO: Replace carpet with fine carpet if royalty active
+    TODO: Add shelf with whisky if VE brewing active
   -->
 
   <LayoutRoomDef>

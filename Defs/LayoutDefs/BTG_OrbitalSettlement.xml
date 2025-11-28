@@ -24,7 +24,7 @@
       - corridorDef: Custom corridor with MetalTile flooring (not AncientTile)
     -->
     <clearDoorFaction>false</clearDoorFaction>
-    <ensureOneDoorUnlocked>true</ensureOneDoorUnlocked>
+    <ensureOneDoorUnlocked>false</ensureOneDoorUnlocked>
     <corridorDef>BTG_OrbitalCorridor</corridorDef>
 
     <!--
@@ -49,7 +49,7 @@
       Uses CUSTOM BTG_Orbital* RoomDefs with modern aesthetics (metal tiles, functional equipment).
 
       Key rooms:
-      - BTG_OrbitalTransportRoom: Shuttle bay for dynamic cargo spawning (Phase 3.4+)
+      - BTG_OrbitalTransportRoom: Shuttle bay for dynamic cargo spawning
       - BTG_OrbitalMedicalBay: Healthcare facility with hospital beds and medicine
       - BTG_OrbitalComputerRoom: Command center with terminals/consoles
       - BTG_OrbitalHydroponics: Functional food production with growing crops

@@ -38,13 +38,6 @@
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </WoodenCratesWithSomeLoot>
-
-      <!-- TODO: Extra life support units for power generation (supports multiple sunlamps) -->
-      <!-- Maybe using a custom prefab? -->
-      <!-- <LifeSupportUnit>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>2~4</minMaxRange>
-      </LifeSupportUnit> -->
     </prefabs>
 
     <parts>

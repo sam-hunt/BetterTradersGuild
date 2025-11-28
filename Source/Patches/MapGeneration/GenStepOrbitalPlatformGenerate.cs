@@ -2,7 +2,9 @@ using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 using BetterTradersGuild.Helpers;
 using BetterTradersGuild.WorldObjects;
 
@@ -149,6 +151,157 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
 
             // Return true to allow vanilla Generate() to proceed with our custom layout
             return true;
+        }
+
+        /// <summary>
+        /// Harmony Postfix patch that runs AFTER GenStep_OrbitalPlatform.Generate().
+        ///
+        /// PURPOSE:
+        /// Places hidden conduits under all wall cells in the generated structure.
+        /// This creates a station-wide power network, ensuring all electrical devices
+        /// are connected to power sources (LifeSupportUnits).
+        ///
+        /// ARCHITECTURE:
+        /// - Runs after vanilla generation completes
+        /// - Accesses map.layoutStructureSketches to get generated structure data
+        /// - Iterates through StructureLayout.cellTypes[,] 2D array
+        /// - Places HiddenConduit under every Wall cell
+        ///
+        /// EXTENSIBILITY:
+        /// This pattern can be extended for other pipe networks (VE Chemfuel, VE Nutrient Paste)
+        /// by checking for mod presence and spawning additional pipe types.
+        ///
+        /// LEARNING NOTE (LayoutStructureSketch):
+        /// After GenStep runs, map.layoutStructureSketches contains LayoutStructureSketch objects.
+        /// Each sketch has a structureLayout with a cellTypes[x,z] 2D array where each cell is:
+        /// - Empty: Outside the structure
+        /// - Floor: Walkable floor
+        /// - Wall: Wall building
+        /// - Door: Door building
+        /// </summary>
+        [HarmonyPostfix]
+        public static void Postfix(Map map)
+        {
+            // STEP 1: Check if custom layouts feature enabled
+            if (!BetterTradersGuildMod.Settings.useCustomLayouts)
+            {
+                return;
+            }
+
+            // STEP 2: Check if this is a TradersGuild settlement
+            Settlement settlement = map?.Parent as Settlement;
+            if (settlement == null || !TradersGuildHelper.IsTradersGuildSettlement(settlement))
+            {
+                return;
+            }
+
+            // STEP 3: Get the most recently generated structure sketch
+            // (our structure was just added during Generate())
+            LayoutStructureSketch sketch = map.layoutStructureSketches?.LastOrDefault();
+            if (sketch?.structureLayout == null)
+            {
+                Log.Warning("[Better Traders Guild] Could not find LayoutStructureSketch for conduit placement. " +
+                            "Power network may not be fully connected.");
+                return;
+            }
+
+            // STEP 4: Place hidden conduits under all wall cells
+            int conduitCount = PlaceHiddenConduits(map, sketch);
+
+            Log.Message($"[Better Traders Guild] Placed {conduitCount} conduits under walls " +
+                        $"in settlement '{settlement.Name}' for station-wide power network.");
+
+            // STEP 5: Future extension point for VE mod pipe networks
+            // PlaceVEChemfuelPipes(map, sketch);
+            // PlaceVENutrientPastePipes(map, sketch);
+        }
+
+        /// <summary>
+        /// Places power conduits under all wall and door cells in the structure.
+        ///
+        /// TECHNICAL DETAILS:
+        /// - PowerConduit under walls (visible but hidden by wall graphics)
+        /// - HiddenConduit under doors (invisible so doorways look clean)
+        /// - Iterates room rects' edge cells (walls are on rect edges, not interior)
+        /// - O(perimeter) instead of O(area) - much more efficient for large structures
+        ///
+        /// LEARNING NOTE (Room Rect Edges):
+        /// Room rects INCLUDE their walls (verified in RoomContents_CaptainsQuarters).
+        /// The edge cells of each rect correspond to the room's walls, so we can
+        /// iterate just the edges instead of checking every cell in the bounding box.
+        /// For a 20x20 room: edges = 76 cells vs interior = 400 cells (5x fewer checks).
+        /// </summary>
+        /// <param name="map">The map being generated</param>
+        /// <param name="sketch">The LayoutStructureSketch containing structure data</param>
+        /// <returns>Number of conduits placed</returns>
+        private static int PlaceHiddenConduits(Map map, LayoutStructureSketch sketch)
+        {
+            StructureLayout layout = sketch.structureLayout;
+
+            // Both are vanilla Core defs - no fallback needed
+            ThingDef wallConduitDef = ThingDefOf.PowerConduit;
+            ThingDef doorConduitDef = DefDatabase<ThingDef>.GetNamed("HiddenConduit");
+
+            int placedCount = 0;
+
+            // Track cells we've already processed (rooms can share walls)
+            HashSet<IntVec3> processedCells = new HashSet<IntVec3>();
+
+            // Iterate through all rooms in the structure
+            foreach (LayoutRoom room in layout.Rooms)
+            {
+                if (room.rects == null)
+                    continue;
+
+                // Iterate through all rects in the room (corridors have multiple rects)
+                foreach (CellRect rect in room.rects)
+                {
+                    // Iterate edge cells only (walls are on edges, not interior)
+                    foreach (IntVec3 edgeCell in rect.EdgeCells)
+                    {
+                        // Skip if already processed (shared walls between rooms)
+                        if (!processedCells.Add(edgeCell))
+                            continue;
+
+                        // Bounds check (defensive)
+                        if (!edgeCell.InBounds(map))
+                            continue;
+
+                        // Check what's at this edge cell
+                        Building edifice = edgeCell.GetEdifice(map);
+                        if (edifice == null)
+                            continue;
+
+                        // Determine conduit type based on edifice
+                        ThingDef conduitDef;
+                        if (edifice.def.IsDoor)
+                        {
+                            // Hidden conduit under doors (invisible in doorways)
+                            conduitDef = doorConduitDef;
+                        }
+                        else if (edifice.def.building?.isPlaceOverableWall == true)
+                        {
+                            // Regular conduit under walls (hidden by wall graphics anyway)
+                            conduitDef = wallConduitDef;
+                        }
+                        else
+                        {
+                            // Not a wall or door - skip
+                            continue;
+                        }
+
+                        // Skip safety check thing doesn't already exist here as we assume full
+                        // control over map gen on our structure layout
+
+                        // Create and spawn the conduit
+                        Thing conduit = ThingMaker.MakeThing(conduitDef);
+                        GenSpawn.Spawn(conduit, edgeCell, map);
+                        placedCount++;
+                    }
+                }
+            }
+
+            return placedCount;
         }
     }
 }
