@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Pod Launch Bay
+
+    Open-air facility for launching cargo pods.
+    Features:
+    - Concrete floor with steel tile edges
+    - Quad pod launchers (interior placement)
+    - Supply shelves with fuel and materials
+    - Custom room contents worker for future VE integration
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_OrbitalPodLaunchBay</defName>
+    <noRoof>true</noRoof>
+    <minSingleRectWidth>10</minSingleRectWidth>
+    <minSingleRectHeight>10</minSingleRectHeight>
+    <floorTypes>
+      <li>Concrete</li>
+    </floorTypes>
+    <edgeTerrain>MetalTile</edgeTerrain>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_PodLaunchBay</roomContentsWorkerType>
+    <prefabs>
+      <BTG_QuadPodLauncher>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_QuadPodLauncher>
+      <BTG_PodSupplyShelf_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_PodSupplyShelf_Edge>
+      <IndustrialShelf_InnerWall>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </IndustrialShelf_InnerWall>
+    </prefabs>
+  </LayoutRoomDef>
+</Defs>

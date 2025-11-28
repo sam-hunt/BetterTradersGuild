@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Quad Pod Launcher Prefab
+
+    Stub prefab for quad pod launcher equipment.
+    Interior placement (not edge-only) for central positioning in launch bay.
+
+    TODO: Populate with actual launcher things once design is finalized.
+  -->
+
+  <PrefabDef>
+    <defName>BTG_QuadPodLauncher</defName>
+    <size>(5,3)</size>
+    <things>
+      <!-- Empty stub - to be populated with launcher things later -->
+    </things>
+  </PrefabDef>
+</Defs>

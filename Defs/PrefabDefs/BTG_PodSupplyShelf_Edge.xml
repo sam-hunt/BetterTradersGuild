@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Pod Supply Shelf Prefab
+
+    Supply shelf for pod launch operations.
+    Features:
+    - Steel shelf (excellent quality)
+    - 65% chance Chemfuel (fuel for pods)
+    - 65% chance Steel (repair materials)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_PodSupplyShelf_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
+    <things>
+      <!-- Steel shelf for pod supplies -->
+      <Shelf>
+        <position>(0,0,0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>Steel</stuff>
+      </Shelf>
+
+      <!-- Chemfuel for pod fuel -->
+      <Chemfuel>
+        <chance>0.65</chance>
+        <position>(0,0,0)</position>
+        <stackCountRange>50~75</stackCountRange>
+      </Chemfuel>
+
+      <!-- Steel for repairs -->
+      <Steel>
+        <chance>0.65</chance>
+        <position>(0,0,0)</position>
+        <stackCountRange>50~75</stackCountRange>
+      </Steel>
+    </things>
+  </PrefabDef>
+</Defs>
