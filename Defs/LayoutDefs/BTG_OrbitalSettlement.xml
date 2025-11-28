@@ -28,6 +28,7 @@
     <ensureOneDoorUnlocked>false</ensureOneDoorUnlocked>
     <corridorDef>BTG_OrbitalCorridor</corridorDef>
     <wallLampDef>WallLamp</wallLampDef>
+    <wallLampChancePerPosition>1</wallLampChancePerPosition>
 
     <!--
       Wall attachments: Life support units provide power generation throughout the settlement
