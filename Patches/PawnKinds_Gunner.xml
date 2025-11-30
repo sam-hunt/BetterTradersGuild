@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - TradersGuild_Gunner Patches
+
+  Upgrades Gunner to spacer-level ranged fighter:
+  - SpacerGun weapons only (charge rifle, charge lance)
+  - Marine armor + Marine helmet (97% vacuum resistance)
+  - 40% implant chance, 50% weapon biocoding
+  - Good quality gear in better condition
+-->
+<Patch>
+
+  <!-- Increase combat power: 85 → 110 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <combatPower>110</combatPower>
+    </value>
+  </Operation>
+
+  <!-- Override gear health: inherit 0.7~3.2 from GunnerBase → 1~1 (100% health) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <gearHealthRange>1~1</gearHealthRange>
+    </value>
+  </Operation>
+
+  <!-- Add item quality: Good -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <itemQuality>Good</itemQuality>
+    </value>
+  </Operation>
+
+  <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <apparelTags Inherit="False">
+        <li>SpacerMilitary</li>
+        <li>IndustrialBasic</li>
+      </apparelTags>
+    </value>
+  </Operation>
+
+  <!-- Increase apparel budget: 1000~1500 → 2000~3000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <apparelMoney>2000~3000</apparelMoney>
+    </value>
+  </Operation>
+
+  <!-- Replace weapon tags: Gun → SpacerGun -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <weaponTags Inherit="False">
+        <li>SpacerGun</li>
+      </weaponTags>
+    </value>
+  </Operation>
+
+  <!-- Increase weapon budget: 330~650 → 1010~1500 (SpacerGun minimum is 1010) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <weaponMoney>1010~1500</weaponMoney>
+    </value>
+  </Operation>
+
+  <!-- Override apparelRequired: Marine armor + Marine helmet (97% vacuum resistance) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <apparelRequired Inherit="False">
+        <li>Apparel_PowerArmor</li>
+        <li>Apparel_PowerArmorHelmet</li>
+      </apparelRequired>
+    </value>
+  </Operation>
+
+  <!-- Increase implant chance: 15% → 40% -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <techHediffsChance>0.40</techHediffsChance>
+    </value>
+  </Operation>
+
+  <!-- Increase implant budget: 700~1200 → 1000~2000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <techHediffsMoney>1000~2000</techHediffsMoney>
+    </value>
+  </Operation>
+
+  <!-- Increase weapon biocoding: 20% → 50% -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <biocodeWeaponChance>0.50</biocodeWeaponChance>
+    </value>
+  </Operation>
+
+  <!-- Increase combat drugs chance: 5% → 35% -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]/combatEnhancingDrugsChance</xpath>
+    <value>
+      <combatEnhancingDrugsChance>0.35</combatEnhancingDrugsChance>
+    </value>
+  </Operation>
+
+  <!-- Biotech: Override xenotype chances (30% Hussar, 10% Genie, 30% Starjack) -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <xenotypeSet>
+        <xenotypeChances>
+          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.30</Hussar>
+          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Odyssey">0.30</Starjack>
+        </xenotypeChances>
+      </xenotypeSet>
+    </value>
+  </Operation>
+
+</Patch>

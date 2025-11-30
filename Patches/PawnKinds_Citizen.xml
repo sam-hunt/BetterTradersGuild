@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - TradersGuild_Citizen Patches
+
+  Fixes vacuum protection for adult citizens.
+-->
+<Patch>
+
+  <!-- Replace gear health: 0.2~2.0 → 1~1 (100% health) -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]/gearHealthRange</xpath>
+    <value>
+      <gearHealthRange>1~1</gearHealthRange>
+    </value>
+  </Operation>
+
+  <!-- Fix Citizen apparelRequired: Remove children's vacsuit, use adult vacsuit -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]/apparelRequired</xpath>
+    <value>
+      <apparelRequired>
+        <li>Apparel_Vacsuit</li>
+        <li>Apparel_VacsuitHelmet</li>
+      </apparelRequired>
+    </value>
+  </Operation>
+
+  <!-- Biotech: Override xenotype chances (5% Hussar, 45% Genie, 30% Starjack) -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]</xpath>
+    <value>
+      <xenotypeSet>
+        <xenotypeChances>
+          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.05</Hussar>
+          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.45</Genie>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Odyssey">0.30</Starjack>
+        </xenotypeChances>
+      </xenotypeSet>
+    </value>
+  </Operation>
+
+</Patch>

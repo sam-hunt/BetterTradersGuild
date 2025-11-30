@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - TradersGuild_Elite Patches
+
+  Upgrades Elite to spacer-level elite guard:
+  - SpacerGun + GunHeavy weapons
+  - Cataphract armor (Royalty) or Power armor (fallback)
+  - 65% implant chance, up to 4 implants, 50% weapon biocoding
+  - Excellent quality gear, 90% combat drug usage
+-->
+<Patch>
+
+  <!-- Increase combat power: 130 → 180 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <combatPower>180</combatPower>
+    </value>
+  </Operation>
+
+  <!-- Add item quality: Excellent -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <itemQuality>Excellent</itemQuality>
+    </value>
+  </Operation>
+
+  <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <apparelTags Inherit="False">
+        <li>SpacerMilitary</li>
+        <li>IndustrialBasic</li>
+      </apparelTags>
+    </value>
+  </Operation>
+
+  <!-- Increase apparel budget: 2500~3500 → 6000~9000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <apparelMoney>6000~9000</apparelMoney>
+    </value>
+  </Operation>
+
+  <!-- Replace weapon tags: IndustrialGunAdvanced → SpacerGun + GunHeavy -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <weaponTags Inherit="False">
+        <li>SpacerGun</li>
+        <li>GunHeavy</li>
+      </weaponTags>
+    </value>
+  </Operation>
+
+  <!-- Increase weapon budget: 500~1400 → 1500~3000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <weaponMoney>1500~3000</weaponMoney>
+    </value>
+  </Operation>
+
+  <!-- Increase implant chance: 35% → 65% -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <techHediffsChance>0.65</techHediffsChance>
+    </value>
+  </Operation>
+
+  <!-- Increase implant budget: 1000~1200 → 2000~4000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <techHediffsMoney>2000~4000</techHediffsMoney>
+    </value>
+  </Operation>
+
+  <!-- Add implant max amount: 4 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <techHediffsMaxAmount>4</techHediffsMaxAmount>
+    </value>
+  </Operation>
+
+  <!-- Increase weapon biocoding: 30% → 50% -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <biocodeWeaponChance>0.50</biocodeWeaponChance>
+    </value>
+  </Operation>
+
+  <!-- Upgrade Elite armor to Cataphract if Royalty, else keep PowerArmor -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[defName="Apparel_ArmorCataphract"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+      <value>
+        <apparelRequired Inherit="False">
+          <li>Apparel_ArmorCataphract</li>
+          <li>Apparel_ArmorHelmetCataphract</li>
+        </apparelRequired>
+      </value>
+    </match>
+    <!-- nomatch: keep existing PowerArmor from TradersGuildEliteBase (no change needed) -->
+  </Operation>
+
+  <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack) -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
+    <value>
+      <xenotypeSet>
+        <xenotypeChances>
+          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.40</Hussar>
+          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Odyssey">0.30</Starjack>
+        </xenotypeChances>
+      </xenotypeSet>
+    </value>
+  </Operation>
+
+</Patch>

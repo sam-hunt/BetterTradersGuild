@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - Apparel Materials
+
+  Forces TradersGuild pawns to wear synthread/hyperweave clothing instead of
+  animal leathers and common cloth. Reflects their status as wealthy space merchants.
+
+  Tier system:
+  - Synthread: Citizen, Gunner, Slasher, Heavy (mid-tier)
+  - Hyperweave: Elite, Magister (elite tier)
+
+  Note: This only affects randomly-selected apparel from apparelTags.
+  Required armor (apparelRequired) uses different stuff categories and is unaffected.
+-->
+<Patch>
+
+  <!-- Synthread clothing for Citizens and mid-tier combatants -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[
+      defName="TradersGuild_Citizen" or
+      defName="TradersGuild_Gunner" or
+      defName="TradersGuild_Slasher" or
+      defName="TradersGuild_Heavy"
+    ]</xpath>
+    <value>
+      <specificApparelRequirements>
+        <li>
+          <bodyPartGroup>Torso</bodyPartGroup>
+          <apparelLayer>OnSkin</apparelLayer>
+          <stuff>Synthread</stuff>
+        </li>
+        <li>
+          <bodyPartGroup>Legs</bodyPartGroup>
+          <apparelLayer>OnSkin</apparelLayer>
+          <stuff>Synthread</stuff>
+        </li>
+      </specificApparelRequirements>
+    </value>
+  </Operation>
+
+  <!-- Hyperweave clothing for Elite tier and children (guild kids get the best) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[
+      defName="TradersGuild_Elite" or
+      defName="TradersGuild_Magister" or
+      defName="TradersGuild_Child"
+    ]</xpath>
+    <value>
+      <specificApparelRequirements>
+        <li>
+          <bodyPartGroup>Torso</bodyPartGroup>
+          <apparelLayer>OnSkin</apparelLayer>
+          <stuff>Hyperweave</stuff>
+        </li>
+        <li>
+          <bodyPartGroup>Legs</bodyPartGroup>
+          <apparelLayer>OnSkin</apparelLayer>
+          <stuff>Hyperweave</stuff>
+        </li>
+      </specificApparelRequirements>
+    </value>
+  </Operation>
+
+</Patch>

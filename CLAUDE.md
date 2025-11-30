@@ -632,7 +632,11 @@ sudo update-binfmts --disable cli
 ### Debugging Tips
 
 1. **Enable RimWorld Dev Mode:** Settings → Dev Mode → Logging enables detailed logs
-2. **Check logs at:** `%APPDATA%\..\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Player.log`
+2. **Check logs at:**
+   - **Windows:** `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Player.log`
+   - **WSL:** `/mnt/c/Users/*/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Player.log` (glob pattern - avoids needing to know Windows username)
+   - **Linux (Steam):** `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log`
+   - `Player-prev.log` in same directory contains previous session's log
 3. **Inspect RimWorld API with monodis:**
 
    ```bash

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - TradersGuild_Magister Patches
+
+  Upgrades Magister (faction leader) to spacer-level commander:
+  - SpacerGun + GunHeavy weapons
+  - Prestige Cataphract armor (Royalty) or Power armor (fallback)
+  - 85% implant chance, up to 4 implants, 50% weapon biocoding
+  - Excellent quality gear
+  - Vacskin gland (Royalty) for 100% vacuum immunity
+-->
+<Patch>
+
+  <!-- Increase combat power: 130 → 200 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <combatPower>200</combatPower>
+    </value>
+  </Operation>
+
+  <!-- Add item quality: Excellent -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <itemQuality>Excellent</itemQuality>
+    </value>
+  </Operation>
+
+  <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <apparelTags Inherit="False">
+        <li>SpacerMilitary</li>
+        <li>IndustrialBasic</li>
+      </apparelTags>
+    </value>
+  </Operation>
+
+  <!-- Increase apparel budget: 2500~3500 → 8000~12000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <apparelMoney>8000~12000</apparelMoney>
+    </value>
+  </Operation>
+
+  <!-- Replace weapon tags: IndustrialGunAdvanced → SpacerGun + GunHeavy -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <weaponTags Inherit="False">
+        <li>SpacerGun</li>
+        <li>GunHeavy</li>
+      </weaponTags>
+    </value>
+  </Operation>
+
+  <!-- Increase weapon budget: 500~1400 → 2000~4000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <weaponMoney>2000~4000</weaponMoney>
+    </value>
+  </Operation>
+
+  <!-- Override implant chance for Magister: 85% -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <techHediffsChance>0.85</techHediffsChance>
+    </value>
+  </Operation>
+
+  <!-- Increase implant budget: 1000~1200 → 2000~4000 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <techHediffsMoney>2000~4000</techHediffsMoney>
+    </value>
+  </Operation>
+
+  <!-- Add implant max amount: 4 -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <techHediffsMaxAmount>4</techHediffsMaxAmount>
+    </value>
+  </Operation>
+
+  <!-- Increase weapon biocoding: 30% → 50% -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <biocodeWeaponChance>0.50</biocodeWeaponChance>
+    </value>
+  </Operation>
+
+  <!-- Upgrade Magister armor to Prestige Cataphract if Royalty, else PowerArmor -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[defName="Apparel_ArmorCataphractPrestige"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelRequired</xpath>
+      <value>
+        <apparelRequired Inherit="False">
+          <li>Apparel_ArmorCataphractPrestige</li>
+          <li>Apparel_ArmorHelmetCataphractPrestige</li>
+        </apparelRequired>
+      </value>
+    </match>
+    <nomatch Class="PatchOperationReplace">
+      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelRequired</xpath>
+      <value>
+        <apparelRequired Inherit="False">
+          <li>Apparel_PowerArmor</li>
+          <li>Apparel_PowerArmorHelmet</li>
+        </apparelRequired>
+      </value>
+    </nomatch>
+  </Operation>
+
+  <!-- Biotech: Override xenotype chances (5% Hussar, 55% Genie, 30% Starjack) -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <xenotypeSet>
+        <xenotypeChances>
+          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.05</Hussar>
+          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.55</Genie>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Odyssey">0.30</Starjack>
+        </xenotypeChances>
+      </xenotypeSet>
+    </value>
+  </Operation>
+
+  <!-- Royalty: Add required implants (Neurocalculator + VacskinGland for 100%
+  vacuum immunity) -->
+  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Royalty">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
+    <value>
+      <techHediffsRequired>
+        <li MayRequire="Ludeon.RimWorld.Royalty">Neurocalculator</li>
+        <li MayRequire="Ludeon.RimWorld.Royalty">VacskinGland</li>
+      </techHediffsRequired>
+    </value>
+  </Operation>
+
+</Patch>

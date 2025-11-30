@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - TradersGuild Settlement PawnGroupMaker
+
+  Overrides spawn ratios for TradersGuild settlements with
+  a balanced military/civilian mix:
+  - ~21.6% civilians (Citizens + Children)
+  - ~78.4% military (Gunners, Slashers, Heavy, Elite, Magister)
+-->
+<Patch>
+
+  <!-- Replace Settlement pawnGroupMaker with balanced military/civilian mix -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/FactionDef[defName="TradersGuild"]/pawnGroupMakers/li[kindDef="Settlement"]</xpath>
+    <value>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <!-- Civilians (~21.6%) -->
+          <TradersGuild_Child MayRequire="Ludeon.RimWorld.Biotech">4</TradersGuild_Child>
+          <TradersGuild_Citizen>4</TradersGuild_Citizen>
+          <!-- Military (~78.4%) -->
+          <TradersGuild_Gunner>10</TradersGuild_Gunner>
+          <TradersGuild_Elite>8</TradersGuild_Elite>
+          <TradersGuild_Slasher>4</TradersGuild_Slasher>
+          <TradersGuild_Heavy>4</TradersGuild_Heavy>
+          <TradersGuild_Magister>3</TradersGuild_Magister>
+        </options>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>
