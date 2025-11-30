@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Mech Station (Biotech DLC)
+
+    Mechanoid maintenance and repair facility.
+    Houses rechargers, gestators, and band nodes for station security mechs.
+  -->
+
+  <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_OrbitalMechStation</defName>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Mech rechargers along walls -->
+      <AncientBasicRecharger_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~6</minMaxRange>
+      </AncientBasicRecharger_Edge>
+
+      <!-- Central standard recharger -->
+      <AncientStandardRecharger>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientStandardRecharger>
+
+      <!-- Mech gestator for repairs/production -->
+      <AncientLargeMechGestator>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientLargeMechGestator>
+
+      <!-- Band nodes for mech control -->
+      <AncientBandNode_Cluster>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientBandNode_Cluster>
+
+      <!-- Parts and component storage -->
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~3</minMaxRange>
+      </IndustrialShelf_Edge>
+    </prefabs>
+
+    <!-- Mechs guarding their own station -->
+    <parts>
+      <HunterDrone>0.3</HunterDrone>
+      <WaspDrone>0.2</WaspDrone>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

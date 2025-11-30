@@ -105,6 +105,9 @@
       <BTG_OrbitalClassroom MayRequire="Ludeon.RimWorld.Biotech">
         <countRange>1~1</countRange>
       </BTG_OrbitalClassroom>
+      <BTG_OrbitalMechStation MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>0~2</countRange>
+      </BTG_OrbitalMechStation>
 
       <!-- Security and operations -->
       <BTG_OrbitalSecurityStation>
