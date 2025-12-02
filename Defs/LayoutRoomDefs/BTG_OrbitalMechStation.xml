@@ -17,29 +17,34 @@
     </floorTypes>
 
     <prefabs>
-      <!-- Mech rechargers along walls -->
-      <AncientBasicRecharger_Edge>
+      <!-- Mech rechargers along walls (working, not Ancient) -->
+      <BTG_BasicRecharger_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
         <minMaxRange>2~6</minMaxRange>
-      </AncientBasicRecharger_Edge>
+      </BTG_BasicRecharger_Edge>
 
-      <!-- Central standard recharger -->
-      <AncientStandardRecharger>
+      <!-- Central large recharger (working, not Ancient) -->
+      <BTG_StandardRecharger>
         <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
-      </AncientStandardRecharger>
+      </BTG_StandardRecharger>
 
-      <!-- Mech gestator for repairs/production -->
-      <AncientLargeMechGestator>
+      <!-- Mech gestators for repairs/production (working, not Ancient) -->
+      <BTG_MechGestator>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>0~2</minMaxRange>
+      </BTG_MechGestator>
+
+      <BTG_LargeMechGestator>
         <countPerHundredCells>2</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
-      </AncientLargeMechGestator>
+      </BTG_LargeMechGestator>
 
-      <!-- Band nodes for mech control -->
-      <AncientBandNode_Cluster>
+      <!-- Band nodes for mech control (working, not Ancient) -->
+      <BTG_BandNode_Cluster>
         <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
-      </AncientBandNode_Cluster>
+      </BTG_BandNode_Cluster>
 
       <!-- Parts and component storage -->
       <IndustrialShelf_Edge>

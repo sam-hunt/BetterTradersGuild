@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Mech Station Prefabs (Biotech DLC)
+
+    Working versions of mechanoid equipment for active trading stations.
+    These replace the Ancient (damaged/ruined) variants with functional equipment.
+  -->
+
+  <!-- Small mech recharger along walls (3x1) -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_BasicRecharger_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,1)</size>
+    <things>
+      <BasicRecharger>
+        <position>(1, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </BasicRecharger>
+    </things>
+  </PrefabDef>
+
+  <!-- Large mech recharger (3x2) -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_StandardRecharger</defName>
+    <size>(3,2)</size>
+    <things>
+      <StandardRecharger>
+        <position>(1, 0, 0)</position>
+      </StandardRecharger>
+    </things>
+  </PrefabDef>
+
+  <!-- Regular mech gestator for light mechs (3x2) -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_MechGestator</defName>
+    <size>(3,2)</size>
+    <things>
+      <MechGestator>
+        <position>(0, 0, 0)</position>
+      </MechGestator>
+    </things>
+  </PrefabDef>
+
+  <!-- Large mech gestator for heavy mechs (4x3) -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_LargeMechGestator</defName>
+    <size>(4,3)</size>
+    <things>
+      <LargeMechGestator>
+        <position>(1, 0, 1)</position>
+      </LargeMechGestator>
+    </things>
+  </PrefabDef>
+
+  <!-- Band node cluster for mech control (5x4) -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_BandNode_Cluster</defName>
+    <rotations>North</rotations>
+    <size>(5,4)</size>
+    <things>
+      <BandNode>
+        <chance>0.75</chance>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(3, 0, 0)</li>
+          <li>(0, 0, 2)</li>
+          <li>(3, 0, 2)</li>
+        </positions>
+      </BandNode>
+    </things>
+  </PrefabDef>
+
+</Defs>
