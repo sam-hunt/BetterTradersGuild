@@ -19,7 +19,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalCaptainsQuarters</defName>
+    <defName>BTG_CaptainsQuarters</defName>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CaptainsQuarters</roomContentsWorkerType>
     <minSingleRectWidth>11</minSingleRectWidth>
     <minSingleRectHeight>11</minSingleRectHeight>

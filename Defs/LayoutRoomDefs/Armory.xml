@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Armory
+
+    Weapons and armor storage facility.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_Armory</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Armory</roomContentsWorkerType>
+
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Charge rifle storage -->
+      <BTG_ChargeRifleShelf_Edge>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_ChargeRifleShelf_Edge>
+
+      <!-- Mortar shell storage (marker shells replaced by RoomContents_Armory) -->
+      <BTG_MortarShellShelf_Edge>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_MortarShellShelf_Edge>
+
+      <!-- Security terminals for weapon access control -->
+      <AncientSecurityTerminal>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>2~4</minMaxRange>
+      </AncientSecurityTerminal>
+
+      <!-- Armor display stands -->
+      <BTG_OutfitStands_Edge>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_OutfitStands_Edge>
+
+      <!-- Lockers for personal gear -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>3~10</minMaxRange>
+      </AncientLockerBank_Row>
+
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>4</countPerTenEdgeCells>
+        <minMaxRange>3~12</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <IndustrialShelf_Rows>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </IndustrialShelf_Rows>
+
+      <AncientSpacerCrate_Cluster>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>2~6</minMaxRange>
+      </AncientSpacerCrate_Cluster>
+    </prefabs>
+
+    <!-- Higher threat level (weapons storage) -->
+    <parts>
+      <HunterDrone>0.2</HunterDrone>
+      <CornerArmoredTurret>0.3</CornerArmoredTurret>
+      <AncientBarricades />
+    </parts>
+  </LayoutRoomDef>
+</Defs>

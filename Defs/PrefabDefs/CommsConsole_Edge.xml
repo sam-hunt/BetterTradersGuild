@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Comms Console Prefab
+
+    Working communications console for contacting factions and orbital traders.
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CommsConsole_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,2)</size>
+    <things>
+      <CommsConsole>
+        <position>(0, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </CommsConsole>
+    </things>
+  </PrefabDef>
+
+</Defs>

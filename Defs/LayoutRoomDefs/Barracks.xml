@@ -16,7 +16,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalBarracks</defName>
+    <defName>BTG_Barracks</defName>
     <minSingleRectWidth>10</minSingleRectWidth>
     <minSingleRectHeight>10</minSingleRectHeight>
 

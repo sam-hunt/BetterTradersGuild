@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Drug Lab Prefab
+
+    Working drug lab bench for medicine/drug production.
+    Replaces AncientTableDrugLab (crumbling, shattered, contaminated).
+  -->
+
+  <PrefabDef>
+    <defName>BTG_DrugLab_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,1)</size>
+    <things>
+      <DrugLab>
+        <position>(0, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+      </DrugLab>
+    </things>
+  </PrefabDef>
+
+</Defs>

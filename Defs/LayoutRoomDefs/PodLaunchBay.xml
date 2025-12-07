@@ -12,7 +12,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalPodLaunchBay</defName>
+    <defName>BTG_PodLaunchBay</defName>
     <noRoof>true</noRoof>
     <minSingleRectWidth>10</minSingleRectWidth>
     <minSingleRectHeight>10</minSingleRectHeight>

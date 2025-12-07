@@ -7,7 +7,7 @@
   -->
 
   <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>BTG_OrbitalClassroom</defName>
+    <defName>BTG_Classroom</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
     <roomContentsWorkerClass>BetterTradersGuild.RoomContents.RoomContents_Classroom</roomContentsWorkerClass>

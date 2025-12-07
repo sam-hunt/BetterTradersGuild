@@ -8,7 +8,7 @@
   -->
 
   <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>BTG_OrbitalMechStation</defName>
+    <defName>BTG_MechStation</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
 

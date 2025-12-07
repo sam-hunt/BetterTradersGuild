@@ -7,7 +7,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalRecRoom</defName>
+    <defName>BTG_RecRoom</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
 

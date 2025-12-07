@@ -15,7 +15,7 @@
   -->
 
   <StructureLayoutDef ParentName="OrbitalAncientPlatformBase">
-    <defName>BTG_OrbitalSettlement</defName>
+    <defName>BTG_Settlement</defName>
 
     <!--
       Settlement-specific settings:
@@ -26,7 +26,7 @@
     -->
     <clearDoorFaction>false</clearDoorFaction>
     <ensureOneDoorUnlocked>false</ensureOneDoorUnlocked>
-    <corridorDef>BTG_OrbitalCorridor</corridorDef>
+    <corridorDef>BTG_Corridor</corridorDef>
     <wallLampDef>WallLamp</wallLampDef>
     <wallLampChancePerPosition>1</wallLampChancePerPosition>
 
@@ -47,96 +47,85 @@
     -->
     <junkScaterrers />
 
-    <!--
-      Room Composition:
-      Uses CUSTOM BTG_Orbital* RoomDefs with modern aesthetics (metal tiles, functional equipment).
-
-      Key rooms:
-      - BTG_OrbitalTransportRoom: Shuttle bay for dynamic cargo spawning
-      - BTG_OrbitalMedicalBay: Healthcare facility with hospital beds and medicine
-      - BTG_OrbitalComputerRoom: Command center with terminals/consoles
-      - BTG_OrbitalHydroponics: Functional food production with growing crops
-      - BTG_OrbitalDiningRoom: Communal dining and food prep
-      - BTG_OrbitalBarracks: Crew quarters with beds and lockers
-      - BTG_OrbitalRecRoom: Recreation area with games and entertainment
-      - BTG_OrbitalNursery: Childcare facility (Biotech gated)
-      - BTG_OrbitalClassroom: Education facility (Biotech gated)
-      - BTG_OrbitalArmory: Weapons and armor storage
-      - BTG_OrbitalTradeShowcase: Display room for valuable goods
-      - BTG_OrbitalSecurityStation: Guard post with monitors
-      - BTG_OrbitalWorkshop: Crafting and repair facility
-      - BTG_OrbitalCaptainsQuarters: Luxury living quarters for station leader
-      - BTG_OrbitalCargoStorage: Shipping containers and pallets
-      - BTG_OrbitalStoreroom: General storage (2 instances for varied loot)
-    -->
     <roomDefs>
-      <!-- Dynamic cargo bay (Phase 3.4 will populate with trader-specific items) -->
-      <BTG_OrbitalTransportRoom>
-        <countRange>1~1</countRange>
-      </BTG_OrbitalTransportRoom>
-
       <!-- Core operational facilities -->
-      <BTG_OrbitalMedicalBay>
+
+      <!-- Dynamic cargo bay with trader-specific items -->
+      <BTG_TransportRoom>
         <countRange>1~1</countRange>
-      </BTG_OrbitalMedicalBay>
-      <BTG_OrbitalComputerRoom>
+      </BTG_TransportRoom>
+
+      <BTG_MedicalBay>
         <countRange>1~1</countRange>
-      </BTG_OrbitalComputerRoom>
-      <BTG_OrbitalHydroponics>
+      </BTG_MedicalBay>
+
+      <BTG_ComputerRoom>
+        <countRange>1~1</countRange>
+      </BTG_ComputerRoom>
+
+      <BTG_Hydroponics>
         <countRange>1~4</countRange>
-      </BTG_OrbitalHydroponics>
-      <BTG_OrbitalDiningRoom>
+      </BTG_Hydroponics>
+
+      <BTG_DiningRoom>
         <countRange>1~1</countRange>
-      </BTG_OrbitalDiningRoom>
-      <BTG_OrbitalPodLaunchBay>
+      </BTG_DiningRoom>
+
+      <BTG_PodLaunchBay>
         <countRange>1~1</countRange>
-      </BTG_OrbitalPodLaunchBay>
+      </BTG_PodLaunchBay>
 
       <!-- Living quarters and recreation -->
-      <BTG_OrbitalBarracks>
+
+      <BTG_Barracks>
         <countRange>1~3</countRange>
-      </BTG_OrbitalBarracks>
-      <BTG_OrbitalRecRoom>
+      </BTG_Barracks>
+
+      <BTG_RecRoom>
         <countRange>1~1</countRange>
-      </BTG_OrbitalRecRoom>
-      <BTG_OrbitalNursery MayRequire="Ludeon.RimWorld.Biotech">
+      </BTG_RecRoom>
+
+      <BTG_Nursery MayRequire="Ludeon.RimWorld.Biotech">
         <countRange>1~1</countRange>
-      </BTG_OrbitalNursery>
-      <BTG_OrbitalClassroom MayRequire="Ludeon.RimWorld.Biotech">
+      </BTG_Nursery>
+
+      <BTG_Classroom MayRequire="Ludeon.RimWorld.Biotech">
         <countRange>1~1</countRange>
-      </BTG_OrbitalClassroom>
-      <BTG_OrbitalMechStation MayRequire="Ludeon.RimWorld.Biotech">
+      </BTG_Classroom>
+
+      <BTG_MechStation MayRequire="Ludeon.RimWorld.Biotech">
         <countRange>0~2</countRange>
-      </BTG_OrbitalMechStation>
+      </BTG_MechStation>
 
       <!-- Security and operations -->
-      <BTG_OrbitalSecurityStation>
-        <countRange>1~2</countRange>
-      </BTG_OrbitalSecurityStation>
-      <BTG_OrbitalArmory>
+
+      <BTG_Armory>
         <countRange>1~1</countRange>
-      </BTG_OrbitalArmory>
-      <BTG_OrbitalWorkshop>
+      </BTG_Armory>
+
+      <BTG_Workshop>
         <countRange>1~1</countRange>
-      </BTG_OrbitalWorkshop>
+      </BTG_Workshop>
 
       <!-- Trade and display -->
-      <BTG_OrbitalTradeShowcase>
+      <BTG_TradeShowcase>
         <countRange>1~2</countRange>
-      </BTG_OrbitalTradeShowcase>
+      </BTG_TradeShowcase>
 
       <!-- Captain's quarters -->
-      <BTG_OrbitalCaptainsQuarters>
+      <BTG_CaptainsQuarters>
         <countRange>1~1</countRange>
-      </BTG_OrbitalCaptainsQuarters>
+      </BTG_CaptainsQuarters>
 
       <!-- Storage rooms (multiple for variety) -->
-      <BTG_OrbitalStoreroom>
+      <BTG_Storeroom>
         <countRange>1~3</countRange>
-      </BTG_OrbitalStoreroom>
-      <BTG_OrbitalCargoStorage>
+      </BTG_Storeroom>
+
+      <BTG_CargoStorage>
         <countRange>1~2</countRange>
-      </BTG_OrbitalCargoStorage>
+      </BTG_CargoStorage>
+
     </roomDefs>
   </StructureLayoutDef>
 </Defs>

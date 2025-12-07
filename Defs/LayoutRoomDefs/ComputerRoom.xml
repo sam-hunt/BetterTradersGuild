@@ -7,7 +7,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalComputerRoom</defName>
+    <defName>BTG_ComputerRoom</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
 
@@ -16,11 +16,22 @@
     </floorTypes>
 
     <prefabs>
-      <!-- Computer terminals and consoles -->
-      <AncientSecurityTerminal>
-        <countPerHundredCells>2</countPerHundredCells>
+      <!-- Working comms console for trade communications -->
+      <BTG_CommsConsole_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
+      </BTG_CommsConsole_Edge>
+
+      <!-- Hackable terminals (functional, not destroyed) -->
+      <AncientSecurityTerminal>
+        <countPerHundredCells>4</countPerHundredCells>
+        <minMaxRange>2~4</minMaxRange>
       </AncientSecurityTerminal>
+
+      <AncientEnemyTerminal MayRequire="Ludeon.RimWorld.Ideology">
+        <countPerHundredCells>4</countPerHundredCells>
+        <minMaxRange>2~4</minMaxRange>
+      </AncientEnemyTerminal>
 
       <AncientDestroyedConsole_Large>
         <countPerTenEdgeCells>3</countPerTenEdgeCells>

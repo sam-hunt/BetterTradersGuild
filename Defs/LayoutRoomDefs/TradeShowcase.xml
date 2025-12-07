@@ -12,7 +12,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalTradeShowcase</defName>
+    <defName>BTG_TradeShowcase</defName>
     <minSingleRectWidth>5</minSingleRectWidth>
     <minSingleRectHeight>5</minSingleRectHeight>
 

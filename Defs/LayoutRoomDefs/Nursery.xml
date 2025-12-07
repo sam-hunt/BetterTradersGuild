@@ -7,7 +7,7 @@
   -->
 
   <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>BTG_OrbitalNursery</defName>
+    <defName>BTG_Nursery</defName>
 
     <floorTypes>
       <li>CarpetPink</li>

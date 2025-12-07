@@ -11,7 +11,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalTransportRoom</defName>
+    <defName>BTG_TransportRoom</defName>
     <roomContentsWorkerType>RoomContents_TransportRoom</roomContentsWorkerType>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
     <noRoof>true</noRoof>

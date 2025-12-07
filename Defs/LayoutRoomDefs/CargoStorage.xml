@@ -7,7 +7,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalCargoStorage</defName>
+    <defName>BTG_CargoStorage</defName>
     <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
 
     <floorTypes>

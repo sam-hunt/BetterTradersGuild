@@ -6,7 +6,7 @@ using Verse;
 namespace BetterTradersGuild.RoomContents
 {
     /// <summary>
-    /// Custom RoomContentsWorker for BTG Orbital Corridors.
+    /// Custom RoomContentsWorker for BTG Corridors.
     ///
     /// Currently extends vanilla orbital corridor generation without modifications.
     /// Ancient tile replacement is handled globally by GenStepOrbitalPlatformPostProcess.
@@ -18,7 +18,7 @@ namespace BetterTradersGuild.RoomContents
     /// LEARNING NOTE: This demonstrates how sometimes the simplest approach is to
     /// inherit vanilla behavior directly and handle aesthetic changes at a higher level.
     /// </summary>
-    public class RoomContents_BTG_OrbitalCorridor : RoomContents_Orbital_Corridor
+    public class RoomContents_BTG_Corridor : RoomContents_Orbital_Corridor
     {
         /// <summary>
         /// Main room generation method - currently just calls vanilla implementation.

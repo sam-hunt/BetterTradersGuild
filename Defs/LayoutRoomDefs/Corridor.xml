@@ -11,17 +11,17 @@
   -->
 
   <!-- Base corridor definition -->
-  <LayoutRoomDef Name="BTG_OrbitalCorridor">
-    <defName>BTG_OrbitalCorridor</defName>
+  <LayoutRoomDef Name="BTG_Corridor">
+    <defName>BTG_Corridor</defName>
 
     <!-- Custom worker with pre/post-fill hooks for blast door logging and airlock placement -->
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_BTG_OrbitalCorridor</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_BTG_Corridor</roomContentsWorkerType>
 
   </LayoutRoomDef>
 
   <!-- Defensive corridor variant with barricades -->
-  <LayoutRoomDef ParentName="BTG_OrbitalCorridor">
-    <defName>BTG_OrbitalCorridorDefense</defName>
+  <LayoutRoomDef ParentName="BTG_Corridor">
+    <defName>BTG_CorridorDefense</defName>
     <prefabs>
       <!-- Defensive barricades along corridor -->
       <CorridorBarricade>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Outfit Stands Prefab
+
+    Pair of steel outfit stands for armor display.
+    Features:
+    - Two adjacent outfit stands (excellent quality, steel)
+    - Edge placement for wall-aligned display
+  -->
+
+  <PrefabDef>
+    <defName>BTG_OutfitStands_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
+    <things>
+      <!-- Left outfit stand -->
+      <OutfitStand>
+        <position>(0,0,0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>Steel</stuff>
+      </OutfitStand>
+
+      <!-- Right outfit stand -->
+      <OutfitStand>
+        <position>(1,0,0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>Steel</stuff>
+      </OutfitStand>
+    </things>
+  </PrefabDef>
+</Defs>

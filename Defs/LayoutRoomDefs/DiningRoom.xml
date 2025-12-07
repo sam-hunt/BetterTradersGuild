@@ -7,7 +7,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalDiningRoom</defName>
+    <defName>BTG_DiningRoom</defName>
     <minSingleRectWidth>10</minSingleRectWidth>
     <minSingleRectHeight>10</minSingleRectHeight>
 

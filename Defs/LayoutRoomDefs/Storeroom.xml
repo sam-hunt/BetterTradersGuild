@@ -8,7 +8,7 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_OrbitalStoreroom</defName>
+    <defName>BTG_Storeroom</defName>
     <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
 
     <floorTypes>
