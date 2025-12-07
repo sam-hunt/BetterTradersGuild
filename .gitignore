@@ -10,13 +10,11 @@
 *.userprefs
 
 # Build results
-Source/bin/
-Source/obj/
-Tests/bin/
-Tests/obj/
-Tests/Tools/*.dll
-Tests/Tools/*.exe
-Tests/Tools/*.pdb
+**/bin/
+**/obj/
+Tests/*/Tools/*.dll
+Tests/*/Tools/*.exe
+Tests/*/Tools/*.pdb
 *.cache
 *.zip
 
@@ -32,8 +30,8 @@ _ReSharper*/
 # NOTE: Assemblies/ contains the compiled DLL that RimWorld loads.
 # Some developers commit this, others prefer to build locally.
 # Uncomment the line below if you prefer not to commit the DLL:
-Assemblies/*.dll
-Assemblies/*.pdb
+*/Assemblies/*.dll
+*/Assemblies/*.pdb
 
 # RimWorld local testing
 *.rws

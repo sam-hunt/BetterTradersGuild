@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterTradersGuild", "Source\BetterTradersGuild.csproj", "{A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterTradersGuild", "Source\1.6\BetterTradersGuild.csproj", "{A1B2C3D4-E5F6-4A5B-8C7D-9E0F1A2B3C4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterTradersGuild.Tests", "Tests\BetterTradersGuild.Tests.csproj", "{B2C3D4E5-F6A7-4B5C-8D7E-9F0A1B2C3D4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterTradersGuild.Tests", "Tests\1.6\BetterTradersGuild.Tests.csproj", "{B2C3D4E5-F6A7-4B5C-8D7E-9F0A1B2C3D4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

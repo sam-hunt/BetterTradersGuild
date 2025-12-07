@@ -16,18 +16,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Reference the source project -->
-    <ProjectReference Include="..\Source\BetterTradersGuild.csproj" />
+    <!-- Reference the source project (versioned under Source/1.6/) -->
+    <!-- Path is relative to Tests/1.6/ -->
+    <ProjectReference Include="..\..\Source\1.6\BetterTradersGuild.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Reference RimWorld assemblies for type definitions -->
+    <!-- Paths are relative to Tests/1.6/ -->
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

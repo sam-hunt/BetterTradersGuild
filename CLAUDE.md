@@ -75,7 +75,7 @@ msbuild BetterTradersGuild.csproj /p:Configuration=Debug
 
 ```bash
 # From project root - builds and runs tests using VSTest.Console.exe
-bash run-tests.sh
+bash Scripts/run-tests.sh
 ```
 
 The script:
@@ -97,7 +97,7 @@ dotnet test
 dotnet test --verbosity normal
 ```
 
-⚠️ **WSL Note:** `dotnet test` has timeout issues on WSL with .NET Framework 4.7.2 projects due to protocol negotiation failures between the .NET CLI (Linux) and testhost.exe (Windows). Use `./run-tests.sh` instead for reliable test execution.
+⚠️ **WSL Note:** `dotnet test` has timeout issues on WSL with .NET Framework 4.7.2 projects due to protocol negotiation failures between the .NET CLI (Linux) and testhost.exe (Windows). Use `./Scripts/run-tests.sh` instead for reliable test execution.
 
 **Excluded Test Files:**
 
@@ -217,10 +217,14 @@ BetterTradersGuild/
 ├── .gitattributes          # Git line ending rules
 ├── .gitignore              # Git ignore patterns
 ├── BetterTradersGuild.sln  # Root solution file (includes Source + Tests)
+├── Scripts/                # Shell scripts for development tasks
+│   ├── run-tests.sh            # Test runner script
+│   ├── generate-diagrams.sh    # Diagram generation utility
+│   ├── regenerate-diagrams.sh  # Regenerate all diagrams
+│   └── rebuild-and-regenerate.sh  # Build + regenerate diagrams
 ├── CLAUDE.md               # Developer guidance (THIS FILE)
 ├── PLAN.md                 # Development roadmap and phase tracking
-├── README.md               # GitHub repository landing page
-└── run-tests.sh            # Test runner script
+└── README.md               # GitHub repository landing page
 ```
 
 **Note:** Files marked "🚧 IN PROGRESS" are functional but have incomplete features.

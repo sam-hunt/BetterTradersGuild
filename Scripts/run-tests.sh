@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Builds and runs tests for the specified game version.
+#
+# Usage:
+#   ./run-tests.sh        # Uses latest supported version (from LoadFolders.xml)
+#   ./run-tests.sh 1.6    # Explicitly target version 1.6
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -8,11 +14,22 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Paths
-MOD_ROOT="/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld/Mods/BetterTradersGuild"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MOD_ROOT="$(dirname "$SCRIPT_DIR")"
 VSTEST="/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe"
-TEST_DLL="C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\BetterTradersGuild\\Tests\\bin\\Debug\\net472\\BetterTradersGuild.Tests.dll"
+
+# Get version from CLI argument or fall back to latest
+VERSION="${1:-$("$SCRIPT_DIR/get-latest-version.sh")}"
+if [ $? -ne 0 ] && [ -z "$1" ]; then
+    echo -e "${RED}✗ Failed to determine version${NC}"
+    exit 1
+fi
+
+# Version-specific paths (Windows-style for VSTest)
+TEST_DLL="C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\BetterTradersGuild\\Tests\\${VERSION}\\bin\\Debug\\net472\\BetterTradersGuild.Tests.dll"
 
 echo -e "${BLUE}=== Better Traders Guild - Test Runner ===${NC}"
+echo -e "${BLUE}    Target Version: ${VERSION}${NC}"
 echo ""
 
 # Step 1: Build solution (builds both main project and tests)

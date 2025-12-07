@@ -125,7 +125,7 @@ namespace BetterTradersGuild.Tests.Helpers
              *  This test shows how to generate diagrams to paste into test comments.
              *
              *  USAGE:
-             *  1. Run: ./run-tests.sh (or run this specific test)
+             *  1. Run: ./Scripts/run-tests.sh (or run this specific test)
              *  2. Look at the test output below
              *  3. Copy the diagram into your test comment
              *  4. The diagram will be mathematically correct!
