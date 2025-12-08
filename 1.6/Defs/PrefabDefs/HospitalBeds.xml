@@ -2,13 +2,21 @@
 <Defs>
   <!--
     Better Traders Guild - Hospital Beds Interior Prefab
-
     Compact hospital bed unit for interior room placement.
+
     Features:
-    - Two modern hospital beds side-by-side
-    - VitalsMonitor between beds for patient monitoring
-    - Can spawn in room interiors (not edgeOnly)
-    - Minimal footprint (3x2)
+    - 3x2 prefab size
+    - Center placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0 1 2
+    z=1:   H . H
+    z=0:   H V H
+
+    Legend:
+    H = HospitalBed (steel)
+    V = VitalsMonitor (between beds)
+    . = empty space (patient access)
   -->
 
   <PrefabDef>

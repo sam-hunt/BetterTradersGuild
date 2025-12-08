@@ -2,28 +2,40 @@
 <Defs>
   <!--
     Better Traders Guild - Captain's Bedroom (L-Shaped Prefab)
-
     A self-contained bedroom structure designed for flexible corner/edge placement.
-    Semantically a 7x7 subroom (including all 4 walls), but only contains 2 walls
-    in the XML (front + right side), giving an apparent 6x6 size.
 
-    L-Shaped Wall Configuration:
-    - INCLUDED: Front wall (z=0) with AncientBlastDoor
-    - INCLUDED: Right side wall (x=6, z=1-6)
-    - REMOVED: Back wall (z=6) - room provides this
-    - REMOVED: Left side wall (x=0, z=1-6) - room provides in corners, spawned for edges
+    Features:
+    - 6x6 prefab size
+    - L-shaped wall configuration (front + right side included)
+    - Interior contains luxury furniture on deep purple carpet
+
+    Design (top view, North is up):
+        x: 0 1 2 3 4 5
+    z=5:   S N R R G W
+    z=4:   D . R R . W
+    z=3:   D . . . . W
+    z=2:   . . . . . W
+    z=1:   P . T T A W
+    z=0:   W d W W W W
+
+    Legend:
+    W = OrbitalAncientFortifiedWall (L-shaped frame)
+    d = AncientBlastDoor (entrance)
+    P = PlantPot (marble, excellent)
+    A = AnimalBed (rhinoceros leather, excellent)
+    T = FlatscreenTelevision
+    R = RoyalBed (marble, excellent, 2x2, facing south)
+    D = Dresser (marble, excellent)
+    L = AncientEmergencyLight_Blue
+    S = AncientSafe
+    G = SmallShelf (marble) for unique weapon
+    N = EndTable (marble)
+    . = CarpetPurpleDeep floor
 
     Placement Strategy:
-    - Corner placement (preferred): Rotate so missing LHS and back align with room corner walls
-    - Edge placement (fallback): Rotate so missing back aligns with room edge wall,
-      then spawn missing LHS wall procedurally in post-spawn step
-
-    Coordinates (local space, facing north):
-    - z=0: Front (door opening to room interior)
-    - z=1-5: Interior space (6x5 usable area)
-    - z=6: Missing back wall (room provides)
-    - x=0: Missing left side wall (room provides or spawned)
-    - x=6: Right side wall (included)
+    - Corner placement (preferred): Missing back/left walls align with room walls
+    - Edge placement (fallback): Missing back aligns with room wall, left wall spawned post-placement
+    - Center placement (fallback): Back/left walls spawned post-placement
   -->
   <PrefabDef>
     <defName>BTG_CaptainsBedroom</defName>

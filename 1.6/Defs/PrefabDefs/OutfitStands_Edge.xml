@@ -2,11 +2,18 @@
 <Defs>
   <!--
     Better Traders Guild - Outfit Stands Prefab
-
     Pair of steel outfit stands for armor display.
+
     Features:
-    - Two adjacent outfit stands (excellent quality, steel)
-    - Edge placement for wall-aligned display
+    - 2x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   O O
+
+    Legend:
+    O = OutfitStand (steel, excellent quality, facing into room)
   -->
 
   <PrefabDef>

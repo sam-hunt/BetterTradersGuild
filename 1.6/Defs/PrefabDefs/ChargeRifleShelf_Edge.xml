@@ -2,12 +2,20 @@
 <Defs>
   <!--
     Better Traders Guild - Charge Rifle Shelf Prefab
-
     Weapon storage shelf for armory.
+
     Features:
-    - Steel shelf (excellent quality)
-    - Two positions, each with up to 3 charge rifles
-    - Quality distribution: Normal (70%), Good (50%), Excellent (30%)
+    - 2x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   S S
+
+    Legend:
+    S = Shelf (steel, excellent quality, facing into room)
+        + 0-3 Gun_ChargeRifle per position
+        Quality distribution: Normal (70%), Good (50%), Excellent (30%)
   -->
 
   <PrefabDef>

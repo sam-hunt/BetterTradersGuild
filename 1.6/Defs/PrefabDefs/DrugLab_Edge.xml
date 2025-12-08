@@ -2,9 +2,19 @@
 <Defs>
   <!--
     Better Traders Guild - Drug Lab Prefab
-
     Working drug lab bench for medicine/drug production.
     Replaces AncientTableDrugLab (crumbling, shattered, contaminated).
+
+    Features:
+    - 3x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1 2
+    z=0:   D D D
+
+    Legend:
+    D = DrugLab (steel, 3x1, facing into room)
   -->
 
   <PrefabDef>

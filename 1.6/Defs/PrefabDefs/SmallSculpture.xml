@@ -2,23 +2,18 @@
 <Defs>
   <!--
     Better Traders Guild - Small Sculpture Prefab (Edge-Only)
-
     High-quality marble small sculpture for luxury areas.
-    Placed along room walls for gallery-like aesthetic.
 
     Features:
-    - 1x1 small sculpture footprint
-    - 1-tile clearance on all sides for visual breathing room
-    - Edge-only placement (against walls)
-    - Total prefab size: 3x3 (accommodates sculpture + spacing)
-    - Centered placement within allocated area
+    - 1x1 prefab size
+    - Edge placement (against walls)
 
-    Design (top view, North rotation):
-    [ ][ ][ ]  <- clearance (z=0, facing into room)
-    [ ][S][ ]  <- sculpture + clearance (z=1)
-    [ ][ ][ ]  <- clearance (z=2, against wall)
+    Design (top view, North is up, wall at z=0):
+        x: 0
+    z=0:   S
 
-    Note: The sculpture is positioned at (1,0,1) to center it within the 3x3 footprint.
+    Legend:
+    S = SculptureSmall (marble, good quality)
   -->
 
   <PrefabDef>

@@ -2,15 +2,19 @@
 <Defs>
   <!--
     Better Traders Guild - Armchairs with Center Potplant
-
     Luxury seating arrangement for the Captain's Quarters lounge.
-    Features:
-    - Two rhinoceros leather armchairs spaced 1 tile apart
-    - Marble potplant in center position
-    - Edge-only placement (against walls)
-    - 3x1 footprint
 
-    Design: [Armchair] [Potplant] [Armchair]
+    Features:
+    - 3x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1 2
+    z=0:   A P A
+
+    Legend:
+    A = Armchair (rhinoceros leather, good quality, facing into room)
+    P = PlantPot (marble, good quality)
   -->
 
   <PrefabDef>

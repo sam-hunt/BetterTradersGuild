@@ -2,18 +2,22 @@
 <Defs>
   <!--
     Better Traders Guild - Flatscreen TV with Rhinoceros Leather Couch
-
     Luxury entertainment setup for the Captain's Quarters lounge.
-    Features:
-    - Flatscreen television mounted on wall
-    - Rhinoceros leather couch facing the TV
-    - Edge-only placement (against walls)
-    - 2x3 footprint
 
-    Design:
-    [TV]  [TV]
-    [ ]   [ ]
-    [Couch  ]
+    Features:
+    - 2x3 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   T T
+    z=1:   . .
+    z=2:   C C
+
+    Legend:
+    T = FlatscreenTelevision (2x1)
+    C = Couch (rhinoceros leather, 2x1, facing TV)
+    . = empty space (viewing area)
   -->
 
   <PrefabDef>

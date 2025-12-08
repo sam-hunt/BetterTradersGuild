@@ -2,24 +2,21 @@
 <Defs>
   <!--
     Better Traders Guild - Hydroponic Healroot Prefab (EdgeOnly)
-
     Self-contained hydroponics setup for medical bay healroot cultivation.
 
     Features:
-    - SunLamp at front (z=0) providing light for growth
-    - HydroponicsBasin (1x4) at back (z=2), rotated to span x=0-3 perpendicular to wall
-    - LifeSupportUnit on back wall for power generation and oxygen backup
-    - AncientEmergencyLight_Blue on back wall for illumination
-    - HiddenConduit power network connecting all components
+    - 4x2 prefab size
+    - Edge placement (against walls)
 
-    EdgeOnly Configuration:
-    - z=0: Front (sunlamp, opens to room interior)
-    - z=1: Growing space (open for light radius)
-    - z=2: Back (basin against room wall, life support mounted on wall)
+    Design (top view, North is up, wall at z=1):
+        x: 0 1 2 3
+    z=1:   B B B B
+    z=0:   . S . .
 
-    NOTE: Spawning the healroot plant INSIDE the basin requires a custom
-    C# SymbolResolver (planned for Phase 3.3+). For now, this prefab places
-    the empty basin with full infrastructure support.
+    Legend:
+    B = HydroponicsBasin (1x4 rotated, spans x=0-3 at z=1)
+    S = SunLamp (provides growth light)
+    . = empty space
   -->
 
   <PrefabDef>

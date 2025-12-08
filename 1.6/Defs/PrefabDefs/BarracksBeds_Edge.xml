@@ -2,14 +2,23 @@
 <Defs>
   <!--
     Better Traders Guild - Barracks Bed Prefab
-
     Modern crew quarters sleeping arrangement.
+
     Features:
-    - 3 modern Beds (not rusted AncientBed) in a row
-    - Steel construction (clean aesthetic)
-    - EndTables between beds for personal items
-    - Dresser for clothing storage
-    - Positioned perpendicular to wall
+    - 7x3 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=2):
+        x: 0 1 2 3 4 5 6
+    z=2:   T B T B T B T
+    z=1:   . B . B . B .
+    z=0:   . . . D . . .
+
+    Legend:
+    B = Bed (steel, facing into room)
+    T = EndTable (steel, facing into room)
+    D = Dresser (steel)
+    . = empty space
   -->
 
   <PrefabDef>

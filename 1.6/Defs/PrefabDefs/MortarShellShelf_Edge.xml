@@ -2,14 +2,22 @@
 <Defs>
   <!--
     Better Traders Guild - Mortar Shell Shelf Prefab
+    Heavy ordinance storage shelf for armory.
 
-    Heavy ordnance storage shelf for armory.
     Features:
-    - Steel shelf (excellent quality)
-    - Position 1: 6~12 High Explosive shells (guaranteed utility)
-    - Position 2: Single HE shell as marker (replaced by RoomContents_Armory)
-      - 25% chance: 1~3 antigrain warhead shells
-      - 75% chance: 8~14 random mortar shells (including mod-added types)
+    - 2x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   S S
+
+    Legend:
+    S = Shelf (steel, excellent quality, facing into room)
+        Position 0: 6-12 Shell_HighExplosive (guaranteed)
+        Position 1: 1 Shell_HighExplosive marker (replaced by RoomContents_Armory)
+          - 25% chance: 1-3 antigrain warhead shells
+          - 75% chance: 8-14 random mortar shells
   -->
 
   <PrefabDef>

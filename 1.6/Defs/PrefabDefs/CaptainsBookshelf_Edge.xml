@@ -2,12 +2,20 @@
 <Defs>
   <!--
     Better Traders Guild - Captain's Bookshelf Prefab
-
     Personal library for the station leader.
+
     Features:
-    - Small bookshelf (1x1, holds 5 books, excellent quality marble)
-    - Between 1-4 random recreation books of increasing quality
-    - Books automatically inserted into bookcase container via RoomContents_CaptainsQuarters
+    - 1x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0
+    z=0:   B
+
+    Legend:
+    B = BookcaseSmall (marble, excellent quality, facing into room)
+        + 1-4 Novels (excellent/masterwork/legendary quality)
+        Books automatically inserted via RoomContents_CaptainsQuarters
   -->
 
   <PrefabDef>

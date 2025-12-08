@@ -2,12 +2,19 @@
 <Defs>
   <!--
     Better Traders Guild - Classroom Bookshelf Prefab
+    Edge-aligned bookcase for classroom rooms with textbooks pre-stocked.
 
-    Edge-aligned bookcase for classroom rooms with 1-2 textbooks pre-stocked.
+    Features:
+    - 2x1 prefab size
+    - Edge placement (against walls)
 
-    Strategy: Spawn textbooks at the SAME position as the bookcase. RimWorld's
-    spawn system automatically places items inside storage when spawned at the
-    same coordinates (same pattern as BTG_CaptainsRevolverDisplay_Edge).
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   B B
+
+    Legend:
+    B = Bookcase (wood, facing into room)
+        + 2 TextBooks (spawned at same position, auto-inserted into storage)
   -->
 
   <PrefabDef>

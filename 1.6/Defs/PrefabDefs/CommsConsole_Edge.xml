@@ -2,8 +2,20 @@
 <Defs>
   <!--
     Better Traders Guild - Comms Console Prefab
-
     Working communications console for contacting factions and orbital traders.
+
+    Features:
+    - 3x2 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=1):
+        x: 0 1 2
+    z=1:   C C C
+    z=0:   C C C
+
+    Legend:
+    C = CommsConsole (3x2, facing into room)
+    . = empty space (operator standing area) ?
   -->
 
   <PrefabDef>

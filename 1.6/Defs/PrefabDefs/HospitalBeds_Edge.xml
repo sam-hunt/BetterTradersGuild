@@ -2,14 +2,23 @@
 <Defs>
   <!--
     Better Traders Guild - Hospital Bed Prefab
-
     Modern, clean hospital beds for TradersGuild medical facilities.
+
     Features:
-    - Modern HospitalBed (not rusted AncientBed)
-    - Steel construction (clean aesthetic)
-    - VitalsMonitors between beds for patient monitoring
-    - EndTables for patient convenience
-    - Positioned perpendicular to wall (bed heads against wall)
+    - 6x3 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=2):
+        x: 0 1 2 3 4 5
+    z=2:   V H T H V H
+    z=1:   . H . H . H
+    z=0:   . . . . . .
+
+    Legend:
+    H = HospitalBed (steel, facing into room)
+    V = VitalsMonitor (patient monitoring)
+    T = EndTable (steel, patient convenience)
+    . = empty space (staff access)
   -->
 
   <PrefabDef>

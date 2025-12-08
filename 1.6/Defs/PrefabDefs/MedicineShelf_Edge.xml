@@ -2,21 +2,29 @@
 <Defs>
   <!--
     Better Traders Guild - Medicine Shelf Prefab
-
     Medical storage shelf stocked with industrial medicine.
+
     Features:
-    - Shelf (excellent quality plasteel)
-    - MedicineIndustrial (stacked on shelf, 8-16 units)
+    - 2x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   S S
+
+    Legend:
+    S = Shelf (plasteel, excellent quality, facing into room)
+        + MedicineIndustrial (8-12 units stacked on shelf)
   -->
 
   <PrefabDef>
     <defName>BTG_MedicineShelf_Edge</defName>
     <edgeOnly>true</edgeOnly>
-    <size>(3,2)</size>
+    <size>(2,1)</size>
     <things>
       <!-- Plasteel shelf for medicine storage -->
       <Shelf>
-        <position>(1,0,1)</position>
+        <position>(0,0,0)</position>
         <relativeRotation>Opposite</relativeRotation>
         <quality>Excellent</quality>
         <stuff>Plasteel</stuff>
@@ -24,7 +32,7 @@
 
       <!-- Industrial medicine stocked on shelf -->
       <MedicineIndustrial>
-        <position>(1,0,1)</position>
+        <position>(0,0,0)</position>
         <stackCountRange>8~12</stackCountRange>
       </MedicineIndustrial>
     </things>

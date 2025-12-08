@@ -2,12 +2,20 @@
 <Defs>
   <!--
     Better Traders Guild - Pod Supply Shelf Prefab
-
     Supply shelf for pod launch operations.
+
     Features:
-    - Steel shelf (excellent quality)
-    - 65% chance Chemfuel (fuel for pods)
-    - 65% chance Steel (repair materials)
+    - 2x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   S S
+
+    Legend:
+    S = Shelf (steel, excellent quality, facing into room)
+        + 65% chance: Chemfuel (50-75 units, pod fuel)
+        + 65% chance: Steel (50-75 units, repair materials)
   -->
 
   <PrefabDef>

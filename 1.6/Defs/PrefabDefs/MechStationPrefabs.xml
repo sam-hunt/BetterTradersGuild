@@ -2,11 +2,24 @@
 <Defs>
   <!--
     Better Traders Guild - Mech Station Prefabs (Biotech DLC)
-
     Working versions of mechanoid equipment for active trading stations.
     These replace the Ancient (damaged/ruined) variants with functional equipment.
   -->
 
+  <!--
+    BTG_BasicRecharger_Edge - Small mech recharger
+
+    Features:
+    - 3x1 prefab size (snug fit around recharger)
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1 2
+    z=0:   R R R
+
+    Legend:
+    R = BasicRecharger (3x1, facing into room)
+  -->
   <!-- Small mech recharger along walls (3x1) -->
   <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_BasicRecharger_Edge</defName>
@@ -14,23 +27,53 @@
     <size>(3,1)</size>
     <things>
       <BasicRecharger>
-        <position>(1, 0, 0)</position>
+        <position>(0, 0, 0)</position>
         <relativeRotation>Opposite</relativeRotation>
       </BasicRecharger>
     </things>
   </PrefabDef>
 
+  <!--
+    BTG_StandardRecharger - Large mech recharger
+
+    Features:
+    - 3x2 prefab size (snug fit around recharger)
+    - Center placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0 1 2
+    z=1:   R R R
+    z=0:   R R R
+
+    Legend:
+    R = StandardRecharger (3x2)
+  -->
   <!-- Large mech recharger (3x2) -->
   <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_StandardRecharger</defName>
     <size>(3,2)</size>
     <things>
       <StandardRecharger>
-        <position>(1, 0, 0)</position>
+        <position>(0, 0, 0)</position>
       </StandardRecharger>
     </things>
   </PrefabDef>
 
+  <!--
+    BTG_MechGestator - Regular mech gestator for light mechs
+
+    Features:
+    - 3x2 prefab size
+    - Center placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0 1 2
+    z=1:   G G G
+    z=0:   G G G
+
+    Legend:
+    G = MechGestator (3x2)
+  -->
   <!-- Regular mech gestator for light mechs (3x2) -->
   <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_MechGestator</defName>
@@ -42,17 +85,52 @@
     </things>
   </PrefabDef>
 
+  <!--
+    BTG_LargeMechGestator - Large mech gestator for heavy mechs
+
+    Features:
+    - 4x3 prefab size (snug fit around gestator)
+    - Center placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=2:   G G G G
+    z=1:   G G G G
+    z=0:   G G G G
+
+    Legend:
+    G = LargeMechGestator (4x3)
+  -->
   <!-- Large mech gestator for heavy mechs (4x3) -->
   <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_LargeMechGestator</defName>
     <size>(4,3)</size>
     <things>
       <LargeMechGestator>
-        <position>(1, 0, 1)</position>
+        <position>(0, 0, 0)</position>
       </LargeMechGestator>
     </things>
   </PrefabDef>
 
+  <!--
+    BTG_BandNode_Cluster - Band node cluster for mech control
+
+    Features:
+    - 5x4 prefab size
+    - Center placement (not edge-only)
+    - North rotation only
+
+    Design (top view, North is up):
+        x: 0 1 2 3 4
+    z=3:   . . . . .
+    z=2:   B . . B .
+    z=1:   . . . . .
+    z=0:   B . . B .
+
+    Legend:
+    B = BandNode (75% spawn chance each)
+    . = empty space
+  -->
   <!-- Band node cluster for mech control (5x4) -->
   <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_BandNode_Cluster</defName>
