@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Steel Shelf Prefab
+    Generic 2x1 steel shelf for edge placement.
+    Contents are populated by RoomContentsWorker subclasses.
+
+    Features:
+    - 2x1 prefab size
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   S S
+
+    Legend:
+    S = Shelf (steel, excellent quality, facing into room)
+        Contents filled by room-specific RoomContentsWorker
+  -->
+
+  <PrefabDef>
+    <defName>BTG_SteelShelf_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
+    <things>
+      <!-- Steel shelf - contents filled by RoomContentsWorker -->
+      <Shelf>
+        <position>(0,0,0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>Steel</stuff>
+      </Shelf>
+    </things>
+  </PrefabDef>
+</Defs>

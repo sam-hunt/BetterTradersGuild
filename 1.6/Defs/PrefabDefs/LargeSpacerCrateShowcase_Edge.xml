@@ -46,11 +46,11 @@
       <!-- Wall lamps mounted on side pillars, facing inward -->
       <WallLamp>
         <position>(1,0,1)</position>
-        <rotation>East</rotation>
+        <relativeRotation>Clockwise</relativeRotation>
       </WallLamp>
       <WallLamp>
         <position>(4,0,1)</position>
-        <rotation>West</rotation>
+        <relativeRotation>Counterclockwise</relativeRotation>
       </WallLamp>
 
       <!-- Decorative side pillars (2 per side) -->

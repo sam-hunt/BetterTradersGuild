@@ -156,9 +156,22 @@ BetterTradersGuild/
 │   ├── Core/               # Core mod initialization and settings
 │   │   ├── ModInitializer.cs      # Harmony patching and startup
 │   │   └── ModSettings.cs         # Mod configuration UI and settings
-│   ├── Helpers/            # Utility classes
-│   │   ├── TradersGuildHelper.cs     # Faction/settlement checking
+│   ├── Helpers/            # Utility classes organized by domain
+│   │   ├── MapGeneration/           # Map generation helpers
+│   │   │   ├── HiddenPipeHelper.cs        # VE Framework pipe def discovery
+│   │   │   ├── LayoutConduitPlacer.cs     # Hidden conduit/pipe placement
+│   │   │   ├── PipeNetworkTankFiller.cs   # VE tank filling via reflection
+│   │   │   └── TerrainReplacementHelper.cs # Terrain replacement and painting
+│   │   ├── RoomContents/            # Room content generation helpers
+│   │   │   ├── PlacementCalculator.cs     # ✅ Pure placement logic (fully tested)
+│   │   │   ├── RoomBookcaseHelper.cs      # Bookcase content fixup
+│   │   │   ├── RoomDoorsHelper.cs         # Room door position scanning
+│   │   │   ├── RoomOutfitStandHelper.cs   # Outfit stand population
+│   │   │   ├── RoomPlantHelper.cs         # Plant spawning in pots/hydroponics
+│   │   │   ├── RoomShelfHelper.cs         # Shelf item placement
+│   │   │   └── UniqueWeaponNameColorRegenerator.cs # Weapon name/color regeneration
 │   │   ├── TileHelper.cs             # World map tile utilities
+│   │   ├── TradersGuildHelper.cs     # Faction/settlement checking
 │   │   └── TradersGuildTraderRotation.cs  # Trader rotation timing logic
 │   ├── Patches/            # Harmony patches organized by target type
 │   │   ├── Settlement/            # Settlement-related patches (9 files)
@@ -171,8 +184,9 @@ BetterTradersGuild/
 │   │   │   ├── SettlementTraderTrackerRegenerateStock.cs
 │   │   │   ├── SettlementTraderTrackerRegenerateStockEveryDays.cs
 │   │   │   └── SettlementTraderTrackerRegenerateStockAlignment.cs
-│   │   ├── MapGeneration/         # Phase 3: Map generation patches (1 file)
-│   │   │   └── GenStepOrbitalPlatformGenerate.cs
+│   │   ├── MapGeneration/         # Phase 3: Map generation patches (2 files)
+│   │   │   ├── GenStepOrbitalPlatformGenerate.cs   # Layout override + init
+│   │   │   └── GenStepOrbitalPlatformPostProcess.cs # Post-generation cleanup
 │   │   ├── WorldGrid/             # WorldGrid patches (2 files)
 │   │   │   ├── WorldGridFindMostReasonableAdjacentTile.cs
 │   │   │   └── WorldGridGetRoadMovementDifficulty.cs
@@ -188,7 +202,6 @@ BetterTradersGuild/
 │   │   └── Debug/                 # Debug logging patches (1 file)
 │   │       └── RoomContentsWorkerFillRoom.cs
 │   ├── RoomContents/       # Phase 3: Custom room generation workers
-│   │   ├── PlacementCalculator.cs  # ✅ Pure placement logic (fully tested)
 │   │   └── RoomContents_CaptainsQuarters.cs  # 🚧 IN PROGRESS
 │   ├── WorldObjects/       # Phase 3: World object components
 │   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
@@ -240,10 +253,11 @@ The codebase is organized into three main areas:
    - `ModInitializer.cs` - Applies Harmony patches on startup
    - `ModSettings.cs` - Configuration UI (planned for Phase 6)
 
-2. **Helpers/** - Reusable utility classes
+2. **Helpers/** - Reusable utility classes organized by domain
 
-   - `TradersGuildHelper.cs` - Faction and settlement validation
-   - `TileHelper.cs` - World map tile utilities
+   - Root helpers: `TradersGuildHelper.cs`, `TileHelper.cs`, `TradersGuildTraderRotation.cs`
+   - `MapGeneration/` - Helpers for map generation (conduits, pipes, terrain)
+   - `RoomContents/` - Helpers for room content generation (shelves, plants, placement)
 
 3. **Patches/** - Harmony patches organized by target type
    - Each subdirectory groups patches by RimWorld class (e.g., `Settlement/`, `Caravan/`)
@@ -423,7 +437,9 @@ TradersGuild settlements reuse existing orbital trader types (`Orbital_BulkGoods
 
 ### Helper Classes
 
-Helper classes are located in `Source/Helpers/` and provide reusable utility functions:
+Helper classes are located in `Source/Helpers/` and organized by domain into subfolders:
+
+#### Root Helpers
 
 **TradersGuildHelper** (`Helpers/TradersGuildHelper.cs`) - Centralized faction/settlement checking:
 
@@ -440,6 +456,27 @@ Helper classes are located in `Source/Helpers/` and provide reusable utility fun
 - `GetVirtualLastStockTicks(settlementID)` - Calculates stable, settlement-specific virtual rotation schedule
 - `GetNextRestockTick(settlementID)` - Calculates when settlement should next regenerate stock
 - `ShouldRegenerateNow(settlement, currentLastStockTicks)` - Checks if stock regeneration is due
+
+#### MapGeneration Helpers (`Helpers/MapGeneration/`)
+
+Used by map generation patches. Namespace: `BetterTradersGuild.Helpers.MapGeneration`
+
+- **HiddenPipeHelper** - VE Framework pipe def discovery and caching
+- **LayoutConduitPlacer** - Places hidden conduits/pipes under walls
+- **PipeNetworkTankFiller** - Fills VE tanks via reflection
+- **TerrainReplacementHelper** - Terrain replacement and painting operations
+
+#### RoomContents Helpers (`Helpers/RoomContents/`)
+
+Used by room content workers. Namespace: `BetterTradersGuild.Helpers.RoomContents`
+
+- **PlacementCalculator** - Pure placement logic for prefabs/furniture (fully unit tested, no RimWorld dependencies)
+- **RoomBookcaseHelper** - Bookcase content fixup after generation
+- **RoomDoorsHelper** - Room door position scanning
+- **RoomOutfitStandHelper** - Outfit stand population with apparel
+- **RoomPlantHelper** - Plant spawning in pots/hydroponics basins
+- **RoomShelfHelper** - Shelf item placement based on room type
+- **UniqueWeaponNameColorRegenerator** - Regenerates unique weapon names/colors
 
 ### Current Implementation Status (Phase 3)
 

@@ -15,17 +15,11 @@
     </floorTypes>
 
     <prefabs>
-      <!-- Charge rifle storage -->
-      <BTG_ChargeRifleShelf_Edge>
-        <countPerHundredCells>2</countPerHundredCells>
-        <minMaxRange>1~2</minMaxRange>
-      </BTG_ChargeRifleShelf_Edge>
-
-      <!-- Mortar shell storage (marker shells replaced by RoomContents_Armory) -->
-      <BTG_MortarShellShelf_Edge>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_MortarShellShelf_Edge>
+      <!-- Steel shelves (contents filled by RoomContents_Armory from random pool) -->
+      <BTG_SteelShelf_Edge>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>1~4</minMaxRange>
+      </BTG_SteelShelf_Edge>
 
       <!-- Security terminals for weapon access control -->
       <AncientSecurityTerminal>
@@ -64,7 +58,7 @@
     <!-- Higher threat level (weapons storage) -->
     <parts>
       <HunterDrone>0.2</HunterDrone>
-      <CornerArmoredTurret>0.3</CornerArmoredTurret>
+      <CornerArmoredTurret>0.8</CornerArmoredTurret>
       <AncientBarricades />
     </parts>
   </LayoutRoomDef>

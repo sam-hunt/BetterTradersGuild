@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
-namespace BetterTradersGuild.Helpers
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
     /// Helper class for spawning apparel into outfit stands during room generation.

@@ -64,11 +64,11 @@
       <!-- Wall lamps mounted on corner pillars, facing into room -->
       <WallLamp>
         <position>(0,0,0)</position>
-        <rotation>South</rotation>
+        <relativeRotation>Opposite</relativeRotation>
       </WallLamp>
       <WallLamp>
         <position>(4,0,0)</position>
-        <rotation>South</rotation>
+        <relativeRotation>Opposite</relativeRotation>
       </WallLamp>
     </things>
 

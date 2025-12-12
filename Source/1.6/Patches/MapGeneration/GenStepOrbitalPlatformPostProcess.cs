@@ -3,6 +3,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 using BetterTradersGuild.Helpers;
+using BetterTradersGuild.Helpers.MapGeneration;
 
 namespace BetterTradersGuild.Patches.MapGenerationPatches
 {

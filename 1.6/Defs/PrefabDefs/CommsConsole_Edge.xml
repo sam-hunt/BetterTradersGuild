@@ -10,23 +10,29 @@
 
     Design (top view, North is up, wall at z=1):
         x: 0 1 2
+    z=2:   C C C
     z=1:   C C C
-    z=0:   C C C
+    z=0:   . D .
 
     Legend:
-    C = CommsConsole (3x2, facing into room)
-    . = empty space (operator standing area) ?
+    C = CommsConsole (3x2, facing south into room)
+    D = DiningChair (operator seat at interaction spot)
+    . = empty space
   -->
 
   <PrefabDef>
     <defName>BTG_CommsConsole_Edge</defName>
     <edgeOnly>true</edgeOnly>
-    <size>(3,2)</size>
+    <size>(3,3)</size>
     <things>
       <CommsConsole>
-        <position>(0, 0, 0)</position>
-        <relativeRotation>Opposite</relativeRotation>
+        <position>(0, 0, 1)</position>
       </CommsConsole>
+      <DiningChair>
+        <position>(1, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+      </DiningChair>
     </things>
   </PrefabDef>
 

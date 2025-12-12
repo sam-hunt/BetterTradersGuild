@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using static BetterTradersGuild.RoomContents.PlacementCalculator;
+using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
-namespace BetterTradersGuild.RoomContents
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
     /// Helper for scanning room doors from RimWorld map.

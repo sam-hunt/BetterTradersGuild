@@ -3,7 +3,7 @@ using RimWorld;
 using Verse;
 using UnityEngine;
 
-namespace BetterTradersGuild.Helpers
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
     /// Helper class for spawning plants in room generation.

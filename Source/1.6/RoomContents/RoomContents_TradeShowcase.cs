@@ -2,7 +2,7 @@ using System.Linq;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers;
+using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents
 {

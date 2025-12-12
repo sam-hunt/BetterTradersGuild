@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
-namespace BetterTradersGuild.Helpers
+namespace BetterTradersGuild.Helpers.MapGeneration
 {
     /// <summary>
     /// Utility class for terrain replacement and painting during map generation.

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using BetterTradersGuild.Helpers;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
-using RimWorld.BaseGen;
 using Verse;
 
 namespace BetterTradersGuild.RoomContents
@@ -11,13 +10,13 @@ namespace BetterTradersGuild.RoomContents
     /// Custom RoomContentsWorker for Armory.
     ///
     /// Post-processes spawned prefabs:
-    /// 1. Replaces single HE shell markers with random ordnance:
-    ///    - 25% chance: 1~3 antigrain warhead shells (rare, powerful)
-    ///    - 75% chance: 8~14 random mortar shells (including mod-added types)
-    /// 2. Paints outfit stands with BTG_OrbitalSteel color for consistent aesthetic
-    ///
-    /// This approach allows mod compatibility by discovering all available
-    /// mortar shell types at runtime rather than hardcoding vanilla types.
+    /// 1. Fills steel shelves (BTG_SteelShelf_Edge) with random content from pools:
+    ///    - Mortar shells (25% antigrain, 75% random shells)
+    ///    - Charge rifles (Normal/Good/Excellent quality distribution)
+    ///    - Shield belt + gunlink combo
+    ///    - Charge lances (Normal/Good/Excellent quality distribution)
+    /// 2. Paints outfit stands with BTG_OrbitalSteel color
+    /// 3. Spawns marine armor sets in outfit stands
     /// </summary>
     public class RoomContents_Armory : RoomContentsWorker
     {
@@ -25,8 +24,16 @@ namespace BetterTradersGuild.RoomContents
         private const string HIGH_EXPLOSIVE_DEFNAME = "Shell_HighExplosive";
         private const string ANTIGRAIN_DEFNAME = "Shell_AntigrainWarhead";
 
+        // Weapon constants
+        private const string CHARGE_RIFLE_DEFNAME = "Gun_ChargeRifle";
+        private const string CHARGE_LANCE_DEFNAME = "Gun_ChargeLance";
+
+        // Equipment constants
+        private const string SHIELD_BELT_DEFNAME = "Apparel_ShieldBelt";
+        private const string GUNLINK_DEFNAME = "Apparel_Gunlink";
+
         // Furniture constants
-        private const string OUTFIT_STAND_DEFNAME = "OutfitStand";
+        private const string OUTFIT_STAND_DEFNAME = "Building_OutfitStand";
         private const string ORBITAL_STEEL_COLOR_DEFNAME = "BTG_OrbitalSteel";
 
         // Marine armor constants
@@ -34,14 +41,25 @@ namespace BetterTradersGuild.RoomContents
         private const string MARINE_HELMET_DEFNAME = "Apparel_PowerArmorHelmet";
 
         /// <summary>
+        /// Content pool options for weapon shelves.
+        /// </summary>
+        private enum ShelfContentPool
+        {
+            MortarShells,
+            ChargeRifles,
+            ShieldBeltGunlink,
+            ChargeLances
+        }
+
+        /// <summary>
         /// Main room generation method. Spawns XML-defined prefabs, then post-processes:
-        /// - Replaces single HE shell markers with random ordnance variety
+        /// - Fills weapon shelves with random content from pools
         /// - Paints outfit stands with orbital steel color
         /// - Spawns marine armor sets in outfit stands
         /// </summary>
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            // 1. Call base FIRST to spawn XML prefabs (shelves, crates, lockers, shell markers)
+            // 1. Call base FIRST to spawn XML prefabs (empty shelves, crates, lockers)
             base.FillRoom(map, room, faction, threatPoints);
 
             // 2. Post-process spawned prefabs
@@ -49,8 +67,8 @@ namespace BetterTradersGuild.RoomContents
             {
                 CellRect roomRect = room.rects.First();
 
-                // Replace single HE shell markers with random ordnance
-                ReplaceMortarShellMarkers(map, roomRect);
+                // Fill weapon shelves with random content
+                FillWeaponShelves(map, roomRect);
 
                 // Paint outfit stands with orbital steel color
                 PaintOutfitStands(map, roomRect);
@@ -61,94 +79,89 @@ namespace BetterTradersGuild.RoomContents
         }
 
         /// <summary>
-        /// Finds all cells containing exactly 1 High Explosive shell and replaces
-        /// them with random mortar ordnance.
+        /// Finds all 2-cell wide shelves in the room and fills them with random content.
+        /// Each shelf gets content from a randomly selected pool.
         /// </summary>
-        private void ReplaceMortarShellMarkers(Map map, CellRect roomRect)
+        private void FillWeaponShelves(Map map, CellRect roomRect)
         {
-            ThingDef heShellDef = DefDatabase<ThingDef>.GetNamed(HIGH_EXPLOSIVE_DEFNAME, false);
-            if (heShellDef == null)
+            List<Building_Storage> weaponShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, "Shelf", 2);
+
+            // Fill each weapon shelf with random content
+            foreach (Building_Storage shelf in weaponShelves)
             {
-                Log.Warning("[Better Traders Guild] Could not find Shell_HighExplosive def");
-                return;
-            }
-
-            // Collect marker cells and their shells (can't modify during iteration)
-            List<(IntVec3 cell, Thing shell)> markersToReplace = new List<(IntVec3, Thing)>();
-
-            foreach (IntVec3 cell in roomRect.Cells)
-            {
-                if (!cell.InBounds(map)) continue;
-
-                List<Thing> things = cell.GetThingList(map);
-                if (things == null) continue;
-
-                // Find HE shells with exactly 1 stack count (our markers)
-                foreach (Thing thing in things)
-                {
-                    if (thing.def == heShellDef && thing.stackCount == 1)
-                    {
-                        markersToReplace.Add((cell, thing));
-                        break; // Only one marker per cell
-                    }
-                }
-            }
-
-            // Replace each marker with random ordnance
-            foreach (var (cell, markerShell) in markersToReplace)
-            {
-                // Unspawn the marker shell
-                markerShell.DeSpawn();
-
-                // Spawn replacement ordnance
-                SpawnRandomOrdnance(map, cell);
+                ShelfContentPool pool = GetRandomContentPool();
+                FillShelfWithContent(map, shelf, pool);
             }
         }
 
         /// <summary>
-        /// Spawns random mortar ordnance at the specified cell.
-        /// 25% chance: 1~3 antigrain warhead shells
-        /// 75% chance: 8~14 random mortar shells (excluding antigrain)
+        /// Selects a random content pool for a shelf.
         /// </summary>
-        private void SpawnRandomOrdnance(Map map, IntVec3 cell)
+        private ShelfContentPool GetRandomContentPool()
         {
-            ThingDef shellDef;
-            int stackCount;
+            // Equal weights for all pools
+            return (ShelfContentPool)Rand.Range(0, 4);
+        }
 
+        /// <summary>
+        /// Fills a shelf with content from the specified pool.
+        /// </summary>
+        private void FillShelfWithContent(Map map, Building_Storage shelf, ShelfContentPool pool)
+        {
+            switch (pool)
+            {
+                case ShelfContentPool.MortarShells:
+                    FillWithMortarShells(map, shelf);
+                    break;
+                case ShelfContentPool.ChargeRifles:
+                    FillWithWeapons(map, shelf, CHARGE_RIFLE_DEFNAME);
+                    break;
+                case ShelfContentPool.ShieldBeltGunlink:
+                    FillWithShieldBeltGunlink(map, shelf);
+                    break;
+                case ShelfContentPool.ChargeLances:
+                    FillWithWeapons(map, shelf, CHARGE_LANCE_DEFNAME);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fills shelf with mortar shells.
+        /// First cell: 6-12 HE shells (guaranteed)
+        /// Second cell: 25% chance antigrain (1-3), 75% chance random shells (8-14)
+        /// </summary>
+        private void FillWithMortarShells(Map map, Building_Storage shelf)
+        {
+            // First cell: Guaranteed HE shells
+            RoomShelfHelper.AddItemsToShelf(map, shelf, HIGH_EXPLOSIVE_DEFNAME, Rand.RangeInclusive(6, 12));
+
+            // Second cell: Random ordnance
+            SpawnRandomOrdnance(map, shelf);
+        }
+
+        /// <summary>
+        /// Spawns random mortar ordnance into the shelf.
+        /// 25% chance: 1-3 antigrain warhead shells
+        /// 75% chance: 8-14 random mortar shells (excluding antigrain)
+        /// </summary>
+        private void SpawnRandomOrdnance(Map map, Building_Storage shelf)
+        {
             if (Rand.Chance(0.25f))
             {
                 // 25% chance: Antigrain warheads (rare, powerful)
-                shellDef = DefDatabase<ThingDef>.GetNamed(ANTIGRAIN_DEFNAME, false);
-                stackCount = Rand.RangeInclusive(1, 3);
-
-                if (shellDef == null)
-                {
-                    Log.Warning("[Better Traders Guild] Could not find Shell_AntigrainWarhead def, falling back to random shell");
-                    SpawnRandomNonAntigrainShell(map, cell);
-                    return;
-                }
-            }
-            else
-            {
-                // 75% chance: Random mortar shell (excluding antigrain)
-                SpawnRandomNonAntigrainShell(map, cell);
+                RoomShelfHelper.AddItemsToShelf(map, shelf, ANTIGRAIN_DEFNAME, Rand.RangeInclusive(1, 3));
                 return;
             }
 
-            // Spawn the antigrain shells
-            Thing ordnance = ThingMaker.MakeThing(shellDef);
-            ordnance.stackCount = stackCount;
-            GenSpawn.Spawn(ordnance, cell, map);
-            ordnance.SetForbidden(true, false);
+            // 75% chance (or fallback): Random mortar shell
+            SpawnRandomNonAntigrainShell(map, shelf);
         }
 
         /// <summary>
-        /// Spawns 8~14 random mortar shells (excluding antigrain warheads).
-        /// Discovers all mortar shell types at runtime for mod compatibility.
+        /// Spawns 8-14 random mortar shells (excluding antigrain warheads).
         /// </summary>
-        private void SpawnRandomNonAntigrainShell(Map map, IntVec3 cell)
+        private void SpawnRandomNonAntigrainShell(Map map, Building_Storage shelf)
         {
-            // Get all mortar shell types (excluding antigrain)
             List<ThingDef> mortarShells = GetAllMortarShellTypes(excludeAntigrain: true);
 
             if (mortarShells.Count == 0)
@@ -157,24 +170,18 @@ namespace BetterTradersGuild.RoomContents
                 return;
             }
 
-            // Select random shell type
             ThingDef shellDef = mortarShells.RandomElement();
-            int stackCount = Rand.RangeInclusive(8, 14);
-
             Thing ordnance = ThingMaker.MakeThing(shellDef);
-            ordnance.stackCount = stackCount;
-            GenSpawn.Spawn(ordnance, cell, map);
-            ordnance.SetForbidden(true, false);
+            ordnance.stackCount = Rand.RangeInclusive(8, 14);
+
+            if (!RoomShelfHelper.AddItemToShelf(map, shelf, ordnance))
+            {
+                ordnance.Destroy(DestroyMode.Vanish);
+            }
         }
 
         /// <summary>
-        /// Discovers all mortar shell types at runtime.
-        /// Looks for ThingDefs that are in the mortar shell category or have
-        /// the Shell_ prefix and are projectile-related.
-        ///
-        /// LEARNING NOTE: This approach finds both vanilla shells and any
-        /// mod-added shell types, making the armory contents dynamic and
-        /// mod-compatible without hardcoding specific defNames.
+        /// Discovers all mortar shell types at runtime for mod compatibility.
         /// </summary>
         private List<ThingDef> GetAllMortarShellTypes(bool excludeAntigrain)
         {
@@ -182,28 +189,23 @@ namespace BetterTradersGuild.RoomContents
                 ? DefDatabase<ThingDef>.GetNamed(ANTIGRAIN_DEFNAME, false)
                 : null;
 
-            // Find all mortar shells by checking thingCategories
-            // Mortar shells are typically in ThingCategoryDef "MortarShells"
             ThingCategoryDef mortarShellCategory = DefDatabase<ThingCategoryDef>.GetNamed("MortarShells", false);
-
             List<ThingDef> shells = new List<ThingDef>();
 
             if (mortarShellCategory != null)
             {
-                // Use the category to find all shells (most reliable method)
                 foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
                 {
                     if (def.thingCategories != null && def.thingCategories.Contains(mortarShellCategory))
                     {
                         if (excludeAntigrain && def == antigrainDef)
                             continue;
-
                         shells.Add(def);
                     }
                 }
             }
 
-            // Fallback: If category search found nothing, try defName pattern
+            // Fallback: defName pattern
             if (shells.Count == 0)
             {
                 foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
@@ -212,7 +214,6 @@ namespace BetterTradersGuild.RoomContents
                     {
                         if (excludeAntigrain && def == antigrainDef)
                             continue;
-
                         shells.Add(def);
                     }
                 }
@@ -222,8 +223,125 @@ namespace BetterTradersGuild.RoomContents
         }
 
         /// <summary>
+        /// Fills shelf with weapons (charge rifles or charge lances).
+        /// Uses quality distribution: Normal 70%, Good 50%, Excellent 30%.
+        /// Now respects shelf capacity (maxItemsInCell) via helper.
+        /// </summary>
+        private void FillWithWeapons(Map map, Building_Storage shelf, string weaponDefName)
+        {
+            ThingDef weaponDef = DefDatabase<ThingDef>.GetNamed(weaponDefName, false);
+            if (weaponDef == null)
+            {
+                Log.Warning($"[Better Traders Guild] Could not find {weaponDefName} def");
+                return;
+            }
+
+            // Quality distribution - each roll is independent
+            // Helper will place in first available cell, respecting maxItemsInCell
+            if (Rand.Chance(0.70f))
+            {
+                SpawnWeaponWithQuality(map, shelf, weaponDef, QualityCategory.Normal);
+            }
+            if (Rand.Chance(0.50f))
+            {
+                SpawnWeaponWithQuality(map, shelf, weaponDef, QualityCategory.Good);
+            }
+            if (Rand.Chance(0.30f))
+            {
+                SpawnWeaponWithQuality(map, shelf, weaponDef, QualityCategory.Excellent);
+            }
+        }
+
+        /// <summary>
+        /// Spawns a weapon with the specified quality into the shelf.
+        /// Uses helper to respect maxItemsInCell limit.
+        /// </summary>
+        private void SpawnWeaponWithQuality(Map map, Building_Storage shelf, ThingDef weaponDef, QualityCategory quality)
+        {
+            Thing weapon = ThingMaker.MakeThing(weaponDef);
+
+            CompQuality compQuality = weapon.TryGetComp<CompQuality>();
+            if (compQuality != null)
+            {
+                compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
+            }
+
+            // Use helper - respects maxItemsInCell
+            if (!RoomShelfHelper.AddItemToShelf(map, shelf, weapon))
+            {
+                weapon.Destroy(DestroyMode.Vanish); // Clean up if no space
+            }
+        }
+
+        /// <summary>
+        /// Fills shelf with shield belt and gunlink combo.
+        /// 1-2 shield belts (Normal-Excellent quality)
+        /// 1-2 gunlinks (Normal-Excellent quality)
+        /// </summary>
+        private void FillWithShieldBeltGunlink(Map map, Building_Storage shelf)
+        {
+            ThingDef shieldBeltDef = DefDatabase<ThingDef>.GetNamed(SHIELD_BELT_DEFNAME, false);
+            ThingDef gunlinkDef = DefDatabase<ThingDef>.GetNamed(GUNLINK_DEFNAME, false);
+
+            // Shield belts
+            if (shieldBeltDef != null)
+            {
+                int shieldCount = Rand.RangeInclusive(1, 2);
+                for (int i = 0; i < shieldCount; i++)
+                {
+                    QualityCategory quality = GetRandomQuality();
+                    SpawnApparelWithQuality(map, shelf, shieldBeltDef, quality);
+                }
+            }
+
+            // Gunlinks
+            if (gunlinkDef != null)
+            {
+                int gunlinkCount = Rand.RangeInclusive(1, 2);
+                for (int i = 0; i < gunlinkCount; i++)
+                {
+                    QualityCategory quality = GetRandomQuality();
+                    SpawnApparelWithQuality(map, shelf, gunlinkDef, quality);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a random quality weighted toward Normal/Good.
+        /// </summary>
+        private QualityCategory GetRandomQuality()
+        {
+            float roll = Rand.Value;
+            if (roll < 0.50f)
+                return QualityCategory.Normal;
+            if (roll < 0.85f)
+                return QualityCategory.Good;
+            return QualityCategory.Excellent;
+        }
+
+        /// <summary>
+        /// Spawns apparel with the specified quality into the shelf.
+        /// Uses helper to respect maxItemsInCell limit.
+        /// </summary>
+        private void SpawnApparelWithQuality(Map map, Building_Storage shelf, ThingDef apparelDef, QualityCategory quality)
+        {
+            Thing apparel = ThingMaker.MakeThing(apparelDef);
+
+            CompQuality compQuality = apparel.TryGetComp<CompQuality>();
+            if (compQuality != null)
+            {
+                compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
+            }
+
+            // Use helper - respects maxItemsInCell
+            if (!RoomShelfHelper.AddItemToShelf(map, shelf, apparel))
+            {
+                apparel.Destroy(DestroyMode.Vanish); // Clean up if no space
+            }
+        }
+
+        /// <summary>
         /// Finds all outfit stands in the room and paints them with BTG_OrbitalSteel color.
-        /// Uses CompColorable API for furniture painting.
         /// </summary>
         private void PaintOutfitStands(Map map, CellRect roomRect)
         {
@@ -244,14 +362,10 @@ namespace BetterTradersGuild.RoomContents
             {
                 if (!cell.InBounds(map)) continue;
 
-                List<Thing> things = cell.GetThingList(map);
-                if (things == null) continue;
-
-                foreach (Thing thing in things)
+                foreach (Thing thing in cell.GetThingList(map))
                 {
                     if (thing.def == outfitStandDef)
                     {
-                        // Use CompColorable to paint the outfit stand
                         CompColorable colorComp = thing.TryGetComp<CompColorable>();
                         if (colorComp != null)
                         {
@@ -264,12 +378,9 @@ namespace BetterTradersGuild.RoomContents
 
         /// <summary>
         /// Spawns marine armor and helmet into outfit stands.
-        /// Uses the RoomOutfitStandHelper for consistent behavior across rooms.
-        /// Quality is randomized between Normal and Excellent.
         /// </summary>
         private void SpawnMarineArmorInOutfitStands(Map map, CellRect roomRect)
         {
-            // Build list of apparel to spawn in each outfit stand
             List<ThingDef> marineArmorSet = new List<ThingDef>();
 
             ThingDef marineArmor = DefDatabase<ThingDef>.GetNamed(MARINE_ARMOR_DEFNAME, false);
@@ -294,10 +405,9 @@ namespace BetterTradersGuild.RoomContents
 
             if (marineArmorSet.Count == 0)
             {
-                return; // No armor defs found
+                return;
             }
 
-            // Spawn armor in outfit stands (Normal to Excellent quality)
             RoomOutfitStandHelper.SpawnApparelInOutfitStands(
                 map,
                 roomRect,

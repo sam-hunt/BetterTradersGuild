@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BetterTradersGuild.RoomContents
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
     /// Pure placement calculation logic for Captain's Quarters bedroom prefab.

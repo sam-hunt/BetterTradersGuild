@@ -3,7 +3,7 @@ using System.Linq;
 using RimWorld;
 using Verse;
 
-namespace BetterTradersGuild.Helpers
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
     /// Helper class for fixing bookcase contents in room generation.

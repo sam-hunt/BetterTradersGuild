@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using BetterTradersGuild.RoomContents;
+using BetterTradersGuild.Helpers.RoomContents;
 using BetterTradersGuild.Tests.Helpers;
 
 namespace BetterTradersGuild.Tests.Tools

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Xunit;
-using BetterTradersGuild.RoomContents;
-using static BetterTradersGuild.RoomContents.PlacementCalculator;
-using PlacementRotation = BetterTradersGuild.RoomContents.PlacementCalculator.PlacementRotation;
+using BetterTradersGuild.Helpers.RoomContents;
+using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
+using PlacementRotation = BetterTradersGuild.Helpers.RoomContents.PlacementCalculator.PlacementRotation;
 
 namespace BetterTradersGuild.Tests.RoomContents
 {

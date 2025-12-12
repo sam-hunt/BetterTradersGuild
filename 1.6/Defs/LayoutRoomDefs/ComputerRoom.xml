@@ -33,11 +33,6 @@
         <minMaxRange>2~4</minMaxRange>
       </AncientEnemyTerminal>
 
-      <AncientDestroyedConsole_Large>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
-      </AncientDestroyedConsole_Large>
-
       <!-- Server racks and filing cabinets -->
       <AncientSystemRacks_Rows>
         <countPerHundredCells>3</countPerHundredCells>

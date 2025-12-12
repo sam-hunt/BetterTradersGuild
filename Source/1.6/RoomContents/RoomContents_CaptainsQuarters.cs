@@ -5,8 +5,8 @@ using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
 using UnityEngine;
-using BetterTradersGuild.Helpers;
-using static BetterTradersGuild.RoomContents.PlacementCalculator;
+using BetterTradersGuild.Helpers.RoomContents;
+using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.RoomContents
 {

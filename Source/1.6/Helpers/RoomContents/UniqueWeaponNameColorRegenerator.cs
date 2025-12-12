@@ -4,7 +4,7 @@ using System.Reflection;
 using Verse;
 using RimWorld;
 
-namespace BetterTradersGuild.Helpers
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
     /// Regenerates CompUniqueWeapon name and color after manual trait modification.
