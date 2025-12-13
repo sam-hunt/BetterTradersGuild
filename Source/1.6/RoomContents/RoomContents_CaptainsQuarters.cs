@@ -132,24 +132,11 @@ namespace BetterTradersGuild.RoomContents
             if (room.rects == null || room.rects.Count == 0)
                 return new PlacementResult { Type = PlacementType.Invalid };
 
-            CellRect rect = room.rects.First();
-
-            // DEBUG: Log room dimensions to verify if CellRect includes walls
-            Log.Message($"[Better Traders Guild] Captain's Quarters room dimensions: " +
-                       $"{rect.Width}x{rect.Height} " +
-                       $"(minX={rect.minX}, maxX={rect.maxX}, minZ={rect.minZ}, maxZ={rect.maxZ}). " +
-                       $"Please visually count tiles in-game to verify if this includes/excludes walls.");
-
-            if (rect.Width < BEDROOM_SIZE || rect.Height < BEDROOM_SIZE)
-            {
-                Log.Warning($"[Better Traders Guild] Room too small for bedroom: {rect.Width}x{rect.Height}, need {BEDROOM_SIZE}x{BEDROOM_SIZE}");
-                return new PlacementResult { Type = PlacementType.Invalid };
-            }
-
             // Get door positions from the room
             List<DoorPosition> doors = RoomDoorsHelper.GetDoorPositions(room, map);
 
             // Convert CellRect to SimpleRect
+            CellRect rect = room.rects.First();
             SimpleRect simpleRoom = new SimpleRect
             {
                 MinX = rect.minX,

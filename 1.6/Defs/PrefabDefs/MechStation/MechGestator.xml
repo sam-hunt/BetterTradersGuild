@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_MechGestator - Regular mech gestator for light mechs
+
+    Features:
+    - 3x2 prefab size
+    - Center placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0 1 2
+    z=1:   G G G
+    z=0:   G G G
+
+    Legend:
+    G = MechGestator (3x2)
+  -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_MechGestator</defName>
+    <size>(3,2)</size>
+    <things>
+      <MechGestator>
+        <position>(0, 0, 0)</position>
+      </MechGestator>
+    </things>
+  </PrefabDef>
+
+</Defs>

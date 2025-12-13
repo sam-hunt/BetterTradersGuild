@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_BasicRecharger_Edge - Small mech recharger
+
+    Features:
+    - 3x1 prefab size (snug fit around recharger)
+    - Edge placement (against walls)
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1 2
+    z=0:   R R R
+
+    Legend:
+    R = BasicRecharger (3x1, facing into room)
+  -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_BasicRecharger_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,1)</size>
+    <things>
+      <BasicRecharger>
+        <position>(0, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </BasicRecharger>
+    </things>
+  </PrefabDef>
+
+</Defs>

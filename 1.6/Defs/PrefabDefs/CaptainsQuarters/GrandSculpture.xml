@@ -10,11 +10,16 @@
     - Total prefab size: 4x4 (accommodates sculpture + spacing)
     - Centered placement within allocated area
 
-    Design (top view, North rotation):
-    [ ][ ][ ][ ]  <- clearance
-    [ ][S][S][ ]  <- sculpture + clearance
-    [ ][S][S][ ]  <- sculpture + clearance
-    [ ][ ][ ][ ]  <- clearance
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=3:   . . . .
+    z=2:   . S S .
+    z=1:   . S S .
+    z=0:   . . . .
+
+    Legend:
+    S = SculptureGrand (2x2, marble, good quality)
+    . = empty space (clearance to prevent overlap)
 
     Note: The sculpture is positioned at (1,0,1) to center it within the 4x4 footprint.
   -->

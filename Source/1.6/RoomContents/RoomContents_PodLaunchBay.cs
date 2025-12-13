@@ -17,8 +17,6 @@ namespace BetterTradersGuild.RoomContents
     public class RoomContents_PodLaunchBay : RoomContentsWorker
     {
         // Supply constants
-        private const string CHEMFUEL_DEFNAME = "Chemfuel";
-        private const string STEEL_DEFNAME = "Steel";
         private const float SPAWN_CHANCE = 0.65f;
         private const int MIN_STACK = 50;
         private const int MAX_STACK = 75;
@@ -53,13 +51,13 @@ namespace BetterTradersGuild.RoomContents
                 // Chemfuel for pod fuel (65% chance)
                 if (Rand.Chance(SPAWN_CHANCE))
                 {
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, CHEMFUEL_DEFNAME, Rand.RangeInclusive(MIN_STACK, MAX_STACK));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, "Chemfuel", Rand.RangeInclusive(MIN_STACK, MAX_STACK));
                 }
 
                 // Steel for repairs (65% chance)
                 if (Rand.Chance(SPAWN_CHANCE))
                 {
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, STEEL_DEFNAME, Rand.RangeInclusive(MIN_STACK, MAX_STACK));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, "Steel", Rand.RangeInclusive(MIN_STACK, MAX_STACK));
                 }
             }
         }

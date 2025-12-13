@@ -10,12 +10,17 @@
     - Total prefab size: 4x5 (accommodates table + clearance)
     - Centered placement within allocated area
 
-    Design (top view, North rotation):
-    [ ][ ][ ][ ]  <- clearance
-    [ ][T][T][ ]  <- table + clearance
-    [ ][T][T][ ]  <- table + clearance
-    [ ][T][T][ ]  <- table + clearance
-    [ ][ ][ ][ ]  <- clearance
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=4:   . . . .
+    z=3:   . T T .
+    z=2:   . T T .
+    z=1:   . T T .
+    z=0:   . . . .
+
+    Legend:
+    T = BilliardsTable (2x3, marble, excellent quality)
+    . = empty space (clearance for pawn interaction)
 
     Note: The table is positioned at (1,0,1) to center it within the 4x5 footprint.
   -->

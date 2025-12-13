@@ -17,6 +17,21 @@
 
     <prefabs>
       <!-- Fluid storage if VE pipe network mods are enabled -->
+      <BTG_LargeOxygenTank_Edge MayRequire="vanillaexpanded.gravship">
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_LargeOxygenTank_Edge>
+
+      <BTG_NutrientPasteVat_Edge MayRequire="VanillaExpanded.VNutrientE">
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_NutrientPasteVat_Edge>
+
+      <BTG_GiantAstrofuelTank_Edge MayRequire="vanillaexpanded.gravship">
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_GiantAstrofuelTank_Edge>
+
       <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
@@ -26,21 +41,6 @@
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_DeepchemTank_Edge>
-
-      <BTG_NutrientPasteVat_Edge MayRequire="VanillaExpanded.VNutrientE">
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_NutrientPasteVat_Edge>
-
-      <BTG_LargeOxygenTank_Edge MayRequire="vanillaexpanded.gravship">
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_LargeOxygenTank_Edge>
-
-      <BTG_GiantAstrofuelTank_Edge MayRequire="vanillaexpanded.gravship">
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_GiantAstrofuelTank_Edge>
 
       <!-- Industrial shelving -->
       <IndustrialShelf_InnerWall>

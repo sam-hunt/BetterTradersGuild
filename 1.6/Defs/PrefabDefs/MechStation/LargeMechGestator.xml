@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_LargeMechGestator - Large mech gestator for heavy mechs
+
+    Features:
+    - 4x3 prefab size (snug fit around gestator)
+    - Center placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=2:   G G G G
+    z=1:   G G G G
+    z=0:   G G G G
+
+    Legend:
+    G = LargeMechGestator (4x3)
+  -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_LargeMechGestator</defName>
+    <size>(4,3)</size>
+    <things>
+      <LargeMechGestator>
+        <position>(0, 0, 0)</position>
+      </LargeMechGestator>
+    </things>
+  </PrefabDef>
+
+</Defs>
