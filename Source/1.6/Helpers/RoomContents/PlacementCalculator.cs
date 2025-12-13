@@ -5,7 +5,7 @@ using System.Linq;
 namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
-    /// Pure placement calculation logic for Captain's Quarters bedroom prefab.
+    /// Pure placement calculation logic for Commander's Quarters bedroom prefab.
     /// Contains no RimWorld dependencies - all methods work with primitives for easy unit testing.
     /// </summary>
     public static class PlacementCalculator

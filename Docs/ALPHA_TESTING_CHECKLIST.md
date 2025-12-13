@@ -145,7 +145,7 @@ This patch release fixes two bugs from alpha.1:
 - [ ] **Custom rooms present:**
   - Look for: Command Center, Medical Bay, Barracks, Trade Showcase, etc.
   - Any rooms stand out as obviously custom?
-- [ ] **Captain's Quarters identified** (should have a bedroom, bookshelves, unique weapon)
+- [ ] **Commander's Quarters identified** (should have a bedroom, bookshelves, unique weapon)
 
 **Notes:** \***\*\_\_\_\*\***
 
@@ -153,8 +153,8 @@ This patch release fixes two bugs from alpha.1:
 
 These are **expected** limitations in this alpha:
 
-- **Captain's Quarters:** Bedroom might occasionally block doorways
-- **Captain's Quarters:** Some furniture may be placed in suboptimal locations
+- **Commander's Quarters:** Bedroom might occasionally block doorways
+- **Commander's Quarters:** Some furniture may be placed in suboptimal locations
 - **Other rooms:** Using vanilla generation algorithms (will be customized later)
 - **Dynamic cargo:** Not implemented yet (items don't spawn from trade inventory)
 

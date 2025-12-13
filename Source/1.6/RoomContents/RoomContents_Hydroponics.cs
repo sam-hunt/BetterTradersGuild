@@ -13,7 +13,7 @@ namespace BetterTradersGuild.RoomContents
     /// "active cultivation" appearance. Rice is a fast-growing food crop (3 days) that's
     /// hydroponic-compatible and makes sense for a space station's food production.
     ///
-    /// LEARNING NOTE: Unlike Captain's Quarters, this worker calls base.FillRoom() FIRST
+    /// LEARNING NOTE: Unlike Commander's Quarters, this worker calls base.FillRoom() FIRST
     /// because the XML prefabs spawn the hydroponics basins, and we need those to exist
     /// before we can populate them with plants.
     /// </summary>

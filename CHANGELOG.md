@@ -61,13 +61,13 @@ First alpha release! Phase 2 (Peaceful Trading) is complete and fully functional
 #### Completed Components
 
 - **Custom Layout System** - TradersGuild_OrbitalSettlement layout with 18 specialized room types
-- **18 Room Definitions** - Command Center, Armory, Medical Bay, Barracks, Hydroponics, Workshop, Cargo Storage, Dining Room, Recreation Room, Security Station, Classroom, Computer Room, Storeroom, Trade Showcase, Transport Room, Nursery, Corridors, Captain's Quarters
+- **18 Room Definitions** - Command Center, Armory, Medical Bay, Barracks, Hydroponics, Workshop, Cargo Storage, Dining Room, Recreation Room, Security Station, Classroom, Computer Room, Storeroom, Trade Showcase, Transport Room, Nursery, Corridors, Commander's Quarters
 - **10 Custom Prefabs** - Specialized furniture arrangements (hospital beds, medicine shelves, classroom bookshelves, billiards table, captain's bedroom, etc.)
-- **Captain's Quarters (Partial)** - Custom room generation with programmatic bedroom placement, bookcase insertion, and unique weapon generation
+- **Commander's Quarters (Partial)** - Custom room generation with programmatic bedroom placement, bookcase insertion, and unique weapon generation
 
 #### Known Phase 3 Limitations
 
-- Captain's Quarters bedroom placement needs edge detection improvements
+- Commander's Quarters bedroom placement needs edge detection improvements
 - Door detection algorithm incomplete
 - Some prefab placement edge cases unhandled
 - Cell marking verification incomplete

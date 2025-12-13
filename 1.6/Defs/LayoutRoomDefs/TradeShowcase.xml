@@ -6,7 +6,7 @@
     Display room for valuable goods and merchant's prized items.
 
     Features:
-    - Deep purple carpet flooring with silver tile edges (matching Captain's Quarters)
+    - Deep purple carpet flooring with silver tile edges (matching Commander's Quarters)
     - 9x9 minimum size for spacious display area
     - Corner sculptures placed by room contents worker
     - Spacer crate showcases for displaying valuable trade goods
@@ -18,7 +18,7 @@
     <minSingleRectWidth>9</minSingleRectWidth>
     <minSingleRectHeight>9</minSingleRectHeight>
 
-    <!-- Luxurious flooring (matching Captain's Quarters) -->
+    <!-- Luxurious flooring (matching Commander's Quarters) -->
     <floorTypes>
       <li>CarpetPurpleDeep</li>
     </floorTypes>

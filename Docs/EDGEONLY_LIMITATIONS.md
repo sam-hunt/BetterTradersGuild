@@ -60,7 +60,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 **Example:**
 ```
 ┌─────────────────────┐
-│ Captain's Quarters  │
+│ Commander's Quarters  │
 │                     │
 │  ┌─────────┐        │
 │  │ Bedroom │        │
@@ -98,7 +98,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 - `Subroom_ElectricStove`: 5x3 (15 cells)
 - `Subroom_Crib`: 5x4 (20 cells)
 
-**Attempted:** `BTG_CaptainsBedroom_Edge`: 7x7 (49 cells) - 2.5x larger than largest vanilla example
+**Attempted:** `BTG_CommandersBedroom_Edge`: 7x7 (49 cells) - 2.5x larger than largest vanilla example
 
 **Hypothesis:** EdgeOnly system may not be designed to handle larger structures, leading to placement and validation issues.
 
@@ -303,7 +303,7 @@ foreach (IntVec3 wallCell in wallPositions)
 
 EdgeOnly XML prefabs are a lightweight system for simple furniture placement. Complex subrooms with internal walls and special doors require RoomContentsWorker classes for proper control and vanilla-compatible behavior.
 
-**For the Captain's Quarters bedroom:**
+**For the Commander's Quarters bedroom:**
 - ❌ EdgeOnly XML prefab - incompatible with design goals
 - ✅ RoomContentsWorker - provides necessary control and follows vanilla patterns
 

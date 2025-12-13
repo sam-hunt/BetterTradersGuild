@@ -38,7 +38,7 @@ Vanilla gameplay is preserved for hostile relationships - you can still raid set
 
 ### 🚧 Phase 3: Enhanced Settlement Generation (In Progress)
 
-- Custom room layouts with modern aesthetics (Trade Shuttle Bay, Captain's Quarters, Command Center, Medical Bay, Barracks, etc.)
+- Custom room layouts with modern aesthetics (Trade Shuttle Bay, Commander's Quarters, Command Center, Medical Bay, Barracks, etc.)
 - Dynamic cargo system - items spawn from the settlement's actual trade inventory
 - Realistic consequences: steal cargo and it's missing from trade stock, or sell items and find them in the cargo bay later
 - Configurable cargo percentage (30-100%, default 60%)
@@ -145,14 +145,14 @@ Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTr
 
 **Phase 3 (Enhanced Settlement Generation) is partially complete** in this alpha release. Current limitations:
 
-- **Captain's Quarters Room** - Basic implementation working, but some edge cases unhandled:
+- **Commander's Quarters Room** - Basic implementation working, but some edge cases unhandled:
 
   - Door detection algorithm incomplete (bedroom may occasionally block doorways)
   - Edge placement fallbacks need refinement
   - Cell marking verification incomplete
   - Billiards table clearance calculation needs improvement
 
-- **Other Custom Rooms** - Fully defined but using vanilla generation until Captain's Quarters patterns are finalized
+- **Other Custom Rooms** - Fully defined but using vanilla generation until Commander's Quarters patterns are finalized
 
 - **Dynamic Cargo System** - Designed but not yet implemented (planned for Phase 3 completion)
 
@@ -161,9 +161,9 @@ Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTr
 - ✅ All Phase 2 peaceful trading features (fully complete and stable)
 - ✅ Custom settlement layout system (18 room types defined)
 - ✅ 10 custom prefabs for furniture arrangements
-- ✅ Captain's Quarters basic generation (bedroom, bookcase, unique weapons)
+- ✅ Commander's Quarters basic generation (bedroom, bookcase, unique weapons)
 
-Phase 3 will be completed in a future alpha release. Current implementation is functional but may have minor aesthetic issues in Captain's Quarters.
+Phase 3 will be completed in a future alpha release. Current implementation is functional but may have minor aesthetic issues in Commander's Quarters.
 
 ## FAQ
 

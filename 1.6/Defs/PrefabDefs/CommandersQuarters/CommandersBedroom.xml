@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Captain's Bedroom (L-Shaped Prefab)
+    Better Traders Guild - Commander's Bedroom (L-Shaped Prefab)
     A self-contained bedroom structure designed for flexible corner/edge placement.
 
     Features:
@@ -38,7 +38,7 @@
     - Center placement (fallback): Back/left walls spawned post-placement
   -->
   <PrefabDef>
-    <defName>BTG_CaptainsBedroom</defName>
+    <defName>BTG_CommandersBedroom</defName>
     <size>(6,6)</size>
     <things>
       <PlantPot>

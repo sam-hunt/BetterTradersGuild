@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Captain's Bookshelf Prefab
+    Better Traders Guild - Commander's Bookshelf Prefab
     Personal library for the station leader.
 
     Features:
@@ -15,15 +15,15 @@
     Legend:
     B = BookcaseSmall (marble, excellent quality, facing into room)
         + 1-4 Novels (excellent/masterwork/legendary quality)
-        Books automatically inserted via RoomContents_CaptainsQuarters
+        Books automatically inserted via RoomContents_CommandersQuarters
   -->
 
   <PrefabDef>
-    <defName>BTG_CaptainsBookshelf_Edge</defName>
+    <defName>BTG_CommandersBookshelf_Edge</defName>
     <edgeOnly>true</edgeOnly>
     <size>(1,1)</size>
     <things>
-      <!-- Small bookcase for captain's personal library (against wall) -->
+      <!-- Small bookcase for commander's personal library (against wall) -->
       <BookcaseSmall>
         <quality>Excellent</quality>
         <position>(0, 0, 0)</position>

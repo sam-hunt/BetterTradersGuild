@@ -125,7 +125,7 @@ BetterTradersGuild/
 │   ├── LayoutRoomDefs/     # Phase 3: Custom room definitions (18 files)
 │   │   ├── BTG_OrbitalArmory.xml
 │   │   ├── BTG_OrbitalBarracks.xml
-│   │   ├── BTG_OrbitalCaptainsQuarters.xml  # 🚧 IN PROGRESS
+│   │   ├── BTG_OrbitalCommandersQuarters.xml  # 🚧 IN PROGRESS
 │   │   ├── BTG_OrbitalCargoStorage.xml
 │   │   ├── BTG_OrbitalClassroom.xml
 │   │   ├── BTG_OrbitalComputerRoom.xml
@@ -144,8 +144,8 @@ BetterTradersGuild/
 │       ├── BTG_ArmchairsWithPlantpot_Edge.xml
 │       ├── BTG_BarracksBeds_Edge.xml
 │       ├── BTG_BilliardsTable.xml
-│       ├── BTG_CaptainsBedroom.xml
-│       ├── BTG_CaptainsBookshelf_Edge.xml
+│       ├── BTG_CommandersBedroom.xml
+│       ├── BTG_CommandersBookshelf_Edge.xml
 │       ├── BTG_ClassroomBookshelf.xml
 │       ├── BTG_FlatscreenTelevisionWolfLeather_Edge.xml
 │       ├── BTG_HospitalBeds_Edge.xml
@@ -202,7 +202,7 @@ BetterTradersGuild/
 │   │   └── Debug/                 # Debug logging patches (1 file)
 │   │       └── RoomContentsWorkerFillRoom.cs
 │   ├── RoomContents/       # Phase 3: Custom room generation workers
-│   │   └── RoomContents_CaptainsQuarters.cs  # 🚧 IN PROGRESS
+│   │   └── RoomContents_CommandersQuarters.cs  # 🚧 IN PROGRESS
 │   ├── WorldObjects/       # Phase 3: World object components
 │   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
 │   ├── Properties/
@@ -217,7 +217,7 @@ BetterTradersGuild/
 │   └── Tools/              # Test tooling
 │       └── (test diagrams)
 ├── docs/                   # Technical documentation (9 files)
-│   ├── CAPTAINS_QUARTERS_IMPLEMENTATION.md
+│   ├── COMMANDERS_QUARTERS_IMPLEMENTATION.md
 │   ├── CARGO_IMPLEMENTATION_GUIDE.md
 │   ├── EDGEONLY_LIMITATIONS.md
 │   ├── LAYOUT_CONSTRAINTS_README.md

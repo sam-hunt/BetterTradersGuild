@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Captain's Quarters
+    Better Traders Guild - Commander's Quarters
 
     Luxury living quarters for the station leader.
 
@@ -19,8 +19,8 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_CaptainsQuarters</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CaptainsQuarters</roomContentsWorkerType>
+    <defName>BTG_CommandersQuarters</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CommandersQuarters</roomContentsWorkerType>
     <minSingleRectWidth>11</minSingleRectWidth>
     <minSingleRectHeight>11</minSingleRectHeight>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
@@ -36,7 +36,7 @@
 
     <prefabs>
       <!--
-        BEDROOM: Spawned programmatically by RoomContents_CaptainsQuarters worker
+        BEDROOM: Spawned programmatically by RoomContents_CommandersQuarters worker
         The worker places the bedroom in a corner (preferred) or along an edge (fallback),
         ensuring no conflicts with doors and proper wall alignment.
 
@@ -63,10 +63,10 @@
       </BTG_ArmchairsWithPlantpot_Edge>
 
       <!-- Personal library with books (high priority - player reward) -->
-      <BTG_CaptainsBookshelf_Edge>
+      <BTG_CommandersBookshelf_Edge>
         <countPerTenEdgeCells>6</countPerTenEdgeCells>
         <minMaxRange>3~6</minMaxRange>
-      </BTG_CaptainsBookshelf_Edge>
+      </BTG_CommandersBookshelf_Edge>
 
       <!-- High-quality marble grand sculpture (4x4 footprint with clearance, center placement) -->
       <BTG_GrandSculpture>

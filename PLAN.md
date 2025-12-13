@@ -49,8 +49,8 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
   - 18 custom BTG_Orbital\* RoomDefs with metal tile flooring
   - 10 custom PrefabDefs for hospital equipment, furniture, and room-specific items
   - Biotech-gated nursery and classroom rooms
-  - New room types: Armory, TradeShowcase, SecurityStation, Workshop, 🚧 **CaptainsQuarters (IN PROGRESS)**, CargoStorage
-  - **CaptainsQuarters Status:**
+  - New room types: Armory, TradeShowcase, SecurityStation, Workshop, 🚧 **CommandersQuarters (IN PROGRESS)**, CargoStorage
+  - **CommandersQuarters Status:**
     - ✅ Custom RoomContentsWorker with programmatic bedroom placement (basic corner placement working)
     - ✅ Book insertion system (automatically inserts books into bookcase containers)
     - ✅ Quality-based book spawning (1-4 books per small bookcase, excellent to legendary)
@@ -91,7 +91,7 @@ Overhaul map generation for TradersGuild orbital platforms to reflect their iden
   - Randomize corner iteration order (clockwise vs counterclockwise)
   - Randomize initial rotation (North/East/South/West instead of always North)
   - Use settlement ID as seed for consistent but varied placement per station
-  - Prevents every CaptainsQuarters from looking identical
+  - Prevents every CommandersQuarters from looking identical
 
 ---
 
@@ -640,7 +640,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - `BTG_OrbitalTradeShowcase` (display valuable goods)
      - `BTG_OrbitalSecurityStation` (guard post/monitors)
      - `BTG_OrbitalWorkshop` (crafting/repairs)
-     - `BTG_OrbitalCaptainsQuarters` (luxury leader room)
+     - `BTG_OrbitalCommandersQuarters` (luxury leader room)
      - `BTG_OrbitalCargoStorage` (shipping containers/pallets)
      - `BTG_OrbitalStoreroom` (2 instances - general storage)
      - `BTG_OrbitalTransportRoom` (shuttle bay for dynamic cargo)
@@ -730,7 +730,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - Crafting benches for repairs
      - Tool storage, component shelves
 
-   - `BTG_OrbitalCaptainsQuarters`: 🚧 **IN PROGRESS** (functional but needs improvements)
+   - `BTG_OrbitalCommandersQuarters`: 🚧 **IN PROGRESS** (functional but needs improvements)
 
      - **Custom RoomContentsWorker** - Programmatic bedroom placement with lounge area
      - Fine carpet flooring throughout
@@ -1301,7 +1301,7 @@ BetterTradersGuild/
 │   ├── LayoutRoomDefs/         # Custom room definitions (18 files, Phase 3)
 │   │   ├── BTG_OrbitalArmory.xml
 │   │   ├── BTG_OrbitalBarracks.xml
-│   │   ├── BTG_OrbitalCaptainsQuarters.xml  # 🚧 IN PROGRESS
+│   │   ├── BTG_OrbitalCommandersQuarters.xml  # 🚧 IN PROGRESS
 │   │   ├── BTG_OrbitalCargoStorage.xml
 │   │   ├── BTG_OrbitalClassroom.xml
 │   │   ├── BTG_OrbitalComputerRoom.xml
@@ -1320,8 +1320,8 @@ BetterTradersGuild/
 │       ├── BTG_ArmchairsWithPlantpot_Edge.xml
 │       ├── BTG_BarracksBeds_Edge.xml
 │       ├── BTG_BilliardsTable.xml
-│       ├── BTG_CaptainsBedroom.xml
-│       ├── BTG_CaptainsBookshelf_Edge.xml
+│       ├── BTG_CommandersBedroom.xml
+│       ├── BTG_CommandersBookshelf_Edge.xml
 │       ├── BTG_ClassroomBookshelf.xml
 │       ├── BTG_FlatscreenTelevisionWolfLeather_Edge.xml
 │       ├── BTG_HospitalBeds_Edge.xml
@@ -1366,7 +1366,7 @@ BetterTradersGuild/
 │   ├── Properties/
 │   │   └── AssemblyInfo.cs
 │   ├── RoomContents/           # Custom room generation workers (Phase 3)
-│   │   └── RoomContents_CaptainsQuarters.cs  # 🚧 IN PROGRESS
+│   │   └── RoomContents_CommandersQuarters.cs  # 🚧 IN PROGRESS
 │   ├── WorldObjects/           # World object components (Phase 3)
 │   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
 │   ├── BetterTradersGuild.csproj  # SDK-style project file

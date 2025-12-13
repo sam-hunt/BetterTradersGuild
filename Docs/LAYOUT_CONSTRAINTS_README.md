@@ -38,7 +38,7 @@ public class LayoutRoomExtension : DefModExtension
 In your `LayoutRoomDef`:
 ```xml
 <LayoutRoomDef>
-  <defName>BTG_OrbitalCaptainsQuarters</defName>
+  <defName>BTG_OrbitalCommandersQuarters</defName>
   <minSingleRectWidth>6</minSingleRectWidth>
   <minSingleRectHeight>6</minSingleRectHeight>
 
@@ -95,7 +95,7 @@ If C# proves too complex, **the XML-only approach is perfectly valid**:
 
 ```xml
 <LayoutRoomDef>
-  <defName>BTG_OrbitalCaptainsQuarters</defName>
+  <defName>BTG_OrbitalCommandersQuarters</defName>
   <minSingleRectWidth>6</minSingleRectWidth>
   <minSingleRectHeight>6</minSingleRectHeight>
   <requiresSingleRectRoom>true</requiresSingleRectRoom>

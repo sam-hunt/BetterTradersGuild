@@ -11,7 +11,7 @@ using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 namespace BetterTradersGuild.RoomContents
 {
     /// <summary>
-    /// Custom RoomContentsWorker for Captain's Quarters.
+    /// Custom RoomContentsWorker for Commander's Quarters.
     ///
     /// Spawns a secure bedroom subroom with an L-shaped prefab (front + right side walls only)
     /// that can be placed in corners (preferred) or along edges (with procedural wall completion).
@@ -20,7 +20,7 @@ namespace BetterTradersGuild.RoomContents
     /// working alongside XML definitions. The three-phase system (PreFillRooms, FillRoom, PostFillRooms)
     /// allows custom structures to coexist with XML-defined prefabs, scatter items, and parts.
     /// </summary>
-    public class RoomContents_CaptainsQuarters : RoomContentsWorker
+    public class RoomContents_CommandersQuarters : RoomContentsWorker
     {
         // Prefab actual size (6×6) - the content defined in XML
         private const int BEDROOM_PREFAB_SIZE = 6;
@@ -30,7 +30,7 @@ namespace BetterTradersGuild.RoomContents
         private const int BEDROOM_SIZE = 7;
 
         // Prefab defName for the L-shaped bedroom structure
-        private const string BEDROOM_PREFAB_DEFNAME = "BTG_CaptainsBedroom";
+        private const string BEDROOM_PREFAB_DEFNAME = "BTG_CommandersBedroom";
 
         // NOTE: The offset formulas (using BEDROOM_PREFAB_SIZE/2 and BEDROOM_PREFAB_SIZE/2+1) are empirically
         // derived for the 6×6 bedroom prefab. Testing with a 5×5 prefab showed these formulas
@@ -80,7 +80,7 @@ namespace BetterTradersGuild.RoomContents
             {
                 // Log warning but CONTINUE (lounge still spawns for graceful degradation)
                 CellRect firstRect = room.rects?.FirstOrDefault() ?? default;
-                Log.Warning($"[Better Traders Guild] Could not find valid placement for Captain's bedroom in room at {firstRect}");
+                Log.Warning($"[Better Traders Guild] Could not find valid placement for Commander's bedroom in room at {firstRect}");
                 // NO RETURN - continue to spawn lounge furniture
             }
 
@@ -252,7 +252,7 @@ namespace BetterTradersGuild.RoomContents
         }
 
         /// <summary>
-        /// Spawns a unique weapon on the shelf in the captain's quarters.
+        /// Spawns a unique weapon on the shelf in the commander's quarters.
         /// Searches for the ShelfSmall within the entire room area (bedroom + lounge).
         ///
         /// LEARNING NOTE: The shelf is in the bedroom prefab, but we search the full room
@@ -262,11 +262,11 @@ namespace BetterTradersGuild.RoomContents
         private void SpawnUniqueWeaponOnShelf(Map map, PlacementResult placement, LayoutRoom room)
         {
             // Generate the unique weapon
-            Thing weapon = GenerateCaptainsWeapon();
+            Thing weapon = GenerateCommandersWeapon();
 
             if (weapon == null)
             {
-                Log.Warning("[Better Traders Guild] Failed to generate captain's unique weapon");
+                Log.Warning("[Better Traders Guild] Failed to generate commander's unique weapon");
                 return;
             }
 
@@ -307,7 +307,7 @@ namespace BetterTradersGuild.RoomContents
 
             if (shelf == null)
             {
-                Log.Warning($"[Better Traders Guild] Could not find ShelfSmall in captain's quarters - spawning weapon at bedroom center");
+                Log.Warning($"[Better Traders Guild] Could not find ShelfSmall in commander's quarters - spawning weapon at bedroom center");
                 GenSpawn.Spawn(weapon, this.bedroomRect.CenterCell, map, Rot4.North);
             }
 
@@ -315,7 +315,7 @@ namespace BetterTradersGuild.RoomContents
         }
 
         /// <summary>
-        /// Generates a unique high-quality weapon with gold inlay for the captain's bedroom.
+        /// Generates a unique high-quality weapon with gold inlay for the commander's bedroom.
         ///
         /// Weapon selection (weighted random):
         /// - 30% Revolver (Gold + HighPowerRounds + random)
@@ -326,7 +326,7 @@ namespace BetterTradersGuild.RoomContents
         /// All weapons spawn with Excellent/Masterwork/Legendary quality via QualityUtility.GenerateQualitySuper()
         /// and have 3 unique traits (Gold Inlay + weapon-specific + random compatible).
         /// </summary>
-        private Thing GenerateCaptainsWeapon()
+        private Thing GenerateCommandersWeapon()
         {
             // Weighted random weapon selection
             float roll = Rand.Value;
@@ -396,7 +396,7 @@ namespace BetterTradersGuild.RoomContents
                 }
                 else
                 {
-                    Log.Warning($"[Better Traders Guild] Could not add {primaryTraitName} trait to captain's weapon");
+                    Log.Warning($"[Better Traders Guild] Could not add {primaryTraitName} trait to commander's weapon");
                 }
 
                 // Trait 2: Gold Inlay (added SECOND after primary trait exists)
@@ -407,7 +407,7 @@ namespace BetterTradersGuild.RoomContents
                 }
                 else
                 {
-                    Log.Warning("[Better Traders Guild] Could not add GoldInlay trait to captain's weapon");
+                    Log.Warning("[Better Traders Guild] Could not add GoldInlay trait to commander's weapon");
                 }
 
                 // Trait 3: Random compatible third trait

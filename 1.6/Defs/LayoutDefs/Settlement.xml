@@ -112,10 +112,10 @@
         <countRange>1~2</countRange>
       </BTG_TradeShowcase>
 
-      <!-- Captain's quarters -->
-      <BTG_CaptainsQuarters>
+      <!-- Commander's quarters -->
+      <BTG_CommandersQuarters>
         <countRange>1~1</countRange>
-      </BTG_CaptainsQuarters>
+      </BTG_CommandersQuarters>
 
       <!-- Storage rooms (multiple for variety) -->
       <BTG_Storeroom>
