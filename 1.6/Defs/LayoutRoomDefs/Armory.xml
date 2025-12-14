@@ -49,10 +49,10 @@
         <minMaxRange>1~2</minMaxRange>
       </IndustrialShelf_Rows>
 
-      <AncientSpacerCrate_Cluster>
-        <countPerHundredCells>3</countPerHundredCells>
-        <minMaxRange>2~6</minMaxRange>
-      </AncientSpacerCrate_Cluster>
+      <Shelves_Rows>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </Shelves_Rows>
     </prefabs>
 
     <!-- Higher threat level (weapons storage) -->

@@ -21,11 +21,6 @@
         <minMaxRange>0~1</minMaxRange>
       </BTG_LargeOxygenTank_Edge>
 
-      <BTG_NutrientPasteVat_Edge MayRequire="VanillaExpanded.VNutrientE">
-        <countPerHundredCells>3</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_NutrientPasteVat_Edge>
-
       <BTG_GiantAstrofuelTank_Edge MayRequire="vanillaexpanded.gravship">
         <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>

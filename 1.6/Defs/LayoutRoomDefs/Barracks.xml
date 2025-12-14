@@ -51,11 +51,6 @@
         <minMaxRange>0~1</minMaxRange>
       </TVWithArmchairs>
 
-      <!-- Personal storage shelves -->
-      <Shelves_Rows>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </Shelves_Rows>
     </prefabs>
 
     <!-- Minimal threat (living quarters) -->

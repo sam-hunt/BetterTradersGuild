@@ -14,8 +14,9 @@
 
     <!-- Fine flooring for dining area -->
     <floorTypes>
-      <li>CarpetMarble</li>
+      <li>SterileTile</li>
       <li>WoodPlankFloor</li>
+      <li>CarpetMarble</li>
     </floorTypes>
     <edgeTerrain>MetalTile</edgeTerrain>
 

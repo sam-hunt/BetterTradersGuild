@@ -36,6 +36,12 @@
         <minMaxRange>0~1</minMaxRange>
       </BTG_NutrientPasteGrinder_Edge>
 
+      <!-- VNPE nutrient paste vat for storing processed paste -->
+      <BTG_NutrientPasteVat_Edge MayRequire="VanillaExpanded.VNutrientE">
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_NutrientPasteVat_Edge>
+
       <!-- Storage for harvested crops (contents filled by RoomContentsWorker) -->
       <BTG_SteelShelf_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
