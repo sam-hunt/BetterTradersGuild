@@ -201,18 +201,25 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             // STEP 4: Place hidden conduits (and VE hidden pipes) under all wall cells
             int conduitCount = LayoutConduitPlacer.PlaceHiddenConduits(map, sketch);
 
+            // STEP 4b: Extend conduits to external landing pads
+            int landingPadConduitCount = LandingPadConduitExtender.ExtendConduitsToLandingPads(map, sketch);
+
             // Build log message including VE pipe info if applicable
             var hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();
             int vePipeTypeCount = hiddenPipeDefs.Count;
+            int totalConduits = conduitCount + landingPadConduitCount;
+
             if (vePipeTypeCount > 0)
             {
-                Log.Message($"[Better Traders Guild] Placed {conduitCount} conduits and " +
-                            $"{conduitCount * vePipeTypeCount} VE hidden pipes ({vePipeTypeCount} type(s)) under walls " +
+                Log.Message($"[Better Traders Guild] Placed {totalConduits} conduits " +
+                            $"({conduitCount} under walls, {landingPadConduitCount} to landing pads) and " +
+                            $"{totalConduits * vePipeTypeCount} VE hidden pipes ({vePipeTypeCount} type(s)) " +
                             $"in settlement '{settlement.Name}' for station-wide networks.");
             }
             else
             {
-                Log.Message($"[Better Traders Guild] Placed {conduitCount} conduits under walls " +
+                Log.Message($"[Better Traders Guild] Placed {totalConduits} conduits " +
+                            $"({conduitCount} under walls, {landingPadConduitCount} to landing pads) " +
                             $"in settlement '{settlement.Name}' for station-wide power network.");
             }
 
