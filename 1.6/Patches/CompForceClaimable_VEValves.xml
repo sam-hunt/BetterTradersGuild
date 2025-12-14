@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Adds CompForceClaimable to VE pipe valve buildings.
+
+    PURPOSE:
+    Allows players to claim valves even when hostile pawns are elsewhere on the map.
+    Vanilla claiming is blocked map-wide, preventing room-by-room progression.
+
+    AFFECTED DEFS:
+    - VCHE_ChemfuelValve (VE Chemfuel Expanded)
+    - VCHE_DeepchemValve (VE Chemfuel Expanded)
+    - VNPE_NutrientPasteValve (VE Nutrient Paste Expanded)
+    - VGE_OxygenValve (VE Gravships)
+    - VGE_AstrofuelValve (VE Gravships)
+
+    BEHAVIOR:
+    Adds a "Force Claim" gizmo that appears when valve is not player-owned.
+    Clicking it immediately transfers ownership to player faction.
+  -->
+
+  <!-- VE Chemfuel Expanded - Chemfuel Valve -->
+  <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VChemfuelE">
+    <xpath>/Defs/ThingDef[defName="VCHE_ChemfuelValve"]/comps</xpath>
+    <value>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+    </value>
+  </Operation>
+
+  <!-- VE Chemfuel Expanded - Deepchem Valve -->
+  <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VChemfuelE">
+    <xpath>/Defs/ThingDef[defName="VCHE_DeepchemValve"]/comps</xpath>
+    <value>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+    </value>
+  </Operation>
+
+  <!-- VE Nutrient Paste Expanded - Nutrient Paste Valve -->
+  <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VNutrientE">
+    <xpath>/Defs/ThingDef[defName="VNPE_NutrientPasteValve"]/comps</xpath>
+    <value>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+    </value>
+  </Operation>
+
+  <!-- VE Gravships - Oxygen Valve -->
+  <Operation Class="PatchOperationAdd" MayRequire="vanillaexpanded.gravship">
+    <xpath>/Defs/ThingDef[defName="VGE_OxygenValve"]/comps</xpath>
+    <value>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+    </value>
+  </Operation>
+
+  <!-- VE Gravships - Astrofuel Valve -->
+  <Operation Class="PatchOperationAdd" MayRequire="vanillaexpanded.gravship">
+    <xpath>/Defs/ThingDef[defName="VGE_AstrofuelValve"]/comps</xpath>
+    <value>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+    </value>
+  </Operation>
+
+</Patch>

@@ -26,6 +26,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     /// - Postfix patch runs after vanilla Generate() completes
     /// - Places hidden conduits and VE pipes under walls (via LayoutConduitPlacer)
     /// - Fills VE pipe network tanks to random levels (via PipeNetworkTankFiller)
+    /// - Closes VE pipe valves and removes faction ownership (via PipeValveHandler)
     ///
     /// ARCHITECTURE:
     /// - Phase 3.2: Layout override + component initialization
@@ -163,11 +164,13 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
         /// PURPOSE:
         /// 1. Places hidden conduits and VE pipes under all walls (station-wide networks)
         /// 2. Fills VE pipe network tanks to random levels (operational feel)
+        /// 3. Closes VE pipe valves and removes faction ownership (lockdown + claimable)
         ///
         /// ARCHITECTURE:
         /// Delegates to helper classes for single-responsibility:
         /// - LayoutConduitPlacer: Hidden conduit/pipe placement under walls
         /// - PipeNetworkTankFiller: VE tank filling via reflection
+        /// - PipeValveHandler: Valve closing + faction removal via reflection
         /// </summary>
         [HarmonyPostfix]
         public static void Postfix(Map map)
@@ -219,6 +222,15 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             {
                 Log.Message($"[Better Traders Guild] Filled {filledTankCount} VE pipe network tank(s) " +
                             $"in settlement '{settlement.Name}'.");
+            }
+
+            // STEP 6: Close all VE pipe valves and remove faction ownership
+            // Simulates station lockdown - players must claim valves room-by-room
+            int closedValveCount = PipeValveHandler.CloseAllValvesAndClearFaction(map);
+            if (closedValveCount > 0)
+            {
+                Log.Message($"[Better Traders Guild] Closed {closedValveCount} VE pipe valve(s) " +
+                            $"and removed faction ownership in settlement '{settlement.Name}'.");
             }
         }
     }
