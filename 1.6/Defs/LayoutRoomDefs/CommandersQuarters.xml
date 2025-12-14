@@ -27,9 +27,8 @@
     <canMergeWithAdjacentRoom>false</canMergeWithAdjacentRoom>
     <minAdjRooms>0</minAdjRooms>
 
-    <!-- Fine luxury carpet flooring -->
-    <!-- TODO: Swap to fine carpet if royalty DLC active? -->
     <floorTypes>
+      <!-- Patched to Fine variant when Royalty is enabled -->
       <li>CarpetPurpleDeep</li>
     </floorTypes>
     <edgeTerrain>SilverTile</edgeTerrain>

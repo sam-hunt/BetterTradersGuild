@@ -376,7 +376,7 @@ This section defines the **static base structure** (permanent rooms) and **dynam
 
 **Key Difference from Vanilla:** NOT the "\_Deserted" variant (no corpses, functional systems)
 
-#### 5. Dining Hall
+#### 5. Mess Hall
 
 **Based on vanilla:** `OrbitalDiningRoom`
 
@@ -632,7 +632,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - `BTG_OrbitalMedicalBay` (medical facility)
      - `BTG_OrbitalBarracks` (crew quarters)
      - `BTG_OrbitalHydroponics` (food production)
-     - `BTG_OrbitalDiningRoom` (dining hall)
+     - `BTG_MessHall` (mess hall)
      - `BTG_OrbitalRecRoom` (recreation)
      - `BTG_OrbitalNursery` (childcare - Biotech gated)
      - `BTG_OrbitalClassroom` (education - Biotech gated)
@@ -678,7 +678,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - Sun lamps, drug lab
      - Clean, maintained appearance
 
-   - `BTG_OrbitalDiningRoom`:
+   - `BTG_MessHall`:
 
      - Fine carpet flooring
      - Large dining tables with chairs
@@ -1306,7 +1306,7 @@ BetterTradersGuild/
 │   │   ├── BTG_OrbitalClassroom.xml
 │   │   ├── BTG_OrbitalComputerRoom.xml
 │   │   ├── BTG_OrbitalCorridor.xml
-│   │   ├── BTG_OrbitalDiningRoom.xml
+│   │   ├── MessHall.xml
 │   │   ├── BTG_OrbitalHydroponics.xml
 │   │   ├── BTG_OrbitalMedicalBay.xml
 │   │   ├── BTG_OrbitalNursery.xml

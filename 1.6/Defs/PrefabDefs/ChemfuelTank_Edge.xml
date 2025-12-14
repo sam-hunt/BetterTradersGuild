@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_ChemfuelTank_Edge - VE Chemfuel tank with valve
+
+    Features:
+    - 3x3 prefab size
+    - Edge placement (valve against wall)
+    - 2x3 tank rotated to 3x2, valve centered above
+
+    Design (top view, North is up, wall at z=2):
+        x: 0 1 2
+    z=2:   . V .   Valve at (1,0,2)
+    z=1:   T T T   Tank (rotated 2x3 -> 3x2)
+    z=0:   T T T
+
+    Legend:
+    V = VCHE_ChemfuelValve (facing wall)
+    T = PS_ChemfuelTank (rotated clockwise)
+  -->
+  <PrefabDef MayRequire="VanillaExpanded.VChemfuelE">
+    <defName>BTG_ChemfuelTank_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,3)</size>
+    <things>
+      <VCHE_ChemfuelValve>
+        <position>(1,0,2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </VCHE_ChemfuelValve>
+      <PS_ChemfuelTank>
+        <position>(1,0,1)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </PS_ChemfuelTank>
+    </things>
+  </PrefabDef>
+
+</Defs>

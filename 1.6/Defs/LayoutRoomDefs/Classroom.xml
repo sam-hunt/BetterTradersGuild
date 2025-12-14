@@ -2,7 +2,6 @@
 <Defs>
   <!--
     Better Traders Guild - Classroom (Biotech DLC)
-
     Education facility for station crew children.
   -->
 
@@ -10,10 +9,14 @@
     <defName>BTG_Classroom</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
-    <roomContentsWorkerClass>BetterTradersGuild.RoomContents.RoomContents_Classroom</roomContentsWorkerClass>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Classroom</roomContentsWorkerType>
 
+    <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
-      <li>CarpetMarble</li>
+      <li>CarpetGreenFaded</li>
+      <li>CarpetDusk</li>
+      <li>WoodPlankFloor</li>
+      <li>CarpetRedSubtle</li>
     </floorTypes>
 
     <prefabs>
@@ -42,8 +45,5 @@
       </AncientLockerBank_Row>
     </prefabs>
 
-    <parts>
-      <WaspDrone>0.05</WaspDrone>
-    </parts>
   </LayoutRoomDef>
 </Defs>

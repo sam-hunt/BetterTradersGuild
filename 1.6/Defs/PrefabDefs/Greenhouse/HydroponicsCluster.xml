@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Hydroponics Cluster Prefab
+    Compact 5x5 cluster with hydroponics basins on all edges and decorative
+    plant pots in the center around a sun lamp. Represents an organized,
+    modern growing facility (not abandoned/ancient).
+
+    Features:
+    - 5x5 prefab size (compact)
+    - 4 hydroponics basins (1x4 each) along edges
+    - Central sun lamp for light
+    - Decorative plant pots with chance in walkway
+    - Hidden conduit network for power
+
+    Design (top view, North is up):
+        x: 0 1 2 3 4
+    z=4:   H H H H H
+    z=3:   H P P P H
+    z=2:   H P S P H
+    z=1:   H P P P H
+    z=0:   H H H H H
+
+    Legend:
+    H = HydroponicsBasin cells
+    S = SunLamp (center)
+    P = PlantPot (30% chance each, filled by RoomContentsWorker)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_HydroponicsCluster</defName>
+    <size>(5,5)</size>
+    <things>
+      <!-- Left basin (x=0) - vertical, covers z=1,2,3,4 -->
+      <HydroponicsBasin>
+        <position>(0,0,2)</position>
+      </HydroponicsBasin>
+
+      <!-- Right basin (x=4) - vertical, covers z=0,1,2,3 -->
+      <HydroponicsBasin>
+        <position>(4,0,1)</position>
+      </HydroponicsBasin>
+
+      <!-- Bottom basin (z=0) - horizontal, covers x=0,1,2,3 -->
+      <HydroponicsBasin>
+        <position>(2,0,0)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </HydroponicsBasin>
+
+      <!-- Top basin (z=4) - horizontal, covers x=1,2,3,4 -->
+      <HydroponicsBasin>
+        <position>(2,0,4)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </HydroponicsBasin>
+
+      <!-- Central sun lamp -->
+      <SunLamp>
+        <position>(2,0,2)</position>
+      </SunLamp>
+
+      <!-- Decorative plant pots surrounding sun lamp (30% chance each) -->
+      <!-- Plants filled by RoomContents_Greenhouse via RoomPlantHelper -->
+      <PlantPot>
+        <chance>0.3</chance>
+        <stuff>Steel</stuff>
+        <positions>
+          <!-- All 8 cells surrounding the central sun lamp -->
+          <li>(1, 0, 1)</li>
+          <li>(2, 0, 1)</li>
+          <li>(3, 0, 1)</li>
+          <li>(1, 0, 2)</li>
+          <li>(3, 0, 2)</li>
+          <li>(1, 0, 3)</li>
+          <li>(2, 0, 3)</li>
+          <li>(3, 0, 3)</li>
+        </positions>
+      </PlantPot>
+
+      <!-- Hidden conduit network for power added by room contents worker -->
+
+    </things>
+  </PrefabDef>
+
+</Defs>

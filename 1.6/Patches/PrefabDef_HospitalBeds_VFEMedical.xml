@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Better Traders Guild - VFE Medical HospitalBeds Patch
+
+    Replaces the steel EndTable in BTG_HospitalBeds_Edge with the
+    Facility_IVDrip from VFE Medical Module.
+
+    The IV drip stand provides immunity gain speed bonus to adjacent
+    hospital beds, improving patient recovery.
+
+    Note: Facility_IVDrip is 1x1 and not rotatable.
+  -->
+
+  <Operation Class="PatchOperationReplace" MayRequire="VanillaExpanded.VFEMedical">
+    <xpath>Defs/PrefabDef[defName="BTG_HospitalBeds_Edge"]/things/EndTable</xpath>
+    <value>
+      <Facility_IVDrip>
+        <positions>
+          <li>(2, 0, 2)</li>
+        </positions>
+      </Facility_IVDrip>
+    </value>
+  </Operation>
+
+</Patch>

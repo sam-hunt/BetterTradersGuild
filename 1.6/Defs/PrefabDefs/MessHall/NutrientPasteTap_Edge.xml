@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Nutrient Paste Tap Edge Prefab
+    VNPE tap for dispensing nutrient paste meals in the mess hall.
+    Placed against wall for easy access by crew.
+
+    Features:
+    - 1x1 prefab size (matches tap size)
+    - Edge placement against wall
+    - Wall-mounted dispenser
+
+    Design (top view, wall at z=1):
+        x: 0
+    z=1:   T   Tap at (0,0,0) facing into room
+
+    Legend:
+    T = VNPE_NutrientPasteTap (1x1, wall-attached)
+  -->
+
+  <PrefabDef MayRequire="VanillaExpanded.VNutrientE">
+    <defName>BTG_NutrientPasteTap_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(1,1)</size>
+    <things>
+      <VNPE_NutrientPasteTap>
+        <position>(0,0,0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </VNPE_NutrientPasteTap>
+    </things>
+  </PrefabDef>
+
+</Defs>

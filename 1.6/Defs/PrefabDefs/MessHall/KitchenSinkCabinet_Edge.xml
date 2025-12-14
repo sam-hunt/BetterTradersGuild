@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Kitchen Sink Cabinet Edge Prefab
+    VFE Production kitchen sink cabinet for mess hall food prep.
+    Provides work speed boost to nearby cooking stations.
+
+    Features:
+    - 2x1 prefab size (matches cabinet size)
+    - Edge placement against wall
+
+    Design (top view, wall at z=0):
+        x: 0 1
+    z=0:   K K     K = VFE_KitchenSinkCabinet (2x1, against wall)
+
+    Legend:
+    K = VFE_KitchenSinkCabinet (provides cleanliness and stove link bonus)
+  -->
+
+  <PrefabDef MayRequire="VanillaExpanded.VFEProduction">
+    <defName>BTG_KitchenSinkCabinet_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
+    <things>
+      <VFE_KitchenSinkCabinet>
+        <position>(0, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </VFE_KitchenSinkCabinet>
+    </things>
+  </PrefabDef>
+
+</Defs>

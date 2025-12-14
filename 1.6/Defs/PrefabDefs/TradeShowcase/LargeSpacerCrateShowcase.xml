@@ -75,7 +75,7 @@
       <!-- Silver tile platform (inner 4x4 rect) -->
       <SilverTile>
         <rects>
-          <li>(1,1,4,4)</li>
+          <li>(0,0,5,5)</li>
         </rects>
       </SilverTile>
     </terrain>

@@ -22,18 +22,27 @@
     <edgeTerrain>MetalTile</edgeTerrain>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_PodLaunchBay</roomContentsWorkerType>
     <prefabs>
+
       <BTG_QuadPodLauncher>
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
       </BTG_QuadPodLauncher>
+
       <BTG_SteelShelf_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
       </BTG_SteelShelf_Edge>
-      <IndustrialShelf_InnerWall>
+
+      <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_ChemfuelTank_Edge>
+
+      <IndustrialShelf_Edge>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
-      </IndustrialShelf_InnerWall>
+      </IndustrialShelf_Edge>
+
     </prefabs>
   </LayoutRoomDef>
 </Defs>

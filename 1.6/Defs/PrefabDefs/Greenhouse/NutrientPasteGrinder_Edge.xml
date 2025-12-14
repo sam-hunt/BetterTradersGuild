@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Nutrient Paste Grinder Edge Prefab
+    VNPE grinder for processing harvested crops into nutrient paste.
+    Placed against wall in Greenhouse for food production.
+
+    Features:
+    - 3x3 prefab size (matches grinder size)
+    - Edge placement against wall
+    - Hidden conduits for power
+
+    Design (top view, wall at z=2):
+        x: 0 1 2
+    z=2:   G G G
+    z=1:   G G G
+    z=0:   G G G
+
+    Legend:
+    G = VNPE_NutrientPasteGrinder (3x3, not rotatable)
+  -->
+
+  <PrefabDef MayRequire="VanillaExpanded.VNutrientE">
+    <defName>BTG_NutrientPasteGrinder_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,3)</size>
+    <things>
+      <VNPE_NutrientPasteGrinder>
+        <position>(1,0,1)</position>
+      </VNPE_NutrientPasteGrinder>
+    </things>
+  </PrefabDef>
+
+</Defs>

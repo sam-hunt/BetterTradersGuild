@@ -33,7 +33,7 @@
       <!-- Industrial medicine stocked on shelf -->
       <MedicineIndustrial>
         <position>(0,0,0)</position>
-        <stackCountRange>8~12</stackCountRange>
+        <stackCountRange>6~9</stackCountRange>
       </MedicineIndustrial>
     </things>
   </PrefabDef>

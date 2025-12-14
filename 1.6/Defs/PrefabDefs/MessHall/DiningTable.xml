@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Dining Table Prefab
+    Steel dining table with chairs for the mess hall.
+    Based on vanilla DiningTable_Large structure with steel materials.
+
+    Features:
+    - 4x4 prefab size (matches vanilla DiningTable_Large)
+    - 2x2 steel table in center
+    - Steel dining chairs around table
+
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=3:   . C C .     C = DiningChair (steel, facing table)
+    z=2:   C T T C     T = Table2x2c (steel, 2x2, at position 1,0,1)
+    z=1:   C T T C
+    z=0:   . . . .
+
+    Legend:
+    T = Table2x2c (steel)
+    C = DiningChair (steel)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_DiningTable</defName>
+    <size>(4,4)</size>
+    <things>
+      <!-- Steel dining chairs on left side (facing right/clockwise) -->
+      <DiningChair>
+        <positions>
+          <li>(0, 0, 1)</li>
+          <li>(0, 0, 2)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </DiningChair>
+
+      <!-- Steel dining chairs on right side (facing left/counterclockwise) -->
+      <DiningChair>
+        <positions>
+          <li>(3, 0, 1)</li>
+          <li>(3, 0, 2)</li>
+        </positions>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </DiningChair>
+
+      <!-- Steel dining chairs on top (facing down/opposite) -->
+      <DiningChair>
+        <positions>
+          <li>(1, 0, 3)</li>
+          <li>(2, 0, 3)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+      </DiningChair>
+
+      <!-- Steel 2x2 table in center -->
+      <Table2x2c>
+        <position>(1, 0, 1)</position>
+        <stuff>Steel</stuff>
+      </Table2x2c>
+    </things>
+  </PrefabDef>
+
+</Defs>

@@ -12,8 +12,8 @@
     <minSingleRectHeight>8</minSingleRectHeight>
 
     <floorTypes>
-      <li>CarpetGreen</li>
-      <li>CarpetGranite</li>
+      <li>CarpetRed</li>
+      <li>CarpetBlueSubtle</li>
     </floorTypes>
     <edgeTerrain>MetalTile</edgeTerrain>
 

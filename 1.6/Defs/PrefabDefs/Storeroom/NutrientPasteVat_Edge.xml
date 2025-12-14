@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_NutrientPasteVat_Edge - VE Nutrient Paste vat with valve
+
+    Features:
+    - 2x3 prefab size
+    - Edge placement (valve against wall)
+    - 2x2 vat with valve above
+
+    Design (top view, North is up, wall at z=2):
+        x: 0 1
+    z=2:   V .   Valve at (0,0,2)
+    z=1:   T T   Vat (2x2)
+    z=0:   T T
+
+    Legend:
+    V = VNPE_NutrientPasteValve (facing wall)
+    T = VNPE_NutrientPasteVat
+  -->
+  <PrefabDef MayRequire="VanillaExpanded.VNutrientE">
+    <defName>BTG_NutrientPasteVat_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,3)</size>
+    <things>
+      <VNPE_NutrientPasteValve>
+        <position>(0,0,2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </VNPE_NutrientPasteValve>
+      <VNPE_NutrientPasteVat>
+        <position>(0,0,0)</position>
+      </VNPE_NutrientPasteVat>
+    </things>
+  </PrefabDef>
+
+</Defs>

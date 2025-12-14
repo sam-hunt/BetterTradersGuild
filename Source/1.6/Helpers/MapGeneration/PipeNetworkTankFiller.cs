@@ -116,8 +116,21 @@ namespace BetterTradersGuild.Helpers.MapGeneration
                     continue;
 
                 // Get Props.storageCapacity via reflection
+                // NOTE: Use DeclaredOnly to avoid AmbiguousMatchException - CompResourceStorage
+                // declares its own Props property that hides the base ThingComp.Props
                 PropertyInfo propsProperty = compResourceStorageType.GetProperty("Props",
-                    BindingFlags.Public | BindingFlags.Instance);
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                if (propsProperty == null)
+                {
+                    // Fallback: walk up the type hierarchy to find Props
+                    Type currentType = compResourceStorageType.BaseType;
+                    while (currentType != null && propsProperty == null)
+                    {
+                        propsProperty = currentType.GetProperty("Props",
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                        currentType = currentType.BaseType;
+                    }
+                }
                 if (propsProperty == null)
                     continue;
 

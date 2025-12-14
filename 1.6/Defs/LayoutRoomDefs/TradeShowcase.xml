@@ -50,10 +50,10 @@
       </BTG_LargeSpacerCrateShowcase_Edge>
     </prefabs>
 
-    <!-- Moderate threat (valuable goods) -->
+    <!-- High threat (valuable goods) -->
     <parts>
-      <HunterDrone>0.3</HunterDrone>
-      <CornerArmoredTurret>0.35</CornerArmoredTurret>
+      <HunterDrone>0.8</HunterDrone>
+      <CornerArmoredTurret>0.6</CornerArmoredTurret>
     </parts>
   </LayoutRoomDef>
 </Defs>

@@ -12,7 +12,7 @@
         x: 0 1 2 3 4 5
     z=2:   W P C C P W
     z=1:   W s C C s W
-    z=0:   . s s s s .
+    z=0:   . . . . . .
 
     Legend:
     W = OrbitalAncientFortifiedWall (decorative side pillars)
@@ -86,7 +86,7 @@
       <!-- Silver tile platform (4x2 rect under display items) -->
       <SilverTile>
         <rects>
-          <li>(1,0,4,2)</li>
+          <li>(1,1,4,2)</li>
         </rects>
       </SilverTile>
     </terrain>

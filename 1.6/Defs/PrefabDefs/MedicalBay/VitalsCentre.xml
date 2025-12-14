@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Vitals Centre Prefab
+    VFE Medical vitals monitoring centre for medical bay.
+    Provides medical tend quality, surgery success, and immunity bonuses
+    to nearby hospital beds (maxDistance=8).
+
+    Features:
+    - 3x2 prefab size (matches building size)
+    - Interior placement (requires power)
+    - Power connected via RoomContents_MedicalBay worker
+
+    Design (top view, defaultPlacingRot=South):
+        x: 0 1 2
+    z=1:   V V V     V = Facility_VitalsCentre (3x2)
+    z=0:   V V V
+
+    Legend:
+    V = Facility_VitalsCentre (3x2, requires power, links to hospital beds)
+  -->
+
+  <PrefabDef MayRequire="VanillaExpanded.VFEMedical">
+    <defName>BTG_VitalsCentre</defName>
+    <size>(3,2)</size>
+    <things>
+      <Facility_VitalsCentre>
+        <position>(1, 0, 0)</position>
+      </Facility_VitalsCentre>
+    </things>
+  </PrefabDef>
+
+</Defs>

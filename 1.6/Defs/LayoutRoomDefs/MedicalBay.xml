@@ -46,6 +46,12 @@
         <minMaxRange>1~1</minMaxRange>
       </BTG_HydroponicHealroot>
 
+      <!-- VFE Medical vitals monitoring centre (links to hospital beds) -->
+      <BTG_VitalsCentre MayRequire="VanillaExpanded.VFEMedical">
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_VitalsCentre>
+
       <!-- Compact hospital bed units (interior, low priority) -->
       <BTG_HospitalBeds>
         <countPerHundredCells>2</countPerHundredCells>

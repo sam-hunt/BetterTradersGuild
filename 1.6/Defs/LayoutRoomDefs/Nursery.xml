@@ -8,10 +8,13 @@
 
   <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_Nursery</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Nursery</roomContentsWorkerType>
 
+    <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
       <li>CarpetPink</li>
       <li>CarpetBluePastel</li>
+      <li>CarpetGreenPastel</li>
     </floorTypes>
 
     <scatter>
@@ -19,29 +22,35 @@
         <groupsPerHundredCells>1</groupsPerHundredCells>
         <itemsPerGroup>1~1</itemsPerGroup>
         <minGroups>1</minGroups>
-        <stuff>Steel</stuff>
+        <stuff>WoodLog</stuff>
       </ToyBox>
 
       <BabyDecoration>
         <groupsPerHundredCells>1~3</groupsPerHundredCells>
         <itemsPerGroup>1~1</itemsPerGroup>
         <minGroups>1</minGroups>
-        <stuff>Steel</stuff>
+        <stuff>WoodLog</stuff>
       </BabyDecoration>
     </scatter>
 
     <prefabs>
-      <!-- Cribs for infants -->
-      <Subroom_Crib>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
-      </Subroom_Crib>
+      <!-- Crib subroom spawned programmatically by RoomContents_Nursery -->
 
       <!-- Seating for caregivers -->
       <Couch_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
         <minMaxRange>1~1</minMaxRange>
       </Couch_Edge>
+
+      <BTG_ArmchairsWithPlantpot_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_ArmchairsWithPlantpot_Edge>
+
+      <BTG_GrandSculpture>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_GrandSculpture>
 
       <!-- Storage -->
       <AncientLockerBank_Row>

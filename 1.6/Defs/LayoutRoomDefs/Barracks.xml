@@ -43,7 +43,7 @@
       <!-- Recreation and furniture -->
       <TableWithStools_1x2>
         <countPerHundredCells>2</countPerHundredCells>
-        <minMaxRange>0~2</minMaxRange>
+        <minMaxRange>1~3</minMaxRange>
       </TableWithStools_1x2>
 
       <TVWithArmchairs>

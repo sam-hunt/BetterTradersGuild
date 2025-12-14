@@ -2,9 +2,8 @@
 <Defs>
   <!--
     Better Traders Guild - Storeroom
-
     General storage with mixed loot crates.
-    Note: 2 instances of this room appear in the layout.
+    Also VE fluid tanks if mods active
   -->
 
   <LayoutRoomDef>
@@ -18,33 +17,33 @@
     <prefabs>
       <!-- Fluid storage if VE pipe network mods are enabled -->
       <BTG_LargeOxygenTank_Edge MayRequire="vanillaexpanded.gravship">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_LargeOxygenTank_Edge>
 
       <BTG_NutrientPasteVat_Edge MayRequire="VanillaExpanded.VNutrientE">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_NutrientPasteVat_Edge>
 
       <BTG_GiantAstrofuelTank_Edge MayRequire="vanillaexpanded.gravship">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_GiantAstrofuelTank_Edge>
 
       <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_ChemfuelTank_Edge>
 
       <BTG_DeepchemTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_DeepchemTank_Edge>
 
       <!-- Industrial shelving -->
       <IndustrialShelf_InnerWall>
-        <countPerHundredCells>2</countPerHundredCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </IndustrialShelf_InnerWall>
 
@@ -65,13 +64,13 @@
       </AncientCratePallet_Cluster>
 
       <AncientCratesWithComponents>
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>2</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </AncientCratesWithComponents>
 
       <AncientSpacerCrate_Cluster>
-        <countPerHundredCells>4</countPerHundredCells>
-        <minMaxRange>2~8</minMaxRange>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>2~6</minMaxRange>
       </AncientSpacerCrate_Cluster>
 
       <!-- Safety equipment -->

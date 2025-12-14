@@ -63,13 +63,13 @@
         <countRange>1~1</countRange>
       </BTG_ComputerRoom>
 
-      <BTG_Hydroponics>
+      <BTG_Greenhouse>
         <countRange>1~4</countRange>
-      </BTG_Hydroponics>
+      </BTG_Greenhouse>
 
-      <BTG_DiningRoom>
+      <BTG_MessHall>
         <countRange>1~1</countRange>
-      </BTG_DiningRoom>
+      </BTG_MessHall>
 
       <BTG_PodLaunchBay>
         <countRange>1~1</countRange>
@@ -78,7 +78,7 @@
       <!-- Living quarters and recreation -->
 
       <BTG_Barracks>
-        <countRange>1~3</countRange>
+        <countRange>1~4</countRange>
       </BTG_Barracks>
 
       <BTG_RecRoom>
@@ -98,7 +98,6 @@
       </BTG_MechStation>
 
       <!-- Security and operations -->
-
       <BTG_Armory>
         <countRange>1~1</countRange>
       </BTG_Armory>

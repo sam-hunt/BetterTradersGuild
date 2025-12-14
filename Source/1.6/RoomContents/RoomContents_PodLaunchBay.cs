@@ -35,6 +35,7 @@ namespace BetterTradersGuild.RoomContents
             {
                 CellRect roomRect = room.rects.First();
                 FillSupplyShelves(map, roomRect);
+                ConnectFirefoamPoppersToChemfuelNetwork(map, roomRect);
             }
         }
 
@@ -59,6 +60,24 @@ namespace BetterTradersGuild.RoomContents
                 {
                     RoomShelfHelper.AddItemsToShelf(map, shelf, "Steel", Rand.RangeInclusive(MIN_STACK, MAX_STACK));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Connects firefoam poppers to the chemfuel pipe network under the room walls.
+        /// Only runs if VE Chemfuel Expanded is installed (provides underground chemfuel pipes).
+        /// </summary>
+        private void ConnectFirefoamPoppersToChemfuelNetwork(Map map, CellRect roomRect)
+        {
+            ThingDef chemfuelPipeDef = DefDatabase<ThingDef>.GetNamedSilentFail("VCHE_UndergroundChemfuelPipe");
+            if (chemfuelPipeDef == null)
+                return;
+
+            var poppers = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, "FirefoamPopper");
+
+            foreach (Building popper in poppers)
+            {
+                RoomEdgeConnector.ConnectToNearestEdge(map, popper.Position, roomRect, chemfuelPipeDef);
             }
         }
     }

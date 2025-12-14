@@ -8,11 +8,11 @@
     - 3x2 prefab size
     - Edge placement (against walls)
 
-    Design (top view, North is up, wall at z=1):
+    Design (top view, North is up, wall above z=2):
         x: 0 1 2
-    z=2:   C C C
-    z=1:   C C C
-    z=0:   . D .
+    z=2:   C C C   (back of console, against wall)
+    z=1:   C C C   (front of console, facing south)
+    z=0:   . D .   (chair facing north toward console)
 
     Legend:
     C = CommsConsole (3x2, facing south into room)
@@ -26,11 +26,10 @@
     <size>(3,3)</size>
     <things>
       <CommsConsole>
-        <position>(0, 0, 1)</position>
+        <position>(1, 0, 2)</position>
       </CommsConsole>
       <DiningChair>
         <position>(1, 0, 0)</position>
-        <relativeRotation>Opposite</relativeRotation>
         <stuff>Steel</stuff>
       </DiningChair>
     </things>

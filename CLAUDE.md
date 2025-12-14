@@ -130,7 +130,7 @@ BetterTradersGuild/
 │   │   ├── BTG_OrbitalClassroom.xml
 │   │   ├── BTG_OrbitalComputerRoom.xml
 │   │   ├── BTG_OrbitalCorridor.xml
-│   │   ├── BTG_OrbitalDiningRoom.xml
+│   │   ├── MessHall.xml
 │   │   ├── BTG_OrbitalHydroponics.xml
 │   │   ├── BTG_OrbitalMedicalBay.xml
 │   │   ├── BTG_OrbitalNursery.xml

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crib Subroom (Biotech DLC)
+    A self-contained nursery subroom designed for flexible corner/edge placement.
+
+    Features:
+    - 4x4 prefab size
+    - L-shaped wall configuration (front + right side included)
+    - Interior contains 4 cribs for infant care
+
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=3:   C E C W
+    z=2:   . . . W
+    z=1:   C . C W
+    z=0:   W d W W
+
+    Legend:
+    W = OrbitalAncientFortifiedWall (L-shaped frame)
+    d = Door (entrance)
+    C = Crib (WoodLog, Excellent, facing South)
+    E = EndTable (WoodLog, Normal)
+    . = Floor (empty)
+
+    Placement Strategy:
+    - Corner placement (preferred): Missing back/left walls align with room walls
+    - Edge placement (fallback): Missing back aligns with room wall, left wall spawned post-placement
+    - Center placement (fallback): Back/left walls spawned post-placement
+  -->
+  <PrefabDef>
+    <defName>BTG_CribSubroom</defName>
+    <size>(4,4)</size>
+    <things>
+      <Crib>
+        <rects>
+          <li>(0,1,0,1)</li>
+          <li>(2,1,2,1)</li>
+          <li>(0,3,0,3)</li>
+          <li>(2,3,2,3)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>WoodLog</stuff>
+        <quality>Excellent</quality>
+      </Crib>
+      <EndTable>
+        <position>(1, 0, 3)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>WoodLog</stuff>
+        <quality>Excellent</quality>
+      </EndTable>
+      <Door>
+        <position>(1, 0, 0)</position>
+        <stuff>Steel</stuff>
+      </Door>
+      <OrbitalAncientFortifiedWall>
+        <rects>
+          <li>(0,0,0,0)</li>
+          <li>(2,0,3,0)</li>
+          <li>(3,1,3,3)</li>
+        </rects>
+      </OrbitalAncientFortifiedWall>
+    </things>
+    <terrain>
+      <WoodPlankFloor>
+        <rects>
+          <li>(0,0,3,3)</li>
+        </rects>
+      </WoodPlankFloor>
+    </terrain>
+  </PrefabDef>
+</Defs>

@@ -24,11 +24,11 @@
         <minMaxRange>2~6</minMaxRange>
       </BTG_BasicRecharger_Edge>
 
-      <!-- Central large recharger (working, not Ancient) -->
-      <BTG_StandardRecharger>
-        <countPerHundredCells>3</countPerHundredCells>
+      <!-- Large rechargers along walls (working, not Ancient) -->
+      <BTG_StandardRecharger_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
-      </BTG_StandardRecharger>
+      </BTG_StandardRecharger_Edge>
 
       <!-- Mech gestators for repairs/production (working, not Ancient) -->
       <BTG_MechGestator>
@@ -62,6 +62,7 @@
 
     <!-- Mechs guarding their own station -->
     <parts>
+      <AncientBarricades />
       <HunterDrone>0.3</HunterDrone>
       <WaspDrone>0.2</WaspDrone>
     </parts>

@@ -17,8 +17,8 @@
     <prefabs>
       <!-- Steel shelves (contents filled by RoomContents_Armory from random pool) -->
       <BTG_SteelShelf_Edge>
-        <countPerHundredCells>3</countPerHundredCells>
-        <minMaxRange>1~4</minMaxRange>
+        <countPerHundredCells>4</countPerHundredCells>
+        <minMaxRange>1~5</minMaxRange>
       </BTG_SteelShelf_Edge>
 
       <!-- Security terminals for weapon access control -->
@@ -58,7 +58,7 @@
     <!-- Higher threat level (weapons storage) -->
     <parts>
       <HunterDrone>0.2</HunterDrone>
-      <CornerArmoredTurret>0.8</CornerArmoredTurret>
+      <CornerArmoredTurret>2.0</CornerArmoredTurret>
       <AncientBarricades />
     </parts>
   </LayoutRoomDef>

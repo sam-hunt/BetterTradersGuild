@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    BTG_StandardRecharger - Large mech recharger
+    BTG_StandardRecharger_Edge - Large mech recharger
 
     Features:
     - 3x2 prefab size (snug fit around recharger)
-    - Center placement (not edge-only)
+    - Edge placement (against walls)
 
-    Design (top view, North is up):
+    Design (top view, North is up, wall at z=0):
         x: 0 1 2
     z=1:   R R R
     z=0:   R R R
 
     Legend:
-    R = StandardRecharger (3x2)
+    R = StandardRecharger (3x2, facing into room)
   -->
   <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>BTG_StandardRecharger</defName>
+    <defName>BTG_StandardRecharger_Edge</defName>
+    <edgeOnly>true</edgeOnly>
     <size>(3,2)</size>
     <things>
       <StandardRecharger>
         <position>(0, 0, 0)</position>
+        <relativeRotation>Opposite</relativeRotation>
       </StandardRecharger>
     </things>
   </PrefabDef>

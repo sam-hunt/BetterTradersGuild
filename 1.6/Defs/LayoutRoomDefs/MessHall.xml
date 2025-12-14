@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Dining Room
+    Better Traders Guild - Mess Hall
 
     Communal dining and food preparation area.
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_DiningRoom</defName>
+    <defName>BTG_MessHall</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_MessHall</roomContentsWorkerType>
     <minSingleRectWidth>10</minSingleRectWidth>
     <minSingleRectHeight>10</minSingleRectHeight>
 
@@ -25,31 +26,38 @@
         <minMaxRange>1~2</minMaxRange>
       </Subroom_ElectricStove>
 
-      <!-- Dining tables -->
-      <DiningTable_VeryLarge>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>1~1</minMaxRange>
-      </DiningTable_VeryLarge>
+      <!-- VNPE nutrient paste tap for dispensing meals -->
+      <BTG_NutrientPasteTap_Edge MayRequire="VanillaExpanded.VNutrientE">
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_NutrientPasteTap_Edge>
 
-      <DiningTable_Large>
+      <!-- VFE Production kitchen sink cabinet (stove linkable) -->
+      <BTG_KitchenSinkCabinet_Edge MayRequire="VanillaExpanded.VFEProduction">
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_KitchenSinkCabinet_Edge>
+
+      <!-- Dining tables -->
+      <BTG_DiningTable>
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
-      </DiningTable_Large>
+      </BTG_DiningTable>
 
       <!-- Food storage -->
-      <Shelf>
+      <BTG_SteelShelf_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
         <minMaxRange>2~6</minMaxRange>
-      </Shelf>
+      </BTG_SteelShelf_Edge>
 
       <SurvivalMealPallet>
-        <countRange>1~2</countRange>
+        <countRange>1~3</countRange>
       </SurvivalMealPallet>
 
       <!-- Decoration -->
-      <SculptureSmall>
+      <BTG_SmallSculpture>
         <countRange>0~2</countRange>
-      </SculptureSmall>
+      </BTG_SmallSculpture>
     </prefabs>
 
     <parts>

@@ -11,7 +11,7 @@
     Design (top view, North is up, wall at z=1):
         x: 0 1 2 3 4
     z=1:   W C S P W
-    z=0:   . s s s .
+    z=0:   . . . . .
 
     Legend:
     W = OrbitalAncientFortifiedWall (decorative corner pillars)
@@ -76,7 +76,7 @@
       <!-- Silver tile platform (3x2 rect under display items) -->
       <SilverTile>
         <rects>
-          <li>(1,0,3,2)</li>
+          <li>(1,1,3,1)</li>
         </rects>
       </SilverTile>
     </terrain>

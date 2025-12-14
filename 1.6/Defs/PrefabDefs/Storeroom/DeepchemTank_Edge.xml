@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_DeepchemTank_Edge - VE Deepchem tank with valve
+
+    Features:
+    - 3x3 prefab size
+    - Edge placement (valve against wall)
+    - Same layout as chemfuel tank
+
+    Design (top view, North is up, wall at z=2):
+        x: 0 1 2
+    z=2:   . V .   Valve at (1,0,2)
+    z=1:   T T T   Tank (rotated 2x3 -> 3x2)
+    z=0:   T T T
+
+    Legend:
+    V = VCHE_DeepchemValve (facing wall)
+    T = PS_DeepchemTank (rotated clockwise)
+  -->
+  <PrefabDef MayRequire="VanillaExpanded.VChemfuelE">
+    <defName>BTG_DeepchemTank_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(3,3)</size>
+    <things>
+      <VCHE_DeepchemValve>
+        <position>(1,0,2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </VCHE_DeepchemValve>
+      <PS_DeepchemTank>
+        <position>(1,0,1)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </PS_DeepchemTank>
+    </things>
+  </PrefabDef>
+
+</Defs>
