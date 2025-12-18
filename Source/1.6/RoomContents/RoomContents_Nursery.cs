@@ -4,6 +4,7 @@ using System.Linq;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
+using Verse.AI;
 using BetterTradersGuild.Helpers.RoomContents;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
@@ -22,8 +23,23 @@ namespace BetterTradersGuild.RoomContents
     /// </summary>
     public class RoomContents_Nursery : RoomContentsWorker
     {
-        // Prefab actual size (4×4) - the content defined in XML
-        private const int CRIB_SUBROOM_SIZE = 4;
+        // Prefab actual size (6×6) - the content defined in XML
+        private const int CRIB_SUBROOM_SIZE = 6;
+
+        /// <summary>
+        /// Weighted developmental stages for young pawn generation.
+        /// Slight skew towards younger stages for variety - pure random by age
+        /// would give ~77% Child (10-year span) vs ~23% Baby/Newborn (~1 year combined).
+        ///
+        /// Distribution: ~17% Newborn, ~33% Baby, ~50% Child
+        /// </summary>
+        private static readonly List<(DevelopmentalStage stage, float weight, FloatRange ageRange)> YoungStageWeights =
+            new List<(DevelopmentalStage, float, FloatRange)>
+        {
+            (DevelopmentalStage.Newborn, 1f, new FloatRange(0.01f, 0.9f)),    // 3-36 days old
+            (DevelopmentalStage.Baby, 2f, new FloatRange(1f, 2.8f)),     // 1-3 years
+            (DevelopmentalStage.Child, 3f, new FloatRange(3f, 12.8f)),        // 3-13 years
+        };
 
         // Prefab defName for the crib subroom structure
         private const string CRIB_PREFAB_DEFNAME = "BTG_CribSubroom";
@@ -61,6 +77,13 @@ namespace BetterTradersGuild.RoomContents
                 {
                     SpawnWallsFromSegments(map, placement.RequiredWalls);
                 }
+
+                // 5. Spawn civilians sheltering in the nursery (behind blast door)
+                // These represent non-combatants who have locked themselves in for safety
+                SpawnShelteringCivilians(map, faction, this.cribSubroomRect);
+
+                // 6. Populate nursery shelf with baby food and survival meals
+                PopulateNurseryShelf(map, this.cribSubroomRect);
             }
             else
             {
@@ -82,10 +105,8 @@ namespace BetterTradersGuild.RoomContents
             {
                 CellRect roomRect = room.rects.First();
 
-                // Spawn daylilies in decorative plant pots (uses pot's default if null)
-                // Lower growth for young/budding appearance appropriate for a nursery
-                float potGrowth = Rand.Range(0.25f, 0.65f);
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, null, potGrowth);
+                // Spawn daylilies in plant pots
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, null, growth: 1.0f);
             }
         }
 
@@ -222,6 +243,303 @@ namespace BetterTradersGuild.RoomContents
                         }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Spawns civilians (a caretaker and their children) sheltering inside the crib subroom.
+        /// These represent non-combatants who have locked themselves behind the blast door.
+        ///
+        /// Spawn counts:
+        /// - 1 TradersGuild_Citizen (caretaker/parent)
+        /// - 2-4 young pawns (Newborn/Baby/Child mix, requires Biotech DLC)
+        ///
+        /// Placement strategy:
+        /// - Newborns and Babies are placed in cribs with a LayDown job
+        /// - Children (who can walk) are spawned at standable cells
+        /// - Caretaker is spawned at a standable cell
+        ///
+        /// Each young pawn is assigned the caretaker as their parent for realism.
+        /// </summary>
+        private void SpawnShelteringCivilians(Map map, Faction faction, CellRect subroomRect)
+        {
+            // Get standable cells inside the subroom (avoid walls, doors, furniture)
+            List<IntVec3> standableCells = subroomRect.Cells
+                .Where(c => c.InBounds(map) && c.Standable(map))
+                .ToList();
+
+            if (standableCells.Count == 0)
+            {
+                Log.Warning("[Better Traders Guild] No standable cells in nursery subroom for civilians.");
+                return;
+            }
+
+            // Find available cribs in the subroom (beds sized for babies)
+            List<Building_Bed> availableCribs = subroomRect.Cells
+                .Where(c => c.InBounds(map))
+                .SelectMany(c => c.GetThingList(map))
+                .OfType<Building_Bed>()
+                .Where(bed => bed.ForHumanBabies && bed.AnyUnownedSleepingSlot)
+                .Distinct()
+                .ToList();
+
+            // Determine spawn counts
+            int childCount = Rand.RangeInclusive(2, 4);
+
+            // Get PawnKindDefs
+            PawnKindDef citizenKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("TradersGuild_Citizen");
+            PawnKindDef childKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("TradersGuild_Child");
+
+            int spawned = 0;
+            int placedInCribs = 0;
+            Pawn caretaker = null;
+
+            // Spawn caretaker (parent of the children)
+            if (citizenKind != null && standableCells.Count > 0)
+            {
+                caretaker = GenerateCivilian(citizenKind, faction, map.Tile);
+                if (caretaker != null)
+                {
+                    IntVec3 cell = standableCells.RandomElement();
+                    GenSpawn.Spawn(caretaker, cell, map);
+                    standableCells.Remove(cell);
+                    spawned++;
+                }
+            }
+
+            // Spawn young pawns (Newborn/Baby/Child) - requires Biotech DLC
+            // Each child is assigned the caretaker as their parent
+            if (childKind != null)
+            {
+                for (int i = 0; i < childCount; i++)
+                {
+                    Pawn youngPawn = GenerateYoungPawn(childKind, faction, map.Tile);
+                    if (youngPawn == null)
+                        continue;
+
+                    // Assign caretaker as parent for realism
+                    if (caretaker != null)
+                    {
+                        youngPawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, caretaker);
+                    }
+
+                    // Check if this is a newborn or baby (can't walk - should be in crib)
+                    bool needsCrib = youngPawn.DevelopmentalStage == DevelopmentalStage.Newborn ||
+                                     youngPawn.DevelopmentalStage == DevelopmentalStage.Baby;
+
+                    if (needsCrib && availableCribs.Count > 0)
+                    {
+                        // Place in crib
+                        if (TrySpawnPawnInCrib(youngPawn, availableCribs, map))
+                        {
+                            spawned++;
+                            placedInCribs++;
+                            continue;
+                        }
+                        // If crib placement failed, fall through to standable cell
+                    }
+
+                    // Spawn at standable cell (for children who can walk, or if no cribs available)
+                    if (standableCells.Count > 0)
+                    {
+                        IntVec3 cell = standableCells.RandomElement();
+                        GenSpawn.Spawn(youngPawn, cell, map);
+                        standableCells.Remove(cell);
+                        spawned++;
+                    }
+                    else
+                    {
+                        // No space left - destroy the pawn to avoid orphaned pawns
+                        youngPawn.Destroy();
+                    }
+                }
+            }
+
+            if (spawned > 0)
+            {
+                string cribInfo = placedInCribs > 0 ? $" ({placedInCribs} in cribs)" : "";
+                Log.Message($"[Better Traders Guild] Spawned {spawned} civilians sheltering in nursery subroom{cribInfo}.");
+            }
+        }
+
+        /// <summary>
+        /// Attempts to spawn a pawn in an available crib with a LayDown job.
+        /// The pawn is spawned at the crib's sleeping position and given a resting job.
+        /// </summary>
+        /// <param name="pawn">The pawn to place in the crib (should be a newborn or baby)</param>
+        /// <param name="availableCribs">List of cribs with available slots (will be modified)</param>
+        /// <param name="map">The map to spawn on</param>
+        /// <returns>True if successfully placed in a crib, false otherwise</returns>
+        private bool TrySpawnPawnInCrib(Pawn pawn, List<Building_Bed> availableCribs, Map map)
+        {
+            if (availableCribs.Count == 0)
+                return false;
+
+            // Select a random available crib
+            Building_Bed crib = availableCribs.RandomElement();
+
+            // Get the sleeping position for this crib
+            IntVec3 sleepPos = RestUtility.GetBedSleepingSlotPosFor(pawn, crib);
+
+            // Verify the position is valid
+            if (!sleepPos.InBounds(map))
+            {
+                Log.Warning($"[Better Traders Guild] Crib sleeping position {sleepPos} is out of bounds.");
+                return false;
+            }
+
+            // Spawn the pawn at the sleeping position
+            GenSpawn.Spawn(pawn, sleepPos, map);
+
+            // Assign the crib to this pawn (ownership)
+            var compAssignable = crib.TryGetComp<CompAssignableToPawn>();
+            compAssignable?.TryAssignPawn(pawn);
+
+            // Start a LayDown job so the pawn appears to be lying in the crib
+            Job layDownJob = JobMaker.MakeJob(JobDefOf.LayDownResting, crib);
+            pawn.jobs.StartJob(layDownJob, JobCondition.None, null, resumeCurJobAfterwards: false, cancelBusyStances: true);
+
+            // Remove crib from available list if it no longer has free slots
+            if (!crib.AnyUnownedSleepingSlot)
+            {
+                availableCribs.Remove(crib);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Populates the nursery shelf with baby food and packaged survival meals.
+        /// Uses RoomShelfHelper to find and fill shelves in the subroom.
+        ///
+        /// Contents:
+        /// - 30-50 baby food (for infants)
+        /// - 12-20 packaged survival meals in two stacks (max stack size is 10)
+        /// </summary>
+        private void PopulateNurseryShelf(Map map, CellRect subroomRect)
+        {
+            // Find shelves in the subroom
+            List<Building_Storage> shelves = RoomShelfHelper.GetShelvesInRoom(map, subroomRect, "Shelf", null);
+
+            if (shelves.Count == 0)
+            {
+                Log.Warning("[Better Traders Guild] No shelves found in nursery subroom for food storage.");
+                return;
+            }
+
+            int itemsAdded = 0;
+
+            // Add baby food (30-50 units)
+            int babyFoodCount = Rand.RangeInclusive(30, 50);
+            Thing babyFood = RoomShelfHelper.AddItemsToShelf(map, shelves[0], "BabyFood", babyFoodCount, setForbidden: true);
+            if (babyFood != null)
+            {
+                itemsAdded++;
+            }
+
+            // Add packaged survival meals in two stacks (max stack size is 10)
+            // Stack 1: Full stack of 10
+            Thing meals1 = RoomShelfHelper.AddItemsToShelf(map, shelves[0], "MealSurvivalPack", 10, setForbidden: true);
+            if (meals1 != null)
+            {
+                itemsAdded++;
+            }
+            // Stack 2: Partial stack of 2-10
+            int partialMealCount = Rand.RangeInclusive(2, 10);
+            Thing meals2 = RoomShelfHelper.AddItemsToShelf(map, shelves[0], "MealSurvivalPack", partialMealCount, setForbidden: true);
+            if (meals2 != null)
+            {
+                itemsAdded++;
+            }
+
+            if (itemsAdded > 0)
+            {
+                Log.Message($"[Better Traders Guild] Stocked nursery shelf with {babyFoodCount} baby food and {10 + partialMealCount} survival meals.");
+            }
+        }
+
+        /// <summary>
+        /// Generates a single adult civilian pawn for the TradersGuild faction.
+        /// </summary>
+        private Pawn GenerateCivilian(PawnKindDef kindDef, Faction faction, int tile)
+        {
+            if (kindDef == null || faction == null)
+                return null;
+
+            try
+            {
+                PawnGenerationRequest request = new PawnGenerationRequest(
+                    kind: kindDef,
+                    faction: faction,
+                    context: PawnGenerationContext.NonPlayer,
+                    tile: tile,
+                    forceGenerateNewPawn: false,
+                    allowDead: false,
+                    allowDowned: false,
+                    canGeneratePawnRelations: true,
+                    mustBeCapableOfViolence: false,
+                    colonistRelationChanceFactor: 0f,
+                    forceAddFreeWarmLayerIfNeeded: false,
+                    allowGay: true,
+                    allowPregnant: true,
+                    allowFood: true,
+                    allowAddictions: true,
+                    inhabitant: true
+                );
+
+                return PawnGenerator.GeneratePawn(request);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Warning($"[Better Traders Guild] Failed to generate civilian ({kindDef.defName}): {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Generates a young pawn (Newborn, Baby, or Child) for the TradersGuild faction.
+        /// Uses weighted random selection to provide variety while slightly favoring younger stages.
+        ///
+        /// Must explicitly specify DevelopmentalStage since the PawnKindDef's
+        /// pawnGroupDevelopmentStage field only applies to group generation, not individual spawns.
+        /// </summary>
+        private Pawn GenerateYoungPawn(PawnKindDef kindDef, Faction faction, int tile)
+        {
+            if (kindDef == null || faction == null)
+                return null;
+
+            try
+            {
+                // Select developmental stage with weighted random
+                var stageChoice = YoungStageWeights.RandomElementByWeight(x => x.weight);
+
+                PawnGenerationRequest request = new PawnGenerationRequest(
+                    kind: kindDef,
+                    faction: faction,
+                    context: PawnGenerationContext.NonPlayer,
+                    tile: tile,
+                    forceGenerateNewPawn: false,
+                    allowDead: false,
+                    allowDowned: true,
+                    canGeneratePawnRelations: true,
+                    mustBeCapableOfViolence: false,
+                    colonistRelationChanceFactor: 0f,
+                    forceAddFreeWarmLayerIfNeeded: false,
+                    allowGay: true,
+                    allowPregnant: false,
+                    allowFood: true,
+                    allowAddictions: false,
+                    inhabitant: true,
+                    developmentalStages: stageChoice.stage,
+                    biologicalAgeRange: stageChoice.ageRange
+                );
+
+                return PawnGenerator.GeneratePawn(request);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Warning($"[Better Traders Guild] Failed to generate young pawn ({kindDef.defName}): {ex.Message}");
+                return null;
             }
         }
 

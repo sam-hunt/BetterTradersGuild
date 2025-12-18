@@ -36,6 +36,12 @@
     <prefabs>
       <!-- Crib subroom spawned programmatically by RoomContents_Nursery -->
 
+      <!-- Beds for children -->
+      <BTG_BarracksBeds_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_BarracksBeds_Edge>
+
       <!-- Seating for caregivers -->
       <Couch_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
