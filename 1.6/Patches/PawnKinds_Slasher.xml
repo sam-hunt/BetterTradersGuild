@@ -74,11 +74,11 @@
     </match>
   </Operation>
 
-  <!-- Increase weapon budget: 200~500 → 500~1200 (for plasteel/uranium materials) -->
+  <!-- Increase weapon budget: 200~500 → 2000~3000 (for ultratech weapons) -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
-      <weaponMoney>500~1200</weaponMoney>
+      <weaponMoney>2000~3000</weaponMoney>
     </value>
   </Operation>
 
