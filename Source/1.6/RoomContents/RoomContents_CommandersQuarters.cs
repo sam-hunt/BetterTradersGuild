@@ -101,6 +101,9 @@ namespace BetterTradersGuild.RoomContents
                 // 8. Spawn decorative plants (roses) in all plant pots
                 ThingDef rosePlant = DefDatabase<ThingDef>.GetNamed("Plant_Rose", false);
                 RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, rosePlant, growth: 1.0f);
+
+                // 9. Connect VFE Spacer air purifier to power (if present)
+                ConnectAirPurifierToConduitNetwork(map, roomRect);
             }
         }
 
@@ -437,6 +440,25 @@ namespace BetterTradersGuild.RoomContents
             }
 
             return weapon;
+        }
+
+        /// <summary>
+        /// Connects VFE Spacer air purifier to the conduit network via hidden conduits.
+        /// Runs a line from the air purifier to the nearest room edge (where wall conduits exist).
+        /// Does nothing if VFE Spacer is not installed (no air purifiers will be found).
+        /// </summary>
+        private void ConnectAirPurifierToConduitNetwork(Map map, CellRect roomRect)
+        {
+            ThingDef hiddenConduitDef = DefDatabase<ThingDef>.GetNamed("HiddenConduit", false);
+            if (hiddenConduitDef == null)
+                return;
+
+            var airPurifiers = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, "VFES_AirPurifier");
+
+            foreach (Building purifier in airPurifiers)
+            {
+                RoomEdgeConnector.ConnectToNearestEdge(map, purifier.Position, roomRect, hiddenConduitDef);
+            }
         }
 
         /// <summary>

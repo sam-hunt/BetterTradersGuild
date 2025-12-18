@@ -41,45 +41,68 @@
   <PrefabDef>
     <defName>BTG_CommandersBedroom</defName>
     <size>(6,6)</size>
+
     <things>
       <PlantPot>
         <position>(0, 0, 2)</position>
         <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </PlantPot>
+
       <AnimalBed>
         <position>(4, 0, 1)</position>
         <stuff>Leather_Rhinoceros</stuff>
         <quality>Excellent</quality>
       </AnimalBed>
+
       <RoyalBed>
         <position>(3, 0, 5)</position>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </RoyalBed>
+
       <Dresser>
         <position>(0, 0, 4)</position>
         <relativeRotation>Clockwise</relativeRotation>
         <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </Dresser>
+
       <AncientSafe>
         <position>(0, 0, 5)</position>
       </AncientSafe>
-      <HiddenConduit>
-        <rects>
-          <li>(0,0,2,0)</li>
-        </rects>
-      </HiddenConduit>
-      <AncientBlastDoor>
-        <position>(1, 0, 0)</position>
-      </AncientBlastDoor>
+
       <ShelfSmall>
         <position>(4, 0, 5)</position>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>BlocksMarble</stuff>
       </ShelfSmall>
+
+      <EndTable>
+        <position>(1, 0, 5)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>BlocksMarble</stuff>
+        <quality>Normal</quality>
+      </EndTable>
+
+      <FlatscreenTelevision>
+        <position>(2, 0, 1)</position>
+      </FlatscreenTelevision>
+
+      <VFES_AirPurifier MayRequire="VanillaExpanded.VFESpacer">
+        <position>(0, 0, 1)</position>
+      </VFES_AirPurifier>
+
+      <AncientEmergencyLight_Blue>
+        <position>(4, 0, 3)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </AncientEmergencyLight_Blue>
+
+      <AncientBlastDoor>
+        <position>(1, 0, 0)</position>
+      </AncientBlastDoor>
+
       <OrbitalAncientFortifiedWall>
         <rects>
           <li>(0,0,2,0)</li>
@@ -87,23 +110,15 @@
           <li>(5,1,5,5)</li>
         </rects>
       </OrbitalAncientFortifiedWall>
-      <EndTable>
-        <position>(1, 0, 5)</position>
-        <relativeRotation>Opposite</relativeRotation>
-        <stuff>BlocksMarble</stuff>
-        <quality>Normal</quality>
-      </EndTable>
-      <FlatscreenTelevision>
-        <position>(2, 0, 1)</position>
-      </FlatscreenTelevision>
-      <AncientEmergencyLight_Blue>
-        <position>(4, 0, 3)</position>
-        <relativeRotation>Clockwise</relativeRotation>
-      </AncientEmergencyLight_Blue>
-      <VFES_AirPurifier MayRequire="VanillaExpanded.VFESpacer">
-        <position>(0, 0, 1)</position>
-      </VFES_AirPurifier>
+
+      <HiddenConduit>
+        <rects>
+          <li>(0,0,2,0)</li>
+        </rects>
+      </HiddenConduit>
+
     </things>
+
     <terrain>
       <CarpetPurpleDeep>
         <rects>
@@ -111,6 +126,6 @@
         </rects>
       </CarpetPurpleDeep>
     </terrain>
-  </PrefabDef>
 
+  </PrefabDef>
 </Defs>

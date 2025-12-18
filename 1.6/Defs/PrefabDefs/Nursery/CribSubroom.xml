@@ -41,7 +41,6 @@
     <size>(6,6)</size>
 
     <things>
-
       <Crib>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>WoodLog</stuff>
@@ -109,7 +108,7 @@
       </BabyDecoration>
 
       <AncientEmergencyLight_Blue>
-        <position>(4, 0, 3)</position>
+        <position>(4, 0, 2)</position>
         <relativeRotation>Clockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
     </things>
