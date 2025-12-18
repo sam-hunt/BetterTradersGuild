@@ -28,11 +28,6 @@
         <minMaxRange>2~4</minMaxRange>
       </AncientSecurityTerminal>
 
-      <AncientEnemyTerminal MayRequire="Ludeon.RimWorld.Ideology">
-        <countPerHundredCells>4</countPerHundredCells>
-        <minMaxRange>2~4</minMaxRange>
-      </AncientEnemyTerminal>
-
       <!-- Server racks and filing cabinets -->
       <AncientSystemRacks_Rows>
         <countPerHundredCells>3</countPerHundredCells>
