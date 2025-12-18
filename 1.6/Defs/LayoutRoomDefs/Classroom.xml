@@ -35,7 +35,7 @@
       <!-- Book storage (using bookcases with textbooks) -->
       <BTG_ClassroomBookshelf_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>1~3</minMaxRange>
+        <minMaxRange>2~3</minMaxRange>
       </BTG_ClassroomBookshelf_Edge>
 
       <!-- Storage lockers -->
