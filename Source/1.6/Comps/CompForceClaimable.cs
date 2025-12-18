@@ -58,7 +58,7 @@ namespace BetterTradersGuild.Comps
         /// </summary>
         static CompForceClaimable()
         {
-            ClaimIcon = ContentFinder<Texture2D>.Get("UI/Commands/Claim", true);
+            ClaimIcon = ContentFinder<Texture2D>.Get("UI/Designators/Claim", true);
         }
 
         /// <summary>
