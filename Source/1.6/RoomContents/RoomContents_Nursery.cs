@@ -106,7 +106,8 @@ namespace BetterTradersGuild.RoomContents
                 CellRect roomRect = room.rects.First();
 
                 // Spawn daylilies in plant pots
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, null, growth: 1.0f);
+                ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, growth: 1.0f);
             }
         }
 

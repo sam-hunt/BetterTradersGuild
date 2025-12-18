@@ -67,6 +67,7 @@
 
     <parts>
       <WaspDrone>0.05</WaspDrone>
+      <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
     </parts>
   </LayoutRoomDef>
 </Defs>

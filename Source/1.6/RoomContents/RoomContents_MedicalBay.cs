@@ -40,7 +40,10 @@ namespace BetterTradersGuild.RoomContents
             // 2. Spawn healroot plants in all hydroponics basins with varied growth
             SpawnHealrootInHydroponics(map, roomRect);
 
-            // 3. Connect VFE Medical VitalsCentre to power
+            // 3. Spawn decorative roses in corner plant pots
+            SpawnRosesInPlantPots(map, roomRect);
+
+            // 4. Connect VFE Medical VitalsCentre to power
             ConnectVitalsCentreToConduitNetwork(map, roomRect);
         }
 
@@ -57,6 +60,16 @@ namespace BetterTradersGuild.RoomContents
             float growth = Rand.Range(0.7f, 1.0f);
 
             RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, healrootPlant, growth);
+        }
+
+        /// <summary>
+        /// Spawns decorative roses in all plant pots in the room.
+        /// Plant pots are placed by the BTG_PlantPot_Corner room part in corners.
+        /// </summary>
+        private void SpawnRosesInPlantPots(Map map, CellRect roomRect)
+        {
+            ThingDef rosePlant = DefDatabase<ThingDef>.GetNamed("Plant_Rose", false);
+            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, rosePlant, growth: 1.0f);
         }
 
         /// <summary>

@@ -8,6 +8,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_RecRoom</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_RecRoom</roomContentsWorkerType>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
 
@@ -58,6 +59,7 @@
 
     <parts>
       <WaspDrone>0.05</WaspDrone>
+      <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
     </parts>
   </LayoutRoomDef>
 </Defs>

@@ -35,6 +35,10 @@ namespace BetterTradersGuild.RoomContents
 
             // 2. Connect VFE Spacer interactive tables to power
             ConnectInteractiveTablesToConduitNetwork(map, roomRect);
+
+            // 3. Spawn decorative daylilies in corner plant pots
+            ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
+            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, growth: 1.0f);
         }
 
         /// <summary>

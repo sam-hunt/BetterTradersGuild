@@ -65,10 +65,11 @@
       </IndustrialShelf_InnerWall>
     </prefabs>
 
-    <!-- Low threat level (vulnerable medical area) -->
+    <!-- Low threat level (vulnerable medical area), but occasional unruly traders -->
     <parts>
       <WaspDrone>0.3</WaspDrone>
       <CornerArmoredTurret>0.2</CornerArmoredTurret>
+      <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
     </parts>
   </LayoutRoomDef>
 </Defs>

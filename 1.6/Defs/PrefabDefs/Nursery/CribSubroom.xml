@@ -109,8 +109,8 @@
       </BabyDecoration>
 
       <AncientEmergencyLight_Blue>
-        <position>(1, 0, 2)</position>
-        <relativeRotation>Counterclockwise</relativeRotation>
+        <position>(4, 0, 3)</position>
+        <relativeRotation>Clockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
     </things>
 

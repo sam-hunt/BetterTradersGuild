@@ -14,8 +14,8 @@
     z=5:   S N R R G W
     z=4:   D . R R . W
     z=3:   D . . . . W
-    z=2:   V . . . . W
-    z=1:   P . T T A W
+    z=2:   P . . . . W
+    z=1:   V . T T A W
     z=0:   W d W W W W
 
     Legend:
@@ -43,7 +43,7 @@
     <size>(6,6)</size>
     <things>
       <PlantPot>
-        <position>(0, 0, 1)</position>
+        <position>(0, 0, 2)</position>
         <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </PlantPot>
@@ -64,17 +64,12 @@
         <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </Dresser>
-      <LifeSupportUnit>
-        <position>(4, 0, 3)</position>
-        <relativeRotation>Clockwise</relativeRotation>
-      </LifeSupportUnit>
       <AncientSafe>
         <position>(0, 0, 5)</position>
       </AncientSafe>
       <HiddenConduit>
         <rects>
-          <li>(4,0,5,0)</li>
-          <li>(5,1,5,3)</li>
+          <li>(0,0,2,0)</li>
         </rects>
       </HiddenConduit>
       <AncientBlastDoor>
@@ -87,7 +82,7 @@
       </ShelfSmall>
       <OrbitalAncientFortifiedWall>
         <rects>
-          <li>(0,0,0,0)</li>
+          <li>(0,0,2,0)</li>
           <li>(2,0,5,0)</li>
           <li>(5,1,5,5)</li>
         </rects>
@@ -102,11 +97,11 @@
         <position>(2, 0, 1)</position>
       </FlatscreenTelevision>
       <AncientEmergencyLight_Blue>
-        <position>(0, 0, 3)</position>
-        <relativeRotation>Counterclockwise</relativeRotation>
+        <position>(4, 0, 3)</position>
+        <relativeRotation>Clockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
       <VFES_AirPurifier MayRequire="VanillaExpanded.VFESpacer">
-        <position>(0, 0, 2)</position>
+        <position>(0, 0, 1)</position>
       </VFES_AirPurifier>
     </things>
     <terrain>

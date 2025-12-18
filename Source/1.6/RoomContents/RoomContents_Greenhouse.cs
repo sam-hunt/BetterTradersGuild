@@ -40,10 +40,11 @@ namespace BetterTradersGuild.RoomContents
             float riceGrowth = Rand.Range(0.7f, 1.0f);
             RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, ricePlant, riceGrowth);
 
-            // 3. Spawn daylilies in decorative plant pots (uses pot's default if null)
+            // 3. Spawn daylilies in decorative plant pots
             //    Lower growth for young/budding appearance
+            ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
             float potGrowth = Rand.Range(0.25f, 0.65f);
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, null, potGrowth);
+            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, potGrowth);
 
             // 4. Fill shelves with harvested crops (corn or cotton)
             FillShelvesWithCrops(map, roomRect);

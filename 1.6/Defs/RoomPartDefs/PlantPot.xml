@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Plant Pot Room Part
+
+    Uses vanilla RoomPart_CornerThing worker to place plant pots in room corners.
+    Plants are spawned separately via RoomContentsWorker post-processing.
+  -->
+
+  <RoomPart_ThingDef>
+    <defName>BTG_PlantPot_Corner</defName>
+    <workerClass>RoomPart_CornerThing</workerClass>
+    <thingDef>PlantPot</thingDef>
+  </RoomPart_ThingDef>
+
+</Defs>

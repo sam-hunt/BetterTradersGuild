@@ -54,6 +54,7 @@
     <parts>
       <HunterDrone>0.8</HunterDrone>
       <CornerArmoredTurret>0.6</CornerArmoredTurret>
+      <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
     </parts>
   </LayoutRoomDef>
 </Defs>

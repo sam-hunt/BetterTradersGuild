@@ -28,13 +28,19 @@ namespace BetterTradersGuild.RoomContents
             //    This spawns the classroom desks, blackboards, bookshelves, etc.
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 2. Fix bookcase contents (move textbooks from map into innerContainer)
+            // 2. Post-processing: fix bookcases and spawn plants
             //    CRITICAL: This must happen AFTER base.FillRoom() since the bookshelves
-            //    are spawned by base.FillRoom() via XML prefabs
+            //    and plant pots are spawned by base.FillRoom() via XML prefabs and parts
             if (room.rects != null && room.rects.Count > 0)
             {
                 CellRect roomRect = room.rects.First();
+
+                // Fix bookcase contents (move textbooks from map into innerContainer)
                 RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
+
+                // Spawn decorative daylilies in corner plant pots
+                ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, growth: 1.0f);
             }
         }
     }
