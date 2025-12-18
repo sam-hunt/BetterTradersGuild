@@ -14,7 +14,7 @@
     z=5:   S N R R G W
     z=4:   D . R R . W
     z=3:   D . . . . W
-    z=2:   . . . . . W
+    z=2:   V . . . . W
     z=1:   P . T T A W
     z=0:   W d W W W W
 
@@ -28,6 +28,7 @@
     D = Dresser (marble, excellent)
     L = AncientEmergencyLight_Blue
     S = AncientSafe
+    V = VFES_AirPurifier (optional, VFE Spacer)
     G = SmallShelf (marble) for unique weapon
     N = EndTable (marble)
     . = CarpetPurpleDeep floor
@@ -104,6 +105,9 @@
         <position>(0, 0, 3)</position>
         <relativeRotation>Counterclockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
+      <VFES_AirPurifier MayRequire="VanillaExpanded.VFESpacer">
+        <position>(0, 0, 2)</position>
+      </VFES_AirPurifier>
     </things>
     <terrain>
       <CarpetPurpleDeep>
