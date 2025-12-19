@@ -11,6 +11,7 @@
     <defName>BTG_PlantPot_Corner</defName>
     <workerClass>RoomPart_CornerThing</workerClass>
     <thingDef>PlantPot</thingDef>
+    <stuffDef>Steel</stuffDef>
   </RoomPart_ThingDef>
 
 </Defs>
