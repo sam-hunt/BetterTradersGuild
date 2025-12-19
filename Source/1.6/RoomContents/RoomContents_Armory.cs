@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.Helpers;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
@@ -358,21 +359,17 @@ namespace BetterTradersGuild.RoomContents
                 return;
             }
 
-            foreach (IntVec3 cell in roomRect.Cells)
-            {
-                if (!cell.InBounds(map)) continue;
+            // Find outfit stands and paint them using helper
+            List<Thing> outfitStands = roomRect.Cells
+                .Where(c => c.InBounds(map))
+                .SelectMany(c => c.GetThingList(map))
+                .Where(t => t.def == outfitStandDef)
+                .Distinct()
+                .ToList();
 
-                foreach (Thing thing in cell.GetThingList(map))
-                {
-                    if (thing.def == outfitStandDef)
-                    {
-                        CompColorable colorComp = thing.TryGetComp<CompColorable>();
-                        if (colorComp != null)
-                        {
-                            colorComp.SetColor(orbitalSteelColor.color);
-                        }
-                    }
-                }
+            foreach (Thing stand in outfitStands)
+            {
+                PaintableFurnitureHelper.TryPaint(stand, orbitalSteelColor);
             }
         }
 
