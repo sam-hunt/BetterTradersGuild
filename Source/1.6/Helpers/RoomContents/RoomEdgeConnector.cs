@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
@@ -67,12 +68,31 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
                 List<Thing> existingThings = pos.GetThingList(map);
 
+                // Check if any existing thing already transmits power
+                bool hasPowerTransmitter = false;
+                foreach (Thing thing in existingThings)
+                {
+                    CompPower compPower = thing.TryGetComp<CompPower>();
+                    if (compPower != null && compPower.Props.transmitsPower)
+                    {
+                        hasPowerTransmitter = true;
+                        break;
+                    }
+                }
+
                 foreach (ThingDef thingDef in thingDefs)
                 {
                     if (thingDef == null)
                         continue;
 
-                    // Skip if there's already one of this type here
+                    // Check if this def transmits power
+                    bool defTransmitsPower = thingDef.GetCompProperties<CompProperties_Power>()?.transmitsPower ?? false;
+
+                    // Skip power transmitters if cell already has power transmission
+                    if (defTransmitsPower && hasPowerTransmitter)
+                        continue;
+
+                    // Skip if there's already one of this exact type here (for non-power things like pipes)
                     bool alreadyExists = false;
                     foreach (Thing thing in existingThings)
                     {
