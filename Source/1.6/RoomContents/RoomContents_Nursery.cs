@@ -5,6 +5,7 @@ using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
 using Verse.AI;
+using BetterTradersGuild.Helpers;
 using BetterTradersGuild.Helpers.RoomContents;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
@@ -57,6 +58,15 @@ namespace BetterTradersGuild.RoomContents
             // If placement fails, Width = 0, so IsValidCellBase won't block other prefabs
             this.cribSubroomRect = default;
 
+            // 0. Apply checkered floor pattern using pastel carpets
+            //    Must happen BEFORE base.FillRoom() which may apply uniform flooring
+            if (room.rects != null && room.rects.Count > 0)
+            {
+                CellRect roomRect = room.rects.First();
+                List<string> floorTypes = new List<string> { "CarpetPink", "CarpetBluePastel", "CarpetGreenPastel" };
+                CheckeredFloorHelper.ApplyCheckeredFloor(map, roomRect, floorTypes);
+            }
+
             // 1. Find best location for crib subroom (prefer corners, avoid walls with doors)
             PlacementResult placement = FindBestPlacementForCribSubroom(room, map);
 
@@ -98,7 +108,36 @@ namespace BetterTradersGuild.RoomContents
             //    Other prefabs will avoid subroom area if cribSubroomRect.Width > 0
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 6. Post-processing: Spawn daylilies in plant pots
+            // 6. Post-processing: Paint furniture with matching pastel colors
+            //    Colors match the checkered floor pattern for a cohesive nursery look
+            if (room.rects != null && room.rects.Count > 0)
+            {
+                CellRect roomRect = room.rects.First();
+
+                // Resolve pastel color defs once (avoid repeated lookups in loop)
+                List<ColorDef> pastelColors = new List<ColorDef>
+                {
+                    DefDatabase<ColorDef>.GetNamedSilentFail("Structure_Pink"),
+                    DefDatabase<ColorDef>.GetNamedSilentFail("Structure_BluePastel"),
+                    DefDatabase<ColorDef>.GetNamedSilentFail("Structure_GreenPastel")
+                }.Where(c => c != null).ToList();
+
+                if (pastelColors.Count > 0)
+                {
+                    // Contract rect by 1 to exclude outer room walls
+                    CellRect interiorRect = roomRect.ContractedBy(1);
+                    List<Building> paintable = PaintableFurnitureHelper.GetPaintableFurniture(map, interiorRect)
+                        .Where(b => b.def != ThingDefOf.OrbitalAncientFortifiedWall &&
+                                    b.def.defName != "AncientBlastDoor")
+                        .ToList();
+                    for (int i = 0; i < paintable.Count; i++)
+                    {
+                        PaintableFurnitureHelper.TryPaint(paintable[i], pastelColors[i % pastelColors.Count]);
+                    }
+                }
+            }
+
+            // 7. Post-processing: Spawn daylilies in plant pots
             //    CRITICAL: This must happen AFTER base.FillRoom() since plant pots
             //    are spawned by XML prefabs in base.FillRoom()
             if (room.rects != null && room.rects.Count > 0)
