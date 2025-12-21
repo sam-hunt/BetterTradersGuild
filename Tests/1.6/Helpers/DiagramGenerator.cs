@@ -50,17 +50,18 @@ namespace BetterTradersGuild.Tests.Helpers
             PlacementCalculator.PlacementRotation rotation = PlacementCalculator.PlacementRotation.North,
             List<(int x, int z)> doorPositions = null,
             List<PlacementCalculator.WallSegment> requiredWalls = null,
-            bool showCoordinates = false)
+            bool showCoordinates = false,
+            int prefabSize = 6)
         {
             var sb = new StringBuilder();
             doorPositions = doorPositions ?? new List<(int x, int z)>();
             requiredWalls = requiredWalls ?? new List<PlacementCalculator.WallSegment>();
 
-            // Calculate 6×6 prefab rect if center is provided
+            // Calculate prefab rect if center is provided
             PlacementCalculator.SimpleRect? prefabRect = null;
             if (prefabCenterX.HasValue && prefabCenterZ.HasValue)
             {
-                prefabRect = CalculatePrefabRect(prefabCenterX.Value, prefabCenterZ.Value, 6, rotation);
+                prefabRect = CalculatePrefabRect(prefabCenterX.Value, prefabCenterZ.Value, prefabSize, rotation);
             }
 
             // Calculate padding for z-axis labels (e.g., "z=99" needs 4 chars: "z=99")

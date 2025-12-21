@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters
+
+    Crew quarters with multiple enclosed subrooms
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_CrewQuarters</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CrewQuarters</roomContentsWorkerType>
+    <minSingleRectWidth>14</minSingleRectWidth>
+    <minSingleRectHeight>11</minSingleRectHeight>
+
+    <!-- Basic carpet flooring -->
+    <!-- TODO: Set subtle colored carpet flooring per-subroom after placement-->
+    <!-- <floorTypes>
+      <li>CarpetOrbitalSteel</li>
+      <li>CarpetMarble</li>
+      <li>CarpetSlate</li>
+    </floorTypes>
+    <edgeTerrain>MetalTile</edgeTerrain> -->
+
+    <!-- Temporarily set tiles with clear borders that are easy to count,
+         while we work on our subroom placement algorithm -->
+    <floorTypes>
+      <li>SterileTile</li>
+    </floorTypes>
+    <edgeTerrain>SterileTile</edgeTerrain>
+
+    <prefabs>
+      <!-- Bed subrooms (5x5 BTG_CrewBedSubroom) spawned iteratively by RoomContents_CrewQuarters
+           Places multiple subrooms along walls until no valid corner/edge placement remains -->
+
+      <!-- Lockers for personal storage -->
+      <AncientLockerBank_Row>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>4~12</minMaxRange>
+      </AncientLockerBank_Row>
+
+    </prefabs>
+  </LayoutRoomDef>
+</Defs>

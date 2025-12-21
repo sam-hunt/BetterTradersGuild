@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Bed Subroom Prefab
+    Private sleeping quarters for crew members with desk and meditation corner.
+
+    Features:
+    - 4x4 prefab size
+    - Self-contained subroom with internal walls and blast door entry
+
+    Design (top view, North is up, entry from z=0):
+        x: 0 1 2 3
+    z=3:   ? ? ? ?
+    z=2:   ? ? ? ?
+    z=1:   ? ? ? ?
+    z=0:   ? ? ? ?
+
+    Legend:
+    B = DoubleBed (steel, 2x2, facing south)
+    N = EndTable (steel nightstand)
+    T = Table1x2c (steel desk, 1x2)
+    C = DiningChair (steel, facing desk)
+    P = PlantPot (steel)
+    M = MeditationSpot
+    S = ShelfSmall (steel)
+    L = WallLamp (on west wall above desk, not shown)
+    D = AncientBlastDoor
+    W = AncientFortifiedWall (with hidden conduit)
+    . = empty space
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CrewBedSubroom4x4</defName>
+    <size>(4,4)</size>
+
+    <things>
+
+      <Table1x2c>
+        <position>(0, 0, 1)</position>
+        <stuff>Steel</stuff>
+        <quality>Good</quality>
+      </Table1x2c>
+
+      <PlantPot>
+        <position>(3, 0, 1)</position>
+        <stuff>Steel</stuff>
+        <quality>Good</quality>
+      </PlantPot>
+
+      <AncientFortifiedWall>
+        <rects>
+          <li>(0,0,1,0)</li>
+          <li>(3,0,3,0)</li>
+        </rects>
+      </AncientFortifiedWall>
+
+      <MeditationSpot>
+        <position>(3, 0, 2)</position>
+      </MeditationSpot>
+
+      <DiningChair>
+        <position>(1, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Good</quality>
+      </DiningChair>
+
+      <HiddenConduit>
+        <position>(2, 0, 0)</position>
+      </HiddenConduit>
+
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+
+      <AncientBlastDoor>
+        <position>(2, 0, 0)</position>
+      </AncientBlastDoor>
+
+      <ShelfSmall>
+        <position>(3, 0, 3)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+      </ShelfSmall>
+
+      <DoubleBed>
+        <position>(2, 0, 3)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Good</quality>
+      </DoubleBed>
+
+      <EndTable>
+        <position>(0, 0, 3)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Good</quality>
+      </EndTable>
+
+    </things>
+  </PrefabDef>
+</Defs>

@@ -77,9 +77,9 @@
 
       <!-- Living quarters and recreation -->
 
-      <BTG_Barracks>
+      <BTG_CrewQuarters>
         <countRange>1~4</countRange>
-      </BTG_Barracks>
+      </BTG_CrewQuarters>
 
       <BTG_RecRoom>
         <countRange>1~1</countRange>

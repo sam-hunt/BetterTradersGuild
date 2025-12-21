@@ -135,8 +135,8 @@ namespace BetterTradersGuild.RoomContents
             if (room.rects == null || room.rects.Count == 0)
                 return new PlacementResult { Type = PlacementType.Invalid };
 
-            // Get door positions from the room
-            List<DoorPosition> doors = RoomDoorsHelper.GetDoorPositions(room, map);
+            // Get edge blockers (doors) from the room
+            List<DoorPosition> doors = RoomEdgeBlockersHelper.GetEdgeBlockers(room, map);
 
             // Convert CellRect to SimpleRect
             CellRect rect = room.rects.First();

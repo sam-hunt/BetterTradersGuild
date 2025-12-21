@@ -37,10 +37,10 @@
       <!-- Crib subroom spawned programmatically by RoomContents_Nursery -->
 
       <!-- Beds for children -->
-      <BTG_BarracksBeds_Edge>
+      <BTG_KidBeds_Edge>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
-      </BTG_BarracksBeds_Edge>
+      </BTG_KidBeds_Edge>
 
       <!-- Seating for caregivers -->
       <Couch_Edge>
@@ -66,7 +66,6 @@
     </prefabs>
 
     <parts>
-      <WaspDrone>0.05</WaspDrone>
       <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
     </parts>
   </LayoutRoomDef>

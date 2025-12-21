@@ -49,7 +49,7 @@ echo -e "${YELLOW}[2/2] Running tests...${NC}"
 echo ""
 
 if [ -f "$VSTEST" ]; then
-    "$VSTEST" "$TEST_DLL" /Tests:PlacementCalculatorTests /logger:"console;verbosity=normal"
+    "$VSTEST" "$TEST_DLL" /logger:"console;verbosity=normal"
     TEST_EXIT_CODE=$?
 else
     echo -e "${RED}✗ VSTest.Console.exe not found at expected location.${NC}"
