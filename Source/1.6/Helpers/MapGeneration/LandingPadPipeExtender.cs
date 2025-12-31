@@ -67,6 +67,15 @@ namespace BetterTradersGuild.Helpers.MapGeneration
                 return 0;
             }
 
+            // Get the orbital wall def for structure detection
+            // This ensures we connect to actual structure walls, not random impassable things
+            ThingDef orbitalWallDef = DefDatabase<ThingDef>.GetNamedSilentFail("OrbitalAncientFortifiedWall");
+            if (orbitalWallDef == null)
+            {
+                Log.Warning("[Better Traders Guild] Could not find OrbitalAncientFortifiedWall def for landing pad pipe extension.");
+                return 0;
+            }
+
             // Get visible VE pipe defs for fluid networks (no power - ships don't need to buy electricity)
             List<ThingDef> visiblePipeDefs = GetVisiblePipeDefs();
             if (visiblePipeDefs.Count == 0)
@@ -79,8 +88,8 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             // For each landing pad, trace path to structure and place pipes
             foreach (LandingPadInfo pad in landingPads)
             {
-                // Find path from pad edge to structure
-                List<IntVec3> path = FindTerrainPathToStructure(map, pad, structureRect, orbitalPlatformTerrain);
+                // Find path from pad edge to structure wall
+                List<IntVec3> path = FindTerrainPathToStructure(map, pad, structureRect, orbitalPlatformTerrain, orbitalWallDef);
                 if (path.Count == 0)
                 {
                     Log.Warning($"[Better Traders Guild] Landing pad at {pad.Centroid}: no terrain path found to structure.");
@@ -318,7 +327,8 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             Map map,
             LandingPadInfo padInfo,
             CellRect structureRect,
-            TerrainDef terrainDef)
+            TerrainDef terrainDef,
+            ThingDef wallDef)
         {
             // Find the edge of the pad closest to the structure
             IntVec3 structureCenter = structureRect.CenterCell;
@@ -327,8 +337,8 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             // Determine which side of the pad faces the structure
             IntVec3 startCell = FindClosestPadEdgeToStructure(padInfo.BoundingRect, structureCenter);
 
-            // BFS from pad edge toward structure
-            return FindTerrainPathBFS(map, startCell, structureRect, terrainDef, maxIterations: 2000);
+            // BFS from pad edge toward structure wall
+            return FindTerrainPathBFS(map, startCell, structureRect, terrainDef, wallDef, maxIterations: 2000);
         }
 
         /// <summary>
@@ -373,7 +383,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         }
 
         /// <summary>
-        /// BFS pathfinding that follows specific terrain type.
+        /// BFS pathfinding that follows specific terrain type until reaching the target wall type.
         /// Returns path from start toward target rect.
         /// </summary>
         private static List<IntVec3> FindTerrainPathBFS(
@@ -381,6 +391,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             IntVec3 startCell,
             CellRect targetRect,
             TerrainDef terrainDef,
+            ThingDef wallDef,
             int maxIterations = 1000)
         {
             // If start cell isn't on platform terrain, search nearby for terrain to start from
@@ -406,7 +417,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
                 startCell = foundStart.Value;
             }
 
-            // BFS to find path to structure rect
+            // BFS to find path to structure wall
             Dictionary<IntVec3, IntVec3> cameFrom = new Dictionary<IntVec3, IntVec3>();
             Queue<IntVec3> queue = new Queue<IntVec3>();
 
@@ -421,9 +432,10 @@ namespace BetterTradersGuild.Helpers.MapGeneration
                 iterations++;
                 IntVec3 current = queue.Dequeue();
 
-                // Check if we've reached an actual wall (not just the bounding rect)
-                // This handles structures with recesses that don't fill the bounding box
-                if (IsAdjacentToWall(map, current))
+                // Check if we've reached the actual structure wall (OrbitalAncientFortifiedWall)
+                // This ensures we connect to the real structure, not random impassable things
+                // or stop early at the bounding box edge when there's a recess
+                if (IsAdjacentToWallDef(map, current, wallDef))
                 {
                     reachedCell = current;
                     break;
@@ -466,10 +478,10 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         }
 
         /// <summary>
-        /// Checks if a cell is adjacent to a wall or impassable structure.
-        /// Used to detect actual structure edges (not just bounding rect).
+        /// Checks if a cell is adjacent to a specific wall ThingDef.
+        /// Used to detect actual structure edges by looking for the specific wall type.
         /// </summary>
-        private static bool IsAdjacentToWall(Map map, IntVec3 cell)
+        private static bool IsAdjacentToWallDef(Map map, IntVec3 cell, ThingDef wallDef)
         {
             foreach (IntVec3 neighbor in CardinalNeighbors(cell))
             {
@@ -479,9 +491,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
                 List<Thing> things = map.thingGrid.ThingsListAt(neighbor);
                 foreach (Thing thing in things)
                 {
-                    // Check for walls and impassable structures
-                    if (thing.def.passability == Traversability.Impassable ||
-                        thing.def.holdsRoof)
+                    if (thing.def == wallDef)
                     {
                         return true;
                     }
