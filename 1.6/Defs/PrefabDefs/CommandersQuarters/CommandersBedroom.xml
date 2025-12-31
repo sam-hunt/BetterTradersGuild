@@ -105,7 +105,7 @@
 
       <OrbitalAncientFortifiedWall>
         <rects>
-          <li>(0,0,2,0)</li>
+          <li>(0,0,0,0)</li>
           <li>(2,0,5,0)</li>
           <li>(5,1,5,5)</li>
         </rects>
