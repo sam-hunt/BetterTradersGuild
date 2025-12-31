@@ -473,12 +473,37 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 }
             }
 
-            // Distribute any remaining space to corridors (expand middle corridors)
+            // Distribute remaining space: first expand strips, then corridors
             int remaining = availableHeight - usedHeight;
+
+            // First, try to expand strips up to maxDepth
+            // This gives subrooms more space before expanding corridors
+            // Corridors stay at minimum width (respecting door access requirements)
+            if (remaining > 0)
+            {
+                // Expand strips one cell at a time, cycling through all strips
+                // until no more remaining space or all strips at maxDepth
+                bool expanded = true;
+                while (remaining > 0 && expanded)
+                {
+                    expanded = false;
+                    for (int i = 0; i < layout.Count && remaining > 0; i++)
+                    {
+                        if (layout[i].IsSubroom && layout[i].Depth < maxDepth)
+                        {
+                            var item = layout[i];
+                            item.Depth += 1;
+                            layout[i] = item;
+                            remaining--;
+                            expanded = true;
+                        }
+                    }
+                }
+            }
+
+            // Then, distribute any final remaining space to corridors
             if (remaining > 0 && corridorWidths.Count > 0)
             {
-                // Find corridor items and expand them
-                int corridorIndex = 0;
                 for (int i = 0; i < layout.Count && remaining > 0; i++)
                 {
                     if (!layout[i].IsSubroom)
@@ -487,7 +512,6 @@ namespace BetterTradersGuild.Helpers.RoomContents
                         item.Depth += 1;
                         layout[i] = item;
                         remaining--;
-                        corridorIndex++;
                     }
                 }
             }
@@ -573,17 +597,25 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     exclusionWidth = NS_DOOR_EXCLUSION_WIDTH;
                 }
                 // West wall door (x = room.MinX)
-                else if (door.X == room.MinX && door.Z >= strip.MinZ && door.Z <= strip.MaxZ)
+                // Check if door is within strip bounds OR aligned with the back wall of a middle strip.
+                // Middle strips have back walls at strip.MaxZ+1 (North-facing) or strip.MinZ-1 (South-facing).
+                else if (door.X == room.MinX &&
+                    (door.Z >= strip.MinZ && door.Z <= strip.MaxZ ||
+                     (strip.Facing == PlacementRotation.North && strip.MaxZ < room.MaxZ - 1 && door.Z == strip.MaxZ + 1) ||
+                     (strip.Facing == PlacementRotation.South && strip.MinZ > room.MinZ + 1 && door.Z == strip.MinZ - 1)))
                 {
-                    // Door on west wall affects strips at that Z level
+                    // Door on west wall affects strips at that Z level or at back wall position
                     affectsStrip = true;
                     exclusionWidth = EW_DOOR_EXCLUSION_WIDTH;
                     exclusionCenterX = interiorMinX; // Start from interior edge
                 }
                 // East wall door (x = room.MaxX)
-                else if (door.X == room.MaxX && door.Z >= strip.MinZ && door.Z <= strip.MaxZ)
+                else if (door.X == room.MaxX &&
+                    (door.Z >= strip.MinZ && door.Z <= strip.MaxZ ||
+                     (strip.Facing == PlacementRotation.North && strip.MaxZ < room.MaxZ - 1 && door.Z == strip.MaxZ + 1) ||
+                     (strip.Facing == PlacementRotation.South && strip.MinZ > room.MinZ + 1 && door.Z == strip.MinZ - 1)))
                 {
-                    // Door on east wall affects strips at that Z level
+                    // Door on east wall affects strips at that Z level or at back wall position
                     affectsStrip = true;
                     exclusionWidth = EW_DOOR_EXCLUSION_WIDTH;
                     exclusionCenterX = interiorMaxX; // End at interior edge
@@ -662,6 +694,38 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     MaxX = interiorMaxX,
                     IsExclusionZone = false
                 });
+            }
+
+            // Ensure middle strips have at least one exclusion zone for corridor connectivity.
+            // A middle strip is one not adjacent to either the north or south room wall.
+            // Without an exclusion zone, corridors above and below the strip would be disconnected.
+            bool isMiddleStrip = strip.MinZ > room.MinZ + 1 && strip.MaxZ < room.MaxZ - 1;
+            bool hasExclusionZone = regions.Any(r => r.IsExclusionZone);
+
+            if (isMiddleStrip && !hasExclusionZone)
+            {
+                // Force-add exclusion zone at the start of the strip
+                int exclusionMaxX = interiorMinX + EW_DOOR_EXCLUSION_WIDTH - 1;
+
+                var newRegions = new List<Region>();
+                newRegions.Add(new Region
+                {
+                    MinX = interiorMinX,
+                    MaxX = exclusionMaxX,
+                    IsExclusionZone = true
+                });
+
+                if (exclusionMaxX < interiorMaxX)
+                {
+                    newRegions.Add(new Region
+                    {
+                        MinX = exclusionMaxX + 1,
+                        MaxX = interiorMaxX,
+                        IsExclusionZone = false
+                    });
+                }
+
+                regions = newRegions;
             }
 
             return regions;
@@ -960,16 +1024,42 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
                 if (needsBackWall)
                 {
-                    // Add back wall for each non-exclusion region
+                    // Add back wall for each non-exclusion region, using actual subroom bounds
+                    // instead of region bounds (regions may have waste space not filled by subrooms).
+                    // The back wall must also extend to cover the back of any enclosing side walls.
                     foreach (var region in strip.Regions.Where(r => !r.IsExclusionZone))
                     {
-                        walls.Add(new WallSegment
+                        var regionSubroomsForWall = stripSubrooms
+                            .Where(s => s.MinX >= region.MinX && s.MinX + s.Width - 1 <= region.MaxX)
+                            .OrderBy(s => s.MinX)
+                            .ToList();
+
+                        if (regionSubroomsForWall.Count > 0)
                         {
-                            StartX = region.MinX,
-                            StartZ = backWallZ,
-                            EndX = region.MaxX,
-                            EndZ = backWallZ
-                        });
+                            var firstSubroom = regionSubroomsForWall.First();
+                            var lastSubroom = regionSubroomsForWall.Last();
+
+                            // Check if there are enclosing side walls that need their backs covered.
+                            // Left enclosing wall exists if first subroom is not against room's west wall.
+                            // Right enclosing wall exists if last subroom is not against room's east wall.
+                            bool hasLeftEnclosingWall = firstSubroom.MinX > room.MinX + 1;
+                            bool hasRightEnclosingWall = lastSubroom.MinX + lastSubroom.Width - 1 < room.MaxX - 1;
+
+                            int wallStartX = hasLeftEnclosingWall
+                                ? firstSubroom.MinX - 1
+                                : firstSubroom.MinX;
+                            int wallEndX = hasRightEnclosingWall
+                                ? lastSubroom.MinX + lastSubroom.Width
+                                : lastSubroom.MinX + lastSubroom.Width - 1;
+
+                            walls.Add(new WallSegment
+                            {
+                                StartX = wallStartX,
+                                StartZ = backWallZ,
+                                EndX = wallEndX,
+                                EndZ = backWallZ
+                            });
+                        }
                     }
                 }
             }
