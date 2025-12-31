@@ -18,12 +18,14 @@ This guide explains the differences between edgeOnly and non-edgeOnly prefabs in
 The `<edgeOnly>true</edgeOnly>` flag in a PrefabDef tells RimWorld's room generation system to place the prefab **against the edge of a room**, rather than anywhere within the room's interior.
 
 ### Non-EdgeOnly Prefabs
+
 - Can spawn anywhere inside the room
 - Includes all four walls (if applicable)
 - Self-contained structure
 - Examples: `DiningTable_Large`, `BilliardsTable`, `PokerTable`
 
 ### EdgeOnly Prefabs
+
 - Must spawn against a room edge/wall
 - **Reuses the room's wall as its back wall**
 - Typically has walls on three sides (front + two sides)
@@ -36,11 +38,13 @@ The `<edgeOnly>true</edgeOnly>` flag in a PrefabDef tells RimWorld's room genera
 ### Critical Understanding: Z-Axis Orientation
 
 **For edgeOnly prefabs:**
+
 - **z=0** is the **FRONT** of the prefab (opening into the room interior)
 - **z=depth-1** is the **BACK** (against the room's wall)
 - The prefab is "pushed against" the room wall at its back
 
 **For non-edgeOnly prefabs:**
+
 - z=0 is just one edge (no special meaning)
 - All sides are equal - can rotate in any direction
 
@@ -77,6 +81,7 @@ EdgeOnly (uses room wall):
 ## Wall Placement Requirements
 
 ### Non-EdgeOnly Prefabs
+
 Include walls on **all four sides** if creating an enclosed space:
 
 ```xml
@@ -99,6 +104,7 @@ Include walls on **all four sides** if creating an enclosed space:
 ```
 
 ### EdgeOnly Prefabs
+
 Include walls on **three sides only** (front + two sides). **DO NOT** include back wall:
 
 ```xml
@@ -126,6 +132,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ### Converting Non-EdgeOnly → EdgeOnly
 
 **Steps:**
+
 1. Add `<edgeOnly>true</edgeOnly>` after `<defName>`
 2. Remove the back wall at z=depth-1
 3. **DO NOT** change any item coordinates
@@ -178,6 +185,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ### Converting EdgeOnly → Non-EdgeOnly
 
 **Steps:**
+
 1. Remove `<edgeOnly>true</edgeOnly>` line
 2. Add back wall at z=depth-1
 3. **DO NOT** change any item coordinates
@@ -242,6 +250,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ```
 
 **Reason:** The coordinate system doesn't change between edgeOnly and non-edgeOnly. The z-axis always points in the same direction. What changes is:
+
 1. Whether the prefab can only spawn at edges
 2. Whether the back wall is included
 
@@ -256,6 +265,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ```
 
 **Correct understanding:**
+
 - z=0 is the **front** of the prefab
 - Items CAN and SHOULD be placed at z=0 if they belong there (like doors)
 - The room placement system positions the entire prefab, not individual items
@@ -322,6 +332,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ```
 
 **Notes:**
+
 - Size (2,1): 2 cells wide, 1 cell deep
 - Only z=0 layer (front)
 - No walls (just furniture against wall)
@@ -337,7 +348,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
   <edgeOnly>true</edgeOnly>
   <size>(5,3)</size>
   <things>
-    <AncientFortifiedWall>
+    <OrbitalAncientFortifiedWall>
       <positions>
         <!-- Front wall with door opening at (2,0,0) -->
         <li>(0, 0, 0)</li>
@@ -352,7 +363,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
         <li>(4, 0, 2)</li>
         <!-- No back wall at z=2 - room provides it -->
       </positions>
-    </AncientFortifiedWall>
+    </OrbitalAncientFortifiedWall>
     <Door>
       <position>(2,0,0)</position>
       <stuff>Steel</stuff>
@@ -365,6 +376,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ```
 
 **Notes:**
+
 - Size (5,3): 5 cells wide, 3 cells deep
 - Walls on front (z=0) and sides (x=0, x=4)
 - No back wall at z=2
@@ -380,7 +392,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
   <edgeOnly>true</edgeOnly>
   <size>(5,4)</size>
   <things>
-    <AncientFortifiedWall>
+    <OrbitalAncientFortifiedWall>
       <positions>
         <!-- Front wall (z=0) -->
         <li>(0, 0, 0)</li>
@@ -391,7 +403,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
         <li>(0, 0, 2)</li>
         <li>(0, 0, 3)</li>
       </positions>
-    </AncientFortifiedWall>
+    </OrbitalAncientFortifiedWall>
     <Door>
       <position>(2,0,0)</position>
       <stuff>Steel</stuff>
@@ -427,6 +439,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ```
 
 **Notes:**
+
 - Size (5,4): 5 cells wide, 4 cells deep
 - Front wall at z=0 with door
 - Side walls extending from z=0 to z=3
@@ -467,12 +480,14 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 ### Problem: Prefab doesn't spawn (silent failure)
 
 **Possible causes:**
+
 1. Back wall included in edgeOnly prefab (collision with room wall)
 2. Prefab size too large for available room edges
 3. Item coordinates outside prefab bounds
 4. Wall rect syntax errors
 
 **Solution:**
+
 1. Check logs for placement attempts (use debug logging)
 2. Verify back wall is removed for edgeOnly
 3. Verify all item positions are within (0,0,0) to (width-1, 0, depth-1)
@@ -483,6 +498,7 @@ Include walls on **three sides only** (front + two sides). **DO NOT** include ba
 **Possible cause:** Misunderstanding of coordinate system orientation
 
 **Solution:**
+
 - Remember z=0 is front (room interior) for edgeOnly
 - Use `<relativeRotation>Opposite</relativeRotation>` to face items away from back wall
 - Test different rotations (Clockwise, Counterclockwise, Opposite)

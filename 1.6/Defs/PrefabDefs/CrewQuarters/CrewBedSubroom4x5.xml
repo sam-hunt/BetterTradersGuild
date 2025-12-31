@@ -26,7 +26,7 @@
     S = ShelfSmall (steel)
     L = WallLamp (on west wall above desk, not shown)
     D = AncientBlastDoor
-    W = AncientFortifiedWall (with hidden conduit)
+    W = OrbitalAncientFortifiedWall (with hidden conduit)
     . = empty space
   -->
 
@@ -47,12 +47,12 @@
         <quality>Normal</quality>
       </PlantPot>
 
-      <AncientFortifiedWall>
+      <OrbitalAncientFortifiedWall>
         <rects>
           <li>(0,0,1,0)</li>
           <li>(3,0,3,0)</li>
         </rects>
-      </AncientFortifiedWall>
+      </OrbitalAncientFortifiedWall>
 
       <Dresser>
         <position>(3, 0, 2)</position>

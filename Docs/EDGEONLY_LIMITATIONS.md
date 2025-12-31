@@ -10,17 +10,18 @@ EdgeOnly prefabs are designed for **small furniture items** placed against room 
 
 ### Vanilla EdgeOnly Examples
 
-| PrefabDef | Size | Use Case |
-|-----------|------|----------|
-| `AncientLockers_Row` | 4x1 | Storage against wall |
-| `IndustrialShelf_Edge` | 4x1 | Storage against wall |
-| `AncientFilingCabinet_Edge` | 3x1 | Office furniture |
-| `Armchairs_Edge` | 2x1 | Seating facing into room |
-| `TVWithArmchairs` | 3x3 | Entertainment center |
-| `AncientSecurityTerminal` | 1x1 | Computer terminal |
-| `AncientSingleBed` | 2x2 | Bed against wall |
+| PrefabDef                   | Size | Use Case                 |
+| --------------------------- | ---- | ------------------------ |
+| `AncientLockers_Row`        | 4x1  | Storage against wall     |
+| `IndustrialShelf_Edge`      | 4x1  | Storage against wall     |
+| `AncientFilingCabinet_Edge` | 3x1  | Office furniture         |
+| `Armchairs_Edge`            | 2x1  | Seating facing into room |
+| `TVWithArmchairs`           | 3x3  | Entertainment center     |
+| `AncientSecurityTerminal`   | 1x1  | Computer terminal        |
+| `AncientSingleBed`          | 2x2  | Bed against wall         |
 
 **Key characteristics:**
+
 - Small footprint (typically ≤ 5 cells wide, ≤ 3 cells deep)
 - No internal walls or doors
 - Simple furniture arrangements
@@ -33,6 +34,7 @@ EdgeOnly prefabs are designed for **small furniture items** placed against room 
 Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vanilla uses:
 
 1. **C# RoomContentsWorker classes** (programmatic generation)
+
    - `RoomContents_TransportRoom` - creates subrooms with walls and doors
    - `RoomContents_InnerCourtyardRooms` - creates interior room structures
    - Full control over wall placement, door types, rotation
@@ -58,6 +60,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 **Problem:** Room generation algorithm sometimes spawns doors from adjacent rooms into the edge wall that the prefab is placed against, creating unintended entrances behind the subroom.
 
 **Example:**
+
 ```
 ┌─────────────────────┐
 │ Commander's Quarters  │
@@ -72,12 +75,14 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 ```
 
 **Why:** EdgeOnly prefabs have no control over which specific edge wall they spawn against. The placement algorithm:
+
 1. Finds valid edge segments
 2. Randomly selects one
 3. Places prefab
 4. Cannot prevent room doors from being placed on that same wall
 
 **Impact:**
+
 - Bedrooms with multiple entrances (immersion breaking)
 - Unintended shortcuts (gameplay balance issue)
 - Defeats "secure room" design goal
@@ -95,6 +100,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 ### Issue 4: Scale Limitations
 
 **Observation:** Vanilla edgeOnly subrooms are very small:
+
 - `Subroom_ElectricStove`: 5x3 (15 cells)
 - `Subroom_Crib`: 5x4 (20 cells)
 
@@ -109,6 +115,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 **Approach:** C# RoomContentsWorker programmatically generates subroom
 
 **XML Definition:**
+
 ```xml
 <LayoutRoomDef>
   <defName>OrbitalTransportRoom</defName>
@@ -122,6 +129,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 ```
 
 **C# Implementation (simplified):**
+
 ```csharp
 public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
 {
@@ -159,6 +167,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ```
 
 **Advantages:**
+
 - Full control over door type (can use AncientBlastDoor)
 - Full control over placement (can choose which wall)
 - Can avoid walls with existing doors
@@ -172,6 +181,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ### Vanilla Examples Using Both
 
 **AncientOrbitalCorridorDefense:**
+
 ```xml
 <LayoutRoomDef ParentName="AncientOrbitalCorridor">
   <defName>AncientOrbitalCorridorDefense</defName>
@@ -187,6 +197,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ```
 
 **InnerCourtyard:**
+
 ```xml
 <LayoutRoomDef>
   <defName>InnerCourtyard</defName>
@@ -218,6 +229,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ```
 
 **Cell Validation:**
+
 - Worker overrides `IsValidCellBase()` to mark occupied cells
 - XML prefab placement checks `IsValidCellBase()` before spawning
 - Result: Worker structures and XML prefabs coexist without overlap
@@ -227,6 +239,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ### When to Use EdgeOnly XML Prefabs
 
 ✅ **Use for:**
+
 - Small furniture items (≤ 5x3 cells)
 - No internal walls or doors
 - Simple arrangements (shelves, consoles, beds)
@@ -236,6 +249,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ### When to Use RoomContentsWorker
 
 ✅ **Use for:**
+
 - Enclosed subrooms with internal walls
 - Special door types (AncientBlastDoor, etc.)
 - Large structures (> 5x3 cells)
@@ -246,6 +260,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ### When to Use Non-EdgeOnly XML Prefabs
 
 ✅ **Use for:**
+
 - Free-standing structures (not against walls)
 - Self-contained rooms (4 walls)
 - Can be placed anywhere in room interior
@@ -256,13 +271,14 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ### For EdgeOnly Prefabs
 
 **Always use `<positions>` for walls in edgeOnly prefabs:**
+
 ```xml
 <PrefabDef>
   <defName>MyEdgePrefab</defName>
   <edgeOnly>true</edgeOnly>
   <size>(5,3)</size>
   <things>
-    <AncientFortifiedWall>
+    <OrbitalAncientFortifiedWall>
       <positions>  <!-- ✓ Use positions, not rects -->
         <!-- Front wall -->
         <li>(0, 0, 0)</li>
@@ -279,7 +295,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 
         <!-- NO back wall at z=2 -->
       </positions>
-    </AncientFortifiedWall>
+    </OrbitalAncientFortifiedWall>
   </things>
 </PrefabDef>
 ```
@@ -289,6 +305,7 @@ protected override bool IsValidCellBase(IntVec3 c, LayoutRoom room)
 ### For RoomContentsWorker
 
 **Spawn walls cell-by-cell:**
+
 ```csharp
 foreach (IntVec3 wallCell in wallPositions)
 {
@@ -304,6 +321,7 @@ foreach (IntVec3 wallCell in wallPositions)
 EdgeOnly XML prefabs are a lightweight system for simple furniture placement. Complex subrooms with internal walls and special doors require RoomContentsWorker classes for proper control and vanilla-compatible behavior.
 
 **For the Commander's Quarters bedroom:**
+
 - ❌ EdgeOnly XML prefab - incompatible with design goals
 - ✅ RoomContentsWorker - provides necessary control and follows vanilla patterns
 
