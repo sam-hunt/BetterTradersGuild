@@ -32,12 +32,12 @@
 
       <!-- Mech gestators for repairs/production (working, not Ancient) -->
       <BTG_MechGestator>
-        <countPerHundredCells>3</countPerHundredCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~2</minMaxRange>
       </BTG_MechGestator>
 
       <BTG_LargeMechGestator>
-        <countPerHundredCells>2</countPerHundredCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_LargeMechGestator>
 

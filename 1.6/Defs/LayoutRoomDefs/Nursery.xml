@@ -9,6 +9,8 @@
   <LayoutRoomDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_Nursery</defName>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Nursery</roomContentsWorkerType>
+    <minSingleRectWidth>12</minSingleRectWidth>
+    <minSingleRectHeight>11</minSingleRectHeight>
 
     <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>

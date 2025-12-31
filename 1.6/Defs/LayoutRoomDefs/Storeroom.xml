@@ -73,7 +73,7 @@
     <parts>
       <WaspDrone>0.15</WaspDrone>
       <CornerArmoredTurret>0.2</CornerArmoredTurret>
-      <AncientBarricades />
+      <AncientBarricades>0.25</AncientBarricades>
     </parts>
   </LayoutRoomDef>
 </Defs>
