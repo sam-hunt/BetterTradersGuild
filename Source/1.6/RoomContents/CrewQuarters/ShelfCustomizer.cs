@@ -4,6 +4,7 @@ using System.Linq;
 using RimWorld;
 using Verse;
 using Verse.AI;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
@@ -30,10 +31,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             {
                 (20f, (shelf, map, faction) => ReplaceShelfWithBookcase(shelf, map)),
                 (5f,  (shelf, map, faction) => TryReplaceWithChessTable(shelf, map)),
-                (5f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, "Gun_ChargeRifle_Unique")),
-                (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, "Gun_ChargeLance_Unique")),
-                (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, "Gun_BeamRepeater_Unique")),
-                (4f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, "Gun_Revolver_Unique")),
+                (5f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeRifle_Unique)),
+                (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeLance_Unique)),
+                (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_BeamRepeater_Unique)),
+                (4f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_Revolver_Unique)),
                 (4f,  (shelf, map, faction) => TryReplaceWithAncientSafe(shelf, map)),
                 (4f,  (shelf, map, faction) => TryReplaceWithAncientCrate(shelf, map)),
                 (25f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
@@ -41,16 +42,16 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             };
 
             // Biotech DLC - Cribs/children
-            if (DefDatabase<ThingDef>.GetNamed("Crib", false) != null)
+            if (Things.Crib != null)
                 outcomes.Add((10f, (shelf, map, faction) => ReplaceShelfWithCrib(shelf, map, faction)));
 
             // Anomaly DLC - Golden cube
-            if (CrewQuartersHelpers.GoldenCubeDef != null && CrewQuartersHelpers.ScrapCubeDef != null)
+            if (Things.GoldenCube != null && Things.ScrapCubeSculpture != null)
                 outcomes.Add((3f, (shelf, map, faction) => SpawnGoldenCubeOrScrapCube(shelf, map)));
 
             // Vanilla Furniture Expanded - Spacer Module
-            if (CrewQuartersHelpers.InteractiveTableDef != null)
-                outcomes.Add((5f, (shelf, map, faction) => CrewQuartersHelpers.ReplaceThingAt(shelf, CrewQuartersHelpers.InteractiveTableDef, null, map)));
+            if (Things.Table_interactive_1x1c != null)
+                outcomes.Add((5f, (shelf, map, faction) => CrewQuartersHelpers.ReplaceThingAt(shelf, Things.Table_interactive_1x1c, null, map)));
 
             return outcomes;
         }
@@ -61,13 +62,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static readonly List<(float weight, Action<Map, Building_Storage> action)> ShelfContentsOutcomes = new List<(float, Action<Map, Building_Storage>)>
         {
-            (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "Gold", Rand.RangeInclusive(10, 50))),
-            (25f,   (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "Silver", Rand.RangeInclusive(15, 50))),
-            (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "ComponentIndustrial", Rand.RangeInclusive(1, 2))),
-            (3f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "ComponentSpacer", Rand.RangeInclusive(2, 4))),
-            (4f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "MedicineIndustrial", Rand.RangeInclusive(2, 3))),
-            (1.5f,  (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "MedicineUltratech", Rand.RangeInclusive(2, 3))),
-            (5f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, "Beer", Rand.Bool ? 6 : 12)),
+            (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Gold, Rand.RangeInclusive(10, 50))),
+            (25f,   (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Silver, Rand.RangeInclusive(15, 50))),
+            (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentIndustrial, Rand.RangeInclusive(1, 2))),
+            (3f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentSpacer, Rand.RangeInclusive(2, 4))),
+            (4f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineIndustrial, Rand.RangeInclusive(2, 3))),
+            (1.5f,  (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineUltratech, Rand.RangeInclusive(2, 3))),
+            (5f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Beer, Rand.Bool ? 6 : 12)),
             (59.5f, (map, shelf) => { }) // No item added
         };
 
@@ -80,7 +81,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         internal static void CustomizeSmallShelves(Map map, List<CellRect> subroomRects)
         {
-            if (CrewQuartersHelpers.ShelfSmallDef == null) return;
+            if (Things.ShelfSmall == null) return;
 
             List<Building_Storage> smallShelves = FindSmallShelves(map, subroomRects);
 
@@ -99,7 +100,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         internal static void CustomizeEmptyShelves(Map map, List<CellRect> subroomRects, Faction faction)
         {
-            if (CrewQuartersHelpers.ShelfSmallDef == null) return;
+            if (Things.ShelfSmall == null) return;
 
             List<Building_Storage> smallShelves = FindSmallShelves(map, subroomRects);
 
@@ -130,7 +131,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     if (!cell.InBounds(map)) continue;
                     foreach (Thing thing in cell.GetThingList(map))
                     {
-                        if (thing.def == CrewQuartersHelpers.ShelfSmallDef && thing is Building_Storage storage)
+                        if (thing.def == Things.ShelfSmall && thing is Building_Storage storage)
                         {
                             if (!smallShelves.Contains(storage))
                             {
@@ -183,14 +184,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void ReplaceShelfWithBookcase(Building_Storage shelf, Map map)
         {
-            ThingDef bookshelfDef = DefDatabase<ThingDef>.GetNamed("BookcaseSmall", false);
-            if (bookshelfDef == null) return;
+            if (Things.BookcaseSmall == null) return;
 
             IntVec3 pos = shelf.Position;
             Rot4 rot = shelf.Rotation;
             shelf.Destroy(DestroyMode.Vanish);
 
-            Thing bookshelf = ThingMaker.MakeThing(bookshelfDef, CrewQuartersHelpers.SteelDef);
+            Thing bookshelf = ThingMaker.MakeThing(Things.BookcaseSmall, Things.Steel);
             GenSpawn.Spawn(bookshelf, pos, map, rot);
 
             // Add a random book if bookshelf is a bookcase
@@ -217,9 +217,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void TryReplaceWithChessTable(Building_Storage shelf, Map map)
         {
-            ThingDef chessTableDef = DefDatabase<ThingDef>.GetNamed("ChessTable", false);
-            if (chessTableDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(shelf, chessTableDef, CrewQuartersHelpers.SteelDef, map);
+            if (Things.ChessTable == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(shelf, Things.ChessTable, Things.Steel, map);
         }
 
         /// <summary>
@@ -227,9 +226,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void TryReplaceWithAncientSafe(Building_Storage shelf, Map map)
         {
-            ThingDef ancientSafeDef = DefDatabase<ThingDef>.GetNamed("AncientSafe", false);
-            if (ancientSafeDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(shelf, ancientSafeDef, null, map);
+            if (Things.AncientSafe == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(shelf, Things.AncientSafe, null, map);
         }
 
         /// <summary>
@@ -237,9 +235,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void TryReplaceWithAncientCrate(Building_Storage shelf, Map map)
         {
-            ThingDef ancientCrateDef = DefDatabase<ThingDef>.GetNamed("AncientSealedCrate", false);
-            if (ancientCrateDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(shelf, ancientCrateDef, null, map);
+            if (Things.AncientSealedCrate == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(shelf, Things.AncientSealedCrate, null, map);
         }
 
         /// <summary>
@@ -247,10 +244,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void ReplaceShelfWithSculpture(Building_Storage shelf, Map map)
         {
-            ThingDef sculptureDef = DefDatabase<ThingDef>.GetNamed("SculptureSmall", false);
-            if (sculptureDef == null) return;
+            if (Things.SculptureSmall == null) return;
 
-            Thing sculpture = CrewQuartersHelpers.ReplaceThingAt(shelf, sculptureDef, CrewQuartersHelpers.SteelDef, map);
+            Thing sculpture = CrewQuartersHelpers.ReplaceThingAt(shelf, Things.SculptureSmall, Things.Steel, map);
             if (sculpture == null) return;
 
             CompQuality compQuality = sculpture.TryGetComp<CompQuality>();
@@ -268,42 +264,41 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void SpawnGoldenCubeOrScrapCube(Building_Storage shelf, Map map)
         {
-            if (CrewQuartersHelpers.ScrapCubeDef == null) return;
+            if (Things.ScrapCubeSculpture == null) return;
 
             IntVec3 shelfPos = shelf.Position;
 
             // Check if a golden cube already exists on this map
-            bool goldenCubeExists = CrewQuartersHelpers.GoldenCubeDef != null
-                && map.listerThings.ThingsOfDef(CrewQuartersHelpers.GoldenCubeDef).Any();
+            bool goldenCubeExists = Things.GoldenCube != null
+                && map.listerThings.ThingsOfDef(Things.GoldenCube).Any();
 
-            if (goldenCubeExists || CrewQuartersHelpers.GoldenCubeDef == null)
+            if (goldenCubeExists || Things.GoldenCube == null)
             {
                 // Golden cube already exists (or def not found) - replace shelf with scrap cube
-                CrewQuartersHelpers.ReplaceThingAt(shelf, CrewQuartersHelpers.ScrapCubeDef, null, map);
+                CrewQuartersHelpers.ReplaceThingAt(shelf, Things.ScrapCubeSculpture, null, map);
             }
             else
             {
                 // No golden cube on map yet - spawn golden cube on shelf
-                Thing goldenCube = ThingMaker.MakeThing(CrewQuartersHelpers.GoldenCubeDef);
+                Thing goldenCube = ThingMaker.MakeThing(Things.GoldenCube);
                 RoomShelfHelper.AddItemToShelf(map, shelf, goldenCube);
             }
 
             // Always spawn an additional scrap cube nearby
             // Search for nearest meditation spot to replace with scrap cube
-            ThingDef meditationSpotDef = DefDatabase<ThingDef>.GetNamed("MeditationSpot", false);
-            if (meditationSpotDef != null)
+            if (Things.MeditationSpot != null)
             {
                 Thing nearestSpot = GenClosest.ClosestThingReachable(
                     shelfPos,
                     map,
-                    ThingRequest.ForDef(meditationSpotDef),
+                    ThingRequest.ForDef(Things.MeditationSpot),
                     PathEndMode.Touch,
                     TraverseParms.For(TraverseMode.PassDoors),
                     maxDistance: 20f);
 
                 if (nearestSpot != null)
                 {
-                    CrewQuartersHelpers.ReplaceThingAt(nearestSpot, CrewQuartersHelpers.ScrapCubeDef, null, map);
+                    CrewQuartersHelpers.ReplaceThingAt(nearestSpot, Things.ScrapCubeSculpture, null, map);
                     return;
                 }
             }
@@ -312,7 +307,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             IntVec3 scrapCubePos = FindNearestUnoccupiedTile(shelfPos, map);
             if (scrapCubePos.IsValid)
             {
-                Thing scrapCube = ThingMaker.MakeThing(CrewQuartersHelpers.ScrapCubeDef);
+                Thing scrapCube = ThingMaker.MakeThing(Things.ScrapCubeSculpture);
                 GenSpawn.Spawn(scrapCube, scrapCubePos, map);
             }
         }
@@ -354,14 +349,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void ReplaceShelfWithCrib(Building_Storage shelf, Map map, Faction faction)
         {
-            ThingDef cribDef = DefDatabase<ThingDef>.GetNamed("Crib", false);
-            if (cribDef == null) return;
+            if (Things.Crib == null) return;
 
             IntVec3 pos = shelf.Position;
             Rot4 rot = shelf.Rotation;
             shelf.Destroy(DestroyMode.Vanish);
 
-            Thing crib = ThingMaker.MakeThing(cribDef, CrewQuartersHelpers.SteelDef);
+            Thing crib = ThingMaker.MakeThing(Things.Crib, Things.Steel);
             GenSpawn.Spawn(crib, pos, map, rot);
 
             // Spawn newborn in crib
@@ -379,11 +373,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void SpawnNewbornInCrib(Building_Bed crib, Map map, Faction faction)
         {
-            PawnKindDef childKind = DefDatabase<PawnKindDef>.GetNamed("TradersGuild_Child", false);
-            if (childKind == null)
-            {
-                childKind = DefDatabase<PawnKindDef>.GetNamed("TradersGuild_Citizen", false);
-            }
+            PawnKindDef childKind = PawnKinds.TradersGuild_Child ?? PawnKinds.TradersGuild_Citizen;
             if (childKind == null) return;
 
             try
@@ -417,7 +407,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     compAssignable?.TryAssignPawn(newborn);
 
                     // Start lying down job
-                    Job layDownJob = JobMaker.MakeJob(JobDefOf.LayDownResting, crib);
+                    Job layDownJob = JobMaker.MakeJob(Jobs.LayDownResting, crib);
                     newborn.jobs.StartJob(layDownJob, JobCondition.None, null, resumeCurJobAfterwards: false, cancelBusyStances: true);
                 }
                 else
@@ -434,9 +424,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// <summary>
         /// Spawns a unique weapon with random traits on a shelf.
         /// </summary>
-        private static void SpawnUniqueWeaponOnShelf(Map map, Building_Storage shelf, string weaponDefName)
+        private static void SpawnUniqueWeaponOnShelf(Map map, Building_Storage shelf, ThingDef weaponDef)
         {
-            ThingDef weaponDef = DefDatabase<ThingDef>.GetNamed(weaponDefName, false);
             if (weaponDef == null) return;
 
             Thing weapon = ThingMaker.MakeThing(weaponDef);
@@ -483,21 +472,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void ReplaceShelfWithOutfitStand(Building_Storage shelf, Map map)
         {
-            ThingDef outfitStandDef = DefDatabase<ThingDef>.GetNamed("Building_OutfitStand", false);
-            if (outfitStandDef == null) return;
+            if (Things.Building_OutfitStand == null) return;
 
             IntVec3 pos = shelf.Position;
             Rot4 rot = shelf.Rotation;
             shelf.Destroy(DestroyMode.Vanish);
 
-            Thing standThing = ThingMaker.MakeThing(outfitStandDef);
+            Thing standThing = ThingMaker.MakeThing(Things.Building_OutfitStand);
             GenSpawn.Spawn(standThing, pos, map, rot);
 
             // Paint with orbital steel color
-            ColorDef orbitalSteelColor = DefDatabase<ColorDef>.GetNamed("BTG_OrbitalSteel", false);
-            if (orbitalSteelColor != null && standThing is Building building)
+            if (Colors.BTG_OrbitalSteel != null && standThing is Building building)
             {
-                building.ChangePaint(orbitalSteelColor);
+                building.ChangePaint(Colors.BTG_OrbitalSteel);
             }
 
             // Add random apparel set
@@ -512,41 +499,41 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void AddRandomApparelSet(Building_OutfitStand stand)
         {
-            // Build list of available apparel sets
-            List<List<(string defName, string stuff)>> apparelSets = new List<List<(string, string)>>
+            // Build list of available apparel sets using DefRefs
+            var apparelSets = new List<List<(ThingDef apparel, ThingDef stuff)>>
             {
                 // Synthread shirt + pants
-                new List<(string, string)>
+                new List<(ThingDef, ThingDef)>
                 {
-                    ("Apparel_BasicShirt", "Synthread"),
-                    ("Apparel_Pants", "Synthread")
+                    (Things.Apparel_BasicShirt, Things.Synthread),
+                    (Things.Apparel_Pants, Things.Synthread)
                 },
                 // Power armor set
-                new List<(string, string)>
+                new List<(ThingDef, ThingDef)>
                 {
-                    ("Apparel_PowerArmor", null),
-                    ("Apparel_PowerArmorHelmet", null)
+                    (Things.Apparel_PowerArmor, null),
+                    (Things.Apparel_PowerArmorHelmet, null)
                 },
                 // Vacsuit set
-                new List<(string, string)>
+                new List<(ThingDef, ThingDef)>
                 {
-                    ("Apparel_Vacsuit", null),
-                    ("Apparel_VacsuitHelmet", null)
+                    (Things.Apparel_Vacsuit, null),
+                    (Things.Apparel_VacsuitHelmet, null)
                 },
                 // Recon armor set
-                new List<(string, string)>
+                new List<(ThingDef, ThingDef)>
                 {
-                    ("Apparel_ArmorRecon", null),
-                    ("Apparel_ArmorReconHelmet", null)
+                    (Things.Apparel_ArmorRecon, null),
+                    (Things.Apparel_ArmorReconHelmet, null)
                 }
             };
 
             // Add slave harness set if available (Ideology)
-            if (CrewQuartersHelpers.SlaveHarnessDef != null)
+            if (Things.Apparel_BodyStrap != null)
             {
-                apparelSets.Add(new List<(string, string)>
+                apparelSets.Add(new List<(ThingDef, ThingDef)>
                 {
-                    ("Apparel_SlaveBodyStrap", "Leather_Panther")
+                    (Things.Apparel_BodyStrap, Things.Leather_Panther)
                 });
             }
 
@@ -554,22 +541,17 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             var selectedSet = apparelSets.RandomElement();
 
             // Spawn each piece
-            foreach (var (defName, stuffName) in selectedSet)
+            foreach (var (apparelDef, stuffDef) in selectedSet)
             {
-                ThingDef apparelDef = DefDatabase<ThingDef>.GetNamed(defName, false);
                 if (apparelDef == null) continue;
 
-                ThingDef stuffDef = null;
-                if (!string.IsNullOrEmpty(stuffName))
+                ThingDef actualStuff = stuffDef;
+                if (actualStuff == null && apparelDef.MadeFromStuff)
                 {
-                    stuffDef = DefDatabase<ThingDef>.GetNamed(stuffName, false);
-                }
-                else if (apparelDef.MadeFromStuff)
-                {
-                    stuffDef = GenStuff.DefaultStuffFor(apparelDef);
+                    actualStuff = GenStuff.DefaultStuffFor(apparelDef);
                 }
 
-                Apparel apparel = (Apparel)ThingMaker.MakeThing(apparelDef, stuffDef);
+                Apparel apparel = (Apparel)ThingMaker.MakeThing(apparelDef, actualStuff);
 
                 // Set quality
                 CompQuality compQuality = apparel.TryGetComp<CompQuality>();
@@ -598,10 +580,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static Thing GenerateRandomBook()
         {
-            ThingDef novelDef = DefDatabase<ThingDef>.GetNamed("Novel", false);
-            if (novelDef == null) return null;
+            if (Things.Novel == null) return null;
 
-            return BookUtility.MakeBook(novelDef, ArtGenerationContext.Outsider, null);
+            return BookUtility.MakeBook(Things.Novel, ArtGenerationContext.Outsider, null);
         }
 
         /// <summary>
@@ -609,16 +590,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void SpawnBabyFoodOnNearestTable(IntVec3 fromPos, Map map)
         {
-            ThingDef babyFoodDef = DefDatabase<ThingDef>.GetNamed("BabyFood", false);
-            ThingDef tableDef = DefDatabase<ThingDef>.GetNamed("Table1x2c", false);
-
-            if (babyFoodDef == null || tableDef == null) return;
+            if (Things.BabyFood == null || Things.Table1x2c == null) return;
 
             // Find nearest table using pathfinding
             Thing nearestTable = GenClosest.ClosestThingReachable(
                 fromPos,
                 map,
-                ThingRequest.ForDef(tableDef),
+                ThingRequest.ForDef(Things.Table1x2c),
                 PathEndMode.Touch,
                 TraverseParms.For(TraverseMode.PassDoors),
                 maxDistance: 20f);
@@ -638,7 +616,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             if (tableEmpty)
             {
-                Thing babyFood = ThingMaker.MakeThing(babyFoodDef);
+                Thing babyFood = ThingMaker.MakeThing(Things.BabyFood);
                 babyFood.stackCount = Rand.RangeInclusive(25, 45);
                 GenSpawn.Spawn(babyFood, nearestTable.Position, map);
             }

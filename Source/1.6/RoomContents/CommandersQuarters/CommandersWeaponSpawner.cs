@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CommandersQuarters
 {
@@ -48,7 +49,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                     {
                         foreach (Thing thing in things)
                         {
-                            if (thing.def.defName == "ShelfSmall" && thing is Building_Storage storage)
+                            if (thing.def == Things.ShelfSmall && thing is Building_Storage storage)
                             {
                                 shelvesFound++;
                                 shelf = storage;
@@ -91,21 +92,33 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
         {
             // Weighted random weapon selection
             float roll = Rand.Value;
-            string weaponDefName;
-            if (roll < 0.3f)
-                weaponDefName = "Gun_Revolver_Unique";
-            else if (roll < 0.6f)
-                weaponDefName = "Gun_ChargeRifle_Unique";
-            else if (roll < 0.8f)
-                weaponDefName = "Gun_ChargeLance_Unique";
-            else
-                weaponDefName = "Gun_BeamRepeater_Unique";
+            ThingDef weaponDef;
+            WeaponTraitDef primaryTrait;
 
-            // Create weapon with correct _Unique variant
-            ThingDef weaponDef = DefDatabase<ThingDef>.GetNamed(weaponDefName, false);
+            if (roll < 0.3f)
+            {
+                weaponDef = Things.Gun_Revolver_Unique;
+                primaryTrait = WeaponTraits.PulseCharger;
+            }
+            else if (roll < 0.6f)
+            {
+                weaponDef = Things.Gun_ChargeRifle_Unique;
+                primaryTrait = WeaponTraits.ChargeCapacitor;
+            }
+            else if (roll < 0.8f)
+            {
+                weaponDef = Things.Gun_ChargeLance_Unique;
+                primaryTrait = WeaponTraits.ChargeCapacitor;
+            }
+            else
+            {
+                weaponDef = Things.Gun_BeamRepeater_Unique;
+                primaryTrait = WeaponTraits.FrequencyAmplifier;
+            }
+
             if (weaponDef == null)
             {
-                Log.Error($"[Better Traders Guild] Could not find ThingDef '{weaponDefName}'");
+                Log.Error("[Better Traders Guild] Selected unique weapon ThingDef is null");
                 return null;
             }
 
@@ -130,45 +143,27 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
 
                 // Trait 1: Weapon-specific primary trait (MUST be added FIRST)
                 // GoldInlay has canGenerateAlone="false" so it needs another trait to exist first
-                string primaryTraitName;
-                switch (weaponDefName)
+                // primaryTrait was already selected above based on weapon type
+                // Fall back to AimAssistance if the selected trait is null
+                WeaponTraitDef effectivePrimaryTrait = primaryTrait ?? WeaponTraits.AimAssistance;
+                if (effectivePrimaryTrait != null && uniqueComp.CanAddTrait(effectivePrimaryTrait))
                 {
-                    case "Gun_Revolver_Unique":
-                        primaryTraitName = "PulseCharger";  // Retrofits pulse-charge tech
-                        break;
-                    case "Gun_ChargeRifle_Unique":
-                        primaryTraitName = "ChargeCapacitor";
-                        break;
-                    case "Gun_ChargeLance_Unique":
-                        primaryTraitName = "ChargeCapacitor";
-                        break;
-                    case "Gun_BeamRepeater_Unique":
-                        primaryTraitName = "FrequencyAmplifier";
-                        break;
-                    default:
-                        primaryTraitName = "AimAssistance";
-                        break;
-                }
-
-                WeaponTraitDef primaryTrait = DefDatabase<WeaponTraitDef>.GetNamed(primaryTraitName, false);
-                if (primaryTrait != null && uniqueComp.CanAddTrait(primaryTrait))
-                {
-                    uniqueComp.AddTrait(primaryTrait);
+                    uniqueComp.AddTrait(effectivePrimaryTrait);
                 }
                 else
                 {
-                    Log.Warning($"[Better Traders Guild] Could not add {primaryTraitName} trait to commander's weapon");
+                    Log.Warning($"[Better Traders Guild] Could not add primary trait to commander's weapon");
                 }
 
                 // Trait 2: Gold Inlay (added SECOND after primary trait exists)
-                WeaponTraitDef goldTrait = DefDatabase<WeaponTraitDef>.GetNamed("GoldInlay", false);
-                if (goldTrait != null && uniqueComp.CanAddTrait(goldTrait))
+                // Note: GoldInlay requires Biotech DLC
+                if (WeaponTraits.GoldInlay != null && uniqueComp.CanAddTrait(WeaponTraits.GoldInlay))
                 {
-                    uniqueComp.AddTrait(goldTrait);
+                    uniqueComp.AddTrait(WeaponTraits.GoldInlay);
                 }
                 else
                 {
-                    Log.Warning("[Better Traders Guild] Could not add GoldInlay trait to commander's weapon");
+                    Log.Warning("[Better Traders Guild] Could not add GoldInlay trait to commander's weapon (may require Biotech DLC)");
                 }
 
                 // Trait 3: Random compatible third trait
@@ -194,7 +189,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             }
             else
             {
-                Log.Warning($"[Better Traders Guild] Weapon '{weaponDefName}' does not have CompUniqueWeapon");
+                Log.Warning($"[Better Traders Guild] Weapon '{weaponDef.defName}' does not have CompUniqueWeapon");
             }
 
             return weapon;

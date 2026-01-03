@@ -5,68 +5,11 @@ using Verse;
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
     /// <summary>
-    /// Shared utilities and DLC def cache for CrewQuarters subroom customization.
-    /// Caches DLC-dependent defs once per room generation to avoid repeated lookups.
+    /// Shared utilities for CrewQuarters subroom customization.
+    /// Note: DLC def lookups now use centralized DefRefs classes instead of caching here.
     /// </summary>
     internal static class CrewQuartersHelpers
     {
-        #region DLC Def Cache
-
-        // Odyssey drones
-        internal static ThingDef HunterDroneDef { get; private set; }
-        internal static ThingDef WaspDroneDef { get; private set; }
-
-        // Biotech mechs
-        internal static PawnKindDef MilitorKind { get; private set; }
-
-        // Anomaly items
-        internal static PawnKindDef ShamblerKind { get; private set; }
-        internal static ThingDef ScrapCubeDef { get; private set; }
-        internal static ThingDef GoldenCubeDef { get; private set; }
-
-        // Ideology items
-        internal static ThingDef SlaveHarnessDef { get; private set; }
-
-        // VFE Spacer Module items
-        internal static ThingDef InteractiveTableDef { get; private set; }
-        internal static ThingDef AirPurifierDef { get; private set; }
-
-        // Common defs
-        internal static ThingDef SteelDef { get; private set; }
-        internal static ThingDef ShelfSmallDef { get; private set; }
-
-        /// <summary>
-        /// Caches DLC-dependent defs at start of customization.
-        /// Using DefDatabase.GetNamed with errorOnFail=false - null means DLC not available.
-        /// </summary>
-        internal static void CacheDlcDefs()
-        {
-            // Odyssey drones
-            HunterDroneDef = DefDatabase<ThingDef>.GetNamed("HunterDroneTrap", false);
-            WaspDroneDef = DefDatabase<ThingDef>.GetNamed("WaspDroneTrap", false);
-
-            // Biotech mechs
-            MilitorKind = DefDatabase<PawnKindDef>.GetNamed("Mech_Militor", false);
-
-            // Anomaly items
-            ShamblerKind = DefDatabase<PawnKindDef>.GetNamed("ShamblerSwarmer", false);
-            ScrapCubeDef = DefDatabase<ThingDef>.GetNamed("ScrapCubeSculpture", false);
-            GoldenCubeDef = DefDatabase<ThingDef>.GetNamed("GoldenCube", false);
-
-            // Ideology items
-            SlaveHarnessDef = DefDatabase<ThingDef>.GetNamed("Apparel_BodyStrap", false);
-
-            // VFE Spacer Module items
-            InteractiveTableDef = DefDatabase<ThingDef>.GetNamed("Table_interactive_1x1c", false);
-            AirPurifierDef = DefDatabase<ThingDef>.GetNamed("VFES_AirPurifier", false);
-
-            // Common defs
-            SteelDef = ThingDefOf.Steel;
-            ShelfSmallDef = DefDatabase<ThingDef>.GetNamed("ShelfSmall", false);
-        }
-
-        #endregion
-
         #region Shared Utilities
 
         /// <summary>

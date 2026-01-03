@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
@@ -19,10 +20,6 @@ namespace BetterTradersGuild.RoomContents.MechRepairPost
     /// </summary>
     public class RoomContents_MechRepairPost : RoomContentsWorker
     {
-        // Supply constants
-        private const string STEEL_DEFNAME = "Steel";
-        private const string COMPONENT_DEFNAME = "ComponentIndustrial";
-
         /// <summary>
         /// Main room generation method for the mech repair post.
         /// Spawns XML-defined prefabs, then fills shelves with mech supplies.
@@ -45,16 +42,16 @@ namespace BetterTradersGuild.RoomContents.MechRepairPost
         /// </summary>
         private void FillSupplyShelves(Map map, CellRect roomRect)
         {
-            List<Building_Storage> supplyShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, "Shelf", 2);
+            List<Building_Storage> supplyShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
 
             // Fill each supply shelf with mech supplies
             foreach (Building_Storage shelf in supplyShelves)
             {
                 // Steel for repairs (20-30 units)
-                RoomShelfHelper.AddItemsToShelf(map, shelf, STEEL_DEFNAME, Rand.RangeInclusive(20, 30));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Steel, Rand.RangeInclusive(20, 30));
 
                 // Components for maintenance (2-3 units)
-                RoomShelfHelper.AddItemsToShelf(map, shelf, COMPONENT_DEFNAME, Rand.RangeInclusive(2, 3));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentIndustrial, Rand.RangeInclusive(2, 3));
             }
         }
     }

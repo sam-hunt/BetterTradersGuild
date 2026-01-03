@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -23,13 +24,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Map, IntVec3> action)>
             {
-                (30f, (map, pos) => SpawnItemOnTable(map, pos, "MealSurvivalPack", 1)),
+                (30f, (map, pos) => SpawnItemOnTable(map, pos, Things.MealSurvivalPack, 1)),
                 (5f,  (map, pos) => SpawnRandomBookOnTable(map, pos)),
-                (3f,  (map, pos) => SpawnItemOnTable(map, pos, "RawBerries", Rand.RangeInclusive(10, 15))),
-                (20f, (map, pos) => SpawnItemOnTable(map, pos, "Beer", 1)),
-                (5f,  (map, pos) => SpawnUnfinishedItem(map, pos, "SculptureSmall", CrewQuartersHelpers.SteelDef)),
-                (5f,  (map, pos) => SpawnUnfinishedItem(map, pos, "ComponentSpacer", null)),
-                (3f,  (map, pos) => SpawnUnfinishedItem(map, pos, "Gun_ChargeRifle", null)),
+                (3f,  (map, pos) => SpawnItemOnTable(map, pos, Things.RawBerries, Rand.RangeInclusive(10, 15))),
+                (20f, (map, pos) => SpawnItemOnTable(map, pos, Things.Beer, 1)),
+                (5f,  (map, pos) => SpawnUnfinishedItem(map, pos, Things.SculptureSmall, Things.Steel)),
+                (5f,  (map, pos) => SpawnUnfinishedItem(map, pos, Things.ComponentSpacer, null)),
+                (3f,  (map, pos) => SpawnUnfinishedItem(map, pos, Things.Gun_ChargeRifle, null)),
                 (29f, (map, pos) => { }) // Leave table empty
             };
 
@@ -41,8 +42,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         internal static void Customize(Map map, List<CellRect> subroomRects)
         {
-            ThingDef tableDef = DefDatabase<ThingDef>.GetNamed("Table1x2c", false);
-            if (tableDef == null) return;
+            if (Things.Table1x2c == null) return;
 
             // Find all small tables in subroom areas
             HashSet<Thing> tables = new HashSet<Thing>();
@@ -53,7 +53,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     if (!cell.InBounds(map)) continue;
                     foreach (Thing thing in cell.GetThingList(map))
                     {
-                        if (thing.def == tableDef)
+                        if (thing.def == Things.Table1x2c)
                         {
                             tables.Add(thing);
                         }
@@ -71,9 +71,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// <summary>
         /// Spawns a simple item on a table.
         /// </summary>
-        private static void SpawnItemOnTable(Map map, IntVec3 pos, string defName, int count)
+        private static void SpawnItemOnTable(Map map, IntVec3 pos, ThingDef itemDef, int count)
         {
-            ThingDef itemDef = DefDatabase<ThingDef>.GetNamed(defName, false);
             if (itemDef == null) return;
 
             Thing item = ThingMaker.MakeThing(itemDef);
@@ -97,10 +96,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static Thing GenerateRandomBook()
         {
-            ThingDef novelDef = DefDatabase<ThingDef>.GetNamed("Novel", false);
-            if (novelDef == null) return null;
+            if (Things.Novel == null) return null;
 
-            return BookUtility.MakeBook(novelDef, ArtGenerationContext.Outsider, null);
+            return BookUtility.MakeBook(Things.Novel, ArtGenerationContext.Outsider, null);
         }
 
         /// <summary>
@@ -108,9 +106,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// Uses a faction pawn on the map as the creator. Falls back to raw materials
         /// if no valid recipe/pawn is found.
         /// </summary>
-        private static void SpawnUnfinishedItem(Map map, IntVec3 pos, string targetDefName, ThingDef stuffDef)
+        private static void SpawnUnfinishedItem(Map map, IntVec3 pos, ThingDef targetDef, ThingDef stuffDef)
         {
-            ThingDef targetDef = DefDatabase<ThingDef>.GetNamed(targetDefName, false);
             if (targetDef == null) return;
 
             // Find a recipe that produces this item and has an unfinishedThingDef
@@ -147,7 +144,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
             catch (System.Exception ex)
             {
-                Log.Warning($"[Better Traders Guild] Failed to spawn unfinished {targetDefName}: {ex.Message}");
+                Log.Warning($"[Better Traders Guild] Failed to spawn unfinished {targetDef.defName}: {ex.Message}");
             }
         }
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -23,10 +24,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// <returns>Number of door rows connected</returns>
         internal static int ConnectInteriorDoorRows(Map map, CellRect roomRect)
         {
-            ThingDef hiddenConduitDef = DefDatabase<ThingDef>.GetNamed("HiddenConduit", false);
-            if (hiddenConduitDef == null)
+            if (Things.HiddenConduit == null)
             {
-                Log.Warning("[Better Traders Guild] HiddenConduit def not found, cannot connect door rows");
+                Log.Warning("[Better Traders Guild] Things.HiddenConduit is null, cannot connect door rows");
                 return 0;
             }
 
@@ -81,7 +81,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
                     if (!hasPowerTransmitter)
                     {
-                        Thing conduit = ThingMaker.MakeThing(hiddenConduitDef);
+                        Thing conduit = ThingMaker.MakeThing(Things.HiddenConduit);
                         GenSpawn.Spawn(conduit, cell, map);
                     }
                 }

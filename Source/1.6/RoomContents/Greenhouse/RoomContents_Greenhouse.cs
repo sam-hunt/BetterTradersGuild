@@ -1,8 +1,9 @@
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.Greenhouse
 {
@@ -37,17 +38,14 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
 
             // 2. Spawn plants in hydroponics basins with varied growth
             //    Randomly pick rice or potatoes for the entire room (consistent species per room)
-            ThingDef hydroPlant = Rand.Bool
-                ? DefDatabase<ThingDef>.GetNamed("Plant_Rice", false)
-                : DefDatabase<ThingDef>.GetNamed("Plant_Potato", false);
+            ThingDef hydroPlant = Rand.Bool ? Things.Plant_Rice : Things.Plant_Potato;
             float hydroGrowth = Rand.Range(0.7f, 1.0f);
             RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, hydroPlant, hydroGrowth);
 
             // 3. Spawn daylilies in decorative plant pots
             //    Lower growth for young/budding appearance
-            ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
             float potGrowth = Rand.Range(0.25f, 0.65f);
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, potGrowth);
+            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, potGrowth);
 
             // 4. Fill shelves with harvested crops (corn or cotton)
             FillShelvesWithCrops(map, roomRect);
@@ -61,7 +59,7 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
         /// </summary>
         private void FillShelvesWithCrops(Map map, CellRect roomRect)
         {
-            var shelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, "Shelf", 2);
+            var shelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
 
             foreach (var shelf in shelves)
             {
@@ -69,13 +67,13 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
                 if (Rand.Bool)
                 {
                     // Corn: 2 stacks of 25-40 each
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, "RawCorn", Rand.Range(25, 40));
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, "RawCorn", Rand.Range(25, 40));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.RawCorn, Rand.Range(25, 40));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.RawCorn, Rand.Range(25, 40));
                 }
                 else
                 {
                     // Cotton (cloth): 35-55 stack
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, "Cloth", Rand.Range(35, 55));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Cloth, Rand.Range(35, 55));
                 }
             }
         }

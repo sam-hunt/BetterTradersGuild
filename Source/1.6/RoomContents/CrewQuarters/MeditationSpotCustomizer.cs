@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
 using Verse.AI;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
@@ -27,8 +28,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             var outcomes = new List<(float weight, Action<Thing, Map, Faction> action)>
             {
                 (40f, (spot, map, faction) => spot.Destroy(DestroyMode.Vanish)),
-                (3f,  (spot, map, faction) => ReplaceWithMech(spot, CrewQuartersHelpers.HunterDroneDef, map)),
-                (3f,  (spot, map, faction) => ReplaceWithMech(spot, CrewQuartersHelpers.WaspDroneDef, map)),
+                (3f,  (spot, map, faction) => ReplaceWithMech(spot, Things.HunterDroneTrap, map)),
+                (3f,  (spot, map, faction) => ReplaceWithMech(spot, Things.WaspDroneTrap, map)),
                 (5f,  (spot, map, faction) => TrySpawnHeater(spot, map)),
                 (7f,  (spot, map, faction) => SpawnPetWithKibble(spot, map)),
                 (1f,  (spot, map, faction) => TrySpawnGameOfUr(spot, map)),
@@ -38,20 +39,20 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             };
 
             // Biotech DLC - Militor
-            if (CrewQuartersHelpers.MilitorKind != null)
-                outcomes.Add((2f, (spot, map, faction) => SpawnMechAtPosition(spot, CrewQuartersHelpers.MilitorKind, map, faction)));
+            if (PawnKinds.Mech_Militor != null)
+                outcomes.Add((2f, (spot, map, faction) => SpawnMechAtPosition(spot, PawnKinds.Mech_Militor, map, faction)));
 
             // Anomaly DLC - Shambler
-            if (CrewQuartersHelpers.ShamblerKind != null)
-                outcomes.Add((2f, (spot, map, faction) => SpawnShamblerAtPosition(spot, CrewQuartersHelpers.ShamblerKind, map)));
+            if (PawnKinds.ShamblerSwarmer != null)
+                outcomes.Add((2f, (spot, map, faction) => SpawnShamblerAtPosition(spot, PawnKinds.ShamblerSwarmer, map)));
 
             // VFE Spacer - Interactive Table 1x1
-            if (CrewQuartersHelpers.InteractiveTableDef != null)
-                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, CrewQuartersHelpers.InteractiveTableDef, null, map)));
+            if (Things.Table_interactive_1x1c != null)
+                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, Things.Table_interactive_1x1c, null, map)));
 
             // VFE Spacer - Air Purifier
-            if (CrewQuartersHelpers.AirPurifierDef != null)
-                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, CrewQuartersHelpers.AirPurifierDef, null, map)));
+            if (Things.VFES_AirPurifier != null)
+                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, Things.VFES_AirPurifier, null, map)));
 
             return outcomes;
         }
@@ -62,8 +63,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         internal static void Customize(Map map, List<CellRect> subroomRects, Faction faction)
         {
-            ThingDef meditationSpotDef = DefDatabase<ThingDef>.GetNamed("MeditationSpot", false);
-            if (meditationSpotDef == null) return;
+            if (Things.MeditationSpot == null) return;
 
             // Find all meditation spots in subroom areas
             List<Thing> meditationSpots = new List<Thing>();
@@ -74,7 +74,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     if (!cell.InBounds(map)) continue;
                     foreach (Thing thing in cell.GetThingList(map).ToList())
                     {
-                        if (thing.def == meditationSpotDef)
+                        if (thing.def == Things.MeditationSpot)
                         {
                             meditationSpots.Add(thing);
                         }
@@ -91,30 +91,26 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         private static void TrySpawnHeater(Thing spot, Map map)
         {
-            ThingDef heaterDef = DefDatabase<ThingDef>.GetNamed("Heater", false);
-            if (heaterDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, heaterDef, null, map);
+            if (Things.Heater == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(spot, Things.Heater, null, map);
         }
 
         private static void TrySpawnGameOfUr(Thing spot, Map map)
         {
-            ThingDef gameOfUrDef = DefDatabase<ThingDef>.GetNamed("GameOfUrBoard", false);
-            if (gameOfUrDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, gameOfUrDef, CrewQuartersHelpers.SteelDef, map);
+            if (Things.GameOfUrBoard == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(spot, Things.GameOfUrBoard, Things.Steel, map);
         }
 
         private static void TrySpawnHorseshoePin(Thing spot, Map map)
         {
-            ThingDef horseshoeDef = DefDatabase<ThingDef>.GetNamed("HorseshoesPin", false);
-            if (horseshoeDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, horseshoeDef, CrewQuartersHelpers.SteelDef, map);
+            if (Things.HorseshoesPin == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(spot, Things.HorseshoesPin, Things.Steel, map);
         }
 
         private static void TrySpawnPlantPot(Thing spot, Map map)
         {
-            ThingDef plantPotDef = DefDatabase<ThingDef>.GetNamed("PlantPot", false);
-            if (plantPotDef == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, plantPotDef, CrewQuartersHelpers.SteelDef, map);
+            if (Things.PlantPot == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(spot, Things.PlantPot, Things.Steel, map);
         }
 
         /// <summary>
@@ -165,6 +161,23 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
+        /// Available pet kinds for spawning. Filtered at static construction to remove nulls.
+        /// </summary>
+        private static List<PawnKindDef> _petKinds;
+        private static List<PawnKindDef> PetKinds => _petKinds ?? (_petKinds = BuildPetKindsList());
+
+        private static List<PawnKindDef> BuildPetKindsList()
+        {
+            return new List<PawnKindDef>
+            {
+                PawnKinds.Cat,
+                PawnKinds.Husky,
+                PawnKinds.Labrador,
+                PawnKinds.YorkshireTerrier
+            }.Where(k => k != null).ToList();
+        }
+
+        /// <summary>
         /// Replaces a meditation spot with an animal bed and spawns a pet.
         /// Adds kibble to the nearest reachable small shelf.
         /// </summary>
@@ -175,18 +188,16 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             spot.Destroy(DestroyMode.Vanish);
 
             // Spawn animal bed
-            ThingDef animalBedDef = DefDatabase<ThingDef>.GetNamed("AnimalBed", false);
-            if (animalBedDef != null)
+            if (Things.AnimalBed != null)
             {
-                Thing bed = ThingMaker.MakeThing(animalBedDef, CrewQuartersHelpers.SteelDef);
+                Thing bed = ThingMaker.MakeThing(Things.AnimalBed, Things.Steel);
                 GenSpawn.Spawn(bed, pos, map, rot);
             }
 
             // Spawn random cat or vanilla dog (factionless)
-            string[] petKinds = { "Cat", "Husky", "Labrador", "YorkshireTerrier" };
-            PawnKindDef petKind = DefDatabase<PawnKindDef>.GetNamed(petKinds.RandomElement(), false);
-            if (petKind != null)
+            if (PetKinds.Count > 0)
             {
+                PawnKindDef petKind = PetKinds.RandomElement();
                 Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
                     kind: petKind,
                     faction: null,
@@ -197,19 +208,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
 
             // Find nearest reachable small shelf and add kibble
-            if (CrewQuartersHelpers.ShelfSmallDef != null)
+            if (Things.ShelfSmall != null)
             {
                 Thing nearestShelf = GenClosest.ClosestThingReachable(
                     pos,
                     map,
-                    ThingRequest.ForDef(CrewQuartersHelpers.ShelfSmallDef),
+                    ThingRequest.ForDef(Things.ShelfSmall),
                     PathEndMode.Touch,
                     TraverseParms.For(TraverseMode.PassDoors),
                     maxDistance: 20f);
 
                 if (nearestShelf is Building_Storage shelf)
                 {
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, "Kibble", Rand.RangeInclusive(45, 75));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Kibble, Rand.RangeInclusive(45, 75));
                 }
             }
         }

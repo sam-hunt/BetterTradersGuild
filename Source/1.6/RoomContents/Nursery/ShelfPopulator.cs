@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
@@ -21,7 +22,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
         public static void PopulateNurseryShelf(Map map, CellRect subroomRect)
         {
             // Find shelves in the subroom
-            List<Building_Storage> shelves = RoomShelfHelper.GetShelvesInRoom(map, subroomRect, "Shelf", null);
+            List<Building_Storage> shelves = RoomShelfHelper.GetShelvesInRoom(map, subroomRect, Things.Shelf, null);
 
             if (shelves.Count == 0)
             {
@@ -31,24 +32,27 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
             int itemsAdded = 0;
 
-            // Add baby food (30-50 units)
-            int babyFoodCount = Rand.RangeInclusive(30, 50);
-            Thing babyFood = RoomShelfHelper.AddItemsToShelf(map, shelves[0], "BabyFood", babyFoodCount, setForbidden: true);
-            if (babyFood != null)
+            // Add baby food (30-50 units) - requires Biotech DLC
+            if (Things.BabyFood != null)
             {
-                itemsAdded++;
+                int babyFoodCount = Rand.RangeInclusive(30, 50);
+                Thing babyFood = RoomShelfHelper.AddItemsToShelf(map, shelves[0], Things.BabyFood, babyFoodCount, setForbidden: true);
+                if (babyFood != null)
+                {
+                    itemsAdded++;
+                }
             }
 
             // Add packaged survival meals in two stacks (max stack size is 10)
             // Stack 1: Full stack of 10
-            Thing meals1 = RoomShelfHelper.AddItemsToShelf(map, shelves[0], "MealSurvivalPack", 10, setForbidden: true);
+            Thing meals1 = RoomShelfHelper.AddItemsToShelf(map, shelves[0], Things.MealSurvivalPack, 10, setForbidden: true);
             if (meals1 != null)
             {
                 itemsAdded++;
             }
             // Stack 2: Partial stack of 2-10
             int partialMealCount = Rand.RangeInclusive(2, 10);
-            Thing meals2 = RoomShelfHelper.AddItemsToShelf(map, shelves[0], "MealSurvivalPack", partialMealCount, setForbidden: true);
+            Thing meals2 = RoomShelfHelper.AddItemsToShelf(map, shelves[0], Things.MealSurvivalPack, partialMealCount, setForbidden: true);
             if (meals2 != null)
             {
                 itemsAdded++;

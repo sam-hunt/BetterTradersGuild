@@ -1,9 +1,10 @@
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers;
+using BetterTradersGuild.Helpers.MapGeneration;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
-using BetterTradersGuild.Helpers;
-using BetterTradersGuild.Helpers.MapGeneration;
 
 namespace BetterTradersGuild.Patches.MapGenerationPatches
 {
@@ -66,14 +67,13 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             TerrainReplacementHelper.ReplaceTerrainGlobally(map, ancientTile, metalTile);
 
             // Step 2: Paint all metal tiles with custom orbital steel color
-            ColorDef orbitalSteelColor = DefDatabase<ColorDef>.GetNamed("BTG_OrbitalSteel", errorOnFail: false);
-            if (orbitalSteelColor != null)
+            if (Colors.BTG_OrbitalSteel != null)
             {
-                TerrainReplacementHelper.PaintTerrainGlobally(map, metalTile, orbitalSteelColor);
+                TerrainReplacementHelper.PaintTerrainGlobally(map, metalTile, Colors.BTG_OrbitalSteel);
             }
             else
             {
-                Log.Warning("[Better Traders Guild] Could not find BTG_OrbitalSteel ColorDef. Metal tiles will not be painted.");
+                Log.Warning("[Better Traders Guild] Colors.BTG_OrbitalSteel is null. Metal tiles will not be painted.");
             }
 
             // Step 3: Set all WallLamps to blue color (matches AncientEmergencyLight_Blue aesthetic)

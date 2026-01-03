@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -40,7 +41,6 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         {
             StructureLayout layout = sketch.structureLayout;
 
-            ThingDef hiddenConduitDef = DefDatabase<ThingDef>.GetNamed("HiddenConduit");
             IReadOnlyList<ThingDef> hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();
 
             int placedCount = 0;
@@ -78,7 +78,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
                             continue;
 
                         // Create and spawn the conduit
-                        Thing conduit = ThingMaker.MakeThing(hiddenConduitDef);
+                        Thing conduit = ThingMaker.MakeThing(Things.HiddenConduit);
                         GenSpawn.Spawn(conduit, edgeCell, map);
                         placedCount++;
 

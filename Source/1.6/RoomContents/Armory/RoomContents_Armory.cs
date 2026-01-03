@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
@@ -21,25 +22,6 @@ namespace BetterTradersGuild.RoomContents.Armory
     /// </summary>
     public class RoomContents_Armory : RoomContentsWorker
     {
-        // Shell type constants
-        private const string HIGH_EXPLOSIVE_DEFNAME = "Shell_HighExplosive";
-        private const string ANTIGRAIN_DEFNAME = "Shell_AntigrainWarhead";
-
-        // Weapon constants
-        private const string CHARGE_RIFLE_DEFNAME = "Gun_ChargeRifle";
-        private const string CHARGE_LANCE_DEFNAME = "Gun_ChargeLance";
-
-        // Equipment constants
-        private const string SHIELD_BELT_DEFNAME = "Apparel_ShieldBelt";
-        private const string GUNLINK_DEFNAME = "Apparel_Gunlink";
-
-        // Furniture constants
-        private const string OUTFIT_STAND_DEFNAME = "Building_OutfitStand";
-        private const string ORBITAL_STEEL_COLOR_DEFNAME = "BTG_OrbitalSteel";
-
-        // Marine armor constants
-        private const string MARINE_ARMOR_DEFNAME = "Apparel_PowerArmor";
-        private const string MARINE_HELMET_DEFNAME = "Apparel_PowerArmorHelmet";
 
         /// <summary>
         /// Content pool options for weapon shelves.
@@ -85,7 +67,7 @@ namespace BetterTradersGuild.RoomContents.Armory
         /// </summary>
         private void FillWeaponShelves(Map map, CellRect roomRect)
         {
-            List<Building_Storage> weaponShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, "Shelf", 2);
+            List<Building_Storage> weaponShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
 
             // Fill each weapon shelf with random content
             foreach (Building_Storage shelf in weaponShelves)
@@ -115,13 +97,13 @@ namespace BetterTradersGuild.RoomContents.Armory
                     FillWithMortarShells(map, shelf);
                     break;
                 case ShelfContentPool.ChargeRifles:
-                    FillWithWeapons(map, shelf, CHARGE_RIFLE_DEFNAME);
+                    FillWithWeapons(map, shelf, Things.Gun_ChargeRifle);
                     break;
                 case ShelfContentPool.ShieldBeltGunlink:
                     FillWithShieldBeltGunlink(map, shelf);
                     break;
                 case ShelfContentPool.ChargeLances:
-                    FillWithWeapons(map, shelf, CHARGE_LANCE_DEFNAME);
+                    FillWithWeapons(map, shelf, Things.Gun_ChargeLance);
                     break;
             }
         }
@@ -134,7 +116,7 @@ namespace BetterTradersGuild.RoomContents.Armory
         private void FillWithMortarShells(Map map, Building_Storage shelf)
         {
             // First cell: Guaranteed HE shells
-            RoomShelfHelper.AddItemsToShelf(map, shelf, HIGH_EXPLOSIVE_DEFNAME, Rand.RangeInclusive(6, 12));
+            RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Shell_HighExplosive, Rand.RangeInclusive(6, 12));
 
             // Second cell: Random ordnance
             SpawnRandomOrdnance(map, shelf);
@@ -150,7 +132,7 @@ namespace BetterTradersGuild.RoomContents.Armory
             if (Rand.Chance(0.25f))
             {
                 // 25% chance: Antigrain warheads (rare, powerful)
-                RoomShelfHelper.AddItemsToShelf(map, shelf, ANTIGRAIN_DEFNAME, Rand.RangeInclusive(1, 3));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Shell_AntigrainWarhead, Rand.RangeInclusive(1, 3));
                 return;
             }
 
@@ -186,18 +168,15 @@ namespace BetterTradersGuild.RoomContents.Armory
         /// </summary>
         private List<ThingDef> GetAllMortarShellTypes(bool excludeAntigrain)
         {
-            ThingDef antigrainDef = excludeAntigrain
-                ? DefDatabase<ThingDef>.GetNamed(ANTIGRAIN_DEFNAME, false)
-                : null;
+            ThingDef antigrainDef = excludeAntigrain ? Things.Shell_AntigrainWarhead : null;
 
-            ThingCategoryDef mortarShellCategory = DefDatabase<ThingCategoryDef>.GetNamed("MortarShells", false);
             List<ThingDef> shells = new List<ThingDef>();
 
-            if (mortarShellCategory != null)
+            if (ThingCategories.MortarShells != null)
             {
                 foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
                 {
-                    if (def.thingCategories != null && def.thingCategories.Contains(mortarShellCategory))
+                    if (def.thingCategories != null && def.thingCategories.Contains(ThingCategories.MortarShells))
                     {
                         if (excludeAntigrain && def == antigrainDef)
                             continue;
@@ -228,12 +207,11 @@ namespace BetterTradersGuild.RoomContents.Armory
         /// Uses quality distribution: Normal 70%, Good 50%, Excellent 30%.
         /// Now respects shelf capacity (maxItemsInCell) via helper.
         /// </summary>
-        private void FillWithWeapons(Map map, Building_Storage shelf, string weaponDefName)
+        private void FillWithWeapons(Map map, Building_Storage shelf, ThingDef weaponDef)
         {
-            ThingDef weaponDef = DefDatabase<ThingDef>.GetNamed(weaponDefName, false);
             if (weaponDef == null)
             {
-                Log.Warning($"[Better Traders Guild] Could not find {weaponDefName} def");
+                Log.Warning("[Better Traders Guild] FillWithWeapons called with null weaponDef");
                 return;
             }
 
@@ -281,28 +259,25 @@ namespace BetterTradersGuild.RoomContents.Armory
         /// </summary>
         private void FillWithShieldBeltGunlink(Map map, Building_Storage shelf)
         {
-            ThingDef shieldBeltDef = DefDatabase<ThingDef>.GetNamed(SHIELD_BELT_DEFNAME, false);
-            ThingDef gunlinkDef = DefDatabase<ThingDef>.GetNamed(GUNLINK_DEFNAME, false);
-
             // Shield belts
-            if (shieldBeltDef != null)
+            if (Things.Apparel_ShieldBelt != null)
             {
                 int shieldCount = Rand.RangeInclusive(1, 2);
                 for (int i = 0; i < shieldCount; i++)
                 {
                     QualityCategory quality = GetRandomQuality();
-                    SpawnApparelWithQuality(map, shelf, shieldBeltDef, quality);
+                    SpawnApparelWithQuality(map, shelf, Things.Apparel_ShieldBelt, quality);
                 }
             }
 
             // Gunlinks
-            if (gunlinkDef != null)
+            if (Things.Apparel_Gunlink != null)
             {
                 int gunlinkCount = Rand.RangeInclusive(1, 2);
                 for (int i = 0; i < gunlinkCount; i++)
                 {
                     QualityCategory quality = GetRandomQuality();
-                    SpawnApparelWithQuality(map, shelf, gunlinkDef, quality);
+                    SpawnApparelWithQuality(map, shelf, Things.Apparel_Gunlink, quality);
                 }
             }
         }
@@ -346,16 +321,14 @@ namespace BetterTradersGuild.RoomContents.Armory
         /// </summary>
         private void PaintOutfitStands(Map map, CellRect roomRect)
         {
-            ThingDef outfitStandDef = DefDatabase<ThingDef>.GetNamed(OUTFIT_STAND_DEFNAME, false);
-            if (outfitStandDef == null)
+            if (Things.Building_OutfitStand == null)
             {
                 return; // OutfitStand not available (missing DLC?)
             }
 
-            ColorDef orbitalSteelColor = DefDatabase<ColorDef>.GetNamed(ORBITAL_STEEL_COLOR_DEFNAME, false);
-            if (orbitalSteelColor == null)
+            if (Colors.BTG_OrbitalSteel == null)
             {
-                Log.Warning("[Better Traders Guild] Could not find BTG_OrbitalSteel ColorDef");
+                Log.Warning("[Better Traders Guild] Colors.BTG_OrbitalSteel is null");
                 return;
             }
 
@@ -363,13 +336,13 @@ namespace BetterTradersGuild.RoomContents.Armory
             List<Thing> outfitStands = roomRect.Cells
                 .Where(c => c.InBounds(map))
                 .SelectMany(c => c.GetThingList(map))
-                .Where(t => t.def == outfitStandDef)
+                .Where(t => t.def == Things.Building_OutfitStand)
                 .Distinct()
                 .ToList();
 
             foreach (Thing stand in outfitStands)
             {
-                PaintableFurnitureHelper.TryPaint(stand, orbitalSteelColor);
+                PaintableFurnitureHelper.TryPaint(stand, Colors.BTG_OrbitalSteel);
             }
         }
 
@@ -380,24 +353,22 @@ namespace BetterTradersGuild.RoomContents.Armory
         {
             List<ThingDef> marineArmorSet = new List<ThingDef>();
 
-            ThingDef marineArmor = DefDatabase<ThingDef>.GetNamed(MARINE_ARMOR_DEFNAME, false);
-            if (marineArmor != null)
+            if (Things.Apparel_PowerArmor != null)
             {
-                marineArmorSet.Add(marineArmor);
+                marineArmorSet.Add(Things.Apparel_PowerArmor);
             }
             else
             {
-                Log.Warning($"[Better Traders Guild] Could not find {MARINE_ARMOR_DEFNAME} def");
+                Log.Warning("[Better Traders Guild] Things.Apparel_PowerArmor is null");
             }
 
-            ThingDef marineHelmet = DefDatabase<ThingDef>.GetNamed(MARINE_HELMET_DEFNAME, false);
-            if (marineHelmet != null)
+            if (Things.Apparel_PowerArmorHelmet != null)
             {
-                marineArmorSet.Add(marineHelmet);
+                marineArmorSet.Add(Things.Apparel_PowerArmorHelmet);
             }
             else
             {
-                Log.Warning($"[Better Traders Guild] Could not find {MARINE_HELMET_DEFNAME} def");
+                Log.Warning("[Better Traders Guild] Things.Apparel_PowerArmorHelmet is null");
             }
 
             if (marineArmorSet.Count == 0)

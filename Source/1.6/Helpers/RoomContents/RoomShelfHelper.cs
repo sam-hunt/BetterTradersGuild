@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -25,21 +26,22 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </summary>
         /// <param name="map">The map to search</param>
         /// <param name="searchArea">Area to search (typically the full room rect)</param>
-        /// <param name="shelfDefName">The defName of the shelf ThingDef (default: "Shelf")</param>
+        /// <param name="shelfDef">The ThingDef of the shelf (default: Things.Shelf)</param>
         /// <param name="requiredWidth">Required width of shelf (default: 2 for 2x1 shelves). Pass null for any size.</param>
         /// <returns>List of unique Building_Storage shelves found in the area</returns>
         public static List<Building_Storage> GetShelvesInRoom(
             Map map,
             CellRect searchArea,
-            string shelfDefName = "Shelf",
+            ThingDef shelfDef = null,
             int? requiredWidth = 2)
         {
             List<Building_Storage> shelves = new List<Building_Storage>();
 
-            ThingDef shelfDef = DefDatabase<ThingDef>.GetNamed(shelfDefName, false);
+            // Default to Things.Shelf
+            shelfDef = shelfDef ?? Things.Shelf;
             if (shelfDef == null)
             {
-                Log.Warning($"[Better Traders Guild] Could not find shelf def: {shelfDefName}");
+                Log.Warning("[Better Traders Guild] Things.Shelf is null - shelf def not loaded");
                 return shelves;
             }
 
@@ -77,27 +79,26 @@ namespace BetterTradersGuild.Helpers.RoomContents
         }
 
         /// <summary>
-        /// Spawns a stack of items by defName into a shelf's first available cell.
+        /// Spawns a stack of items into a shelf's first available cell.
         /// Uses StoreUtility.IsValidStorageFor() to check capacity before spawning.
         /// Respects maxItemsInCell limit (3 for shelves).
         /// </summary>
         /// <param name="map">The map containing the shelf</param>
         /// <param name="shelf">The Building_Storage shelf to add items to</param>
-        /// <param name="itemDefName">The defName of the item to spawn</param>
+        /// <param name="itemDef">The ThingDef of the item to spawn</param>
         /// <param name="stackCount">Number of items in the stack</param>
         /// <param name="setForbidden">Whether to mark spawned items as forbidden (default: true)</param>
-        /// <returns>The spawned Thing, or null if no space available or def not found</returns>
+        /// <returns>The spawned Thing, or null if no space available or def is null</returns>
         public static Thing AddItemsToShelf(
             Map map,
             Building_Storage shelf,
-            string itemDefName,
+            ThingDef itemDef,
             int stackCount,
             bool setForbidden = true)
         {
-            ThingDef itemDef = DefDatabase<ThingDef>.GetNamed(itemDefName, false);
             if (itemDef == null)
             {
-                Log.Warning($"[Better Traders Guild] Could not find item def: {itemDefName}");
+                Log.Warning("[Better Traders Guild] AddItemsToShelf called with null itemDef");
                 return null;
             }
 

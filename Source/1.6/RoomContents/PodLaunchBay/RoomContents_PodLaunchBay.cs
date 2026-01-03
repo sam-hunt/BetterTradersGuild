@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
@@ -46,7 +47,7 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
         /// </summary>
         private void FillSupplyShelves(Map map, CellRect roomRect)
         {
-            List<Building_Storage> supplyShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, "Shelf", 2);
+            List<Building_Storage> supplyShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
 
             // Fill each supply shelf with chemfuel and steel
             foreach (Building_Storage shelf in supplyShelves)
@@ -54,13 +55,13 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
                 // Chemfuel for pod fuel (65% chance)
                 if (Rand.Chance(SPAWN_CHANCE))
                 {
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, "Chemfuel", Rand.RangeInclusive(MIN_STACK, MAX_STACK));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Chemfuel, Rand.RangeInclusive(MIN_STACK, MAX_STACK));
                 }
 
                 // Steel for repairs (65% chance)
                 if (Rand.Chance(SPAWN_CHANCE))
                 {
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, "Steel", Rand.RangeInclusive(MIN_STACK, MAX_STACK));
+                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Steel, Rand.RangeInclusive(MIN_STACK, MAX_STACK));
                 }
             }
         }

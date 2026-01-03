@@ -125,9 +125,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             base.FillRoom(map, room, faction, threatPoints);
 
             // 5. Customize subrooms with random items, furniture, and pawns
-            // Cache DLC defs once for all customizers
-            CrewQuartersHelpers.CacheDlcDefs();
-
             // Run customizers in order - meditation spots may add plant pots which get plants later
             MeditationSpotCustomizer.Customize(map, subroomRects, faction);
             ShelfCustomizer.CustomizeSmallShelves(map, subroomRects);
