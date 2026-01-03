@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    When Royalty DLC is active, replace AncientShipBeacon with ShipLandingBeacon
+    in the shuttle landing pad subroom. ShipLandingBeacon is the Royalty version
+    that supports proper landing detection for player shuttles.
+  -->
+  <Operation Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
+    <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things/AncientShipBeacon</xpath>
+    <value>
+      <ShipLandingBeacon>
+        <rects>
+          <li>(0,1,0,1)</li>
+          <li>(8,1,8,1)</li>
+          <li>(0,9,0,9)</li>
+          <li>(8,9,8,9)</li>
+        </rects>
+      </ShipLandingBeacon>
+    </value>
+  </Operation>
+</Patch>

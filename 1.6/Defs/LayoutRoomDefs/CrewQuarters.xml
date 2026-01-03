@@ -8,7 +8,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_CrewQuarters</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CrewQuarters</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.CrewQuarters.RoomContents_CrewQuarters</roomContentsWorkerType>
     <minSingleRectWidth>14</minSingleRectWidth>
     <minSingleRectHeight>11</minSingleRectHeight>
 

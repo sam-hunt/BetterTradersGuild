@@ -8,14 +8,34 @@
 
   <LayoutRoomDef>
     <defName>BTG_Workshop</defName>
-    <minSingleRectWidth>8</minSingleRectWidth>
-    <minSingleRectHeight>8</minSingleRectHeight>
 
     <floorTypes>
       <li>MetalTile</li>
     </floorTypes>
 
     <prefabs>
+      <!-- Workbenches -->
+      <BTG_TableMachining_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_TableMachining_Edge>
+
+      <BTG_FabricationBench_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_FabricationBench_Edge>
+
+      <BTG_ElectricSmelter_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_ElectricSmelter_Edge>
+
+      <!-- Tool storage -->
+      <BTG_ToolCabinets>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_ToolCabinets>
+
       <!-- Component storage -->
       <AncientSpacerCrateWithComponentSpacer>
         <countPerHundredCells>2</countPerHundredCells>
@@ -24,25 +44,27 @@
 
       <!-- Tool and material storage -->
       <IndustrialShelf_Edge>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>3~10</minMaxRange>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~4</minMaxRange>
       </IndustrialShelf_Edge>
 
       <IndustrialShelf_Rows>
-        <countPerHundredCells>2</countPerHundredCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
       </IndustrialShelf_Rows>
 
       <!-- General supplies -->
       <AncientSpacerCrate_Cluster>
-        <countPerHundredCells>2</countPerHundredCells>
-        <minMaxRange>2~6</minMaxRange>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
       </AncientSpacerCrate_Cluster>
     </prefabs>
 
     <parts>
       <WaspDrone>0.1</WaspDrone>
       <CornerArmoredTurret>0.15</CornerArmoredTurret>
+      <!-- Fabrication mech - thematic for crafting/repair workshop -->
+      <BTG_Mech_Fabricor MayRequire="Ludeon.RimWorld.Biotech">0.85</BTG_Mech_Fabricor>
     </parts>
   </LayoutRoomDef>
 </Defs>

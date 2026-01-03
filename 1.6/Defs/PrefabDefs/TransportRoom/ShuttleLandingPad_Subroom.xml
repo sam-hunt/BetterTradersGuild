@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Shuttle Landing Pad (Vanilla)
+
+    Interior landing pad subroom for TransportRoom with vanilla 1x1 vac barriers.
+    Spawned by RoomContents_TransportRoom when VGE is not active.
+
+    Features:
+    - 10x10 prefab, centered in 11x11+ TransportRoom
+    - AncientShipBeacon at corners defines landing area for partial roofing
+    - 1x1 VacBarriers at south and east entries
+    - AncientSealedCrate marker for conduit connection to room edge
+    - HiddenConduit runs along south wall and east wall
+
+    Design (top view, North is up):
+           x: 0 1 2 3 4 5 6 7 8 9
+      z=9:    B C . . . . . L B W
+      z=8:    . . . . . . . . . W
+      z=7:    . . . . . . . . . W
+      z=6:    . . . . . . . . . W
+      z=5:    . . . . . . . . . v
+      z=4:    . . . . . . . . . W
+      z=3:    . . . . . . . . . W
+      z=2:    . . . . . . . . . W
+      z=1:    B L . . . . . L B W
+      z=0:    W W W W v W W W W W
+
+    Legend:
+    W = OrbitalAncientFortifiedWall
+    v = VacBarrier (1x1, atmospheric entry)
+    B = AncientShipBeacon (landing detection corners)
+    C = AncientSealedCrate (conduit marker) + WallLamp above
+    L = WallLamp
+    . = Empty (concrete landing area, z=2-8)
+    ~ = HiddenConduit runs under z=0 row and x=9 column
+  -->
+
+  <PrefabDef>
+    <defName>BTG_ShuttleLandingPad_Subroom</defName>
+    <size>(10,10)</size>
+    <things>
+      <VacBarrier>
+        <position>(4, 0, 0)</position>
+      </VacBarrier>
+      <VacBarrier>
+        <position>(9, 0, 5)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </VacBarrier>
+      <AncientSealedCrate>
+        <position>(1, 0, 9)</position>
+      </AncientSealedCrate>
+      <HiddenConduit>
+        <rects>
+          <li>(0,1,8,1)</li>
+          <li>(0,9,8,9)</li>
+          <li>(0,2,0,8)</li>
+          <li>(8,2,8,8)</li>
+        </rects>
+      </HiddenConduit>
+      <WallLamp>
+        <rects>
+          <li>(1,1,1,1)</li>
+          <li>(7,1,7,1)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(1,9,1,9)</li>
+          <li>(7,9,7,9)</li>
+        </rects>
+      </WallLamp>
+      <AncientShipBeacon>
+        <rects>
+          <li>(0,1,0,1)</li>
+          <li>(8,1,8,1)</li>
+          <li>(0,9,0,9)</li>
+          <li>(8,9,8,9)</li>
+        </rects>
+      </AncientShipBeacon>
+      <PassengerShuttle>
+        <position>(4, 0, 5)</position>
+      </PassengerShuttle>
+      <OrbitalAncientFortifiedWall>
+        <rects>
+          <li>(0,0,3,0)</li>
+          <li>(5,0,9,0)</li>
+          <li>(9,1,9,4)</li>
+          <li>(9,6,9,9)</li>
+        </rects>
+      </OrbitalAncientFortifiedWall>
+    </things>
+    <terrain>
+      <MetalTile>
+        <rects>
+          <!-- Border frame around concrete landing area -->
+          <li>(0,1,8,1)</li>   <!-- Bottom row -->
+          <li>(0,9,8,9)</li>   <!-- Top row -->
+          <li>(0,2,0,8)</li>   <!-- Left column -->
+          <li>(8,2,8,8)</li>   <!-- Right column -->
+        </rects>
+      </MetalTile>
+      <Concrete>
+        <rects>
+          <li>(1,2,7,8)</li>   <!-- Inner landing pad -->
+        </rects>
+      </Concrete>
+    </terrain>
+  </PrefabDef>
+</Defs>

@@ -380,9 +380,9 @@ namespace BetterTradersGuild.Tests.RoomContents
                 availableWidths: new List<int> { 3, 4 },
                 room: room);
 
-            Assert.Equal(1, subrooms.Count);
+            var subroom = Assert.Single(subrooms);
             // Expanded to fill: 3 + 1 (waste expansion) = 4
-            Assert.Equal(4, subrooms[0].Width);
+            Assert.Equal(4, subroom.Width);
         }
 
         [Fact]
@@ -402,9 +402,9 @@ namespace BetterTradersGuild.Tests.RoomContents
                 availableWidths: new List<int> { 3, 4 },
                 room: room);
 
-            Assert.Equal(1, subrooms.Count);
+            var subroom = Assert.Single(subrooms);
             // Expanded to max width 4
-            Assert.Equal(4, subrooms[0].Width);
+            Assert.Equal(4, subroom.Width);
         }
 
         [Fact]

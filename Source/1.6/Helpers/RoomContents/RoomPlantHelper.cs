@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 using UnityEngine;
@@ -28,9 +29,43 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </summary>
         /// <param name="map">The map to spawn plants on</param>
         /// <param name="searchArea">Area to search for plant pots</param>
+        /// <param name="plantDefs">List of plants to randomly choose from (null/empty = use pot's default)</param>
+        /// <param name="growth">Growth percentage (0.0-1.0, where 1.0 = fully mature)</param>
+        public static void SpawnPlantsInPlantPots(Map map, CellRect searchArea, List<ThingDef> plantDefs, float growth)
+        {
+            // Filter out nulls from the list
+            List<ThingDef> validPlants = plantDefs?.Where(p => p != null).ToList();
+
+            // Delegate to single-plant version, randomly selecting for each pot
+            SpawnPlantsInPlantPotsInternal(map, searchArea, validPlants, growth);
+        }
+
+        /// <summary>
+        /// Spawns decorative or food plants in all plant pots within the search area.
+        ///
+        /// LEARNING NOTE: Plant pots use Building_PlantGrower (same as hydroponics basins).
+        /// Plants are NOT stored in a container - they spawn as separate Plant things at
+        /// the same cell as the plant pot. This is fundamentally different from bookcases
+        /// where items go into innerContainer.
+        ///
+        /// USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
+        /// to spawn plants in pots placed by XML prefabs.
+        /// </summary>
+        /// <param name="map">The map to spawn plants on</param>
+        /// <param name="searchArea">Area to search for plant pots</param>
         /// <param name="plantDef">Plant to spawn (null = use pot's default via GetPlantDefToGrow)</param>
         /// <param name="growth">Growth percentage (0.0-1.0, where 1.0 = fully mature)</param>
         public static void SpawnPlantsInPlantPots(Map map, CellRect searchArea, ThingDef plantDef, float growth)
+        {
+            // Wrap single plant in a list (or null if no plant specified)
+            List<ThingDef> plantList = plantDef != null ? new List<ThingDef> { plantDef } : null;
+            SpawnPlantsInPlantPotsInternal(map, searchArea, plantList, growth);
+        }
+
+        /// <summary>
+        /// Internal implementation that handles both single and multiple plant types.
+        /// </summary>
+        private static void SpawnPlantsInPlantPotsInternal(Map map, CellRect searchArea, List<ThingDef> plantDefs, float growth)
         {
             // Validate growth parameter
             if (growth < 0f || growth > 1f)
@@ -38,6 +73,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 Log.Warning($"[Better Traders Guild] Invalid growth value {growth}, clamping to 0.0-1.0");
                 growth = Mathf.Clamp01(growth);
             }
+
+            bool hasPlantOptions = plantDefs != null && plantDefs.Count > 0;
 
             // Find all plant pots and spawn plants in them
             foreach (IntVec3 cell in searchArea.Cells)
@@ -67,7 +104,18 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 if (existingPlant != null) continue;
 
                 // Determine which plant to spawn
-                ThingDef plantToSpawn = plantDef ?? plantPot.GetPlantDefToGrow();
+                ThingDef plantToSpawn;
+                if (hasPlantOptions)
+                {
+                    // Randomly select from provided options
+                    plantToSpawn = plantDefs.RandomElement();
+                }
+                else
+                {
+                    // Fall back to pot's default
+                    plantToSpawn = plantPot.GetPlantDefToGrow();
+                }
+
                 if (plantToSpawn == null)
                 {
                     Log.Warning($"[Better Traders Guild] Could not determine plant type for pot at {cell}");

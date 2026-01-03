@@ -7,7 +7,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_Greenhouse</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Greenhouse</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.Greenhouse.RoomContents_Greenhouse</roomContentsWorkerType>
 
     <floorTypes>
       <li>CarpetGreen</li>
@@ -57,6 +57,8 @@
     <parts>
       <WaspDrone>0.1</WaspDrone>
       <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
+      <!-- Agricultural mech - tends crops in greenhouse -->
+      <BTG_Mech_Agrihand MayRequire="Ludeon.RimWorld.Biotech">0.35</BTG_Mech_Agrihand>
     </parts>
   </LayoutRoomDef>
 </Defs>

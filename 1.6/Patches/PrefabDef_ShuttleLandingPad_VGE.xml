@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Better Traders Guild - VGE Shuttle Landing Pad Patch
+
+    When Vanilla Gravships Expanded is active, replaces:
+    - 1x1 VacBarriers with 5x1 VGE_VacBarrierQuintuple barriers
+    - Wall rects adjusted to accommodate larger barriers
+
+    Vanilla (1x1 barriers at x=4 and z=5):
+      South wall: x=0-3, x=5-9 (gap at x=4)
+      East wall: z=1-4, z=6-9 (gap at z=5)
+
+    VGE (5x1 barriers centered at x=4 and z=5):
+      South wall: x=0-1, x=7-9 (gap at x=2-6)
+      East wall: z=1-2, z=8-9 (gap at z=3-7)
+  -->
+
+  <Operation Class="PatchOperationSequence" MayRequire="vanillaexpanded.gravship">
+    <operations>
+      <!-- Remove vanilla 1x1 VacBarriers -->
+      <li Class="PatchOperationRemove">
+        <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things/VacBarrier</xpath>
+      </li>
+
+      <!-- Add VGE 5x1 barriers -->
+      <li Class="PatchOperationAdd">
+        <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things</xpath>
+        <value>
+          <VGE_VacBarrierQuintuple>
+            <position>(4, 0, 0)</position>
+          </VGE_VacBarrierQuintuple>
+          <VGE_VacBarrierQuintuple>
+            <position>(9, 0, 5)</position>
+            <relativeRotation>Clockwise</relativeRotation>
+          </VGE_VacBarrierQuintuple>
+        </value>
+      </li>
+
+      <!-- Update wall rects for larger barriers -->
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things/OrbitalAncientFortifiedWall/rects</xpath>
+        <value>
+          <rects>
+            <li>(0,0,1,0)</li>
+            <li>(7,0,9,0)</li>
+            <li>(9,1,9,2)</li>
+            <li>(9,8,9,9)</li>
+          </rects>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+
+</Patch>

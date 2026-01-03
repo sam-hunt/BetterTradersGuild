@@ -9,7 +9,7 @@
     <defName>BTG_Classroom</defName>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_Classroom</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.Classroom.RoomContents_Classroom</roomContentsWorkerType>
 
     <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
@@ -47,7 +47,9 @@
 
     <!-- Decorative corner plant pots -->
     <parts>
-      <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
+      <BTG_PlantPot_Corner>
+        <countRange>2~4</countRange>
+      </BTG_PlantPot_Corner>
     </parts>
 
   </LayoutRoomDef>

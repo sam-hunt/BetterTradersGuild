@@ -8,7 +8,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_RecRoom</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_RecRoom</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RecRoom.RoomContents_RecRoom</roomContentsWorkerType>
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
 
@@ -60,6 +60,8 @@
     <parts>
       <WaspDrone>0.05</WaspDrone>
       <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
+      <!-- Cleaning mech - maintains rec room cleanliness -->
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
     </parts>
   </LayoutRoomDef>
 </Defs>

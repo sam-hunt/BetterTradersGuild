@@ -14,7 +14,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_TradeShowcase</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_TradeShowcase</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.TradeShowcase.RoomContents_TradeShowcase</roomContentsWorkerType>
     <minSingleRectWidth>9</minSingleRectWidth>
     <minSingleRectHeight>9</minSingleRectHeight>
 

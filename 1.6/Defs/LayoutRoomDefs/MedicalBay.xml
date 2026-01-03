@@ -17,7 +17,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_MedicalBay</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_MedicalBay</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.MedicalBay.RoomContents_MedicalBay</roomContentsWorkerType>
     <minSingleRectWidth>9</minSingleRectWidth>
     <minSingleRectHeight>9</minSingleRectHeight>
 
@@ -54,22 +54,25 @@
 
       <!-- Compact hospital bed units (interior, low priority) -->
       <BTG_HospitalBeds>
-        <countPerHundredCells>2</countPerHundredCells>
-        <minMaxRange>0~4</minMaxRange>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~2</minMaxRange>
       </BTG_HospitalBeds>
 
-      <!-- Trash shelf along wall edge -->
-      <IndustrialShelf_InnerWall>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>0~1</minMaxRange>
-      </IndustrialShelf_InnerWall>
     </prefabs>
 
-    <!-- Low threat level (vulnerable medical area), but occasional unruly traders -->
     <parts>
+      <!-- Low threat level (vulnerable medical area), but occasional unruly traders -->
       <WaspDrone>0.3</WaspDrone>
       <CornerArmoredTurret>0.2</CornerArmoredTurret>
-      <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
+
+      <!-- Decoration -->
+      <BTG_PlantPot_Corner>
+        <countRange>1~4</countRange>
+      </BTG_PlantPot_Corner>
+
+      <!-- Medical mech - thematic for healthcare facility -->
+      <BTG_Mech_Paramedic MayRequire="Ludeon.RimWorld.Biotech">0.85</BTG_Mech_Paramedic>
     </parts>
+
   </LayoutRoomDef>
 </Defs>

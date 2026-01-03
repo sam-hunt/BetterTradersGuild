@@ -15,7 +15,7 @@
     <defName>BTG_Corridor</defName>
 
     <!-- Custom worker with pre/post-fill hooks for blast door logging and airlock placement -->
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_BTG_Corridor</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.BTG_Corridor.RoomContents_BTG_Corridor</roomContentsWorkerType>
 
   </LayoutRoomDef>
 

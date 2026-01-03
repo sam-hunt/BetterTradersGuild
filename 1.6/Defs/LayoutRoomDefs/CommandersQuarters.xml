@@ -20,7 +20,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_CommandersQuarters</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_CommandersQuarters</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.CommandersQuarters.RoomContents_CommandersQuarters</roomContentsWorkerType>
     <minSingleRectWidth>11</minSingleRectWidth>
     <minSingleRectHeight>11</minSingleRectHeight>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
@@ -80,9 +80,16 @@
       </BTG_SmallSculpture>
     </prefabs>
 
-    <!-- Minimal threat (VIP living quarters) -->
     <parts>
+      <!-- Minimal threat (VIP living quarters) -->
       <WaspDrone>0.2</WaspDrone>
+      <!-- Decoration -->
+      <BTG_PlantPot_Corner>
+        <countRange>1~3</countRange>
+      </BTG_PlantPot_Corner>
+      <!-- Cleaning mech - keeps commander's quarters pristine -->
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
     </parts>
+
   </LayoutRoomDef>
 </Defs>

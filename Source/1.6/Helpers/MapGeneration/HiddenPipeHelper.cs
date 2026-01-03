@@ -69,12 +69,6 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             {
                 cachedHiddenPipeDefs = LoadSupportedHiddenPipeDefs();
                 hiddenPipeDefsInitialized = true;
-
-                if (cachedHiddenPipeDefs.Count > 0)
-                {
-                    Log.Message($"[Better Traders Guild] Loaded {cachedHiddenPipeDefs.Count} supported VE hidden pipe type(s): " +
-                        string.Join(", ", cachedHiddenPipeDefs.Select(d => d.defName)));
-                }
             }
             return cachedHiddenPipeDefs;
         }

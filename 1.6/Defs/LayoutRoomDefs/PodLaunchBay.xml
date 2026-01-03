@@ -17,25 +17,25 @@
     <minSingleRectWidth>10</minSingleRectWidth>
     <minSingleRectHeight>10</minSingleRectHeight>
     <floorTypes>
-      <li>Concrete</li>
+      <li>AncientConcrete</li>
     </floorTypes>
     <edgeTerrain>MetalTile</edgeTerrain>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.RoomContents_PodLaunchBay</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.PodLaunchBay.RoomContents_PodLaunchBay</roomContentsWorkerType>
     <prefabs>
 
-      <BTG_QuadPodLauncher>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>1~2</minMaxRange>
-      </BTG_QuadPodLauncher>
+      <BTG_PodLaunchers>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>1~4</minMaxRange>
+      </BTG_PodLaunchers>
 
       <BTG_SteelShelf_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
+        <minMaxRange>1~3</minMaxRange>
       </BTG_SteelShelf_Edge>
 
       <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
       </BTG_ChemfuelTank_Edge>
 
       <IndustrialShelf_Edge>

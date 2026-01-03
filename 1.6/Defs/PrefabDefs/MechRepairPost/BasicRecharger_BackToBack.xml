@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_BasicRecharger_BackToBack - Two small mech rechargers facing opposite directions
+
+    Features:
+    - 3x4 prefab size
+    - Center placement (not edge-only)
+    - North rotation only (locked orientation)
+    - Two rechargers back-to-back with interaction spots on opposite sides
+
+    Design (top view, North is up):
+        x: 0 1 2
+    z=3:   . I .   (interaction spot for north-facing charger)
+    z=2:   R R R   (BasicRecharger facing North - relativeRotation=Same)
+    z=1:   R R R   (BasicRecharger facing South - relativeRotation=Opposite)
+    z=0:   . I .   (interaction spot for south-facing charger)
+
+    Legend:
+    R = BasicRecharger (3x1)
+    I = Interaction spot (empty)
+  -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_BasicRecharger_BackToBack</defName>
+    <rotations>North</rotations>
+    <size>(3,4)</size>
+    <things>
+      <BasicRecharger>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </BasicRecharger>
+      <BasicRecharger>
+        <position>(0, 0, 2)</position>
+      </BasicRecharger>
+    </things>
+  </PrefabDef>
+
+</Defs>

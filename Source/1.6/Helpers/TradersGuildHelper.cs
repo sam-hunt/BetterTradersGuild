@@ -1,5 +1,6 @@
 using RimWorld;
 using RimWorld.Planet;
+using Verse;
 
 namespace BetterTradersGuild
 {
@@ -37,6 +38,28 @@ namespace BetterTradersGuild
             // PlayerRelationKind.Hostile means they're enemies
             // We want Neutral or Ally
             return faction.PlayerRelationKind != FactionRelationKind.Hostile;
+        }
+
+        /// <summary>
+        /// Checks if a map belongs to a TradersGuild settlement.
+        /// Used by patches that need to determine context during map events.
+        /// </summary>
+        public static bool IsMapInTradersGuildSettlement(Verse.Map map)
+        {
+            if (map == null)
+                return false;
+
+            Settlement settlement = map.Parent as Settlement;
+            return IsTradersGuildSettlement(settlement);
+        }
+
+        /// <summary>
+        /// Gets the TradersGuild faction, or null if not found.
+        /// </summary>
+        public static Faction GetTradersGuildFaction()
+        {
+            return Find.FactionManager?.FirstFactionOfDef(
+                FactionDef.Named("TradersGuild"));
         }
     }
 }

@@ -51,6 +51,20 @@ namespace BetterTradersGuild
         /// </remarks>
         public float cargoInventoryPercentage = 0.60f;
 
+        // ===== PHASE 3: SENTRY DRONE SYSTEM =====
+
+        /// <summary>
+        /// Sentry drone presence as a factor of threat points
+        /// </summary>
+        /// <remarks>
+        /// Range: 0.0-2.0 (0-200% of threat points)
+        /// 0 = disabled (no sentry drones spawn)
+        /// Default: 0.25 (25% of threat points used for drone calculation)
+        /// Uses minimum threat points cap from PawnGroupMakerUtilityMinimumPoints
+        /// Requires useCustomLayouts to be enabled
+        /// </remarks>
+        public float sentryDronePresence = 0.25f;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -58,6 +72,7 @@ namespace BetterTradersGuild
             Scribe_Values.Look(ref useCustomLayouts, "useCustomLayouts", true);
             Scribe_Values.Look(ref useEnhancedPawnGeneration, "useEnhancedPawnGeneration", true);
             Scribe_Values.Look(ref cargoInventoryPercentage, "cargoInventoryPercentage", 0.60f);
+            Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
         }
     }
 
@@ -171,6 +186,42 @@ namespace BetterTradersGuild
             listingStandard.Label("Percentage of trade inventory spawned as cargo in shuttle bay.");
             listingStandard.Label("Set to 0% to disable cargo spawning (reduces save file size).");
             listingStandard.Label("Requires custom layouts to be enabled.");
+            Text.Font = previousFont;
+
+            listingStandard.Gap(24f);
+
+            // ========== SECTION: SENTRY DRONES ==========
+            Text.Font = GameFont.Medium;
+            listingStandard.Label("Sentry Drones");
+            Text.Font = GameFont.Small;
+            listingStandard.Gap(12f);
+
+            // Sentry drone presence slider (grayed out if layouts disabled)
+            int dronePercentageDisplay = (int)(settings.sentryDronePresence * 100f);
+            string droneLabel = $"Sentry drone presence: {dronePercentageDisplay}%";
+
+            if (dronePercentageDisplay == 0)
+            {
+                droneLabel += " (Disabled)";
+            }
+            else if (dronePercentageDisplay == 25)
+            {
+                droneLabel += " (Default)";
+            }
+
+            listingStandard.Label(droneLabel);
+
+            // Slider with range 0-200%, step 25%
+            float droneSliderValue = listingStandard.Slider(settings.sentryDronePresence * 100f, 0f, 200f);
+            settings.sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 25f) * 25f) / 100f;
+
+            listingStandard.Gap(6f);
+
+            // Description text
+            Text.Font = GameFont.Tiny;
+            listingStandard.Label("Factor of threat points used for sentry drone spawning.");
+            listingStandard.Label("Sentry drones patrol until they detect intruders, then attack.");
+            listingStandard.Label("Set to 0% to disable sentry drones. Requires custom layouts.");
             Text.Font = previousFont;
 
             UnityEngine.GUI.enabled = true;

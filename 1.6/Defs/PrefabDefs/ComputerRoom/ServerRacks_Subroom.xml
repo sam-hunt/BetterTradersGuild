@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Server Racks Subroom Prefab
+    Enclosed server room with racks, cooling, and ship computer core.
+
+    Features:
+    - 6x6 prefab size
+    - L-shaped walls (front + right side) for corner/edge placement
+    - Door on front wall for access
+    - Coolers exhaust outward through front wall
+
+    Design (top view, North rotation, door faces South):
+        x: 0 1 2 3 4 5
+    z=5:   B B R C C W   (back row - room wall provides edge at z=6)
+    z=4:   B B R C C W
+    z=3:   R X R c R W
+    z=2:   R . . . R W
+    z=1:   R c . I R W   (right side wall)
+    z=0:   W K D K W W   (front wall with door and coolers)
+
+    Legend:
+    W = OrbitalAncientFortifiedWall
+    D = AncientBlastDoor
+    B = Battery
+    L = WallLamp (Not shown, at 2,5)
+    C = Ship_ComputerCore
+    R = AncientSystemRack
+    X = AncientBox_ComponentSpacer
+    c = AncientSpacerCrate
+    K = Cooler (exhausting south)
+    I = AncientBox_ComponentIndustrial
+    . = Empty space
+  -->
+
+  <PrefabDef>
+    <defName>BTG_ServerRacks_Subroom</defName>
+    <size>(6,6)</size>
+
+    <things>
+      <Battery>
+        <position>(0, 0, 5)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </Battery>
+      <Battery>
+        <position>(1, 0, 4)</position>
+      </Battery>
+      <Ship_ComputerCore>
+        <position>(3, 0, 4)</position>
+      </Ship_ComputerCore>
+      <AncientSpacerCrate>
+        <rects>
+          <li>(1,1,1,1)</li>
+          <li>(3,3,3,3)</li>
+        </rects>
+      </AncientSpacerCrate>
+      <AncientSystemRack>
+        <positions>
+          <li>(0, 0, 2)</li>
+          <li>(4, 0, 2)</li>
+          <li>(2, 0, 4)</li>
+        </positions>
+      </AncientSystemRack>
+      <Cooler>
+        <rects>
+          <li>(1,0,1,0)</li>
+          <li>(3,0,3,0)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </Cooler>
+      <HiddenConduit>
+        <rects>
+          <li>(0,0,5,0)</li>
+          <li>(5,1,5,5)</li>
+          <li>(2,5,2,5)</li>
+        </rects>
+      </HiddenConduit>
+      <WallLamp>
+        <position>(2, 0, 5)</position>
+      </WallLamp>
+      <AncientBlastDoor>
+        <position>(2, 0, 0)</position>
+      </AncientBlastDoor>
+      <AncientBox_ComponentSpacer>
+        <position>(1, 0, 3)</position>
+      </AncientBox_ComponentSpacer>
+      <OrbitalAncientFortifiedWall>
+        <rects>
+          <li>(0,0,0,0)</li>
+          <li>(4,0,5,0)</li>
+          <li>(5,1,5,5)</li>
+        </rects>
+      </OrbitalAncientFortifiedWall>
+      <AncientBox_ComponentIndustrial>
+        <position>(3, 0, 1)</position>
+      </AncientBox_ComponentIndustrial>
+    </things>
+  </PrefabDef>
+</Defs>

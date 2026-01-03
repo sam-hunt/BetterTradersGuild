@@ -93,9 +93,14 @@
         <countRange>1~1</countRange>
       </BTG_Classroom>
 
-      <BTG_MechStation MayRequire="Ludeon.RimWorld.Biotech">
+      <BTG_MechRepairPost MayRequire="Ludeon.RimWorld.Biotech">
         <countRange>0~2</countRange>
-      </BTG_MechStation>
+      </BTG_MechRepairPost>
+
+      <!-- Mech security room with volatile gestator tanks -->
+      <BTG_MechSecurityPost>
+        <countRange>0~1</countRange>
+      </BTG_MechSecurityPost>
 
       <!-- Security and operations -->
       <BTG_Armory>

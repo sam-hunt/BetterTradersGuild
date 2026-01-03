@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -15,8 +14,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
     /// astrofuel) to ship landing areas for docked vessel resupply.
     ///
     /// TECHNICAL APPROACH:
-    /// - Detects landing pads by finding AncientShipBeacon things outside structure
-    /// - Clusters beacons by grid-aligned direct paths (handles large pads >50 cells)
+    /// - Uses LandingPadDetector to find external landing pads via beacon markers
     /// - Traces BFS paths from pad edges back to main structure following terrain
     /// - Places visible VE pipes along the paths
     ///
@@ -27,16 +25,6 @@ namespace BetterTradersGuild.Helpers.MapGeneration
     /// </summary>
     public static class LandingPadPipeExtender
     {
-        /// <summary>
-        /// Data structure representing a detected landing pad.
-        /// </summary>
-        public struct LandingPadInfo
-        {
-            public CellRect BoundingRect;
-            public IntVec3 Centroid;
-            public List<IntVec3> BeaconPositions;
-        }
-
         /// <summary>
         /// Main entry point: Extends VE pipes from structure to all landing pads.
         /// Called after LayoutConduitPlacer.PlaceHiddenConduits() in the Postfix.
@@ -52,8 +40,8 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             // Get main structure bounding rect
             CellRect structureRect = sketch.structureLayout.container;
 
-            // Detect landing pads via beacons
-            List<LandingPadInfo> landingPads = DetectLandingPads(map, structureRect);
+            // Detect landing pads via beacons (external to structure)
+            List<LandingPadDetector.LandingPadInfo> landingPads = LandingPadDetector.DetectOutsideRect(map, structureRect);
             if (landingPads.Count == 0)
                 return 0;
 
@@ -86,7 +74,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             int totalPlaced = 0;
 
             // For each landing pad, trace path to structure and place pipes
-            foreach (LandingPadInfo pad in landingPads)
+            foreach (LandingPadDetector.LandingPadInfo pad in landingPads)
             {
                 // Find path from pad edge to structure wall
                 List<IntVec3> path = FindTerrainPathToStructure(map, pad, structureRect, orbitalPlatformTerrain, orbitalWallDef);
@@ -141,198 +129,18 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         }
 
         /// <summary>
-        /// Detects landing pads by finding and clustering AncientShipBeacon things.
-        /// Filters out beacons inside structure rect (handled separately via prefabs).
-        /// </summary>
-        private static List<LandingPadInfo> DetectLandingPads(Map map, CellRect structureRect)
-        {
-            // Find AncientShipBeacon ThingDef
-            ThingDef beaconDef = DefDatabase<ThingDef>.GetNamedSilentFail("AncientShipBeacon");
-            if (beaconDef == null)
-                return new List<LandingPadInfo>();
-
-            // Get all beacons on map
-            List<Thing> allBeacons = map.listerThings.ThingsOfDef(beaconDef);
-            if (allBeacons.Count == 0)
-                return new List<LandingPadInfo>();
-
-            // Filter to beacons OUTSIDE structure rect
-            List<Thing> externalBeacons = allBeacons
-                .Where(b => !structureRect.Contains(b.Position))
-                .ToList();
-
-            if (externalBeacons.Count == 0)
-                return new List<LandingPadInfo>();
-
-            // Get terrain for connectivity check
-            TerrainDef orbitalPlatformTerrain = DefDatabase<TerrainDef>.GetNamedSilentFail("OrbitalPlatform");
-            if (orbitalPlatformTerrain == null)
-                return new List<LandingPadInfo>();
-
-            // Cluster beacons by grid-aligned direct paths (not terrain connectivity)
-            // This correctly separates pads connected by walkways
-            List<List<Thing>> clusters = ClusterBeaconsByGridAlignment(map, externalBeacons, orbitalPlatformTerrain);
-
-            // Convert clusters to LandingPadInfo
-            List<LandingPadInfo> landingPads = new List<LandingPadInfo>();
-            foreach (List<Thing> cluster in clusters)
-            {
-                if (cluster.Count == 0)
-                    continue;
-
-                // Calculate bounding rect from beacon positions
-                int minX = cluster.Min(b => b.Position.x);
-                int maxX = cluster.Max(b => b.Position.x);
-                int minZ = cluster.Min(b => b.Position.z);
-                int maxZ = cluster.Max(b => b.Position.z);
-
-                CellRect boundingRect = new CellRect(minX, minZ, maxX - minX + 1, maxZ - minZ + 1);
-                IntVec3 centroid = boundingRect.CenterCell;
-
-                landingPads.Add(new LandingPadInfo
-                {
-                    BoundingRect = boundingRect,
-                    Centroid = centroid,
-                    BeaconPositions = cluster.Select(b => b.Position).ToList()
-                });
-            }
-
-            return landingPads;
-        }
-
-        /// <summary>
-        /// Clusters beacons that form grid-aligned rectangles with direct terrain paths.
-        /// Two beacons belong to same pad if:
-        /// 1. They share the same X or Z coordinate (grid-aligned on same row/column)
-        /// 2. The straight-line path between them is all OrbitalPlatform terrain
-        ///
-        /// This correctly separates pads connected by walkways because:
-        /// - Same pad: beacons at corners share X/Z coords with direct pad-edge paths
-        /// - Different pads: beacons don't share coordinates (or path isn't continuous)
-        ///
-        /// Handles large landing pads (DoLargePlatforms) where beacons can be >50 cells apart.
-        /// </summary>
-        private static List<List<Thing>> ClusterBeaconsByGridAlignment(
-            Map map, List<Thing> beacons, TerrainDef terrainDef)
-        {
-            int n = beacons.Count;
-            if (n == 0)
-                return new List<List<Thing>>();
-
-            // Union-Find parent array (each beacon starts as its own cluster)
-            int[] parent = new int[n];
-            for (int i = 0; i < n; i++)
-                parent[i] = i;
-
-            // Find with path compression
-            int Find(int x)
-            {
-                if (parent[x] != x)
-                    parent[x] = Find(parent[x]);
-                return parent[x];
-            }
-
-            // Union two clusters
-            void Union(int x, int y)
-            {
-                int px = Find(x);
-                int py = Find(y);
-                if (px != py)
-                    parent[px] = py;
-            }
-
-            // Check all pairs for grid-aligned direct connections
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = i + 1; j < n; j++)
-                {
-                    IntVec3 posI = beacons[i].Position;
-                    IntVec3 posJ = beacons[j].Position;
-
-                    // Only consider grid-aligned pairs (same X or same Z)
-                    if (posI.x != posJ.x && posI.z != posJ.z)
-                        continue;
-
-                    // Check if direct straight-line path exists on terrain
-                    if (HasDirectTerrainPath(map, posI, posJ, terrainDef))
-                    {
-                        Union(i, j);
-                    }
-                }
-            }
-
-            // Build clusters from union-find results
-            Dictionary<int, List<Thing>> clusterMap = new Dictionary<int, List<Thing>>();
-            for (int i = 0; i < n; i++)
-            {
-                int root = Find(i);
-                if (!clusterMap.ContainsKey(root))
-                    clusterMap[root] = new List<Thing>();
-                clusterMap[root].Add(beacons[i]);
-            }
-
-            return clusterMap.Values.ToList();
-        }
-
-        /// <summary>
-        /// Checks if a straight horizontal or vertical path between two cells
-        /// consists entirely of the specified terrain type.
-        /// Returns false if cells are not grid-aligned (neither same X nor same Z).
-        /// </summary>
-        private static bool HasDirectTerrainPath(Map map, IntVec3 a, IntVec3 b, TerrainDef terrainDef)
-        {
-            // Must be grid-aligned (same X or same Z)
-            bool sameX = a.x == b.x;
-            bool sameZ = a.z == b.z;
-
-            if (!sameX && !sameZ)
-                return false;
-
-            if (sameX && sameZ)
-                return true; // Same cell
-
-            if (sameX)
-            {
-                // Vertical path
-                int minZ = System.Math.Min(a.z, b.z);
-                int maxZ = System.Math.Max(a.z, b.z);
-                for (int z = minZ; z <= maxZ; z++)
-                {
-                    IntVec3 cell = new IntVec3(a.x, 0, z);
-                    if (!cell.InBounds(map) || map.terrainGrid.TerrainAt(cell) != terrainDef)
-                        return false;
-                }
-            }
-            else
-            {
-                // Horizontal path
-                int minX = System.Math.Min(a.x, b.x);
-                int maxX = System.Math.Max(a.x, b.x);
-                for (int x = minX; x <= maxX; x++)
-                {
-                    IntVec3 cell = new IntVec3(x, 0, a.z);
-                    if (!cell.InBounds(map) || map.terrainGrid.TerrainAt(cell) != terrainDef)
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Finds a path from landing pad edge toward main structure,
         /// following OrbitalPlatform terrain using BFS.
         /// </summary>
         private static List<IntVec3> FindTerrainPathToStructure(
             Map map,
-            LandingPadInfo padInfo,
+            LandingPadDetector.LandingPadInfo padInfo,
             CellRect structureRect,
             TerrainDef terrainDef,
             ThingDef wallDef)
         {
             // Find the edge of the pad closest to the structure
             IntVec3 structureCenter = structureRect.CenterCell;
-            IntVec3 padCenter = padInfo.Centroid;
 
             // Determine which side of the pad faces the structure
             IntVec3 startCell = FindClosestPadEdgeToStructure(padInfo.BoundingRect, structureCenter);

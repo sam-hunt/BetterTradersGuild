@@ -108,6 +108,49 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 
 **Hypothesis:** EdgeOnly system may not be designed to handle larger structures, leading to placement and validation issues.
 
+### Issue 5: Buildings with defaultPlacingRot=South Need relativeRotation
+
+**Problem:** Buildings with `<defaultPlacingRot>South</defaultPlacingRot>` in their ThingDef will **silently fail to spawn** in edge prefabs unless they have `<relativeRotation>Opposite</relativeRotation>`.
+
+**Symptom:** The prefab placement appears to succeed (no errors logged), but the building simply doesn't appear. Other items in the prefab may spawn normally.
+
+**Root Cause:** When an edge prefab is placed, items inside inherit the prefab's rotation. Buildings that default to South will face the wrong direction (toward the wall instead of into the room), causing:
+1. The interaction cell (if any) to be placed inside the wall or outside prefab bounds
+2. Placement validation to fail silently
+
+**Affected Buildings (non-exhaustive):**
+
+- `CommsConsole` - has `defaultPlacingRot=South` and `interactionCellOffset=(0,0,2)`
+- Potentially other buildings with South-facing defaults
+
+**Solution:** Always add `<relativeRotation>Opposite</relativeRotation>` for buildings with `defaultPlacingRot=South`:
+
+```xml
+<!-- WRONG - CommsConsole won't spawn! -->
+<CommsConsole>
+  <position>(0, 0, 1)</position>
+</CommsConsole>
+
+<!-- CORRECT -->
+<CommsConsole>
+  <position>(0, 0, 1)</position>
+  <relativeRotation>Opposite</relativeRotation>
+</CommsConsole>
+```
+
+**How to Check:** Look up the building's ThingDef for `<defaultPlacingRot>`. If it's `South`, add `relativeRotation=Opposite`. If unspecified (defaults to North) or explicitly North, no relativeRotation needed.
+
+**Working Examples in BTG:**
+
+| Prefab | Building | defaultPlacingRot | relativeRotation |
+|--------|----------|-------------------|------------------|
+| `BTG_TableMachining_Edge` | TableMachining | (North) | Opposite |
+| `BTG_ElectricSmelter_Edge` | ElectricSmelter | (North) | Opposite |
+| `BTG_HospitalBeds_Edge` | HospitalBed | (North) | Opposite |
+| `BTG_CommsConsole_Edge` | CommsConsole | **South** | **Opposite** (required!) |
+
+**Note:** Vanilla has **no prefabs** containing `CommsConsole`, so this edge case wasn't discovered from vanilla examples. Most production benches default to North rotation.
+
 ## How Vanilla Handles Complex Subrooms
 
 ### RoomContents_TransportRoom (OrbitalTransportRoom)

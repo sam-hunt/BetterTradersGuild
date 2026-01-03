@@ -10,23 +10,24 @@
 
     Design (top view, North is up, entry from z=0):
         x: 0 1 2 3
-    z=4:   ? ? ? ?
-    z=3:   ? ? ? ?
-    z=2:   ? ? ? ?
-    z=1:   ? ? ? ?
-    z=0:   ? ? ? ?
+    z=4:   S B B N
+    z=3:   T B B R
+    z=2:   T . M R
+    z=1:   C . . P
+    z=0:   W W d W
 
     Legend:
-    B = DoubleBed (steel, 2x2, facing south)
-    N = EndTable (steel nightstand)
+    W = OrbitalAncientFortifiedWall
+    d = AncientBlastDoor (with HiddenConduit)
     T = Table1x2c (steel desk, 1x2)
-    C = DiningChair (steel, facing desk)
     P = PlantPot (steel)
+    C = DiningChair (steel, facing north)
     M = MeditationSpot
+    R = Dresser (steel)
     S = ShelfSmall (steel)
-    L = WallLamp (on west wall above desk, not shown)
-    D = AncientBlastDoor
-    W = OrbitalAncientFortifiedWall (with hidden conduit)
+    B = DoubleBed (steel, facing south)
+    N = EndTable (steel)
+    L = WallLamp (not shown, attaches to south wall)
     . = empty space
   -->
 

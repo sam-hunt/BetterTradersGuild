@@ -148,5 +148,45 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             return buildings;
         }
+
+        /// <summary>
+        /// Connects all buildings of a specific type to the room edge using hidden conduits.
+        /// Convenience method for the common pattern of connecting power-hungry interior
+        /// buildings (sun lamps, vitals monitors, etc.) to the wall conduit network.
+        /// </summary>
+        /// <param name="map">The map</param>
+        /// <param name="roomRect">The room's bounding rect</param>
+        /// <param name="buildingDefName">The defName of buildings to connect (e.g., "SunLamp")</param>
+        /// <returns>Number of conduit segments placed</returns>
+        public static int ConnectBuildingsToConduitNetwork(Map map, CellRect roomRect, string buildingDefName)
+        {
+            return ConnectBuildingsToInfrastructure(map, roomRect, buildingDefName, "HiddenConduit");
+        }
+
+        /// <summary>
+        /// Connects all buildings of a specific type to the room edge using a specified
+        /// infrastructure type (conduits, pipes, etc.).
+        /// </summary>
+        /// <param name="map">The map</param>
+        /// <param name="roomRect">The room's bounding rect</param>
+        /// <param name="buildingDefName">The defName of buildings to connect</param>
+        /// <param name="infrastructureDefName">The defName of infrastructure to place (e.g., "HiddenConduit", "VCHE_UndergroundChemfuelPipe")</param>
+        /// <returns>Number of infrastructure segments placed, or 0 if infrastructure def not found</returns>
+        public static int ConnectBuildingsToInfrastructure(Map map, CellRect roomRect, string buildingDefName, string infrastructureDefName)
+        {
+            ThingDef infrastructureDef = DefDatabase<ThingDef>.GetNamedSilentFail(infrastructureDefName);
+            if (infrastructureDef == null)
+                return 0;
+
+            List<Building> buildings = FindBuildingsInRoom(map, roomRect, buildingDefName);
+            int totalPlaced = 0;
+
+            foreach (Building building in buildings)
+            {
+                totalPlaced += ConnectToNearestEdge(map, building.Position, roomRect, infrastructureDef);
+            }
+
+            return totalPlaced;
+        }
     }
 }

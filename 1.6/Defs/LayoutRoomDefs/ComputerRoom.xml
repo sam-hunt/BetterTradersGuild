@@ -8,8 +8,9 @@
 
   <LayoutRoomDef>
     <defName>BTG_ComputerRoom</defName>
-    <minSingleRectWidth>8</minSingleRectWidth>
-    <minSingleRectHeight>8</minSingleRectHeight>
+    <minSingleRectWidth>12</minSingleRectWidth>
+    <minSingleRectHeight>12</minSingleRectHeight>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.ComputerRoom.RoomContents_ComputerRoom</roomContentsWorkerType>
 
     <floorTypes>
       <li>MetalTile</li>
@@ -28,12 +29,7 @@
         <minMaxRange>2~4</minMaxRange>
       </AncientSecurityTerminal>
 
-      <!-- Server racks and filing cabinets -->
-      <AncientSystemRacks_Rows>
-        <countPerHundredCells>3</countPerHundredCells>
-        <minMaxRange>1~8</minMaxRange>
-      </AncientSystemRacks_Rows>
-
+      <!-- Filing cabinets -->
       <AncientFilingCabinet_Edge>
         <countPerTenEdgeCells>3</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>

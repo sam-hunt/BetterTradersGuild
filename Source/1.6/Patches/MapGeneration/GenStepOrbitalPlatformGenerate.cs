@@ -199,45 +199,17 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             }
 
             // STEP 4: Place hidden conduits (and VE hidden pipes) under all wall cells
-            int conduitCount = LayoutConduitPlacer.PlaceHiddenConduits(map, sketch);
+            LayoutConduitPlacer.PlaceHiddenConduits(map, sketch);
 
             // STEP 4b: Extend visible VE pipes to external landing pads (for fluid refueling)
-            int landingPadPipeCount = LandingPadPipeExtender.ExtendPipesToLandingPads(map, sketch);
-
-            // Build log message including VE pipe info if applicable
-            var hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();
-            int vePipeTypeCount = hiddenPipeDefs.Count;
-
-            if (vePipeTypeCount > 0)
-            {
-                Log.Message($"[Better Traders Guild] Placed {conduitCount} conduits under walls, " +
-                            $"{conduitCount * vePipeTypeCount} VE hidden pipes ({vePipeTypeCount} type(s)), " +
-                            $"and {landingPadPipeCount} visible pipe positions to landing pads " +
-                            $"in settlement '{settlement.Name}' for station-wide networks.");
-            }
-            else
-            {
-                // No VE pipe mods - only conduits under walls, no landing pad extension
-                Log.Message($"[Better Traders Guild] Placed {conduitCount} conduits under walls " +
-                            $"in settlement '{settlement.Name}' for station-wide power network.");
-            }
+            LandingPadPipeExtender.ExtendPipesToLandingPads(map, sketch);
 
             // STEP 5: Fill VE pipe network tanks to random levels
-            int filledTankCount = PipeNetworkTankFiller.FillTanksOnMap(map);
-            if (filledTankCount > 0)
-            {
-                Log.Message($"[Better Traders Guild] Filled {filledTankCount} VE pipe network tank(s) " +
-                            $"in settlement '{settlement.Name}'.");
-            }
+            PipeNetworkTankFiller.FillTanksOnMap(map);
 
             // STEP 6: Close all VE pipe valves and remove faction ownership
             // Simulates station lockdown - players must claim valves room-by-room
-            int closedValveCount = PipeValveHandler.CloseAllValvesAndClearFaction(map);
-            if (closedValveCount > 0)
-            {
-                Log.Message($"[Better Traders Guild] Closed {closedValveCount} VE pipe valve(s) " +
-                            $"and removed faction ownership in settlement '{settlement.Name}'.");
-            }
+            PipeValveHandler.CloseAllValvesAndClearFaction(map);
         }
     }
 }

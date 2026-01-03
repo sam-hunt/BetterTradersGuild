@@ -10,22 +10,19 @@
 
     Design (top view, North is up, entry from z=0):
         x: 0 1 2
-    z=3:   ? ? ?
-    z=2:   ? ? ?
-    z=1:   ? ? ?
-    z=0:   ? ? ?
+    z=3:   B B S
+    z=2:   B B M
+    z=1:   R R .
+    z=0:   W W d
 
     Legend:
-    B = DoubleBed (steel, 2x2, facing south)
-    N = EndTable (steel nightstand)
-    T = Table1x2c (steel desk, 1x2)
-    C = DiningChair (steel, facing desk)
-    P = PlantPot (steel)
-    M = MeditationSpot
+    W = OrbitalAncientFortifiedWall
+    d = AncientBlastDoor (with HiddenConduit)
+    B = DoubleBed (steel, facing south)
     S = ShelfSmall (steel)
-    L = WallLamp (on west wall above desk, not shown)
-    D = AncientBlastDoor
-    W = OrbitalAncientFortifiedWall (with hidden conduit)
+    R = Dresser (steel)
+    M = MeditationSpot
+    L = WallLamp (not shown, attaches to south wall)
     . = empty space
   -->
 
@@ -71,12 +68,12 @@
         <quality>Good</quality>
       </DoubleBed>
 
-      <EndTable>
+      <ShelfSmall>
         <position>(2, 0, 3)</position>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>Steel</stuff>
         <quality>Good</quality>
-      </EndTable>
+      </ShelfSmall>
 
     </things>
   </PrefabDef>

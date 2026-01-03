@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Mech Security Post
+
+    High-security mechanoid containment area with volatile gestator tanks.
+    When pawns approach the Ancient gestator tanks, they burst open releasing
+    hostile mechanoids. This provides station security against intruders.
+
+    Uses Odyssey's GestationTanks part which has the following behavior:
+    - 20% Proximity: Triggers when pawns get close, releasing hostile mechs
+    - 30% Dormant: Contains dormant mechs that may activate later
+    - 50% Empty: Empty tanks (already triggered or unused)
+
+    Note: This is distinct from MechRepairPost which contains safe,
+    functional equipment for maintaining friendly station mechs.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_MechSecurityPost</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.MechSecurityPost.RoomContents_MechSecurityPost</roomContentsWorkerType>
+    <minSingleRectWidth>8</minSingleRectWidth>
+    <minSingleRectHeight>8</minSingleRectHeight>
+    <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
+
+    <edgeTerrain>MetalTile</edgeTerrain>
+    <floorTypes>
+      <li>Concrete</li>
+      <li>AncientConcrete</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Mech pylons along walls for structural support -->
+      <MechPylon_Structure_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~4</minMaxRange>
+      </MechPylon_Structure_Edge>
+
+      <!-- Storage cylinders for mech components -->
+      <AncientStorageCylinder_Edge>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~5</minMaxRange>
+      </AncientStorageCylinder_Edge>
+
+      <!-- Fortified wall segments for cover -->
+      <AncientFortifiedWall_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>2~6</minMaxRange>
+      </AncientFortifiedWall_Edge>
+    </prefabs>
+
+    <!-- Core security elements -->
+    <parts>
+      <!-- Volatile gestator tanks that release hostile mechs when approached -->
+      <GestationTanks />
+
+      <!-- Additional security measures -->
+      <AncientBarricades />
+      <CornerMiniTurret>0.5</CornerMiniTurret>
+
+      <!-- Combat mechs on active patrol -->
+      <BTG_Mech_Militor MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>1~2</countRange>
+      </BTG_Mech_Militor>
+    </parts>
+  </LayoutRoomDef>
+</Defs>
