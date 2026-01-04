@@ -35,7 +35,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 
 1. **C# RoomContentsWorker classes** (programmatic generation)
 
-   - `RoomContents_TransportRoom` - creates subrooms with walls and doors
+   - `RoomContents_ShuttleBay` - creates subrooms with walls and doors
    - `RoomContents_InnerCourtyardRooms` - creates interior room structures
    - Full control over wall placement, door types, rotation
 
@@ -153,7 +153,7 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 
 ## How Vanilla Handles Complex Subrooms
 
-### RoomContents_TransportRoom (OrbitalTransportRoom)
+### RoomContents_ShuttleBay (ShuttleBay)
 
 **Approach:** C# RoomContentsWorker programmatically generates subroom
 
@@ -161,8 +161,8 @@ Vanilla **never uses** edgeOnly XML prefabs for enclosed subrooms. Instead, vani
 
 ```xml
 <LayoutRoomDef>
-  <defName>OrbitalTransportRoom</defName>
-  <roomContentsWorkerType>RoomContents_TransportRoom</roomContentsWorkerType>
+  <defName>ShuttleBay</defName>
+  <roomContentsWorkerType>RoomContents_ShuttleBay</roomContentsWorkerType>
   <requiresSingleRectRoom>true</requiresSingleRectRoom>
   <noRoof>true</noRoof>
   <minSingleRectWidth>11</minSingleRectWidth>
@@ -357,7 +357,7 @@ foreach (IntVec3 wallCell in wallPositions)
 }
 ```
 
-**Why:** Precise control over every wall cell, matching vanilla RoomContents_TransportRoom approach.
+**Why:** Precise control over every wall cell, matching vanilla RoomContents_ShuttleBay approach.
 
 ## Conclusion
 
@@ -373,6 +373,6 @@ EdgeOnly XML prefabs are a lightweight system for simple furniture placement. Co
 - See `CAPTAINS_QUARTERS_IMPLEMENTATION.md` for implementation plan
 - See `PREFAB_EDGEONLY_GUIDE.md` for edgeOnly coordinate system details
 - Vanilla examples:
-  - `RoomContents_TransportRoom` - `/Data/Odyssey/Defs/LayoutRoomDefs/LayoutRooms_OrbitalPlatform.xml` (line 199)
+  - `RoomContents_ShuttleBay` - `/Data/Odyssey/Defs/LayoutRoomDefs/LayoutRooms_OrbitalPlatform.xml` (line 199)
   - `Subroom_ElectricStove` - `/Data/Odyssey/Defs/PrefabDefs/CommonRoomPrefabs.xml` (line 188)
   - `Subroom_Crib` - `/Data/Odyssey/Defs/PrefabDefs/CommonRoomPrefabs.xml` (line 225)

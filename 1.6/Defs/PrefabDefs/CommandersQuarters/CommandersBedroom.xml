@@ -14,7 +14,7 @@
     z=5:   S N R R G W
     z=4:   D . R R . W
     z=3:   D . . . . W
-    z=2:   P . . . . W
+    z=2:   P . . . K W
     z=1:   V . T T A W
     z=0:   W d W W W W
 
@@ -31,6 +31,7 @@
     V = VFES_AirPurifier (optional, VFE Spacer)
     G = SmallShelf (marble) for unique weapon
     N = EndTable (marble)
+    K = Kibble (75 stack)
     . = CarpetPurpleDeep floor
 
     Placement Strategy:
@@ -54,6 +55,11 @@
         <stuff>Leather_Rhinoceros</stuff>
         <quality>Excellent</quality>
       </AnimalBed>
+
+      <Kibble>
+        <position>(4, 0, 2)</position>
+        <stackCountRange>75~75</stackCountRange>
+      </Kibble>
 
       <RoyalBed>
         <position>(3, 0, 5)</position>
@@ -125,6 +131,11 @@
           <li>(0,0,5,5)</li>
         </rects>
       </CarpetPurpleDeep>
+      <MetalTile>
+        <rects>
+          <li>(4,2,4,2)</li>
+        </rects>
+      </MetalTile>
     </terrain>
 
   </PrefabDef>

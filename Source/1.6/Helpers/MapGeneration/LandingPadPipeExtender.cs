@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -45,27 +46,14 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             if (landingPads.Count == 0)
                 return 0;
 
+            // Verify required defs are available
+            if (Terrains.OrbitalPlatform == null || Things.OrbitalAncientFortifiedWall == null)
+                return 0;
+
             Log.Message($"[Better Traders Guild] Detected {landingPads.Count} external landing pad(s) for pipe extension.");
 
-            // Get terrain and thing defs for placement
-            TerrainDef orbitalPlatformTerrain = DefDatabase<TerrainDef>.GetNamedSilentFail("OrbitalPlatform");
-            if (orbitalPlatformTerrain == null)
-            {
-                Log.Warning("[Better Traders Guild] Could not find OrbitalPlatform terrain def for landing pad pipe extension.");
-                return 0;
-            }
-
-            // Get the orbital wall def for structure detection
-            // This ensures we connect to actual structure walls, not random impassable things
-            ThingDef orbitalWallDef = DefDatabase<ThingDef>.GetNamedSilentFail("OrbitalAncientFortifiedWall");
-            if (orbitalWallDef == null)
-            {
-                Log.Warning("[Better Traders Guild] Could not find OrbitalAncientFortifiedWall def for landing pad pipe extension.");
-                return 0;
-            }
-
             // Get visible VE pipe defs for fluid networks (no power - ships don't need to buy electricity)
-            List<ThingDef> visiblePipeDefs = GetVisiblePipeDefs();
+            List<ThingDef> visiblePipeDefs = BuildVisiblePipeDefsList();
             if (visiblePipeDefs.Count == 0)
                 return 0; // No pipe mods installed, nothing to extend
 
@@ -77,7 +65,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             foreach (LandingPadDetector.LandingPadInfo pad in landingPads)
             {
                 // Find path from pad edge to structure wall
-                List<IntVec3> path = FindTerrainPathToStructure(map, pad, structureRect, orbitalPlatformTerrain, orbitalWallDef);
+                List<IntVec3> path = FindTerrainPathToStructure(map, pad, structureRect);
                 if (path.Count == 0)
                 {
                     Log.Warning($"[Better Traders Guild] Landing pad at {pad.Centroid}: no terrain path found to structure.");
@@ -93,37 +81,29 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         }
 
         /// <summary>
-        /// Visible VE pipe defNames corresponding to the hidden versions.
-        /// Maps to visible pipes for networks where we provide tank+valve prefabs.
-        /// </summary>
-        private static readonly string[] VisiblePipeDefNames = new string[]
-        {
-            // VE Chemfuel (VanillaExpanded.VChemfuelE)
-            "VCHE_ChemfuelPipe",
-            "VCHE_DeepchemPipe",
-            // VE Nutrient Paste (VanillaExpanded.VNutrientE)
-            "VNPE_NutrientPastePipe",
-            // VE Gravships (vanillaexpanded.gravship)
-            "VGE_OxygenPipe",
-            "VGE_AstrofuelPipe",
-        };
-
-        /// <summary>
-        /// Gets visible VE pipe ThingDefs for installed mods.
+        /// Builds list of visible VE pipe ThingDefs for installed mods.
+        /// Uses DefRefs/Things.cs for centralized def resolution.
         /// These are used on external landing pad paths instead of hidden pipes.
         /// </summary>
-        private static List<ThingDef> GetVisiblePipeDefs()
+        private static List<ThingDef> BuildVisiblePipeDefsList()
         {
             List<ThingDef> visiblePipes = new List<ThingDef>();
 
-            foreach (string defName in VisiblePipeDefNames)
-            {
-                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
-                if (def != null)
-                {
-                    visiblePipes.Add(def);
-                }
-            }
+            // VE Chemfuel visible pipes
+            if (Things.VCHE_ChemfuelPipe != null)
+                visiblePipes.Add(Things.VCHE_ChemfuelPipe);
+            if (Things.VCHE_DeepchemPipe != null)
+                visiblePipes.Add(Things.VCHE_DeepchemPipe);
+
+            // VE Nutrient Paste visible pipes
+            if (Things.VNPE_NutrientPastePipe != null)
+                visiblePipes.Add(Things.VNPE_NutrientPastePipe);
+
+            // VE Gravships visible pipes
+            if (Things.VGE_OxygenPipe != null)
+                visiblePipes.Add(Things.VGE_OxygenPipe);
+            if (Things.VGE_AstrofuelPipe != null)
+                visiblePipes.Add(Things.VGE_AstrofuelPipe);
 
             return visiblePipes;
         }
@@ -135,9 +115,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         private static List<IntVec3> FindTerrainPathToStructure(
             Map map,
             LandingPadDetector.LandingPadInfo padInfo,
-            CellRect structureRect,
-            TerrainDef terrainDef,
-            ThingDef wallDef)
+            CellRect structureRect)
         {
             // Find the edge of the pad closest to the structure
             IntVec3 structureCenter = structureRect.CenterCell;
@@ -146,7 +124,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             IntVec3 startCell = FindClosestPadEdgeToStructure(padInfo.BoundingRect, structureCenter);
 
             // BFS from pad edge toward structure wall
-            return FindTerrainPathBFS(map, startCell, structureRect, terrainDef, wallDef, maxIterations: 2000);
+            return FindTerrainPathBFS(map, startCell, structureRect, maxIterations: 2000);
         }
 
         /// <summary>
@@ -191,17 +169,18 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         }
 
         /// <summary>
-        /// BFS pathfinding that follows specific terrain type until reaching the target wall type.
+        /// BFS pathfinding that follows OrbitalPlatform terrain until reaching the structure wall.
         /// Returns path from start toward target rect.
         /// </summary>
         private static List<IntVec3> FindTerrainPathBFS(
             Map map,
             IntVec3 startCell,
             CellRect targetRect,
-            TerrainDef terrainDef,
-            ThingDef wallDef,
             int maxIterations = 1000)
         {
+            TerrainDef terrainDef = Terrains.OrbitalPlatform;
+            ThingDef wallDef = Things.OrbitalAncientFortifiedWall;
+
             // If start cell isn't on platform terrain, search nearby for terrain to start from
             if (!startCell.InBounds(map) || map.terrainGrid.TerrainAt(startCell) != terrainDef)
             {

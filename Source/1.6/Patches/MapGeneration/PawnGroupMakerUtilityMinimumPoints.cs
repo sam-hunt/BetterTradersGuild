@@ -1,3 +1,4 @@
+using BetterTradersGuild.DefRefs;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -47,7 +48,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
         public static void Prefix(PawnGroupMakerParms parms)
         {
             // Only affect TradersGuild faction
-            if (parms?.faction?.def?.defName != "TradersGuild")
+            if (parms?.faction?.def != Factions.TradersGuild)
             {
                 return;
             }

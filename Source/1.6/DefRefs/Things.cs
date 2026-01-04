@@ -44,10 +44,12 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef GameOfUrBoard;
         public static ThingDef HorseshoesPin;
         public static ThingDef PlantPot;
+        public static ThingDef HydroponicsBasin;
         public static ThingDef AnimalBed;
         public static ThingDef Kibble;
         public static ThingDef VacBarrier;
         public static ThingDef Filth_GestationFluid;
+        public static ThingDef Filth_Trash;
         public static ThingDef Gun_ChargeRifle;
         public static ThingDef Gun_ChargeLance;
         public static ThingDef Apparel_ShieldBelt;
@@ -56,7 +58,13 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Apparel_PowerArmorHelmet;
         public static ThingDef Shell_HighExplosive;
         public static ThingDef Shell_AntigrainWarhead;
-        public static ThingDef Leather_Panther;
+        public static ThingDef Leather_Panthera;
+        public static ThingDef TransportPod;
+        public static ThingDef MalfunctioningTransportPod;
+        public static ThingDef SunLamp;
+        public static ThingDef Ship_ComputerCore;
+        public static ThingDef FirefoamPopper;
+        public static ThingDef Facility_VitalsCentre;
 
         // Plants
         public static ThingDef Plant_Rose;
@@ -77,12 +85,18 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Apparel_Vacsuit;
         public static ThingDef Apparel_VacsuitHelmet;
         public static ThingDef Apparel_ArmorRecon;
-        public static ThingDef Apparel_ArmorReconHelmet;
+        public static ThingDef Apparel_ArmorHelmetRecon;
 
         // === ODYSSEY DLC (always available - BTG hard-depends on Odyssey) ===
         public static ThingDef HunterDroneTrap;
         public static ThingDef WaspDroneTrap;
         public static ThingDef OrbitalAncientFortifiedWall;
+        public static ThingDef AncientShipBeacon;
+        public static ThingDef PassengerShuttle;
+
+        // === ROYALTY DLC ===
+        [MayRequireRoyalty]
+        public static ThingDef ShipLandingBeacon;
 
         // === BIOTECH DLC ===
         [MayRequireBiotech]
@@ -107,10 +121,20 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Table_interactive_1x1c;
 
         [MayRequire("VanillaExpanded.VFESpacerModule")]
+        public static ThingDef Table_interactive_2x2c;
+
+        [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef VFES_AirPurifier;
 
         [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef VGE_VacBarrierQuintuple;
+
+        // === VE PIPE SYSTEM (shared by chemfuel/nutrient/etc) ===
+        [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef PS_ChemfuelTank;
+
+        [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef PS_DeepchemTank;
 
         // === VE CHEMFUEL ===
         [MayRequire("VanillaExpanded.VChemfuelE")]
@@ -119,9 +143,30 @@ namespace BetterTradersGuild.DefRefs
         [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_DeepchemPipe;
 
+        [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef VCHE_UndergroundChemfuelPipe;
+
+        [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef VCHE_UndergroundDeepchemPipe;
+
+        [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef VCHE_ChemfuelValve;
+
+        [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef VCHE_DeepchemValve;
+
         // === VE NUTRIENT PASTE ===
         [MayRequire("VanillaExpanded.VNutrientE")]
         public static ThingDef VNPE_NutrientPastePipe;
+
+        [MayRequire("VanillaExpanded.VNutrientE")]
+        public static ThingDef VNPE_UndergroundNutrientPastePipe;
+
+        [MayRequire("VanillaExpanded.VNutrientE")]
+        public static ThingDef VNPE_NutrientPasteValve;
+
+        [MayRequire("VanillaExpanded.VNutrientE")]
+        public static ThingDef VNPE_NutrientPasteVat;
 
         // === VE GRAVSHIPS ===
         [MayRequire("VanillaExpanded.VGravships")]
@@ -129,6 +174,24 @@ namespace BetterTradersGuild.DefRefs
 
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_AstrofuelPipe;
+
+        [MayRequire("VanillaExpanded.VGravships")]
+        public static ThingDef VGE_HiddenOxygenPipe;
+
+        [MayRequire("VanillaExpanded.VGravships")]
+        public static ThingDef VGE_HiddenAstrofuelPipe;
+
+        [MayRequire("VanillaExpanded.VGravships")]
+        public static ThingDef VGE_OxygenValve;
+
+        [MayRequire("VanillaExpanded.VGravships")]
+        public static ThingDef VGE_AstrofuelValve;
+
+        [MayRequire("VanillaExpanded.VGravships")]
+        public static ThingDef VGE_LargeOxygenTank;
+
+        [MayRequire("VanillaExpanded.VGravships")]
+        public static ThingDef VGE_GiantAstrofuelTank;
 
         static Things() => DefOfHelper.EnsureInitializedInCtor(typeof(Things));
     }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -86,7 +87,7 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             ScatterDebrisUtility.ScatterFilthAroundThing(
                 parent,
                 map,
-                ThingDefOf.Filth_GestationFluid,
+                Things.Filth_GestationFluid,
                 new IntRange(2, 4),
                 1,
                 null);
@@ -140,7 +141,7 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
                 Messages.Message(
                     props.triggeredMessage.Formatted(mech.Named("PAWN")),
                     mech,
-                    MessageTypeDefOf.NegativeEvent,
+                    MessageTypes.NegativeEvent,
                     true);
             }
 

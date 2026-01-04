@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using RimWorld;
+using BetterTradersGuild.DefRefs;
 using Verse;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
-namespace BetterTradersGuild.RoomContents.TransportRoom
+namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
     /// <summary>
     /// Spawns walls from PlacementCalculator.WallSegment lists with optional centered vac barriers.
@@ -15,7 +15,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
     /// - Gap calculation for barrier placement at wall midpoint
     /// - Proper barrier rotation based on wall orientation
     ///
-    /// Used by rooms that need procedural walls with atmospheric barriers (e.g., TransportRoom).
+    /// Used by rooms that need procedural walls with atmospheric barriers (e.g., ShuttleBay).
     /// </summary>
     public static class VacWallSegmentSpawner
     {
@@ -30,13 +30,11 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
             if (walls == null || walls.Count == 0)
                 return;
 
-            wallDef = wallDef ?? ThingDefOf.OrbitalAncientFortifiedWall;
+            wallDef = wallDef ?? Things.OrbitalAncientFortifiedWall;
 
-            // Check if VGE is active for barrier selection
-            bool vgeActive = DefDatabase<ThingDef>.GetNamedSilentFail("VGE_VacBarrierQuintuple") != null;
-            string barrierDefName = vgeActive ? "VGE_VacBarrierQuintuple" : "VacBarrier";
-            ThingDef barrierDef = DefDatabase<ThingDef>.GetNamed(barrierDefName, false);
-            int barrierSize = vgeActive ? 5 : 1;
+            // Check if VGE is active for barrier selection (VGE_VacBarrierQuintuple will be null if VGE not loaded)
+            ThingDef barrierDef = Things.VGE_VacBarrierQuintuple ?? Things.VacBarrier;
+            int barrierSize = Things.VGE_VacBarrierQuintuple != null ? 5 : 1;
 
             foreach (var wall in walls)
             {
@@ -55,7 +53,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
             if (walls == null || walls.Count == 0)
                 return;
 
-            wallDef = wallDef ?? ThingDefOf.OrbitalAncientFortifiedWall;
+            wallDef = wallDef ?? Things.OrbitalAncientFortifiedWall;
 
             foreach (var wall in walls)
             {

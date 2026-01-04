@@ -26,26 +26,19 @@
     <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
       <li>Concrete</li>
-      <li>AncientConcrete</li>
     </floorTypes>
 
     <prefabs>
-      <!-- Mech pylons along walls for structural support -->
-      <MechPylon_Structure_Edge>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>2~4</minMaxRange>
-      </MechPylon_Structure_Edge>
-
       <!-- Storage cylinders for mech components -->
       <AncientStorageCylinder_Edge>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
         <minMaxRange>2~5</minMaxRange>
       </AncientStorageCylinder_Edge>
 
       <!-- Fortified wall segments for cover -->
       <AncientFortifiedWall_Edge>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>2~6</minMaxRange>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
+        <minMaxRange>2~5</minMaxRange>
       </AncientFortifiedWall_Edge>
     </prefabs>
 

@@ -1,62 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <!-- Target .NET Framework 4.7.2 (RimWorld requirement) -->
     <TargetFramework>net472</TargetFramework>
-    <OutputType>Library</OutputType>
-    <RootNamespace>BetterTradersGuild</RootNamespace>
-    <AssemblyName>BetterTradersGuild</AssemblyName>
-
-    <!-- Common output settings -->
+    <OutputPath>../../1.6/Assemblies/</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-
-    <!-- Use existing AssemblyInfo.cs instead of auto-generation -->
+    <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-
-    <!-- Build settings -->
-    <Deterministic>true</Deterministic>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <!-- Debug: Output directly to mod's versioned Assemblies folder for easy RimWorld testing -->
-    <OutputPath>..\..\1.6\Assemblies\</OutputPath>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  <!-- RimWorld Installation Path Configuration -->
+  <!-- Override with environment variable RIMWORLD_PATH or pass -p:RimWorldPath="..." to dotnet build -->
+  <PropertyGroup>
+    <RimWorldPath Condition="'$(RimWorldPath)' == ''">$(RIMWORLD_PATH)</RimWorldPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <!-- Release: Output to standard bin/Release for packaging -->
-    <OutputPath>bin\Release\</OutputPath>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
+  <!-- Platform-specific defaults if RIMWORLD_PATH not set -->
+  <PropertyGroup Condition="'$(RimWorldPath)' == '' And $([MSBuild]::IsOSPlatform('Windows'))">
+    <RimWorldPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RimWorldPath)' == '' And $([MSBuild]::IsOSPlatform('Linux'))">
+    <RimWorldPath>$(HOME)/.local/share/Steam/steamapps/common/RimWorld</RimWorldPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RimWorldPath)' == '' And $([MSBuild]::IsOSPlatform('OSX'))">
+    <RimWorldPath>$(HOME)/Library/Application Support/Steam/steamapps/common/RimWorld</RimWorldPath>
   </PropertyGroup>
 
-  <!-- RimWorld and Harmony DLL References -->
-  <!-- Paths are relative to Source/1.6/ -->
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\Prepatcher\Assemblies\0Harmony.dll</HintPath>
-      <Private>False</Private>
+  <!-- Platform-specific data folder names -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <RimWorldDataFolder>RimWorldWin64_Data</RimWorldDataFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <RimWorldDataFolder>RimWorldLinux_Data</RimWorldDataFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <RimWorldDataFolder>RimWorldMac_Data</RimWorldDataFolder>
+  </PropertyGroup>
+
+  <!-- Detect if local RimWorld installation exists -->
+  <PropertyGroup>
+    <UseLocalRimWorld Condition="Exists('$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll')">true</UseLocalRimWorld>
+  </PropertyGroup>
+
+  <!-- Use local references when RimWorld is installed -->
+  <ItemGroup Condition="'$(UseLocalRimWorld)' == 'true'">
+    <Reference Include="Assembly-CSharp" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine.CoreModule" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine.IMGUIModule" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 
-  <!-- All .cs files automatically included! No manual listing needed. -->
+  <!-- Fall back to NuGet package for CI builds without local RimWorld -->
+  <ItemGroup Condition="'$(UseLocalRimWorld)' != 'true'">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="2.3.*">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

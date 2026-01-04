@@ -3,7 +3,7 @@ using System.Linq;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.Nursery
@@ -20,9 +20,9 @@ namespace BetterTradersGuild.RoomContents.Nursery
     /// - Center placement (last resort): Uses 0 room walls, spawns 2 walls (back + left)
     ///
     /// Post-generation customization is handled by helper classes:
-    /// - CivilianSpawner: Spawns caretaker and children in the subroom
-    /// - ShelfPopulator: Adds baby food and meals to shelves
-    /// - FurniturePainter: Paints furniture with pastel colors
+    /// - ShelteringCivilianSpawner: Spawns caretaker and children in the subroom
+    /// - NurseryShelfPopulator: Adds baby food and meals to shelves
+    /// - RoomFurniturePastelPainter: Paints furniture with pastel colors
     /// </summary>
     public class RoomContents_Nursery : RoomContentsWorker
     {
@@ -50,7 +50,12 @@ namespace BetterTradersGuild.RoomContents.Nursery
             if (room.rects != null && room.rects.Count > 0)
             {
                 CellRect roomRect = room.rects.First();
-                List<string> floorTypes = new List<string> { "CarpetPink", "CarpetBluePastel", "CarpetGreenPastel" };
+                List<TerrainDef> floorTypes = new List<TerrainDef>
+                {
+                    Terrains.CarpetPink,
+                    Terrains.CarpetBluePastel,
+                    Terrains.CarpetGreenPastel
+                };
                 CheckeredFloorHelper.ApplyCheckeredFloor(map, roomRect, floorTypes);
             }
 
@@ -71,10 +76,10 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
                 // 5. Spawn civilians sheltering in the nursery (behind blast door)
                 // These represent non-combatants who have locked themselves in for safety
-                CivilianSpawner.SpawnShelteringCivilians(map, faction, this.cribSubroomRect);
+                ShelteringCivilianSpawner.SpawnShelteringCivilians(map, faction, this.cribSubroomRect);
 
                 // 6. Populate nursery shelf with baby food and survival meals
-                ShelfPopulator.PopulateNurseryShelf(map, this.cribSubroomRect);
+                NurseryShelfPopulator.PopulateNurseryShelf(map, this.cribSubroomRect);
             }
             else
             {
@@ -94,7 +99,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             if (room.rects != null && room.rects.Count > 0)
             {
                 CellRect roomRect = room.rects.First();
-                FurniturePainter.PaintFurniture(map, roomRect);
+                RoomFurniturePastelPainter.PaintFurniture(map, roomRect);
             }
 
             // 9. Post-processing: Spawn daylilies in plant pots
@@ -103,10 +108,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             if (room.rects != null && room.rects.Count > 0)
             {
                 CellRect roomRect = room.rects.First();
-
-                // Spawn daylilies in plant pots
-                ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, growth: 1.0f);
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
             }
         }
 

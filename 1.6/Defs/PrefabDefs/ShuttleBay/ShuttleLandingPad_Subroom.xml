@@ -3,11 +3,11 @@
   <!--
     Better Traders Guild - Shuttle Landing Pad (Vanilla)
 
-    Interior landing pad subroom for TransportRoom with vanilla 1x1 vac barriers.
-    Spawned by RoomContents_TransportRoom when VGE is not active.
+    Interior landing pad subroom for ShuttleBay with vanilla 1x1 vac barriers.
+    Spawned by RoomContents_ShuttleBay when VGE is not active.
 
     Features:
-    - 10x10 prefab, centered in 11x11+ TransportRoom
+    - 10x10 prefab, centered in 11x11+ ShuttleBay
     - AncientShipBeacon at corners defines landing area for partial roofing
     - 1x1 VacBarriers at south and east entries
     - AncientSealedCrate marker for conduit connection to room edge

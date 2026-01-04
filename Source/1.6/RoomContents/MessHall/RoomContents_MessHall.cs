@@ -1,8 +1,9 @@
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.MessHall
 {
@@ -34,11 +35,10 @@ namespace BetterTradersGuild.RoomContents.MessHall
             CellRect roomRect = room.rects.First();
 
             // 2. Connect VFE Spacer interactive tables to power (does nothing if VFE Spacer not installed)
-            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, "Table_interactive_2x2c");
+            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.Table_interactive_2x2c);
 
             // 3. Spawn decorative daylilies in corner plant pots
-            ThingDef daylily = DefDatabase<ThingDef>.GetNamed("Plant_Daylily", false);
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, daylily, growth: 1.0f);
+            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
         }
     }
 }

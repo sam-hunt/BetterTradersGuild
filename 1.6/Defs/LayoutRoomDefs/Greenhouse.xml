@@ -9,6 +9,23 @@
     <defName>BTG_Greenhouse</defName>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.Greenhouse.RoomContents_Greenhouse</roomContentsWorkerType>
 
+    <scatter>
+      <!-- Heavy dirt from soil and plant work -->
+      <Filth_Dirt>
+        <groupsPerHundredCells>5~8</groupsPerHundredCells>
+        <itemsPerGroup>3~6</itemsPerGroup>
+        <minGroups>3</minGroups>
+        <groupDistRange>1~3</groupDistRange>
+      </Filth_Dirt>
+
+      <!-- Disturbed soil from planting -->
+      <Filth_LooseGround>
+        <groupsPerHundredCells>2~4</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>1</minGroups>
+      </Filth_LooseGround>
+    </scatter>
+
     <floorTypes>
       <li>CarpetGreen</li>
       <li>CarpetGreenFaded</li>
@@ -52,6 +69,12 @@
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </WoodenCratesWithSomeLoot>
+
+      <!-- Packaged survival meals for food storage -->
+      <SurvivalMealPallet>
+        <countPerHundredCells>1</countPerHundredCells>
+        <countRange>1~3</countRange>
+      </SurvivalMealPallet>
     </prefabs>
 
     <parts>

@@ -61,15 +61,12 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             // - Corridor floors (spawned by RoomContents_Orbital_Corridor base class)
             // - Exterior prefab terrain
             // - Any other ancient tile sources
-            TerrainDef ancientTile = TerrainDefOf.AncientTile;
-            TerrainDef metalTile = TerrainDefOf.MetalTile;
-
-            TerrainReplacementHelper.ReplaceTerrainGlobally(map, ancientTile, metalTile);
+            TerrainReplacementHelper.ReplaceTerrainGlobally(map, Terrains.AncientTile, Terrains.MetalTile);
 
             // Step 2: Paint all metal tiles with custom orbital steel color
             if (Colors.BTG_OrbitalSteel != null)
             {
-                TerrainReplacementHelper.PaintTerrainGlobally(map, metalTile, Colors.BTG_OrbitalSteel);
+                TerrainReplacementHelper.PaintTerrainGlobally(map, Terrains.MetalTile, Colors.BTG_OrbitalSteel);
             }
             else
             {
@@ -79,10 +76,9 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             // Step 3: Set all WallLamps to blue color (matches AncientEmergencyLight_Blue aesthetic)
             // WallLamp is used instead of inherited AncientEmergencyLight_Blue to utilize
             // the settlement's power grid. Color is set via CompGlower's public API.
-            ThingDef wallLampDef = ThingDefOf.WallLamp;
             ColorInt blueGlowColor = new ColorInt(187, 187, 221); // AncientEmergencyLight_Blue glow color
 
-            foreach (Thing lamp in map.listerThings.ThingsOfDef(wallLampDef))
+            foreach (Thing lamp in map.listerThings.ThingsOfDef(Things.WallLamp))
             {
                 CompGlower glower = lamp.TryGetComp<CompGlower>();
                 if (glower != null)

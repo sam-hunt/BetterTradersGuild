@@ -12,6 +12,15 @@
     <minSingleRectWidth>8</minSingleRectWidth>
     <minSingleRectHeight>8</minSingleRectHeight>
 
+    <scatter>
+      <!-- Snack wrappers and debris from leisure activities -->
+      <Filth_Trash>
+        <groupsPerHundredCells>2~4</groupsPerHundredCells>
+        <itemsPerGroup>1~3</itemsPerGroup>
+        <minGroups>1</minGroups>
+      </Filth_Trash>
+    </scatter>
+
     <floorTypes>
       <li>CarpetRed</li>
       <li>CarpetBlueSubtle</li>

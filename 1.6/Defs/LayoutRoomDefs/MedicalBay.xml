@@ -21,6 +21,22 @@
     <minSingleRectWidth>9</minSingleRectWidth>
     <minSingleRectHeight>9</minSingleRectHeight>
 
+    <scatter>
+      <!-- Occasional blood from medical procedures -->
+      <Filth_Blood>
+        <groupsPerHundredCells>1</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Blood>
+
+      <!-- Amniotic fluid from births -->
+      <Filth_AmnioticFluid>
+        <groupsPerHundredCells>0~1</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_AmnioticFluid>
+    </scatter>
+
     <!-- Sterile flooring for medical operations -->
     <floorTypes>
       <li>SterileTile</li>
@@ -30,8 +46,8 @@
     <prefabs>
       <!-- Modern hospital beds with vitals monitors (edge) -->
       <BTG_HospitalBeds_Edge>
-        <countPerTenEdgeCells>5</countPerTenEdgeCells>
-        <minMaxRange>3~8</minMaxRange>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~6</minMaxRange>
       </BTG_HospitalBeds_Edge>
 
       <!-- Medicine storage shelves -->
@@ -55,8 +71,14 @@
       <!-- Compact hospital bed units (interior, low priority) -->
       <BTG_HospitalBeds>
         <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~2</minMaxRange>
+        <minMaxRange>0~4</minMaxRange>
       </BTG_HospitalBeds>
+
+      <!-- Ancient operating table (interior, low frequency) -->
+      <BTG_AncientOperatingTable>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_AncientOperatingTable>
 
     </prefabs>
 

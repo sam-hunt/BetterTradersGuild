@@ -33,6 +33,13 @@
         <minGroups>1</minGroups>
         <stuff>WoodLog</stuff>
       </BabyDecoration>
+
+      <!-- Children's floor drawings for inhabited feel -->
+      <Filth_Floordrawing>
+        <groupsPerHundredCells>3</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>2</minGroups>
+      </Filth_Floordrawing>
     </scatter>
 
     <prefabs>

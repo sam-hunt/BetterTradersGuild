@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
-using RimWorld;
-using RimWorld.BaseGen;
-using Verse;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers;
 using BetterTradersGuild.Helpers.MapGeneration;
 using BetterTradersGuild.Helpers.RoomContents;
+using RimWorld;
+using RimWorld.BaseGen;
+using Verse;
 
-namespace BetterTradersGuild.RoomContents.TransportRoom
+namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
     /// <summary>
-    /// Custom RoomContentsWorker for Transport Room (Shuttle Bay).
+    /// Custom RoomContentsWorker for Shuttle Bay.
     ///
     /// Spawns an L-shaped landing pad subroom with walls on front + right side only,
     /// similar to RoomContents_CommandersQuarters. The subroom can be placed in corners
@@ -30,7 +31,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
     /// IsValidCellBase() can block XML-defined prefabs from spawning on the landing pad.
     /// This is the same pattern used in RoomContents_CommandersQuarters.
     /// </summary>
-    public class RoomContents_TransportRoom : RoomContentsWorker
+    public class RoomContents_ShuttleBay : RoomContentsWorker
     {
         /// <summary>
         /// Size of the landing pad prefab (10x10).
@@ -57,7 +58,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
 
             if (room.rects == null || room.rects.Count == 0)
             {
-                Log.Warning("[Better Traders Guild] TransportRoom has no rects");
+                Log.Warning("[Better Traders Guild] ShuttleBay has no rects");
                 base.FillRoom(map, room, faction, threatPoints);
                 return;
             }
@@ -91,7 +92,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
             else
             {
                 // Log warning but CONTINUE (other prefabs still spawn for graceful degradation)
-                Log.Warning($"[Better Traders Guild] Could not find valid placement for landing pad in TransportRoom at {roomRect}");
+                Log.Warning($"[Better Traders Guild] Could not find valid placement for landing pad in ShuttleBay at {roomRect}");
                 // landingPadRect remains default (Width = 0), so IsValidCellBase won't block other prefabs
             }
 
@@ -159,7 +160,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
 
             // Find the PassengerShuttle in the landing pad area
             var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            var shuttle = furniture.FirstOrDefault(b => b.def.defName == "PassengerShuttle");
+            var shuttle = furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
 
             if (shuttle == null) return;
             PaintableFurnitureHelper.TryPaint(shuttle, "Marble");
@@ -171,20 +172,17 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
         /// </summary>
         private void ConnectMarkersToEdge(Map map, CellRect roomRect)
         {
-            ThingDef hiddenConduitDef = DefDatabase<ThingDef>.GetNamed("HiddenConduit", false);
-            if (hiddenConduitDef == null)
-            {
-                Log.Warning("[Better Traders Guild] HiddenConduit def not found, cannot connect markers");
+            // Silent abort if HiddenConduit not available
+            if (Things.HiddenConduit == null)
                 return;
-            }
 
             // Also get hidden pipe defs for VE mods
             var hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();
-            List<ThingDef> infrastructureDefs = new List<ThingDef> { hiddenConduitDef };
+            List<ThingDef> infrastructureDefs = new List<ThingDef> { Things.HiddenConduit };
             infrastructureDefs.AddRange(hiddenPipeDefs);
 
             // Find AncientSealedCrate markers in the room
-            var markers = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, "AncientSealedCrate");
+            var markers = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.AncientSealedCrate);
 
             foreach (Building marker in markers)
             {

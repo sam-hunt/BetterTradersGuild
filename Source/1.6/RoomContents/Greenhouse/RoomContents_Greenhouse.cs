@@ -51,7 +51,7 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
             FillShelvesWithCrops(map, roomRect);
 
             // 5. Connect sun lamps to the conduit network under the room walls
-            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, "SunLamp");
+            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.SunLamp);
         }
 
         /// <summary>

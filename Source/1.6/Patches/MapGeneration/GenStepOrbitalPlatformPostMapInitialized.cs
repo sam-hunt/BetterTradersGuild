@@ -53,7 +53,7 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
         /// 9600 -> 12 (maximum defense)
         ///
         /// At 25% presence (dronePresence=0.25, default):
-        /// 2400 points -> ~1-2 drones (X scaled to 9600)
+        /// 2400 points -> ~2-3 drones (X scaled to 9600)
         /// </summary>
         private static readonly CurvePoint[] BaseCurvePoints = new CurvePoint[]
         {

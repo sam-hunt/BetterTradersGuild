@@ -1,19 +1,20 @@
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
-namespace BetterTradersGuild.RoomContents.ComputerRoom
+namespace BetterTradersGuild.RoomContents.ControlCenter
 {
     /// <summary>
-    /// Custom RoomContentsWorker for Computer Room.
+    /// Custom RoomContentsWorker for Control Center.
     ///
     /// Spawns a server room subroom with an L-shaped prefab (front + right side walls only)
     /// that can be placed in corners (preferred) or along edges (with procedural wall completion).
     /// The main room contains consoles and terminals for station operations.
     /// </summary>
-    public class RoomContents_ComputerRoom : RoomContentsWorker
+    public class RoomContents_ControlCenter : RoomContentsWorker
     {
         // Prefab size (6x6)
         private const int SERVER_ROOM_PREFAB_SIZE = 6;
@@ -51,15 +52,15 @@ namespace BetterTradersGuild.RoomContents.ComputerRoom
             else
             {
                 CellRect firstRect = room.rects?.FirstOrDefault() ?? default;
-                Log.Warning($"[Better Traders Guild] Could not find valid placement for server room in ComputerRoom at {firstRect}");
+                Log.Warning($"[Better Traders Guild] Could not find valid placement for server room in ControlCenter at {firstRect}");
             }
 
             // 5. Call base to process XML (prefabs, scatter, parts)
             base.FillRoom(map, room, faction, threatPoints);
 
             // 6. Connect Ship_ComputerCore to room edge (power)
-            foreach (var computer in RoomEdgeConnector.FindBuildingsInRoom(map, this.serverRoomRect, "Ship_ComputerCore"))
-                RoomEdgeConnector.ConnectToNearestEdge(map, computer.Position, room.rects.First(), ThingDefOf.HiddenConduit);
+            foreach (var computer in RoomEdgeConnector.FindBuildingsInRoom(map, this.serverRoomRect, Things.Ship_ComputerCore))
+                RoomEdgeConnector.ConnectToNearestEdge(map, computer.Position, room.rects.First(), Things.HiddenConduit);
         }
 
         /// <summary>

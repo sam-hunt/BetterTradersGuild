@@ -1,13 +1,13 @@
-using RimWorld;
+using BetterTradersGuild.DefRefs;
 using Verse;
 
-namespace BetterTradersGuild.RoomContents.TransportRoom
+namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
     /// <summary>
     /// Applies roofing to rooms with optional exclusion zones (open-sky areas).
     ///
     /// Used by rooms that need partial roofing:
-    /// - TransportRoom: Landing pad area left unroofed for shuttle access
+    /// - ShuttleBay: Landing pad area left unroofed for shuttle access
     /// - Greenhouse: Could have skylight areas
     /// - Any room requiring mixed indoor/outdoor cells
     /// </summary>
@@ -22,7 +22,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
         /// <param name="roofDef">RoofDef to use (defaults to RoofConstructed).</param>
         public static void ApplyRoofingWithExclusion(Map map, CellRect roomRect, CellRect exclusionRect, RoofDef roofDef = null)
         {
-            roofDef = roofDef ?? RoofDefOf.RoofConstructed;
+            roofDef = roofDef ?? Roofs.RoofConstructed;
 
             // If no exclusion rect, roof everything
             if (exclusionRect.Width == 0)
@@ -53,7 +53,7 @@ namespace BetterTradersGuild.RoomContents.TransportRoom
         /// <param name="roofDef">RoofDef to use (defaults to RoofConstructed).</param>
         public static void ApplyFullRoofing(Map map, CellRect roomRect, RoofDef roofDef = null)
         {
-            roofDef = roofDef ?? RoofDefOf.RoofConstructed;
+            roofDef = roofDef ?? Roofs.RoofConstructed;
 
             foreach (IntVec3 cell in roomRect)
             {

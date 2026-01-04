@@ -1,8 +1,9 @@
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.MedicalBay
 {
@@ -44,7 +45,7 @@ namespace BetterTradersGuild.RoomContents.MedicalBay
             SpawnRosesInPlantPots(map, roomRect);
 
             // 4. Connect VFE Medical VitalsCentre to power (does nothing if VFE Medical not installed)
-            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, "Facility_VitalsCentre");
+            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.Facility_VitalsCentre);
         }
 
         /// <summary>
@@ -52,14 +53,9 @@ namespace BetterTradersGuild.RoomContents.MedicalBay
         /// </summary>
         private void SpawnHealrootInHydroponics(Map map, CellRect roomRect)
         {
-            // Get healroot plant definition
-            ThingDef healrootPlant = DefDatabase<ThingDef>.GetNamed("Plant_Healroot", false);
-
             // Spawn healroot with random growth variation (0.7-1.0) for realistic appearance
-            // The medical bay typically has 1 basin, but this will work for any number
             float growth = Rand.Range(0.7f, 1.0f);
-
-            RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, healrootPlant, growth);
+            RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, Things.Plant_Healroot, growth);
         }
 
         /// <summary>
@@ -68,8 +64,7 @@ namespace BetterTradersGuild.RoomContents.MedicalBay
         /// </summary>
         private void SpawnRosesInPlantPots(Map map, CellRect roomRect)
         {
-            ThingDef rosePlant = DefDatabase<ThingDef>.GetNamed("Plant_Rose", false);
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, rosePlant, growth: 1.0f);
+            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Rose, growth: 1.0f);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace BetterTradersGuild.DefRefs
         // === VANILLA PETS ===
         public static PawnKindDef Cat;
         public static PawnKindDef Husky;
-        public static PawnKindDef Labrador;
+        public static PawnKindDef LabradorRetriever;
         public static PawnKindDef YorkshireTerrier;
 
         // === BIOTECH MECHS ===

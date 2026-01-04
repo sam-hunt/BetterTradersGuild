@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -128,18 +129,22 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </summary>
         /// <param name="map">The map</param>
         /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="defName">The defName to search for</param>
-        /// <returns>List of matching buildings</returns>
-        public static List<Building> FindBuildingsInRoom(Map map, CellRect roomRect, string defName)
+        /// <param name="buildingDef">The ThingDef to search for (use DefRefs.Things.*)</param>
+        /// <returns>List of matching buildings, or empty list if buildingDef is null</returns>
+        public static List<Building> FindBuildingsInRoom(Map map, CellRect roomRect, ThingDef buildingDef)
         {
             List<Building> buildings = new List<Building>();
+
+            // Silent abort if def not available (e.g., mod not loaded)
+            if (buildingDef == null)
+                return buildings;
 
             foreach (IntVec3 cell in roomRect)
             {
                 List<Thing> things = cell.GetThingList(map);
                 foreach (Thing thing in things)
                 {
-                    if (thing is Building building && thing.def.defName == defName)
+                    if (thing is Building building && thing.def == buildingDef)
                     {
                         buildings.Add(building);
                     }
@@ -156,11 +161,11 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </summary>
         /// <param name="map">The map</param>
         /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="buildingDefName">The defName of buildings to connect (e.g., "SunLamp")</param>
-        /// <returns>Number of conduit segments placed</returns>
-        public static int ConnectBuildingsToConduitNetwork(Map map, CellRect roomRect, string buildingDefName)
+        /// <param name="buildingDef">The ThingDef of buildings to connect (use DefRefs.Things.*)</param>
+        /// <returns>Number of conduit segments placed, or 0 if buildingDef is null</returns>
+        public static int ConnectBuildingsToConduitNetwork(Map map, CellRect roomRect, ThingDef buildingDef)
         {
-            return ConnectBuildingsToInfrastructure(map, roomRect, buildingDefName, "HiddenConduit");
+            return ConnectBuildingsToInfrastructure(map, roomRect, buildingDef, Things.HiddenConduit);
         }
 
         /// <summary>
@@ -169,16 +174,16 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </summary>
         /// <param name="map">The map</param>
         /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="buildingDefName">The defName of buildings to connect</param>
-        /// <param name="infrastructureDefName">The defName of infrastructure to place (e.g., "HiddenConduit", "VCHE_UndergroundChemfuelPipe")</param>
-        /// <returns>Number of infrastructure segments placed, or 0 if infrastructure def not found</returns>
-        public static int ConnectBuildingsToInfrastructure(Map map, CellRect roomRect, string buildingDefName, string infrastructureDefName)
+        /// <param name="buildingDef">The ThingDef of buildings to connect (use DefRefs.Things.*)</param>
+        /// <param name="infrastructureDef">The ThingDef of infrastructure to place (use DefRefs.Things.*)</param>
+        /// <returns>Number of infrastructure segments placed, or 0 if either def is null</returns>
+        public static int ConnectBuildingsToInfrastructure(Map map, CellRect roomRect, ThingDef buildingDef, ThingDef infrastructureDef)
         {
-            ThingDef infrastructureDef = DefDatabase<ThingDef>.GetNamedSilentFail(infrastructureDefName);
-            if (infrastructureDef == null)
+            // Silent abort if either def not available (e.g., mod not loaded)
+            if (buildingDef == null || infrastructureDef == null)
                 return 0;
 
-            List<Building> buildings = FindBuildingsInRoom(map, roomRect, buildingDefName);
+            List<Building> buildings = FindBuildingsInRoom(map, roomRect, buildingDef);
             int totalPlaced = 0;
 
             foreach (Building building in buildings)

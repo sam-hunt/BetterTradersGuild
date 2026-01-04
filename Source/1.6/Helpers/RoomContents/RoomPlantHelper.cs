@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 using UnityEngine;
@@ -196,9 +197,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 {
                     foreach (Thing thing in things)
                     {
-                        // Match hydroponics basins specifically (check defName contains "Hydroponics")
-                        if (thing is Building_PlantGrower grower &&
-                            (grower.def.defName.Contains("Hydroponics") || grower.def.defName.Contains("hydroponics")))
+                        // Match hydroponics basins specifically
+                        if (thing is Building_PlantGrower grower && grower.def == Things.HydroponicsBasin)
                         {
                             hydroponicsBasin = grower;
                             break;

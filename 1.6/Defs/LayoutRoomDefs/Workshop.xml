@@ -9,8 +9,10 @@
   <LayoutRoomDef>
     <defName>BTG_Workshop</defName>
 
+    <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
-      <li>MetalTile</li>
+      <li>Concrete</li>
+      <li>AncientConcrete</li>
     </floorTypes>
 
     <prefabs>
@@ -47,17 +49,6 @@
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~4</minMaxRange>
       </IndustrialShelf_Edge>
-
-      <IndustrialShelf_Rows>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>1~2</minMaxRange>
-      </IndustrialShelf_Rows>
-
-      <!-- General supplies -->
-      <AncientSpacerCrate_Cluster>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>1~2</minMaxRange>
-      </AncientSpacerCrate_Cluster>
     </prefabs>
 
     <parts>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Better Traders Guild - Custom Duty Definitions
+
+    BTG_WanderInArea: Passive mech behavior - wander near a point without
+    aggressive enemy-seeking. Mechs with this duty will:
+    - Wander within 7 tiles of their duty focus point
+    - NOT actively seek out and attack enemies
+    - Still self-defend via ThinkTree fallback if directly threatened
+
+    Used by: Cleansweeper, Fabricor, Paramedic, Agrihand mechs
+    (expensive/specialized mechs that shouldn't risk damage)
+  -->
+
+  <DutyDef>
+    <defName>BTG_WanderInArea</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Wander near duty focus point - 7 tile radius -->
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>7</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

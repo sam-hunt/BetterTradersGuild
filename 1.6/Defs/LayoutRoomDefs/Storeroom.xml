@@ -10,6 +10,22 @@
     <defName>BTG_Storeroom</defName>
     <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
 
+    <scatter>
+      <!-- Tracked-in dirt from storage activity -->
+      <Filth_Dirt>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Dirt>
+
+      <!-- Old rags from unpacking/cleaning -->
+      <Filth_MoldyUniform>
+        <groupsPerHundredCells>0~1</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_MoldyUniform>
+    </scatter>
+
     <floorTypes>
       <li>MetalTile</li>
     </floorTypes>
@@ -25,11 +41,6 @@
         <countPerHundredCells>3</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_GiantAstrofuelTank_Edge>
-
-      <BTG_DeepchemTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
-        <countPerHundredCells>3</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_DeepchemTank_Edge>
 
       <!-- Industrial shelving -->
       <IndustrialShelf_InnerWall>

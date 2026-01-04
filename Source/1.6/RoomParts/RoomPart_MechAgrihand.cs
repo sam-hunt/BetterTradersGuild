@@ -1,3 +1,5 @@
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
 
@@ -16,26 +18,13 @@ namespace BetterTradersGuild.RoomParts
     /// </summary>
     public class RoomPart_MechAgrihand : RoomPartWorker
     {
-        private static PawnKindDef cachedMechKind;
-
         public RoomPart_MechAgrihand(RoomPartDef def) : base(def) { }
 
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float threatPoints)
         {
-            // Require Biotech DLC
-            if (!ModsConfig.BiotechActive)
+            // Silent abort if Biotech not active (def will be null)
+            if (PawnKinds.Mech_Agrihand == null)
                 return;
-
-            // Cache PawnKindDef lookup
-            if (cachedMechKind == null)
-            {
-                cachedMechKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("Mech_Agrihand");
-                if (cachedMechKind == null)
-                {
-                    Log.ErrorOnce("[Better Traders Guild] Could not find PawnKindDef 'Mech_Agrihand'.", 94712389);
-                    return;
-                }
-            }
 
             // Find standable cell in room
             if (!room.TryGetRandomCellInRoom(map, out IntVec3 cell, 0, 0,
@@ -45,8 +34,12 @@ namespace BetterTradersGuild.RoomParts
             }
 
             // Generate and spawn mech
-            Pawn mech = PawnGenerator.GeneratePawn(cachedMechKind, faction);
+            Pawn mech = PawnGenerator.GeneratePawn(PawnKinds.Mech_Agrihand, faction);
             GenSpawn.Spawn(mech, cell, map, WipeMode.Vanish);
+
+            // Add to room's Lord with passive behavior (wander only, self-defend)
+            // Agrihands are utility mechs that shouldn't aggressively engage enemies
+            RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Passive);
         }
     }
 }

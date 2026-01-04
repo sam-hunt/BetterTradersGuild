@@ -10,11 +10,27 @@
     <defName>BTG_CargoStorage</defName>
     <canMergeWithAdjacentRoom>true</canMergeWithAdjacentRoom>
 
+    <scatter>
+      <!-- Tracked-in dirt from cargo handling -->
+      <Filth_Dirt>
+        <groupsPerHundredCells>2~4</groupsPerHundredCells>
+        <itemsPerGroup>2~4</itemsPerGroup>
+        <minGroups>1</minGroups>
+        <groupDistRange>1~2</groupDistRange>
+      </Filth_Dirt>
+    </scatter>
+
     <floorTypes>
       <li>MetalTile</li>
     </floorTypes>
 
     <prefabs>
+      <!-- Fluid storage if VE Chemfuel Expanded is enabled -->
+      <BTG_DeepchemTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_DeepchemTank_Edge>
+
       <!-- Shipping containers and pallets -->
       <AncientCratePallet_Cluster>
         <countPerHundredCells>3</countPerHundredCells>

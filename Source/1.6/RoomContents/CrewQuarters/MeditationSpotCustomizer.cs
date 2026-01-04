@@ -5,7 +5,6 @@ using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
-using Verse.AI;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
@@ -35,7 +34,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 (1f,  (spot, map, faction) => TrySpawnGameOfUr(spot, map)),
                 (2f,  (spot, map, faction) => TrySpawnHorseshoePin(spot, map)),
                 (4f,  (spot, map, faction) => TrySpawnPlantPot(spot, map)),
-                (33f, (spot, map, faction) => { }) // Keep as-is
+                (33f, (spot, map, faction) => { }), // Keep as-is
+                (8f,  (spot, map, faction) => SpawnTrashPile(spot, map))
             };
 
             // Biotech DLC - Militor
@@ -114,6 +114,31 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
+        /// Replaces a meditation spot with a pile of trash filth.
+        /// Spawns 10 filth at the spot position and 5 at a nearby empty cell.
+        /// </summary>
+        private static void SpawnTrashPile(Thing spot, Map map)
+        {
+            if (Things.Filth_Trash == null) return;
+
+            IntVec3 pos = spot.Position;
+            spot.Destroy(DestroyMode.Vanish);
+
+            // Spawn 10 trash filth at the spot position
+            FilthMaker.TryMakeFilth(pos, map, Things.Filth_Trash, 10);
+
+            // Find first empty nearby cell and spawn 5 more trash there
+            foreach (IntVec3 cell in GenAdj.CellsAdjacent8Way(new TargetInfo(pos, map)))
+            {
+                if (cell.InBounds(map) && cell.Standable(map) && !cell.GetThingList(map).Any(t => t is Filth))
+                {
+                    FilthMaker.TryMakeFilth(cell, map, Things.Filth_Trash, 5);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Replaces a meditation spot with a mech (drone).
         /// </summary>
         private static void ReplaceWithMech(Thing spot, ThingDef mechDef, Map map)
@@ -161,23 +186,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Available pet kinds for spawning. Filtered at static construction to remove nulls.
-        /// </summary>
-        private static List<PawnKindDef> _petKinds;
-        private static List<PawnKindDef> PetKinds => _petKinds ?? (_petKinds = BuildPetKindsList());
-
-        private static List<PawnKindDef> BuildPetKindsList()
-        {
-            return new List<PawnKindDef>
-            {
-                PawnKinds.Cat,
-                PawnKinds.Husky,
-                PawnKinds.Labrador,
-                PawnKinds.YorkshireTerrier
-            }.Where(k => k != null).ToList();
-        }
-
-        /// <summary>
         /// Replaces a meditation spot with an animal bed and spawns a pet.
         /// Adds kibble to the nearest reachable small shelf.
         /// </summary>
@@ -194,35 +202,11 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 GenSpawn.Spawn(bed, pos, map, rot);
             }
 
-            // Spawn random cat or vanilla dog (factionless)
-            if (PetKinds.Count > 0)
-            {
-                PawnKindDef petKind = PetKinds.RandomElement();
-                Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
-                    kind: petKind,
-                    faction: null,
-                    context: PawnGenerationContext.NonPlayer,
-                    tile: map.Tile));
+            // Spawn random pet (cat or dog) using weighted selection
+            RoomPetHelper.SpawnPetAtPosition(map, pos);
 
-                GenSpawn.Spawn(pet, pos, map);
-            }
-
-            // Find nearest reachable small shelf and add kibble
-            if (Things.ShelfSmall != null)
-            {
-                Thing nearestShelf = GenClosest.ClosestThingReachable(
-                    pos,
-                    map,
-                    ThingRequest.ForDef(Things.ShelfSmall),
-                    PathEndMode.Touch,
-                    TraverseParms.For(TraverseMode.PassDoors),
-                    maxDistance: 20f);
-
-                if (nearestShelf is Building_Storage shelf)
-                {
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Kibble, Rand.RangeInclusive(45, 75));
-                }
-            }
+            // Add kibble to nearest small shelf
+            RoomPetHelper.AddKibbleToNearestShelf(map, pos);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 return 0;
             }
 
-            ThingDef blastDoorDef = ThingDefOf.AncientBlastDoor;
+            ThingDef blastDoorDef = Things.AncientBlastDoor;
 
             // Find all AncientBlastDoor in the room interior (not on room perimeter)
             HashSet<int> doorZCoordinates = new HashSet<int>();

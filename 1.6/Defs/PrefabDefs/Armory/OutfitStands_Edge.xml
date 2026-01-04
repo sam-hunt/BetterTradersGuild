@@ -13,7 +13,7 @@
     z=0:   O O
 
     Legend:
-    O = Building_OutfitStand (steel, excellent quality, facing into room)
+    O = Building_OutfitStand (steel, Good quality, facing into room)
   -->
 
   <PrefabDef>
@@ -25,7 +25,7 @@
       <Building_OutfitStand>
         <position>(0,0,0)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <quality>Excellent</quality>
+        <quality>Good</quality>
         <stuff>Steel</stuff>
       </Building_OutfitStand>
 
@@ -33,7 +33,7 @@
       <Building_OutfitStand>
         <position>(1,0,0)</position>
         <relativeRotation>Opposite</relativeRotation>
-        <quality>Excellent</quality>
+        <quality>Good</quality>
         <stuff>Steel</stuff>
       </Building_OutfitStand>
     </things>

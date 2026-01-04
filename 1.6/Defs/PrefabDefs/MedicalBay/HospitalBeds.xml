@@ -10,8 +10,8 @@
 
     Design (top view, North is up):
         x: 0 1 2
-    z=1:   H . H
-    z=0:   H V H
+    z=1:   H V H
+    z=0:   H . H
 
     Legend:
     H = HospitalBed (steel)
@@ -26,15 +26,17 @@
       <!-- Two hospital beds with vitals monitor between them -->
       <HospitalBed>
         <positions>
-          <li>(0, 0, 0)</li>
-          <li>(2, 0, 0)</li>
+          <li>(0, 0, 1)</li>
+          <li>(2, 0, 1)</li>
         </positions>
+        <relativeRotation>Opposite</relativeRotation>
         <stuff>Steel</stuff>
       </HospitalBed>
 
       <!-- Vitals monitor between beds -->
       <VitalsMonitor>
-        <position>(1, 0, 0)</position>
+        <position>(1, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
       </VitalsMonitor>
     </things>
   </PrefabDef>

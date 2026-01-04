@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Ancient Operating Table Prefab
+    Single ancient operating table for medical bay interior.
+
+    Features:
+    - 1x2 prefab size (matches building footprint)
+    - Interior placement (not edge-only)
+
+    Design (top view, North is up):
+        x: 0
+    z=1:   T
+    z=0:   T
+
+    Legend:
+    T = AncientOperatingTable (1x2 building)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_AncientOperatingTable</defName>
+    <size>(1,2)</size>
+    <things>
+      <AncientOperatingTable>
+        <position>(0, 0, 0)</position>
+      </AncientOperatingTable>
+    </things>
+  </PrefabDef>
+</Defs>

@@ -1,3 +1,4 @@
+using BetterTradersGuild.DefRefs;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -91,7 +92,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
                 }
                 else
                 {
-                    Messages.Message("Settlement cannot trade right now.", MessageTypeDefOf.RejectInput);
+                    Messages.Message("Settlement cannot trade right now.", MessageTypes.RejectInput);
                 }
             };
 

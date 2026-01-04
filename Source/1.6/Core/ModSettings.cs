@@ -59,11 +59,11 @@ namespace BetterTradersGuild
         /// <remarks>
         /// Range: 0.0-2.0 (0-200% of threat points)
         /// 0 = disabled (no sentry drones spawn)
-        /// Default: 0.25 (25% of threat points used for drone calculation)
+        /// Default: 0.3 (30% of threat points used for drone calculation)
         /// Uses minimum threat points cap from PawnGroupMakerUtilityMinimumPoints
         /// Requires useCustomLayouts to be enabled
         /// </remarks>
-        public float sentryDronePresence = 0.25f;
+        public float sentryDronePresence = 0.3f;
 
         public override void ExposeData()
         {
@@ -72,7 +72,7 @@ namespace BetterTradersGuild
             Scribe_Values.Look(ref useCustomLayouts, "useCustomLayouts", true);
             Scribe_Values.Look(ref useEnhancedPawnGeneration, "useEnhancedPawnGeneration", true);
             Scribe_Values.Look(ref cargoInventoryPercentage, "cargoInventoryPercentage", 0.60f);
-            Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
+            Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.3f);
         }
     }
 

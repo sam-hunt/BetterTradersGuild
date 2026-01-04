@@ -5,54 +5,54 @@
     Modern, clean hospital beds for TradersGuild medical facilities.
 
     Features:
-    - 6x3 prefab size
+    - 5x2 prefab size
     - Edge placement (against walls)
 
-    Design (top view, North is up, wall at z=2):
-        x: 0 1 2 3 4 5
-    z=2:   V H T H V H
-    z=1:   . H . H . H
-    z=0:   . . . . . .
+    Design (top view, North is up, wall at z=1):
+        x: 0 1 2 3 4
+    z=1:   H T H V H
+    z=0:   H . H . H
 
     Legend:
     H = HospitalBed (steel, facing into room)
     V = VitalsMonitor (patient monitoring)
     T = EndTable (steel, patient convenience)
-    . = empty space (staff access)
+    . = empty space (bed extends here)
   -->
 
   <PrefabDef>
     <defName>BTG_HospitalBeds_Edge</defName>
     <edgeOnly>true</edgeOnly>
-    <size>(6,3)</size>
+    <size>(5,2)</size>
     <things>
       <!-- Modern hospital beds (non-rusted) in a row -->
       <HospitalBed>
         <positions>
-          <li>(1, 0, 2)</li>
-          <li>(3, 0, 2)</li>
-          <li>(5, 0, 2)</li>
+          <li>(0, 0, 1)</li>
+          <li>(2, 0, 1)</li>
+          <li>(4, 0, 1)</li>
         </positions>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>Steel</stuff>
       </HospitalBed>
 
-      <!-- Vitals monitors for patient monitoring (alternating) -->
+      <!-- Vitals monitor for patient monitoring -->
       <VitalsMonitor>
-        <positions>
-          <li>(0, 0, 2)</li>
-          <li>(4, 0, 2)</li>
-        </positions>
+        <position>(3, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
       </VitalsMonitor>
 
-      <!-- End tables for patient convenience (alternating) -->
+      <!-- End table for patient convenience -->
       <EndTable>
-        <positions>
-          <li>(2, 0, 2)</li>
-        </positions>
+        <position>(1, 0, 1)</position>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>Steel</stuff>
       </EndTable>
+
+      <!-- Guarantee well lit -->
+      <AncientEmergencyLight_Blue>
+        <position>(2, 0, 1)</position>
+      </AncientEmergencyLight_Blue>
     </things>
   </PrefabDef>
 </Defs>

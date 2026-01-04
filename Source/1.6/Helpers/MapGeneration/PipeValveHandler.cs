@@ -1,3 +1,4 @@
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -29,27 +30,10 @@ namespace BetterTradersGuild.Helpers.MapGeneration
     public static class PipeValveHandler
     {
         /// <summary>
-        /// VE pipe valve defNames to process.
-        /// These are the valves placed by BTG prefabs for tank systems.
-        /// </summary>
-        private static readonly string[] ValveDefNames = new string[]
-        {
-            // VE Chemfuel valves
-            "VCHE_ChemfuelValve",
-            "VCHE_DeepchemValve",
-            // VE Nutrient Paste valve
-            "VNPE_NutrientPasteValve",
-            // VE Gravships valves
-            "VGE_OxygenValve",
-            "VGE_AstrofuelValve"
-        };
-
-
-        /// <summary>
         /// Closes all VE pipe valves on the map and removes faction ownership.
         ///
         /// BEHAVIOR:
-        /// - Finds all Things on map matching supported valve defNames
+        /// - Finds all Things on map matching supported valve ThingDefs
         /// - For each valve, uses CompFlickable to turn it off (closed state)
         /// - Sets faction to null (claimable by player once area is secured)
         ///
@@ -63,28 +47,39 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         {
             int processedCount = 0;
 
-            // Process each valve defName
-            foreach (string valveDefName in ValveDefNames)
+            // Process each supported valve type
+            // VE Chemfuel valves
+            processedCount += ProcessValvesOfDef(map, Things.VCHE_ChemfuelValve);
+            processedCount += ProcessValvesOfDef(map, Things.VCHE_DeepchemValve);
+
+            // VE Nutrient Paste valve
+            processedCount += ProcessValvesOfDef(map, Things.VNPE_NutrientPasteValve);
+
+            // VE Gravships valves
+            processedCount += ProcessValvesOfDef(map, Things.VGE_OxygenValve);
+            processedCount += ProcessValvesOfDef(map, Things.VGE_AstrofuelValve);
+
+            return processedCount;
+        }
+
+        /// <summary>
+        /// Processes all valves of a specific ThingDef on the map.
+        /// </summary>
+        /// <param name="map">The map to search</param>
+        /// <param name="valveDef">The valve ThingDef (may be null if mod not installed)</param>
+        /// <returns>Number of valves processed</returns>
+        private static int ProcessValvesOfDef(Map map, ThingDef valveDef)
+        {
+            if (valveDef == null)
+                return 0;
+
+            int processedCount = 0;
+
+            foreach (Thing thing in map.listerThings.ThingsOfDef(valveDef))
             {
-                // Get ThingDef (silent fail for optional mods)
-                ThingDef valveDef = DefDatabase<ThingDef>.GetNamedSilentFail(valveDefName);
-                if (valveDef == null)
+                if (ProcessValve(thing))
                 {
-                    continue; // This VE mod not installed, skip
-                }
-
-                // Find all things of this def on the map
-                foreach (Thing thing in map.listerThings.ThingsOfDef(valveDef))
-                {
-                    if (thing == null)
-                        continue;
-
-                    // Process the valve: close it and clear faction
-                    bool processed = ProcessValve(thing);
-                    if (processed)
-                    {
-                        processedCount++;
-                    }
+                    processedCount++;
                 }
             }
 

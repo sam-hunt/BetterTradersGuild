@@ -1,3 +1,4 @@
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -10,8 +11,7 @@ namespace BetterTradersGuild
     public static class TradersGuildHelper
     {
         /// <summary>
-        /// Checks if a settlement belongs to the Traders Guild faction
-        /// The Traders Guild faction def name in RimWorld 1.6 is "TradersGuild"
+        /// Checks if a settlement belongs to the Traders Guild faction.
         /// </summary>
         public static bool IsTradersGuildSettlement(Settlement settlement)
         {
@@ -19,9 +19,8 @@ namespace BetterTradersGuild
             if (settlement == null || settlement.Faction == null)
                 return false;
 
-            // Check if the faction's defName matches the Traders Guild
-            // In RimWorld 1.6+, the Traders Guild faction is called "TradersGuild"
-            return settlement.Faction.def.defName == "TradersGuild";
+            // Check if the faction's def matches the Traders Guild
+            return settlement.Faction.def == Factions.TradersGuild;
         }
 
         /// <summary>
@@ -58,8 +57,7 @@ namespace BetterTradersGuild
         /// </summary>
         public static Faction GetTradersGuildFaction()
         {
-            return Find.FactionManager?.FirstFactionOfDef(
-                FactionDef.Named("TradersGuild"));
+            return Find.FactionManager?.FirstFactionOfDef(Factions.TradersGuild);
         }
     }
 }

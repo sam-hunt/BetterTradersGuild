@@ -30,7 +30,7 @@
     <size>(4,5)</size>
     <things>
       <BilliardsTable>
-        <position>(1,0,1)</position>
+        <position>(1,0,2)</position>
         <stuff>BlocksMarble</stuff>
         <quality>Excellent</quality>
       </BilliardsTable>

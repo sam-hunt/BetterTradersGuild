@@ -11,6 +11,16 @@
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.Armory.RoomContents_Armory</roomContentsWorkerType>
 
     <edgeTerrain>MetalTile</edgeTerrain>
+
+    <scatter>
+      <!-- Oil from weapon maintenance -->
+      <Filth_OilSmear>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_OilSmear>
+    </scatter>
+
     <floorTypes>
       <li>AncientConcrete</li>
     </floorTypes>
@@ -54,6 +64,12 @@
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </Shelves_Rows>
+
+      <!-- Communications console for coordination -->
+      <BTG_CommsConsole_Edge>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_CommsConsole_Edge>
     </prefabs>
 
     <!-- Higher threat level (weapons storage) -->

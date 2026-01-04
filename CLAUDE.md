@@ -128,7 +128,7 @@ BetterTradersGuild/
 │   │   ├── BTG_OrbitalCommandersQuarters.xml  # 🚧 IN PROGRESS
 │   │   ├── BTG_OrbitalCargoStorage.xml
 │   │   ├── BTG_OrbitalClassroom.xml
-│   │   ├── BTG_OrbitalComputerRoom.xml
+│   │   ├── ControlCenter.xml
 │   │   ├── BTG_OrbitalCorridor.xml
 │   │   ├── MessHall.xml
 │   │   ├── BTG_OrbitalHydroponics.xml
@@ -138,7 +138,7 @@ BetterTradersGuild/
 │   │   ├── BTG_OrbitalSecurityStation.xml
 │   │   ├── BTG_OrbitalStoreroom.xml
 │   │   ├── BTG_OrbitalTradeShowcase.xml
-│   │   ├── BTG_OrbitalTransportRoom.xml
+│   │   ├── BTG_ShuttleBay.xml
 │   │   └── BTG_OrbitalWorkshop.xml
 │   └── PrefabDefs/         # Phase 3: Custom prefabs (10 files)
 │       ├── BTG_ArmchairsWithPlantpot_Edge.xml
@@ -197,10 +197,8 @@ BetterTradersGuild/
 │   │   ├── CaravanArrivalActions/ # CaravanArrivalAction patches (2 files)
 │   │   │   ├── CaravanArrivalActionAttackGetFloatMenuOptions.cs
 │   │   │   └── CaravanArrivalActionTradeGetFloatMenuOptions.cs
-│   │   ├── Caravan/               # Caravan patches (1 file)
-│   │   │   └── CaravanGetGizmos.cs
-│   │   └── Debug/                 # Debug logging patches (1 file)
-│   │       └── RoomContentsWorkerFillRoom.cs
+│   │   └── Caravan/               # Caravan patches (1 file)
+│   │       └── CaravanGetGizmos.cs
 │   ├── RoomContents/       # Phase 3: Custom room generation workers
 │   │   └── RoomContents_CommandersQuarters.cs  # 🚧 IN PROGRESS
 │   ├── WorldObjects/       # Phase 3: World object components
@@ -501,7 +499,7 @@ Static Base (Never Changes):
 └── All furniture/structure is permanent
 
 Dynamic Cargo Bay (Refreshes on Rotation):
-├── ONE shuttle bay (OrbitalTransportRoom)
+├── ONE shuttle bay (ShuttleBay)
 ├── Cargo pulled from settlement's trade inventory (~60%)
 ├── Items removed from trade inventory for balance
 ├── On revisit after rotation: despawn old → spawn new

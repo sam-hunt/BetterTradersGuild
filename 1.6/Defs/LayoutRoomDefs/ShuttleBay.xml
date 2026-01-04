@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Transport Room / Shuttle Bay
+    Better Traders Guild - Shuttle Bay
 
     Landing pad subroom with L-shaped walls (front + right side only), similar to
     CommandersQuarters bedroom. Placed in corners (preferred) or along edges with
@@ -21,18 +21,18 @@
   -->
 
   <LayoutRoomDef>
-    <defName>BTG_TransportRoom</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.TransportRoom.RoomContents_TransportRoom</roomContentsWorkerType>
+    <defName>BTG_ShuttleBay</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.ShuttleBay.RoomContents_ShuttleBay</roomContentsWorkerType>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
     <noRoof>true</noRoof>
-    <minSingleRectWidth>16</minSingleRectWidth>
-    <minSingleRectHeight>16</minSingleRectHeight>
+    <minSingleRectWidth>15</minSingleRectWidth>
+    <minSingleRectHeight>15</minSingleRectHeight>
 
     <prefabs>
       <!-- Broken forklift for industrial atmosphere -->
       <AncientForklift>
         <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>1~1</minMaxRange>
+        <minMaxRange>0~1</minMaxRange>
       </AncientForklift>
     </prefabs>
   </LayoutRoomDef>

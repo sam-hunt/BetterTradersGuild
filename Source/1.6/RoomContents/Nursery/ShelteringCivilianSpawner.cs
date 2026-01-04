@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using Verse;
 using Verse.AI;
+using BetterTradersGuild.DefRefs;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
@@ -10,7 +11,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
     /// Spawns civilians (a caretaker and their children) sheltering inside the nursery crib subroom.
     /// These represent non-combatants who have locked themselves behind the blast door.
     /// </summary>
-    public static class CivilianSpawner
+    public static class ShelteringCivilianSpawner
     {
         /// <summary>
         /// Weighted developmental stages for young pawn generation.
@@ -66,9 +67,9 @@ namespace BetterTradersGuild.RoomContents.Nursery
             // Determine spawn counts
             int childCount = Rand.RangeInclusive(2, 4);
 
-            // Get PawnKindDefs
-            PawnKindDef citizenKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("TradersGuild_Citizen");
-            PawnKindDef childKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("TradersGuild_Child");
+            // Get PawnKindDefs from centralized DefRefs
+            PawnKindDef citizenKind = PawnKinds.TradersGuild_Citizen;
+            PawnKindDef childKind = PawnKinds.TradersGuild_Child;
 
             int spawned = 0;
             Pawn caretaker = null;
@@ -99,7 +100,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     // Assign caretaker as parent for realism
                     if (caretaker != null)
                     {
-                        youngPawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, caretaker);
+                        youngPawn.relations.AddDirectRelation(PawnRelations.Parent, caretaker);
                     }
 
                     // Check if this is a newborn or baby (can't walk - should be in crib)
@@ -164,7 +165,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             compAssignable?.TryAssignPawn(pawn);
 
             // Start a LayDown job so the pawn appears to be lying in the crib
-            Job layDownJob = JobMaker.MakeJob(JobDefOf.LayDownResting, crib);
+            Job layDownJob = JobMaker.MakeJob(Jobs.LayDownResting, crib);
             pawn.jobs.StartJob(layDownJob, JobCondition.None, null, resumeCurJobAfterwards: false, cancelBusyStances: true);
 
             // Remove crib from available list if it no longer has free slots

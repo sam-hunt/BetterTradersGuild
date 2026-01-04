@@ -5,8 +5,41 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <!-- RimWorld Installation Path Configuration -->
+  <!-- Override with environment variable RIMWORLD_PATH or pass -p:RimWorldPath="..." to dotnet build -->
+  <PropertyGroup>
+    <RimWorldPath Condition="'$(RimWorldPath)' == ''">$(RIMWORLD_PATH)</RimWorldPath>
+  </PropertyGroup>
+
+  <!-- Platform-specific defaults if RIMWORLD_PATH not set -->
+  <PropertyGroup Condition="'$(RimWorldPath)' == '' And $([MSBuild]::IsOSPlatform('Windows'))">
+    <RimWorldPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RimWorldPath)' == '' And $([MSBuild]::IsOSPlatform('Linux'))">
+    <RimWorldPath>$(HOME)/.local/share/Steam/steamapps/common/RimWorld</RimWorldPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RimWorldPath)' == '' And $([MSBuild]::IsOSPlatform('OSX'))">
+    <RimWorldPath>$(HOME)/Library/Application Support/Steam/steamapps/common/RimWorld</RimWorldPath>
+  </PropertyGroup>
+
+  <!-- Platform-specific data folder names -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <RimWorldDataFolder>RimWorldWin64_Data</RimWorldDataFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <RimWorldDataFolder>RimWorldLinux_Data</RimWorldDataFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <RimWorldDataFolder>RimWorldMac_Data</RimWorldDataFolder>
+  </PropertyGroup>
+
+  <!-- Detect if local RimWorld installation exists -->
+  <PropertyGroup>
+    <UseLocalRimWorld Condition="Exists('$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll')">true</UseLocalRimWorld>
+  </PropertyGroup>
+
+  <!-- Test framework packages -->
   <ItemGroup>
-    <!-- Test framework packages -->
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1">
@@ -15,27 +48,28 @@
     </PackageReference>
   </ItemGroup>
 
+  <!-- Reference the source project -->
   <ItemGroup>
-    <!-- Reference the source project (versioned under Source/1.6/) -->
-    <!-- Path is relative to Tests/1.6/ -->
     <ProjectReference Include="..\..\Source\1.6\BetterTradersGuild.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- Reference RimWorld assemblies for type definitions -->
-    <!-- Paths are relative to Tests/1.6/ -->
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+  <!-- Use local references when RimWorld is installed -->
+  <ItemGroup Condition="'$(UseLocalRimWorld)' == 'true'">
+    <Reference Include="Assembly-CSharp" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="UnityEngine.CoreModule" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 
+  <!-- Fall back to NuGet package for CI builds without local RimWorld -->
+  <ItemGroup Condition="'$(UseLocalRimWorld)' != 'true'">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*" />
+  </ItemGroup>
+
+  <!-- Exclude non-test files -->
   <ItemGroup>
-    <!-- Exclude non-test files -->
     <Compile Remove="Tools\**" />
     <Compile Remove="Helpers\DiagramGeneratorTests.cs" />
   </ItemGroup>

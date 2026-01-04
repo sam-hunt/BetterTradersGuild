@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
@@ -134,7 +135,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             if (walls == null || walls.Count == 0)
                 return;
 
-            wallDef = wallDef ?? ThingDefOf.OrbitalAncientFortifiedWall;
+            wallDef = wallDef ?? Things.OrbitalAncientFortifiedWall;
 
             foreach (var wall in walls)
             {

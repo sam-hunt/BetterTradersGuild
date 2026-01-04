@@ -13,20 +13,19 @@
     <minSingleRectHeight>11</minSingleRectHeight>
 
     <!-- Basic carpet flooring -->
-    <!-- TODO: Set subtle colored carpet flooring per-subroom after placement-->
-    <!-- <floorTypes>
-      <li>CarpetOrbitalSteel</li>
-      <li>CarpetMarble</li>
-      <li>CarpetSlate</li>
-    </floorTypes>
-    <edgeTerrain>MetalTile</edgeTerrain> -->
-
-    <!-- Temporarily set tiles with clear borders that are easy to count,
-         while we work on our subroom placement algorithm -->
     <floorTypes>
-      <li>SterileTile</li>
+      <li>CarpetMarble</li>
+      <li>CarpetGreyDark</li>
     </floorTypes>
-    <edgeTerrain>SterileTile</edgeTerrain>
+
+    <scatter>
+      <!-- Light trash from daily living -->
+      <Filth_Trash>
+        <groupsPerHundredCells>0~1</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Trash>
+    </scatter>
 
     <prefabs>
       <!-- Bed subrooms (5x5 BTG_CrewBedSubroom) spawned iteratively by RoomContents_CrewQuarters

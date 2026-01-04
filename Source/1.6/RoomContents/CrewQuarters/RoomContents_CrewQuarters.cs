@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 using static BetterTradersGuild.Helpers.RoomContents.SubroomPackingCalculator;
 
@@ -115,23 +116,27 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 subroomRects.Add(subroomRect);
             }
 
-            // 3. Connect interior door rows to power grid
+            // 3. Apply random carpet colors to each subroom
+            // Each subroom gets its own color from a curated neutral/muted palette
+            SubroomCarpetCustomizer.Customize(map, subroomRects);
+
+            // 4. Connect interior door rows to power grid
             // Middle strips with exclusion zones at both ends may have "floating island" subrooms
             // disconnected from the wall-based power grid. Running conduits along door rows
             // ensures all subrooms have power connectivity.
             CorridorPowerConnector.ConnectInteriorDoorRows(map, roomRect);
 
-            // 4. Call base to process XML-defined content (lockers spawn in corridors/exclusion zones)
+            // 5. Call base to process XML-defined content (lockers spawn in corridors/exclusion zones)
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 5. Customize subrooms with random items, furniture, and pawns
+            // 6. Customize subrooms with random items, furniture, and pawns
             // Run customizers in order - meditation spots may add plant pots which get plants later
             MeditationSpotCustomizer.Customize(map, subroomRects, faction);
             ShelfCustomizer.CustomizeSmallShelves(map, subroomRects);
             ShelfCustomizer.CustomizeEmptyShelves(map, subroomRects, faction);
             TableCustomizer.Customize(map, subroomRects);
 
-            // 6. Post-processing: spawn plants in any plant pots (random mix of decorative plants)
+            // 7. Post-processing: spawn plants in any plant pots (random mix of decorative plants)
             // Query all plants with "Decorative" sowTag - this automatically supports mod-added plants
             var decorativePlants = DefDatabase<ThingDef>.AllDefs
                 .Where(p => p.plant?.sowTags?.Contains("Decorative") == true)
@@ -192,7 +197,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private void SpawnWallsFromSegments(Map map, List<WallSegment> walls)
         {
-            ThingDef wallDef = ThingDefOf.OrbitalAncientFortifiedWall;
+            ThingDef wallDef = Things.OrbitalAncientFortifiedWall;
 
             foreach (var wall in walls)
             {

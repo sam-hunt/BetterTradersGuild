@@ -9,7 +9,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
     /// <summary>
     /// Populates nursery shelves with baby food and survival meals.
     /// </summary>
-    public static class ShelfPopulator
+    public static class NurseryShelfPopulator
     {
         /// <summary>
         /// Populates the nursery shelf with baby food and packaged survival meals.

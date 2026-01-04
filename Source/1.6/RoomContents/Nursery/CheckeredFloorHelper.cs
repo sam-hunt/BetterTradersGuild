@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace BetterTradersGuild.Helpers
+namespace BetterTradersGuild.RoomContents.Nursery
 {
     /// <summary>
-    /// Helper class for applying checkered floor patterns during room generation.
+    /// Helper class for applying checkered floor patterns during nursery room generation.
     ///
     /// Creates a diagonal stripe pattern by cycling through terrain types based on
     /// (row + column) % terrainCount. With 3 terrain types, this produces visually
@@ -16,47 +16,41 @@ namespace BetterTradersGuild.Helpers
     public static class CheckeredFloorHelper
     {
         /// <summary>
-        /// Applies a checkered floor pattern to the specified rect using the provided terrain types.
+        /// Applies a checkered floor pattern to the specified rect using the provided terrain defs.
         ///
         /// Pattern algorithm: terrain[(row + col) % terrainCount]
         /// This creates diagonal stripes when using 3+ terrain types.
         ///
-        /// SAFETY: Validates all terrain def names and skips cells outside map bounds.
-        /// Non-existent terrain defs are logged as warnings and skipped.
+        /// SAFETY: Skips null terrain defs and cells outside map bounds.
         /// </summary>
         /// <param name="map">The map to modify terrain on</param>
         /// <param name="rect">The rectangular area to apply the pattern to</param>
-        /// <param name="terrainDefNames">List of terrain defNames to cycle through (minimum 2)</param>
+        /// <param name="terrainDefs">List of TerrainDef to cycle through (minimum 2 non-null)</param>
         /// <returns>Number of tiles modified</returns>
-        public static int ApplyCheckeredFloor(Map map, CellRect rect, List<string> terrainDefNames)
+        public static int ApplyCheckeredFloor(Map map, CellRect rect, List<TerrainDef> terrainDefs)
         {
-            if (map == null || terrainDefNames == null || terrainDefNames.Count < 2)
+            if (map == null || terrainDefs == null)
             {
-                Log.Warning("[Better Traders Guild] CheckeredFloorHelper requires a map and at least 2 terrain def names.");
+                Log.Warning("[Better Traders Guild] CheckeredFloorHelper requires a map and terrain defs list.");
                 return 0;
             }
 
-            // Resolve terrain defs from names
-            List<TerrainDef> terrainDefs = new List<TerrainDef>();
-            foreach (string defName in terrainDefNames)
+            // Filter out null defs
+            List<TerrainDef> validDefs = new List<TerrainDef>();
+            foreach (TerrainDef terrain in terrainDefs)
             {
-                TerrainDef terrain = DefDatabase<TerrainDef>.GetNamedSilentFail(defName);
-                if (terrain == null)
-                {
-                    Log.Warning($"[Better Traders Guild] CheckeredFloorHelper: Terrain def '{defName}' not found, skipping.");
-                    continue;
-                }
-                terrainDefs.Add(terrain);
+                if (terrain != null)
+                    validDefs.Add(terrain);
             }
 
-            if (terrainDefs.Count < 2)
+            if (validDefs.Count < 2)
             {
-                Log.Warning("[Better Traders Guild] CheckeredFloorHelper: Not enough valid terrain defs found (need at least 2).");
+                Log.Warning("[Better Traders Guild] CheckeredFloorHelper requires at least 2 valid terrain defs.");
                 return 0;
             }
 
             int tilesModified = 0;
-            int terrainCount = terrainDefs.Count;
+            int terrainCount = validDefs.Count;
 
             // Iterate through each row and cell in the rect
             for (int z = rect.minZ; z <= rect.maxZ; z++)
@@ -72,7 +66,7 @@ namespace BetterTradersGuild.Helpers
 
                     // Select terrain using modulo pattern
                     int terrainIndex = (row + col) % terrainCount;
-                    TerrainDef terrain = terrainDefs[terrainIndex];
+                    TerrainDef terrain = validDefs[terrainIndex];
 
                     map.terrainGrid.SetTerrain(cell, terrain);
                     tilesModified++;

@@ -1,0 +1,42 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build
+        run: dotnet build BetterTradersGuild.sln -c Release
+
+      - name: Package mod
+        run: |
+          mkdir -p release/BetterTradersGuild/About
+          mkdir -p release/BetterTradersGuild/1.6/Assemblies
+          mkdir -p release/BetterTradersGuild/1.6/Defs
+          mkdir -p release/BetterTradersGuild/1.6/Patches
+          cp About/About.xml release/BetterTradersGuild/About/
+          cp LoadFolders.xml release/BetterTradersGuild/
+          cp 1.6/Assemblies/BetterTradersGuild.dll release/BetterTradersGuild/1.6/Assemblies/
+          cp -r 1.6/Defs/* release/BetterTradersGuild/1.6/Defs/
+          cp -r 1.6/Patches/* release/BetterTradersGuild/1.6/Patches/
+          cd release && zip -r ../BetterTradersGuild-${{ github.ref_name }}.zip BetterTradersGuild
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: BetterTradersGuild-${{ github.ref_name }}.zip
+          generate_release_notes: true

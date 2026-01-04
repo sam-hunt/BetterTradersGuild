@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using BetterTradersGuild.DefRefs;
 using Verse;
 
 namespace BetterTradersGuild.Helpers.MapGeneration
@@ -26,21 +27,29 @@ namespace BetterTradersGuild.Helpers.MapGeneration
     public static class PipeNetworkTankFiller
     {
         /// <summary>
-        /// Tank defNames to fill during post-generation, with their fill percentage ranges.
-        /// Standard tanks: 20-50%, Oxygen tanks: 45-65% (life support critical).
+        /// Fill percentage range for a tank type.
         /// </summary>
-        private static readonly Dictionary<string, (float minPct, float maxPct)> TankFillRanges = new Dictionary<string, (float, float)>
+        private struct TankFillRange
         {
-            // VE Chemfuel tanks (20-50%)
-            { "PS_ChemfuelTank", (0.20f, 0.50f) },
-            { "PS_DeepchemTank", (0.20f, 0.50f) },
-            // VE Nutrient Paste vat (20-50%)
-            { "VNPE_NutrientPasteVat", (0.20f, 0.50f) },
-            // VE Gravships oxygen tanks (45-65% - life support critical)
-            { "VGE_LargeOxygenTank", (0.45f, 0.65f) },
-            // VE Gravships astrofuel tank (20-50%)
-            { "VGE_GiantAstrofuelTank", (0.20f, 0.50f) },
-        };
+            public float MinPct;
+            public float MaxPct;
+
+            public TankFillRange(float minPct, float maxPct)
+            {
+                MinPct = minPct;
+                MaxPct = maxPct;
+            }
+        }
+
+        /// <summary>
+        /// Standard fill range for most tanks (20-50%).
+        /// </summary>
+        private static readonly TankFillRange StandardFillRange = new TankFillRange(0.20f, 0.50f);
+
+        /// <summary>
+        /// Life support fill range for oxygen tanks (45-65% - critical systems).
+        /// </summary>
+        private static readonly TankFillRange LifeSupportFillRange = new TankFillRange(0.45f, 0.65f);
 
         /// <summary>
         /// Cached Type reference for PipeSystem.CompResourceStorage.
@@ -57,7 +66,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         /// Fills VE pipe network tanks on the map to random levels.
         ///
         /// BEHAVIOR:
-        /// - Finds all Things on map matching supported tank defNames
+        /// - Finds all Things on map matching supported tank ThingDefs
         /// - For each tank, gets CompResourceStorage via reflection
         /// - Calculates random fill amount within configured range
         /// - Calls AddResource to fill the tank
@@ -86,84 +95,123 @@ namespace BetterTradersGuild.Helpers.MapGeneration
 
             int filledCount = 0;
 
-            // Find all things on map that match our tank defNames
-            foreach (Thing thing in map.listerThings.AllThings)
+            // Process each supported tank type
+            // VE Chemfuel tanks (standard fill)
+            filledCount += FillTanksOfDef(map, Things.PS_ChemfuelTank, StandardFillRange);
+            filledCount += FillTanksOfDef(map, Things.PS_DeepchemTank, StandardFillRange);
+
+            // VE Nutrient Paste vat (standard fill)
+            filledCount += FillTanksOfDef(map, Things.VNPE_NutrientPasteVat, StandardFillRange);
+
+            // VE Gravships oxygen tank (life support critical - higher fill)
+            filledCount += FillTanksOfDef(map, Things.VGE_LargeOxygenTank, LifeSupportFillRange);
+
+            // VE Gravships astrofuel tank (standard fill)
+            filledCount += FillTanksOfDef(map, Things.VGE_GiantAstrofuelTank, StandardFillRange);
+
+            return filledCount;
+        }
+
+        /// <summary>
+        /// Fills all tanks of a specific ThingDef on the map.
+        /// </summary>
+        /// <param name="map">The map to search</param>
+        /// <param name="tankDef">The tank ThingDef (may be null if mod not installed)</param>
+        /// <param name="fillRange">The fill percentage range</param>
+        /// <returns>Number of tanks filled</returns>
+        private static int FillTanksOfDef(Map map, ThingDef tankDef, TankFillRange fillRange)
+        {
+            if (tankDef == null)
+                return 0;
+
+            int filledCount = 0;
+
+            foreach (Thing thing in map.listerThings.ThingsOfDef(tankDef))
             {
-                if (thing?.def == null)
-                    continue;
-
-                // Check if this is one of our supported tanks
-                if (!TankFillRanges.TryGetValue(thing.def.defName, out var fillRange))
-                    continue;
-
-                // Must be a ThingWithComps to have comps
-                ThingWithComps thingWithComps = thing as ThingWithComps;
-                if (thingWithComps == null)
-                    continue;
-
-                // Get the CompResourceStorage comp via reflection
-                ThingComp storageComp = null;
-                foreach (ThingComp comp in thingWithComps.AllComps)
+                if (FillTank(thing, fillRange))
                 {
-                    if (compResourceStorageType.IsInstanceOfType(comp))
-                    {
-                        storageComp = comp;
-                        break;
-                    }
-                }
-
-                if (storageComp == null)
-                    continue;
-
-                // Get Props.storageCapacity via reflection
-                // NOTE: Use DeclaredOnly to avoid AmbiguousMatchException - CompResourceStorage
-                // declares its own Props property that hides the base ThingComp.Props
-                PropertyInfo propsProperty = compResourceStorageType.GetProperty("Props",
-                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-                if (propsProperty == null)
-                {
-                    // Fallback: walk up the type hierarchy to find Props
-                    Type currentType = compResourceStorageType.BaseType;
-                    while (currentType != null && propsProperty == null)
-                    {
-                        propsProperty = currentType.GetProperty("Props",
-                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-                        currentType = currentType.BaseType;
-                    }
-                }
-                if (propsProperty == null)
-                    continue;
-
-                object props = propsProperty.GetValue(storageComp);
-                if (props == null)
-                    continue;
-
-                FieldInfo capacityField = props.GetType().GetField("storageCapacity",
-                    BindingFlags.Public | BindingFlags.Instance);
-                if (capacityField == null)
-                    continue;
-
-                float storageCapacity = (float)capacityField.GetValue(props);
-
-                // Calculate random fill amount within the specified range
-                float fillPct = Rand.Range(fillRange.minPct, fillRange.maxPct);
-                float fillAmount = storageCapacity * fillPct;
-
-                // Call AddResource method via reflection
-                MethodInfo addResourceMethod = compResourceStorageType.GetMethod("AddResource",
-                    BindingFlags.Public | BindingFlags.Instance,
-                    null,
-                    new Type[] { typeof(float) },
-                    null);
-
-                if (addResourceMethod != null)
-                {
-                    addResourceMethod.Invoke(storageComp, new object[] { fillAmount });
                     filledCount++;
                 }
             }
 
             return filledCount;
+        }
+
+        /// <summary>
+        /// Fills a single tank to a random level within the specified range.
+        /// </summary>
+        /// <param name="thing">The tank Thing</param>
+        /// <param name="fillRange">The fill percentage range</param>
+        /// <returns>True if tank was filled successfully</returns>
+        private static bool FillTank(Thing thing, TankFillRange fillRange)
+        {
+            // Must be a ThingWithComps to have comps
+            ThingWithComps thingWithComps = thing as ThingWithComps;
+            if (thingWithComps == null)
+                return false;
+
+            // Get the CompResourceStorage comp via reflection
+            ThingComp storageComp = null;
+            foreach (ThingComp comp in thingWithComps.AllComps)
+            {
+                if (compResourceStorageType.IsInstanceOfType(comp))
+                {
+                    storageComp = comp;
+                    break;
+                }
+            }
+
+            if (storageComp == null)
+                return false;
+
+            // Get Props.storageCapacity via reflection
+            // NOTE: Use DeclaredOnly to avoid AmbiguousMatchException - CompResourceStorage
+            // declares its own Props property that hides the base ThingComp.Props
+            PropertyInfo propsProperty = compResourceStorageType.GetProperty("Props",
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            if (propsProperty == null)
+            {
+                // Fallback: walk up the type hierarchy to find Props
+                Type currentType = compResourceStorageType.BaseType;
+                while (currentType != null && propsProperty == null)
+                {
+                    propsProperty = currentType.GetProperty("Props",
+                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                    currentType = currentType.BaseType;
+                }
+            }
+            if (propsProperty == null)
+                return false;
+
+            object props = propsProperty.GetValue(storageComp);
+            if (props == null)
+                return false;
+
+            FieldInfo capacityField = props.GetType().GetField("storageCapacity",
+                BindingFlags.Public | BindingFlags.Instance);
+            if (capacityField == null)
+                return false;
+
+            float storageCapacity = (float)capacityField.GetValue(props);
+
+            // Calculate random fill amount within the specified range
+            float fillPct = Rand.Range(fillRange.MinPct, fillRange.MaxPct);
+            float fillAmount = storageCapacity * fillPct;
+
+            // Call AddResource method via reflection
+            MethodInfo addResourceMethod = compResourceStorageType.GetMethod("AddResource",
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                new Type[] { typeof(float) },
+                null);
+
+            if (addResourceMethod != null)
+            {
+                addResourceMethod.Invoke(storageComp, new object[] { fillAmount });
+                return true;
+            }
+
+            return false;
         }
     }
 }

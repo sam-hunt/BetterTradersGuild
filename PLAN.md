@@ -313,7 +313,7 @@ This section defines the **static base structure** (permanent rooms) and **dynam
 
 ### Static Base Rooms (Permanent Structure)
 
-#### 1. Command Center (Computer Room)
+#### 1. Control Center
 
 **Based on vanilla:** `OrbitalComputerRoom`
 
@@ -425,7 +425,7 @@ This section defines the **static base structure** (permanent rooms) and **dynam
 
 This is the **ONLY room with dynamic content** that changes when trader rotation occurs. All other rooms remain static.
 
-**Based on vanilla:** `OrbitalTransportRoom` (large open area, no roof)
+**Based on vanilla:** `OrbitalShuttleBay` (large open area, no roof)
 
 **Room Structure (Permanent):**
 
@@ -628,7 +628,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
    - Define `BTG_OrbitalSettlement` StructureLayoutDef
    - Inherit from `OrbitalAncientPlatformBase` (same walls/doors as vanilla)
    - Reference CUSTOM BTG_Orbital\* RoomDefs:
-     - `BTG_OrbitalComputerRoom` (command center)
+     - `BTG_ControlCenter` (control center)
      - `BTG_OrbitalMedicalBay` (medical facility)
      - `BTG_OrbitalBarracks` (crew quarters)
      - `BTG_OrbitalHydroponics` (food production)
@@ -643,7 +643,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - `BTG_OrbitalCommandersQuarters` (luxury leader room)
      - `BTG_OrbitalCargoStorage` (shipping containers/pallets)
      - `BTG_OrbitalStoreroom` (2 instances - general storage)
-     - `BTG_OrbitalTransportRoom` (shuttle bay for dynamic cargo)
+     - `BTG_ShuttleBay` (shuttle bay for dynamic cargo)
 
 2. **Create custom RoomDefs** (`Defs/LayoutRoomDefs/BTG_RoomDefs.xml`)
 
@@ -657,7 +657,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - Pot plants for ambiance
      - Minimal threats (low priority target)
 
-   - `BTG_OrbitalComputerRoom`:
+   - `BTG_ControlCenter`:
 
      - Metal tile flooring
      - Computer terminals, comms consoles
@@ -766,7 +766,7 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
      - Industrial shelves
      - Mixed loot crates
 
-   - `BTG_OrbitalTransportRoom`:
+   - `BTG_ShuttleBay`:
      - Huge floor area
      - Dual room split by wall and vac barrier:
        - Half unroofed, open to space, landing pad (vanilla prefab?), shelf with chemfuel
@@ -875,10 +875,10 @@ Mid Goodwill + Desperate = Risk/reward decision (player choice)
    - "Cargo Bay Inventory Percentage" slider (30-100%, default 60%)
    - Description: "Percentage of trader's stock that appears as cargo in shuttle bay. Removed from trade inventory for balance."
 
-3. **Hook SymbolResolver to OrbitalTransportRoom**
+3. **Hook SymbolResolver to ShuttleBay**
 
    - Update LayoutDef XML to use custom resolver
-   - Alternatively: Harmony postfix on vanilla OrbitalTransportRoom resolver
+   - Alternatively: Harmony postfix on vanilla ShuttleBay resolver
 
 4. **Test dynamic cargo generation**
    - Verify cargo spawns from actual trade inventory
@@ -1304,7 +1304,7 @@ BetterTradersGuild/
 │   │   ├── BTG_OrbitalCommandersQuarters.xml  # 🚧 IN PROGRESS
 │   │   ├── BTG_OrbitalCargoStorage.xml
 │   │   ├── BTG_OrbitalClassroom.xml
-│   │   ├── BTG_OrbitalComputerRoom.xml
+│   │   ├── ControlCenter.xml
 │   │   ├── BTG_OrbitalCorridor.xml
 │   │   ├── MessHall.xml
 │   │   ├── BTG_OrbitalHydroponics.xml
@@ -1314,7 +1314,7 @@ BetterTradersGuild/
 │   │   ├── BTG_OrbitalSecurityStation.xml
 │   │   ├── BTG_OrbitalStoreroom.xml
 │   │   ├── BTG_OrbitalTradeShowcase.xml
-│   │   ├── BTG_OrbitalTransportRoom.xml
+│   │   ├── BTG_ShuttleBay.xml
 │   │   └── BTG_OrbitalWorkshop.xml
 │   └── PrefabDefs/             # Custom prefab definitions (10 files, Phase 3)
 │       ├── BTG_ArmchairsWithPlantpot_Edge.xml
@@ -1342,8 +1342,6 @@ BetterTradersGuild/
 │   │   ├── CaravanArrivalActions/
 │   │   │   ├── CaravanArrivalActionAttackGetFloatMenuOptions.cs
 │   │   │   └── CaravanArrivalActionTradeGetFloatMenuOptions.cs
-│   │   ├── Debug/
-│   │   │   └── RoomContentsWorkerFillRoom.cs  # Debug logging for map gen
 │   │   ├── MapGeneration/
 │   │   │   └── GenStepOrbitalPlatformGenerate.cs  # Phase 3 layout override
 │   │   ├── PlanetTile/

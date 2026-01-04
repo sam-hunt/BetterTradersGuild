@@ -478,7 +478,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             Rot4 rot = shelf.Rotation;
             shelf.Destroy(DestroyMode.Vanish);
 
-            Thing standThing = ThingMaker.MakeThing(Things.Building_OutfitStand);
+            Thing standThing = ThingMaker.MakeThing(Things.Building_OutfitStand, Things.Steel);
             GenSpawn.Spawn(standThing, pos, map, rot);
 
             // Paint with orbital steel color
@@ -524,7 +524,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 new List<(ThingDef, ThingDef)>
                 {
                     (Things.Apparel_ArmorRecon, null),
-                    (Things.Apparel_ArmorReconHelmet, null)
+                    (Things.Apparel_ArmorHelmetRecon, null)
                 }
             };
 
@@ -533,7 +533,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             {
                 apparelSets.Add(new List<(ThingDef, ThingDef)>
                 {
-                    (Things.Apparel_BodyStrap, Things.Leather_Panther)
+                    (Things.Apparel_BodyStrap, Things.Leather_Panthera)
                 });
             }
 

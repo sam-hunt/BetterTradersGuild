@@ -13,16 +13,17 @@
 
   <LayoutRoomDef>
     <defName>BTG_PodLaunchBay</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.PodLaunchBay.RoomContents_PodLaunchBay</roomContentsWorkerType>
     <noRoof>true</noRoof>
     <minSingleRectWidth>10</minSingleRectWidth>
     <minSingleRectHeight>10</minSingleRectHeight>
+
     <floorTypes>
       <li>AncientConcrete</li>
     </floorTypes>
     <edgeTerrain>MetalTile</edgeTerrain>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.PodLaunchBay.RoomContents_PodLaunchBay</roomContentsWorkerType>
-    <prefabs>
 
+    <prefabs>
       <BTG_PodLaunchers>
         <countPerHundredCells>2</countPerHundredCells>
         <minMaxRange>1~4</minMaxRange>
@@ -42,7 +43,31 @@
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </IndustrialShelf_Edge>
-
     </prefabs>
+
+    <scatter>
+      <!-- Fuel spillage from pod operations -->
+      <Filth_Fuel>
+        <groupsPerHundredCells>2~3</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>1</minGroups>
+      </Filth_Fuel>
+
+      <!-- Oil smears from machinery -->
+      <Filth_OilSmear>
+        <groupsPerHundredCells>2~4</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>1</minGroups>
+        <groupDistRange>1~2</groupDistRange>
+      </Filth_OilSmear>
+
+      <!-- Scorch marks from pod launches -->
+      <Filth_BlastMark>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~1</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_BlastMark>
+    </scatter>
+
   </LayoutRoomDef>
 </Defs>

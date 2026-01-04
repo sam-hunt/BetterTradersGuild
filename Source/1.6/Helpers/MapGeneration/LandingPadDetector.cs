@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 
@@ -21,15 +22,6 @@ namespace BetterTradersGuild.Helpers.MapGeneration
     /// </summary>
     public static class LandingPadDetector
     {
-        /// <summary>
-        /// Beacon def names to search for landing pad detection.
-        /// AncientShipBeacon is vanilla, ShipLandingBeacon is from Royalty DLC.
-        /// </summary>
-        private static readonly string[] BeaconDefNames = new[]
-        {
-            "AncientShipBeacon",
-            "ShipLandingBeacon"
-        };
         /// <summary>
         /// Data structure representing a detected landing pad.
         /// </summary>
@@ -66,7 +58,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
 
         /// <summary>
         /// Detects landing pads INSIDE a bounding rect (internal pads).
-        /// Used by RoomContents_TransportRoom for selective roofing.
+        /// Used by RoomContents_ShuttleBay for selective roofing.
         /// Returns the beacon bounding rect for the first pad found, or null.
         /// </summary>
         /// <param name="map">The map to search</param>
@@ -96,18 +88,22 @@ namespace BetterTradersGuild.Helpers.MapGeneration
 
         /// <summary>
         /// Finds all beacon things on the map (AncientShipBeacon or ShipLandingBeacon).
+        /// Uses DefRefs/Things.cs for centralized def resolution.
         /// </summary>
         private static List<Thing> FindBeacons(Map map)
         {
             List<Thing> allBeacons = new List<Thing>();
 
-            foreach (string defName in BeaconDefNames)
+            // AncientShipBeacon (Odyssey - always available)
+            if (Things.AncientShipBeacon != null)
             {
-                ThingDef beaconDef = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
-                if (beaconDef != null)
-                {
-                    allBeacons.AddRange(map.listerThings.ThingsOfDef(beaconDef));
-                }
+                allBeacons.AddRange(map.listerThings.ThingsOfDef(Things.AncientShipBeacon));
+            }
+
+            // ShipLandingBeacon (Royalty - optional)
+            if (Things.ShipLandingBeacon != null)
+            {
+                allBeacons.AddRange(map.listerThings.ThingsOfDef(Things.ShipLandingBeacon));
             }
 
             return allBeacons;
@@ -120,8 +116,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         /// </summary>
         private static List<LandingPadInfo> ClusterAndBuildPadInfos(Map map, List<Thing> beacons)
         {
-            TerrainDef orbitalPlatformTerrain = DefDatabase<TerrainDef>.GetNamedSilentFail("OrbitalPlatform");
-            if (orbitalPlatformTerrain == null)
+            if (Terrains.OrbitalPlatform == null)
                 return new List<LandingPadInfo>();
 
             // Group beacons by their ThingDef to ensure homogenous clustering
@@ -135,7 +130,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             // Cluster each beacon type separately
             foreach (List<Thing> sameTypeBeacons in beaconsByDef.Values)
             {
-                List<List<Thing>> clusters = ClusterBeaconsByGridAlignment(map, sameTypeBeacons, orbitalPlatformTerrain);
+                List<List<Thing>> clusters = ClusterBeaconsByGridAlignment(map, sameTypeBeacons, Terrains.OrbitalPlatform);
 
                 // Convert clusters to LandingPadInfo
                 foreach (List<Thing> cluster in clusters)

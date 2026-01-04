@@ -7,7 +7,7 @@
     Key design principles:
     - Modern, functional aesthetics (not ancient/deserted)
     - Static base infrastructure (rooms/walls permanent)
-    - ONE dynamic cargo bay (OrbitalTransportRoom) for trader-specific loot
+    - ONE dynamic cargo bay (ShuttleBay) for trader-specific loot
     - Reflects prosperous merchant civilization identity
 
     Inherits from OrbitalAncientPlatformBase for standard orbital platform behavior.
@@ -51,20 +51,20 @@
       <!-- Core operational facilities -->
 
       <!-- Dynamic cargo bay with trader-specific items -->
-      <BTG_TransportRoom>
-        <countRange>1~1</countRange>
-      </BTG_TransportRoom>
+      <BTG_ShuttleBay>
+        <countRange>1~2</countRange>
+      </BTG_ShuttleBay>
 
       <BTG_MedicalBay>
         <countRange>1~1</countRange>
       </BTG_MedicalBay>
 
-      <BTG_ComputerRoom>
+      <BTG_ControlCenter>
         <countRange>1~1</countRange>
-      </BTG_ComputerRoom>
+      </BTG_ControlCenter>
 
       <BTG_Greenhouse>
-        <countRange>1~4</countRange>
+        <countRange>2~4</countRange>
       </BTG_Greenhouse>
 
       <BTG_MessHall>
@@ -78,7 +78,7 @@
       <!-- Living quarters and recreation -->
 
       <BTG_CrewQuarters>
-        <countRange>1~4</countRange>
+        <countRange>2~4</countRange>
       </BTG_CrewQuarters>
 
       <BTG_RecRoom>
@@ -104,16 +104,16 @@
 
       <!-- Security and operations -->
       <BTG_Armory>
-        <countRange>1~1</countRange>
+        <countRange>0~1</countRange>
       </BTG_Armory>
 
       <BTG_Workshop>
-        <countRange>1~1</countRange>
+        <countRange>0~1</countRange>
       </BTG_Workshop>
 
       <!-- Trade and display -->
       <BTG_TradeShowcase>
-        <countRange>1~2</countRange>
+        <countRange>0~2</countRange>
       </BTG_TradeShowcase>
 
       <!-- Commander's quarters -->
@@ -121,14 +121,10 @@
         <countRange>1~1</countRange>
       </BTG_CommandersQuarters>
 
-      <!-- Storage rooms (multiple for variety) -->
-      <BTG_Storeroom>
-        <countRange>1~3</countRange>
-      </BTG_Storeroom>
-
-      <BTG_CargoStorage>
-        <countRange>1~2</countRange>
-      </BTG_CargoStorage>
+      <!-- Filler rooms for layout variety -->
+      <BTG_Storeroom>3</BTG_Storeroom>
+      <NarrowHalls>2</NarrowHalls>
+      <BTG_CargoStorage>1</BTG_CargoStorage>
 
     </roomDefs>
   </StructureLayoutDef>

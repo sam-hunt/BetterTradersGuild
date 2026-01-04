@@ -14,6 +14,8 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
     /// 1. Fills steel shelves (BTG_SteelShelf_Edge) with pod supplies:
     ///    - 65% chance: Chemfuel (50-75 units) for pod fuel
     ///    - 65% chance: Steel (50-75 units) for repairs
+    /// 2. Replaces some TransportPods with MalfunctioningTransportPods:
+    ///    - 20% chance per pod to become malfunctioning (contains random loot/corpses/hostile pawn)
     /// </summary>
     public class RoomContents_PodLaunchBay : RoomContentsWorker
     {
@@ -21,6 +23,9 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
         private const float SPAWN_CHANCE = 0.65f;
         private const int MIN_STACK = 50;
         private const int MAX_STACK = 75;
+
+        // Malfunctioning pod chance
+        private const float MALFUNCTION_CHANCE = 0.20f;
 
         /// <summary>
         /// Main room generation method for the pod launch bay.
@@ -36,9 +41,10 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
             {
                 CellRect roomRect = room.rects.First();
                 FillSupplyShelves(map, roomRect);
+                ReplaceSomePodsWithMalfunctioning(map, roomRect);
 
                 // Connect firefoam poppers to chemfuel pipes (does nothing if VE Chemfuel not installed)
-                RoomEdgeConnector.ConnectBuildingsToInfrastructure(map, roomRect, "FirefoamPopper", "VCHE_UndergroundChemfuelPipe");
+                RoomEdgeConnector.ConnectBuildingsToInfrastructure(map, roomRect, Things.FirefoamPopper, Things.VCHE_UndergroundChemfuelPipe);
             }
         }
 
@@ -62,6 +68,43 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
                 if (Rand.Chance(SPAWN_CHANCE))
                 {
                     RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Steel, Rand.RangeInclusive(MIN_STACK, MAX_STACK));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Finds all TransportPods in the room and randomly replaces some with MalfunctioningTransportPods.
+        /// Malfunctioning pods can contain random loot, corpses, or even a hostile pawn when opened.
+        /// </summary>
+        private void ReplaceSomePodsWithMalfunctioning(Map map, CellRect roomRect)
+        {
+            // Find all TransportPod buildings in the room
+            // Use HashSet to avoid duplicates from multi-cell buildings
+            HashSet<Thing> transportPods = new HashSet<Thing>();
+            foreach (IntVec3 cell in roomRect)
+            {
+                foreach (Thing thing in cell.GetThingList(map))
+                {
+                    if (thing.def == Things.TransportPod)
+                    {
+                        transportPods.Add(thing);
+                    }
+                }
+            }
+
+            foreach (Thing pod in transportPods)
+            {
+                if (Rand.Chance(MALFUNCTION_CHANCE))
+                {
+                    IntVec3 position = pod.Position;
+                    Rot4 rotation = pod.Rotation;
+
+                    // Despawn the normal transport pod
+                    pod.Destroy(DestroyMode.Vanish);
+
+                    // Spawn a malfunctioning transport pod in its place
+                    Thing malfunctioningPod = ThingMaker.MakeThing(Things.MalfunctioningTransportPod);
+                    GenSpawn.Spawn(malfunctioningPod, position, map, rotation);
                 }
             }
         }

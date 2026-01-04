@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
-using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CommandersQuarters
 {
@@ -58,6 +59,9 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
 
                 // 5. Spawn required walls from PlacementCalculator
                 SubroomPlacementHelper.SpawnWalls(map, placement.RequiredWalls);
+
+                // 6. Spawn commander's pet at the animal bed
+                SpawnPetAtAnimalBed(map, this.bedroomRect);
             }
             else
             {
@@ -67,12 +71,12 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                 // NO RETURN - continue to spawn lounge furniture
             }
 
-            // 6. Call base to process XML (prefabs, scatter, parts)
+            // 7. Call base to process XML (prefabs, scatter, parts)
             //    ALWAYS runs - spawns lounge even if bedroom failed
             //    Lounge prefabs will avoid bedroom area if bedroomRect.Width > 0
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 7. Post-processing: Fix bookcase contents and spawn plants
+            // 8. Post-processing: Fix bookcase contents and spawn plants
             //    CRITICAL: This must happen AFTER base.FillRoom() since lounge
             //    bookshelves are spawned by base.FillRoom()
             //    ALWAYS runs - fixes books even if bedroom placement failed
@@ -81,12 +85,11 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                 CellRect roomRect = room.rects.First();
                 RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
 
-                // 8. Spawn decorative plants (roses) in all plant pots
-                ThingDef rosePlant = DefDatabase<ThingDef>.GetNamed("Plant_Rose", false);
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, rosePlant, growth: 1.0f);
+                // 9. Spawn decorative plants (roses) in all plant pots
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Rose, growth: 1.0f);
 
-                // 9. Connect VFE Spacer air purifier to power (does nothing if VFE Spacer not installed)
-                RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, "VFES_AirPurifier");
+                // 10. Connect VFE Spacer air purifier to power (does nothing if VFE Spacer not installed)
+                RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.VFES_AirPurifier);
             }
         }
 
@@ -130,6 +133,31 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             // Spawn the prefab at the specified CENTER position with rotation
             // IMPORTANT: placement.Position is the CENTER of the 6×6 prefab, not the min corner!
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
+        }
+
+        /// <summary>
+        /// Spawns a random pet (cat or dog) at the animal bed location in the bedroom.
+        /// Searches the bedroom rect for the AnimalBed spawned by the prefab.
+        /// </summary>
+        private void SpawnPetAtAnimalBed(Map map, CellRect bedroomRect)
+        {
+            if (Things.AnimalBed == null)
+                return;
+
+            // Find the animal bed in the bedroom
+            foreach (IntVec3 cell in bedroomRect)
+            {
+                if (!cell.InBounds(map)) continue;
+
+                foreach (Thing thing in cell.GetThingList(map))
+                {
+                    if (thing.def == Things.AnimalBed)
+                    {
+                        RoomPetHelper.SpawnPetAtPosition(map, thing.Position);
+                        return;
+                    }
+                }
+            }
         }
     }
 }
