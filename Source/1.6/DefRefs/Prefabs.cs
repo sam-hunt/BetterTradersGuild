@@ -56,6 +56,9 @@ namespace BetterTradersGuild.DefRefs
         // === CARGO HOLD ===
         public static PrefabDef BTG_CargoHoldPlatform;
 
+        // === SETTLEMENT EXTERIOR ===
+        public static PrefabDef BTG_EntranceAutocannons;
+
         // === OTHER ROOM PREFABS ===
         public static PrefabDef BTG_CommandersBedroom;
         public static PrefabDef BTG_CommandersBookshelf_Edge;
