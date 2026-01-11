@@ -15,14 +15,19 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     /// MaxPawnCost filtering to exclude expensive pawns (Elite, Heavy, Slasher, Magister).
     ///
     /// SOLUTION:
-    /// Enforce a minimum of 3000 points for TradersGuild settlements. This ensures:
-    /// - MaxPawnCost of ~357 (12% of 3000) allows all pawn types to spawn
+    /// Enforce a configurable minimum points for TradersGuild settlements. This ensures:
+    /// - MaxPawnCost allows all pawn types to spawn (at default 2400, MaxPawnCost ~288)
     /// - Wealthy colonies still get scaled-up defenders (uses max of calculated vs minimum)
-    /// - TradersGuild stations always feel like a significant challenge
+    /// - TradersGuild stations feel like a significant challenge matching their loot value
     ///
     /// EXAMPLE:
-    /// - Early colony (1164 points) -> boosted to 3000 points
+    /// - Early colony (1164 points) -> boosted to 2400 points (default)
     /// - Late colony (5000 points) -> keeps 5000 points (no change)
+    ///
+    /// REQUIREMENTS:
+    /// - Only applies when custom layouts are enabled (to match increased loot value)
+    /// - Minimum points configurable via mod settings (0-5000, default 2400)
+    /// - Set to 0 in settings to disable and use vanilla wealth-based calculation
     ///
     /// LEARNING NOTE:
     /// PawnGroupMakerParms.points determines both total pawn budget AND MaxPawnCost
@@ -35,37 +40,30 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     public static class PawnGroupMakerUtilityMinimumPoints
     {
         /// <summary>
-        /// Minimum points for TradersGuild settlement pawn generation.
-        /// So the encounter has a minimum difficulty threshold to compensate
-        /// for higher base loot value
-        /// </summary>
-        public const float MinimumTradersGuildPoints = 2400f;
-
-        /// <summary>
         /// Prefix that enforces minimum points for TradersGuild settlements.
+        /// Only applies when custom layouts are enabled (to match increased loot value).
         /// </summary>
         [HarmonyPrefix]
         public static void Prefix(PawnGroupMakerParms parms)
         {
+            // Only apply when custom layouts are enabled (custom layouts have higher loot value)
+            if (!BetterTradersGuildMod.Settings.useCustomLayouts) return;
+
+            // Get minimum points from settings (0 = disabled)
+            float minimumPoints = BetterTradersGuildMod.Settings.minimumThreatPoints;
+            if (minimumPoints <= 0f) return;
+
             // Only affect TradersGuild faction
-            if (parms?.faction?.def != Factions.TradersGuild)
-            {
-                return;
-            }
+            if (parms?.faction?.def != Factions.TradersGuild) return;
 
             // Only affect Settlement group kind (not traders, caravans, etc.)
-            if (parms.groupKind?.defName != "Settlement")
-            {
-                return;
-            }
+            if (parms.groupKind?.defName != "Settlement") return;
 
             // Only boost if below minimum (preserve higher values from wealthy colonies)
-            if (parms.points < MinimumTradersGuildPoints)
+            if (parms.points < minimumPoints)
             {
                 float originalPoints = parms.points;
-                parms.points = MinimumTradersGuildPoints;
-
-                Log.Message($"[Better Traders Guild] Boosted TradersGuild settlement points from {originalPoints:F1} to {MinimumTradersGuildPoints:F1} (minimum threshold).");
+                parms.points = minimumPoints;
             }
         }
     }

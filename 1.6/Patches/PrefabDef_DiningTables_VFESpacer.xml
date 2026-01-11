@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Better Traders Guild - VFE Spacer MessHall Patch
+
+    Replaces the steel Table2x2c in BTG_DiningTables with the
+    interactive Table_interactive_2x2c from VFE Spacer Module.
+
+    The interactive table provides passive TV recreation while dining,
+    fitting the high-tech aesthetic of Traders Guild settlements.
+
+    Note: The interactive table requires power. RoomContents_MessHall
+    handles connecting it to the room's power grid via RoomEdgeConnector.
+
+    Also removes WoodPlankFloor from the floor options since it clashes
+    with the high-tech spacer aesthetic.
+  -->
+
+  <Operation Class="PatchOperationReplace" MayRequire="VanillaExpanded.VFESpacer">
+    <xpath>Defs/PrefabDef[defName="BTG_DiningTables"]/things/Table2x2c</xpath>
+    <value>
+      <Table_interactive_2x2c>
+        <positions>
+          <li>(1, 0, 0)</li>
+          <li>(1, 0, 3)</li>
+        </positions>
+        <stuff>Steel</stuff>
+      </Table_interactive_2x2c>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationRemove" MayRequire="VanillaExpanded.VFESpacer">
+    <xpath>Defs/LayoutRoomDef[defName="BTG_MessHall"]/floorTypes/li[text()="WoodPlankFloor"]</xpath>
+  </Operation>
+
+</Patch>

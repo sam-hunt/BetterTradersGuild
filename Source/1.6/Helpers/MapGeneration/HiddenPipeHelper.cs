@@ -19,7 +19,7 @@ namespace BetterTradersGuild.Helpers.MapGeneration
     /// 3. Being explicit ensures pipe networks are always meaningful to players
     ///
     /// SUPPORTED NETWORKS:
-    /// - VE Chemfuel: Chemfuel and Deepchem networks
+    /// - VE Chemfuel: Chemfuel networks
     /// - VE Nutrient Paste: Nutrient paste network
     /// - VE Gravships: Oxygen and Astrofuel networks
     ///
@@ -69,8 +69,6 @@ namespace BetterTradersGuild.Helpers.MapGeneration
             // VE Chemfuel hidden pipes
             if (Things.VCHE_UndergroundChemfuelPipe != null)
                 hiddenPipes.Add(Things.VCHE_UndergroundChemfuelPipe);
-            if (Things.VCHE_UndergroundDeepchemPipe != null)
-                hiddenPipes.Add(Things.VCHE_UndergroundDeepchemPipe);
 
             // VE Nutrient Paste hidden pipes
             if (Things.VNPE_UndergroundNutrientPastePipe != null)

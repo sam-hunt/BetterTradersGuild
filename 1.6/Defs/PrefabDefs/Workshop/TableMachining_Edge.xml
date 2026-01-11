@@ -14,13 +14,16 @@
     <size>(3,2)</size>
     <things>
       <TableMachining>
-        <position>(0, 0, 1)</position>
-        <relativeRotation>Opposite</relativeRotation>
+        <position>(1, 0, 1)</position>
       </TableMachining>
       <Stool>
         <position>(1, 0, 0)</position>
         <stuff>Steel</stuff>
+        <quality>Excellent</quality>
       </Stool>
+      <WallLamp>
+        <position>(1, 0, 1)</position>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

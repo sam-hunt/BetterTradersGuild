@@ -5,9 +5,6 @@
 
     Modern corridors with MetalTile flooring (not AncientTile).
     Provides clean, maintained aesthetic consistent with prosperous merchant settlement.
-
-    FUTURE ENHANCEMENT (Phase 3.3+):
-    Custom SymbolResolver for airlock placement at corridor exits to space.
   -->
 
   <!-- Base corridor definition -->
@@ -15,7 +12,7 @@
     <defName>BTG_Corridor</defName>
 
     <!-- Custom worker with pre/post-fill hooks for blast door logging and airlock placement -->
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.BTG_Corridor.RoomContents_BTG_Corridor</roomContentsWorkerType>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.Corridor.RoomContents_Corridor</roomContentsWorkerType>
 
   </LayoutRoomDef>
 

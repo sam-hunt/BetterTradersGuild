@@ -34,7 +34,7 @@
         <xenotypeChances>
           <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.05</Hussar>
           <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
-          <Starjack MayRequire="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Odyssey">0.30</Starjack>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
         </xenotypeChances>
       </xenotypeSet>
     </value>

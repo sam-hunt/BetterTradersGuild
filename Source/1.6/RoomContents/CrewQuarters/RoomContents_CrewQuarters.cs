@@ -7,7 +7,7 @@ using RimWorld;
 using RimWorld.BaseGen;
 using Verse;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
-using static BetterTradersGuild.Helpers.RoomContents.SubroomPackingCalculator;
+using static BetterTradersGuild.RoomContents.CrewQuarters.SubroomPackingCalculator;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
@@ -52,13 +52,20 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         private List<CellRect> subroomRects = new List<CellRect>();
 
         /// <summary>
+        /// Stores all waste filler areas to prevent other prefabs from spawning inside them.
+        /// Populated during FillRoom and checked in IsValidCellBase.
+        /// </summary>
+        private List<CellRect> wasteFillerRects = new List<CellRect>();
+
+        /// <summary>
         /// Main room generation method. Calculates subroom packing, spawns walls and prefabs,
         /// then calls base class to process XML-defined content (lockers, etc.) in corridors.
         /// </summary>
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            // Reset subroom tracking
+            // Reset subroom and waste filler tracking
             subroomRects.Clear();
+            wasteFillerRects.Clear();
 
             if (room.rects == null || room.rects.Count == 0)
             {
@@ -116,6 +123,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 subroomRects.Add(subroomRect);
             }
 
+            // 2b. Spawn waste filler prefabs in areas adjacent to exclusion zones
+            if (result.WasteFillers != null)
+            {
+                foreach (var wasteFiller in result.WasteFillers)
+                {
+                    SpawnWasteFillerPrefab(map, wasteFiller);
+
+                    // Track waste filler area to prevent XML content from spawning inside
+                    CellRect wasteRect = new CellRect(wasteFiller.MinX, wasteFiller.MinZ, wasteFiller.Width, wasteFiller.Depth);
+                    wasteFillerRects.Add(wasteRect);
+                }
+            }
+
             // 3. Apply random carpet colors to each subroom
             // Each subroom gets its own color from a curated neutral/muted palette
             SubroomCarpetCustomizer.Customize(map, subroomRects);
@@ -145,13 +165,20 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Override to prevent XML-defined prefabs (like lockers) from spawning inside subrooms.
+        /// Override to prevent XML-defined prefabs (like lockers) from spawning inside subrooms or waste fillers.
         /// Called by base.FillRoom() during prefab placement validation.
         /// </summary>
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             // Block placement inside any subroom area
             foreach (var rect in subroomRects)
+            {
+                if (rect.Contains(c))
+                    return false;
+            }
+
+            // Block placement inside any waste filler area
+            foreach (var rect in wasteFillerRects)
             {
                 if (rect.Contains(c))
                     return false;
@@ -185,6 +212,37 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Convert rotation to Rot4
             Rot4 rotation = subroom.Rotation.AsRot4();
+
+            // Spawn the prefab
+            PrefabUtility.SpawnPrefab(prefab, map, centerPos, rotation, null);
+        }
+
+        /// <summary>
+        /// Spawns a waste filler prefab at the calculated position.
+        ///
+        /// Waste fillers are decorative prefabs placed in 1-2 cell wide areas
+        /// between subrooms and exclusion zones. Uses WasteFillerPrefabSelector
+        /// to dynamically select from available prefabs of the correct size,
+        /// automatically supporting DLC-dependent variants.
+        /// </summary>
+        private void SpawnWasteFillerPrefab(Map map, WasteFillerPlacement wasteFiller)
+        {
+            // Use the selector to pick a random prefab of the correct size
+            PrefabDef prefab = WasteFillerPrefabSelector.SelectPrefab(wasteFiller.Width, wasteFiller.Depth);
+
+            if (prefab == null)
+            {
+                // No prefab available for this size - silently skip
+                // This is normal if no variants have been defined for this size
+                return;
+            }
+
+            // Calculate center position for spawning
+            IntVec3 centerPos = new IntVec3(wasteFiller.CenterX, 0, wasteFiller.CenterZ);
+
+            // Convert rotation to Rot4
+            // North = no rotation (face East), South = 180° (face West)
+            Rot4 rotation = wasteFiller.Rotation.AsRot4();
 
             // Spawn the prefab
             PrefabUtility.SpawnPrefab(prefab, map, centerPos, rotation, null);

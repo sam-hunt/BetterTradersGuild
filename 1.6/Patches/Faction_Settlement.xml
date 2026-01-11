@@ -7,8 +7,8 @@
   This is largely for semantic correctness though: weights determine selection probability;
   however combatPower determines point cost per pawn, and PawnGroupMakerUtilityMinimumPoints.cs
   sets a lower bound for points on our defence force. This results in a skew towards higher
-  combatPower pawnkinds which we balance by spawning civilians separately
-
+  combatPower pawnkinds which we balance by spawning sheltering civilians separately in some
+  places.
 -->
 <Patch>
 
@@ -21,7 +21,7 @@
         <options>
           <!-- Civilians -->
           <TradersGuild_Child MayRequire="Ludeon.RimWorld.Biotech">4</TradersGuild_Child>
-          <TradersGuild_Citizen>4</TradersGuild_Citizen>
+          <TradersGuild_Citizen>12</TradersGuild_Citizen>
           <!-- Military -->
           <TradersGuild_Gunner>10</TradersGuild_Gunner>
           <TradersGuild_Elite>8</TradersGuild_Elite>

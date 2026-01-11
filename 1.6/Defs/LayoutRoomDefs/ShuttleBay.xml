@@ -23,9 +23,10 @@
   <LayoutRoomDef>
     <defName>BTG_ShuttleBay</defName>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.ShuttleBay.RoomContents_ShuttleBay</roomContentsWorkerType>
+    <dontPlaceRandomly>true</dontPlaceRandomly>
     <requiresSingleRectRoom>true</requiresSingleRectRoom>
     <noRoof>true</noRoof>
-    <minSingleRectWidth>15</minSingleRectWidth>
+    <minSingleRectWidth>18</minSingleRectWidth>
     <minSingleRectHeight>15</minSingleRectHeight>
 
     <prefabs>
@@ -34,6 +35,18 @@
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </AncientForklift>
+
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>4</countPerTenEdgeCells>
+        <minMaxRange>4~8</minMaxRange>
+      </IndustrialShelf_Edge>
     </prefabs>
+
+    <parts>
+      <!-- Hauling mechs - moves heavy cargo around the shuttle bay -->
+      <BTG_Mech_Lifter MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>1~2</countRange>
+      </BTG_Mech_Lifter>
+    </parts>
   </LayoutRoomDef>
 </Defs>

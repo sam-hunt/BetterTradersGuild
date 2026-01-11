@@ -8,7 +8,7 @@
     - 3x1 prefab size
     - Edge placement (against walls)
 
-    Design (top view, North is up, wall at z=0):
+    Design (top view, North is up, wall at z=1):
         x: 0 1 2
     z=0:   A P A
 
@@ -36,6 +36,9 @@
         <stuff>BlocksMarble</stuff>
         <quality>Good</quality>
       </PlantPot>
+      <WallLamp>
+        <position>(1, 0, 0)</position>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

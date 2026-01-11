@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Better Traders Guild - Orca Shuttle Patch
+
+    When the Orca Shuttle mod is active, replaces the vanilla PassengerShuttle
+    with the larger OrcaShuttle in the landing pad prefab.
+
+    Size comparison:
+    - PassengerShuttle: 3x5 at position (4, 0, 5)
+    - OrcaShuttle: 5x7 at position (2, 0, 2) (repositioned to fit)
+
+    The OrcaShuttle position (2, 0, 2) places it within the 7x7 concrete landing
+    area (x=1-7, z=2-8), centered horizontally.
+  -->
+
+  <Operation Class="PatchOperationReplace" MayRequire="smallmine.HeavyShuttle">
+    <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things/PassengerShuttle</xpath>
+    <value>
+      <OrcaShuttle>
+        <position>(4, 0, 5)</position>
+      </OrcaShuttle>
+    </value>
+  </Operation>
+
+</Patch>

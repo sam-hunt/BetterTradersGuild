@@ -9,7 +9,6 @@
 
     AFFECTED DEFS:
     - VCHE_ChemfuelValve (VE Chemfuel Expanded)
-    - VCHE_DeepchemValve (VE Chemfuel Expanded)
     - VNPE_NutrientPasteValve (VE Nutrient Paste Expanded)
     - VGE_OxygenValve (VE Gravships)
     - VGE_AstrofuelValve (VE Gravships)
@@ -23,15 +22,7 @@
   <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VChemfuelE">
     <xpath>/Defs/ThingDef[defName="VCHE_ChemfuelValve"]/comps</xpath>
     <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
-    </value>
-  </Operation>
-
-  <!-- VE Chemfuel Expanded - Deepchem Valve -->
-  <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VChemfuelE">
-    <xpath>/Defs/ThingDef[defName="VCHE_DeepchemValve"]/comps</xpath>
-    <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
     </value>
   </Operation>
 
@@ -39,7 +30,7 @@
   <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VNutrientE">
     <xpath>/Defs/ThingDef[defName="VNPE_NutrientPasteValve"]/comps</xpath>
     <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
     </value>
   </Operation>
 
@@ -47,7 +38,7 @@
   <Operation Class="PatchOperationAdd" MayRequire="vanillaexpanded.gravship">
     <xpath>/Defs/ThingDef[defName="VGE_OxygenValve"]/comps</xpath>
     <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
     </value>
   </Operation>
 
@@ -55,7 +46,7 @@
   <Operation Class="PatchOperationAdd" MayRequire="vanillaexpanded.gravship">
     <xpath>/Defs/ThingDef[defName="VGE_AstrofuelValve"]/comps</xpath>
     <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable"/>
+      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
     </value>
   </Operation>
 

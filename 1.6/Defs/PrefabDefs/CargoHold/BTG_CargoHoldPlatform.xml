@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Hold External Platform
+
+    15x15 platform prefab for placement around the cargo hold vault.
+    Connected to the main vault via walkway bridges.
+
+    Design (top view, North is up):
+         x=0  1  2  3  4  5  6  7  8  9  10 11 12 13 14
+    z=14:  .  .  .  t  t  .  .  .  .  .  t  t  .  .  .
+    z=13:  .  .  .  t  t  .  .  .  .  .  t  t  .  .  .
+    z=12:  .  .  s  s  s  s  .  .  .  s  s  s  s  .  .
+    z=11:  t  t  s  s  s  s  b  .  b  s  s  s  s  t  t
+    z=10:  t  t  s  s  s  s  b  .  b  s  s  s  s  t  t
+    z=9:   .  .  s  s  s  s  .  .  .  s  s  s  s  .  .
+    z=8:   .  .  .  b  b  .  .  .  .  .  b  b  .  .  .
+    z=7:   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .
+    z=6:   .  .  .  b  b  .  .  .  .  .  b  b  .  .  .
+    z=5:   .  .  s  s  s  s  .  .  .  s  s  s  s  .  .
+    z=4:   t  t  s  s  s  s  b  .  b  s  s  s  s  t  t
+    z=3:   t  t  s  s  s  s  b  .  b  s  s  s  s  t  t
+    z=2:   .  .  s  s  s  s  .  .  .  s  s  s  s  .  .
+    z=1:   .  .  .  t  t  .  .  .  .  .  t  t  .  .  .
+    z=0:   .  .  .  t  t  .  .  .  .  .  t  t  .  .  .
+
+    t = Turret_Sniper (2x2, T=anchor)
+    s = SolarGenerator (4x4, S=anchor)
+    b = Battery (1x2)
+    . = Empty
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CargoHoldPlatform</defName>
+    <size>(15,15)</size>
+
+    <things>
+      <Battery>
+        <positions>
+          <li>(6, 0, 4)</li>
+          <li>(8, 0, 4)</li>
+        </positions>
+        <relativeRotation>Opposite</relativeRotation>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(3, 0, 6)</li>
+          <li>(10, 0, 6)</li>
+          <li>(3, 0, 8)</li>
+          <li>(10, 0, 8)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </Battery>
+      <Battery>
+        <positions>
+          <li>(6, 0, 10)</li>
+          <li>(8, 0, 10)</li>
+        </positions>
+      </Battery>
+      <Turret_Sniper>
+        <positions>
+          <li>(3, 0, 0)</li>
+          <li>(10, 0, 0)</li>
+          <li>(0, 0, 3)</li>
+          <li>(13, 0, 3)</li>
+          <li>(0, 0, 10)</li>
+          <li>(13, 0, 10)</li>
+          <li>(3, 0, 13)</li>
+          <li>(10, 0, 13)</li>
+        </positions>
+      </Turret_Sniper>
+      <HiddenConduit>
+        <rects>
+          <li>(7,4,7,10)</li>
+          <li>(4,7,6,7)</li>
+          <li>(8,7,10,7)</li>
+        </rects>
+      </HiddenConduit>
+      <SolarGenerator>
+        <positions>
+          <li>(3, 0, 3)</li>
+          <li>(10, 0, 3)</li>
+          <li>(3, 0, 10)</li>
+          <li>(10, 0, 10)</li>
+        </positions>
+      </SolarGenerator>
+    </things>
+
+    <terrain>
+      <OrbitalPlatform>
+        <rects>
+          <li>(0,0,14,14)</li>
+        </rects>
+      </OrbitalPlatform>
+    </terrain>
+
+  </PrefabDef>
+</Defs>

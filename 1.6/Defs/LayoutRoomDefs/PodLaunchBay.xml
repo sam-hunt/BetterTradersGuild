@@ -25,7 +25,7 @@
 
     <prefabs>
       <BTG_PodLaunchers>
-        <countPerHundredCells>2</countPerHundredCells>
+        <countPerHundredCells>1.75</countPerHundredCells>
         <minMaxRange>1~4</minMaxRange>
       </BTG_PodLaunchers>
 

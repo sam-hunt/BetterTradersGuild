@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Hold Vault Structure Layout
+
+    This StructureLayoutDef defines the vault structure for the BTG_CargoHoldHatch pocket map.
+    Uses the same layout system as vanilla AncientStockpile for consistency.
+
+    The vault is a single secure room accessed via the cargo hold hatch in shuttle bays.
+    It uses OrbitalAncientFortifiedWall for durability and MetalTile flooring.
+  -->
+
+  <StructureLayoutDef>
+    <defName>BTG_CargoHoldVaultLayout</defName>
+
+    <!-- Custom worker for simple single-room pocket maps -->
+    <workerClass>BetterTradersGuild.LayoutWorkers.CargoHold.LayoutWorker_BTGCargoHold</workerClass>
+
+    <!-- Structure styling - matches the operational TradersGuild aesthetic -->
+    <wallDef>OrbitalAncientFortifiedWall</wallDef>
+    <doorDef>AncientBlastDoor</doorDef>
+    <wallLampDef>AncientEmergencyLight_Blue</wallLampDef>
+    <wallLampChancePerPosition>1</wallLampChancePerPosition>
+
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>4~4</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
+    <!-- Terrain settings -->
+    <terrainDef>OrbitalPlatform</terrainDef>
+    <defaultAffordanceTerrainDef>OrbitalPlatform</defaultAffordanceTerrainDef>
+    <!-- Surrounding ring of platform terrain (similar to orbital platform) -->
+    <surroundingTerrainDef>OrbitalPlatform</surroundingTerrainDef>
+    <surroundingScatterRange>3~6</surroundingScatterRange>
+
+    <!-- Our custom worker handles layout generation directly -->
+    <clearRoomsEntirely>true</clearRoomsEntirely>
+    <canHaveMultipleLayoutsInRoom>false</canHaveMultipleLayoutsInRoom>
+
+    <!-- Room def assigned directly by LayoutWorker_BTGCargoHold -->
+    <roomDefs>
+      <BTG_CargoHoldVaultRoom>1</BTG_CargoHoldVaultRoom>
+    </roomDefs>
+
+    <!-- No junk/debris - this is a maintained, operational vault -->
+    <junkScaterrers />
+  </StructureLayoutDef>
+</Defs>

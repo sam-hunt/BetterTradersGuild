@@ -11,6 +11,9 @@
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.Armory.RoomContents_Armory</roomContentsWorkerType>
 
     <edgeTerrain>MetalTile</edgeTerrain>
+    <floorTypes>
+      <li>AncientConcrete</li>
+    </floorTypes>
 
     <scatter>
       <!-- Oil from weapon maintenance -->
@@ -20,10 +23,6 @@
         <minGroups>0</minGroups>
       </Filth_OilSmear>
     </scatter>
-
-    <floorTypes>
-      <li>AncientConcrete</li>
-    </floorTypes>
 
     <prefabs>
       <!-- Steel shelves (contents filled by RoomContents_Armory from random pool) -->
@@ -41,12 +40,12 @@
       <!-- Armor display stands -->
       <BTG_OutfitStands_Edge>
         <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
+        <minMaxRange>1~1</minMaxRange>
       </BTG_OutfitStands_Edge>
 
       <!-- Lockers for personal gear -->
       <AncientLockerBank_Row>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <countPerHundredCells>2</countPerHundredCells>
         <minMaxRange>3~10</minMaxRange>
       </AncientLockerBank_Row>
 
@@ -56,14 +55,9 @@
       </IndustrialShelf_Edge>
 
       <IndustrialShelf_Rows>
-        <countPerHundredCells>2</countPerHundredCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
       </IndustrialShelf_Rows>
-
-      <Shelves_Rows>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </Shelves_Rows>
 
       <!-- Communications console for coordination -->
       <BTG_CommsConsole_Edge>

@@ -24,8 +24,9 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
         private const int MIN_STACK = 50;
         private const int MAX_STACK = 75;
 
-        // Malfunctioning pod chance
+        // Malfunctioning pod constraints
         private const float MALFUNCTION_CHANCE = 0.20f;
+        private const int MAX_MALFUNCTIONING = 2;
 
         /// <summary>
         /// Main room generation method for the pod launch bay.
@@ -74,6 +75,7 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
 
         /// <summary>
         /// Finds all TransportPods in the room and randomly replaces some with MalfunctioningTransportPods.
+        /// Uses 20% chance per pod, capped at 2 max, with at least 1 guaranteed.
         /// Malfunctioning pods can contain random loot, corpses, or even a hostile pawn when opened.
         /// </summary>
         private void ReplaceSomePodsWithMalfunctioning(Map map, CellRect roomRect)
@@ -92,20 +94,42 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
                 }
             }
 
+            if (transportPods.Count == 0)
+                return;
+
+            // Roll 20% chance per pod, collect candidates
+            List<Thing> podsToReplace = new List<Thing>();
             foreach (Thing pod in transportPods)
             {
                 if (Rand.Chance(MALFUNCTION_CHANCE))
                 {
-                    IntVec3 position = pod.Position;
-                    Rot4 rotation = pod.Rotation;
-
-                    // Despawn the normal transport pod
-                    pod.Destroy(DestroyMode.Vanish);
-
-                    // Spawn a malfunctioning transport pod in its place
-                    Thing malfunctioningPod = ThingMaker.MakeThing(Things.MalfunctioningTransportPod);
-                    GenSpawn.Spawn(malfunctioningPod, position, map, rotation);
+                    podsToReplace.Add(pod);
                 }
+            }
+
+            // Guarantee at least 1 malfunctioning pod
+            if (podsToReplace.Count == 0)
+            {
+                podsToReplace.Add(transportPods.RandomElement());
+            }
+
+            // Cap at 2 maximum
+            if (podsToReplace.Count > MAX_MALFUNCTIONING)
+            {
+                podsToReplace = podsToReplace.InRandomOrder().Take(MAX_MALFUNCTIONING).ToList();
+            }
+
+            foreach (Thing pod in podsToReplace)
+            {
+                IntVec3 position = pod.Position;
+                Rot4 rotation = pod.Rotation;
+
+                // Despawn the normal transport pod
+                pod.Destroy(DestroyMode.Vanish);
+
+                // Spawn a malfunctioning transport pod in its place
+                Thing malfunctioningPod = ThingMaker.MakeThing(Things.MalfunctioningTransportPod);
+                GenSpawn.Spawn(malfunctioningPod, position, map, rotation);
             }
         }
     }

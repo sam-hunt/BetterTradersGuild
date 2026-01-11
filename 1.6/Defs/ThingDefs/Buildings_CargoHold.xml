@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Hold Portal Buildings
+
+    These define the hackable hatch entrance and exit portal for the secure cargo hold
+    pocket map accessible from the ShuttleBay.
+
+    IMPORTANT:
+    - Uses custom BTG_CargoHoldHatch ThingClass (NOT vanilla AncientHatch)
+    - This prevents vanilla's AncientStockpile GenStep from generating
+    - All pocket map generation is controlled by BTG_CargoHold MapGeneratorDef
+    - Uses AncientHatch textures for visual consistency
+
+    The hatch provides access to a secure orbital cargo vault containing valuable
+    trade goods protected by automated defenses.
+  -->
+
+  <!-- Cargo Hold Entrance - Placed in ShuttleBay -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>BTG_CargoHoldHatch</defName>
+    <label>secure cargo hold hatch</label>
+    <description>A reinforced hatch leading to the station's secure cargo hold. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock.</description>
+    <size>(3,3)</size>
+    <useHitPoints>false</useHitPoints>
+    <thingClass>BetterTradersGuild.MapGeneration.BTG_CargoHoldHatch</thingClass>
+    <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <canOverlapZones>false</canOverlapZones>
+    <tickerType>Normal</tickerType>
+
+    <!-- Reuse AncientHatch graphics -->
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Building/AncientHatch/AncientHatch_Closed</texPath>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <fillPercent>0</fillPercent>
+    <passability>Impassable</passability>
+    <holdsRoof>true</holdsRoof>
+    <destroyable>false</destroyable>
+
+    <building>
+      <isEdifice>true</isEdifice>
+      <deconstructible>false</deconstructible>
+      <isTargetable>false</isTargetable>
+      <isInert>true</isInert>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+
+    <!-- Portal configuration - links to our custom pocket map -->
+    <!-- Map size = 75x75 with 25x25 vault structure centered inside, plus surrounding ring -->
+    <portal>
+      <pocketMapGenerator>BTG_CargoHold</pocketMapGenerator>
+      <exitDef>BTG_CargoHoldExit</exitDef>
+      <pocketMapSize>75</pocketMapSize>
+    </portal>
+
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+
+    <comps>
+      <!-- Hackable with moderate difficulty - easier than ancient stockpile (39000) -->
+      <li Class="CompProperties_Hackable">
+        <defence>10000</defence>
+        <effectHacking>HackingTerminal</effectHacking>
+        <lockoutDurationHoursRange>2~8</lockoutDurationHoursRange>
+        <showProgressAfterHackCompletion>false</showProgressAfterHackCompletion>
+        <notHackedInspectString>Hack to override security lock.</notHackedInspectString>
+        <intellectualSkillPrerequisite>6</intellectualSkillPrerequisite>
+        <hackingCompletedSound>AncientHatchOpened</hackingCompletedSound>
+        <hackedMessage>{HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}.</hackedMessage>
+      </li>
+
+      <!-- Allow sealing after raiding -->
+      <li Class="CompProperties_Sealable">
+        <sealTexPath>UI/Commands/SealHatch</sealTexPath>
+        <sealCommandLabel>Seal cargo hold</sealCommandLabel>
+        <sealCommandDesc>Choose a colonist to permanently seal the cargo hold entrance. Any cargo or personnel left below will be inaccessible.</sealCommandDesc>
+        <cannotSealLabel>Cannot seal</cannotSealLabel>
+        <confirmSealText>Sealing the cargo hold entrance is permanent. Any cargo or personnel left below will be lost forever.{0}\n\nAre you sure you want to continue?</confirmSealText>
+        <sealedInspectString>Permanently sealed.</sealedInspectString>
+        <cannotEnterLabel>Sealed</cannotEnterLabel>
+      </li>
+
+      <!-- Status indicator glow -->
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(50,150,239,0)</glowColor>
+      </li>
+    </comps>
+
+    <inspectorTabs>
+      <li>ITab_ContentsMapPortal</li>
+    </inspectorTabs>
+  </ThingDef>
+
+  <!-- Cargo Hold Exit - Spawned inside the pocket map -->
+  <ThingDef ParentName="PocketMapExit">
+    <defName>BTG_CargoHoldExit</defName>
+    <label>cargo hold exit</label>
+    <description>A secure ladder and hatch providing access back to the station's shuttle bay above.</description>
+    <size>(3,3)</size>
+    <drawerType>RealtimeOnly</drawerType>
+
+    <!-- Reuse AncientHatchExit graphics -->
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Building/AncientHatchExit/AncientHatchExit</texPath>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+
+    <comps>
+      <li Class="CompProperties_DrawAdditionalGraphics">
+        <graphics>
+          <li>
+            <graphicClass>Graphic_Single</graphicClass>
+            <texPath>Things/Building/AncientHatchExit/AncientHatchExit_Ladder</texPath>
+            <drawSize>(3,3)</drawSize>
+            <drawOffset>(0, 0.01, 0.7)</drawOffset>
+            <shaderType>Transparent</shaderType>
+          </li>
+        </graphics>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

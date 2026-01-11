@@ -113,153 +113,80 @@ These are excluded via `<Compile Remove="..." />` in `Tests/BetterTradersGuild.T
 
 ### Project Structure
 
-```
-BetterTradersGuild/
-├── About/
-│   └── About.xml           # Mod metadata, dependencies, load order
-├── Assemblies/             # Compiled DLL output directory
-│   └── BetterTradersGuild.dll
-├── Defs/                   # XML definitions for game content
-│   ├── LayoutDefs/         # Phase 3: Custom settlement layout
-│   │   └── BTG_OrbitalSettlement.xml
-│   ├── LayoutRoomDefs/     # Phase 3: Custom room definitions (18 files)
-│   │   ├── BTG_OrbitalArmory.xml
-│   │   ├── BTG_OrbitalBarracks.xml
-│   │   ├── BTG_OrbitalCommandersQuarters.xml  # 🚧 IN PROGRESS
-│   │   ├── BTG_OrbitalCargoStorage.xml
-│   │   ├── BTG_OrbitalClassroom.xml
-│   │   ├── ControlCenter.xml
-│   │   ├── BTG_OrbitalCorridor.xml
-│   │   ├── MessHall.xml
-│   │   ├── BTG_OrbitalHydroponics.xml
-│   │   ├── BTG_OrbitalMedicalBay.xml
-│   │   ├── BTG_OrbitalNursery.xml
-│   │   ├── BTG_OrbitalRecRoom.xml
-│   │   ├── BTG_OrbitalSecurityStation.xml
-│   │   ├── BTG_OrbitalStoreroom.xml
-│   │   ├── BTG_OrbitalTradeShowcase.xml
-│   │   ├── BTG_ShuttleBay.xml
-│   │   └── BTG_OrbitalWorkshop.xml
-│   └── PrefabDefs/         # Phase 3: Custom prefabs (10 files)
-│       ├── BTG_ArmchairsWithPlantpot_Edge.xml
-│       ├── BTG_BarracksBeds_Edge.xml
-│       ├── BTG_BilliardsTable.xml
-│       ├── BTG_CommandersBedroom.xml
-│       ├── BTG_CommandersBookshelf_Edge.xml
-│       ├── BTG_ClassroomBookshelf.xml
-│       ├── BTG_FlatscreenTelevisionWolfLeather_Edge.xml
-│       ├── BTG_HospitalBeds_Edge.xml
-│       ├── BTG_HydroponicHealroot.xml
-│       └── BTG_MedicineShelf_Edge.xml
-├── Patches/                # XML patches (empty - reserved for future use)
-├── Source/                 # C# source code (organized by concern)
-│   ├── Core/               # Core mod initialization and settings
-│   │   ├── ModInitializer.cs      # Harmony patching and startup
-│   │   └── ModSettings.cs         # Mod configuration UI and settings
-│   ├── Helpers/            # Utility classes organized by domain
-│   │   ├── MapGeneration/           # Map generation helpers
-│   │   │   ├── HiddenPipeHelper.cs        # VE Framework pipe def discovery
-│   │   │   ├── LayoutConduitPlacer.cs     # Hidden conduit/pipe placement
-│   │   │   ├── PipeNetworkTankFiller.cs   # VE tank filling via reflection
-│   │   │   └── TerrainReplacementHelper.cs # Terrain replacement and painting
-│   │   ├── RoomContents/            # Room content generation helpers
-│   │   │   ├── PlacementCalculator.cs     # ✅ Pure placement logic (fully tested)
-│   │   │   ├── RoomBookcaseHelper.cs      # Bookcase content fixup
-│   │   │   ├── RoomDoorsHelper.cs         # Room door position scanning
-│   │   │   ├── RoomOutfitStandHelper.cs   # Outfit stand population
-│   │   │   ├── RoomPlantHelper.cs         # Plant spawning in pots/hydroponics
-│   │   │   ├── RoomShelfHelper.cs         # Shelf item placement
-│   │   │   └── UniqueWeaponNameColorRegenerator.cs # Weapon name/color regeneration
-│   │   ├── TileHelper.cs             # World map tile utilities
-│   │   ├── TradersGuildHelper.cs     # Faction/settlement checking
-│   │   └── TradersGuildTraderRotation.cs  # Trader rotation timing logic
-│   ├── Patches/            # Harmony patches organized by target type
-│   │   ├── Settlement/            # Settlement-related patches (9 files)
-│   │   │   ├── SettlementVisitable.cs
-│   │   │   ├── SettlementGetCaravanGizmos.cs
-│   │   │   ├── SettlementGetFloatMenuOptions.cs
-│   │   │   ├── SettlementGetShuttleFloatMenuOptions.cs
-│   │   │   ├── SettlementGetInspectString.cs
-│   │   │   ├── SettlementTraderTrackerGetTraderKind.cs
-│   │   │   ├── SettlementTraderTrackerRegenerateStock.cs
-│   │   │   ├── SettlementTraderTrackerRegenerateStockEveryDays.cs
-│   │   │   └── SettlementTraderTrackerRegenerateStockAlignment.cs
-│   │   ├── MapGeneration/         # Phase 3: Map generation patches (2 files)
-│   │   │   ├── GenStepOrbitalPlatformGenerate.cs   # Layout override + init
-│   │   │   └── GenStepOrbitalPlatformPostProcess.cs # Post-generation cleanup
-│   │   ├── WorldGrid/             # WorldGrid patches (2 files)
-│   │   │   ├── WorldGridFindMostReasonableAdjacentTile.cs
-│   │   │   └── WorldGridGetRoadMovementDifficulty.cs
-│   │   ├── WorldObject/           # WorldObject patches (1 file)
-│   │   │   └── WorldObjectRequiresSignalJammer.cs
-│   │   ├── PlanetTile/            # PlanetTile patches (1 file)
-│   │   │   └── PlanetTileLayerDef.cs
-│   │   ├── CaravanArrivalActions/ # CaravanArrivalAction patches (2 files)
-│   │   │   ├── CaravanArrivalActionAttackGetFloatMenuOptions.cs
-│   │   │   └── CaravanArrivalActionTradeGetFloatMenuOptions.cs
-│   │   └── Caravan/               # Caravan patches (1 file)
-│   │       └── CaravanGetGizmos.cs
-│   ├── RoomContents/       # Phase 3: Custom room generation workers
-│   │   └── RoomContents_CommandersQuarters.cs  # 🚧 IN PROGRESS
-│   ├── WorldObjects/       # Phase 3: World object components
-│   │   └── TradersGuildSettlementComponent.cs  # Cargo refresh tracking
-│   ├── Properties/
-│   │   └── AssemblyInfo.cs
-│   └── BetterTradersGuild.csproj  # SDK-style project file
-├── Tests/                  # XUnit test project
-│   ├── BetterTradersGuild.Tests.csproj  # Test project file
-│   ├── Helpers/            # Test utilities
-│   │   └── DiagramGenerator.cs
-│   ├── RoomContents/       # Room generation tests
-│   │   └── PlacementCalculatorTests.cs
-│   └── Tools/              # Test tooling
-│       └── (test diagrams)
-├── docs/                   # Technical documentation (9 files)
-│   ├── COMMANDERS_QUARTERS_IMPLEMENTATION.md
-│   ├── CARGO_IMPLEMENTATION_GUIDE.md
-│   ├── EDGEONLY_LIMITATIONS.md
-│   ├── LAYOUT_CONSTRAINTS_README.md
-│   ├── PREFAB_EDGEONLY_GUIDE.md
-│   ├── STORAGE_API_RESEARCH.md
-│   ├── STORAGE_API_SUMMARY.txt
-│   ├── STORAGE_DOCUMENTATION_INDEX.md
-│   └── STYLING_QUICK_REF.md
-├── .editorconfig           # Editor formatting rules
-├── .gitattributes          # Git line ending rules
-├── .gitignore              # Git ignore patterns
-├── BetterTradersGuild.sln  # Root solution file (includes Source + Tests)
-├── Scripts/                # Shell scripts for development tasks
-│   ├── run-tests.sh            # Test runner script
-│   ├── generate-diagrams.sh    # Diagram generation utility
-│   ├── regenerate-diagrams.sh  # Regenerate all diagrams
-│   └── rebuild-and-regenerate.sh  # Build + regenerate diagrams
-├── CLAUDE.md               # Developer guidance (THIS FILE)
-├── PLAN.md                 # Development roadmap and phase tracking
-└── README.md               # GitHub repository landing page
-```
+**Root Directory:**
+- `About/` - Mod metadata (`About.xml` with dependencies, load order)
+- `Assemblies/` - Compiled DLL output (auto-generated)
+- `1.6/` - Versioned game content (RimWorld version-specific)
+- `Source/` - C# source code (SDK-style project with auto-include)
+- `Tests/` - XUnit test project
+- `Scripts/` - Shell scripts for WSL development (build, test runners)
+- `docs/` - Technical documentation and implementation guides
 
-**Note:** Files marked "🚧 IN PROGRESS" are functional but have incomplete features.
+**Versioned Content (`1.6/`):**
+
+RimWorld mods use version folders for compatibility. All XML content lives here:
+- `Defs/` - Custom XML definitions organized by def type:
+  - `LayoutDefs/` - Settlement layout definitions
+  - `LayoutRoomDefs/` - Room definitions for layouts
+  - `PrefabDefs/` - Furniture/object placement prefabs (subdirs by room type, e.g., `MessHall/`, `CrewQuarters/`)
+  - `RoomPartDefs/` - Room part configurations
+  - `ThingDefs/` - Custom thing definitions
+  - `MapGeneration/` - Map generation configurations:
+    - `MapGeneratorDefs/` - Custom MapGeneratorDef XMLs (one file per def)
+    - `GenStepDefs/` - Custom GenStepDef XMLs (one file per def)
+- `Patches/` - XML patches that modify other mods/vanilla (named by target, e.g., `PawnKinds_*.xml`)
+
+**Source Code (`Source/1.6/`):**
+
+Organized by concern with domain-specific subdirectories:
+- `Core/` - Mod initialization (`ModInitializer.cs`) and settings (`ModSettings.cs`)
+- `DefRefs/` - **Static DefOf-style classes** for cached def references (e.g., `Things.cs`, `PawnKinds.cs`, `Prefabs.cs`). Each file contains a static class with `[DefOf]` attribute or manual `DefDatabase<T>.GetNamed()` lookups.
+- `Helpers/` - Reusable utilities grouped by domain:
+  - `MapGeneration/` - Hidden pipe detection helpers (VE Framework integration)
+  - `RoomContents/` - Placement calculators, shelf/plant/bookcase helpers
+  - Root helpers for faction checking, tile utilities, trader rotation
+- `Patches/` - Harmony patches grouped by target RimWorld type (e.g., `Settlement/`, `MapGeneration/`, `Caravan/`). One patch class per file, named after the method patched.
+- `RoomContents/` - Custom `RoomContentsWorker` implementations (named `RoomContents_<RoomName>.cs`)
+- `RoomParts/` - Custom `RoomPartWorker` implementations
+- `MapGeneration/` - Custom GenStep classes (XML-configurable terrain, lighting, pipes, drones)
+- `LayoutWorkers/` - Custom LayoutWorker and settlement generation helpers (conduit placement, pipe networks)
+- `WorldObjects/` - World object components
+
+**Naming Conventions:**
+- Patch files: `<ClassName><MethodName>.cs` (e.g., `SettlementVisitable.cs`)
+- Room workers: `RoomContents_<RoomDefName>.cs`
+- DefRefs: Plural noun matching the def type (e.g., `Things.cs`, `Terrains.cs`)
+- PrefabDefs: `<Description>_Edge.xml` suffix indicates edge-placement prefabs
+
+**Tests (`Tests/`):**
+- Mirrors source structure where applicable
+- `Helpers/` - Test utilities (diagram generation)
+- Excluded files configured in `.csproj` (utilities with `Main` methods)
 
 ## Architecture and Key Concepts
 
 ### Code Organization
 
-The codebase is organized into three main areas:
+The codebase is organized into these main areas:
 
-1. **Core/** - Mod initialization and settings
+1. **Core/** - Mod initialization and settings (Harmony patching, configuration UI)
 
-   - `ModInitializer.cs` - Applies Harmony patches on startup
-   - `ModSettings.cs` - Configuration UI (planned for Phase 6)
+2. **DefRefs/** - Static cached references to game definitions. Each file corresponds to a def type (Things, PawnKinds, Terrains, etc.) and provides strongly-typed access via `DefDatabase<T>.GetNamed()` lookups or `[DefOf]` attributes.
 
-2. **Helpers/** - Reusable utility classes organized by domain
+3. **Helpers/** - Reusable utility classes organized by domain:
+   - Root helpers for faction/settlement checking, world tile utilities, trader rotation logic
+   - `MapGeneration/` - Hidden pipe detection (VE Framework integration)
+   - `RoomContents/` - Placement calculation, shelf/plant/bookcase population
 
-   - Root helpers: `TradersGuildHelper.cs`, `TileHelper.cs`, `TradersGuildTraderRotation.cs`
-   - `MapGeneration/` - Helpers for map generation (conduits, pipes, terrain)
-   - `RoomContents/` - Helpers for room content generation (shelves, plants, placement)
+4. **Patches/** - Harmony patches organized by target RimWorld type. Each subdirectory groups patches by the class they modify (e.g., `Settlement/`, `MapGeneration/`). Namespaces use `*Patches` suffix to avoid conflicts with RimWorld types.
 
-3. **Patches/** - Harmony patches organized by target type
-   - Each subdirectory groups patches by RimWorld class (e.g., `Settlement/`, `Caravan/`)
-   - Namespaces use `*Patches` suffix to avoid conflicts with RimWorld types (e.g., `BetterTradersGuild.Patches.SettlementPatches`)
+5. **RoomContents/** - Custom `RoomContentsWorker` implementations that run after room generation to populate furniture, spawn items, and customize room contents.
+
+6. **RoomParts/** - Custom `RoomPartWorker` implementations for room-level spawning logic.
+
+7. **MapGeneration/** - Custom GenStep classes (XML-configurable terrain, lighting, pipes, drones).
+
+8. **LayoutWorkers/** - Custom LayoutWorker and settlement generation helpers.
 
 **Important:** Namespace conflicts can occur when patch namespaces match RimWorld type names. Always use the `*Patches` suffix pattern (e.g., `SettlementPatches`, `CaravanPatches`) to avoid compilation errors.
 
@@ -268,6 +195,55 @@ The codebase is organized into three main areas:
 The mod uses `[StaticConstructorOnStartup]` attribute on the `BetterTradersGuildMod` class to automatically initialize when RimWorld loads. The static constructor applies all Harmony patches defined in the assembly and logs a single initialization message with the total patch count (e.g., `"[Better Traders Guild] Mod initialized with 17 Harmony patches applied."`).
 
 **Settings Access:** The `BetterTradersGuildMod.Settings` static property provides global access to mod configuration throughout patches and helpers.
+
+### Map Generation Architecture
+
+BTG uses a declarative, XML-driven approach for custom map generation:
+
+**Core Concepts:**
+
+- **MapGeneratorDef**: Defines the complete generation pipeline for a map type (list of GenSteps to run)
+- **GenStepDef**: Individual generation step with order value (lower = runs first) and configurable parameters
+- **SpaceMapGenerator**: Vanilla parent def providing space map properties (`defaultUnderGridTerrain: Space`, `renderWorld: true`, etc.)
+
+**BTG MapGeneratorDefs:**
+
+| Def | Purpose | Parent |
+|-----|---------|--------|
+| `BTG_SettlementMapGenerator` | TradersGuild orbital settlements | `SpaceMapGenerator` |
+| `BTG_CargoHold` | Cargo hold pocket maps | `SpaceMapGenerator` |
+
+**BTG GenSteps (Settlement Pipeline):**
+
+| GenStep | Order | Purpose |
+|---------|-------|---------|
+| `BTG_SettlementPlatform` | 200 | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
+| `BTG_ReplaceTerrain` | 250 | Replace AncientTile → MetalTile |
+| `BTG_PaintTerrain` | 255 | Paint terrain with BTG_OrbitalSteel color |
+| `BTG_LandingPadPipes` | 260 | Extend VE pipes to landing pads (graceful no-op if no VE) |
+| `BTG_SetWallLampColor` | 265 | Set WallLamp glow to blue |
+| `BTG_SettlementPawnsLoot` | 700 | Pawn spawning (loot disabled via `lootMarketValue: 0~0`) |
+| `BTG_SentryDrones` | 705 | Sentry drone spawning (uses ModSettings) |
+
+**Swapping MapGeneratorDef:**
+
+To use a custom MapGeneratorDef for TradersGuild settlements, we patch `Settlement.MapGeneratorDef` property getter:
+
+```csharp
+[HarmonyPatch(typeof(Settlement))]
+[HarmonyPatch(nameof(Settlement.MapGeneratorDef), MethodType.Getter)]
+```
+
+**IMPORTANT:** `Settlement` overrides `MapParent.MapGeneratorDef`, so patching `MapParent` won't work - must patch `Settlement` directly.
+
+**SpaceMapGenerator Inheritance:**
+
+Space maps inherit from `SpaceMapGenerator` to get:
+- `defaultUnderGridTerrain: Space` - fills void areas automatically
+- `renderWorld: true` - planet renders behind space terrain
+- `disableCallAid: true`, `disableMapClippers: true`, `ignoreAreaRevealedLetter: true`
+
+Child defs only need to specify `genSteps` and any overrides (e.g., `pocketMapProperties` for pocket maps).
 
 ### Trader Rotation System
 
@@ -435,46 +411,18 @@ TradersGuild settlements reuse existing orbital trader types (`Orbital_BulkGoods
 
 ### Helper Classes
 
-Helper classes are located in `Source/Helpers/` and organized by domain into subfolders:
+Helpers are organized in `Source/1.6/Helpers/` by domain. Key patterns:
 
-#### Root Helpers
+**Root Helpers** - Faction/settlement checking, world tile utilities, trader rotation scheduling. The `TradersGuildTraderRotation` helper provides the virtual schedule system for trader rotation.
 
-**TradersGuildHelper** (`Helpers/TradersGuildHelper.cs`) - Centralized faction/settlement checking:
+**MapGeneration Helpers** (`Helpers/MapGeneration/`) - Hidden pipe detection for VE Framework integration.
 
-- `IsTradersGuildSettlement(Settlement)` - Checks if settlement belongs to Traders Guild
-- `CanPeacefullyVisit(Faction)` - Validates non-hostile relations
+**LayoutWorker Helpers** (`LayoutWorkers/Settlement/`) - Used by LayoutWorker_BTGSettlement for conduit/pipe placement, tank filling, valve handling, and landing pad pipe extension.
 
-**TileHelper** (`Helpers/TileHelper.cs`) - World map tile utilities:
-
-- `IsFriendlyTradersGuildTile(PlanetTile)` - Combined check for friendly Traders Guild at tile
-
-**TradersGuildTraderRotation** (`Helpers/TradersGuildTraderRotation.cs`) - Trader rotation timing and scheduling:
-
-- `GetRotationIntervalTicks()` - Returns player-configured rotation interval in ticks
-- `GetVirtualLastStockTicks(settlementID)` - Calculates stable, settlement-specific virtual rotation schedule
-- `GetNextRestockTick(settlementID)` - Calculates when settlement should next regenerate stock
-- `ShouldRegenerateNow(settlement, currentLastStockTicks)` - Checks if stock regeneration is due
-
-#### MapGeneration Helpers (`Helpers/MapGeneration/`)
-
-Used by map generation patches. Namespace: `BetterTradersGuild.Helpers.MapGeneration`
-
-- **HiddenPipeHelper** - VE Framework pipe def discovery and caching
-- **LayoutConduitPlacer** - Places hidden conduits/pipes under walls
-- **PipeNetworkTankFiller** - Fills VE tanks via reflection
-- **TerrainReplacementHelper** - Terrain replacement and painting operations
-
-#### RoomContents Helpers (`Helpers/RoomContents/`)
-
-Used by room content workers. Namespace: `BetterTradersGuild.Helpers.RoomContents`
-
-- **PlacementCalculator** - Pure placement logic for prefabs/furniture (fully unit tested, no RimWorld dependencies)
-- **RoomBookcaseHelper** - Bookcase content fixup after generation
-- **RoomDoorsHelper** - Room door position scanning
-- **RoomOutfitStandHelper** - Outfit stand population with apparel
-- **RoomPlantHelper** - Plant spawning in pots/hydroponics basins
-- **RoomShelfHelper** - Shelf item placement based on room type
-- **UniqueWeaponNameColorRegenerator** - Regenerates unique weapon names/colors
+**RoomContents Helpers** (`Helpers/RoomContents/`) - Used by `RoomContentsWorker` implementations for:
+- Placement calculation (pure logic, fully unit tested)
+- Furniture population (shelves, bookcases, plant pots, outfit stands)
+- Post-generation fixups (weapon name regeneration, content customization)
 
 ### Current Implementation Status (Phase 3)
 
@@ -693,16 +641,7 @@ sudo update-binfmts --disable cli
 
 **File Organization:**
 
-Harmony patches are organized in `Source/Patches/` by the RimWorld type they patch:
-
-- `Settlement/` - Patches targeting `RimWorld.Planet.Settlement` methods
-- `Caravan/` - Patches targeting `RimWorld.Planet.Caravan` methods
-- `WorldGrid/` - Patches targeting `RimWorld.Planet.WorldGrid` methods
-- `WorldObject/` - Patches targeting `RimWorld.Planet.WorldObject` methods
-- `PlanetTile/` - Patches targeting `RimWorld.Planet.PlanetTile` methods
-- `CaravanArrivalActions/` - Patches targeting `CaravanArrivalAction*` classes
-
-Each file contains a single patch class named descriptively after the method it patches (e.g., `SettlementVisitable` patches `Settlement.Visitable`).
+Harmony patches are in `Source/1.6/Patches/`, organized into subdirectories by the RimWorld type they target (e.g., `Settlement/`, `MapGeneration/`, `Caravan/`). Each file contains one patch class named after the method it patches (e.g., `SettlementVisitable.cs` patches `Settlement.Visitable`).
 
 **Postfix Patch Pattern:**
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Plant Pot Row Prefab
+
+    Features:
+    - 1x4 prefab size
+    - Four steel plant pots in a row
+
+    Design (top view, North is up):
+        x: 0
+    z=3:   P
+    z=2:   P
+    z=1:   P
+    z=0:   P
+
+    Legend:
+    P = PlantPot (steel)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CrewQuartersPlantPotRow1x4</defName>
+    <size>(1,4)</size>
+    <things>
+      <PlantPot>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(0, 0, 1)</li>
+          <li>(0, 0, 2)</li>
+          <li>(0, 0, 3)</li>
+        </positions>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </PlantPot>
+    </things>
+  </PrefabDef>
+</Defs>

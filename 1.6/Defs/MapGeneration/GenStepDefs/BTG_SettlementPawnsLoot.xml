@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Settlement Pawns/Loot GenStep
+
+    Uses vanilla GenStep_SettlementPawnsLoot class with loot disabled.
+    Setting lootMarketValue to 0~0 causes vanilla to skip loot generation
+    (vanilla checks IsZeros and returns early) while preserving pawn spawning.
+
+    This replaces the old Harmony patch in GenStepSettlementPawnsLootGenerate.cs
+    with a cleaner XML-based configuration.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SettlementPawnsLoot</defName>
+    <order>700</order>
+    <genStep Class="GenStep_SettlementPawnsLoot">
+      <!-- Zero range disables loot generation while keeping pawn spawning -->
+      <lootMarketValue>0~0</lootMarketValue>
+      <requiresRoof>true</requiresRoof>
+    </genStep>
+  </GenStepDef>
+</Defs>

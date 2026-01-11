@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Android Stands Prefab
+    Requires Vanilla Races Expanded - Androids.
+
+    Features:
+    - 1x4 prefab size
+    - Four android charging stands in a row
+
+    Design (top view, North is up):
+        x: 0
+    z=3:   A
+    z=2:   A
+    z=1:   A
+    z=0:   A
+
+    Legend:
+    A = VREA_AndroidStand
+  -->
+
+  <PrefabDef MayRequire="vanillaracesexpanded.android">
+    <defName>BTG_CrewQuartersAndroidStands1x4</defName>
+    <size>(1,4)</size>
+    <things>
+      <VREA_AndroidStand>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(0, 0, 1)</li>
+          <li>(0, 0, 2)</li>
+          <li>(0, 0, 3)</li>
+        </positions>
+      </VREA_AndroidStand>
+    </things>
+  </PrefabDef>
+</Defs>

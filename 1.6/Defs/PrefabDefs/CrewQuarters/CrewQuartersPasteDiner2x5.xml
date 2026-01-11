@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Paste Diner Prefab
+    Requires VNutrientE for the nutrient paste tap.
+
+    Features:
+    - 2x5 prefab size
+    - Nutrient paste tap (3x1 rotated East = 1x3)
+    - Small dining area with table and stools
+    - Decorative plant pot
+
+    Design (top view, North is up):
+        x: 0  1
+    z=4:   N  P    N = Tap (3x1 facing East), P = PlantPot
+    z=3:   N  ~    ~ = VNPE_Filth_Paste (nutrient paste splatter)
+    z=2:   N  .
+    z=1:   pT s    p = Underground paste pipe, T = Table, s = Stool
+    z=0:   pT s
+
+    Legend:
+    N = VNPE_NutrientPasteTap (3x1 rotated East = 1x3)
+    p = VNPE_UndergroundNutrientPastePipe (connects to outer wall network)
+    P = PlantPot (steel)
+    ~ = VNPE_Filth_Paste (nutrient paste splatter)
+    T = Table1x2c (1x2, steel)
+    s = Stool (steel, facing West)
+  -->
+
+  <PrefabDef MayRequire="VanillaExpanded.VNutrientE">
+    <defName>BTG_CrewQuartersPasteDiner2x5</defName>
+    <size>(2,5)</size>
+
+    <things>
+      <!-- Dining table -->
+      <Table1x2c>
+        <position>(0, 0, 0)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </Table1x2c>
+
+      <!-- Decorative plant pot -->
+      <PlantPot>
+        <position>(1, 0, 4)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </PlantPot>
+
+      <!-- Stools facing the table -->
+      <Stool>
+        <rects>
+          <li>(1,0,1,1)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </Stool>
+
+      <!-- Nutrient paste tap (3x1 rotated East covers z=2,3,4) -->
+      <VNPE_NutrientPasteTap>
+        <position>(0, 0, 3)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </VNPE_NutrientPasteTap>
+
+      <!-- Nutrient paste splatter -->
+      <VNPE_Filth_Paste>
+        <position>(1, 0, 3)</position>
+      </VNPE_Filth_Paste>
+
+      <!-- Underground pipes to connect tap to network in outer walls -->
+      <VNPE_UndergroundNutrientPastePipe>
+        <rects>
+          <li>(0,0,0,1)</li>
+        </rects>
+      </VNPE_UndergroundNutrientPastePipe>
+
+    </things>
+  </PrefabDef>
+</Defs>

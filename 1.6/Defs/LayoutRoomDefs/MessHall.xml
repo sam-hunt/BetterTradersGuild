@@ -26,6 +26,7 @@
       <li>WoodPlankFloor</li>
       <li>CarpetMarble</li>
       <li>CarpetSlate</li>
+      <li>CarpetPurpleDeep</li>
     </floorTypes>
     <edgeTerrain>MetalTile</edgeTerrain>
 
@@ -49,7 +50,7 @@
 
       <!-- Dining tables -->
       <BTG_DiningTables>
-        <countPerHundredCells>1.5</countPerHundredCells>
+        <countPerHundredCells>1.4</countPerHundredCells>
       </BTG_DiningTables>
 
       <!-- Food storage -->

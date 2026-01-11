@@ -14,13 +14,17 @@
     <size>(3,2)</size>
     <things>
       <ElectricSmelter>
-        <position>(0, 0, 1)</position>
-        <relativeRotation>Opposite</relativeRotation>
+        <position>(1, 0, 1)</position>
       </ElectricSmelter>
       <Stool>
         <position>(1, 0, 0)</position>
         <stuff>Steel</stuff>
+        <quality>Normal</quality>
       </Stool>
+      <WallLamp>
+        <position>(1, 0, 1)</position>
+      </WallLamp>
     </things>
   </PrefabDef>
+
 </Defs>

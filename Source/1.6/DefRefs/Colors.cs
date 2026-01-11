@@ -13,6 +13,7 @@ namespace BetterTradersGuild.DefRefs
         public static ColorDef BTG_OrbitalSteel;
 
         // === VANILLA STRUCTURE COLORS ===
+        public static ColorDef Structure_Marble;
         public static ColorDef Structure_Pink;
         public static ColorDef Structure_BluePastel;
         public static ColorDef Structure_GreenPastel;

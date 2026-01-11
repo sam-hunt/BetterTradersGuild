@@ -38,6 +38,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef MealSurvivalPack;
         public static ThingDef RawBerries;
         public static ThingDef Chemfuel;
+        public static ThingDef ChemfuelTank;
         public static ThingDef RawCorn;
         public static ThingDef Cloth;
         public static ThingDef Building_OutfitStand;
@@ -50,6 +51,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef VacBarrier;
         public static ThingDef Filth_GestationFluid;
         public static ThingDef Filth_Trash;
+        public static ThingDef Filth_MoldyUniform;
         public static ThingDef Gun_ChargeRifle;
         public static ThingDef Gun_ChargeLance;
         public static ThingDef Apparel_ShieldBelt;
@@ -65,6 +67,10 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Ship_ComputerCore;
         public static ThingDef FirefoamPopper;
         public static ThingDef Facility_VitalsCentre;
+
+        // Turrets
+        public static ThingDef AncientSecurityTurret;
+        public static ThingDef Turret_MiniTurret;
 
         // Plants
         public static ThingDef Plant_Rose;
@@ -87,12 +93,22 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Apparel_ArmorRecon;
         public static ThingDef Apparel_ArmorHelmetRecon;
 
+        // === BTG CUSTOM BUILDINGS ===
+        public static ThingDef BTG_CargoHoldHatch;
+        public static ThingDef BTG_CargoHoldExit;
+
         // === ODYSSEY DLC (always available - BTG hard-depends on Odyssey) ===
         public static ThingDef HunterDroneTrap;
         public static ThingDef WaspDroneTrap;
         public static ThingDef OrbitalAncientFortifiedWall;
         public static ThingDef AncientShipBeacon;
         public static ThingDef PassengerShuttle;
+        public static ThingDef OxygenPump;
+        public static ThingDef LifeSupportUnit;
+
+        // === ORCA SHUTTLE MOD ===
+        [MayRequire("smallmine.HeavyShuttle")]
+        public static ThingDef OrcaShuttle;
 
         // === ROYALTY DLC ===
         [MayRequireRoyalty]
@@ -133,27 +149,15 @@ namespace BetterTradersGuild.DefRefs
         [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef PS_ChemfuelTank;
 
-        [MayRequire("VanillaExpanded.VChemfuelE")]
-        public static ThingDef PS_DeepchemTank;
-
         // === VE CHEMFUEL ===
         [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_ChemfuelPipe;
 
         [MayRequire("VanillaExpanded.VChemfuelE")]
-        public static ThingDef VCHE_DeepchemPipe;
-
-        [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_UndergroundChemfuelPipe;
 
         [MayRequire("VanillaExpanded.VChemfuelE")]
-        public static ThingDef VCHE_UndergroundDeepchemPipe;
-
-        [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_ChemfuelValve;
-
-        [MayRequire("VanillaExpanded.VChemfuelE")]
-        public static ThingDef VCHE_DeepchemValve;
 
         // === VE NUTRIENT PASTE ===
         [MayRequire("VanillaExpanded.VNutrientE")]
@@ -188,10 +192,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef VGE_AstrofuelValve;
 
         [MayRequire("VanillaExpanded.VGravships")]
-        public static ThingDef VGE_LargeOxygenTank;
-
-        [MayRequire("VanillaExpanded.VGravships")]
-        public static ThingDef VGE_GiantAstrofuelTank;
+        public static ThingDef VGE_SmallOxygenTank;
 
         static Things() => DefOfHelper.EnsureInitializedInCtor(typeof(Things));
     }

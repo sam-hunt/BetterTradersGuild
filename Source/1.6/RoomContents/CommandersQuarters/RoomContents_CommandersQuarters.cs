@@ -23,9 +23,6 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
         // Prefab actual size (6×6) - the content defined in XML
         private const int BEDROOM_PREFAB_SIZE = 6;
 
-        // Prefab defName for the L-shaped bedroom structure
-        private const string BEDROOM_PREFAB_DEFNAME = "BTG_CommandersBedroom";
-
         // Stores the bedroom area to prevent other prefabs from spawning there
         private CellRect bedroomRect;
 
@@ -122,13 +119,8 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
         /// </summary>
         private void SpawnBedroomPrefab(Map map, SubroomPlacementResult placement)
         {
-            PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(BEDROOM_PREFAB_DEFNAME, true);
-
-            if (prefab == null)
-            {
-                Log.Error($"[Better Traders Guild] Could not find PrefabDef '{BEDROOM_PREFAB_DEFNAME}'");
-                return;
-            }
+            PrefabDef prefab = Prefabs.BTG_CommandersBedroom;
+            if (prefab == null) return;
 
             // Spawn the prefab at the specified CENTER position with rotation
             // IMPORTANT: placement.Position is the CENTER of the 6×6 prefab, not the min corner!

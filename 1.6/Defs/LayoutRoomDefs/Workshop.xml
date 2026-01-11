@@ -24,7 +24,7 @@
 
       <BTG_FabricationBench_Edge>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>0~1</minMaxRange>
+        <minMaxRange>1~1</minMaxRange>
       </BTG_FabricationBench_Edge>
 
       <BTG_ElectricSmelter_Edge>
@@ -35,19 +35,13 @@
       <!-- Tool storage -->
       <BTG_ToolCabinets>
         <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>1~2</minMaxRange>
+        <minMaxRange>0~1</minMaxRange>
       </BTG_ToolCabinets>
-
-      <!-- Component storage -->
-      <AncientSpacerCrateWithComponentSpacer>
-        <countPerHundredCells>2</countPerHundredCells>
-        <minMaxRange>1~2</minMaxRange>
-      </AncientSpacerCrateWithComponentSpacer>
 
       <!-- Tool and material storage -->
       <IndustrialShelf_Edge>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>1~4</minMaxRange>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
       </IndustrialShelf_Edge>
     </prefabs>
 

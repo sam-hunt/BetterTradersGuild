@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Industrial Shelves Prefab
+
+    Features:
+    - 1x4 prefab size
+    - Two east-facing industrial shelves for 1-cell wide strips
+    - Spawned in subroom strips that can't be exactly filled by available subroom sizes
+
+    Design (top view, North is up, shelves face East):
+        x: 0
+    z=3:  [S]
+    z=2:  [S]
+    z=1:  [S]
+    z=0:  [S]
+
+    Legend:
+    S = AncientIndustrialShelf (2x1 rotated East = 1x2)
+    Two shelves: z=0-1 and z=2-3
+  -->
+  <PrefabDef>
+    <defName>BTG_CrewQuartersIndustrialShelves1x4</defName>
+    <size>(1,4)</size>
+    <things>
+      <AncientIndustrialShelf>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(0, 0, 2)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </AncientIndustrialShelf>
+    </things>
+  </PrefabDef>
+</Defs>

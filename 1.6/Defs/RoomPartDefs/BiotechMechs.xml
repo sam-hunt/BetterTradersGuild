@@ -46,4 +46,10 @@
     <workerClass>BetterTradersGuild.RoomParts.RoomPart_MechAgrihand</workerClass>
   </RoomPartDef>
 
+  <!-- Hauling mech - Storeroom, ShuttleBay -->
+  <RoomPartDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_Mech_Lifter</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_MechLifter</workerClass>
+  </RoomPartDef>
+
 </Defs>

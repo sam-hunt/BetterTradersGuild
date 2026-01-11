@@ -51,7 +51,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Vanilla Furniture Expanded - Spacer Module
             if (Things.Table_interactive_1x1c != null)
-                outcomes.Add((5f, (shelf, map, faction) => CrewQuartersHelpers.ReplaceThingAt(shelf, Things.Table_interactive_1x1c, null, map)));
+                outcomes.Add((5f, (shelf, map, faction) => CrewQuartersHelpers.ReplaceThingAt(shelf, Things.Table_interactive_1x1c, Things.Steel, map)));
 
             return outcomes;
         }
@@ -63,7 +63,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         private static readonly List<(float weight, Action<Map, Building_Storage> action)> ShelfContentsOutcomes = new List<(float, Action<Map, Building_Storage>)>
         {
             (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Gold, Rand.RangeInclusive(10, 50))),
-            (25f,   (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Silver, Rand.RangeInclusive(15, 50))),
+            (20f,   (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Silver, Rand.RangeInclusive(15, 50))),
             (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentIndustrial, Rand.RangeInclusive(1, 2))),
             (3f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentSpacer, Rand.RangeInclusive(2, 4))),
             (4f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineIndustrial, Rand.RangeInclusive(2, 3))),

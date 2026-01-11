@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers;
-using BetterTradersGuild.Helpers.MapGeneration;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
-using RimWorld.BaseGen;
 using Verse;
 
 namespace BetterTradersGuild.RoomContents.ShuttleBay
@@ -22,13 +20,15 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
     /// 2. Calculate and store landing pad area for validation (prevents other prefab overlap)
     /// 3. Spawn landing pad prefab (VGE-enhanced or vanilla version)
     /// 4. Spawn required walls from PlacementCalculator (for edge/center placements)
-    /// 5. Call base.FillRoom() for XML-defined prefabs (forklift, edge furniture)
-    /// 6. Connect AncientSealedCrate markers to room edge with conduits
-    /// 7. Apply partial roofing (roof all cells except landing pad area)
+    /// 5. Calculate cargo hatch position (center of largest free area)
+    /// 6. Call base.FillRoom() for XML-defined prefabs (forklift, edge furniture)
+    /// 7. Connect AncientSealedCrate markers to room edge with conduits
+    /// 8. Apply partial roofing (roof all cells except landing pad area)
+    /// 9. Spawn cargo hold hatch (secure vault entrance)
     ///
     /// LEARNING NOTE (Placement Timing):
-    /// The landingPadRect MUST be set BEFORE calling base.FillRoom() so that
-    /// IsValidCellBase() can block XML-defined prefabs from spawning on the landing pad.
+    /// The landingPadRect and cargoHatchRect MUST be set BEFORE calling base.FillRoom()
+    /// so that IsValidCellBase() can block XML-defined prefabs from spawning on them.
     /// This is the same pattern used in RoomContents_CommandersQuarters.
     /// </summary>
     public class RoomContents_ShuttleBay : RoomContentsWorker
@@ -39,22 +39,23 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         private const int LANDING_PAD_PREFAB_SIZE = 10;
 
         /// <summary>
-        /// Prefab defName for the landing pad structure.
-        /// When VGE is active, an XML patch modifies this prefab to use 5x1 vac barriers.
-        /// </summary>
-        private const string LANDING_PAD_PREFAB_DEFNAME = "BTG_ShuttleLandingPad_Subroom";
-
-        /// <summary>
         /// Stores the landing pad rect to prevent XML-defined prefabs from spawning on it.
         /// Set BEFORE base.FillRoom() is called.
         /// </summary>
         private CellRect landingPadRect;
 
+        /// <summary>
+        /// Stores the cargo hatch rect to prevent XML-defined prefabs from spawning on it.
+        /// Set BEFORE base.FillRoom() is called.
+        /// </summary>
+        private CellRect cargoHatchRect;
+
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            // Explicitly initialize landingPadRect to default (safety mechanism)
+            // Explicitly initialize rects to default (safety mechanism)
             // If placement fails, Width = 0, so IsValidCellBase won't block other prefabs
             this.landingPadRect = default;
+            this.cargoHatchRect = default;
 
             if (room.rects == null || room.rects.Count == 0)
             {
@@ -79,6 +80,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3b. Paint the PassengerShuttle to Marble color
                 PaintShuttleInLandingPad(map);
 
+                // 3c. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
+                ConnectShuttleToPipeNetwork(map, roomRect);
+
                 // 4. Spawn required walls from PlacementCalculator (consolidated wall spawning)
                 // PlacementCalculator.RequiredWalls contains all walls needed for this placement type:
                 // - Corner: empty list (room walls provide everything)
@@ -96,20 +100,33 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // landingPadRect remains default (Width = 0), so IsValidCellBase won't block other prefabs
             }
 
-            // 5. Call base to process XML (prefabs, scatter, parts)
+            // 5. Calculate cargo hatch position (center of largest free area, BEFORE base.FillRoom)
+            this.cargoHatchRect = CargoHatchSpawner.CalculateBlockingRect(map, roomRect, this.landingPadRect);
+
+            // 6. Call base to process XML (prefabs, scatter, parts)
             //    ALWAYS runs - spawns forklift etc. even if landing pad failed
-            //    Other prefabs will avoid landing pad area if landingPadRect.Width > 0
+            //    Other prefabs will avoid landing pad and cargo hatch areas
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 6. Connect AncientSealedCrate markers to room edge with conduits
-            ConnectMarkersToEdge(map, roomRect);
+            // 7. Connect AncientSealedCrate marker to room edge with conduits
+            if (Things.HiddenConduit != null)
+            {
+                var marker = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.AncientSealedCrate).FirstOrDefault();
+                if (marker != null)
+                {
+                    RoomEdgeConnector.ConnectToNearestEdge(map, marker.Position, roomRect, new List<ThingDef> { Things.HiddenConduit });
+                }
+            }
 
-            // 7. Apply partial roofing (roof all cells except landing pad area)
+            // 8. Apply partial roofing (roof all cells except landing pad area)
             PartialRoofingHelper.ApplyRoofingWithExclusion(map, roomRect, this.landingPadRect);
+
+            // 9. Spawn cargo hold hatch (secure vault entrance, center of largest free area)
+            CargoHatchSpawner.SpawnHatch(map, roomRect, this.landingPadRect);
         }
 
         /// <summary>
-        /// Override to prevent XML-defined prefabs from spawning on the landing pad.
+        /// Override to prevent XML-defined prefabs from spawning on the landing pad or cargo hatch.
         ///
         /// CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
         /// doesn't work because other prefabs overwrite landing pad furniture at the same cells,
@@ -123,76 +140,71 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             if (this.landingPadRect.Width > 0 && this.landingPadRect.Contains(c))
                 return false;
 
+            // Block prefab placement in cargo hatch area (3x3 hatch needs clear space)
+            if (this.cargoHatchRect.Width > 0 && this.cargoHatchRect.Contains(c))
+                return false;
+
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
         }
 
         /// <summary>
         /// Spawns the landing pad prefab using PrefabUtility API.
-        /// The prefab is modified by XML patches when VGE is active (5x1 vac barriers instead of 1x1).
+        /// The prefab is modified by XML patches when VGE is active (5x1 vac barriers instead of 1x1)
+        /// or when Orca Shuttle mod is active (larger shuttle with repositioned coordinates).
         ///
         /// LEARNING NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning!
         /// The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
         /// </summary>
         private void SpawnLandingPadPrefab(Map map, SubroomPlacementResult placement)
         {
-            PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(LANDING_PAD_PREFAB_DEFNAME, false);
-
-            if (prefab == null)
-            {
-                Log.Error($"[Better Traders Guild] Could not find PrefabDef '{LANDING_PAD_PREFAB_DEFNAME}'");
-                return;
-            }
+            PrefabDef prefab = Prefabs.BTG_ShuttleLandingPad_Subroom;
+            if (prefab == null) return;
 
             // Spawn the prefab at the specified CENTER position with rotation
             // IMPORTANT: placement.Position is the CENTER of the prefab, not the min corner!
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
-
-            Log.Message($"[Better Traders Guild] Spawned {LANDING_PAD_PREFAB_DEFNAME} at {placement.Position} rotation {placement.Rotation}");
         }
 
         /// <summary>
-        /// Paints the PassengerShuttle in the landing pad area to Marble color.
+        /// Paints the shuttle in the landing pad area to Marble color.
+        /// Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
         /// Called immediately after prefab spawn so the shuttle exists on the map.
         /// </summary>
         private void PaintShuttleInLandingPad(Map map)
         {
             if (this.landingPadRect.Width == 0) return;
+            if (Colors.Structure_Marble == null) return;
 
-            // Find the PassengerShuttle in the landing pad area
+            // Find the shuttle in the landing pad area (PassengerShuttle or OrcaShuttle)
             var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            var shuttle = furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
+            var shuttle = furniture.FirstOrDefault(b =>
+                b.def == Things.PassengerShuttle ||
+                (Things.OrcaShuttle != null && b.def == Things.OrcaShuttle));
 
             if (shuttle == null) return;
-            PaintableFurnitureHelper.TryPaint(shuttle, "Marble");
+            PaintableFurnitureHelper.TryPaint(shuttle, Colors.Structure_Marble);
         }
 
         /// <summary>
-        /// Connects AncientSealedCrate markers to room edge using hidden conduits.
-        /// The crate serves as a marker for where conduit connections should originate.
+        /// Connects the shuttle in the landing pad area to the room edge via chemfuel pipes.
+        /// Does nothing if VE Chemfuel Expanded is not installed (VCHE_UndergroundChemfuelPipe will be null).
         /// </summary>
-        private void ConnectMarkersToEdge(Map map, CellRect roomRect)
+        private void ConnectShuttleToPipeNetwork(Map map, CellRect roomRect)
         {
-            // Silent abort if HiddenConduit not available
-            if (Things.HiddenConduit == null)
-                return;
+            if (this.landingPadRect.Width == 0) return;
+            if (Things.VCHE_UndergroundChemfuelPipe == null) return;
 
-            // Also get hidden pipe defs for VE mods
-            var hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();
-            List<ThingDef> infrastructureDefs = new List<ThingDef> { Things.HiddenConduit };
-            infrastructureDefs.AddRange(hiddenPipeDefs);
+            // Find the shuttle in the landing pad area (PassengerShuttle or OrcaShuttle)
+            var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
+            var shuttle = furniture.FirstOrDefault(b =>
+                b.def == Things.PassengerShuttle ||
+                (Things.OrcaShuttle != null && b.def == Things.OrcaShuttle));
 
-            // Find AncientSealedCrate markers in the room
-            var markers = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.AncientSealedCrate);
+            if (shuttle == null) return;
 
-            foreach (Building marker in markers)
-            {
-                // Connect each marker to the nearest room edge
-                int placed = RoomEdgeConnector.ConnectToNearestEdge(map, marker.Position, roomRect, infrastructureDefs);
-                if (placed > 0)
-                {
-                    Log.Message($"[Better Traders Guild] Connected AncientSealedCrate at {marker.Position} to room edge ({placed} infrastructure cells)");
-                }
-            }
+            // Connect shuttle position to nearest room edge via underground chemfuel pipes
+            RoomEdgeConnector.ConnectToNearestEdge(map, shuttle.Position, roomRect, Things.VCHE_UndergroundChemfuelPipe);
         }
+
     }
 }

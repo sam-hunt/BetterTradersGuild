@@ -29,9 +29,6 @@ namespace BetterTradersGuild.RoomContents.Nursery
         // Prefab actual size (6×6) - the content defined in XML
         private const int CRIB_SUBROOM_SIZE = 6;
 
-        // Prefab defName for the crib subroom structure
-        private const string CRIB_PREFAB_DEFNAME = "BTG_CribSubroom";
-
         // Stores the crib subroom area to prevent other prefabs from spawning there
         private CellRect cribSubroomRect;
 
@@ -139,13 +136,8 @@ namespace BetterTradersGuild.RoomContents.Nursery
         /// </summary>
         private void SpawnCribSubroomPrefab(Map map, SubroomPlacementResult placement)
         {
-            PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(CRIB_PREFAB_DEFNAME, true);
-
-            if (prefab == null)
-            {
-                Log.Error($"[Better Traders Guild] Could not find PrefabDef '{CRIB_PREFAB_DEFNAME}'");
-                return;
-            }
+            PrefabDef prefab = Prefabs.BTG_CribSubroom;
+            if (prefab == null) return;
 
             // Spawn the prefab at the specified CENTER position with rotation
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);

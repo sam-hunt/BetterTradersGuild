@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_SmallAstrofuelTank_Edge - VE Gravships astrofuel tank with valve
+
+    Features:
+    - 2x3 prefab size
+    - Edge placement (valve against wall)
+    - 2x2 tank with valve above
+
+    Design (top view, North is up, wall at z=2):
+        x: 0 1
+    z=2:   V .   Valve at (0,0,2)
+    z=1:   T T   Tank (2x2)
+    z=0:   T T
+
+    Legend:
+    V = VGE_AstrofuelValve (facing wall)
+    T = ChemfuelTank (patched by VGE to become small astrofuel tank)
+  -->
+  <PrefabDef MayRequire="vanillaexpanded.gravship">
+    <defName>BTG_SmallAstrofuelTank_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,3)</size>
+    <things>
+      <VGE_AstrofuelValve>
+        <position>(0,0,2)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </VGE_AstrofuelValve>
+      <ChemfuelTank>
+        <position>(0,0,0)</position>
+      </ChemfuelTank>
+    </things>
+  </PrefabDef>
+
+</Defs>

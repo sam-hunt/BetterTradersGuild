@@ -28,8 +28,8 @@
     <prefabs>
       <!-- Working comms console for trade communications -->
       <BTG_CommsConsole_Edge>
-        <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
+        <countPerHundredCells>6</countPerHundredCells>
+        <minMaxRange>4~10</minMaxRange>
       </BTG_CommsConsole_Edge>
 
       <!-- Hackable terminals (functional, not destroyed) -->
@@ -43,12 +43,6 @@
         <countPerTenEdgeCells>3</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
       </AncientFilingCabinet_Edge>
-
-      <!-- Components storage -->
-      <AncientSpacerCrateWithComponentSpacer>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
-      </AncientSpacerCrateWithComponentSpacer>
     </prefabs>
 
     <parts>

@@ -111,7 +111,7 @@
     <!-- nomatch: keep existing PowerArmor from TradersGuildEliteBase (no change needed) -->
   </Operation>
 
-  <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack) -->
+  <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack, [10% Android]) -->
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -119,7 +119,8 @@
         <xenotypeChances>
           <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.40</Hussar>
           <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
-          <Starjack MayRequire="Ludeon.RimWorld.Biotech,Ludeon.RimWorld.Odyssey">0.30</Starjack>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
+          <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
         </xenotypeChances>
       </xenotypeSet>
     </value>

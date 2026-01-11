@@ -16,8 +16,9 @@
     <minSingleRectHeight>8</minSingleRectHeight>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.MechRepairPost.RoomContents_MechRepairPost</roomContentsWorkerType>
 
+    <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
-      <li>MetalTile</li>
+      <li>Concrete</li>
     </floorTypes>
 
     <prefabs>
@@ -66,7 +67,6 @@
 
     <!-- Mechs guarding their own station -->
     <parts>
-      <AncientBarricades />
       <HunterDrone>0.3</HunterDrone>
       <WaspDrone>0.2</WaspDrone>
       <!-- Combat mechs stationed at repair post -->

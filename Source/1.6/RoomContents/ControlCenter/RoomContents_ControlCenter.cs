@@ -19,9 +19,6 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
         // Prefab size (6x6)
         private const int SERVER_ROOM_PREFAB_SIZE = 6;
 
-        // Prefab defName for the server room structure
-        private const string SERVER_ROOM_PREFAB_DEFNAME = "BTG_ServerRacks_Subroom";
-
         // Stores the server room area to prevent other prefabs from spawning there
         private CellRect serverRoomRect;
 
@@ -79,13 +76,8 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
         /// </summary>
         private void SpawnServerRoomPrefab(Map map, SubroomPlacementResult placement)
         {
-            PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(SERVER_ROOM_PREFAB_DEFNAME, false);
-
-            if (prefab == null)
-            {
-                Log.Error($"[Better Traders Guild] Could not find PrefabDef '{SERVER_ROOM_PREFAB_DEFNAME}'");
-                return;
-            }
+            PrefabDef prefab = Prefabs.BTG_ServerRacks_Subroom;
+            if (prefab == null) return;
 
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }

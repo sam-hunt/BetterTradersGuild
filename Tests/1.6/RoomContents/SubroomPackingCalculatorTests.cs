@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using BetterTradersGuild.Helpers.RoomContents;
+using BetterTradersGuild.RoomContents.CrewQuarters;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
-using static BetterTradersGuild.Helpers.RoomContents.SubroomPackingCalculator;
+using static BetterTradersGuild.RoomContents.CrewQuarters.SubroomPackingCalculator;
 
 namespace BetterTradersGuild.Tests.RoomContents
 {

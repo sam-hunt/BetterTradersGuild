@@ -11,33 +11,109 @@
     - Reflects prosperous merchant civilization identity
 
     Inherits from OrbitalAncientPlatformBase for standard orbital platform behavior.
-    "Ancient" refers to infrastructure age, not inhabitability - same as vanilla settlements.
+    Same base def as vanilla settlements.
   -->
 
   <StructureLayoutDef ParentName="OrbitalAncientPlatformBase">
     <defName>BTG_Settlement</defName>
 
     <!--
+      Custom LayoutWorker for BTG-specific generation hooks.
+      Extends LayoutWorker_OrbitalPlatform with pre/post spawn processing:
+      - Pre-spawn: Initialize TradersGuildSettlementComponent
+      - Post-spawn: Conduits, pipes, tanks, valves, terrain, painting, lighting
+    -->
+    <workerClass>BetterTradersGuild.LayoutWorkers.Settlement.LayoutWorker_BTGSettlement</workerClass>
+
+    <!--
       Settlement-specific settings:
-      - clearDoorFaction=false: Keeps doors owned by faction (prevents instant entry)
+      - clearDoorFaction=true: Removes door faction ownership (allows player to pass through)
       - ensureOneDoorUnlocked=true: Allows player entry (at least one unlocked door)
       - corridorDef: Custom corridor with MetalTile flooring (not AncientTile)
-      - wallLampDef: Powered WallLamp instead of AncientEmergencyLight_Blue (color set via postfix)
+      - wallLampDef: Powered WallLamp instead of AncientEmergencyLight_Blue (color set via worker)
     -->
-    <clearDoorFaction>false</clearDoorFaction>
-    <ensureOneDoorUnlocked>false</ensureOneDoorUnlocked>
+    <clearDoorFaction>true</clearDoorFaction>
+    <ensureOneDoorUnlocked>true</ensureOneDoorUnlocked>
     <corridorDef>BTG_Corridor</corridorDef>
     <wallLampDef>WallLamp</wallLampDef>
     <wallLampChancePerPosition>1</wallLampChancePerPosition>
 
-    <!--
-      Wall attachments: Life support units provide power generation throughout the settlement
-    -->
     <wallAttachments>
       <LifeSupportUnit>
         <countRange>1~1</countRange>
       </LifeSupportUnit>
     </wallAttachments>
+
+    <!-- Place ShuttleBay FIRST - it's the largest room (18x15) and needs priority placement -->
+    <importantRoomDef>BTG_ShuttleBay</importantRoomDef>
+
+    <roomDefs>
+      <!-- Core operational facilities -->
+      <!-- NOTE: BTG_ShuttleBay is handled via importantRoomDef (exactly 1 placed first) -->
+
+      <!-- Control center with comms and AI core subroom -->
+      <BTG_ControlCenter>
+        <countRange>1~1</countRange>
+      </BTG_ControlCenter>
+
+      <!-- Commander's quarters with bedroom subroom-->
+      <BTG_CommandersQuarters>
+        <countRange>1~1</countRange>
+      </BTG_CommandersQuarters>
+
+      <!-- Nursery with sheltering civilians/children in subroom -->
+      <BTG_Nursery MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>1~1</countRange>
+      </BTG_Nursery>
+
+      <BTG_Classroom MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>1~1</countRange>
+      </BTG_Classroom>
+
+      <BTG_MessHall>
+        <countRange>1~1</countRange>
+      </BTG_MessHall>
+
+      <BTG_MedicalBay>
+        <countRange>1~1</countRange>
+      </BTG_MedicalBay>
+
+      <BTG_PodLaunchBay>
+        <countRange>1~1</countRange>
+      </BTG_PodLaunchBay>
+
+      <BTG_CrewQuarters>
+        <countRange>2~4</countRange>
+      </BTG_CrewQuarters>
+
+      <BTG_Greenhouse>
+        <countRange>2~4</countRange>
+      </BTG_Greenhouse>
+
+      <BTG_RecRoom>
+        <countRange>1~1</countRange>
+      </BTG_RecRoom>
+
+      <BTG_MechSecurityPost>
+        <countRange>0~2</countRange>
+      </BTG_MechSecurityPost>
+
+      <BTG_Armory>
+        <countRange>0~1</countRange>
+      </BTG_Armory>
+
+      <BTG_Workshop>
+        <countRange>0~1</countRange>
+      </BTG_Workshop>
+
+      <BTG_MechRepairPost MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>0~2</countRange>
+      </BTG_MechRepairPost>
+
+      <!-- Filler rooms by weight -->
+      <BTG_Storeroom>3</BTG_Storeroom>
+      <NarrowHalls>2</NarrowHalls>
+    </roomDefs>
 
     <!--
       Loot Control: Disable random littered loot across the structure
@@ -47,85 +123,5 @@
     -->
     <junkScaterrers />
 
-    <roomDefs>
-      <!-- Core operational facilities -->
-
-      <!-- Dynamic cargo bay with trader-specific items -->
-      <BTG_ShuttleBay>
-        <countRange>1~2</countRange>
-      </BTG_ShuttleBay>
-
-      <BTG_MedicalBay>
-        <countRange>1~1</countRange>
-      </BTG_MedicalBay>
-
-      <BTG_ControlCenter>
-        <countRange>1~1</countRange>
-      </BTG_ControlCenter>
-
-      <BTG_Greenhouse>
-        <countRange>2~4</countRange>
-      </BTG_Greenhouse>
-
-      <BTG_MessHall>
-        <countRange>1~1</countRange>
-      </BTG_MessHall>
-
-      <BTG_PodLaunchBay>
-        <countRange>1~1</countRange>
-      </BTG_PodLaunchBay>
-
-      <!-- Living quarters and recreation -->
-
-      <BTG_CrewQuarters>
-        <countRange>2~4</countRange>
-      </BTG_CrewQuarters>
-
-      <BTG_RecRoom>
-        <countRange>1~1</countRange>
-      </BTG_RecRoom>
-
-      <BTG_Nursery MayRequire="Ludeon.RimWorld.Biotech">
-        <countRange>1~1</countRange>
-      </BTG_Nursery>
-
-      <BTG_Classroom MayRequire="Ludeon.RimWorld.Biotech">
-        <countRange>1~1</countRange>
-      </BTG_Classroom>
-
-      <BTG_MechRepairPost MayRequire="Ludeon.RimWorld.Biotech">
-        <countRange>0~2</countRange>
-      </BTG_MechRepairPost>
-
-      <!-- Mech security room with volatile gestator tanks -->
-      <BTG_MechSecurityPost>
-        <countRange>0~1</countRange>
-      </BTG_MechSecurityPost>
-
-      <!-- Security and operations -->
-      <BTG_Armory>
-        <countRange>0~1</countRange>
-      </BTG_Armory>
-
-      <BTG_Workshop>
-        <countRange>0~1</countRange>
-      </BTG_Workshop>
-
-      <!-- Trade and display -->
-      <BTG_TradeShowcase>
-        <countRange>0~2</countRange>
-      </BTG_TradeShowcase>
-
-      <!-- Commander's quarters -->
-      <BTG_CommandersQuarters>
-        <countRange>1~1</countRange>
-      </BTG_CommandersQuarters>
-
-      <!-- Filler rooms for layout variety -->
-      <BTG_Storeroom>3</BTG_Storeroom>
-      <NarrowHalls>2</NarrowHalls>
-      <BTG_CargoStorage>1</BTG_CargoStorage>
-
-    </roomDefs>
   </StructureLayoutDef>
 </Defs>

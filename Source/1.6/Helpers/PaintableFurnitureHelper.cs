@@ -44,31 +44,7 @@ namespace BetterTradersGuild.Helpers
         }
 
         /// <summary>
-        /// Attempts to paint a piece of furniture with the specified color def name.
-        /// Looks up the ColorDef from DefDatabase.
-        /// </summary>
-        /// <param name="thing">The thing to paint (must be a Building)</param>
-        /// <param name="colorDefName">The defName of the ColorDef to apply</param>
-        /// <returns>True if successfully painted, false if not a Building or color not found</returns>
-        public static bool TryPaint(Thing thing, string colorDefName)
-        {
-            if (thing == null || string.IsNullOrEmpty(colorDefName))
-            {
-                return false;
-            }
-
-            ColorDef colorDef = DefDatabase<ColorDef>.GetNamedSilentFail(colorDefName);
-            if (colorDef == null)
-            {
-                return false;
-            }
-
-            return TryPaint(thing, colorDef);
-        }
-
-        /// <summary>
         /// Attempts to paint a piece of furniture with the specified ColorDef.
-        /// This overload avoids repeated DefDatabase lookups when painting multiple items.
         ///
         /// Uses Building.ChangePaint() which is the vanilla API for painting buildings/furniture.
         /// </summary>

@@ -27,7 +27,7 @@ dotnet_naming_symbols.public_symbols.applicable_accessibilities = public,interna
 dotnet_naming_style.first_word_upper_case_style.capitalization = pascal_case
 
 # Code style preferences
-csharp_prefer_braces = true:warning
+csharp_prefer_braces = false:none
 csharp_prefer_simple_using_statement = false:suggestion
 csharp_style_namespace_declarations = file_scoped:suggestion
 

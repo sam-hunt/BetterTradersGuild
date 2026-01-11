@@ -48,7 +48,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // VFE Spacer - Interactive Table 1x1
             if (Things.Table_interactive_1x1c != null)
-                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, Things.Table_interactive_1x1c, null, map)));
+                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, Things.Table_interactive_1x1c, Things.Steel, map)));
 
             // VFE Spacer - Air Purifier
             if (Things.VFES_AirPurifier != null)
@@ -115,7 +115,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         /// <summary>
         /// Replaces a meditation spot with a pile of trash filth.
-        /// Spawns 10 filth at the spot position and 5 at a nearby empty cell.
+        /// Spawns moldy uniform and trash at the spot position, plus more trash at a nearby cell.
         /// </summary>
         private static void SpawnTrashPile(Thing spot, Map map)
         {
@@ -123,6 +123,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             IntVec3 pos = spot.Position;
             spot.Destroy(DestroyMode.Vanish);
+
+            // Spawn moldy uniform filth at the spot position
+            if (Things.Filth_MoldyUniform != null)
+                FilthMaker.TryMakeFilth(pos, map, Things.Filth_MoldyUniform, 1);
 
             // Spawn 10 trash filth at the spot position
             FilthMaker.TryMakeFilth(pos, map, Things.Filth_Trash, 10);

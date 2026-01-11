@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Styling Station Prefab
+
+    Features:
+    - 2x4 prefab size
+    - Decorative filler for short subroom strips which can't quite
+      filled with available subroom size variants
+
+    Design (top view, North is up, entry from z=0):
+        x: 0  1
+    z=3:   C  C
+    z=2:   S  F
+    z=1:   S  D
+    z=0:   S  Y
+
+    Legend:
+    C = Couch (Cloth)
+    S = StylingStation (Steel)
+    D = DiningChair (Steel)
+    Y = ShelfSmall (Steel) with 4-8 Dye
+    F = Filth
+    . = empty space
+  -->
+  <PrefabDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>BTG_CrewQuartersStylingStation2x4</defName>
+    <size>(2,4)</size>
+    <things>
+      <StylingStation>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </StylingStation>
+      <DiningChair>
+        <position>(1, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </DiningChair>
+      <ShelfSmall>
+        <position>(1, 0, 0)</position>
+        <stuff>Steel</stuff>
+      </ShelfSmall>
+      <Dye>
+        <position>(1, 0, 0)</position>
+        <stackCountRange>5~9</stackCountRange>
+      </Dye>
+      <Couch>
+        <position>(1, 0, 3)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <stuff>Cloth</stuff>
+        <quality>Normal</quality>
+      </Couch>
+      <Filth_Hair>
+        <position>(0, 0, 2)</position>
+      </Filth_Hair>
+    </things>
+  </PrefabDef>
+</Defs>

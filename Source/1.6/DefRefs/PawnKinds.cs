@@ -33,6 +33,9 @@ namespace BetterTradersGuild.DefRefs
         public static PawnKindDef Mech_Cleansweeper;
 
         [MayRequireBiotech]
+        public static PawnKindDef Mech_Lifter;
+
+        [MayRequireBiotech]
         public static PawnKindDef Mech_Agrihand;
 
         // === ANOMALY ===

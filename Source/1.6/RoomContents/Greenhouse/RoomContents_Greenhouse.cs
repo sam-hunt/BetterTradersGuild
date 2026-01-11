@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
@@ -11,13 +12,9 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
     /// Custom RoomContentsWorker for Greenhouse.
     ///
     /// Populates the greenhouse with:
-    /// - Rice in hydroponics basins (food production)
+    /// - Rice or potatoes in hydroponics basins (food production)
     /// - Daylilies in decorative plant pots (aesthetics)
     /// - Harvested crops on shelves (corn or cotton)
-    ///
-    /// LEARNING NOTE: This worker calls base.FillRoom() FIRST because the XML prefabs
-    /// spawn the hydroponics basins, plant pots, and shelves, and we need those to exist
-    /// before we can populate them.
     /// </summary>
     public class RoomContents_Greenhouse : RoomContentsWorker
     {
@@ -27,18 +24,22 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
         /// </summary>
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            // 1. Call base FIRST to spawn XML prefabs (hydroponics basins, plant pots, shelves)
-            //    IMPORTANT: We need containers to exist before we can populate them
-            base.FillRoom(map, room, faction, threatPoints);
-
             if (room.rects == null || room.rects.Count == 0)
+            {
+                base.FillRoom(map, room, faction, threatPoints);
                 return;
+            }
 
             CellRect roomRect = room.rects.First();
 
+            // 1. Call base to spawn XML prefabs (hydroponics basins, plant pots, shelves)
+            //    IMPORTANT: We need containers to exist before we can populate them
+            base.FillRoom(map, room, faction, threatPoints);
+
             // 2. Spawn plants in hydroponics basins with varied growth
             //    Randomly pick rice or potatoes for the entire room (consistent species per room)
-            ThingDef hydroPlant = Rand.Bool ? Things.Plant_Rice : Things.Plant_Potato;
+            var hydroPlantOptions = new List<ThingDef> { Things.Plant_Rice, Things.Plant_Potato };
+            ThingDef hydroPlant = hydroPlantOptions.RandomElementByWeight(p => 1f);
             float hydroGrowth = Rand.Range(0.7f, 1.0f);
             RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, hydroPlant, hydroGrowth);
 

@@ -73,7 +73,7 @@
       <!-- Packaged survival meals for food storage -->
       <SurvivalMealPallet>
         <countPerHundredCells>1</countPerHundredCells>
-        <countRange>1~3</countRange>
+        <countRange>0~1</countRange>
       </SurvivalMealPallet>
     </prefabs>
 
