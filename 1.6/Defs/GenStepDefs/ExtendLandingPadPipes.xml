@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Extend Landing Pad Pipes GenStep
+
+    Extends VE pipe networks from the main settlement structure to external landing pads.
+    This enables traders' guild refueling stations to connect fluid resource networks
+    (chemfuel, nutrient paste, oxygen, astrofuel) to ship landing areas.
+
+    No XML parameters - uses the layout structure sketch from the map to determine
+    where pipes should be extended.
+
+    GRACEFUL DEGRADATION: If no VE pipe network mods are installed, the helper
+    returns early after checking for available pipe ThingDefs. No errors or warnings.
+
+    TECHNICAL APPROACH:
+    - Uses LandingPadDetector to find external landing pads via beacon markers
+    - Traces BFS paths from pad edges back to main structure following terrain
+    - Places visible VE pipes along the paths for thematic realism
+  -->
+
+  <GenStepDef>
+    <defName>BTG_ExtendLandingPadPipes</defName>
+    <order>260</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_ExtendLandingPadPipes" />
+  </GenStepDef>
+</Defs>

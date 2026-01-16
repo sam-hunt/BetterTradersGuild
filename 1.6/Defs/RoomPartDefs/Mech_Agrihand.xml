@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Agrihand Mech Room Part
+
+    Spawns agricultural mechs in Greenhouse rooms.
+    Requires Biotech DLC.
+  -->
+
+  <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_Mech_Agrihand</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
+    <pawnKindDef>Mech_Agrihand</pawnKindDef>
+    <behavior>Passive</behavior>
+  </BetterTradersGuild.RoomParts.RoomPart_MechDef>
+
+</Defs>

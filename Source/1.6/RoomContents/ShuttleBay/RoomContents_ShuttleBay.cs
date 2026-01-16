@@ -24,7 +24,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
     /// 6. Call base.FillRoom() for XML-defined prefabs (forklift, edge furniture)
     /// 7. Connect AncientSealedCrate markers to room edge with conduits
     /// 8. Apply partial roofing (roof all cells except landing pad area)
-    /// 9. Spawn cargo hold hatch (secure vault entrance)
+    /// 9. Spawn cargo vault hatch (secured entrance)
     ///
     /// LEARNING NOTE (Placement Timing):
     /// The landingPadRect and cargoHatchRect MUST be set BEFORE calling base.FillRoom()
@@ -101,12 +101,16 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
 
             // 5. Calculate cargo hatch position (center of largest free area, BEFORE base.FillRoom)
-            this.cargoHatchRect = CargoHatchSpawner.CalculateBlockingRect(map, roomRect, this.landingPadRect);
+            this.cargoHatchRect = CargoVaultHatchSpawner.CalculateBlockingRect(map, roomRect, this.landingPadRect);
 
             // 6. Call base to process XML (prefabs, scatter, parts)
             //    ALWAYS runs - spawns forklift etc. even if landing pad failed
             //    Other prefabs will avoid landing pad and cargo hatch areas
             base.FillRoom(map, room, faction, threatPoints);
+
+            // 6b. Prune LifeSupportUnits to keep only one outside the landing pad subroom
+            //     XML spawns 4 to ensure at least one lands in the pressurized area
+            PruneLifeSupportUnits(map, roomRect);
 
             // 7. Connect AncientSealedCrate marker to room edge with conduits
             if (Things.HiddenConduit != null)
@@ -121,8 +125,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             // 8. Apply partial roofing (roof all cells except landing pad area)
             PartialRoofingHelper.ApplyRoofingWithExclusion(map, roomRect, this.landingPadRect);
 
-            // 9. Spawn cargo hold hatch (secure vault entrance, center of largest free area)
-            CargoHatchSpawner.SpawnHatch(map, roomRect, this.landingPadRect);
+            // 9. Spawn cargo vault hatch (secure vault entrance, center of largest free area)
+            CargoVaultHatchSpawner.SpawnHatch(map, roomRect, this.landingPadRect);
         }
 
         /// <summary>
@@ -204,6 +208,36 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
 
             // Connect shuttle position to nearest room edge via underground chemfuel pipes
             RoomEdgeConnector.ConnectToNearestEdge(map, shuttle.Position, roomRect, Things.VCHE_UndergroundChemfuelPipe);
+        }
+
+        /// <summary>
+        /// Prunes LifeSupportUnits to keep only one that is outside the landing pad subroom.
+        /// The subroom is unroofed/exposed to space, so LifeSupportUnits shouldn't be there.
+        /// XML spawns 4 units to ensure at least one lands in the pressurized area.
+        /// </summary>
+        private void PruneLifeSupportUnits(Map map, CellRect roomRect)
+        {
+            if (Things.LifeSupportUnit == null) return;
+
+            // Find all LifeSupportUnits in the room (uses cell iteration, works for any faction)
+            var units = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.LifeSupportUnit);
+
+            if (units.Count <= 1) return;
+
+            // Find first unit outside the landing pad subroom (preferred)
+            Building keepUnit = units.FirstOrDefault(b =>
+                this.landingPadRect.Width == 0 || !this.landingPadRect.Contains(b.Position));
+
+            // Fallback: keep the last one if all are in the subroom
+            if (keepUnit == null)
+                keepUnit = units.Last();
+
+            // Despawn all others
+            foreach (var unit in units)
+            {
+                if (unit != keepUnit)
+                    unit.Destroy(DestroyMode.Vanish);
+            }
         }
 
     }

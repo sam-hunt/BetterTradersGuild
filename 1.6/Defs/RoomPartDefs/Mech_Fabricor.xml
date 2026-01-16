@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Fabricor Mech Room Part
+
+    Spawns fabrication mechs in Workshop rooms.
+    Requires Biotech DLC.
+  -->
+
+  <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_Mech_Fabricor</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
+    <pawnKindDef>Mech_Fabricor</pawnKindDef>
+    <behavior>Passive</behavior>
+  </BetterTradersGuild.RoomParts.RoomPart_MechDef>
+
+</Defs>

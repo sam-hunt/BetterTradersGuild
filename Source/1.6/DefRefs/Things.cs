@@ -19,6 +19,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef ComponentSpacer;
         public static ThingDef MedicineIndustrial;
         public static ThingDef MedicineUltratech;
+        public static ThingDef Luciferium;
+        public static ThingDef GoJuice;
         public static ThingDef Synthread;
         public static ThingDef Beer;
         public static ThingDef HiddenConduit;
@@ -94,8 +96,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Apparel_ArmorHelmetRecon;
 
         // === BTG CUSTOM BUILDINGS ===
-        public static ThingDef BTG_CargoHoldHatch;
-        public static ThingDef BTG_CargoHoldExit;
+        public static ThingDef BTG_CargoVaultHatch;
+        public static ThingDef BTG_CargoVaultExit;
 
         // === ODYSSEY DLC (always available - BTG hard-depends on Odyssey) ===
         public static ThingDef HunterDroneTrap;
@@ -105,6 +107,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef PassengerShuttle;
         public static ThingDef OxygenPump;
         public static ThingDef LifeSupportUnit;
+        public static ThingDef AncientPlantPot;
 
         // === ORCA SHUTTLE MOD ===
         [MayRequire("smallmine.HeavyShuttle")]
@@ -193,6 +196,10 @@ namespace BetterTradersGuild.DefRefs
 
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_SmallOxygenTank;
+
+        // === VRE GENIE ===
+        [MayRequire("vanillaracesexpanded.genie")]
+        public static ThingDef VRE_Antibiotics;
 
         static Things() => DefOfHelper.EnsureInitializedInCtor(typeof(Things));
     }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Vault GenStep
+
+    Custom GenStep that generates the vault structure for cargo vault pocket maps.
+    Uses the proper RimWorld layout system (same architecture as vanilla AncientStockpile).
+
+    ARCHITECTURE:
+    - Creates StructureGenParams with vault size
+    - Gets BTG_OrbitalCargoVault's Worker (LayoutWorker_AncientStockpile)
+    - Calls GenerateStructureSketch() to create layout
+    - Calls Spawn() to place walls, floors, rooms, prefabs, and parts
+
+    LAYOUT STRUCTURE:
+    - BTG_OrbitalCargoVault (StructureLayoutDef): Defines walls, doors, floor style
+    - BTG_CargoVaultRoom (LayoutRoomDef): Single room with exit portal, shelves, turrets
+  -->
+
+  <GenStepDef>
+    <defName>BTG_CargoVault</defName>
+    <order>250</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_CargoVaultPlatform" />
+  </GenStepDef>
+</Defs>

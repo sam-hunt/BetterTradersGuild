@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Lifter Mech Room Part
+
+    Spawns hauling mechs in Storeroom, ShuttleBay rooms.
+    Requires Biotech DLC.
+  -->
+
+  <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_Mech_Lifter</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
+    <pawnKindDef>Mech_Lifter</pawnKindDef>
+    <behavior>Passive</behavior>
+  </BetterTradersGuild.RoomParts.RoomPart_MechDef>
+
+</Defs>

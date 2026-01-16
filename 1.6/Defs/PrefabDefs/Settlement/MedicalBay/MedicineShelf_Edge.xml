@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Medicine Shelf Prefab
+    Medical storage shelf stocked with medicines and combat drugs.
+
+    Features:
+    - 2x1 prefab size
+    - Edge placement (against walls)
+    - Drugs and meds on shelf
+
+    Design (top view, North is up, wall at z=0):
+        x: 0 1
+    z=0:   S S
+
+    Legend:
+    S = Shelf (plasteel, excellent quality, facing into room)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_MedicineShelf_Edge</defName>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
+
+    <!-- Items spawned via MedicineShelfFiller in RoomContents_MedicalBay -->
+    <things>
+      <Shelf>
+        <position>(0,0,0)</position>
+        <relativeRotation>Opposite</relativeRotation>
+        <quality>Excellent</quality>
+        <stuff>Plasteel</stuff>
+      </Shelf>
+    </things>
+  </PrefabDef>
+</Defs>

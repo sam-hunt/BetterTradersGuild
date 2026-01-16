@@ -51,13 +51,5 @@ namespace BetterTradersGuild
             Settlement settlement = map.Parent as Settlement;
             return IsTradersGuildSettlement(settlement);
         }
-
-        /// <summary>
-        /// Gets the TradersGuild faction, or null if not found.
-        /// </summary>
-        public static Faction GetTradersGuildFaction()
-        {
-            return Find.FactionManager?.FirstFactionOfDef(Factions.TradersGuild);
-        }
     }
 }

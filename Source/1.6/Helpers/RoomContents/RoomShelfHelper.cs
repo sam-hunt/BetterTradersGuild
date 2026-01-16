@@ -116,12 +116,15 @@ namespace BetterTradersGuild.Helpers.RoomContents
         }
 
         /// <summary>
-        /// Adds a pre-created Thing to a shelf's first available cell.
+        /// Adds a pre-created Thing to a shelf, prioritizing empty cells first.
         /// Uses StoreUtility.IsValidStorageFor() to check capacity before spawning.
         /// Respects maxItemsInCell limit.
         ///
         /// LEARNING NOTE: For items that need quality, stuff, or other pre-configuration,
         /// create the Thing first with ThingMaker.MakeThing(), configure it, then call this method.
+        ///
+        /// This method prioritizes empty cells to spread items across the shelf for
+        /// a cleaner visual appearance, rather than stacking everything in the first cell.
         /// </summary>
         /// <param name="map">The map containing the shelf</param>
         /// <param name="shelf">The Building_Storage shelf to add the item to</param>
@@ -141,7 +144,18 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             List<IntVec3> slotCells = shelf.AllSlotCellsList();
 
-            // Find first cell that can accept the item
+            // First pass: prioritize empty cells for better visual spread
+            foreach (IntVec3 cell in slotCells)
+            {
+                if (IsCellEmptyOfItems(map, cell) && CanCellAcceptItem(map, cell, item))
+                {
+                    GenSpawn.Spawn(item, cell, map);
+                    item.SetForbidden(setForbidden, false);
+                    return true;
+                }
+            }
+
+            // Second pass: fall back to any cell that can accept the item
             foreach (IntVec3 cell in slotCells)
             {
                 if (CanCellAcceptItem(map, cell, item))
@@ -154,6 +168,32 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             // No space available in any cell
             return false;
+        }
+
+        /// <summary>
+        /// Checks if a cell contains no items (ignores buildings, terrain, etc.).
+        /// Used to prioritize spreading items across shelf cells.
+        /// </summary>
+        /// <param name="map">The map containing the cell</param>
+        /// <param name="cell">The cell to check</param>
+        /// <returns>True if the cell has no items</returns>
+        public static bool IsCellEmptyOfItems(Map map, IntVec3 cell)
+        {
+            if (!cell.InBounds(map))
+            {
+                return false;
+            }
+
+            List<Thing> things = cell.GetThingList(map);
+            foreach (Thing thing in things)
+            {
+                if (thing.def.category == ThingCategory.Item)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>

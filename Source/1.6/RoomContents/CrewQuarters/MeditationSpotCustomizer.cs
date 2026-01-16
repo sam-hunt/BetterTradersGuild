@@ -27,8 +27,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             var outcomes = new List<(float weight, Action<Thing, Map, Faction> action)>
             {
                 (40f, (spot, map, faction) => spot.Destroy(DestroyMode.Vanish)),
-                (3f,  (spot, map, faction) => ReplaceWithMech(spot, Things.HunterDroneTrap, map)),
-                (3f,  (spot, map, faction) => ReplaceWithMech(spot, Things.WaspDroneTrap, map)),
+                (3f,  (spot, map, faction) => ReplaceWithTrap(spot, Things.HunterDroneTrap, map, faction)),
+                (3f,  (spot, map, faction) => ReplaceWithTrap(spot, Things.WaspDroneTrap, map, faction)),
                 (5f,  (spot, map, faction) => TrySpawnHeater(spot, map)),
                 (7f,  (spot, map, faction) => SpawnPetWithKibble(spot, map)),
                 (1f,  (spot, map, faction) => TrySpawnGameOfUr(spot, map)),
@@ -116,6 +116,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// <summary>
         /// Replaces a meditation spot with a pile of trash filth.
         /// Spawns moldy uniform and trash at the spot position, plus more trash at a nearby cell.
+        /// Also attempts to replace the nearest PlantPot with an AncientPlantPot.
         /// </summary>
         private static void SpawnTrashPile(Thing spot, Map map)
         {
@@ -140,19 +141,54 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     break;
                 }
             }
+
+            // Replace nearest PlantPot with AncientPlantPot (cracked/dead variant)
+            TryReplaceNearestPlantPot(pos, map);
         }
 
         /// <summary>
-        /// Replaces a meditation spot with a mech (drone).
+        /// Finds the nearest PlantPot building and replaces it with an AncientPlantPot.
         /// </summary>
-        private static void ReplaceWithMech(Thing spot, ThingDef mechDef, Map map)
+        private static void TryReplaceNearestPlantPot(IntVec3 searchOrigin, Map map)
+        {
+            if (Things.PlantPot == null || Things.AncientPlantPot == null) return;
+
+            // Search for nearest PlantPot using expanding radius
+            Thing nearestPot = null;
+            float nearestDistSq = float.MaxValue;
+
+            foreach (Thing thing in map.listerThings.ThingsOfDef(Things.PlantPot))
+            {
+                float distSq = thing.Position.DistanceToSquared(searchOrigin);
+                if (distSq < nearestDistSq)
+                {
+                    nearestDistSq = distSq;
+                    nearestPot = thing;
+                }
+            }
+
+            if (nearestPot == null) return;
+
+            // Replace with AncientPlantPot
+            IntVec3 potPos = nearestPot.Position;
+            Rot4 potRot = nearestPot.Rotation;
+            nearestPot.Destroy(DestroyMode.Vanish);
+
+            Thing ancientPot = ThingMaker.MakeThing(Things.AncientPlantPot);
+            GenSpawn.Spawn(ancientPot, potPos, map, potRot);
+        }
+
+        /// <summary>
+        /// Replaces a meditation spot with a dormant drone trap.
+        /// </summary>
+        private static void ReplaceWithTrap(Thing spot, ThingDef trapDef, Map map, Faction faction)
         {
             IntVec3 pos = spot.Position;
             spot.Destroy(DestroyMode.Vanish);
 
-            // Spawn mech thing (dormant drone)
-            Thing mech = ThingMaker.MakeThing(mechDef);
-            GenSpawn.Spawn(mech, pos, map);
+            Thing trap = ThingMaker.MakeThing(trapDef);
+            GenSpawn.Spawn(trap, pos, map);
+            trap.SetFactionDirect(faction);
         }
 
         /// <summary>

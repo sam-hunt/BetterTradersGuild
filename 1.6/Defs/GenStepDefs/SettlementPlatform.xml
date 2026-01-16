@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Settlement Platform GenStep
+
+    Uses vanilla GenStep_OrbitalPlatform class with BTG_SettlementPlatform layout.
+    This eliminates the need for Harmony reflection to swap layoutDef at runtime.
+
+    Properties:
+    - layoutDef: BTG_SettlementPlatform (specifies LayoutWorker_Settlement for pre-spawn hooks)
+    - platformTerrain: OrbitalPlatform (exterior walkway terrain)
+    - useSiteFaction: true (spawns structures owned by site's faction)
+    - cannonDef: GaussCannon (defensive weapons at platform corners)
+    - temperature: 20 (interior climate-controlled temperature)
+    - requiresRoof: true (rooms require roof for climate control)
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SettlementPlatform</defName>
+    <order>200</order>
+    <genStep Class="GenStep_OrbitalPlatform">
+      <platformTerrain>OrbitalPlatform</platformTerrain>
+      <useSiteFaction>true</useSiteFaction>
+      <layoutDef>BTG_SettlementPlatform</layoutDef>
+      <cannonDef>GaussCannon</cannonDef>
+      <temperature>20</temperature>
+    </genStep>
+  </GenStepDef>
+</Defs>

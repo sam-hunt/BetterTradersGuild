@@ -46,11 +46,6 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
                 // 4. Spawn required walls from PlacementCalculator
                 SubroomPlacementHelper.SpawnWalls(map, placement.RequiredWalls);
             }
-            else
-            {
-                CellRect firstRect = room.rects?.FirstOrDefault() ?? default;
-                Log.Warning($"[Better Traders Guild] Could not find valid placement for server room in ControlCenter at {firstRect}");
-            }
 
             // 5. Call base to process XML (prefabs, scatter, parts)
             base.FillRoom(map, room, faction, threatPoints);

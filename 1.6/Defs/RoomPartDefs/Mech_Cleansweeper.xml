@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cleansweeper Mech Room Part
+
+    Spawns cleaning mechs in MessHall, CommandersQuarters, RecRoom, Storeroom.
+    Requires Biotech DLC.
+  -->
+
+  <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_Mech_Cleansweeper</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
+    <pawnKindDef>Mech_Cleansweeper</pawnKindDef>
+    <behavior>Passive</behavior>
+  </BetterTradersGuild.RoomParts.RoomPart_MechDef>
+
+</Defs>

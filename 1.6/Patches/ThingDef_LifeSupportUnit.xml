@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - LifeSupportUnit Power Balance
+
+  Reduces LifeSupportUnit power output from 3200W to 800W.
+
+  In vanilla orbital maps, LifeSupportUnits are isolated in small rooms with limited
+  consumers, so their high power output doesn't matter. BTG's settlement generation
+  connects buildings in a map-wide power grid, which would give players access to
+  excessive free power if left unchanged.
+-->
+<Patch>
+
+  <Operation Class="PatchOperationReplace">
+    <xpath>/Defs/ThingDef[defName="LifeSupportUnit"]/comps/li[@Class="CompProperties_Power"]/basePowerConsumption</xpath>
+    <value>
+      <basePowerConsumption>-800</basePowerConsumption>
+    </value>
+  </Operation>
+
+</Patch>

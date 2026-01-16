@@ -23,6 +23,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         // Cache the FieldInfo for accessing private lastStockGenerationTicks
         private static FieldInfo lastStockGenerationTicksField;
 
+        // Cache the FieldInfo for accessing private stock field
+        private static FieldInfo stockField;
+
         // Thread-local set of settlement IDs currently regenerating stock
         // Using ThreadLocal to avoid issues with concurrent regeneration
         private static ThreadLocal<HashSet<int>> regeneratingSettlements =
@@ -48,20 +51,46 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             {
                 Log.Error("[Better Traders Guild] Failed to find 'lastStockGenerationTicks' field via reflection!");
             }
+
+            stockField = typeof(Settlement_TraderTracker).GetField("stock",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (stockField == null)
+            {
+                Log.Error("[Better Traders Guild] Failed to find 'stock' field via reflection!");
+            }
         }
 
         /// <summary>
-        /// Prefix method - sets flag before regeneration starts
+        /// Prefix method - sets flag before regeneration starts.
+        /// Also blocks rotation while settlement map is loaded (player visiting),
+        /// but allows initial stock generation if stock doesn't exist yet.
         /// </summary>
         /// <param name="__instance">The Settlement_TraderTracker instance</param>
+        /// <returns>False to skip original method (when blocking rotation), true otherwise</returns>
         [HarmonyPrefix]
-        public static void Prefix(Settlement_TraderTracker __instance)
+        public static bool Prefix(Settlement_TraderTracker __instance)
         {
             Settlement settlement = __instance.settlement;
             if (settlement != null && TradersGuildHelper.IsTradersGuildSettlement(settlement))
             {
+                // Block rotation while map is loaded - player is visiting
+                // BUT allow initial stock generation if stock doesn't exist yet
+                if (settlement.Map != null)
+                {
+                    // Check if stock already exists - if not, allow generation
+                    object existingStock = stockField?.GetValue(__instance);
+                    if (existingStock != null)
+                    {
+                        // Stock exists - block rotation to prevent trader changing mid-visit
+                        return false; // Skip original RegenerateStock
+                    }
+                    // Stock is null - allow initial generation to proceed
+                }
+
                 regeneratingSettlements.Value.Add(settlement.ID);
             }
+            return true; // Allow original method to run
         }
 
         /// <summary>

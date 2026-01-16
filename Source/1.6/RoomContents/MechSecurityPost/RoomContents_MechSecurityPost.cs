@@ -11,9 +11,6 @@ namespace BetterTradersGuild.RoomContents.MechSecurityPost
     /// hostile orange to friendly green ("systems operational"). This visually
     /// differentiates TradersGuild security gestators from hostile ancient sites.
     ///
-    /// Color choice: (0, 235, 31) - Same green used by AncientMachineTerminal,
-    /// conveying "everything is working properly" status.
-    ///
     /// The glow color is persisted via CompGlower.glowColorOverride which is
     /// saved in PostExposeData, so this only needs to run once during generation.
     /// </summary>
@@ -22,22 +19,16 @@ namespace BetterTradersGuild.RoomContents.MechSecurityPost
         // "Systems operational" green - same as AncientMachineTerminal
         private static readonly ColorInt TradersGuildGlowColor = new ColorInt(0, 235, 31, 0);
 
-        /// <summary>
-        /// Main room generation method for the mech security post.
-        /// Spawns XML-defined prefabs and vanilla parts (GestationTanks),
-        /// then post-processes gestator tanks to set friendly glow color.
-        /// </summary>
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            // 1. Call base FIRST to spawn XML prefabs and vanilla parts (GestationTanks)
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 2. Post-process spawned gestator tanks
-            if (room.rects != null && room.rects.Count > 0)
-            {
-                CellRect roomRect = room.rects.First();
+            if (room.rects == null || room.rects.Count == 0)
+                return;
+
+            foreach (CellRect roomRect in room.rects)
                 SetGestatorGlowColors(map, roomRect);
-            }
+
         }
 
         /// <summary>

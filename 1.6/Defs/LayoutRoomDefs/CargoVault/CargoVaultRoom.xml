@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Vault Room
+
+    LayoutRoomDef for the secure cargo vault room within the BTG_OrbitalCargoVault.
+    This room is placed by the layout system when generating the pocket map.
+
+    Contents:
+    - Exit portal in the center (back to shuttle bay)
+    - Industrial shelves along walls (for loot storage)
+    - Armored turrets in corners (automated security)
+
+    The vault has a maintained, operational aesthetic matching the
+    active trading station context (not ancient/abandoned).
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_CargoVaultRoom</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.CargoVault.RoomContents_CargoVault</roomContentsWorkerType>
+    <minSingleRectWidth>23</minSingleRectWidth>
+    <minSingleRectHeight>23</minSingleRectHeight>
+
+    <edgeTerrain>MetalTile</edgeTerrain>
+    <floorTypes>
+      <li>MetalTile</li>
+    </floorTypes>
+
+    <prefabs>
+      <!-- Industrial shelves along walls -->
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>4~12</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <!-- Industrial shelving -->
+      <IndustrialShelf_InnerWall>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </IndustrialShelf_InnerWall>
+
+      <!-- Shelf rows to contain main loot -->
+      <Shelves_Rows>
+        <countPerHundredCells>4</countPerHundredCells>
+        <minMaxRange>4~12</minMaxRange>
+      </Shelves_Rows>
+    </prefabs>
+
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>8~8</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
+    <parts>
+      <!-- Exit portal in center -->
+      <BTG_CargoVaultExit_Center />
+
+      <!-- Threats -->
+      <WaspDrone>0.5</WaspDrone>
+      <CornerArmoredTurret>0.5</CornerArmoredTurret>
+    </parts>
+
+  </LayoutRoomDef>
+</Defs>

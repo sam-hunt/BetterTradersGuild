@@ -8,7 +8,7 @@
   however combatPower determines point cost per pawn, and PawnGroupMakerUtilityMinimumPoints.cs
   sets a lower bound for points on our defence force. This results in a skew towards higher
   combatPower pawnkinds which we balance by spawning sheltering civilians separately in some
-  places.
+  rooms.
 -->
 <Patch>
 

@@ -32,15 +32,6 @@ namespace BetterTradersGuild
         public bool useCustomLayouts = true;
 
         /// <summary>
-        /// Enable enhanced pawn generation for TradersGuild settlements
-        /// </summary>
-        /// <remarks>
-        /// Requires useCustomLayouts to be enabled
-        /// Default: true
-        /// </remarks>
-        public bool useEnhancedPawnGeneration = true;
-
-        /// <summary>
         /// Percentage of trade inventory to spawn as cargo in shuttle bay
         /// </summary>
         /// <remarks>
@@ -81,7 +72,6 @@ namespace BetterTradersGuild
             base.ExposeData();
             Scribe_Values.Look(ref traderRotationIntervalDays, "traderRotationIntervalDays", 15);
             Scribe_Values.Look(ref useCustomLayouts, "useCustomLayouts", true);
-            Scribe_Values.Look(ref useEnhancedPawnGeneration, "useEnhancedPawnGeneration", true);
             Scribe_Values.Look(ref cargoInventoryPercentage, "cargoInventoryPercentage", 0.05f);
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.3f);
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 2400f);
@@ -153,15 +143,6 @@ namespace BetterTradersGuild
             listingStandard.CheckboxLabeled("Use custom settlement layouts", ref settings.useCustomLayouts,
                 "Generate TradersGuild settlements with custom merchant aesthetics (18 room types).\n" +
                 "Disable if using other map generation mods or prefer vanilla layouts.");
-            listingStandard.Gap(6f);
-
-            // Enhanced pawn generation checkbox (grayed out if layouts disabled)
-            UnityEngine.GUI.enabled = settings.useCustomLayouts;
-            listingStandard.CheckboxLabeled("Use enhanced pawn generation", ref settings.useEnhancedPawnGeneration,
-                "Spawn specialized crew members in custom rooms.\n" +
-                "Requires custom layouts to be enabled.");
-            UnityEngine.GUI.enabled = true;
-
             listingStandard.Gap(24f);
 
             // ========== SECTION: CARGO SYSTEM ==========

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Armory
+
+    Weapons and armor storage facility.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_Armory</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.Armory.RoomContents_Armory</roomContentsWorkerType>
+
+    <edgeTerrain>MetalTile</edgeTerrain>
+    <floorTypes>
+      <li>AncientConcrete</li>
+    </floorTypes>
+
+    <scatter>
+      <!-- Oil from weapon maintenance -->
+      <Filth_OilSmear>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_OilSmear>
+    </scatter>
+
+    <prefabs>
+      <!-- Steel shelves (contents filled by RoomContents_Armory from random pool) -->
+      <BTG_SteelShelf_Edge>
+        <countPerHundredCells>4</countPerHundredCells>
+        <minMaxRange>1~5</minMaxRange>
+      </BTG_SteelShelf_Edge>
+
+      <!-- Security terminals for weapon access control -->
+      <AncientSecurityTerminal>
+        <countPerHundredCells>3</countPerHundredCells>
+        <minMaxRange>2~3</minMaxRange>
+      </AncientSecurityTerminal>
+
+      <!-- Armor display stands -->
+      <BTG_OutfitStands_Edge>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~1</minMaxRange>
+      </BTG_OutfitStands_Edge>
+
+      <!-- Mining charges storage - adds danger/explosives flavor -->
+      <MiningCharge_Cluster>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~2</minMaxRange>
+      </MiningCharge_Cluster>
+
+      <!-- Lockers for personal gear -->
+      <AncientLockerBank_Row>
+        <countPerHundredCells>2</countPerHundredCells>
+        <minMaxRange>3~10</minMaxRange>
+      </AncientLockerBank_Row>
+
+      <IndustrialShelf_Edge>
+        <countPerTenEdgeCells>4</countPerTenEdgeCells>
+        <minMaxRange>3~12</minMaxRange>
+      </IndustrialShelf_Edge>
+
+      <IndustrialShelf_Rows>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </IndustrialShelf_Rows>
+
+      <!-- Communications console for coordination -->
+      <BTG_CommsConsole_Edge>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_CommsConsole_Edge>
+    </prefabs>
+
+    <!-- Higher threat level (weapons storage) -->
+    <parts>
+      <HunterDrone>0.3</HunterDrone>
+      <CornerArmoredTurret>
+        <countRange>1~2</countRange>
+      </CornerArmoredTurret>
+      <AncientBarricades />
+      <!-- Combat mechs guarding high-value weapons -->
+      <BTG_Mech_Militor MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>1~3</countRange>
+      </BTG_Mech_Militor>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

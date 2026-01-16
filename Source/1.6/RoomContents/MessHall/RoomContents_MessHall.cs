@@ -8,23 +8,8 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.MessHall
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for MessHall.
-    ///
-    /// Post-processes the mess hall to connect VFE Spacer interactive tables
-    /// to the power grid via hidden conduits.
-    ///
-    /// LEARNING NOTE: This worker calls base.FillRoom() FIRST because the XML prefabs
-    /// spawn the tables, and we need those to exist before we can connect them to power.
-    /// The interactive table (Table_interactive_2x2c) is only present when VFE Spacer
-    /// is installed (via patch), so this gracefully does nothing when VFE Spacer is absent.
-    /// </summary>
     public class RoomContents_MessHall : RoomContentsWorker
     {
-        /// <summary>
-        /// Main room generation method. Spawns XML-defined prefabs (tables, chairs, etc.),
-        /// then connects VFE Spacer interactive tables to power if present.
-        /// </summary>
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             // 1. Call base FIRST to spawn XML prefabs
@@ -33,16 +18,13 @@ namespace BetterTradersGuild.RoomContents.MessHall
             if (room.rects == null || room.rects.Count == 0)
                 return;
 
-            CellRect roomRect = room.rects.First();
+            foreach (CellRect roomRect in room.rects)
+            {
+                RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.Table_interactive_2x2c);
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
+                FillShelvesWithMeals(map, roomRect);
+            }
 
-            // 2. Connect VFE Spacer interactive tables to power (does nothing if VFE Spacer not installed)
-            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.Table_interactive_2x2c);
-
-            // 3. Spawn decorative daylilies in corner plant pots
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
-
-            // 4. Fill shelves with random meals
-            FillShelvesWithMeals(map, roomRect);
         }
 
         /// <summary>
@@ -61,10 +43,7 @@ namespace BetterTradersGuild.RoomContents.MessHall
             // Get all meal defs from the FoodMeals category
             var mealDefs = GetAllMealDefs();
             if (mealDefs.Count == 0)
-            {
-                Log.Warning("[Better Traders Guild] No meal defs found for MessHall shelves");
                 return;
-            }
 
             foreach (var shelf in shelves)
             {
@@ -78,6 +57,7 @@ namespace BetterTradersGuild.RoomContents.MessHall
                     int stackCount = Rand.RangeInclusive(6, 8);
 
                     // Only fill one slot per cell (shelves have 3 slots)
+                    // AddItemsToShelf handles empty slot prioritization
                     RoomShelfHelper.AddItemsToShelf(map, shelf, mealDef, stackCount, setForbidden: true);
                 }
             }

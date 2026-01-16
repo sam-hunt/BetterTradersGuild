@@ -10,47 +10,31 @@ namespace BetterTradersGuild.RoomContents.MechRepairPost
     /// <summary>
     /// Custom room contents worker for the Mech Repair Post.
     ///
-    /// Post-processes spawned prefabs:
-    /// 1. Fills steel shelves (BTG_SteelShelf_Edge) with mech supplies:
-    ///    - Steel (20-30 units) for repairs
-    ///    - Components (2-3 units) for maintenance
-    ///
     /// Note: This is distinct from MechSecurityPost which contains volatile
     /// Ancient gestator tanks that release hostile mechanoids.
     /// </summary>
     public class RoomContents_MechRepairPost : RoomContentsWorker
     {
-        /// <summary>
-        /// Main room generation method for the mech repair post.
-        /// Spawns XML-defined prefabs, then fills shelves with mech supplies.
-        /// </summary>
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            // 1. Call base FIRST to spawn XML prefabs (empty shelves, rechargers, gestators)
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 2. Post-process spawned prefabs
-            if (room.rects != null && room.rects.Count > 0)
-            {
-                CellRect roomRect = room.rects.First();
+            if (room.rects == null || room.rects.Count == 0) return;
+
+            foreach (CellRect roomRect in room.rects)
                 FillSupplyShelves(map, roomRect);
-            }
+
         }
 
-        /// <summary>
-        /// Finds all 2-cell wide shelves in the room and fills them with mech supplies.
-        /// </summary>
         private void FillSupplyShelves(Map map, CellRect roomRect)
         {
             List<Building_Storage> supplyShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
 
-            // Fill each supply shelf with mech supplies
             foreach (Building_Storage shelf in supplyShelves)
             {
-                // Steel for repairs (20-30 units)
-                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Steel, Rand.RangeInclusive(20, 30));
-
-                // Components for maintenance (2-3 units)
+                // Steel
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Steel, Rand.RangeInclusive(30, 50));
+                // Components
                 RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentIndustrial, Rand.RangeInclusive(2, 3));
             }
         }

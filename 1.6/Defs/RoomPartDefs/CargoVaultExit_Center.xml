@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Vault Room Parts
+
+    Custom room parts for the cargo vault pocket map.
+  -->
+
+  <!-- Exit portal placed in center of room -->
+  <RoomPart_ThingDef>
+    <defName>BTG_CargoVaultExit_Center</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_CenterThing</workerClass>
+    <thingDef>BTG_CargoVaultExit</thingDef>
+  </RoomPart_ThingDef>
+</Defs>

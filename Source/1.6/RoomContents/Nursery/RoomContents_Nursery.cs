@@ -66,7 +66,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     placement.Position, placement.Rotation, CRIB_SUBROOM_SIZE);
 
                 // 3. Spawn crib subroom prefab using PrefabUtility API
-                SpawnCribSubroomPrefab(map, placement);
+                PrefabUtility.SpawnPrefab(Prefabs.BTG_CribSubroom, map, placement.Position, placement.Rotation, null);
 
                 // 4. Spawn required walls from PlacementCalculator
                 SubroomPlacementHelper.SpawnWalls(map, placement.RequiredWalls);
@@ -77,13 +77,6 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
                 // 6. Populate nursery shelf with baby food and survival meals
                 NurseryShelfPopulator.PopulateNurseryShelf(map, this.cribSubroomRect);
-            }
-            else
-            {
-                // Log warning but CONTINUE (other prefabs still spawn for graceful degradation)
-                CellRect firstRect = room.rects?.FirstOrDefault() ?? default;
-                Log.Warning($"[Better Traders Guild] Could not find valid placement for Crib Subroom in Nursery at {firstRect}");
-                // NO RETURN - continue to spawn other room furniture
             }
 
             // 7. Call base to process XML (prefabs, scatter, parts)
@@ -125,22 +118,6 @@ namespace BetterTradersGuild.RoomContents.Nursery
                 return false;
 
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
-        }
-
-        /// <summary>
-        /// Spawns the crib subroom prefab using PrefabUtility API.
-        /// The prefab contains the L-shaped walls, door, cribs, and end table.
-        ///
-        /// IMPORTANT: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning.
-        /// The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
-        /// </summary>
-        private void SpawnCribSubroomPrefab(Map map, SubroomPlacementResult placement)
-        {
-            PrefabDef prefab = Prefabs.BTG_CribSubroom;
-            if (prefab == null) return;
-
-            // Spawn the prefab at the specified CENTER position with rotation
-            PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }
     }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Spawn Sentry Drones GenStep
+
+    Spawns patrolling sentry drones in TradersGuild settlements.
+    No XML parameters - reads configuration from ModSettings:
+    - useCustomLayouts: Master toggle for BTG settlement features
+    - sentryDronePresence: Scale factor (0-200%) for drone count
+    - minimumThreatPoints: Minimum threat points for difficulty scaling
+
+    SENTRY DRONE BEHAVIOR:
+    - Patrol Mode: Wander around the map using JobGiver_SentryPatrol
+    - Attack Mode: Triggered when enemies detected (65 cell radius, requires LoS)
+    - Uses SentryDroneConstant ThinkTree with CompSentryDrone component
+    - Creates more dynamic encounters vs all defenders rushing at once
+
+    Requires Odyssey DLC (sentry drones are DLC content).
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SpawnSentryDrones</defName>
+    <order>705</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnSentryDrones" />
+  </GenStepDef>
+</Defs>

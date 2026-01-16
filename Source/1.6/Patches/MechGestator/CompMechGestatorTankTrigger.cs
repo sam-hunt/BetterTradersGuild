@@ -3,7 +3,6 @@ using System.Linq;
 using BetterTradersGuild.DefRefs;
 using HarmonyLib;
 using RimWorld;
-using RimWorld.Planet;
 using Verse;
 using Verse.AI.Group;
 using Verse.Sound;
@@ -40,13 +39,10 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             }
 
             // Get TradersGuild faction
-            Faction tradersGuild = TradersGuildHelper.GetTradersGuildFaction();
+            Faction tradersGuild = Find.FactionManager.FirstFactionOfDef(Factions.TradersGuild);
+
             if (tradersGuild == null)
-            {
-                // Faction not found - shouldn't happen, but fall back to vanilla
-                Log.Warning("[Better Traders Guild] TradersGuild faction not found, using vanilla gestator behavior");
                 return true;
-            }
 
             // Run our modified trigger logic with TradersGuild faction
             TriggerWithFaction(__instance, map, tradersGuild);
@@ -116,17 +112,20 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             // Stun the mech briefly (180 ticks = 3 seconds)
             mech.stances?.stunner?.StunFor(180, null, false, true, false);
 
-            // Find or create a lord for this faction's assault
-            // Note: We use LordJob_AssaultColony but with TradersGuild faction
-            // This means the mech will defend the station against intruders
+            // Find or create a lord for this faction's defense
+            // LordJob_DefendBase is what vanilla uses for settlement defenders
+            // Mechs will patrol the base and attack hostiles who intrude
             Lord lord = map.lordManager.lords.FirstOrDefault(l =>
                 l.faction == faction &&
-                l.LordJob is LordJob_AssaultColony);
+                l.LordJob is LordJob_DefendBase);
 
             if (lord == null)
             {
-                // Create new assault lord - the faction assaults hostile factions (i.e., player raiders)
-                var lordJob = new LordJob_AssaultColony(faction, false, false, false, false, false, false, false);
+                // Create new defense lord centered on the gestator tank
+                // delayBeforeAssault: 25000 ticks (~7 hours) before they go fully aggressive
+                // attackWhenPlayerBecameEnemy: true - attack if player becomes hostile
+                IntVec3 baseCenter = parent.Position;
+                var lordJob = new LordJob_DefendBase(faction, baseCenter, 25000, true);
                 lord = LordMaker.MakeNewLord(faction, lordJob, map, new List<Pawn> { mech });
             }
             else

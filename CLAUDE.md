@@ -114,6 +114,7 @@ These are excluded via `<Compile Remove="..." />` in `Tests/BetterTradersGuild.T
 ### Project Structure
 
 **Root Directory:**
+
 - `About/` - Mod metadata (`About.xml` with dependencies, load order)
 - `Assemblies/` - Compiled DLL output (auto-generated)
 - `1.6/` - Versioned game content (RimWorld version-specific)
@@ -125,20 +126,21 @@ These are excluded via `<Compile Remove="..." />` in `Tests/BetterTradersGuild.T
 **Versioned Content (`1.6/`):**
 
 RimWorld mods use version folders for compatibility. All XML content lives here:
+
 - `Defs/` - Custom XML definitions organized by def type:
-  - `LayoutDefs/` - Settlement layout definitions
+  - `GenStepDefs/` - Custom GenStepDef XMLs (one file per def)
   - `LayoutRoomDefs/` - Room definitions for layouts
+  - `MapGeneratorDefs/` - Custom MapGeneratorDef XMLs (one file per def)
   - `PrefabDefs/` - Furniture/object placement prefabs (subdirs by room type, e.g., `MessHall/`, `CrewQuarters/`)
   - `RoomPartDefs/` - Room part configurations
+  - `StructureLayoutDefs/` - Settlement layout definitions
   - `ThingDefs/` - Custom thing definitions
-  - `MapGeneration/` - Map generation configurations:
-    - `MapGeneratorDefs/` - Custom MapGeneratorDef XMLs (one file per def)
-    - `GenStepDefs/` - Custom GenStepDef XMLs (one file per def)
 - `Patches/` - XML patches that modify other mods/vanilla (named by target, e.g., `PawnKinds_*.xml`)
 
 **Source Code (`Source/1.6/`):**
 
 Organized by concern with domain-specific subdirectories:
+
 - `Core/` - Mod initialization (`ModInitializer.cs`) and settings (`ModSettings.cs`)
 - `DefRefs/` - **Static DefOf-style classes** for cached def references (e.g., `Things.cs`, `PawnKinds.cs`, `Prefabs.cs`). Each file contains a static class with `[DefOf]` attribute or manual `DefDatabase<T>.GetNamed()` lookups.
 - `Helpers/` - Reusable utilities grouped by domain:
@@ -153,12 +155,14 @@ Organized by concern with domain-specific subdirectories:
 - `WorldObjects/` - World object components
 
 **Naming Conventions:**
+
 - Patch files: `<ClassName><MethodName>.cs` (e.g., `SettlementVisitable.cs`)
 - Room workers: `RoomContents_<RoomDefName>.cs`
 - DefRefs: Plural noun matching the def type (e.g., `Things.cs`, `Terrains.cs`)
 - PrefabDefs: `<Description>_Edge.xml` suffix indicates edge-placement prefabs
 
 **Tests (`Tests/`):**
+
 - Mirrors source structure where applicable
 - `Helpers/` - Test utilities (diagram generation)
 - Excluded files configured in `.csproj` (utilities with `Main` methods)
@@ -174,6 +178,7 @@ The codebase is organized into these main areas:
 2. **DefRefs/** - Static cached references to game definitions. Each file corresponds to a def type (Things, PawnKinds, Terrains, etc.) and provides strongly-typed access via `DefDatabase<T>.GetNamed()` lookups or `[DefOf]` attributes.
 
 3. **Helpers/** - Reusable utility classes organized by domain:
+
    - Root helpers for faction/settlement checking, world tile utilities, trader rotation logic
    - `MapGeneration/` - Hidden pipe detection (VE Framework integration)
    - `RoomContents/` - Placement calculation, shelf/plant/bookcase population
@@ -208,22 +213,23 @@ BTG uses a declarative, XML-driven approach for custom map generation:
 
 **BTG MapGeneratorDefs:**
 
-| Def | Purpose | Parent |
-|-----|---------|--------|
+| Def                          | Purpose                          | Parent              |
+| ---------------------------- | -------------------------------- | ------------------- |
 | `BTG_SettlementMapGenerator` | TradersGuild orbital settlements | `SpaceMapGenerator` |
-| `BTG_CargoHold` | Cargo hold pocket maps | `SpaceMapGenerator` |
+| `BTG_CargoVaultMapGenerator` | Cargo vault pocket maps          | `SpaceMapGenerator` |
 
 **BTG GenSteps (Settlement Pipeline):**
 
-| GenStep | Order | Purpose |
-|---------|-------|---------|
-| `BTG_SettlementPlatform` | 200 | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
-| `BTG_ReplaceTerrain` | 250 | Replace AncientTile → MetalTile |
-| `BTG_PaintTerrain` | 255 | Paint terrain with BTG_OrbitalSteel color |
-| `BTG_LandingPadPipes` | 260 | Extend VE pipes to landing pads (graceful no-op if no VE) |
-| `BTG_SetWallLampColor` | 265 | Set WallLamp glow to blue |
-| `BTG_SettlementPawnsLoot` | 700 | Pawn spawning (loot disabled via `lootMarketValue: 0~0`) |
-| `BTG_SentryDrones` | 705 | Sentry drone spawning (uses ModSettings) |
+| GenStep                    | Order | Purpose                                                      |
+| -------------------------- | ----- | ------------------------------------------------------------ |
+| `BTG_SettlementPlatform`   | 200   | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
+| `BTG_SpawnExitDefences`    | 210   | Spawn autocannons flanking perimeter exits                   |
+| `BTG_ReplaceTerrain`       | 250   | Replace AncientTile → MetalTile                              |
+| `BTG_PaintTerrain`         | 255   | Paint terrain with BTG_OrbitalSteel color                    |
+| `BTG_ExtendLandingPadPipes`| 260   | Extend VE pipes to landing pads (graceful no-op if no VE)    |
+| `BTG_SetWallLampColor`     | 265   | Set WallLamp glow to blue                                    |
+| `BTG_SettlementPawnsLoot`  | 700   | Pawn spawning (loot disabled via `lootMarketValue: 0~0`)     |
+| `BTG_SpawnSentryDrones`    | 705   | Spawn sentry drones (uses ModSettings)                       |
 
 **Swapping MapGeneratorDef:**
 
@@ -239,6 +245,7 @@ To use a custom MapGeneratorDef for TradersGuild settlements, we patch `Settleme
 **SpaceMapGenerator Inheritance:**
 
 Space maps inherit from `SpaceMapGenerator` to get:
+
 - `defaultUnderGridTerrain: Space` - fills void areas automatically
 - `renderWorld: true` - planet renders behind space terrain
 - `disableCallAid: true`, `disableMapClippers: true`, `ignoreAreaRevealedLetter: true`
@@ -417,9 +424,10 @@ Helpers are organized in `Source/1.6/Helpers/` by domain. Key patterns:
 
 **MapGeneration Helpers** (`Helpers/MapGeneration/`) - Hidden pipe detection for VE Framework integration.
 
-**LayoutWorker Helpers** (`LayoutWorkers/Settlement/`) - Used by LayoutWorker_BTGSettlement for conduit/pipe placement, tank filling, valve handling, and landing pad pipe extension.
+**LayoutWorker Helpers** (`LayoutWorkers/Settlement/`) - Used by LayoutWorker_Settlement for conduit/pipe placement, tank filling, valve handling, and landing pad pipe extension.
 
 **RoomContents Helpers** (`Helpers/RoomContents/`) - Used by `RoomContentsWorker` implementations for:
+
 - Placement calculation (pure logic, fully unit tested)
 - Furniture population (shelves, bookcases, plant pots, outfit stands)
 - Post-generation fixups (weapon name regeneration, content customization)
@@ -480,7 +488,7 @@ Instead of hardcoded item lists, cargo is **dynamically generated from the settl
 
 **Implementation Components:**
 
-1. **TradersGuild_OrbitalSettlement** (`Defs/LayoutDefs/`) - Custom LayoutDef using vanilla RoomDefs with modern aesthetics
+1. **TradersGuild_OrbitalSettlement** (`Defs/StructureLayoutDefs/`) - Custom LayoutDef using vanilla RoomDefs with modern aesthetics
 2. **SymbolResolver_TradersGuildShuttleBay** (`Source/BaseGen/`) - Spawns cargo from trade inventory
 3. **TradersGuildSettlementComponent** (`Source/WorldObjects/`) - Tracks `lastCargoRefreshTicks` for anti-exploit
 4. **TradersGuildCargoRefresher** (`Source/MapComponents/`) - Detects rotation, despawns/respawns cargo on map entry
@@ -512,16 +520,12 @@ Instead of hardcoded item lists, cargo is **dynamically generated from the settl
 **Mod Settings (Options → Mod Settings → Better Traders Guild):**
 
 1. **Use custom settlement layouts** (bool, default: true)
+
    - Controls Phase 3.1-3.2 custom BTG_OrbitalSettlement generation
    - When disabled: TradersGuild settlements use vanilla/other mod layouts
    - Settings access: `BetterTradersGuildMod.Settings.useCustomLayouts`
 
-2. **Use enhanced pawn generation** (bool, default: true)
-   - Controls Phase 3.3 specialized crew member spawning
-   - Grayed out in UI if custom layouts disabled (requires custom rooms)
-   - Settings access: `BetterTradersGuildMod.Settings.useEnhancedPawnGeneration`
-
-3. **Cargo bay inventory percentage** (float, 0-100%, default: 60%)
+2. **Cargo bay inventory percentage** (float, 0-100%, default: 100%)
    - Controls Phase 3.4-3.5 dynamic cargo spawning
    - 0% = disabled (no cargo spawns, no TradersGuildSettlementComponent added)
    - Grayed out in UI if custom layouts disabled (requires shuttle bay room)

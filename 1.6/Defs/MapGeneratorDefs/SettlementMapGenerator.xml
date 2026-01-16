@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Settlement Map Generator
+
+    Custom MapGeneratorDef for TradersGuild orbital settlements.
+    Replaces vanilla SettlementPlatform MapGeneratorDef via Harmony patch
+    on MapParent.MapGeneratorDef for TradersGuild faction settlements.
+
+    Inherits from SpaceMapGenerator to get all space map properties:
+    - ignoreAreaRevealedLetter: true
+    - renderWorld: true
+    - disableMapClippers: true
+    - defaultUnderGridTerrain: Space
+  -->
+
+  <MapGeneratorDef ParentName="SpaceMapGenerator">
+    <defName>BTG_SettlementMapGenerator</defName>
+    <label>settlement platform</label>
+
+    <!-- Enemies behind locked doors in fogged areas still count as active threats -->
+    <defeatRequiresCantReachUnfogged>false</defeatRequiresCantReachUnfogged>
+
+    <genSteps>
+      <!-- Core orbital platform generation using BTG_SettlementPlatform layout -->
+      <li>BTG_SettlementPlatform</li>       <!-- order 200 -->
+
+      <!-- Static post-processing once main platform generation has completed -->
+      <li>BTG_SpawnExitDefences</li>        <!-- order 210 -->
+      <li>BTG_ReplaceTerrain</li>           <!-- order 250 -->
+      <li>BTG_PaintTerrain</li>             <!-- order 255 -->
+      <li>BTG_ExtendLandingPadPipes</li>    <!-- order 260 -->
+      <li>BTG_SetWallLampColor</li>         <!-- order 265 -->
+
+      <!-- Spawn defenders last -->
+      <li>BTG_SettlementPawnsLoot</li>      <!-- order 700 -->
+      <li>BTG_SpawnSentryDrones</li>        <!-- order 705 -->
+    </genSteps>
+
+  </MapGeneratorDef>
+</Defs>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Mess Hall
+
+    Communal dining and food preparation area.
+  -->
+
+  <LayoutRoomDef>
+    <defName>BTG_MessHall</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.MessHall.RoomContents_MessHall</roomContentsWorkerType>
+    <minSingleRectWidth>12</minSingleRectWidth>
+    <minSingleRectHeight>12</minSingleRectHeight>
+
+    <scatter>
+      <!-- Light trash from dining activity -->
+      <Filth_Trash>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Trash>
+    </scatter>
+
+    <!-- Fine flooring for dining area -->
+    <floorTypes>
+      <li>WoodPlankFloor</li>
+      <li>CarpetMarble</li>
+      <li>CarpetSlate</li>
+      <li>CarpetPurpleDeep</li>
+    </floorTypes>
+    <edgeTerrain>MetalTile</edgeTerrain>
+
+    <prefabs>
+      <!-- Kitchen area -->
+      <Subroom_ElectricStove>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </Subroom_ElectricStove>
+
+      <!-- VNPE nutrient paste tap for dispensing meals -->
+      <BTG_NutrientPasteTap_Edge MayRequire="VanillaExpanded.VNutrientE">
+        <countRange>1~1</countRange>
+      </BTG_NutrientPasteTap_Edge>
+
+      <!-- VFE Production kitchen sink cabinet (stove linkable) -->
+      <BTG_KitchenSinkCabinet_Edge MayRequire="VanillaExpanded.VFEProduction">
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
+      </BTG_KitchenSinkCabinet_Edge>
+
+      <!-- Dining tables -->
+      <BTG_DiningTables>
+        <countPerHundredCells>1.4</countPerHundredCells>
+      </BTG_DiningTables>
+
+      <!-- Food storage -->
+      <BTG_SteelShelf_Edge>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>2~5</minMaxRange>
+      </BTG_SteelShelf_Edge>
+
+      <!-- Decoration -->
+      <BTG_SmallSculpture>
+        <countRange>0~2</countRange>
+      </BTG_SmallSculpture>
+    </prefabs>
+
+    <parts>
+      <BTG_PlantPot_Corner>
+        <countRange>2~4</countRange>
+      </BTG_PlantPot_Corner>
+      <!-- Cleaning mech - thematic for food prep area -->
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
+    </parts>
+  </LayoutRoomDef>
+</Defs>

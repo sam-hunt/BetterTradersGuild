@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Vault Pocket Map Generator
+
+    Generates the secure cargo vault accessible from BTG_CargoVaultHatch.
+    Uses the proper RimWorld layout system (same architecture as vanilla AncientStockpile).
+
+    Inherits from SpaceMapGenerator to get space map properties:
+    - defaultUnderGridTerrain: Space (fills void areas automatically)
+    - renderWorld: true (planet renders behind space terrain)
+    - disableCallAid, disableMapClippers, ignoreAreaRevealedLetter
+
+    GENSTEP ORDER:
+    - BTG_CargoVault (order 250): Uses layout system to generate structure
+    - BTG_PaintTerrain (order 255): Paint MetalTile with BTG_OrbitalSteel color
+
+    LAYOUT STRUCTURE:
+    - BTG_OrbitalCargoVault (StructureLayoutDef): Defines walls, doors, floor style
+    - BTG_CargoVaultRoom (LayoutRoomDef): Single room with exit portal, shelves, turrets
+
+    IMPORTANT:
+    - Uses custom BTG_CargoVaultHatch ThingClass (not AncientHatch)
+    - This prevents vanilla AncientStockpile generation from interfering
+  -->
+
+  <MapGeneratorDef ParentName="SpaceMapGenerator">
+    <defName>BTG_CargoVaultMapGenerator</defName>
+    <label>cargo vault</label>
+
+    <pocketMapProperties>
+      <biome>Orbit</biome>
+      <!-- Interior temperature maintained by station life support (not -75 exterior) -->
+      <temperature>20</temperature>
+      <canBeCleaned>true</canBeCleaned>
+    </pocketMapProperties>
+
+    <genSteps>
+      <li>BTG_CargoVault</li>
+      <li>BTG_PaintTerrain</li>
+    </genSteps>
+  </MapGeneratorDef>
+</Defs>

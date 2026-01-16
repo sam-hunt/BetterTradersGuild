@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Vault Exit Portal
+
+    The exit portal spawned inside the cargo vault pocket map, providing
+    a way back to the station's shuttle bay above.
+  -->
+
+  <!-- Cargo Vault Exit - Spawned inside the pocket map -->
+  <ThingDef ParentName="PocketMapExit">
+    <defName>BTG_CargoVaultExit</defName>
+    <label>cargo vault exit</label>
+    <description>A secure ladder and hatch providing access back to the station's shuttle bay above.</description>
+    <size>(3,3)</size>
+    <drawerType>RealtimeOnly</drawerType>
+    <!-- Impassable prevents wild animals from autonomously pathing to and using the exit -->
+    <passability>Impassable</passability>
+
+    <!-- Reuse AncientHatchExit graphics -->
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Building/AncientHatchExit/AncientHatchExit</texPath>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+
+    <comps>
+      <li Class="CompProperties_DrawAdditionalGraphics">
+        <graphics>
+          <li>
+            <graphicClass>Graphic_Single</graphicClass>
+            <texPath>Things/Building/AncientHatchExit/AncientHatchExit_Ladder</texPath>
+            <drawSize>(3,3)</drawSize>
+            <drawOffset>(0, 0.01, 0.7)</drawOffset>
+            <shaderType>Transparent</shaderType>
+          </li>
+        </graphics>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Paramedic Mech Room Part
+
+    Spawns medical mechs in MedicalBay rooms.
+    Requires Biotech DLC.
+  -->
+
+  <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>BTG_Mech_Paramedic</defName>
+    <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
+    <pawnKindDef>Mech_Paramedic</pawnKindDef>
+    <behavior>Passive</behavior>
+  </BetterTradersGuild.RoomParts.RoomPart_MechDef>
+
+</Defs>

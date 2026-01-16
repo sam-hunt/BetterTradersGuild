@@ -22,7 +22,7 @@ namespace BetterTradersGuild.Patches.MapParentPatches
     /// - MapParent.MapGeneratorDef property is called when a map is being generated
     /// - We postfix to swap the result for TradersGuild settlements
     /// - The custom MapGeneratorDef (BTG_SettlementMapGenerator) includes:
-    ///   - BTG_SettlementPlatform: GenStep_OrbitalPlatform with BTG_Settlement layout
+    ///   - BTG_SettlementPlatform: GenStep_OrbitalPlatform with BTG_SettlementPlatform layout
     ///   - BTG_SettlementPawnsLoot: GenStep_SettlementPawnsLoot with loot disabled
     ///   - BTG_SettlementPostProcess: Custom GenStep for terrain/pipes/lighting
     ///

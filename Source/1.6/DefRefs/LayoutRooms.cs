@@ -9,12 +9,20 @@ namespace BetterTradersGuild.DefRefs
     [DefOf]
     public static class LayoutRooms
     {
-        // === BTG CUSTOM ROOMS ===
+        // === BTG SETTLEMENT ROOMS ===
 
         /// <summary>
-        /// Cargo hold vault room - secure storage room within BTG_CargoHoldVaultLayout.
+        /// Shuttle bay room - large room containing landing pad subroom and cargo vault hatch.
+        /// Requires minimum 18x15 (ideal) or 17x14 (relaxed, with 1-2 doors only).
+        /// </summary>
+        public static LayoutRoomDef BTG_ShuttleBay;
+
+        // === BTG CARGO VAULT ROOMS ===
+
+        /// <summary>
+        /// Cargo vault room - secure storage room within BTG_OrbitalCargoVault.
         /// Contains exit portal, shelves, and turrets.
         /// </summary>
-        public static LayoutRoomDef BTG_CargoHoldVaultRoom;
+        public static LayoutRoomDef BTG_CargoVaultRoom;
     }
 }

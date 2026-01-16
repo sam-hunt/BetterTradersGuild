@@ -53,8 +53,8 @@ namespace BetterTradersGuild.DefRefs
         // === NURSERY ===
         public static PrefabDef BTG_CribSubroom;
 
-        // === CARGO HOLD ===
-        public static PrefabDef BTG_CargoHoldPlatform;
+        // === CARGO VAULT ===
+        public static PrefabDef BTG_PoweredSniperTurretArray;
 
         // === SETTLEMENT EXTERIOR ===
         public static PrefabDef BTG_EntranceAutocannons;

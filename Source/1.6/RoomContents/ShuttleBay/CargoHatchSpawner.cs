@@ -6,13 +6,13 @@ using Verse;
 namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
     /// <summary>
-    /// Handles spawning of the cargo hold hatch in the ShuttleBay room.
+    /// Handles spawning of the cargo vault hatch in the ShuttleBay room.
     ///
     /// The hatch is a 3x3 hackable portal that leads to a secure cargo vault.
     /// It should be placed in the center of the largest free area remaining
     /// after the shuttle landing pad has been spawned.
     /// </summary>
-    public static class CargoHatchSpawner
+    public static class CargoVaultHatchSpawner
     {
         private const int HATCH_SIZE = 3;
 
@@ -26,11 +26,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         /// <returns>The CellRect occupied by the hatch, or default if spawning failed.</returns>
         public static CellRect SpawnHatch(Map map, CellRect roomRect, CellRect excludedRect)
         {
-            if (Things.BTG_CargoHoldHatch == null)
-            {
-                Log.Warning("[Better Traders Guild] BTG_CargoHoldHatch ThingDef is null, skipping spawn.");
+            if (Things.BTG_CargoVaultHatch == null)
                 return default;
-            }
 
             IntVec3 position = FindBestPosition(map, roomRect, excludedRect);
             if (!position.IsValid)
@@ -39,10 +36,10 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 return default;
             }
 
-            Thing hatch = ThingMaker.MakeThing(Things.BTG_CargoHoldHatch);
+            Thing hatch = ThingMaker.MakeThing(Things.BTG_CargoVaultHatch);
             GenSpawn.Spawn(hatch, position, map, WipeMode.VanishOrMoveAside);
 
-            return new CellRect(position.x, position.z, HATCH_SIZE, HATCH_SIZE);
+            return GetBlockingRectFromCenter(position);
         }
 
         /// <summary>
@@ -55,7 +52,26 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             if (!position.IsValid)
                 return default;
 
-            return new CellRect(position.x, position.z, HATCH_SIZE, HATCH_SIZE);
+            return GetBlockingRectFromCenter(position);
+        }
+
+        /// <summary>
+        /// Calculates the blocking rect from a center position.
+        /// Multi-cell things spawn from their center, so we expand outward.
+        /// </summary>
+        private static CellRect GetBlockingRectFromCenter(IntVec3 center)
+        {
+            int halfSize = HATCH_SIZE / 2;
+            return new CellRect(center.x - halfSize, center.z - halfSize, HATCH_SIZE, HATCH_SIZE);
+        }
+
+        /// <summary>
+        /// Checks if inner rect is fully contained within outer bounds.
+        /// </summary>
+        private static bool IsRectWithinBounds(CellRect inner, CellRect outer)
+        {
+            return inner.minX >= outer.minX && inner.maxX <= outer.maxX &&
+                   inner.minZ >= outer.minZ && inner.maxZ <= outer.maxZ;
         }
 
         /// <summary>
@@ -156,31 +172,27 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
 
         /// <summary>
         /// Finds a valid centered position for the hatch within the given region.
-        /// Validates that all cells are clear of walls and other impassables.
+        /// Centers on the short axis, but adds random offset along the long axis
+        /// to leave contiguous space for other prefabs.
         /// </summary>
         private static IntVec3 FindCenteredPosition(Map map, CellRect region)
         {
-            // Calculate center position for 3x3 hatch
-            // The hatch spawns from its min corner, so we offset to center it
-            int centerX = region.minX + (region.Width - HATCH_SIZE) / 2;
-            int centerZ = region.minZ + (region.Height - HATCH_SIZE) / 2;
-
-            IntVec3 position = new IntVec3(centerX, 0, centerZ);
-            CellRect hatchRect = new CellRect(centerX, centerZ, HATCH_SIZE, HATCH_SIZE);
+            // Start with region center, then offset along longer axis
+            IntVec3 position = GetOffsetPosition(region);
+            CellRect hatchRect = GetBlockingRectFromCenter(position);
 
             // Validate all cells are clear
             if (IsValidPlacement(map, hatchRect))
                 return position;
 
-            // Try nearby positions in a spiral pattern if center is blocked
+            // Try nearby positions in a spiral pattern if preferred position is blocked
             foreach (var offset in GetSpiralOffsets(3))
             {
-                IntVec3 candidate = new IntVec3(centerX + offset.x, 0, centerZ + offset.z);
-                CellRect candidateRect = new CellRect(candidate.x, candidate.z, HATCH_SIZE, HATCH_SIZE);
+                IntVec3 candidate = new IntVec3(position.x + offset.x, 0, position.z + offset.z);
+                CellRect candidateRect = GetBlockingRectFromCenter(candidate);
 
-                // Ensure candidate is within region bounds
-                if (candidateRect.minX < region.minX || candidateRect.maxX > region.maxX ||
-                    candidateRect.minZ < region.minZ || candidateRect.maxZ > region.maxZ)
+                // Ensure candidate rect is within region bounds
+                if (!IsRectWithinBounds(candidateRect, region))
                     continue;
 
                 if (IsValidPlacement(map, candidateRect))
@@ -188,6 +200,37 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
 
             return IntVec3.Invalid;
+        }
+
+        /// <summary>
+        /// Calculates hatch position: centered on short axis, random offset on long axis.
+        /// This leaves more contiguous space for other prefabs to spawn.
+        /// </summary>
+        private static IntVec3 GetOffsetPosition(CellRect region)
+        {
+            IntVec3 center = region.CenterCell;
+
+            int widthSlack = region.Width - HATCH_SIZE;
+            int heightSlack = region.Height - HATCH_SIZE;
+
+            // Only offset if one axis has significantly more slack (3+ cells difference)
+            if (heightSlack > widthSlack + 2)
+            {
+                // Height is longer - offset along z-axis
+                int maxOffset = heightSlack / 2;
+                int offset = Rand.RangeInclusive(-maxOffset, maxOffset);
+                return new IntVec3(center.x, 0, center.z + offset);
+            }
+            else if (widthSlack > heightSlack + 2)
+            {
+                // Width is longer - offset along x-axis
+                int maxOffset = widthSlack / 2;
+                int offset = Rand.RangeInclusive(-maxOffset, maxOffset);
+                return new IntVec3(center.x + offset, 0, center.z);
+            }
+
+            // Axes are similar length - stay centered
+            return center;
         }
 
         /// <summary>

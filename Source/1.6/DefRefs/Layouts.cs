@@ -11,14 +11,15 @@ namespace BetterTradersGuild.DefRefs
     {
         /// <summary>
         /// Main TradersGuild orbital settlement layout.
+        /// Named to match vanilla OrbitalSettlementPlatform convention.
         /// </summary>
-        public static LayoutDef BTG_Settlement;
+        public static LayoutDef BTG_SettlementPlatform;
 
         /// <summary>
-        /// Cargo hold vault layout - single-room secure storage pocket map.
-        /// Used by GenStep_CargoHoldVault for the BTG_CargoHoldHatch pocket map.
+        /// Cargo vault layout - single-room secure storage pocket map.
+        /// Used by GenStep_CargoVaultPlatform for the BTG_CargoVaultHatch pocket map.
         /// </summary>
-        public static LayoutDef BTG_CargoHoldVaultLayout;
+        public static LayoutDef BTG_OrbitalCargoVault;
 
         static Layouts() => DefOfHelper.EnsureInitializedInCtor(typeof(Layouts));
     }
