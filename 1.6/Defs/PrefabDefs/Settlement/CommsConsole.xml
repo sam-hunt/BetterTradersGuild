@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Comms Console Prefab (Freestanding)
+    Working communications console for contacting factions and orbital traders.
+
+    Features:
+    - 3x2 prefab size (no wall lamp, freestanding)
+    - Can be placed anywhere in room
+
+    Design (top view, North is up):
+        x: 0 1 2
+    z=1:   C C C   (back of console)
+    z=0:   . D .   (chair facing toward console)
+
+    Legend:
+    C = CommsConsole (3x2, centered at x=1 z=1)
+        relativeRotation=Opposite makes it face into the room
+    D = DiningChair (operator seat)
+    . = empty space
+  -->
+  <PrefabDef>
+    <defName>BTG_CommsConsole</defName>
+    <size>(3,2)</size>
+    <things>
+      <CommsConsole>
+        <position>(1, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </CommsConsole>
+      <DiningChair>
+        <position>(1, 0, 0)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </DiningChair>
+    </things>
+  </PrefabDef>
+</Defs>

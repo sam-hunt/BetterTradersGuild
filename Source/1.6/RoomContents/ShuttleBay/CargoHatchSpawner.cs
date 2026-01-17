@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using BetterTradersGuild.DefRefs;
+using RimWorld;
 using Verse;
 
 namespace BetterTradersGuild.RoomContents.ShuttleBay
@@ -15,6 +17,12 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
     public static class CargoVaultHatchSpawner
     {
         private const int HATCH_SIZE = 3;
+
+        /// <summary>
+        /// Cached reflection field for CompSealable.isSealed (private field).
+        /// </summary>
+        private static readonly FieldInfo IsSealedField = typeof(CompSealable)
+            .GetField("isSealed", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
         /// Finds the best position for the cargo hatch and spawns it.
@@ -39,7 +47,36 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             Thing hatch = ThingMaker.MakeThing(Things.BTG_CargoVaultHatch);
             GenSpawn.Spawn(hatch, position, map, WipeMode.VanishOrMoveAside);
 
+            // If cargo inventory percentage is 0%, spawn the hatch pre-sealed
+            // This represents a vault that was already emptied and permanently sealed
+            if (BetterTradersGuildMod.Settings.cargoInventoryPercentage <= 0f)
+            {
+                SealHatch(hatch);
+            }
+
             return GetBlockingRectFromCenter(position);
+        }
+
+        /// <summary>
+        /// Seals the hatch by setting its CompSealable.isSealed field to true.
+        /// Used when cargo percentage is 0% to spawn the hatch pre-sealed.
+        /// </summary>
+        private static void SealHatch(Thing hatch)
+        {
+            var compSealable = hatch.TryGetComp<CompSealable>();
+            if (compSealable == null)
+            {
+                Log.Warning("[Better Traders Guild] CargoVaultHatch missing CompSealable component.");
+                return;
+            }
+
+            if (IsSealedField == null)
+            {
+                Log.Warning("[Better Traders Guild] Could not find CompSealable.isSealed field via reflection.");
+                return;
+            }
+
+            IsSealedField.SetValue(compSealable, true);
         }
 
         /// <summary>

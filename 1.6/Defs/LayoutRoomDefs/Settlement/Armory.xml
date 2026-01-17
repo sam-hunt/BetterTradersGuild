@@ -27,7 +27,7 @@
     <prefabs>
       <!-- Steel shelves (contents filled by RoomContents_Armory from random pool) -->
       <BTG_SteelShelf_Edge>
-        <countPerHundredCells>4</countPerHundredCells>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
         <minMaxRange>1~5</minMaxRange>
       </BTG_SteelShelf_Edge>
 
@@ -39,7 +39,7 @@
 
       <!-- Armor display stands -->
       <BTG_OutfitStands_Edge>
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>2</countPerTenEdgeCells>
         <minMaxRange>1~1</minMaxRange>
       </BTG_OutfitStands_Edge>
 
@@ -67,7 +67,7 @@
 
       <!-- Communications console for coordination -->
       <BTG_CommsConsole_Edge>
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_CommsConsole_Edge>
     </prefabs>

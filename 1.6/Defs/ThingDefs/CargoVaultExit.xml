@@ -16,6 +16,7 @@
     <drawerType>RealtimeOnly</drawerType>
     <!-- Impassable prevents wild animals from autonomously pathing to and using the exit -->
     <passability>Impassable</passability>
+    <pathCost>5000</pathCost>
 
     <!-- Reuse AncientHatchExit graphics -->
     <graphicData>

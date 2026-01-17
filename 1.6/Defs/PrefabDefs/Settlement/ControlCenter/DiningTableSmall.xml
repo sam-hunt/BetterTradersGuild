@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Small Dining Table Prefab
+    Steel dining table with chairs for break areas.
+    Half the size of BTG_DiningTables.
+
+    Features:
+    - 4x2 prefab size
+    - 1x 2x2 steel table
+    - 4 steel dining chairs facing the table
+
+    Design (top view, North is up):
+        x: 0 1 2 3
+    z=1:   C T T C     C = DiningChair (steel)
+    z=0:   C T T C     T = Table2x2c (steel)
+
+    Legend:
+    T = Table2x2c (steel, 2x2 at position 1,0,0)
+    C = DiningChair (steel)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_DiningTableSmall</defName>
+    <size>(4,2)</size>
+    <things>
+      <!-- Steel dining chairs on left side (facing right/clockwise) -->
+      <DiningChair>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(0, 0, 1)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </DiningChair>
+
+      <!-- Steel dining chairs on right side (facing left/counterclockwise) -->
+      <DiningChair>
+        <positions>
+          <li>(3, 0, 0)</li>
+          <li>(3, 0, 1)</li>
+        </positions>
+        <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </DiningChair>
+
+      <!-- Steel 2x2 table in center -->
+      <Table2x2c>
+        <position>(1, 0, 0)</position>
+        <stuff>Steel</stuff>
+      </Table2x2c>
+    </things>
+  </PrefabDef>
+
+</Defs>

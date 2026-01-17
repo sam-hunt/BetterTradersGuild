@@ -36,11 +36,11 @@ namespace BetterTradersGuild
         /// </summary>
         /// <remarks>
         /// Range: 0.0-1.0 (0-100%)
-        /// 0 = disabled (no cargo spawns, no TradersGuildSettlementComponent added)
-        /// Default: 0.05 (5%)
+        /// 0 = disabled (no cargo spawns, hatch spawns pre-sealed)
+        /// Default: 1.0 (100%)
         /// Requires useCustomLayouts to be enabled
         /// </remarks>
-        public float cargoInventoryPercentage = 0.05f;
+        public float cargoInventoryPercentage = 1.0f;
 
         // ===== PHASE 3: SENTRY DRONE SYSTEM =====
 
@@ -55,6 +55,17 @@ namespace BetterTradersGuild
         /// Requires useCustomLayouts to be enabled
         /// </remarks>
         public float sentryDronePresence = 0.3f;
+
+        /// <summary>
+        /// Threat points multiplier for TradersGuild settlement pawn generation
+        /// </summary>
+        /// <remarks>
+        /// Range: 0.5-3.0
+        /// Default: 1.0 (no modification)
+        /// Applied after minimum threat points cap
+        /// Requires useCustomLayouts to be enabled
+        /// </remarks>
+        public float threatPointsMultiplier = 1.0f;
 
         /// <summary>
         /// Minimum threat points for TradersGuild settlement pawn generation
@@ -72,8 +83,9 @@ namespace BetterTradersGuild
             base.ExposeData();
             Scribe_Values.Look(ref traderRotationIntervalDays, "traderRotationIntervalDays", 15);
             Scribe_Values.Look(ref useCustomLayouts, "useCustomLayouts", true);
-            Scribe_Values.Look(ref cargoInventoryPercentage, "cargoInventoryPercentage", 0.05f);
+            Scribe_Values.Look(ref cargoInventoryPercentage, "cargoInventoryPercentage", 1.0f);
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.3f);
+            Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 2400f);
         }
     }
@@ -161,7 +173,7 @@ namespace BetterTradersGuild
             {
                 cargoLabel += " (Disabled)";
             }
-            else if (cargoPercentageDisplay == 5)
+            else if (cargoPercentageDisplay == 100)
             {
                 cargoLabel += " (Default)";
             }
@@ -223,6 +235,30 @@ namespace BetterTradersGuild
             Text.Font = GameFont.Medium;
             listingStandard.Label("Combat Difficulty");
             Text.Font = GameFont.Small;
+            listingStandard.Gap(12f);
+
+            // Threat points multiplier slider (grayed out if layouts disabled)
+            string multiplierLabel = $"Threat points multiplier: {settings.threatPointsMultiplier:F1}x";
+
+            if (settings.threatPointsMultiplier == 1.0f)
+            {
+                multiplierLabel += " (Default)";
+            }
+
+            listingStandard.Label(multiplierLabel);
+
+            // Slider with range 0.5-3.0, step 0.25
+            float multiplierSliderValue = listingStandard.Slider(settings.threatPointsMultiplier, 0.5f, 3.0f);
+            settings.threatPointsMultiplier = (float)(System.Math.Round(multiplierSliderValue / 0.25) * 0.25);
+
+            listingStandard.Gap(6f);
+
+            // Description text
+            Text.Font = GameFont.Tiny;
+            listingStandard.Label("Multiplier applied to threat points after minimum cap.");
+            listingStandard.Label("Higher values = more/stronger defenders. Requires custom layouts.");
+            Text.Font = previousFont;
+
             listingStandard.Gap(12f);
 
             // Minimum threat points slider (grayed out if layouts disabled)

@@ -55,7 +55,7 @@
 
       <!-- VNPE nutrient paste vat for storing processed paste -->
       <BTG_NutrientPasteVat_Edge MayRequire="VanillaExpanded.VNutrientE">
-        <countPerHundredCells>3</countPerHundredCells>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_NutrientPasteVat_Edge>
 

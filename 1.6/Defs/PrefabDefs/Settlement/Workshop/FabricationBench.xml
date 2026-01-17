@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Workshop - Fabrication Bench with Stool (Freestanding)
+
+    Features:
+    - 5x2 prefab size (no wall lamp, freestanding)
+    - Can be placed anywhere in room
+
+    Design:
+        x: 0 1 2 3 4
+    z=1:   F F F F F   (fabrication bench)
+    z=0:   . . S . .   (stool at interaction spot)
+  -->
+  <PrefabDef>
+    <defName>BTG_FabricationBench</defName>
+    <size>(5,2)</size>
+    <things>
+      <FabricationBench>
+        <position>(2, 0, 1)</position>
+      </FabricationBench>
+      <Stool>
+        <position>(2, 0, 0)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </Stool>
+    </things>
+  </PrefabDef>
+</Defs>

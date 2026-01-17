@@ -140,6 +140,13 @@ namespace BetterTradersGuild.Patches.SealablePatches
         /// Returns pawns to the settlement's trade stock.
         /// If stock is null, pawns are passed to world (never destroyed).
         /// </summary>
+        /// <remarks>
+        /// IMPORTANT: Pawns must be registered as world pawns BEFORE being added to stock.
+        /// Settlement_TraderTracker.TraderTrackerTick() validates that all pawns in stock
+        /// are world pawns (via WorldPawnsUtility.IsWorldPawn), removing any that aren't.
+        /// Without this registration, pawns would be removed on the next tick with the error:
+        /// "Faction base has non-world-pawns in its stock. Removing..."
+        /// </remarks>
         private static void ReturnPawnsToStock(List<Pawn> pawns, ThingOwner<Thing> stock)
         {
             foreach (Pawn pawn in pawns)
@@ -152,6 +159,11 @@ namespace BetterTradersGuild.Patches.SealablePatches
 
                 if (stock != null)
                 {
+                    // Register as world pawn BEFORE adding to stock.
+                    // KeepForever ensures the pawn persists (not garbage collected)
+                    // since it's actively in trade inventory and could be purchased.
+                    Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.KeepForever);
+
                     // Return to stock
                     stock.TryAdd(pawn, canMergeWithExistingStacks: false);
                 }

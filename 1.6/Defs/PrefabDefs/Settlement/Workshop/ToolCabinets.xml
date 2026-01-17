@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Workshop - Tool Cabinets (2x2 cluster)
+    Workshop - Tool Cabinets (Edge)
     Facilities that link to nearby workbenches.
 
-    Design:
+    Design (wall at z=0):
         x: 0 1
-    z=1:   T T   (tool cabinet)
-    z=0:   T T   (tool cabinet)
+    z=0:   T T   (tool cabinets against wall)
   -->
   <PrefabDef>
     <defName>BTG_ToolCabinets</defName>
-    <size>(2,2)</size>
+    <edgeOnly>true</edgeOnly>
+    <size>(2,1)</size>
     <things>
       <ToolCabinet>
         <positions>
           <li>(0, 0, 0)</li>
-          <li>(0, 0, 1)</li>
+          <li>(1, 0, 0)</li>
         </positions>
       </ToolCabinet>
     </things>

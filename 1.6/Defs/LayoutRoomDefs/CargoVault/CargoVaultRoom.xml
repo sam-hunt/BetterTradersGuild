@@ -57,8 +57,9 @@
       <BTG_CargoVaultExit_Center />
 
       <!-- Threats -->
-      <WaspDrone>0.5</WaspDrone>
-      <CornerArmoredTurret>0.5</CornerArmoredTurret>
+      <WaspDrone>
+        <countRange>1~2</countRange>
+      </WaspDrone>
     </parts>
 
   </LayoutRoomDef>

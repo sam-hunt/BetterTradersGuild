@@ -30,7 +30,7 @@
     <prefabs>
       <!-- Modern hospital beds with vitals monitors (edge) -->
       <BTG_HospitalBeds_Edge>
-        <countPerHundredCells>5</countPerHundredCells>
+        <countPerTenEdgeCells>5</countPerTenEdgeCells>
         <minMaxRange>2~8</minMaxRange>
       </BTG_HospitalBeds_Edge>
 

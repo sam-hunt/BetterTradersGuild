@@ -27,6 +27,12 @@
         <minMaxRange>1~1</minMaxRange>
       </BTG_FabricationBench_Edge>
 
+      <!-- Freestanding fabrication bench -->
+      <BTG_FabricationBench>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_FabricationBench>
+
       <BTG_ElectricSmelter_Edge>
         <countPerTenEdgeCells>4</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
@@ -34,13 +40,13 @@
 
       <!-- Tool storage -->
       <BTG_ToolCabinets>
-        <countPerHundredCells>1</countPerHundredCells>
-        <minMaxRange>0~1</minMaxRange>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~2</minMaxRange>
       </BTG_ToolCabinets>
 
       <!-- Tool and material storage -->
       <IndustrialShelf_Edge>
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
       </IndustrialShelf_Edge>
     </prefabs>

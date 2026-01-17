@@ -15,17 +15,17 @@
     <prefabs>
       <!-- Fluid storage if VE pipe network mods are enabled -->
       <BTG_SmallOxygenTank_Edge MayRequire="vanillaexpanded.gravship">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_SmallOxygenTank_Edge>
 
       <BTG_SmallAstrofuelTank_Edge MayRequire="vanillaexpanded.gravship">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_SmallAstrofuelTank_Edge>
 
       <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_ChemfuelTank_Edge>
 
@@ -57,6 +57,18 @@
         <minMaxRange>0~1</minMaxRange>
       </AncientCratePallet_Cluster>
 
+      <!-- Steel scrap pallet (2x2, openable for steel slag) -->
+      <AncientSteelPallet>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientSteelPallet>
+
+      <!-- Empty chemfuel barrel pallets (4x2 cluster) -->
+      <AncientChembarrelPallet_Cluster>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientChembarrelPallet_Cluster>
+
       <AncientCratesWithComponents>
         <countPerHundredCells>2</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
@@ -69,7 +81,7 @@
 
       <!-- Mech recharging station for hauler mechs -->
       <BTG_BasicRecharger_Edge MayRequire="Ludeon.RimWorld.Biotech">
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>0~1</minMaxRange>
       </BTG_BasicRecharger_Edge>
 
