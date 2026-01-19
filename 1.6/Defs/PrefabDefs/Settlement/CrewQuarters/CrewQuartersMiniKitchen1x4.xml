@@ -27,7 +27,7 @@
     <things>
       <!-- Steel shelf for meal storage -->
       <Shelf>
-        <position>(0, 0, 0)</position>
+        <position>(0, 0, 1)</position>
         <relativeRotation>Clockwise</relativeRotation>
         <quality>Normal</quality>
         <stuff>Steel</stuff>
@@ -48,9 +48,14 @@
 
       <!-- Kitchen sink cabinet -->
       <VFE_KitchenSinkCabinet>
-        <position>(0, 0, 2)</position>
+        <position>(0, 0, 3)</position>
         <relativeRotation>Clockwise</relativeRotation>
       </VFE_KitchenSinkCabinet>
+
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

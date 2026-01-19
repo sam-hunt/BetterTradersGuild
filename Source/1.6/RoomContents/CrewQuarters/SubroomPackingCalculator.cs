@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.Helpers;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
@@ -80,13 +81,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             /// </summary>
             public PlacementRotation Rotation;
 
-            /// <summary>X coordinate of the center for spawning.
-            /// Uses Dim/2 for consistent center calculation regardless of rotation.</summary>
-            public int CenterX => MinX + Width / 2;
+            /// <summary>
+            /// X coordinate for spawning. Delegates to SpawnPositionHelper.CalculateSpawnPosition
+            /// for rotation-aware center calculation.
+            /// </summary>
+            public int CenterX => SpawnPositionHelper.CalculateSpawnPosition(
+                MinX, MinZ, Width, Depth, (int)Rotation).centerX;
 
-            /// <summary>Z coordinate of the center for spawning.
-            /// Uses Dim/2 for consistent center calculation regardless of rotation.</summary>
-            public int CenterZ => MinZ + Depth / 2;
+            /// <summary>
+            /// Z coordinate for spawning. Delegates to SpawnPositionHelper.CalculateSpawnPosition
+            /// for rotation-aware center calculation.
+            /// </summary>
+            public int CenterZ => SpawnPositionHelper.CalculateSpawnPosition(
+                MinX, MinZ, Width, Depth, (int)Rotation).centerZ;
         }
 
         /// <summary>
@@ -145,6 +152,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         /// <summary>
         /// A placed subroom with position, size, and rotation.
+        /// Use CenterX/CenterZ properties to get the spawn position for PrefabUtility.SpawnPrefab.
         /// </summary>
         public struct SubroomPlacement
         {
@@ -154,10 +162,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             /// <summary>Z coordinate of the subroom's bottom cell.</summary>
             public int MinZ;
 
-            /// <summary>Width of the subroom in cells.</summary>
+            /// <summary>Width of the subroom in cells (local X dimension before rotation).</summary>
             public int Width;
 
-            /// <summary>Depth of the subroom in cells.</summary>
+            /// <summary>Depth of the subroom in cells (local Z dimension before rotation).</summary>
             public int Depth;
 
             /// <summary>Rotation/facing direction of the subroom.</summary>
@@ -166,38 +174,25 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             /// <summary>DefName of the prefab to spawn (e.g., "BTG_CrewBedSubroom3x4").</summary>
             public string PrefabDefName;
 
-            /// <summary>X coordinate of the center for spawning.
-            /// For even-width prefabs with Rotation=North, uses (Width-1)/2 offset;
-            /// for Rotation=South, uses Width/2 offset. This accounts for RimWorld's
-            /// asymmetric center convention with 180° rotated prefabs.</summary>
-            public int CenterX
-            {
-                get
-                {
-                    // For South rotation, RimWorld expects center offset of Width/2
-                    // For North rotation, RimWorld expects center offset of (Width-1)/2
-                    if (Rotation == PlacementRotation.South)
-                        return MinX + Width / 2;
-                    else
-                        return MinX + (Width - 1) / 2;
-                }
-            }
+            /// <summary>
+            /// X coordinate for spawning. Uses rotation-dependent formula to account for
+            /// RimWorld's center adjustment on even-sized dimensions.
+            /// North: MinX + (Width - 1) / 2
+            /// South: MinX + Width / 2
+            /// </summary>
+            public int CenterX => Rotation == PlacementRotation.South
+                ? MinX + Width / 2
+                : MinX + (Width - 1) / 2;
 
-            /// <summary>Z coordinate of the center for spawning.
-            /// For even-depth prefabs with Rotation=North, uses (Depth-1)/2 offset;
-            /// for Rotation=South, uses Depth/2 offset.</summary>
-            public int CenterZ
-            {
-                get
-                {
-                    // For South rotation, RimWorld expects center offset of Depth/2
-                    // For North rotation, RimWorld expects center offset of (Depth-1)/2
-                    if (Rotation == PlacementRotation.South)
-                        return MinZ + Depth / 2;
-                    else
-                        return MinZ + (Depth - 1) / 2;
-                }
-            }
+            /// <summary>
+            /// Z coordinate for spawning. Uses rotation-dependent formula to account for
+            /// RimWorld's center adjustment on even-sized dimensions.
+            /// North: MinZ + (Depth - 1) / 2
+            /// South: MinZ + Depth / 2
+            /// </summary>
+            public int CenterZ => Rotation == PlacementRotation.South
+                ? MinZ + Depth / 2
+                : MinZ + (Depth - 1) / 2;
         }
 
         #endregion
@@ -1142,6 +1137,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 if (result.HasWaste)
                 {
                     result.WasteMinX = region.MinX;
+
+                    // Account for enclosing wall that will be placed between waste and leftmost subroom.
+                    // The wall is added at subroom.MinX - 1 when subroom.MinX > room.MinX + 1.
+                    // This wall eats into the waste area, so reduce waste width accordingly.
+                    var leftmostSubroom = result.Subrooms.OrderBy(s => s.MinX).First();
+                    if (leftmostSubroom.MinX > room.MinX + 1)
+                    {
+                        result.WasteWidth -= 1;
+                        if (result.WasteWidth <= 0)
+                        {
+                            result.HasWaste = false;
+                        }
+                    }
                 }
             }
 

@@ -36,6 +36,10 @@
       <Pallet_SurvivalMeals>
         <position>(0, 0, 0)</position>
       </Pallet_SurvivalMeals>
+      <WallLamp>
+        <position>(0, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
 
   </PrefabDef>

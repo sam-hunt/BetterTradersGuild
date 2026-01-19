@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Industrial Shelves prefab
+
+    Features:
+    - 2x5 prefab size
+
+    Design (top view, North is up, all facing East):
+        x: 0  1
+    z=4:   S  S
+    z=3:   A  .     A = AnimalSleepingBox
+    z=2:   S  S     S = AncientIndustrialShelf
+    z=1:   C  .     C = AncientSpacerCrate
+    z=0:   S  S
+
+    Legend:
+    A = AnimalSleepingBox
+    S = AncientIndustrialShelf
+    C = AncientSpacerCrate
+    . = Empty space
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CrewQuartersIndustrialShelves2x5</defName>
+    <size>(2,5)</size>
+    <things>
+      <AnimalSleepingBox>
+        <position>(0, 0, 3)</position>
+        <stuff>Steel</stuff>
+        <quality>Normal</quality>
+      </AnimalSleepingBox>
+      <AncientSpacerCrate>
+        <position>(0, 0, 1)</position>
+      </AncientSpacerCrate>
+      <AncientIndustrialShelf>
+        <positions>
+          <li>(0, 0, 0)</li>
+          <li>(0, 0, 2)</li>
+          <li>(0, 0, 4)</li>
+        </positions>
+      </AncientIndustrialShelf>
+    </things>
+  </PrefabDef>
+</Defs>

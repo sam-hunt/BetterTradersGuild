@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Sealed Cargo Vault Hatch
+
+    A permanently sealed variant of the cargo vault hatch.
+    Used when the cargo vault feature is disabled in mod settings.
+
+    Unlike the regular BTG_CargoVaultHatch which uses CompRelockable (reusable),
+    this variant uses CompSealable and spawns pre-sealed (inaccessible).
+  -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>BTG_CargoVaultHatch_Sealed</defName>
+    <label>sealed cargo vault hatch</label>
+    <description>A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders.</description>
+    <size>(3,3)</size>
+    <useHitPoints>false</useHitPoints>
+    <thingClass>Building</thingClass>
+    <rotatable>false</rotatable>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <canOverlapZones>false</canOverlapZones>
+
+    <!-- Reuse AncientHatch closed graphics (sealed looks like closed) -->
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Things/Building/AncientHatch/AncientHatch_Closed</texPath>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <fillPercent>0</fillPercent>
+    <passability>Impassable</passability>
+    <holdsRoof>true</holdsRoof>
+    <destroyable>false</destroyable>
+
+    <building>
+      <isEdifice>true</isEdifice>
+      <deconstructible>false</deconstructible>
+      <isTargetable>false</isTargetable>
+      <isInert>true</isInert>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+
+    <!-- No comps - sealed hatch is non-interactive and shouldn't draw attention -->
+  </ThingDef>
+</Defs>

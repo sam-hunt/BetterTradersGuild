@@ -97,6 +97,7 @@ namespace BetterTradersGuild.DefRefs
 
         // === BTG CUSTOM BUILDINGS ===
         public static ThingDef BTG_CargoVaultHatch;
+        public static ThingDef BTG_CargoVaultHatch_Sealed;
         public static ThingDef BTG_CargoVaultExit;
 
         // === ODYSSEY DLC (always available - BTG hard-depends on Odyssey) ===

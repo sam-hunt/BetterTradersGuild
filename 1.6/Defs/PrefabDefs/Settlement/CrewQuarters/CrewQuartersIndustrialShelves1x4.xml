@@ -25,11 +25,15 @@
     <things>
       <AncientIndustrialShelf>
         <positions>
-          <li>(0, 0, 0)</li>
-          <li>(0, 0, 2)</li>
+          <li>(0, 0, 1)</li>
+          <li>(0, 0, 3)</li>
         </positions>
         <relativeRotation>Clockwise</relativeRotation>
       </AncientIndustrialShelf>
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

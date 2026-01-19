@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cargo Vault Exit Subroom Prefab
+
+    A 9x9 walled subroom containing the cargo vault exit portal.
+    Placed at the center of the cargo vault room by RoomContents_CargoVault.
+
+    Features:
+    - 9x9 prefab size with 7x7 interior walled area
+    - Steel doors on all 4 sides for entry/exit
+    - 3x3 exit portal in the center (BTG_CargoVaultExit)
+    - Wall lamps for lighting
+    - Life support unit for atmosphere
+    - Hidden conduit network under walls
+
+    Purpose:
+    The walled room with doors prevents wild animals and hostile pawns from
+    autonomously using the exit portal to escape the vault. Animals cannot
+    operate doors, so they remain contained. Player pawns can freely enter
+    and exit through the doors.
+
+    Design (top view, North is up):
+           x: 0 1 2 3 4 5 6 7 8
+       z=8:   . . . L . L . . .   (L = WallLamp south-facing)
+       z=7:   . W W W D W W W .   (W = Wall, D = Door north)
+       z=6:   . W . L . U . W .   (U = LifeSupportUnit)
+       z=5:   L W . E E E . W L   (E = Exit portal 3x3)
+       z=4:   . D . E E E . D .   (D = Door west/east)
+       z=3:   L W . E E E . W L
+       z=2:   . W . L . . . W .   (L = WallLamp south-facing)
+       z=1:   . W W W D W W W .   (D = Door south)
+       z=0:   . . . L . L . . .   (L = WallLamp north-facing)
+
+    Legend:
+    W = Wall (steel)
+    D = Door (steel)
+    E = BTG_CargoVaultExit (3x3 portal)
+    U = LifeSupportUnit
+    L = WallLamp
+    . = empty / exterior space
+    Hidden conduit runs under all walls (z=1 and z=7 rows, x=1 and x=7 columns)
+  -->
+
+  <PrefabDef>
+    <defName>BTG_CargoVaultExitSubroom</defName>
+    <size>(9,9)</size>
+    <things>
+      <Door>
+        <rects>
+          <li>(4,1,4,1)</li>
+          <li>(4,7,4,7)</li>
+        </rects>
+        <stuff>Steel</stuff>
+      </Door>
+      <Door>
+        <rects>
+          <li>(1,4,1,4)</li>
+          <li>(7,4,7,4)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+        <stuff>Steel</stuff>
+      </Door>
+      <BTG_CargoVaultExit>
+        <position>(4, 0, 4)</position>
+      </BTG_CargoVaultExit>
+      <LifeSupportUnit>
+        <position>(5, 0, 6)</position>
+      </LifeSupportUnit>
+      <HiddenConduit>
+        <rects>
+          <li>(1,1,7,1)</li>
+          <li>(1,2,1,7)</li>
+          <li>(7,2,7,7)</li>
+          <li>(2,7,6,7)</li>
+        </rects>
+      </HiddenConduit>
+      <WallLamp>
+        <rects>
+          <li>(3,0,3,0)</li>
+          <li>(5,0,5,0)</li>
+          <li>(3,6,3,6)</li>
+        </rects>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(5,2,5,2)</li>
+          <li>(3,8,3,8)</li>
+          <li>(5,8,5,8)</li>
+        </rects>
+        <relativeRotation>Opposite</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(0,3,0,3)</li>
+          <li>(0,5,0,5)</li>
+        </rects>
+        <relativeRotation>Clockwise</relativeRotation>
+      </WallLamp>
+      <WallLamp>
+        <rects>
+          <li>(8,3,8,3)</li>
+          <li>(8,5,8,5)</li>
+        </rects>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
+      <Wall>
+        <rects>
+          <li>(1,1,3,1)</li>
+          <li>(5,1,7,1)</li>
+          <li>(1,2,1,3)</li>
+          <li>(7,2,7,3)</li>
+          <li>(1,5,1,7)</li>
+          <li>(7,5,7,7)</li>
+          <li>(2,7,3,7)</li>
+          <li>(5,7,6,7)</li>
+        </rects>
+        <stuff>Steel</stuff>
+      </Wall>
+    </things>
+
+  </PrefabDef>
+</Defs>

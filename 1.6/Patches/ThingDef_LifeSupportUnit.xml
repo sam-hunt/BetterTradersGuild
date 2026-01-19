@@ -14,7 +14,7 @@
   <Operation Class="PatchOperationReplace">
     <xpath>/Defs/ThingDef[defName="LifeSupportUnit"]/comps/li[@Class="CompProperties_Power"]/basePowerConsumption</xpath>
     <value>
-      <basePowerConsumption>-800</basePowerConsumption>
+      <basePowerConsumption>-1200</basePowerConsumption>
     </value>
   </Operation>
 

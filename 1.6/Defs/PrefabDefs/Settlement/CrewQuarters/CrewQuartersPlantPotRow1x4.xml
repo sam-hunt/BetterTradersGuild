@@ -32,6 +32,10 @@
         <stuff>Steel</stuff>
         <quality>Normal</quality>
       </PlantPot>
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Large Tailoring Prefab
+    Requires VFE Production for the bench.
+
+    Features:
+    - 2x5 prefab size
+
+    Design (top view, North is up, all facing East):
+        x: 0  1
+    z=4:   T  T    T = VFE_TableTailorLarge (5x2 facing East)
+    z=3:   T  T
+    z=2:   T  T
+    z=1:   T  T
+    z=0:   T  T
+
+    Legend:
+    S = VFE_TableTailorLarge (5x2 rotated East)
+  -->
+
+  <PrefabDef MayRequire="VanillaExpanded.VFEProduction">
+    <defName>BTG_CrewQuartersLargeTailor2x5</defName>
+    <size>(2,5)</size>
+    <things>
+      <VFE_TableTailorLarge>
+        <position>(1, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </VFE_TableTailorLarge>
+      <WallLamp>
+        <position>(0, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
+    </things>
+  </PrefabDef>
+
+</Defs>

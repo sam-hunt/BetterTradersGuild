@@ -3,6 +3,7 @@ using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
+using Verse.AI.Group;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
 {
@@ -15,14 +16,15 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         /// <summary>
         /// Spawns items on shelves in the room using clustered placement.
         /// Items of the same type are placed adjacently on shelves.
-        /// Each item type starts at a random shelf to spread cargo across the room.
+        /// Each item type maps to a deterministic shelf based on settlement ID.
         /// Pre-filters items that can't be stored on shelves (minified buildings, chunks, etc.).
         /// </summary>
         /// <param name="map">The map to spawn on</param>
         /// <param name="roomRect">The room boundaries</param>
         /// <param name="items">Items to spawn on shelves</param>
+        /// <param name="settlementID">Settlement ID for deterministic shelf assignment</param>
         /// <returns>Items that couldn't fit on shelves (overflow) or can't be stored on shelves</returns>
-        public static List<Thing> SpawnItemsOnShelves(Map map, CellRect roomRect, List<Thing> items)
+        public static List<Thing> SpawnItemsOnShelves(Map map, CellRect roomRect, List<Thing> items, int settlementID)
         {
             if (items == null || items.Count == 0)
             {
@@ -47,9 +49,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 out List<Thing> shelfItems,
                 out List<Thing> floorItems);
 
-            // Clustered placement: same item types together, each type starts at random shelf
+            // Clustered placement: same item types together, deterministic shelf per type
             List<Thing> shelfOverflow = CargoPlacementHelper.PlaceItemsClustered(
-                map, shelfItems, shelves);
+                map, shelfItems, shelves, settlementID);
 
             // Combine floor-only + shelf overflow
             floorItems.AddRange(shelfOverflow);
@@ -83,6 +85,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 
         /// <summary>
         /// Splits items with stackCount > stackLimit into multiple Things.
+        /// MinifiedThings are never split since they can't be properly cloned via ThingMaker.
         /// </summary>
         private static List<Thing> SplitOversizedStacks(List<Thing> items)
         {
@@ -95,6 +98,15 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 if (item.stackCount <= stackLimit)
                 {
                     // Already fits in one stack
+                    result.Add(item);
+                    continue;
+                }
+
+                // MinifiedThings cannot be split - ThingMaker.MakeThing creates empty crates
+                // This shouldn't happen since MinifiedThings have stackLimit=1, but be safe
+                if (item is MinifiedThing)
+                {
+                    Log.Warning($"[Better Traders Guild] MinifiedThing with stackCount > 1 detected (ThingID: {item.ThingID}, count: {item.stackCount}). Not splitting.");
                     result.Add(item);
                     continue;
                 }
@@ -135,61 +147,96 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         /// Spawns things on the floor of the room.
         /// Used for pawns and items that couldn't fit on shelves.
         /// Handles oversized stacks by splitting into multiple spawns.
+        /// Tracks used cells for non-stackable items to prevent spawn conflicts.
         /// </summary>
         /// <param name="map">The map to spawn on</param>
         /// <param name="roomRect">The room boundaries</param>
         /// <param name="things">Things to spawn on floor</param>
-        public static void SpawnOnFloor(Map map, CellRect roomRect, List<Thing> things)
+        /// <param name="exclusionRect">Optional rect to exclude from spawning (e.g., exit subroom area)</param>
+        /// <returns>List of things that couldn't be spawned (should be returned to trade inventory)</returns>
+        public static List<Thing> SpawnOnFloor(Map map, CellRect roomRect, List<Thing> things, CellRect? exclusionRect = null)
         {
+            var unspawned = new List<Thing>();
+
             if (things == null || things.Count == 0)
             {
-                return;
+                return unspawned;
             }
 
-            List<IntVec3> validCells = GetValidFloorCells(map, roomRect);
+            List<IntVec3> validCells = GetValidFloorCells(map, roomRect, exclusionRect);
 
             if (validCells.Count == 0)
             {
-                Log.Warning("[Better Traders Guild] No valid floor cells in cargo vault");
-                // Destroy things to prevent leaks
-                foreach (Thing thing in things)
-                {
-                    thing.Destroy(DestroyMode.Vanish);
-                }
-                return;
+                Log.Warning("[Better Traders Guild] No valid floor cells in cargo vault - returning items to trade inventory");
+                unspawned.AddRange(things);
+                return unspawned;
             }
+
+            // Track cells used by non-stackable items to avoid spawn conflicts
+            HashSet<IntVec3> usedCells = new HashSet<IntVec3>();
 
             foreach (Thing thing in things)
             {
                 // Spawn with stack splitting for oversized stacks
-                SpawnWithStackSplitting(map, thing, validCells);
+                Thing notSpawned = SpawnWithStackSplitting(map, thing, validCells, usedCells);
+                if (notSpawned != null)
+                    unspawned.Add(notSpawned);
             }
+
+            return unspawned;
         }
 
         /// <summary>
         /// Spawns a thing, splitting into multiple stacks if stackCount exceeds stackLimit.
+        /// MinifiedThings are never split since they can't be properly cloned via ThingMaker.
+        /// Non-stackable items track used cells to avoid spawn conflicts.
         /// </summary>
-        private static void SpawnWithStackSplitting(Map map, Thing thing, List<IntVec3> validCells)
+        /// <returns>The thing if it couldn't be spawned (to return to trade inventory), null if spawned successfully</returns>
+        private static Thing SpawnWithStackSplitting(Map map, Thing thing, List<IntVec3> validCells, HashSet<IntVec3> usedCells)
         {
             if (thing is Pawn)
             {
-                // Pawns don't stack, just spawn directly
+                // Pawns don't stack, just spawn directly (pawns can share cells)
                 IntVec3 cell = validCells.RandomElement();
                 GenSpawn.Spawn(thing, cell, map);
-                return;
+                return null;
+            }
+
+            // MinifiedThings cannot be split - ThingMaker.MakeThing creates empty crates
+            // Always spawn the original object directly, tracking the cell
+            if (thing is MinifiedThing)
+            {
+                IntVec3 cell = FindUnusedCell(validCells, usedCells);
+                if (!cell.IsValid)
+                {
+                    Log.Warning($"[Better Traders Guild] No available cell for MinifiedThing {thing.Label} - returning to trade inventory");
+                    return thing;
+                }
+                GenSpawn.Spawn(thing, cell, map);
+                thing.SetForbidden(true, false);
+                usedCells.Add(cell);
+                return null;
             }
 
             int stackLimit = thing.def.stackLimit;
             int remaining = thing.stackCount;
+            bool isNonStackable = stackLimit == 1;
 
             // First stack uses the original thing
             if (remaining <= stackLimit)
             {
                 // Fits in one stack
-                IntVec3 cell = validCells.RandomElement();
+                IntVec3 cell = isNonStackable ? FindUnusedCell(validCells, usedCells) : validCells.RandomElement();
+                if (!cell.IsValid)
+                {
+                    Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
+                    return thing;
+                }
                 GenSpawn.Spawn(thing, cell, map);
                 thing.SetForbidden(true, false);
-                return;
+                if (isNonStackable)
+                    usedCells.Add(cell);
+                return null;
             }
 
             // Need multiple stacks
@@ -197,11 +244,23 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             thing.stackCount = stackLimit;
             remaining -= stackLimit;
 
-            IntVec3 firstCell = validCells.RandomElement();
+            IntVec3 firstCell = isNonStackable ? FindUnusedCell(validCells, usedCells) : validCells.RandomElement();
+            if (!firstCell.IsValid)
+            {
+                // Restore original stack count before returning
+                thing.stackCount = stackLimit + remaining;
+                Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
+                return thing;
+            }
             GenSpawn.Spawn(thing, firstCell, map);
             thing.SetForbidden(true, false);
+            if (isNonStackable)
+                usedCells.Add(firstCell);
 
             // Spawn additional stacks for the remainder
+            // Note: We create new Things for these, so if they can't spawn we need to
+            // create a consolidated remainder to return to stock
+            int unspawnedCount = 0;
             while (remaining > 0)
             {
                 int thisStack = UnityEngine.Mathf.Min(remaining, stackLimit);
@@ -218,58 +277,154 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     newQuality.SetQuality(origQuality.Quality, ArtGenerationContext.Outsider);
                 }
 
-                IntVec3 cell = validCells.RandomElement();
+                IntVec3 cell = isNonStackable ? FindUnusedCell(validCells, usedCells) : validCells.RandomElement();
+                if (!cell.IsValid)
+                {
+                    Log.Warning($"[Better Traders Guild] No available cell for {newStack.Label} stack - returning to trade inventory");
+                    unspawnedCount += thisStack;
+                    newStack.Destroy(DestroyMode.Vanish);
+                    continue;
+                }
                 GenSpawn.Spawn(newStack, cell, map);
                 newStack.SetForbidden(true, false);
+                if (isNonStackable)
+                    usedCells.Add(cell);
             }
+
+            // If some stacks couldn't spawn, create a consolidated item to return
+            if (unspawnedCount > 0)
+            {
+                Thing remainder = ThingMaker.MakeThing(thing.def, thing.Stuff);
+                remainder.stackCount = unspawnedCount;
+                CompQuality origQuality = thing.TryGetComp<CompQuality>();
+                CompQuality remQuality = remainder.TryGetComp<CompQuality>();
+                if (origQuality != null && remQuality != null)
+                {
+                    remQuality.SetQuality(origQuality.Quality, ArtGenerationContext.Outsider);
+                }
+                return remainder;
+            }
+
+            return null;
         }
 
         /// <summary>
-        /// Spawns pawns on the floor of the room.
+        /// Finds a random cell from validCells that hasn't been used yet.
+        /// Returns IntVec3.Invalid if no cells are available.
+        /// </summary>
+        private static IntVec3 FindUnusedCell(List<IntVec3> validCells, HashSet<IntVec3> usedCells)
+        {
+            // Fast path: if few cells used, just try random selection
+            if (usedCells.Count < validCells.Count / 2)
+            {
+                for (int attempts = 0; attempts < 20; attempts++)
+                {
+                    IntVec3 cell = validCells.RandomElement();
+                    if (!usedCells.Contains(cell))
+                        return cell;
+                }
+            }
+
+            // Fallback: find any unused cell
+            foreach (IntVec3 cell in validCells)
+            {
+                if (!usedCells.Contains(cell))
+                    return cell;
+            }
+
+            return IntVec3.Invalid;
+        }
+
+        /// <summary>
+        /// Spawns pawns on the floor of the room as factionless/wild with wandering behavior.
+        ///
+        /// Unlike vanilla trader caravans where pawns belong to the trader faction with
+        /// lord duties (follow, flee, defend), cargo vault pawns are spawned factionless:
+        ///
+        /// - The vault can only be reached via hostile raid (player is already hostile to TradersGuild)
+        /// - Pawns are trapped in space and cannot flee the map
+        /// - Captured pawns shouldn't auto-side with their captors (TradersGuild)
+        /// - Factionless represents thematic "apathy" of being imprisoned in a space vault
+        /// - Wild animals won't trigger auto-attack from player pawns
+        ///
+        /// A Lord with LordJob_WanderNest is assigned to prevent pawns from pathing to the
+        /// exit portal. Instead, they wander aimlessly in the vault area.
+        ///
+        /// This creates emergent gameplay where captured pawns may be "liberated" by the player.
         /// </summary>
         /// <param name="map">The map to spawn on</param>
         /// <param name="roomRect">The room boundaries</param>
         /// <param name="pawns">Pawns to spawn</param>
-        public static void SpawnPawns(Map map, CellRect roomRect, List<Pawn> pawns)
+        /// <param name="exclusionRect">Optional rect to exclude from spawning (e.g., exit subroom area)</param>
+        public static void SpawnPawns(Map map, CellRect roomRect, List<Pawn> pawns, CellRect? exclusionRect = null)
         {
             if (pawns == null || pawns.Count == 0)
-            {
                 return;
-            }
 
-            List<IntVec3> validCells = GetValidFloorCells(map, roomRect);
+            List<IntVec3> validCells = GetValidFloorCells(map, roomRect, exclusionRect);
 
             if (validCells.Count == 0)
             {
                 Log.Warning("[Better Traders Guild] No valid floor cells for pawns in cargo vault");
-                // Pass pawns to world to prevent them from being lost
                 foreach (Pawn pawn in pawns)
-                {
                     Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
-                }
                 return;
             }
+
+            List<Pawn> spawnedPawns = new List<Pawn>();
 
             foreach (Pawn pawn in pawns)
             {
                 IntVec3 cell = validCells.RandomElement();
                 GenSpawn.Spawn(pawn, cell, map);
+
+                // Clear faction - pawns in the cargo vault are factionless
+                if (pawn.Faction != null)
+                    pawn.SetFaction(null);
+
+                spawnedPawns.Add(pawn);
             }
+
+            // Assign wandering Lord to prevent pawns from pathing to exit portal
+            if (spawnedPawns.Count > 0)
+                AssignWanderLord(map, spawnedPawns);
+        }
+
+        /// <summary>
+        /// Assigns a wandering Lord to the spawned pawns to prevent them from
+        /// immediately pathing to the exit portal.
+        ///
+        /// Uses LordJob_WanderNest which assigns DutyDefOf.WanderNest to all pawns,
+        /// making them wander aimlessly in the area.
+        /// </summary>
+        private static void AssignWanderLord(Map map, List<Pawn> pawns)
+        {
+            // Use Faction.OfAncients for the Lord (base game faction, no DLC required)
+            // This doesn't change the pawns' faction, just groups them under a Lord
+            Faction lordFaction = Faction.OfAncients;
+
+            LordJob lordJob = new LordJob_WanderNest();
+            LordMaker.MakeNewLord(lordFaction, lordJob, map, pawns);
         }
 
         /// <summary>
         /// Gets valid floor cells for spawning (walkable, not blocked by buildings).
         /// </summary>
         /// <param name="map">The map to check</param>
-        /// <param name="roomRect">The room boundaries</param>
+        /// <param name="roomRect">The room boundaries (use ContractedBy(1) to exclude edges)</param>
+        /// <param name="exclusionRect">Optional rect to exclude from valid cells (e.g., exit subroom area)</param>
         /// <returns>List of valid cells for floor spawning</returns>
-        public static List<IntVec3> GetValidFloorCells(Map map, CellRect roomRect)
+        public static List<IntVec3> GetValidFloorCells(Map map, CellRect roomRect, CellRect? exclusionRect = null)
         {
             var validCells = new List<IntVec3>();
 
             foreach (IntVec3 cell in roomRect.Cells)
             {
                 if (!cell.InBounds(map))
+                    continue;
+
+                // Skip cells in the exclusion rect (e.g., exit subroom)
+                if (exclusionRect.HasValue && exclusionRect.Value.Contains(cell))
                     continue;
 
                 // Must be walkable

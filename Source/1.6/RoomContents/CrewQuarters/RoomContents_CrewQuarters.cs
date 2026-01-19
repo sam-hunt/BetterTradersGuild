@@ -189,14 +189,11 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         /// <summary>
         /// Spawns a subroom prefab at the calculated position with appropriate rotation.
-        ///
-        /// LEARNING NOTE: PrefabUtility.SpawnPrefab uses center-based positioning.
-        /// SubroomPlacement provides corner coordinates (MinX, MinZ), so we calculate
-        /// the center using the CenterX/CenterZ properties which account for prefab size.
+        /// Uses SubroomPlacement.CenterX/CenterZ which have rotation-dependent formulas
+        /// to account for RimWorld's center adjustments on even-sized dimensions.
         /// </summary>
         private void SpawnSubroomPrefab(Map map, SubroomPlacement subroom)
         {
-            // Get the prefab definition
             PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(subroom.PrefabDefName, false);
 
             if (prefab == null)
@@ -205,16 +202,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 return;
             }
 
-            // Calculate center position for spawning
-            // The SubroomPlacement has MinX/MinZ (corner) and Width/Depth
-            // CenterX/CenterZ calculate the center from these values
-            IntVec3 centerPos = new IntVec3(subroom.CenterX, 0, subroom.CenterZ);
-
-            // Convert rotation to Rot4
             Rot4 rotation = subroom.Rotation.AsRot4();
+            IntVec3 spawnPos = new IntVec3(subroom.CenterX, 0, subroom.CenterZ);
 
-            // Spawn the prefab
-            PrefabUtility.SpawnPrefab(prefab, map, centerPos, rotation, null);
+            PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
         }
 
         /// <summary>
@@ -237,15 +228,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 return;
             }
 
-            // Calculate center position for spawning
-            IntVec3 centerPos = new IntVec3(wasteFiller.CenterX, 0, wasteFiller.CenterZ);
-
-            // Convert rotation to Rot4
-            // North = no rotation (face East), South = 180° (face West)
             Rot4 rotation = wasteFiller.Rotation.AsRot4();
+            IntVec3 spawnPos = new IntVec3(wasteFiller.CenterX, 0, wasteFiller.CenterZ);
 
-            // Spawn the prefab
-            PrefabUtility.SpawnPrefab(prefab, map, centerPos, rotation, null);
+            PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
         }
 
         /// <summary>

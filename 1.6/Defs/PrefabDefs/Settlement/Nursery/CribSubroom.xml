@@ -111,6 +111,11 @@
         <position>(4, 0, 2)</position>
         <relativeRotation>Clockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
+
+      <LifeSupportUnit>
+        <position>(4, 0, 3)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </LifeSupportUnit>
     </things>
 
     <terrain>

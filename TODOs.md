@@ -2,31 +2,25 @@ TODOs
 
 grep codebase for TODO comments
 
+- refactoring
+  ensure subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
+
 - World
   Show trader type on world tile label if map is loaded
   increase reinforcement/pirate raid event chance?
   confirm space_btg tile handling/compatibility?
 
 - Shuttle bay
-  mod option for trader ships shuttles texture
+
+- settlement platform
+  verify landing pad pipe extender pathing
 
 - Cargo vaults
-  animals can use the cargo vault exit
+  pawn entering the vault is a hostile action and sets goodwill to -100
   test reentering the map after aborted assault
+  test reentering the map after successful assault
   test reentering the map after trade inventory refresh
-  test pirate trader
-  test bulk goods trader
   test freeze trader type while map is active
-  exit off center?
-
-- mod settings
-  edit copy text
-
-- expand comment detailing TradersGuildSettlementComponent lifecycling in settlement layout worker
-
-- Crew Quarters
-  Add more filler prefabs, particularly 2x5
-  Fix even dimensioned and rotated filler prefab placement offsets (monodis?)
 
 - Mod integration
   VGE Faux plants
@@ -35,7 +29,11 @@ grep codebase for TODO comments
   2x1 tables
   dressers ?
   VREA Android maintenance
+  mod option for trader ships shuttles texture
 
 - Workshop screenshots and description
 - Update readme, remove plan and docs, regenerate claude.md?
 - readme with tree diagram for pawnkind hierarchy, map generation breakdown
+- language data for text strings?
+- test that mods work _without_ all dlc/mods we integrate with
+- confirm mod settings copy text

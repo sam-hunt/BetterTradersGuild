@@ -36,8 +36,9 @@
     </pocketMapProperties>
 
     <genSteps>
-      <li>BTG_CargoVault</li>
-      <li>BTG_PaintTerrain</li>
+      <li>BTG_CargoVault</li>               <!-- order 250 -->
+      <li>BTG_PaintTerrain</li>             <!-- order 255 -->
+      <li>BTG_SetWallLampColor</li>         <!-- order 265 -->
     </genSteps>
   </MapGeneratorDef>
 </Defs>

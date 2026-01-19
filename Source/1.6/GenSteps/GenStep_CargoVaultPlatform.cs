@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.RoomContents.CargoVault;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 
 namespace BetterTradersGuild.MapGeneration
@@ -57,8 +59,30 @@ namespace BetterTradersGuild.MapGeneration
         /// <summary>
         /// Main generation method called during pocket map creation.
         /// Uses the layout system to generate the vault structure and contents.
+        /// Uses deterministic seeding based on settlement ID for consistent layout.
         /// </summary>
         public override void Generate(Map map, GenStepParams parms)
+        {
+            // Get settlement ID for deterministic seeding
+            Settlement settlement = CargoVaultHelper.GetParentSettlement(map);
+            int settlementSeed = settlement?.ID ?? map.Tile;
+
+            // Push deterministic seed based on settlement ID and SeedPart
+            Rand.PushState(Gen.HashCombineInt(settlementSeed, SeedPart));
+            try
+            {
+                GenerateInternal(map, parms);
+            }
+            finally
+            {
+                Rand.PopState();
+            }
+        }
+
+        /// <summary>
+        /// Internal generation logic, called within deterministic random state.
+        /// </summary>
+        private void GenerateInternal(Map map, GenStepParams parms)
         {
             // Define the vault area - centered on the map
             // For a 40x40 map with 20x20 vault, this places the vault at (10,10) to (29,29)

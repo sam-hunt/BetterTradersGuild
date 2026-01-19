@@ -5,6 +5,10 @@
 
     The exit portal spawned inside the cargo vault pocket map, providing
     a way back to the station's shuttle bay above.
+
+    Note: This exit is placed inside a walled subroom (BTG_CargoVaultExitSubroom)
+    with doors on all sides. The doors prevent wild animals from reaching and
+    using the exit portal, as animals cannot operate doors.
   -->
 
   <!-- Cargo Vault Exit - Spawned inside the pocket map -->
@@ -14,9 +18,6 @@
     <description>A secure ladder and hatch providing access back to the station's shuttle bay above.</description>
     <size>(3,3)</size>
     <drawerType>RealtimeOnly</drawerType>
-    <!-- Impassable prevents wild animals from autonomously pathing to and using the exit -->
-    <passability>Impassable</passability>
-    <pathCost>5000</pathCost>
 
     <!-- Reuse AncientHatchExit graphics -->
     <graphicData>

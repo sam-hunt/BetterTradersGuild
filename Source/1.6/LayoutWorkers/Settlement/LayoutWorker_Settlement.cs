@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
-using BetterTradersGuild.WorldObjects;
 using BetterTradersGuild.Helpers.MapGeneration;
 using RimWorld;
 using Verse;
@@ -41,23 +40,11 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
         private const int MaxLayoutAttempts = 10;
 
         /// <summary>
-        /// Tiered size requirements for ShuttleBay room.
-        /// Ordered from ideal to minimum acceptable.
+        /// Minimum ShuttleBay room dimensions.
         /// Room must fit both the 10x10 landing pad subroom AND the 3x3 cargo vault hatch.
-        /// Format: (minWidth, minHeight, maxConnections)
-        ///
-        /// When maxConnections is <= 2, the Shuttle pad prefab subroom placement algorithm
-        /// can guarantee an edge or corner placement, requiring less total room
         /// </summary>
-        private static readonly (int minW, int minH, int maxConns)[] ShuttleBaySizeRequirements =
-        {
-            (19, 15, int.MaxValue),  // Fits hatch comfortably with corner/edge/floating pad placement
-            (15, 19, int.MaxValue),
-            (19, 13, 2),             // Fits hatch comfortably with corner/edge pad placement
-            (13, 19, 2),
-            (17, 13, 1),             // Fits hatch comfortably with corner placement
-            (13, 17, 1),
-        };
+        private const int MinShuttleBayWidth = 19;
+        private const int MinShuttleBayHeight = 15;
 
         public LayoutWorker_Settlement(LayoutDef def) : base(def)
         {
@@ -90,38 +77,32 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
         }
 
         /// <summary>
-        /// Override important room assignment to use tiered size requirements.
-        /// Vanilla uses hardcoded 7x7 minimum which doesn't respect our minSingleRectWidth/Height.
+        /// Override important room assignment to enforce minimum ShuttleBay size.
+        /// Vanilla uses hardcoded 7x7 minimum which doesn't respect our size requirement.
         /// </summary>
         protected override void PostGraphsGenerated(StructureLayout layout, StructureGenParams parms)
         {
             // Don't call base - we're replacing the important room assignment logic entirely
-            // Base uses hardcoded 7x7 minimum which ignores our 18x15 requirement
 
             if (!parms.spawnImportantRoom)
                 return;
 
-            // Find best room for ShuttleBay using tiered requirements
-            for (int i = 0; i < ShuttleBaySizeRequirements.Length; i++)
+            // Find largest room meeting size requirements (either orientation)
+            var validRoom = layout.Rooms
+                .Where(r => r.requiredDef == null)
+                .Where(r => r.TryGetRectOfSize(MinShuttleBayWidth, MinShuttleBayHeight, out _) ||
+                            r.TryGetRectOfSize(MinShuttleBayHeight, MinShuttleBayWidth, out _))
+                .OrderByDescending(r => r.Area)
+                .FirstOrDefault();
+
+            if (validRoom != null)
             {
-                var (minW, minH, maxConns) = ShuttleBaySizeRequirements[i];
-
-                var validRoom = layout.Rooms
-                    .Where(r => r.requiredDef == null)
-                    .Where(r => r.TryGetRectOfSize(minW, minH, out _))
-                    .Where(r => maxConns == int.MaxValue || r.connections.Count <= maxConns)
-                    .OrderByDescending(r => r.Area)
-                    .FirstOrDefault();
-
-                if (validRoom != null)
-                {
-                    validRoom.requiredDef = LayoutRooms.BTG_ShuttleBay;
-                    validRoom.noExteriorDoors = true;
-                    return;
-                }
+                validRoom.requiredDef = LayoutRooms.BTG_ShuttleBay;
+                validRoom.noExteriorDoors = true;
+                return;
             }
 
-            // Fallback: use largest available room
+            // Fallback: use largest available room (shouldn't happen with retry logic)
             var largestRoom = layout.Rooms
                 .Where(r => r.requiredDef == null)
                 .OrderByDescending(r => r.Area)
@@ -137,22 +118,14 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
         }
 
         /// <summary>
-        /// Checks if the layout has any room meeting ShuttleBay size requirements.
+        /// Checks if the layout has any room meeting ShuttleBay size requirements (either orientation).
         /// </summary>
         private bool HasValidShuttleBayRoom(StructureLayout layout)
         {
-            foreach (var (minW, minH, maxConns) in ShuttleBaySizeRequirements)
-            {
-                bool hasValid = layout.Rooms.Any(r =>
-                    r.requiredDef == null &&
-                    r.TryGetRectOfSize(minW, minH, out _) &&
-                    (maxConns == int.MaxValue || r.connections.Count <= maxConns));
-
-                if (hasValid)
-                    return true;
-            }
-
-            return false;
+            return layout.Rooms.Any(r =>
+                r.requiredDef == null &&
+                (r.TryGetRectOfSize(MinShuttleBayWidth, MinShuttleBayHeight, out _) ||
+                 r.TryGetRectOfSize(MinShuttleBayHeight, MinShuttleBayWidth, out _)));
         }
 
         /// <summary>
@@ -168,22 +141,6 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             bool canReuseSketch = false,
             Faction faction = null)
         {
-            // ═══════════════════════════════════════════════════════════════════
-            // PRE-SPAWN: Settlement component initialization
-            // ═══════════════════════════════════════════════════════════════════
-
-            // Initialize cargo tracking component (only if cargo system enabled)
-            // Note: Fully qualified to avoid namespace conflict with BetterTradersGuild.LayoutWorkers.Settlement
-            RimWorld.Planet.Settlement settlement = map?.Parent as RimWorld.Planet.Settlement;
-            if (settlement != null &&
-                BetterTradersGuildMod.Settings.cargoInventoryPercentage > 0f &&
-                settlement.GetComponent<TradersGuildSettlementComponent>() == null)
-            {
-                var component = new TradersGuildSettlementComponent();
-                settlement.AllComps.Add(component);
-                component.parent = settlement;
-            }
-
             // ═══════════════════════════════════════════════════════════════════
             // BASE SPAWN: Vanilla orbital platform generation
             // (walls, doors, room layouts, RoomContentsWorkers, furniture)

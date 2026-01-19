@@ -55,6 +55,10 @@
       <Filth_Hair>
         <position>(0, 0, 2)</position>
       </Filth_Hair>
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

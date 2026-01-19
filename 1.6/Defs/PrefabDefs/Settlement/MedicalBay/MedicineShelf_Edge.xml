@@ -25,7 +25,7 @@
     <!-- Items spawned via MedicineShelfFiller in RoomContents_MedicalBay -->
     <things>
       <Shelf>
-        <position>(0,0,0)</position>
+        <position>(1,0,0)</position>
         <relativeRotation>Opposite</relativeRotation>
         <quality>Excellent</quality>
         <stuff>Plasteel</stuff>

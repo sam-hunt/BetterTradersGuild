@@ -33,6 +33,10 @@
           <li>(0, 0, 4)</li>
         </positions>
       </VREA_AndroidStand>
+      <WallLamp>
+        <position>(0, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

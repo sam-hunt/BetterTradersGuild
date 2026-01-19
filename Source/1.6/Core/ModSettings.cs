@@ -32,15 +32,16 @@ namespace BetterTradersGuild
         public bool useCustomLayouts = true;
 
         /// <summary>
-        /// Percentage of trade inventory to spawn as cargo in shuttle bay
+        /// Enable cargo vault access in TradersGuild settlements
         /// </summary>
         /// <remarks>
-        /// Range: 0.0-1.0 (0-100%)
-        /// 0 = disabled (no cargo spawns, hatch spawns pre-sealed)
-        /// Default: 1.0 (100%)
+        /// When enabled: Cargo vault hatch spawns hackable (can be accessed)
+        /// When disabled: Cargo vault hatch spawns sealed (permanently inaccessible)
+        /// Default: true
+        /// Only affects newly generated maps
         /// Requires useCustomLayouts to be enabled
         /// </remarks>
-        public float cargoInventoryPercentage = 1.0f;
+        public bool enableCargoVault = true;
 
         // ===== PHASE 3: SENTRY DRONE SYSTEM =====
 
@@ -50,11 +51,11 @@ namespace BetterTradersGuild
         /// <remarks>
         /// Range: 0.0-2.0 (0-200% of threat points)
         /// 0 = disabled (no sentry drones spawn)
-        /// Default: 0.3 (30% of threat points used for drone calculation)
+        /// Default: 0.35 (35% of threat points used for drone calculation)
         /// Uses minimum threat points cap from PawnGroupMakerUtilityMinimumPoints
         /// Requires useCustomLayouts to be enabled
         /// </remarks>
-        public float sentryDronePresence = 0.3f;
+        public float sentryDronePresence = 0.35f;
 
         /// <summary>
         /// Threat points multiplier for TradersGuild settlement pawn generation
@@ -83,7 +84,7 @@ namespace BetterTradersGuild
             base.ExposeData();
             Scribe_Values.Look(ref traderRotationIntervalDays, "traderRotationIntervalDays", 15);
             Scribe_Values.Look(ref useCustomLayouts, "useCustomLayouts", true);
-            Scribe_Values.Look(ref cargoInventoryPercentage, "cargoInventoryPercentage", 1.0f);
+            Scribe_Values.Look(ref enableCargoVault, "enableCargoVault", true);
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.3f);
             Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 2400f);
@@ -152,46 +153,24 @@ namespace BetterTradersGuild
             listingStandard.Gap(12f);
 
             // Custom layouts checkbox
-            listingStandard.CheckboxLabeled("Use custom settlement layouts", ref settings.useCustomLayouts,
-                "Generate TradersGuild settlements with custom merchant aesthetics (18 room types).\n" +
+            listingStandard.CheckboxLabeled("Use custom settlement map generator", ref settings.useCustomLayouts,
+                "Generate TradersGuild settlements with less abandoned-looking aesthetics.\n" +
                 "Disable if using other map generation mods or prefer vanilla layouts.");
             listingStandard.Gap(24f);
 
-            // ========== SECTION: CARGO SYSTEM ==========
+            // ========== SECTION: CARGO VAULT ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Cargo System");
+            listingStandard.Label("Cargo Vault");
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
-            // Cargo percentage slider (grayed out if layouts disabled)
+            // Cargo vault checkbox (grayed out if layouts disabled)
             UnityEngine.GUI.enabled = settings.useCustomLayouts;
 
-            int cargoPercentageDisplay = (int)(settings.cargoInventoryPercentage * 100f);
-            string cargoLabel = $"Cargo bay inventory: {cargoPercentageDisplay}%";
-
-            if (cargoPercentageDisplay == 0)
-            {
-                cargoLabel += " (Disabled)";
-            }
-            else if (cargoPercentageDisplay == 100)
-            {
-                cargoLabel += " (Default)";
-            }
-
-            listingStandard.Label(cargoLabel);
-
-            // Slider with range 0-100%, step 5%
-            float cargoSliderValue = listingStandard.Slider(settings.cargoInventoryPercentage * 100f, 0f, 100f);
-            settings.cargoInventoryPercentage = (int)(System.Math.Round(cargoSliderValue / 5f) * 5f) / 100f;
-
-            listingStandard.Gap(6f);
-
-            // Description text
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("Percentage of trade inventory spawned as cargo in shuttle bay.");
-            listingStandard.Label("Set to 0% to disable cargo spawning (reduces save file size).");
-            listingStandard.Label("Requires custom layouts to be enabled.");
-            Text.Font = previousFont;
+            listingStandard.CheckboxLabeled("Enable cargo vault access", ref settings.enableCargoVault,
+                "When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\n" +
+                "When disabled, cargo vaults spawn sealed and inaccessible.\n" +
+                "Only affects newly generated settlements.");
 
             listingStandard.Gap(24f);
 
@@ -209,24 +188,22 @@ namespace BetterTradersGuild
             {
                 droneLabel += " (Disabled)";
             }
-            else if (dronePercentageDisplay == 25)
+            else if (dronePercentageDisplay == 35)
             {
                 droneLabel += " (Default)";
             }
 
             listingStandard.Label(droneLabel);
 
-            // Slider with range 0-200%, step 25%
+            // Slider with range 0-200%, step 5%
             float droneSliderValue = listingStandard.Slider(settings.sentryDronePresence * 100f, 0f, 200f);
-            settings.sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 25f) * 25f) / 100f;
+            settings.sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 5f) * 5f) / 100f;
 
             listingStandard.Gap(6f);
 
             // Description text
             Text.Font = GameFont.Tiny;
-            listingStandard.Label("Factor of threat points used for sentry drone spawning.");
-            listingStandard.Label("Sentry drones patrol until they detect intruders, then attack.");
-            listingStandard.Label("Set to 0% to disable sentry drones. Requires custom layouts.");
+            listingStandard.Label("Factor of threat points used for patrolling sentry drone spawning.");
             Text.Font = previousFont;
 
             listingStandard.Gap(24f);

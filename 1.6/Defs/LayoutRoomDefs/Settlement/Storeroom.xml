@@ -31,7 +31,7 @@
 
       <!-- Packaged survival meals for food storage -->
       <SurvivalMealPallet>
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>0.5</countPerHundredCells>
         <countRange>0~1</countRange>
       </SurvivalMealPallet>
 
@@ -59,7 +59,7 @@
 
       <!-- Steel scrap pallet (2x2, openable for steel slag) -->
       <AncientSteelPallet>
-        <countPerHundredCells>1</countPerHundredCells>
+        <countPerHundredCells>0.5</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </AncientSteelPallet>
 

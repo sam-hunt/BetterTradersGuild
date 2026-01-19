@@ -19,6 +19,9 @@ namespace BetterTradersGuild.DefRefs
         public static PawnKindDef LabradorRetriever;
         public static PawnKindDef YorkshireTerrier;
 
+        // === ODYSSEY ===
+        public static PawnKindDef Drone_Wasp;
+
         // === BIOTECH MECHS ===
         [MayRequireBiotech]
         public static PawnKindDef Mech_Paramedic;

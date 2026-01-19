@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
@@ -94,18 +95,20 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         }
 
         /// <summary>
-        /// Places items on shelves using clustered placement.
+        /// Places items on shelves using clustered placement with deterministic ordering.
         /// Items of the same type are placed adjacently, with each type
-        /// starting at a random shelf to spread cargo across the room.
+        /// assigned to a specific shelf based on settlement ID for consistency.
         /// </summary>
         /// <param name="map">The map to spawn on</param>
         /// <param name="items">Items to place (should be pre-filtered for shelf compatibility)</param>
         /// <param name="shelves">Available storage buildings</param>
+        /// <param name="settlementID">Settlement ID for deterministic shelf assignment</param>
         /// <returns>Items that couldn't fit (overflow)</returns>
         public static List<Thing> PlaceItemsClustered(
             Map map,
             List<Thing> items,
-            List<Building_Storage> shelves)
+            List<Building_Storage> shelves,
+            int settlementID)
         {
             var overflow = new List<Thing>();
 
@@ -129,9 +132,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             var stackableGroups = itemGroups.Where(g => g.Key.stackLimit > 1).ToList();
             var nonStackableGroups = itemGroups.Where(g => g.Key.stackLimit == 1).ToList();
 
-            // Shuffle within each category for variety
-            stackableGroups.Shuffle();
-            nonStackableGroups.Shuffle();
+            // Sort by defName for deterministic order (instead of shuffle)
+            stackableGroups = stackableGroups.OrderBy(g => g.Key.defName).ToList();
+            nonStackableGroups = nonStackableGroups.OrderBy(g => g.Key.defName).ToList();
 
             // Process stackables first, then non-stackables
             var orderedGroups = stackableGroups.Concat(nonStackableGroups);
@@ -141,7 +144,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 List<Thing> itemsOfType = group.ToList();
                 bool isNonStackable = group.Key.stackLimit == 1;
 
-                // Find shelves with space and pick a random starting shelf
+                // Find shelves with space and pick a deterministic starting shelf
                 List<ShelfState> availableShelves = shelfStates.Where(s => s.HasSpace).ToList();
                 if (availableShelves.Count == 0)
                 {
@@ -149,7 +152,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     continue;
                 }
 
-                ShelfState currentShelf = availableShelves.RandomElement();
+                // Deterministic shelf based on item type and settlement
+                int shelfIndex = GetDeterministicShelfIndex(group.Key.defName, settlementID, availableShelves.Count);
+                ShelfState currentShelf = availableShelves[shelfIndex];
 
                 foreach (Thing item in itemsOfType)
                 {
@@ -282,6 +287,16 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             GenSpawn.Spawn(item, cell.Cell, map);
             item.SetForbidden(true, false);
             cell.CurrentItems++;
+        }
+
+        /// <summary>
+        /// Gets a deterministic shelf index based on item type and settlement ID.
+        /// Same item type + settlement always maps to the same shelf.
+        /// </summary>
+        private static int GetDeterministicShelfIndex(string defName, int settlementID, int shelfCount)
+        {
+            int hash = Gen.HashCombineInt(defName.GetHashCode(), settlementID);
+            return Mathf.Abs(hash) % shelfCount;
         }
     }
 }

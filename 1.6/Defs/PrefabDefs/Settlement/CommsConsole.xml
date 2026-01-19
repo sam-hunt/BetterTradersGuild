@@ -5,12 +5,13 @@
     Working communications console for contacting factions and orbital traders.
 
     Features:
-    - 3x2 prefab size (no wall lamp, freestanding)
+    - 3x3 prefab size (no wall lamp, freestanding)
     - Can be placed anywhere in room
 
     Design (top view, North is up):
         x: 0 1 2
-    z=1:   C C C   (back of console)
+    z=2:   C C C   (back of console)
+    z=1:   C C C
     z=0:   . D .   (chair facing toward console)
 
     Legend:
@@ -21,10 +22,10 @@
   -->
   <PrefabDef>
     <defName>BTG_CommsConsole</defName>
-    <size>(3,2)</size>
+    <size>(3,3)</size>
     <things>
       <CommsConsole>
-        <position>(1, 0, 1)</position>
+        <position>(1, 0, 2)</position>
         <relativeRotation>Opposite</relativeRotation>
       </CommsConsole>
       <DiningChair>

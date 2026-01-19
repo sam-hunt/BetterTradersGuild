@@ -1,45 +1,25 @@
 using System.Collections.Generic;
-using BetterTradersGuild.DefRefs;
-using BetterTradersGuild.MapGeneration;
+using System.Linq;
 using BetterTradersGuild.RoomContents.CargoVault;
-using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
+using PawnKinds = BetterTradersGuild.DefRefs.PawnKinds;
 
-namespace BetterTradersGuild.Patches.SealablePatches
+namespace BetterTradersGuild.Helpers.RoomContents
 {
     /// <summary>
-    /// Harmony patch: CompSealable.Seal method
-    /// Returns all eligible items in the cargo vault to the settlement's trade inventory.
+    /// Helper class for returning cargo vault items to settlement trade inventory.
+    /// Extracted from CompSealableSeal patch for reuse by CompRelockable and CargoVaultHatch.DeSpawn.
     /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: When a portal is sealed, this runs BEFORE the pocket map is destroyed.
-    /// We use this window to collect all items and return them to the settlement's stock.
-    ///
-    /// Exclusions:
-    /// - Unminified buildings (can't be traded anyway)
-    /// - Pawns belonging to TradersGuild faction (settlement defenders, not cargo)
-    /// </remarks>
-    [HarmonyPatch(typeof(CompSealable), nameof(CompSealable.Seal))]
-    public static class CompSealableSeal
+    public static class CargoReturnHelper
     {
         /// <summary>
-        /// Prefix method - collects and returns cargo before portal is sealed.
+        /// Returns all eligible items and pawns from a pocket map to the parent settlement's trade stock.
         /// </summary>
-        [HarmonyPrefix]
-        public static void Prefix(CompSealable __instance)
+        /// <param name="pocketMap">The cargo vault pocket map</param>
+        public static void ReturnItemsToStock(Map pocketMap)
         {
-            // Check if this is our BTG_CargoVaultHatch
-            if (__instance.parent?.def != Things.BTG_CargoVaultHatch)
-                return;
-
-            // Get the MapPortal component
-            if (!(__instance.parent is MapPortal portal))
-                return;
-
-            // Get the pocket map
-            Map pocketMap = portal.PocketMap;
             if (pocketMap == null)
                 return;
 
@@ -58,6 +38,8 @@ namespace BetterTradersGuild.Patches.SealablePatches
             // Return items to stock (or destroy if no stock)
             ReturnItemsToStock(itemsToReturn, stock);
             ReturnPawnsToStock(pawnsToReturn, stock);
+
+            Log.Message($"[BTG] CargoReturnHelper: Returned {itemsToReturn.Count} items and {pawnsToReturn.Count} pawns to stock");
         }
 
         /// <summary>
@@ -85,26 +67,37 @@ namespace BetterTradersGuild.Patches.SealablePatches
         }
 
         /// <summary>
-        /// Collects all pawns from the pocket map that should be returned.
-        /// Excludes pawns belonging to the TradersGuild faction.
+        /// Collects all pawns from the pocket map that should be captured.
+        /// Only excludes wasp drones (vault defense units that remain with the vault).
+        /// All other pawns (TradersGuild staff, player colonists, animals, slaves, other factions)
+        /// are captured and transferred to the settlement's trade inventory.
         /// </summary>
         private static List<Pawn> CollectEligiblePawns(Map map)
         {
             var pawns = new List<Pawn>();
 
+            Log.Message($"[BTG DEBUG] CollectEligiblePawns: Scanning {map.mapPawns.AllPawnsSpawnedCount} pawns on map");
+
             foreach (Pawn pawn in map.mapPawns.AllPawns)
             {
-                // Skip TradersGuild faction pawns (defenders, not cargo)
-                if (pawn.Faction?.def == Factions.TradersGuild)
-                    continue;
+                string kindDefName = pawn.kindDef?.defName ?? "null";
+                bool isWaspDrone = PawnKinds.Drone_Wasp != null && pawn.kindDef == PawnKinds.Drone_Wasp;
 
-                // Skip player faction pawns (they should leave normally)
-                if (pawn.Faction == Faction.OfPlayer)
-                    continue;
+                Log.Message($"[BTG DEBUG] CollectEligiblePawns: Checking pawn '{pawn.LabelShort}' - Kind: {kindDefName}, IsWaspDrone: {isWaspDrone}");
 
+                // Skip wasp drones (vault defense units - they remain part of the vault infrastructure)
+                // All other pawns are captured and transferred to the settlement's trade inventory
+                if (isWaspDrone)
+                {
+                    Log.Message($"[BTG DEBUG] CollectEligiblePawns: SKIPPING '{pawn.LabelShort}' - Wasp drone (vault defense)");
+                    continue;
+                }
+
+                Log.Message($"[BTG DEBUG] CollectEligiblePawns: COLLECTING '{pawn.LabelShort}' for return to stock (captured)");
                 pawns.Add(pawn);
             }
 
+            Log.Message($"[BTG DEBUG] CollectEligiblePawns: Collected {pawns.Count} pawns total");
             return pawns;
         }
 
@@ -149,12 +142,20 @@ namespace BetterTradersGuild.Patches.SealablePatches
         /// </remarks>
         private static void ReturnPawnsToStock(List<Pawn> pawns, ThingOwner<Thing> stock)
         {
+            Log.Message($"[BTG DEBUG] ReturnPawnsToStock: Processing {pawns.Count} pawns, stock is {(stock != null ? "valid" : "NULL")}");
+
             foreach (Pawn pawn in pawns)
             {
+                Log.Message($"[BTG DEBUG] ReturnPawnsToStock: Processing pawn '{pawn.LabelShort}' (ThingID: {pawn.ThingID})");
+                Log.Message($"[BTG DEBUG]   - Spawned: {pawn.Spawned}, Destroyed: {pawn.Destroyed}, Discarded: {pawn.Discarded}");
+                Log.Message($"[BTG DEBUG]   - IsWorldPawn before: {Find.WorldPawns.Contains(pawn)}");
+
                 // Despawn from map
                 if (pawn.Spawned)
                 {
+                    Log.Message($"[BTG DEBUG]   - Despawning from map...");
                     pawn.DeSpawn(DestroyMode.Vanish);
+                    Log.Message($"[BTG DEBUG]   - After despawn - Spawned: {pawn.Spawned}, Destroyed: {pawn.Destroyed}");
                 }
 
                 if (stock != null)
@@ -162,15 +163,37 @@ namespace BetterTradersGuild.Patches.SealablePatches
                     // Register as world pawn BEFORE adding to stock.
                     // KeepForever ensures the pawn persists (not garbage collected)
                     // since it's actively in trade inventory and could be purchased.
+                    Log.Message($"[BTG DEBUG]   - Registering as world pawn (KeepForever)...");
                     Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.KeepForever);
+                    Log.Message($"[BTG DEBUG]   - IsWorldPawn after PassToWorld: {Find.WorldPawns.Contains(pawn)}");
 
                     // Return to stock
-                    stock.TryAdd(pawn, canMergeWithExistingStacks: false);
+                    Log.Message($"[BTG DEBUG]   - Adding to stock (current stock count: {stock.Count})...");
+                    bool addResult = stock.TryAdd(pawn, canMergeWithExistingStacks: false);
+                    Log.Message($"[BTG DEBUG]   - TryAdd result: {addResult}, new stock count: {stock.Count}");
+
+                    if (!addResult)
+                    {
+                        Log.Warning($"[BTG DEBUG] ReturnPawnsToStock: FAILED to add pawn '{pawn.LabelShort}' to stock!");
+                        Log.Warning($"[BTG DEBUG]   - Pawn state: Destroyed={pawn.Destroyed}, Discarded={pawn.Discarded}, holdingOwner={pawn.holdingOwner?.GetType().Name ?? "null"}");
+                    }
                 }
                 else
                 {
                     // Safety fallback: pass to world (never lose pawns)
+                    Log.Message($"[BTG DEBUG]   - Stock is null, passing to world with Decide mode");
                     Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+                }
+            }
+
+            // Log final stock state for pawns
+            if (stock != null)
+            {
+                int pawnCount = stock.OfType<Pawn>().Count();
+                Log.Message($"[BTG DEBUG] ReturnPawnsToStock: Complete. Stock now has {pawnCount} pawns out of {stock.Count} total items");
+                foreach (Pawn p in stock.OfType<Pawn>())
+                {
+                    Log.Message($"[BTG DEBUG]   - Pawn in stock: '{p.LabelShort}' (ThingID: {p.ThingID})");
                 }
             }
         }

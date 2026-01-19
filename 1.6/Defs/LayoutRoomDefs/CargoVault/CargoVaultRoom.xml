@@ -18,6 +18,7 @@
   <LayoutRoomDef>
     <defName>BTG_CargoVaultRoom</defName>
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.CargoVault.RoomContents_CargoVault</roomContentsWorkerType>
+
     <minSingleRectWidth>23</minSingleRectWidth>
     <minSingleRectHeight>23</minSingleRectHeight>
 
@@ -29,8 +30,8 @@
     <prefabs>
       <!-- Industrial shelves along walls -->
       <IndustrialShelf_Edge>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>4~12</minMaxRange>
+        <countPerTenEdgeCells>4</countPerTenEdgeCells>
+        <minMaxRange>8~14</minMaxRange>
       </IndustrialShelf_Edge>
 
       <!-- Industrial shelving -->
@@ -53,12 +54,12 @@
     </wallAttachments>
 
     <parts>
-      <!-- Exit portal in center -->
-      <BTG_CargoVaultExit_Center />
+      <!-- Exit subroom spawned by RoomContents_CargoVault at center -->
+      <!-- Uses BTG_CargoVaultExitSubroom prefab with doors to contain animals -->
 
       <!-- Threats -->
       <WaspDrone>
-        <countRange>1~2</countRange>
+        <countRange>0~1</countRange>
       </WaspDrone>
     </parts>
 

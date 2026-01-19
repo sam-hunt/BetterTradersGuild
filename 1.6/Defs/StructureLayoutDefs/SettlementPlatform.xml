@@ -84,7 +84,7 @@
       </BTG_PodLaunchBay>
 
       <BTG_CrewQuarters>
-        <countRange>2~4</countRange>
+        <countRange>3~4</countRange>
       </BTG_CrewQuarters>
 
       <BTG_Greenhouse>

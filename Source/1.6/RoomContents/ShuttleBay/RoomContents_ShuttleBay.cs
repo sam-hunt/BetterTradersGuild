@@ -77,8 +77,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3. Spawn landing pad prefab using PrefabUtility API
                 SpawnLandingPadPrefab(map, placement);
 
-                // 3b. Paint the PassengerShuttle to the faction's color
-                PaintShuttleInLandingPad(map, faction);
+                // 3b. Paint the PassengerShuttle to marble
+                PaintShuttleInLandingPad(map);
 
                 // 3c. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
                 ConnectShuttleToPipeNetwork(map, roomRect);
@@ -100,12 +100,13 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // landingPadRect remains default (Width = 0), so IsValidCellBase won't block other prefabs
             }
 
-            // 5. Calculate cargo hatch position (center of largest free area, BEFORE base.FillRoom)
-            this.cargoHatchRect = CargoVaultHatchSpawner.CalculateBlockingRect(map, roomRect, this.landingPadRect);
+            // 5. Spawn cargo vault hatch BEFORE base.FillRoom() (priority placement, center of largest free area)
+            //    At this point only the landing pad exists, so hatch placement is guaranteed to succeed
+            this.cargoHatchRect = CargoVaultHatchSpawner.SpawnHatch(map, roomRect, this.landingPadRect);
 
             // 6. Call base to process XML (prefabs, scatter, parts)
             //    ALWAYS runs - spawns forklift etc. even if landing pad failed
-            //    Other prefabs will avoid landing pad and cargo hatch areas
+            //    Other prefabs will avoid landing pad and cargo hatch areas (hatch is now a physical building)
             base.FillRoom(map, room, faction, threatPoints);
 
             // 6b. Prune LifeSupportUnits to keep only one outside the landing pad subroom
@@ -124,9 +125,6 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
 
             // 8. Apply partial roofing (roof all cells except landing pad area)
             PartialRoofingHelper.ApplyRoofingWithExclusion(map, roomRect, this.landingPadRect);
-
-            // 9. Spawn cargo vault hatch (secure vault entrance, center of largest free area)
-            CargoVaultHatchSpawner.SpawnHatch(map, roomRect, this.landingPadRect);
         }
 
         /// <summary>
@@ -170,14 +168,13 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         }
 
         /// <summary>
-        /// Paints the shuttle in the landing pad area to the faction's color.
+        /// Paints the shuttle in the landing pad area to marble.
         /// Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
         /// Called immediately after prefab spawn so the shuttle exists on the map.
         /// </summary>
-        private void PaintShuttleInLandingPad(Map map, Faction faction)
+        private void PaintShuttleInLandingPad(Map map)
         {
             if (this.landingPadRect.Width == 0) return;
-            if (faction == null) return;
 
             // Find the shuttle in the landing pad area (PassengerShuttle or OrcaShuttle)
             var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
@@ -186,7 +183,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 (Things.OrcaShuttle != null && b.def == Things.OrcaShuttle));
 
             if (shuttle == null) return;
-            PaintableFurnitureHelper.TryPaint(shuttle, faction.Color);
+            PaintableFurnitureHelper.TryPaint(shuttle, Colors.Structure_Marble);
         }
 
         /// <summary>

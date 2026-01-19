@@ -54,6 +54,20 @@
     </things>
 
     <terrain>
+      <OrbitalPlatform>
+        <rects>
+          <!-- Under barricades -->
+          <li>(0,2,0,3)</li>
+          <li>(3,2,3,3)</li>
+          <li>(7,2,7,3)</li>
+          <li>(10,2,10,3)</li>
+          <li>(1,4,2,4)</li>
+          <li>(8,4,9,4)</li>
+          <!-- Under autocannons (2x2 footprint) -->
+          <li>(1,2,2,3)</li>
+          <li>(8,2,9,3)</li>
+        </rects>
+      </OrbitalPlatform>
       <MetalTile>
         <rects>
           <li>(3,1,7,1)</li>

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild.Helpers
@@ -62,32 +61,6 @@ namespace BetterTradersGuild.Helpers
             if (thing is Building building)
             {
                 building.ChangePaint(colorDef);
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Attempts to paint a piece of furniture with a raw Color value.
-        ///
-        /// Uses CompColorable.SetColor() for arbitrary colors (e.g., faction colors).
-        /// Unlike ChangePaint(ColorDef), this allows any color, not just predefined ColorDefs.
-        /// </summary>
-        /// <param name="thing">The thing to paint (must be a Building with CompColorable)</param>
-        /// <param name="color">The Color to apply</param>
-        /// <returns>True if successfully painted, false if not colorable</returns>
-        public static bool TryPaint(Thing thing, Color color)
-        {
-            if (thing == null)
-            {
-                return false;
-            }
-
-            var comp = thing.TryGetComp<CompColorable>();
-            if (comp != null)
-            {
-                comp.SetColor(color);
                 return true;
             }
 

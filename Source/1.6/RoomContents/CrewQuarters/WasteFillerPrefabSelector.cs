@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -39,11 +37,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         private static Dictionary<string, List<PrefabDef>> prefabsBySize;
 
         /// <summary>
-        /// Random instance for prefab selection.
-        /// </summary>
-        private static readonly System.Random random = new System.Random();
-
-        /// <summary>
         /// Selects a random waste filler prefab of the specified size.
         /// </summary>
         /// <param name="width">Width of the waste area (1 or 2).</param>
@@ -60,9 +53,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 return null;
             }
 
-            // Random selection from available candidates
-            int index = random.Next(candidates.Count);
-            return candidates[index];
+            // Random selection using RimWorld's seeded random
+            return candidates.RandomElement();
         }
 
         /// <summary>
@@ -148,17 +140,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 }
 
                 list.Add(prefab);
-            }
-
-            // Log discovery results for debugging
-            int totalCount = prefabsBySize.Values.Sum(l => l.Count);
-            if (totalCount > 0)
-            {
-                Log.Message($"[Better Traders Guild] WasteFillerPrefabSelector discovered {totalCount} prefab(s) across {prefabsBySize.Count} size(s)");
-                foreach (var kvp in prefabsBySize.OrderBy(k => k.Key))
-                {
-                    Log.Message($"  - {kvp.Key}: {string.Join(", ", kvp.Value.Select(p => p.defName))}");
-                }
             }
         }
 

@@ -27,7 +27,7 @@
     <defaultAffordanceTerrainDef>OrbitalPlatform</defaultAffordanceTerrainDef>
     <!-- Surrounding ring of platform terrain (similar to orbital platform) -->
     <surroundingTerrainDef>OrbitalPlatform</surroundingTerrainDef>
-    <surroundingScatterRange>3~6</surroundingScatterRange>
+    <surroundingScatterRange>2~2</surroundingScatterRange>
 
     <!-- Our custom worker handles layout generation directly -->
     <clearRoomsEntirely>true</clearRoomsEntirely>

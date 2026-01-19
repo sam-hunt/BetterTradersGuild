@@ -74,6 +74,18 @@
         </rects>
       </VNPE_UndergroundNutrientPastePipe>
 
+      <WallLamp>
+        <position>(0, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
+
+    <terrain>
+      <SterileTile>
+        <rects>
+          <li>(0,0,1,4)</li>
+        </rects>
+      </SterileTile>
+    </terrain>
   </PrefabDef>
 </Defs>

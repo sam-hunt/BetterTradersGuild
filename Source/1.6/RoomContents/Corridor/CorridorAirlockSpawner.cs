@@ -172,27 +172,17 @@ namespace BetterTradersGuild.RoomContents.Corridor
 
                 // Check if this position is valid (within bounds, etc.)
                 if (!ValidateWallCells(map, room, wallCells))
-                {
-                    // Position invalid - no point trying deeper, we've left the corridor
-                    Log.Message($"[Better Traders Guild] Skipping airlock at {doorInfo.Position} - no valid placement found");
                     return;
-                }
 
                 // Check if any wall cells would block a side room door
                 if (WouldBlockDoor(map, wallCells))
-                {
-                    // This position would block a door, try one cell deeper
                     continue;
-                }
 
                 // Found a valid position - spawn the airlock
                 SpawnAirlockWalls(map, wallCells, wallIsHorizontal, wallDef, barrierDef);
-                Log.Message($"[Better Traders Guild] Spawned airlock at {wallCenter} depth {depth} (door at {doorInfo.Position}, edge {doorInfo.Edge})");
                 return;
             }
-
             // Exhausted all depths without finding a valid position
-            Log.Message($"[Better Traders Guild] Skipping airlock at {doorInfo.Position} - all positions blocked by doors");
         }
 
         /// <summary>
@@ -207,15 +197,9 @@ namespace BetterTradersGuild.RoomContents.Corridor
             {
                 IntVec3 wallCell;
                 if (wallIsHorizontal)
-                {
-                    // Wall runs East-West
                     wallCell = new IntVec3(wallCenter.x + offset, 0, wallCenter.z);
-                }
                 else
-                {
-                    // Wall runs North-South
                     wallCell = new IntVec3(wallCenter.x, 0, wallCenter.z + offset);
-                }
 
                 wallCells.Add(wallCell);
             }

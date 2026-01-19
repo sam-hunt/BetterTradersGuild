@@ -16,8 +16,14 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
     ///
     /// TECHNICAL APPROACH:
     /// - Uses LandingPadDetector to find external landing pads via beacon markers
-    /// - Traces BFS paths from pad edges back to main structure following terrain
+    /// - Traces A* paths from pad edges back to main structure following terrain
     /// - Places visible VE pipes along the paths
+    ///
+    /// LEARNING NOTE (A* vs BFS):
+    /// A* is preferred over BFS for terrain-following pathfinding because we have
+    /// a clear target (structure center). BFS explores uniformly in all directions,
+    /// wasting iterations. A* uses Manhattan distance heuristic to prioritize cells
+    /// closer to the goal, finding paths much more efficiently within iteration limits.
     ///
     /// LEARNING NOTE (External vs Internal Generation):
     /// External landing pads are NOT part of LayoutStructureSketch - they're
@@ -89,7 +95,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
 
         /// <summary>
         /// Finds a path from landing pad edge toward main structure,
-        /// following OrbitalPlatform terrain using BFS.
+        /// following OrbitalPlatform terrain using A* pathfinding.
         /// </summary>
         private static List<IntVec3> FindTerrainPathToStructure(
             Map map,
@@ -102,8 +108,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             // Determine which side of the pad faces the structure
             IntVec3 startCell = FindClosestPadEdgeToStructure(padInfo.BoundingRect, structureCenter);
 
-            // BFS from pad edge toward structure wall
-            return FindTerrainPathBFS(map, startCell, structureRect, maxIterations: 2000);
+            // A* from pad edge toward structure wall
+            return FindTerrainPathAStar(map, startCell, structureCenter, maxIterations: 5000);
         }
 
         /// <summary>
@@ -148,14 +154,24 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
         }
 
         /// <summary>
-        /// BFS pathfinding that follows OrbitalPlatform terrain until reaching the structure wall.
-        /// Returns path from start toward target rect.
+        /// A* pathfinding that follows OrbitalPlatform terrain until reaching the structure wall.
+        /// Uses Manhattan distance heuristic to prioritize cells closer to the target.
         /// </summary>
-        private static List<IntVec3> FindTerrainPathBFS(
+        /// <remarks>
+        /// Two-phase approach for robustness:
+        /// 1. Phase 1: Follow OrbitalPlatform terrain toward the structure, looking for
+        ///    OrbitalAncientFortifiedWall specifically (the settlement perimeter wall)
+        /// 2. Phase 2: If terrain ends before reaching the wall, bridge through any passable
+        ///    cells until we find OrbitalAncientFortifiedWall or any impassable edifice
+        ///
+        /// Specifically targets OrbitalAncientFortifiedWall to avoid stopping early at
+        /// furniture or other buildings that aren't the actual perimeter wall.
+        /// </remarks>
+        private static List<IntVec3> FindTerrainPathAStar(
             Map map,
             IntVec3 startCell,
-            CellRect targetRect,
-            int maxIterations = 1000)
+            IntVec3 targetCenter,
+            int maxIterations = 5000)
         {
             TerrainDef terrainDef = Terrains.OrbitalPlatform;
             ThingDef wallDef = Things.OrbitalAncientFortifiedWall;
@@ -183,42 +199,142 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
                 startCell = foundStart.Value;
             }
 
-            // BFS to find path to structure wall
+            // A* data structures
             Dictionary<IntVec3, IntVec3> cameFrom = new Dictionary<IntVec3, IntVec3>();
-            Queue<IntVec3> queue = new Queue<IntVec3>();
+            Dictionary<IntVec3, int> gScore = new Dictionary<IntVec3, int>(); // Cost from start
+            Dictionary<IntVec3, int> fScore = new Dictionary<IntVec3, int>(); // gScore + heuristic
 
-            queue.Enqueue(startCell);
-            cameFrom[startCell] = startCell; // Mark start as visited
+            HashSet<IntVec3> openSet = new HashSet<IntVec3>();
+            HashSet<IntVec3> closedSet = new HashSet<IntVec3>();
+
+            gScore[startCell] = 0;
+            fScore[startCell] = ManhattanDistance(startCell, targetCenter);
+            openSet.Add(startCell);
+            cameFrom[startCell] = startCell;
 
             int iterations = 0;
             IntVec3? reachedCell = null;
+            bool terrainPhaseComplete = false;
+            IntVec3? bestTerrainEndCell = null; // Track where terrain phase ended (closest to target)
+            int bestTerrainEndDistance = int.MaxValue;
 
-            while (queue.Count > 0 && iterations < maxIterations)
+            // Phase 1: Follow OrbitalPlatform terrain, looking specifically for the perimeter wall
+            while (openSet.Count > 0 && iterations < maxIterations)
             {
                 iterations++;
-                IntVec3 current = queue.Dequeue();
 
-                // Check if we've reached the actual structure wall (OrbitalAncientFortifiedWall)
-                // This ensures we connect to the real structure, not random impassable things
-                // or stop early at the bounding box edge when there's a recess
-                if (IsAdjacentToWallDef(map, current, wallDef))
+                IntVec3 current = GetLowestFScore(openSet, fScore);
+                openSet.Remove(current);
+                closedSet.Add(current);
+
+                // Check if we've reached the specific perimeter wall (OrbitalAncientFortifiedWall)
+                if (wallDef != null && IsAdjacentToWallDef(map, current, wallDef))
                 {
                     reachedCell = current;
                     break;
                 }
 
-                // Explore cardinal neighbors
+                // Track the cell closest to target in case we need phase 2
+                int distToTarget = ManhattanDistance(current, targetCenter);
+                if (distToTarget < bestTerrainEndDistance)
+                {
+                    bestTerrainEndDistance = distToTarget;
+                    bestTerrainEndCell = current;
+                }
+
+                // Explore cardinal neighbors - terrain-only in phase 1
+                bool foundTerrainNeighbor = false;
                 foreach (IntVec3 neighbor in CardinalNeighbors(current))
                 {
                     if (!neighbor.InBounds(map))
                         continue;
-                    if (cameFrom.ContainsKey(neighbor))
+                    if (closedSet.Contains(neighbor))
                         continue;
                     if (map.terrainGrid.TerrainAt(neighbor) != terrainDef)
                         continue;
 
+                    foundTerrainNeighbor = true;
+                    int tentativeGScore = gScore[current] + 1;
+
+                    if (!openSet.Contains(neighbor))
+                    {
+                        openSet.Add(neighbor);
+                    }
+                    else if (gScore.TryGetValue(neighbor, out int existingG) && tentativeGScore >= existingG)
+                    {
+                        continue;
+                    }
+
                     cameFrom[neighbor] = current;
-                    queue.Enqueue(neighbor);
+                    gScore[neighbor] = tentativeGScore;
+                    fScore[neighbor] = tentativeGScore + ManhattanDistance(neighbor, targetCenter);
+                }
+
+                // If no terrain neighbors and open set is empty, terrain phase is done
+                if (!foundTerrainNeighbor && openSet.Count == 0)
+                {
+                    terrainPhaseComplete = true;
+                    break;
+                }
+            }
+
+            // Phase 2: If terrain ended without reaching wall, bridge the gap through passable cells
+            if (reachedCell == null && terrainPhaseComplete && bestTerrainEndCell.HasValue)
+            {
+                // Reset for phase 2, starting from where terrain ended
+                openSet.Clear();
+                // Keep closedSet to avoid revisiting terrain cells
+
+                IntVec3 phase2Start = bestTerrainEndCell.Value;
+                openSet.Add(phase2Start);
+                // gScore and fScore already set for this cell
+
+                while (openSet.Count > 0 && iterations < maxIterations)
+                {
+                    iterations++;
+
+                    IntVec3 current = GetLowestFScore(openSet, fScore);
+                    openSet.Remove(current);
+                    closedSet.Add(current);
+
+                    // First check for the specific wall, then fall back to any impassable edifice
+                    if (wallDef != null && IsAdjacentToWallDef(map, current, wallDef))
+                    {
+                        reachedCell = current;
+                        break;
+                    }
+                    if (IsAdjacentToImpassableEdifice(map, current))
+                    {
+                        reachedCell = current;
+                        break;
+                    }
+
+                    // Explore cardinal neighbors - any passable cell in phase 2
+                    foreach (IntVec3 neighbor in CardinalNeighbors(current))
+                    {
+                        if (!neighbor.InBounds(map))
+                            continue;
+                        if (closedSet.Contains(neighbor))
+                            continue;
+                        // In phase 2, allow any passable cell (not just terrain)
+                        if (neighbor.Impassable(map))
+                            continue;
+
+                        int tentativeGScore = gScore.TryGetValue(current, out int g) ? g + 1 : 1;
+
+                        if (!openSet.Contains(neighbor))
+                        {
+                            openSet.Add(neighbor);
+                        }
+                        else if (gScore.TryGetValue(neighbor, out int existingG) && tentativeGScore >= existingG)
+                        {
+                            continue;
+                        }
+
+                        cameFrom[neighbor] = current;
+                        gScore[neighbor] = tentativeGScore;
+                        fScore[neighbor] = tentativeGScore + ManhattanDistance(neighbor, targetCenter);
+                    }
                 }
             }
 
@@ -236,16 +352,44 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             }
             path.Add(pathCell); // Add start cell
 
-            // Path is from structure to pad, reverse if needed
-            // Actually we want pad-to-structure direction for placing, which this already is
             path.Reverse();
-
             return path;
         }
 
         /// <summary>
+        /// Manhattan distance heuristic for A* - sum of absolute differences in x and z.
+        /// Admissible for grid movement (never overestimates).
+        /// </summary>
+        private static int ManhattanDistance(IntVec3 a, IntVec3 b)
+        {
+            return System.Math.Abs(a.x - b.x) + System.Math.Abs(a.z - b.z);
+        }
+
+        /// <summary>
+        /// Finds the cell with the lowest fScore in the open set.
+        /// Simple O(n) scan - suitable for the expected set sizes.
+        /// </summary>
+        private static IntVec3 GetLowestFScore(HashSet<IntVec3> openSet, Dictionary<IntVec3, int> fScore)
+        {
+            IntVec3 best = default;
+            int bestScore = int.MaxValue;
+
+            foreach (IntVec3 cell in openSet)
+            {
+                int score = fScore.TryGetValue(cell, out int f) ? f : int.MaxValue;
+                if (score < bestScore)
+                {
+                    bestScore = score;
+                    best = cell;
+                }
+            }
+
+            return best;
+        }
+
+        /// <summary>
         /// Checks if a cell is adjacent to a specific wall ThingDef.
-        /// Used to detect actual structure edges by looking for the specific wall type.
+        /// Used to detect the actual settlement perimeter wall (OrbitalAncientFortifiedWall).
         /// </summary>
         private static bool IsAdjacentToWallDef(Map map, IntVec3 cell, ThingDef wallDef)
         {
@@ -261,6 +405,27 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
                     {
                         return true;
                     }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if a cell is adjacent to an impassable edifice (wall, door, etc.).
+        /// Used as a fallback when the specific wall type isn't found.
+        /// </summary>
+        private static bool IsAdjacentToImpassableEdifice(Map map, IntVec3 cell)
+        {
+            foreach (IntVec3 neighbor in CardinalNeighbors(cell))
+            {
+                if (!neighbor.InBounds(map))
+                    continue;
+
+                // Check if neighbor cell contains an impassable edifice
+                Building edifice = neighbor.GetEdifice(map);
+                if (edifice != null && edifice.def.passability == Traversability.Impassable)
+                {
+                    return true;
                 }
             }
             return false;

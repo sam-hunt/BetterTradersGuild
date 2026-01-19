@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Relock Job Definition
+
+    BTG_Relock: Pawn job to relock a cargo vault hatch.
+    Similar to vanilla's Seal job but allows the hatch to be hacked again later.
+
+    When complete:
+    1. Items in pocket map are returned to settlement inventory
+    2. Pocket map is destroyed
+    3. CompHackable state is reset (can be hacked again)
+  -->
+
+  <JobDef>
+    <defName>BTG_Relock</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_Relock</driverClass>
+    <reportString>relocking cargo vault hatch.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>
