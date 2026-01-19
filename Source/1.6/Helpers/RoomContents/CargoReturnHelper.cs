@@ -23,13 +23,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             if (pocketMap == null)
                 return;
 
-            // Navigate to parent settlement
-            Settlement settlement = CargoVaultHelper.GetParentSettlement(pocketMap);
-
-            // Get stock (may be null if settlement is gone)
-            ThingOwner<Thing> stock = settlement != null
-                ? CargoVaultHelper.GetStock(settlement)
-                : null;
+            // Get stock (handles fallback to cached stock if settlement defeated)
+            // Returns null only if settlement is gone AND no cache exists
+            ThingOwner<Thing> stock = CargoVaultHelper.GetStock(pocketMap);
 
             // Collect all eligible items and pawns from the pocket map
             List<Thing> itemsToReturn = CollectEligibleItems(pocketMap);

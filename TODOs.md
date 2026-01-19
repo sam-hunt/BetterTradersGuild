@@ -10,8 +10,6 @@ grep codebase for TODO comments
   increase reinforcement/pirate raid event chance?
   confirm space_btg tile handling/compatibility?
 
-- Shuttle bay
-
 - settlement platform
   verify landing pad pipe extender pathing
 
@@ -19,15 +17,13 @@ grep codebase for TODO comments
   pawn entering the vault is a hostile action and sets goodwill to -100
   test reentering the map after aborted assault
   test reentering the map after successful assault
+  test entering the cargo hold 1+ day after defeat
   test reentering the map after trade inventory refresh
   test freeze trader type while map is active
 
 - Mod integration
   VGE Faux plants
   Knick knacks mod integration
-  end tables
-  2x1 tables
-  dressers ?
   VREA Android maintenance
   mod option for trader ships shuttles texture
 
@@ -37,3 +33,4 @@ grep codebase for TODO comments
 - language data for text strings?
 - test that mods work _without_ all dlc/mods we integrate with
 - confirm mod settings copy text
+- confirm mod id name/namespace

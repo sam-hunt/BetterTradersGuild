@@ -64,8 +64,8 @@ namespace BetterTradersGuild.MapGeneration
         public override void Generate(Map map, GenStepParams parms)
         {
             // Get settlement ID for deterministic seeding
-            Settlement settlement = CargoVaultHelper.GetParentSettlement(map);
-            int settlementSeed = settlement?.ID ?? map.Tile;
+            // Uses fallback to cached ID if settlement was defeated
+            int settlementSeed = CargoVaultHelper.GetSettlementId(map);
 
             // Push deterministic seed based on settlement ID and SeedPart
             Rand.PushState(Gen.HashCombineInt(settlementSeed, SeedPart));

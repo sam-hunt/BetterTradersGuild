@@ -1,4 +1,5 @@
 using System.Reflection;
+using BetterTradersGuild.MapComponents;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -132,6 +133,73 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             ThingOwner<Thing> stock = GetStock(settlement.trader);
             Log.Message($"[BTG CargoVault] GetStock: Reflection returned {(stock != null ? $"{stock.Count} items" : "null")}");
             return stock;
+        }
+
+        /// <summary>
+        /// Gets the trade stock for a pocket map, with fallback to cached stock.
+        /// Handles the case where the parent settlement has been defeated.
+        /// </summary>
+        /// <param name="pocketMap">The pocket map (cargo vault)</param>
+        /// <returns>The stock ThingOwner, or null if not available</returns>
+        /// <remarks>
+        /// Access pattern:
+        /// 1. Try normal path first (settlement still exists)
+        /// 2. Fallback: get cached stock from settlement map (settlement was defeated)
+        ///
+        /// The settlement map survives defeat (just gets a new DestroyedSettlement parent),
+        /// so the SettlementStockCache MapComponent persists with the preserved inventory.
+        /// </remarks>
+        public static ThingOwner<Thing> GetStock(Map pocketMap)
+        {
+            // Try normal path first (settlement still exists)
+            Settlement settlement = GetParentSettlement(pocketMap);
+            if (settlement?.trader != null)
+            {
+                var stock = GetStock(settlement);
+                if (stock != null)
+                    return stock;
+            }
+
+            // Fallback: get cached stock from settlement map (settlement was defeated)
+            Map settlementMap = GetSettlementMap(pocketMap);
+            if (settlementMap != null)
+            {
+                var cache = settlementMap.GetComponent<SettlementStockCache>();
+                if (cache?.preservedStock != null && cache.preservedStock.Count > 0)
+                {
+                    Log.Message($"[BTG CargoVault] Using preserved stock ({cache.preservedStock.Count} items) from defeated settlement");
+                    return cache.preservedStock;
+                }
+            }
+
+            Log.Warning("[BTG CargoVault] No stock available (settlement defeated and no cache)");
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the original settlement ID for deterministic seeding.
+        /// Handles the case where the parent settlement has been defeated.
+        /// </summary>
+        /// <param name="pocketMap">The pocket map (cargo vault)</param>
+        /// <returns>The settlement ID, or map.Tile as fallback</returns>
+        public static int GetSettlementId(Map pocketMap)
+        {
+            // Try normal path first (settlement still exists)
+            Settlement settlement = GetParentSettlement(pocketMap);
+            if (settlement != null)
+                return settlement.ID;
+
+            // Fallback: get ID from cache (settlement was defeated)
+            Map settlementMap = GetSettlementMap(pocketMap);
+            if (settlementMap != null)
+            {
+                var cache = settlementMap.GetComponent<SettlementStockCache>();
+                if (cache != null && cache.originalSettlementId != 0)
+                    return cache.originalSettlementId;
+            }
+
+            // Last resort: use map tile
+            return pocketMap?.Tile ?? 0;
         }
     }
 }

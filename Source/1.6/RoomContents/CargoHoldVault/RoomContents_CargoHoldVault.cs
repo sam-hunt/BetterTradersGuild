@@ -62,18 +62,20 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 Log.Warning("[BTG CargoVault] Failed to spawn exit subroom");
             }
 
-            // Navigate to parent settlement
+            // Navigate to parent settlement (may be null if defeated)
             Log.Message($"[BTG CargoVault] Map.Parent type: {map.Parent?.GetType().Name ?? "null"}");
             Settlement settlement = CargoVaultHelper.GetParentSettlement(map);
-            if (settlement == null)
+            if (settlement != null)
             {
-                Log.Message("[BTG CargoVault] No parent settlement found, exiting");
-                return;
+                Log.Message($"[BTG CargoVault] Found settlement: {settlement.Label}");
             }
-            Log.Message($"[BTG CargoVault] Found settlement: {settlement.Label}");
+            else
+            {
+                Log.Message("[BTG CargoVault] No parent settlement (may be defeated), checking for cached stock");
+            }
 
-            // Get trade stock
-            ThingOwner<Thing> stock = CargoVaultHelper.GetStock(settlement);
+            // Get trade stock (handles fallback to cached stock if settlement defeated)
+            ThingOwner<Thing> stock = CargoVaultHelper.GetStock(map);
             if (stock == null)
             {
                 Log.Message("[BTG CargoVault] Stock is null, exiting");
@@ -101,7 +103,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             Log.Message($"[BTG CargoVault] Categorized: {items.Count} items, {pawns.Count} pawns");
 
             // Get settlement ID for deterministic shelf placement
-            int settlementID = settlement.ID;
+            // Uses fallback to cached ID if settlement was defeated
+            int settlementID = CargoVaultHelper.GetSettlementId(map);
 
             // Track items that couldn't be spawned to return to trade inventory
             var unspawnedItems = new List<Thing>();
