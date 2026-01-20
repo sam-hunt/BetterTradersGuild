@@ -3,7 +3,9 @@
   <!--
     Better Traders Guild - Workshop
 
-    Crafting and repair facility.
+    Crafting and repair facility for an orbital trading station.
+    Features workbenches, material storage, safety equipment, and
+    the industrial debris of an active manufacturing space.
   -->
 
   <LayoutRoomDef>
@@ -16,7 +18,7 @@
     </floorTypes>
 
     <prefabs>
-      <!-- Workbenches -->
+      <!-- === Primary Workbenches === -->
       <BTG_TableMachining_Edge>
         <countPerTenEdgeCells>4</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
@@ -27,7 +29,7 @@
         <minMaxRange>1~1</minMaxRange>
       </BTG_FabricationBench_Edge>
 
-      <!-- Freestanding fabrication bench -->
+      <!-- Freestanding fabrication bench for larger rooms -->
       <BTG_FabricationBench>
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
@@ -38,23 +40,83 @@
         <minMaxRange>0~1</minMaxRange>
       </BTG_ElectricSmelter_Edge>
 
-      <!-- Tool storage -->
+      <!-- === Tool Storage === -->
       <BTG_ToolCabinets>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
       </BTG_ToolCabinets>
 
-      <!-- Tool and material storage -->
       <IndustrialShelf_Edge>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
       </IndustrialShelf_Edge>
+
+      <!-- === Raw Materials === -->
+      <!-- Steel slag/scrap pallet for smelting operations -->
+      <AncientSteelPallet>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientSteelPallet>
+
+      <!-- Components for fabrication work -->
+      <AncientCratesWithComponents>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientCratesWithComponents>
+
+      <!-- Chemfuel barrels for smelter fuel -->
+      <AncientChembarrelPallet_Cluster>
+        <countPerHundredCells>0.5</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientChembarrelPallet_Cluster>
+
+      <!-- === Worker Support === -->
+      <!-- Lockers for protective gear and personal items -->
+      <AncientLockerBank_Row>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </AncientLockerBank_Row>
+
+      <!-- Mech recharging station for Fabricor helpers -->
+      <BTG_BasicRecharger_Edge MayRequire="Ludeon.RimWorld.Biotech">
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_BasicRecharger_Edge>
+
+      <!-- === Safety Equipment === -->
+      <!-- Fire suppression for smelter operations -->
+      <FirefoamPopper>
+        <countPerHundredCells>1</countPerHundredCells>
+        <minMaxRange>1~2</minMaxRange>
+      </FirefoamPopper>
     </prefabs>
 
+    <scatter>
+      <!-- Oil from machinery lubrication and maintenance -->
+      <Filth_OilSmear>
+        <groupsPerHundredCells>2~3</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>1</minGroups>
+      </Filth_OilSmear>
+
+      <!-- Tracked-in grime from heavy industrial work -->
+      <Filth_Dirt>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Dirt>
+    </scatter>
+
     <parts>
+      <!-- Low security presence - workers are trusted -->
       <WaspDrone>0.1</WaspDrone>
-      <CornerArmoredTurret>0.15</CornerArmoredTurret>
-      <!-- Fabrication mech - thematic for crafting/repair workshop -->
+
+      <!-- Decoration - some greenery softens the industrial space -->
+      <BTG_PlantPot_Corner>
+        <countRange>0~2</countRange>
+      </BTG_PlantPot_Corner>
+
+      <!-- Fabricor mech - primary crafting assistant -->
       <BTG_Mech_Fabricor MayRequire="Ludeon.RimWorld.Biotech">0.85</BTG_Mech_Fabricor>
     </parts>
   </LayoutRoomDef>

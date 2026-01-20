@@ -7,7 +7,6 @@ grep codebase for TODO comments
 
 - World
   increase reinforcement/pirate raid event chance?
-  confirm space_btg tile handling/compatibility?
 
 - Crew quarters
   rhs south rotation waste fillers 1xZ instead of 2xZ ?
