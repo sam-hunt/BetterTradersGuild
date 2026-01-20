@@ -22,69 +22,15 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             var selected = new List<Thing>();
 
             if (stock == null || stock.Count == 0)
-            {
-                Log.Message($"[BTG DEBUG] SelectCargo: Stock is {(stock == null ? "null" : "empty")}, returning empty list");
                 return selected;
-            }
-
-            // Log initial stock state, especially pawns
-            int initialPawnCount = stock.OfType<Pawn>().Count();
-            Log.Message($"[BTG DEBUG] SelectCargo: Starting with {stock.Count} items in stock ({initialPawnCount} pawns)");
-            foreach (Pawn p in stock.OfType<Pawn>())
-            {
-                Log.Message($"[BTG DEBUG] SelectCargo: Found pawn in stock: '{p.LabelShort}' (ThingID: {p.ThingID}, Faction: {p.Faction?.Name ?? "null"})");
-                Log.Message($"[BTG DEBUG]   - IsWorldPawn: {Find.WorldPawns.Contains(p)}, Destroyed: {p.Destroyed}, Discarded: {p.Discarded}");
-            }
 
             // Take ALL items from stock (simple transfer)
             // Iterate over copy since we're modifying the collection
             foreach (Thing item in stock.ToList())
             {
-                bool isPawn = item is Pawn;
-                bool isMinified = item is MinifiedThing;
-
-                if (isPawn)
-                {
-                    Pawn pawn = item as Pawn;
-                    Log.Message($"[BTG DEBUG] SelectCargo: Processing PAWN '{pawn.LabelShort}' (ThingID: {pawn.ThingID})");
-                    Log.Message($"[BTG DEBUG]   - Before SplitOff: stackCount={item.stackCount}, holdingOwner={item.holdingOwner?.GetType().Name ?? "null"}");
-                }
-
-                // Check MinifiedThing BEFORE SplitOff to see if corruption exists in stock
-                if (isMinified)
-                {
-                    MinifiedThing minifiedBefore = item as MinifiedThing;
-                    string innerDefBefore = minifiedBefore.InnerThing?.def?.defName ?? "NULL";
-                    string innerSource = minifiedBefore.InnerThing?.def?.modContentPack?.Name ?? "Unknown";
-                    Log.Message($"[BTG DEBUG] SelectCargo: Processing MinifiedThing '{item.ThingID}' - InnerThing BEFORE SplitOff: {innerDefBefore} (from: {innerSource})");
-                }
-
                 Thing taken = item.SplitOff(item.stackCount);
-
-                if (isPawn)
-                {
-                    Pawn takenPawn = taken as Pawn;
-                    Log.Message($"[BTG DEBUG]   - After SplitOff: taken={taken?.LabelShort ?? "null"}, same object={ReferenceEquals(item, taken)}");
-                    Log.Message($"[BTG DEBUG]   - Taken pawn state: Destroyed={takenPawn?.Destroyed}, Discarded={takenPawn?.Discarded}, holdingOwner={takenPawn?.holdingOwner?.GetType().Name ?? "null"}");
-                }
-
-                // Check MinifiedThing AFTER SplitOff to see if SplitOff causes corruption
-                if (isMinified)
-                {
-                    MinifiedThing minifiedAfter = taken as MinifiedThing;
-                    string innerDefAfter = minifiedAfter?.InnerThing?.def?.defName ?? "NULL";
-                    string innerSourceAfter = minifiedAfter?.InnerThing?.def?.modContentPack?.Name ?? "Unknown";
-                    bool sameObject = ReferenceEquals(item, taken);
-                    Log.Message($"[BTG DEBUG]   - After SplitOff: InnerThing={innerDefAfter} (from: {innerSourceAfter}), sameObject={sameObject}");
-                }
-
                 selected.Add(taken);
             }
-
-            // Log final state
-            int finalPawnCount = selected.OfType<Pawn>().Count();
-            Log.Message($"[BTG DEBUG] SelectCargo: Transferred {selected.Count} items from stock ({finalPawnCount} pawns)");
-            Log.Message($"[BTG DEBUG] SelectCargo: Stock now has {stock.Count} items remaining");
 
             return selected;
         }
@@ -105,15 +51,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             items = new List<Thing>();
             pawns = new List<Pawn>();
 
-            Log.Message($"[BTG DEBUG] CategorizeItems: Processing {cargo.Count} cargo items");
-
             foreach (Thing thing in cargo)
             {
                 if (thing is Pawn pawn)
                 {
-                    Log.Message($"[BTG DEBUG] CategorizeItems: Found PAWN '{pawn.LabelShort}' (ThingID: {pawn.ThingID})");
-                    Log.Message($"[BTG DEBUG]   - Faction: {pawn.Faction?.Name ?? "null"}, IsWorldPawn: {Find.WorldPawns.Contains(pawn)}");
-                    Log.Message($"[BTG DEBUG]   - Destroyed: {pawn.Destroyed}, Discarded: {pawn.Discarded}, Spawned: {pawn.Spawned}");
                     pawns.Add(pawn);
                 }
                 else if (thing is MinifiedThing minified)
@@ -139,7 +80,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                         minified.Destroy(DestroyMode.Vanish);
                         continue;
                     }
-                    Log.Message($"[BTG DEBUG] CategorizeItems: MinifiedThing '{minified.Label}' contains {minified.InnerThing.def?.defName ?? "null"} (from: {minified.InnerThing.def?.modContentPack?.Name ?? "Unknown"})");
                     items.Add(thing);
                 }
                 else
@@ -147,8 +87,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     items.Add(thing);
                 }
             }
-
-            Log.Message($"[BTG DEBUG] CategorizeItems: Result - {items.Count} items, {pawns.Count} pawns");
         }
     }
 }

@@ -72,28 +72,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
         {
             var pawns = new List<Pawn>();
 
-            Log.Message($"[BTG DEBUG] CollectEligiblePawns: Scanning {map.mapPawns.AllPawnsSpawnedCount} pawns on map");
-
             foreach (Pawn pawn in map.mapPawns.AllPawns)
             {
-                string kindDefName = pawn.kindDef?.defName ?? "null";
                 bool isWaspDrone = PawnKinds.Drone_Wasp != null && pawn.kindDef == PawnKinds.Drone_Wasp;
-
-                Log.Message($"[BTG DEBUG] CollectEligiblePawns: Checking pawn '{pawn.LabelShort}' - Kind: {kindDefName}, IsWaspDrone: {isWaspDrone}");
 
                 // Skip wasp drones (vault defense units - they remain part of the vault infrastructure)
                 // All other pawns are captured and transferred to the settlement's trade inventory
                 if (isWaspDrone)
-                {
-                    Log.Message($"[BTG DEBUG] CollectEligiblePawns: SKIPPING '{pawn.LabelShort}' - Wasp drone (vault defense)");
                     continue;
-                }
 
-                Log.Message($"[BTG DEBUG] CollectEligiblePawns: COLLECTING '{pawn.LabelShort}' for return to stock (captured)");
                 pawns.Add(pawn);
             }
-
-            Log.Message($"[BTG DEBUG] CollectEligiblePawns: Collected {pawns.Count} pawns total");
             return pawns;
         }
 
@@ -142,54 +131,24 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             foreach (Pawn pawn in pawns)
             {
-                Log.Message($"[BTG DEBUG] ReturnPawnsToStock: Processing pawn '{pawn.LabelShort}' (ThingID: {pawn.ThingID})");
-                Log.Message($"[BTG DEBUG]   - Spawned: {pawn.Spawned}, Destroyed: {pawn.Destroyed}, Discarded: {pawn.Discarded}");
-                Log.Message($"[BTG DEBUG]   - IsWorldPawn before: {Find.WorldPawns.Contains(pawn)}");
-
                 // Despawn from map
                 if (pawn.Spawned)
-                {
-                    Log.Message($"[BTG DEBUG]   - Despawning from map...");
                     pawn.DeSpawn(DestroyMode.Vanish);
-                    Log.Message($"[BTG DEBUG]   - After despawn - Spawned: {pawn.Spawned}, Destroyed: {pawn.Destroyed}");
-                }
 
                 if (stock != null)
                 {
                     // Register as world pawn BEFORE adding to stock.
                     // KeepForever ensures the pawn persists (not garbage collected)
                     // since it's actively in trade inventory and could be purchased.
-                    Log.Message($"[BTG DEBUG]   - Registering as world pawn (KeepForever)...");
                     Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.KeepForever);
-                    Log.Message($"[BTG DEBUG]   - IsWorldPawn after PassToWorld: {Find.WorldPawns.Contains(pawn)}");
 
                     // Return to stock
-                    Log.Message($"[BTG DEBUG]   - Adding to stock (current stock count: {stock.Count})...");
-                    bool addResult = stock.TryAdd(pawn, canMergeWithExistingStacks: false);
-                    Log.Message($"[BTG DEBUG]   - TryAdd result: {addResult}, new stock count: {stock.Count}");
-
-                    if (!addResult)
-                    {
-                        Log.Warning($"[BTG DEBUG] ReturnPawnsToStock: FAILED to add pawn '{pawn.LabelShort}' to stock!");
-                        Log.Warning($"[BTG DEBUG]   - Pawn state: Destroyed={pawn.Destroyed}, Discarded={pawn.Discarded}, holdingOwner={pawn.holdingOwner?.GetType().Name ?? "null"}");
-                    }
+                    stock.TryAdd(pawn, canMergeWithExistingStacks: false);
                 }
                 else
                 {
                     // Safety fallback: pass to world (never lose pawns)
-                    Log.Message($"[BTG DEBUG]   - Stock is null, passing to world with Decide mode");
                     Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
-                }
-            }
-
-            // Log final stock state for pawns
-            if (stock != null)
-            {
-                int pawnCount = stock.OfType<Pawn>().Count();
-                Log.Message($"[BTG DEBUG] ReturnPawnsToStock: Complete. Stock now has {pawnCount} pawns out of {stock.Count} total items");
-                foreach (Pawn p in stock.OfType<Pawn>())
-                {
-                    Log.Message($"[BTG DEBUG]   - Pawn in stock: '{p.LabelShort}' (ThingID: {p.ThingID})");
                 }
             }
         }

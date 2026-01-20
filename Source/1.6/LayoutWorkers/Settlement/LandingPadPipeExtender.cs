@@ -62,7 +62,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
                 List<IntVec3> path = FindTerrainPathToStructure(map, pad, structureRect);
                 if (path.Count > 0)
                 {
-                    PlacePipesAlongPath(map, path, structureRect, visiblePipeDefs, placedCells);
+                    PlacePipesAlongPath(map, path, visiblePipeDefs, placedCells);
                 }
             }
         }
@@ -433,12 +433,11 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
 
         /// <summary>
         /// Places visible VE pipes along a traced path for fluid refueling.
-        /// Skips cells inside structure rect (already have pipes from wall placement).
+        /// Continues placing until reaching an impassable edifice (the actual wall).
         /// </summary>
         private static int PlacePipesAlongPath(
             Map map,
             List<IntVec3> path,
-            CellRect structureRect,
             List<ThingDef> visiblePipeDefs,
             HashSet<IntVec3> placedCells)
         {
@@ -446,9 +445,10 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
 
             foreach (IntVec3 cell in path)
             {
-                // Skip cells inside structure (already have pipes from wall placement)
-                if (structureRect.Contains(cell))
-                    continue;
+                // Stop if this cell contains an impassable edifice (we've reached the wall)
+                Building edifice = cell.GetEdifice(map);
+                if (edifice != null && edifice.def.passability == Traversability.Impassable)
+                    break;
 
                 // Skip if we already placed here (multiple pads may share path sections)
                 if (!placedCells.Add(cell))

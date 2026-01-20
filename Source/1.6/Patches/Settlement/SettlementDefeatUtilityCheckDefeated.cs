@@ -58,8 +58,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             if (cache.preservedStock.Count > 0)
                 return;
 
-            // Get stock via reflection (same pattern as CargoVaultHelper)
-            ThingOwner<Thing> stock = CargoVaultHelper.GetStock(factionBase.trader);
+            // Get stock - uses Settlement overload which regenerates if needed.
+            // This handles the case where player defeats settlement without ever
+            // trading or entering the cargo vault (stock is lazily generated).
+            ThingOwner<Thing> stock = CargoVaultHelper.GetStock(factionBase);
             if (stock == null || stock.Count == 0)
                 return;
 

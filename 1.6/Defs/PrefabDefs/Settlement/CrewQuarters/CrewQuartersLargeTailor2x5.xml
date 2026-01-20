@@ -26,6 +26,7 @@
       <VFE_TableTailorLarge>
         <position>(1, 0, 2)</position>
         <relativeRotation>Counterclockwise</relativeRotation>
+        <stuff>Steel</stuff>
       </VFE_TableTailorLarge>
       <WallLamp>
         <position>(0, 0, 2)</position>
