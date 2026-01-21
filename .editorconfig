@@ -17,11 +17,13 @@ indent_size = 4
 tab_width = 4
 
 # Naming conventions - PascalCase for public members per project standards
+# Note: Fields are excluded because RimWorld convention uses camelCase for
+# serialized fields (Scribe_Values.Look) to match save file XML element names
 dotnet_naming_rule.public_members_must_be_capitalized.severity = warning
 dotnet_naming_rule.public_members_must_be_capitalized.symbols = public_symbols
 dotnet_naming_rule.public_members_must_be_capitalized.style = first_word_upper_case_style
 
-dotnet_naming_symbols.public_symbols.applicable_kinds = property,method,field,event,delegate
+dotnet_naming_symbols.public_symbols.applicable_kinds = property,method,event,delegate
 dotnet_naming_symbols.public_symbols.applicable_accessibilities = public,internal,protected,protected_internal
 
 dotnet_naming_style.first_word_upper_case_style.capitalization = pascal_case

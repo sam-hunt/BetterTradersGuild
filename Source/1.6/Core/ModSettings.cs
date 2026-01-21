@@ -79,6 +79,19 @@ namespace BetterTradersGuild
         /// </remarks>
         public float minimumThreatPoints = 2400f;
 
+        // ===== BALANCE ADJUSTMENTS =====
+
+        /// <summary>
+        /// LifeSupportUnit power output in watts
+        /// </summary>
+        /// <remarks>
+        /// Range: 0-5000W
+        /// Default: 1200W (balanced for connected power grids)
+        /// Vanilla: 3200W (designed for isolated rooms)
+        /// BTG connects buildings in a map-wide grid, so vanilla output would be excessive
+        /// </remarks>
+        public int lifeSupportUnitPowerOutput = 1200;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -88,6 +101,7 @@ namespace BetterTradersGuild
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.3f);
             Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 2400f);
+            Scribe_Values.Look(ref lifeSupportUnitPowerOutput, "lifeSupportUnitPowerOutput", 1200);
         }
     }
 
@@ -267,6 +281,41 @@ namespace BetterTradersGuild
             Text.Font = previousFont;
 
             UnityEngine.GUI.enabled = true;
+
+            listingStandard.Gap(24f);
+
+            // ========== SECTION: BALANCE ADJUSTMENTS ==========
+            Text.Font = GameFont.Medium;
+            listingStandard.Label("Balance Adjustments");
+            Text.Font = GameFont.Small;
+            listingStandard.Gap(12f);
+
+            // LifeSupportUnit power output slider
+            string powerLabel = $"LifeSupportUnit power output: {settings.lifeSupportUnitPowerOutput}W";
+
+            if (settings.lifeSupportUnitPowerOutput == 1200)
+            {
+                powerLabel += " (BTG Default)";
+            }
+            else if (settings.lifeSupportUnitPowerOutput == 3200)
+            {
+                powerLabel += " (Vanilla)";
+            }
+
+            listingStandard.Label(powerLabel);
+
+            // Slider with range 0-5000, step 100
+            float powerSliderValue = listingStandard.Slider(settings.lifeSupportUnitPowerOutput, 0f, 5000f);
+            settings.lifeSupportUnitPowerOutput = (int)(System.Math.Round(powerSliderValue / 100f) * 100f);
+
+            listingStandard.Gap(6f);
+
+            // Description text
+            Text.Font = GameFont.Tiny;
+            listingStandard.Label("Power produced by orbital LifeSupportUnits (Requires restart)");
+            listingStandard.Label("BTG connects settlement buildings to a shared power grid,");
+            listingStandard.Label("so vanilla's 3200W output provides excessive free power.");
+            Text.Font = previousFont;
 
             listingStandard.Gap(24f);
 
