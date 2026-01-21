@@ -11,7 +11,7 @@ namespace BetterTradersGuild.DefRefs
     [DefOf]
     public static class Things
     {
-        // === VANILLA/CORE ===
+        // === VANILLA/CORE/ODYSSEY ===
         public static ThingDef Steel;
         public static ThingDef Gold;
         public static ThingDef Silver;
@@ -23,6 +23,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef GoJuice;
         public static ThingDef Synthread;
         public static ThingDef Beer;
+        public static ThingDef Chocolate;
         public static ThingDef HiddenConduit;
         public static ThingDef Heater;
         public static ThingDef WallLamp;
@@ -34,7 +35,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef SculptureSmall;
         public static ThingDef AncientSafe;
         public static ThingDef AncientSealedCrate;
-        public static ThingDef MeditationSpot;
+        public static ThingDef AncientBox_ComponentIndustrial;
+        public static ThingDef AncientBox_ComponentSpacer;
         public static ThingDef Novel;
         public static ThingDef Table1x2c;
         public static ThingDef MealSurvivalPack;
@@ -51,13 +53,11 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef AnimalBed;
         public static ThingDef Kibble;
         public static ThingDef VacBarrier;
-        public static ThingDef Filth_GestationFluid;
         public static ThingDef Filth_Trash;
-        public static ThingDef Filth_MoldyUniform;
+        public static ThingDef Filth_MoldyUniform;      // TODO: Confirm this is core? ideo?
         public static ThingDef Gun_ChargeRifle;
         public static ThingDef Gun_ChargeLance;
         public static ThingDef Apparel_ShieldBelt;
-        public static ThingDef Apparel_Gunlink;
         public static ThingDef Apparel_PowerArmor;
         public static ThingDef Apparel_PowerArmorHelmet;
         public static ThingDef Shell_HighExplosive;
@@ -68,7 +68,6 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef SunLamp;
         public static ThingDef Ship_ComputerCore;
         public static ThingDef FirefoamPopper;
-        public static ThingDef Facility_VitalsCentre;
 
         // Turrets
         public static ThingDef AncientSecurityTurret;
@@ -94,6 +93,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Apparel_VacsuitHelmet;
         public static ThingDef Apparel_ArmorRecon;
         public static ThingDef Apparel_ArmorHelmetRecon;
+        public static ThingDef Apparel_SmokepopBelt;
 
         // === BTG CUSTOM BUILDINGS ===
         public static ThingDef BTG_CargoVaultHatch;
@@ -117,18 +117,22 @@ namespace BetterTradersGuild.DefRefs
         // === ROYALTY DLC ===
         [MayRequireRoyalty]
         public static ThingDef ShipLandingBeacon;
+        [MayRequireRoyalty]
+        public static ThingDef Apparel_Gunlink;
+        [MayRequireRoyalty]
+        public static ThingDef MeditationSpot;
 
         // === BIOTECH DLC ===
         [MayRequireBiotech]
         public static ThingDef Crib;
-
         [MayRequireBiotech]
         public static ThingDef BabyFood;
+        [MayRequireBiotech]
+        public static ThingDef Filth_GestationFluid;
 
         // === ANOMALY DLC ===
         [MayRequireAnomaly]
         public static ThingDef ScrapCubeSculpture;
-
         [MayRequireAnomaly]
         public static ThingDef GoldenCube;
 
@@ -139,62 +143,50 @@ namespace BetterTradersGuild.DefRefs
         // === VFE SPACER MODULE ===
         [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef Table_interactive_1x1c;
-
         [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef Table_interactive_2x2c;
-
         [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef VFES_AirPurifier;
-
         [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef VGE_VacBarrierQuintuple;
 
-        // === VE PIPE SYSTEM (shared by chemfuel/nutrient/etc) ===
-        [MayRequire("VanillaExpanded.VChemfuelE")]
-        public static ThingDef PS_ChemfuelTank;
+        // === VFE MEDICAL MODULE ===
+        [MayRequire("VanillaExpanded.VFEMedical")]
+        public static ThingDef Facility_VitalsCentre;
 
         // === VE CHEMFUEL ===
         [MayRequire("VanillaExpanded.VChemfuelE")]
+        public static ThingDef PS_ChemfuelTank;
+        [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_ChemfuelPipe;
-
         [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_UndergroundChemfuelPipe;
-
         [MayRequire("VanillaExpanded.VChemfuelE")]
         public static ThingDef VCHE_ChemfuelValve;
 
         // === VE NUTRIENT PASTE ===
         [MayRequire("VanillaExpanded.VNutrientE")]
         public static ThingDef VNPE_NutrientPastePipe;
-
         [MayRequire("VanillaExpanded.VNutrientE")]
         public static ThingDef VNPE_UndergroundNutrientPastePipe;
-
         [MayRequire("VanillaExpanded.VNutrientE")]
         public static ThingDef VNPE_NutrientPasteValve;
-
         [MayRequire("VanillaExpanded.VNutrientE")]
         public static ThingDef VNPE_NutrientPasteVat;
 
         // === VE GRAVSHIPS ===
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_OxygenPipe;
-
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_AstrofuelPipe;
-
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_HiddenOxygenPipe;
-
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_HiddenAstrofuelPipe;
-
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_OxygenValve;
-
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_AstrofuelValve;
-
         [MayRequire("VanillaExpanded.VGravships")]
         public static ThingDef VGE_SmallOxygenTank;
 

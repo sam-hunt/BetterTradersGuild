@@ -63,6 +63,10 @@
       <BTG_SmallSculpture>
         <countRange>0~2</countRange>
       </BTG_SmallSculpture>
+
+      <BTG_GrandSculpture>
+        <countRange>0~1</countRange>
+      </BTG_GrandSculpture>
     </prefabs>
 
     <parts>

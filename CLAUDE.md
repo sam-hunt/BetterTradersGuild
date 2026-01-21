@@ -223,7 +223,7 @@ BTG uses a declarative, XML-driven approach for custom map generation:
 | GenStep                    | Order | Purpose                                                      |
 | -------------------------- | ----- | ------------------------------------------------------------ |
 | `BTG_SettlementPlatform`   | 200   | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
-| `BTG_SpawnExitDefences`    | 210   | Spawn autocannons flanking perimeter exits                   |
+| `BTG_SpawnEntranceDefences`| 210   | Spawn autocannons flanking perimeter entrances               |
 | `BTG_ReplaceTerrain`       | 250   | Replace AncientTile → MetalTile                              |
 | `BTG_PaintTerrain`         | 255   | Paint terrain with BTG_OrbitalSteel color                    |
 | `BTG_ExtendLandingPadPipes`| 260   | Extend VE pipes to landing pads (graceful no-op if no VE)    |

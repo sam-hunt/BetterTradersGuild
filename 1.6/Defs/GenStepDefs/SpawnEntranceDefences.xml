@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    Better Traders Guild - Spawn Exit Defences GenStep
+    Better Traders Guild - Spawn Entrance Defences GenStep
 
-    Spawns 2x2 autocannon turrets flanking each perimeter exit door
+    Spawns 2x2 autocannon turrets flanking each perimeter entrance door
     of TradersGuild settlements. Provides defensive coverage for
     the settlement's external approaches.
 
@@ -19,8 +19,8 @@
   -->
 
   <GenStepDef>
-    <defName>BTG_SpawnExitDefences</defName>
+    <defName>BTG_SpawnEntranceDefences</defName>
     <order>210</order>
-    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnExitDefences" />
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnEntranceDefences" />
   </GenStepDef>
 </Defs>

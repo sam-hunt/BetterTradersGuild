@@ -27,7 +27,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
     /// - Exclusion zones around doors (3 cells for N/S, 2 cells for E/W)
     ///
     /// Subroom customization is handled by separate helper classes in the CrewQuarters/ subfolder:
-    /// - MeditationSpotCustomizer: Replaces meditation spots with various items/creatures
+    /// - FirefoamPopperCustomizer: Replaces firefoam popper markers with various items/creatures
     /// - ShelfCustomizer: Adds items to shelves and replaces empty shelves
     /// - TableCustomizer: Adds items to small tables
     /// </summary>
@@ -150,8 +150,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             base.FillRoom(map, room, faction, threatPoints);
 
             // 6. Customize subrooms with random items, furniture, and pawns
-            // Run customizers in order - meditation spots may add plant pots which get plants later
-            MeditationSpotCustomizer.Customize(map, subroomRects, faction);
+            // Run customizers in order - firefoam popper markers may add plant pots which get plants later
+            FirefoamPopperCustomizer.Customize(map, subroomRects, faction);
             ShelfCustomizer.CustomizeSmallShelves(map, subroomRects);
             ShelfCustomizer.CustomizeEmptyShelves(map, subroomRects, faction);
             TableCustomizer.Customize(map, subroomRects);

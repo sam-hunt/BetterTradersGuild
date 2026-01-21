@@ -21,7 +21,7 @@
     T = Table1x2c (steel desk, 1x2)
     P = PlantPot (steel)
     C = DiningChair (steel, facing west)
-    M = MeditationSpot
+    F = FirefoamPopper (customization marker)
     S = ShelfSmall (steel)
     B = DoubleBed (steel, facing south)
     N = EndTable (steel)
@@ -54,9 +54,9 @@
         </rects>
       </OrbitalAncientFortifiedWall>
 
-      <MeditationSpot>
+      <FirefoamPopper>
         <position>(3, 0, 2)</position>
-      </MeditationSpot>
+      </FirefoamPopper>
 
       <DiningChair>
         <position>(1, 0, 1)</position>

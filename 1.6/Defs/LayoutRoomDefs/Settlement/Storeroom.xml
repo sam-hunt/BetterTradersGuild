@@ -24,11 +24,6 @@
         <minMaxRange>0~1</minMaxRange>
       </BTG_SmallAstrofuelTank_Edge>
 
-      <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>0~1</minMaxRange>
-      </BTG_ChemfuelTank_Edge>
-
       <!-- Packaged survival meals for food storage -->
       <SurvivalMealPallet>
         <countPerHundredCells>0.5</countPerHundredCells>

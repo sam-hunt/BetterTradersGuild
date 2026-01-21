@@ -9,14 +9,14 @@ using Verse;
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
     /// <summary>
-    /// Handles customization of meditation spots in CrewQuarters subrooms.
-    /// Each meditation spot has various replacement/removal chances including
+    /// Handles customization of firefoam poppers used as markers in CrewQuarters subrooms.
+    /// Each marker has various replacement/removal chances including
     /// drones, mechs, shamblers, pets, furniture, and decorative items.
     /// </summary>
-    internal static class MeditationSpotCustomizer
+    internal static class FirefoamPopperCustomizer
     {
         /// <summary>
-        /// Weighted outcomes for meditation spot customization.
+        /// Weighted outcomes for firefoam popper customization.
         /// Lazily built to filter out DLC-gated outcomes when those DLCs aren't present.
         /// </summary>
         private static List<(float weight, Action<Thing, Map, Faction> action)> _outcomes;
@@ -26,47 +26,50 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Thing, Map, Faction> action)>
             {
-                (40f, (spot, map, faction) => spot.Destroy(DestroyMode.Vanish)),
-                (3f,  (spot, map, faction) => ReplaceWithTrap(spot, Things.HunterDroneTrap, map, faction)),
-                (3f,  (spot, map, faction) => ReplaceWithTrap(spot, Things.WaspDroneTrap, map, faction)),
-                (5f,  (spot, map, faction) => TrySpawnHeater(spot, map)),
-                (7f,  (spot, map, faction) => SpawnPetWithKibble(spot, map)),
-                (1f,  (spot, map, faction) => TrySpawnGameOfUr(spot, map)),
-                (2f,  (spot, map, faction) => TrySpawnHorseshoePin(spot, map)),
-                (4f,  (spot, map, faction) => TrySpawnPlantPot(spot, map)),
-                (33f, (spot, map, faction) => { }), // Keep as-is
-                (8f,  (spot, map, faction) => SpawnTrashPile(spot, map))
+                (40f, (marker, map, faction) => marker.Destroy(DestroyMode.Vanish)),
+                (3f,  (marker, map, faction) => ReplaceWithTrap(marker, Things.HunterDroneTrap, map, faction)),
+                (3f,  (marker, map, faction) => ReplaceWithTrap(marker, Things.WaspDroneTrap, map, faction)),
+                (5f,  (marker, map, faction) => TrySpawnHeater(marker, map)),
+                (7f,  (marker, map, faction) => SpawnPetWithKibble(marker, map)),
+                (1f,  (marker, map, faction) => TrySpawnGameOfUr(marker, map)),
+                (2f,  (marker, map, faction) => TrySpawnHorseshoePin(marker, map)),
+                (4f,  (marker, map, faction) => TrySpawnPlantPot(marker, map)),
+                (10f, (marker, map, faction) => { }), // Keep firefoam popper
+                (3f,  (marker, map, faction) => ReplaceWithPartySpot(marker, map)),
+                (8f,  (marker, map, faction) => SpawnTrashPile(marker, map))
             };
+
+            // Royalty - Meditation Spot
+            if (Things.MeditationSpot != null)
+                outcomes.Add((20f, (marker, map, faction) => ReplaceWithMeditationSpot(marker, map)));
 
             // Biotech DLC - Militor
             if (PawnKinds.Mech_Militor != null)
-                outcomes.Add((2f, (spot, map, faction) => SpawnMechAtPosition(spot, PawnKinds.Mech_Militor, map, faction)));
+                outcomes.Add((2f, (marker, map, faction) => SpawnMechAtPosition(marker, PawnKinds.Mech_Militor, map, faction)));
 
             // Anomaly DLC - Shambler
             if (PawnKinds.ShamblerSwarmer != null)
-                outcomes.Add((2f, (spot, map, faction) => SpawnShamblerAtPosition(spot, PawnKinds.ShamblerSwarmer, map)));
+                outcomes.Add((2f, (marker, map, faction) => SpawnShamblerAtPosition(marker, PawnKinds.ShamblerSwarmer, map)));
 
             // VFE Spacer - Interactive Table 1x1
             if (Things.Table_interactive_1x1c != null)
-                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, Things.Table_interactive_1x1c, Things.Steel, map)));
+                outcomes.Add((5f, (marker, map, faction) => CrewQuartersHelpers.ReplaceThingAt(marker, Things.Table_interactive_1x1c, Things.Steel, map)));
 
             // VFE Spacer - Air Purifier
             if (Things.VFES_AirPurifier != null)
-                outcomes.Add((5f, (spot, map, faction) => CrewQuartersHelpers.ReplaceThingAt(spot, Things.VFES_AirPurifier, null, map)));
+                outcomes.Add((5f, (marker, map, faction) => CrewQuartersHelpers.ReplaceThingAt(marker, Things.VFES_AirPurifier, null, map)));
 
             return outcomes;
         }
 
         /// <summary>
-        /// Finds and customizes meditation spots in subrooms.
-        /// Each spot has various replacement/removal chances.
+        /// Finds and customizes firefoam poppers (used as markers) in subrooms.
+        /// Each marker has various replacement/removal chances.
         /// </summary>
         internal static void Customize(Map map, List<CellRect> subroomRects, Faction faction)
         {
-            if (Things.MeditationSpot == null) return;
-
-            // Find all meditation spots in subroom areas
-            List<Thing> meditationSpots = new List<Thing>();
+            // Find all FirefoamPoppers in subroom areas (used as customization markers)
+            List<Thing> markers = new List<Thing>();
             foreach (CellRect subroomRect in subroomRects)
             {
                 foreach (IntVec3 cell in subroomRect)
@@ -74,62 +77,62 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     if (!cell.InBounds(map)) continue;
                     foreach (Thing thing in cell.GetThingList(map).ToList())
                     {
-                        if (thing.def == Things.MeditationSpot)
+                        if (thing.def == Things.FirefoamPopper)
                         {
-                            meditationSpots.Add(thing);
+                            markers.Add(thing);
                         }
                     }
                 }
             }
 
-            foreach (Thing spot in meditationSpots)
+            foreach (Thing marker in markers)
             {
                 var (_, action) = Outcomes.RandomElementByWeight(x => x.weight);
-                action(spot, map, faction);
+                action(marker, map, faction);
             }
         }
 
-        private static void TrySpawnHeater(Thing spot, Map map)
+        private static void TrySpawnHeater(Thing marker, Map map)
         {
             if (Things.Heater == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, Things.Heater, null, map);
+            CrewQuartersHelpers.ReplaceThingAt(marker, Things.Heater, null, map);
         }
 
-        private static void TrySpawnGameOfUr(Thing spot, Map map)
+        private static void TrySpawnGameOfUr(Thing marker, Map map)
         {
             if (Things.GameOfUrBoard == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, Things.GameOfUrBoard, Things.Steel, map);
+            CrewQuartersHelpers.ReplaceThingAt(marker, Things.GameOfUrBoard, Things.Steel, map);
         }
 
-        private static void TrySpawnHorseshoePin(Thing spot, Map map)
+        private static void TrySpawnHorseshoePin(Thing marker, Map map)
         {
             if (Things.HorseshoesPin == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, Things.HorseshoesPin, Things.Steel, map);
+            CrewQuartersHelpers.ReplaceThingAt(marker, Things.HorseshoesPin, Things.Steel, map);
         }
 
-        private static void TrySpawnPlantPot(Thing spot, Map map)
+        private static void TrySpawnPlantPot(Thing marker, Map map)
         {
             if (Things.PlantPot == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(spot, Things.PlantPot, Things.Steel, map);
+            CrewQuartersHelpers.ReplaceThingAt(marker, Things.PlantPot, Things.Steel, map);
         }
 
         /// <summary>
-        /// Replaces a meditation spot with a pile of trash filth.
-        /// Spawns moldy uniform and trash at the spot position, plus more trash at a nearby cell.
+        /// Replaces a marker with a pile of trash filth.
+        /// Spawns moldy uniform and trash at the marker position, plus more trash at a nearby cell.
         /// Also attempts to replace the nearest PlantPot with an AncientPlantPot.
         /// </summary>
-        private static void SpawnTrashPile(Thing spot, Map map)
+        private static void SpawnTrashPile(Thing marker, Map map)
         {
             if (Things.Filth_Trash == null) return;
 
-            IntVec3 pos = spot.Position;
-            spot.Destroy(DestroyMode.Vanish);
+            IntVec3 pos = marker.Position;
+            marker.Destroy(DestroyMode.Vanish);
 
-            // Spawn moldy uniform filth at the spot position
+            // Spawn moldy uniform filth at the marker position
             if (Things.Filth_MoldyUniform != null)
                 FilthMaker.TryMakeFilth(pos, map, Things.Filth_MoldyUniform, 1);
 
-            // Spawn 10 trash filth at the spot position
+            // Spawn 10 trash filth at the marker position
             FilthMaker.TryMakeFilth(pos, map, Things.Filth_Trash, 10);
 
             // Find first empty nearby cell and spawn 5 more trash there
@@ -179,12 +182,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Replaces a meditation spot with a dormant drone trap.
+        /// Replaces a marker with a dormant drone trap.
         /// </summary>
-        private static void ReplaceWithTrap(Thing spot, ThingDef trapDef, Map map, Faction faction)
+        private static void ReplaceWithTrap(Thing marker, ThingDef trapDef, Map map, Faction faction)
         {
-            IntVec3 pos = spot.Position;
-            spot.Destroy(DestroyMode.Vanish);
+            IntVec3 pos = marker.Position;
+            marker.Destroy(DestroyMode.Vanish);
 
             Thing trap = ThingMaker.MakeThing(trapDef);
             GenSpawn.Spawn(trap, pos, map);
@@ -192,12 +195,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Replaces a meditation spot with a mech pawn.
+        /// Replaces a marker with a mech pawn.
         /// </summary>
-        private static void SpawnMechAtPosition(Thing spot, PawnKindDef mechKind, Map map, Faction faction)
+        private static void SpawnMechAtPosition(Thing marker, PawnKindDef mechKind, Map map, Faction faction)
         {
-            IntVec3 pos = spot.Position;
-            spot.Destroy(DestroyMode.Vanish);
+            IntVec3 pos = marker.Position;
+            marker.Destroy(DestroyMode.Vanish);
 
             Pawn mech = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
                 kind: mechKind,
@@ -209,12 +212,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Replaces a meditation spot with a shambler (factionless).
+        /// Replaces a marker with a shambler (factionless).
         /// </summary>
-        private static void SpawnShamblerAtPosition(Thing spot, PawnKindDef shamblerKind, Map map)
+        private static void SpawnShamblerAtPosition(Thing marker, PawnKindDef shamblerKind, Map map)
         {
-            IntVec3 pos = spot.Position;
-            spot.Destroy(DestroyMode.Vanish);
+            IntVec3 pos = marker.Position;
+            marker.Destroy(DestroyMode.Vanish);
 
             Pawn shambler = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
                 kind: shamblerKind,
@@ -226,14 +229,14 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Replaces a meditation spot with an animal bed and spawns a pet.
+        /// Replaces a marker with an animal bed and spawns a pet.
         /// Adds kibble to the nearest reachable small shelf.
         /// </summary>
-        private static void SpawnPetWithKibble(Thing spot, Map map)
+        private static void SpawnPetWithKibble(Thing marker, Map map)
         {
-            IntVec3 pos = spot.Position;
-            Rot4 rot = spot.Rotation;
-            spot.Destroy(DestroyMode.Vanish);
+            IntVec3 pos = marker.Position;
+            Rot4 rot = marker.Rotation;
+            marker.Destroy(DestroyMode.Vanish);
 
             // Spawn animal bed
             if (Things.AnimalBed != null)
@@ -247,6 +250,26 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Add kibble to nearest small shelf
             RoomPetHelper.AddKibbleToNearestShelf(map, pos);
+        }
+
+        /// <summary>
+        /// Replaces marker with a meditation spot (Royalty DLC).
+        /// </summary>
+        private static void ReplaceWithMeditationSpot(Thing marker, Map map)
+        {
+            CrewQuartersHelpers.ReplaceThingAt(marker, Things.MeditationSpot, null, map);
+        }
+
+        /// <summary>
+        /// Replaces marker with a party spot.
+        /// </summary>
+        private static void ReplaceWithPartySpot(Thing marker, Map map)
+        {
+            IntVec3 pos = marker.Position;
+            marker.Destroy(DestroyMode.Vanish);
+
+            Thing partySpot = ThingMaker.MakeThing(ThingDefOf.PartySpot);
+            GenSpawn.Spawn(partySpot, pos, map);
         }
     }
 }

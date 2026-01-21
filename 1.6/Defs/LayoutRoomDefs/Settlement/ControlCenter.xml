@@ -44,10 +44,31 @@
         <minMaxRange>2~4</minMaxRange>
       </AncientSecurityTerminal>
 
+      <!-- Destroyed consoles (lower priority decorative clutter) -->
+      <AncientDestroyedConsole_VerySmall>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~2</minMaxRange>
+      </AncientDestroyedConsole_VerySmall>
+
+      <AncientDestroyedConsole_Small>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientDestroyedConsole_Small>
+
+      <AncientDestroyedConsole_Large>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientDestroyedConsole_Large>
+
+      <AncientDestroyedConsole_Cluster>
+        <countPerHundredCells>0.5</countPerHundredCells>
+        <minMaxRange>0~1</minMaxRange>
+      </AncientDestroyedConsole_Cluster>
+
       <!-- Filing cabinets -->
       <AncientFilingCabinet_Edge>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
+        <minMaxRange>0~2</minMaxRange>
       </AncientFilingCabinet_Edge>
 
       <!-- Break area seating -->

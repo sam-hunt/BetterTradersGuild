@@ -2,6 +2,7 @@
 <Defs>
   <!--
     Better Traders Guild - Crew Quarters Comm Supplies Prefab
+    Communications console with emergency supply pallet for crew quarters.
 
     Features:
     - 2x5 prefab size
@@ -10,18 +11,16 @@
 
     Design (top view, North is up):
         x: 0 1
-    z=4:  [C] [C]     CommsConsole (3x2, defaultPlacingRot=South)
-    z=3:  [C] [C]     relativeRotation=Clockwise rotates South->East = 2x3
-    z=2:  [C] [C]     interactionCellOffset=(0,0,2) rotates to (+2,0,0) = East of console
-    z=1:  [pallet]    Pallet_SurvivalMeals (2x2)
-    z=0:  [pallet]
+    z=4:   C C   (CommsConsole top row)
+    z=3:   C C
+    z=2:   C C
+    z=1:   P P   (Pallet_SurvivalMeals)
+    z=0:   P P
 
     Legend:
-    C = CommsConsole (2x3 after rotation, bottom-left at x=0 z=2)
-    pallet = Pallet_SurvivalMeals (2x2)
-
-    Note: Interaction cell ends up 2 cells East (outside prefab), which is
-    acceptable for a filler prefab - the adjacent area should be walkable.
+    C = CommsConsole (3x2 defaultPlacingRot=South, rotated Clockwise = 2x3)
+        Interaction cell rotates to East (outside prefab, needs adjacent walkable area)
+    P = Pallet_SurvivalMeals (2x2)
   -->
 
   <PrefabDef>

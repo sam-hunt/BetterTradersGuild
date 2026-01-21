@@ -29,16 +29,18 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Building_Storage, Map, Faction> action)>
             {
+                (25f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
+                (20f, (shelf, map, faction) => ReplaceShelfWithSculpture(shelf, map)),
                 (20f, (shelf, map, faction) => ReplaceShelfWithBookcase(shelf, map)),
-                (5f,  (shelf, map, faction) => TryReplaceWithChessTable(shelf, map)),
+                (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.ChessTable, Things.Steel)),
+                (4f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSafe)),
+                (4f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSealedCrate)),
+                (7f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentIndustrial)),
+                (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentSpacer)),
                 (5f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeRifle_Unique)),
                 (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeLance_Unique)),
                 (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_BeamRepeater_Unique)),
-                (4f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_Revolver_Unique)),
-                (4f,  (shelf, map, faction) => TryReplaceWithAncientSafe(shelf, map)),
-                (4f,  (shelf, map, faction) => TryReplaceWithAncientCrate(shelf, map)),
-                (25f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
-                (20f, (shelf, map, faction) => ReplaceShelfWithSculpture(shelf, map))
+                (4f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_Revolver_Unique))
             };
 
             // Biotech DLC - Cribs/children
@@ -64,12 +66,11 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Gold, Rand.RangeInclusive(10, 50))),
             (20f,   (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Silver, Rand.RangeInclusive(15, 50))),
-            (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentIndustrial, Rand.RangeInclusive(1, 2))),
-            (3f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.ComponentSpacer, Rand.RangeInclusive(2, 4))),
             (4f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineIndustrial, Rand.RangeInclusive(2, 3))),
             (1.5f,  (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineUltratech, Rand.RangeInclusive(2, 3))),
             (5f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Beer, Rand.Bool ? 6 : 12)),
-            (59.5f, (map, shelf) => { }) // No item added
+            (5f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Chocolate, Rand.RangeInclusive(6, 12))),
+            (75f,   (map, shelf) => { })    // No item added
         };
 
         #endregion
@@ -213,30 +214,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
-        /// Replaces a shelf with a steel chess table.
+        /// Generic shelf replacement helper. Replaces a shelf with the specified thing.
         /// </summary>
-        private static void TryReplaceWithChessTable(Building_Storage shelf, Map map)
+        private static void TryReplaceShelfWith(Building_Storage shelf, Map map, ThingDef replacementDef, ThingDef stuffDef = null)
         {
-            if (Things.ChessTable == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(shelf, Things.ChessTable, Things.Steel, map);
-        }
-
-        /// <summary>
-        /// Replaces a shelf with an ancient safe.
-        /// </summary>
-        private static void TryReplaceWithAncientSafe(Building_Storage shelf, Map map)
-        {
-            if (Things.AncientSafe == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(shelf, Things.AncientSafe, null, map);
-        }
-
-        /// <summary>
-        /// Replaces a shelf with an ancient sealed crate.
-        /// </summary>
-        private static void TryReplaceWithAncientCrate(Building_Storage shelf, Map map)
-        {
-            if (Things.AncientSealedCrate == null) return;
-            CrewQuartersHelpers.ReplaceThingAt(shelf, Things.AncientSealedCrate, null, map);
+            if (replacementDef == null) return;
+            CrewQuartersHelpers.ReplaceThingAt(shelf, replacementDef, stuffDef, map);
         }
 
         /// <summary>

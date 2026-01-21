@@ -19,7 +19,7 @@
     . = empty space
   -->
 
-  <PrefabDef>
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_KidBeds_Edge</defName>
     <size>(3,2)</size>
     <edgeOnly>true</edgeOnly>

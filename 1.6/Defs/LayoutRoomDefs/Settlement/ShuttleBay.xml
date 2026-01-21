@@ -30,6 +30,18 @@
     <minSingleRectHeight>15</minSingleRectHeight>
 
     <prefabs>
+      <!-- Chemfuel tank if VE Chemfuel Expanded is enabled -->
+      <BTG_ChemfuelTank_Edge MayRequire="VanillaExpanded.VChemfuelE">
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_ChemfuelTank_Edge>
+
+      <!-- Comms console for coordinating shuttle traffic -->
+      <BTG_CommsConsole_Edge>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>0~1</minMaxRange>
+      </BTG_CommsConsole_Edge>
+
       <!-- Broken forklift for industrial atmosphere -->
       <AncientForklift>
         <countPerHundredCells>1</countPerHundredCells>
@@ -56,7 +68,7 @@
     -->
     <wallAttachments>
       <LifeSupportUnit>
-        <countRange>4~4</countRange>
+        <countRange>6~6</countRange>
       </LifeSupportUnit>
     </wallAttachments>
   </LayoutRoomDef>

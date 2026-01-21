@@ -21,7 +21,7 @@
     B = DoubleBed (steel, facing south)
     S = ShelfSmall (steel)
     R = Dresser (steel)
-    M = MeditationSpot
+    F = FirefoamPopper (customization marker)
     L = WallLamp (not shown, attaches to south wall)
     . = empty space
   -->
@@ -44,9 +44,9 @@
         <quality>Good</quality>
       </Dresser>
 
-      <MeditationSpot>
+      <FirefoamPopper>
         <position>(2, 0, 2)</position>
-      </MeditationSpot>
+      </FirefoamPopper>
 
       <HiddenConduit>
         <position>(2, 0, 0)</position>

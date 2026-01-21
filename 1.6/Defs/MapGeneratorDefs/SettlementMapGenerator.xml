@@ -26,7 +26,7 @@
       <li>BTG_SettlementPlatform</li>       <!-- order 200 -->
 
       <!-- Static post-processing once main platform generation has completed -->
-      <li>BTG_SpawnExitDefences</li>        <!-- order 210 -->
+      <li>BTG_SpawnEntranceDefences</li>     <!-- order 210 -->
       <li>BTG_ReplaceTerrain</li>           <!-- order 250 -->
       <li>BTG_PaintTerrain</li>             <!-- order 255 -->
       <li>BTG_ExtendLandingPadPipes</li>    <!-- order 260 -->

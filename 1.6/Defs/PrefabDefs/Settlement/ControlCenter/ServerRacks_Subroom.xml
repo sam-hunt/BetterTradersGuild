@@ -49,6 +49,7 @@
         <position>(3, 0, 4)</position>
       </Ship_ComputerCore>
       <AncientSpacerCrate>
+        <chance>0.5</chance>
         <rects>
           <li>(1,1,1,1)</li>
           <li>(3,3,3,3)</li>
@@ -81,9 +82,6 @@
       <AncientBlastDoor>
         <position>(2, 0, 0)</position>
       </AncientBlastDoor>
-      <AncientBox_ComponentSpacer>
-        <position>(1, 0, 3)</position>
-      </AncientBox_ComponentSpacer>
       <OrbitalAncientFortifiedWall>
         <rects>
           <li>(0,0,0,0)</li>
@@ -92,8 +90,13 @@
         </rects>
       </OrbitalAncientFortifiedWall>
       <AncientBox_ComponentIndustrial>
+        <chance>0.5</chance>
         <position>(3, 0, 1)</position>
       </AncientBox_ComponentIndustrial>
+      <AncientBox_ComponentSpacer>
+        <chance>0.5</chance>
+        <position>(1, 0, 3)</position>
+      </AncientBox_ComponentSpacer>
     </things>
   </PrefabDef>
 </Defs>

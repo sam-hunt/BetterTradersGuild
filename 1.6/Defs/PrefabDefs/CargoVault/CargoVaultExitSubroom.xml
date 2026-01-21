@@ -117,6 +117,14 @@
         </rects>
         <stuff>Steel</stuff>
       </Wall>
+      <OrbitalTradeBeacon>
+        <rects>
+          <li>(0,0,0,0)</li>
+          <li>(8,0,8,0)</li>
+          <li>(0,8,0,8)</li>
+          <li>(8,8,8,8)</li>
+        </rects>
+      </OrbitalTradeBeacon>
     </things>
 
   </PrefabDef>

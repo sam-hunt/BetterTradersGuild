@@ -23,7 +23,7 @@
     <size>(3,1)</size>
     <things>
       <DrugLab>
-        <position>(0, 0, 0)</position>
+        <position>(1, 0, 0)</position>
         <relativeRotation>Opposite</relativeRotation>
         <stuff>Steel</stuff>
       </DrugLab>

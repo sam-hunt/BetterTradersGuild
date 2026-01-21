@@ -2,7 +2,7 @@
 <Defs>
   <!--
     Better Traders Guild - Crew Quarters Mini Kitchen Prefab
-    Requires VFE Production for the kitchen sink cabinet.
+    Small kitchen unit with shelf storage and sink. Requires VFE Production.
 
     Features:
     - 1x4 prefab size
@@ -11,10 +11,10 @@
 
     Design (top view, North is up, all facing East):
         x: 0
-    z=3:  [K]  ← VFE_KitchenSinkCabinet (top)
-    z=2:  [K]
-    z=1:  [S]  ← Shelf with industrial medicine
-    z=0:  [S]  ← Shelf with survival meals
+    z=3:   K   (VFE_KitchenSinkCabinet top)
+    z=2:   K
+    z=1:   S   (shelf with industrial medicine)
+    z=0:   S   (shelf with survival meals)
 
     Legend:
     K = VFE_KitchenSinkCabinet (1x2 rotated East)

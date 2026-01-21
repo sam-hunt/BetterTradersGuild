@@ -11,7 +11,7 @@ namespace BetterTradersGuild.RoomContents.Armory
     /// Each shelf gets content from a randomly selected pool:
     /// - Mortar shells (25% antigrain, 75% random shells)
     /// - Charge rifles (Normal/Good/Excellent quality distribution)
-    /// - Shield belt + gunlink combo
+    /// - Utility items (smokepop belts + shield belts + gunlinks if Royalty)
     /// - Charge lances (Normal/Good/Excellent quality distribution)
     /// </summary>
     public static class ArmoryShelfFiller
@@ -20,7 +20,7 @@ namespace BetterTradersGuild.RoomContents.Armory
         {
             MortarShells,
             ChargeRifles,
-            ShieldBeltGunlink,
+            UtilityItems,
             ChargeLances
         }
 
@@ -55,8 +55,8 @@ namespace BetterTradersGuild.RoomContents.Armory
                 case ShelfContentPool.ChargeRifles:
                     FillWithWeapons(map, shelf, Things.Gun_ChargeRifle);
                     break;
-                case ShelfContentPool.ShieldBeltGunlink:
-                    FillWithShieldBeltGunlink(map, shelf);
+                case ShelfContentPool.UtilityItems:
+                    FillWithUtilityItems(map, shelf);
                     break;
                 case ShelfContentPool.ChargeLances:
                     FillWithWeapons(map, shelf, Things.Gun_ChargeLance);
@@ -204,13 +204,25 @@ namespace BetterTradersGuild.RoomContents.Armory
         }
 
         /// <summary>
-        /// Fills shelf with shield belt and gunlink combo.
-        /// 1-2 shield belts (Normal-Excellent quality)
-        /// 1-2 gunlinks (Normal-Excellent quality)
+        /// Fills shelf with utility items.
+        /// 1-2 smokepop belts (Normal-Excellent quality) - vanilla
+        /// 1-2 shield belts (Normal-Excellent quality) - vanilla
+        /// 1-2 gunlinks (Normal-Excellent quality) - Royalty DLC only
         /// </summary>
-        private static void FillWithShieldBeltGunlink(Map map, Building_Storage shelf)
+        private static void FillWithUtilityItems(Map map, Building_Storage shelf)
         {
-            // Shield belts
+            // Smokepop belts (vanilla)
+            if (Things.Apparel_SmokepopBelt != null)
+            {
+                int smokepopCount = Rand.RangeInclusive(1, 2);
+                for (int i = 0; i < smokepopCount; i++)
+                {
+                    QualityCategory quality = GetRandomQuality();
+                    SpawnApparelWithQuality(map, shelf, Things.Apparel_SmokepopBelt, quality);
+                }
+            }
+
+            // Shield belts (vanilla)
             if (Things.Apparel_ShieldBelt != null)
             {
                 int shieldCount = Rand.RangeInclusive(1, 2);
@@ -221,7 +233,7 @@ namespace BetterTradersGuild.RoomContents.Armory
                 }
             }
 
-            // Gunlinks
+            // Gunlinks (Royalty DLC)
             if (Things.Apparel_Gunlink != null)
             {
                 int gunlinkCount = Rand.RangeInclusive(1, 2);

@@ -7,7 +7,7 @@ using Verse;
 namespace BetterTradersGuild.MapGeneration
 {
     /// <summary>
-    /// GenStep that spawns defensive prefabs outside each perimeter exit door
+    /// GenStep that spawns defensive prefabs outside each perimeter entrance door
     /// of TradersGuild settlements.
     ///
     /// Uses BTG_EntranceAutocannons prefab (11x5, odd dimensions for stable center).
@@ -19,7 +19,7 @@ namespace BetterTradersGuild.MapGeneration
     /// 3. For each door, calculate center position 2 cells outward
     /// 4. Spawn prefab with rotation based on which edge the door is on
     /// </summary>
-    public class GenStep_SpawnExitDefences : GenStep
+    public class GenStep_SpawnEntranceDefences : GenStep
     {
         /// <summary>
         /// Distance in cells from the door to place the prefab center (outward).
@@ -32,7 +32,7 @@ namespace BetterTradersGuild.MapGeneration
         public override int SeedPart => 847291006;
 
         /// <summary>
-        /// Spawns defensive prefabs at each perimeter exit door.
+        /// Spawns defensive prefabs at each perimeter entrance door.
         /// </summary>
         public override void Generate(Map map, GenStepParams parms)
         {

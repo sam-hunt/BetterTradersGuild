@@ -36,7 +36,7 @@
     - Edge placement (fallback): Missing back aligns with room wall, left wall spawned post-placement
     - Center placement (fallback): Back/left walls spawned post-placement
   -->
-  <PrefabDef>
+  <PrefabDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_CribSubroom</defName>
     <size>(6,6)</size>
 

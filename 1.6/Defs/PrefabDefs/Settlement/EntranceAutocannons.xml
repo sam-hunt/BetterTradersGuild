@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    BTG_EntranceAutocannons - Defensive emplacement for perimeter exits
+    BTG_EntranceAutocannons - Defensive emplacement for perimeter entrances
 
-    Placed outside each perimeter door by GenStep_SpawnExitDefences.
+    Placed outside each perimeter door by GenStep_SpawnEntranceDefences.
     Designed for NORTH-edge doors (door on north edge of structure).
     GenStep rotates appropriately for other edges.
 
