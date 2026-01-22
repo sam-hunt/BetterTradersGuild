@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- French translation for Better Traders Guild -->
+<!-- Uncomment and translate the entries below -->
+<LanguageData>
+
+  <!-- ========== FLOAT MENU OPTIONS ========== -->
+  <!-- <BTG_TradeWith>Trade with {0}</BTG_TradeWith> -->
+  <!-- <BTG_RequiresSignalJammer>(requires signal jammer)</BTG_RequiresSignalJammer> -->
+
+  <!-- ========== INSPECT STRINGS ========== -->
+  <!-- <BTG_DockedVessel>Docked vessel</BTG_DockedVessel> -->
+  <!-- {0} = trader label, {1} = days remaining (e.g., "3.2") -->
+  <!-- <BTG_DockedVesselDeparts>{0}: {1} (departs in {2} days)</BTG_DockedVesselDeparts> -->
+
+  <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
+  <!-- <BTG_Settings_CoreFeatures>Core Features</BTG_Settings_CoreFeatures> -->
+  <!-- <BTG_Settings_MapGeneration>Map Generation</BTG_Settings_MapGeneration> -->
+  <!-- <BTG_Settings_CargoVault>Cargo Vault</BTG_Settings_CargoVault> -->
+  <!-- <BTG_Settings_SentryDrones>Sentry Drones</BTG_Settings_SentryDrones> -->
+  <!-- <BTG_Settings_CombatDifficulty>Combat Difficulty</BTG_Settings_CombatDifficulty> -->
+  <!-- <BTG_Settings_BalanceAdjustments>Balance Adjustments</BTG_Settings_BalanceAdjustments> -->
+
+  <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
+  <!-- {0} = days -->
+  <!-- <BTG_Settings_TraderRotationInterval>Trader rotation interval: {0} days</BTG_Settings_TraderRotationInterval> -->
+  <!-- <BTG_Settings_Default>(Default)</BTG_Settings_Default> -->
+  <!-- <BTG_Settings_Vanilla>(Vanilla)</BTG_Settings_Vanilla> -->
+  <!-- <BTG_Settings_TraderRotationDesc1>How often orbital traders rotate at TradersGuild settlements.</BTG_Settings_TraderRotationDesc1> -->
+  <!-- <BTG_Settings_TraderRotationDesc2>Lower values = more variety, but less time to reach distant settlements.</BTG_Settings_TraderRotationDesc2> -->
+
+  <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
+  <!-- <BTG_Settings_UseCustomLayouts>Use custom settlement map generator</BTG_Settings_UseCustomLayouts> -->
+  <!-- <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.</BTG_Settings_UseCustomLayoutsDesc> -->
+
+  <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
+  <!-- <BTG_Settings_EnableCargoVault>Enable cargo vault access</BTG_Settings_EnableCargoVault> -->
+  <!-- <BTG_Settings_EnableCargoVaultDesc>When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements.</BTG_Settings_EnableCargoVaultDesc> -->
+
+  <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
+  <!-- {0} = percentage -->
+  <!-- <BTG_Settings_SentryDronePresence>Sentry drone presence: {0}%</BTG_Settings_SentryDronePresence> -->
+  <!-- <BTG_Settings_Disabled>(Disabled)</BTG_Settings_Disabled> -->
+  <!-- <BTG_Settings_SentryDroneDesc>Factor of threat points used for patrolling sentry drone spawning.</BTG_Settings_SentryDroneDesc> -->
+
+  <!-- ========== MOD SETTINGS: COMBAT DIFFICULTY ========== -->
+  <!-- {0} = multiplier (e.g., "1.5") -->
+  <!-- <BTG_Settings_ThreatMultiplier>Threat points multiplier: {0}x</BTG_Settings_ThreatMultiplier> -->
+  <!-- <BTG_Settings_ThreatMultiplierDesc1>Multiplier applied to threat points after minimum cap.</BTG_Settings_ThreatMultiplierDesc1> -->
+  <!-- <BTG_Settings_ThreatMultiplierDesc2>Higher values = more/stronger defenders. Requires custom layouts.</BTG_Settings_ThreatMultiplierDesc2> -->
+  <!-- {0} = points -->
+  <!-- <BTG_Settings_MinThreatPoints>Minimum threat points: {0}</BTG_Settings_MinThreatPoints> -->
+  <!-- <BTG_Settings_MinThreatPointsDesc1>Minimum combat points for TradersGuild settlement defenders.</BTG_Settings_MinThreatPointsDesc1> -->
+  <!-- <BTG_Settings_MinThreatPointsDesc2>Higher values spawn stronger/more defenders to match custom layout loot.</BTG_Settings_MinThreatPointsDesc2> -->
+  <!-- <BTG_Settings_MinThreatPointsDesc3>Set to 0 to use vanilla wealth-based calculation. Requires custom layouts.</BTG_Settings_MinThreatPointsDesc3> -->
+
+  <!-- ========== MOD SETTINGS: BALANCE ADJUSTMENTS ========== -->
+  <!-- {0} = watts -->
+  <!-- <BTG_Settings_LifeSupportPower>LifeSupportUnit power output: {0}W</BTG_Settings_LifeSupportPower> -->
+  <!-- <BTG_Settings_BTGDefault>(BTG Default)</BTG_Settings_BTGDefault> -->
+  <!-- <BTG_Settings_LifeSupportDesc1>Power produced by orbital LifeSupportUnits (Requires restart)</BTG_Settings_LifeSupportDesc1> -->
+  <!-- <BTG_Settings_LifeSupportDesc2>BTG connects settlement buildings to a shared power grid,</BTG_Settings_LifeSupportDesc2> -->
+  <!-- <BTG_Settings_LifeSupportDesc3>so vanilla's 3200W output provides excessive free power.</BTG_Settings_LifeSupportDesc3> -->
+
+  <!-- ========== MOD SETTINGS: MOD NAME ========== -->
+  <!-- <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName> -->
+
+  <!-- ========== CARGO VAULT HATCH ========== -->
+  <!-- <BTG_CargoVaultHatch_RelockLabel>Relock cargo vault</BTG_CargoVaultHatch_RelockLabel> -->
+  <!-- <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Contents will be returned to station inventory.</BTG_CargoVaultHatch_RelockDesc> -->
+
+</LanguageData>

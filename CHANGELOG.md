@@ -27,9 +27,9 @@ Patch release fixing two bugs discovered in alpha.1. No new features added.
 
 ### Overview
 
-First alpha release! Phase 2 (Peaceful Trading) is complete and fully functional. Phase 3 (Enhanced Settlement Generation) is in progress.
+First alpha release! Peaceful trading is complete and fully functional. Enhanced settlement generation is in progress.
 
-### Added - Phase 2: Peaceful Trading ✅ COMPLETE
+### Added - Peaceful Trading
 
 #### Core Trading Features
 
@@ -56,7 +56,7 @@ First alpha release! Phase 2 (Peaceful Trading) is complete and fully functional
 - **Mod Compatible** - Automatically supports mods that add custom orbital trader types
 - **Weighted Selection** - Trader types selected based on `TraderKindDef.CalculatedCommonality`
 
-### Added - Phase 3: Enhanced Settlement Generation 🚧 IN PROGRESS
+### Added - Enhanced Settlement Generation (In Progress)
 
 #### Completed Components
 
@@ -65,7 +65,7 @@ First alpha release! Phase 2 (Peaceful Trading) is complete and fully functional
 - **10 Custom Prefabs** - Specialized furniture arrangements (hospital beds, medicine shelves, classroom bookshelves, billiards table, captain's bedroom, etc.)
 - **Commander's Quarters (Partial)** - Custom room generation with programmatic bedroom placement, bookcase insertion, and unique weapon generation
 
-#### Known Phase 3 Limitations
+#### Known Limitations
 
 - Commander's Quarters bedroom placement needs edge detection improvements
 - Door detection algorithm incomplete
@@ -129,7 +129,7 @@ Access mod settings via: **Options → Mod Settings → Better Traders Guild**
 
 ### Known Issues
 
-1. **Phase 3 Incomplete** - Custom settlement generation has partial implementation (see limitations above)
+1. **Settlement Generation Incomplete** - Custom settlement generation has partial implementation (see limitations above)
 2. **First-Time Visit Delay** - Settlement stock generation may take 1-2 seconds on first visit (vanilla behavior)
 3. **Trader Preview Sync** - Very rare edge case where trader preview may temporarily show incorrect type after quick saves/loads (resolves on next tick)
 
@@ -164,4 +164,3 @@ Please report bugs and feedback via:
 
 [0.1.0-alpha.2]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.1.0-alpha.1
-

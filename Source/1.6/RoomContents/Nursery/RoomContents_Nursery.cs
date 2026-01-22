@@ -46,14 +46,16 @@ namespace BetterTradersGuild.RoomContents.Nursery
             //    Must happen BEFORE base.FillRoom() which may apply uniform flooring
             if (room.rects != null && room.rects.Count > 0)
             {
-                CellRect roomRect = room.rects.First();
                 List<TerrainDef> floorTypes = new List<TerrainDef>
                 {
                     Terrains.CarpetPink,
                     Terrains.CarpetBluePastel,
                     Terrains.CarpetGreenPastel
                 };
-                CheckeredFloorHelper.ApplyCheckeredFloor(map, roomRect, floorTypes);
+                foreach (CellRect roomRect in room.rects)
+                {
+                    CheckeredFloorHelper.ApplyCheckeredFloor(map, roomRect, floorTypes);
+                }
             }
 
             // 1. Find best location for crib subroom (prefer corners, avoid walls with doors)
@@ -86,19 +88,16 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
             // 8. Post-processing: Paint furniture with matching pastel colors
             //    Colors match the checkered floor pattern for a cohesive nursery look
-            if (room.rects != null && room.rects.Count > 0)
-            {
-                CellRect roomRect = room.rects.First();
-                RoomFurniturePastelPainter.PaintFurniture(map, roomRect);
-            }
-
             // 9. Post-processing: Spawn daylilies in plant pots
             //    CRITICAL: This must happen AFTER base.FillRoom() since plant pots
             //    are spawned by XML prefabs in base.FillRoom()
             if (room.rects != null && room.rects.Count > 0)
             {
-                CellRect roomRect = room.rects.First();
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
+                foreach (CellRect roomRect in room.rects)
+                {
+                    RoomFurniturePastelPainter.PaintFurniture(map, roomRect);
+                    RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
+                }
             }
         }
 

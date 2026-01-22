@@ -175,10 +175,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             };
 
             __result = traderKind;
-
-            // Log only when calculating a new value (not on cached accesses)
-            Log.Message($"[Better Traders Guild] {settlement.Label} assigned orbital trader: {traderKind.label} " +
-                       $"(seed={seed}, ticks={lastStockTicks}, commonality={traderKind.CalculatedCommonality:F2})");
         }
     }
 }

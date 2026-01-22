@@ -10,6 +10,7 @@
 
   <LayoutRoomDef>
     <defName>BTG_Workshop</defName>
+    <roomContentsWorkerType>BetterTradersGuild.RoomContents.Workshop.RoomContents_Workshop</roomContentsWorkerType>
 
     <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>

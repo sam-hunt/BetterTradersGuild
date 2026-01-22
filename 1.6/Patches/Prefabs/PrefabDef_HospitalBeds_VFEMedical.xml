@@ -12,15 +12,18 @@
     Note: Facility_IVDrip is 1x1 and not rotatable.
   -->
 
-  <Operation Class="PatchOperationReplace" MayRequire="VanillaExpanded.VFEMedical">
-    <xpath>Defs/PrefabDef[defName="BTG_HospitalBeds_Edge"]/things/EndTable</xpath>
-    <value>
-      <Facility_IVDrip>
-        <positions>
-          <li>(1, 0, 1)</li>
-        </positions>
-      </Facility_IVDrip>
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="VanillaExpanded.VFEMedical">
+    <xpath>/Defs/ThingDef[defName="Facility_IVDrip"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/PrefabDef[defName="BTG_HospitalBeds_Edge"]/things/EndTable</xpath>
+      <value>
+        <Facility_IVDrip MayRequire="VanillaExpanded.VFEMedical">
+          <positions>
+            <li>(1, 0, 1)</li>
+          </positions>
+        </Facility_IVDrip>
+      </value>
+    </match>
   </Operation>
 
 </Patch>

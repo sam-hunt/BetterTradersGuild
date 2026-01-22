@@ -19,35 +19,47 @@
   -->
 
   <!-- VE Chemfuel Expanded - Chemfuel Valve -->
-  <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VChemfuelE">
-    <xpath>/Defs/ThingDef[defName="VCHE_ChemfuelValve"]/comps</xpath>
-    <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="VanillaExpanded.VChemfuelE">
+    <xpath>/Defs/ThingDef[defName="VCHE_ChemfuelValve"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="VCHE_ChemfuelValve"]/comps</xpath>
+      <value>
+        <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
+      </value>
+    </match>
   </Operation>
 
   <!-- VE Nutrient Paste Expanded - Nutrient Paste Valve -->
-  <Operation Class="PatchOperationAdd" MayRequire="VanillaExpanded.VNutrientE">
-    <xpath>/Defs/ThingDef[defName="VNPE_NutrientPasteValve"]/comps</xpath>
-    <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="VanillaExpanded.VNutrientE">
+    <xpath>/Defs/ThingDef[defName="VNPE_NutrientPasteValve"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="VNPE_NutrientPasteValve"]/comps</xpath>
+      <value>
+        <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
+      </value>
+    </match>
   </Operation>
 
   <!-- VE Gravships - Oxygen Valve -->
-  <Operation Class="PatchOperationAdd" MayRequire="vanillaexpanded.gravship">
-    <xpath>/Defs/ThingDef[defName="VGE_OxygenValve"]/comps</xpath>
-    <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="vanillaexpanded.gravship">
+    <xpath>/Defs/ThingDef[defName="VGE_OxygenValve"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="VGE_OxygenValve"]/comps</xpath>
+      <value>
+        <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
+      </value>
+    </match>
   </Operation>
 
   <!-- VE Gravships - Astrofuel Valve -->
-  <Operation Class="PatchOperationAdd" MayRequire="vanillaexpanded.gravship">
-    <xpath>/Defs/ThingDef[defName="VGE_AstrofuelValve"]/comps</xpath>
-    <value>
-      <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="vanillaexpanded.gravship">
+    <xpath>/Defs/ThingDef[defName="VGE_AstrofuelValve"]</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="VGE_AstrofuelValve"]/comps</xpath>
+      <value>
+        <li Class="BetterTradersGuild.Comps.CompProperties_ForceClaimable" />
+      </value>
+    </match>
   </Operation>
 
 </Patch>

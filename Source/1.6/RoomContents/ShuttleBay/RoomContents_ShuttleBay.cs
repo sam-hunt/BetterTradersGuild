@@ -64,7 +64,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 return;
             }
 
-            CellRect roomRect = room.rects.First();
+            // Use first rect for subroom placement (algorithm limitation)
+            CellRect primaryRect = room.rects.First();
 
             // 1. Find best location for landing pad (prefer corners, avoid walls with doors)
             SubroomPlacementResult placement = SubroomPlacementHelper.FindBestPlacement(room, map, LANDING_PAD_PREFAB_SIZE);
@@ -81,7 +82,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 PaintShuttleInLandingPad(map);
 
                 // 3c. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
-                ConnectShuttleToPipeNetwork(map, roomRect);
+                // Landing pad is placed in the first rect, so use that for edge connection
+                ConnectShuttleToPipeNetwork(map, primaryRect);
 
                 // 4. Spawn required walls from PlacementCalculator (consolidated wall spawning)
                 // PlacementCalculator.RequiredWalls contains all walls needed for this placement type:
@@ -96,13 +98,14 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             else
             {
                 // Log warning but CONTINUE (other prefabs still spawn for graceful degradation)
-                Log.Warning($"[Better Traders Guild] Could not find valid placement for landing pad in ShuttleBay at {roomRect}");
+                Log.Warning($"[Better Traders Guild] Could not find valid placement for landing pad in ShuttleBay at {primaryRect}");
                 // landingPadRect remains default (Width = 0), so IsValidCellBase won't block other prefabs
             }
 
             // 5. Spawn cargo vault hatch BEFORE base.FillRoom() (priority placement, center of largest free area)
             //    At this point only the landing pad exists, so hatch placement is guaranteed to succeed
-            this.cargoHatchRect = CargoVaultHatchSpawner.SpawnHatch(map, roomRect, this.landingPadRect);
+            //    Use primary rect for hatch placement (subroom algorithm limitation)
+            this.cargoHatchRect = CargoVaultHatchSpawner.SpawnHatch(map, primaryRect, this.landingPadRect);
 
             // 6. Call base to process XML (prefabs, scatter, parts)
             //    ALWAYS runs - spawns forklift etc. even if landing pad failed
@@ -111,20 +114,30 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
 
             // 6b. Prune LifeSupportUnits to keep only one outside the landing pad subroom
             //     XML spawns 4 to ensure at least one lands in the pressurized area
-            PruneLifeSupportUnits(map, roomRect);
+            //     Search all rects to find all units
+            foreach (CellRect roomRect in room.rects)
+            {
+                PruneLifeSupportUnits(map, roomRect);
+            }
 
-            // 7. Connect AncientSealedCrate marker to room edge with conduits
+            // 7. Connect AncientSealedCrate marker to room edge with conduits (search all rects)
             if (Things.HiddenConduit != null)
             {
-                var marker = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.AncientSealedCrate).FirstOrDefault();
-                if (marker != null)
+                foreach (CellRect roomRect in room.rects)
                 {
-                    RoomEdgeConnector.ConnectToNearestEdge(map, marker.Position, roomRect, new List<ThingDef> { Things.HiddenConduit });
+                    var marker = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.AncientSealedCrate).FirstOrDefault();
+                    if (marker != null)
+                    {
+                        RoomEdgeConnector.ConnectToNearestEdge(map, marker.Position, roomRect, new List<ThingDef> { Things.HiddenConduit });
+                    }
                 }
             }
 
-            // 8. Apply partial roofing (roof all cells except landing pad area)
-            PartialRoofingHelper.ApplyRoofingWithExclusion(map, roomRect, this.landingPadRect);
+            // 8. Apply partial roofing (roof all cells except landing pad area) - all rects
+            foreach (CellRect roomRect in room.rects)
+            {
+                PartialRoofingHelper.ApplyRoofingWithExclusion(map, roomRect, this.landingPadRect);
+            }
         }
 
         /// <summary>

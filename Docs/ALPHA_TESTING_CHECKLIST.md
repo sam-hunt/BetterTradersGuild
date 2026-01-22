@@ -32,7 +32,7 @@ This patch release fixes two bugs from alpha.1:
 
 ---
 
-## Phase 2: Peaceful Trading Features (Priority Testing)
+## Peaceful Trading Features (Priority Testing)
 
 ### 1. Basic Settlement Visitation
 
@@ -134,7 +134,7 @@ This patch release fixes two bugs from alpha.1:
 
 ---
 
-## Phase 3: Enhanced Settlement Generation (Lower Priority)
+## Enhanced Settlement Generation (Lower Priority)
 
 ### 8. Settlement Map Generation
 
@@ -149,7 +149,7 @@ This patch release fixes two bugs from alpha.1:
 
 **Notes:** \***\*\_\_\_\*\***
 
-### 9. Known Phase 3 Limitations (Don't Report These)
+### 9. Known Settlement Generation Limitations (Don't Report These)
 
 These are **expected** limitations in this alpha:
 
@@ -253,4 +253,3 @@ Your testing helps make this mod better! Once you've completed testing:
 **Would Recommend:** [ ] Yes [ ] Maybe [ ] No
 
 **Additional Comments:** \***\*\_\_\_\*\***
-

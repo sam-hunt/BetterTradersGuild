@@ -232,7 +232,7 @@ git push origin {VERSION}
 **Examples:**
 
 ```bash
-git tag -a v0.1.0-alpha.1 -m "Release v0.1.0-alpha.1 - Phase 2 Trading Features
+git tag -a v0.1.0-alpha.1 -m "Release v0.1.0-alpha.1 - Peaceful Trading Features
 
 First alpha release with peaceful trading fully implemented."
 

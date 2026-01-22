@@ -88,9 +88,6 @@ namespace BetterTradersGuild.MapGeneration
             // For a 40x40 map with 20x20 vault, this places the vault at (10,10) to (29,29)
             CellRect vaultRect = CellRect.CenteredOn(map.Center, VAULT_SIZE, VAULT_SIZE);
 
-            Log.Message($"[Better Traders Guild] GenStep_CargoVaultPlatform: Generating vault " +
-                        $"(vault rect: {vaultRect}, map size: {map.Size.x}x{map.Size.z}, center: {map.Center})");
-
             // Create structure generation parameters
             StructureGenParams genParams = new StructureGenParams
             {
@@ -150,8 +147,6 @@ namespace BetterTradersGuild.MapGeneration
                 tradersGuild
             );
 
-            Log.Message($"[Better Traders Guild] GenStep_CargoVaultPlatform: Spawned {spawnedThings.Count} things");
-
             // Spawn sniper turret arrays on external platforms connected by bridges
             SpawnTurretArrays(map, vaultRect, tradersGuild);
 
@@ -203,7 +198,6 @@ namespace BetterTradersGuild.MapGeneration
                 new IntVec3(vaultRect.minX - TURRET_ARRAY_GAP - TURRET_ARRAY_PLATFORM_SIZE / 2 - 1, 0, vaultCenterZ),
                 Rot4.West, vaultRect);
 
-            Log.Message("[Better Traders Guild] GenStep_CargoVaultPlatform: Spawned 4 sniper turret arrays with bridges");
         }
 
         /// <summary>
@@ -327,7 +321,6 @@ namespace BetterTradersGuild.MapGeneration
                 GenSpawn.Spawn(cannon, center, map, rotation);
             }
 
-            Log.Message("[Better Traders Guild] GenStep_CargoVaultPlatform: Spawned 4 corner Gauss cannons");
         }
 
         /// <summary>
@@ -341,7 +334,6 @@ namespace BetterTradersGuild.MapGeneration
             if (layoutDef != null)
             {
                 MapGenUtility.SetMapRoomTemperature(map, layoutDef, temperature);
-                Log.Message($"[Better Traders Guild] GenStep_CargoVaultPlatform: Set room temperature to {temperature}°C");
             }
         }
 

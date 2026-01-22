@@ -14,13 +14,16 @@
     area (x=1-7, z=2-8), centered horizontally.
   -->
 
-  <Operation Class="PatchOperationReplace" MayRequire="smallmine.HeavyShuttle">
-    <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things/PassengerShuttle</xpath>
-    <value>
-      <OrcaShuttle>
-        <position>(4, 0, 5)</position>
-      </OrcaShuttle>
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="smallmine.HeavyShuttle">
+    <xpath>/Defs/ThingDef[defName="OrcaShuttle"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/PrefabDef[defName="BTG_ShuttleLandingPad_Subroom"]/things/PassengerShuttle</xpath>
+      <value>
+        <OrcaShuttle MayRequire="smallmine.HeavyShuttle">
+          <position>(4, 0, 5)</position>
+        </OrcaShuttle>
+      </value>
+    </match>
   </Operation>
 
 </Patch>

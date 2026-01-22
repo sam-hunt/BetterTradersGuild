@@ -1,6 +1,5 @@
 using HarmonyLib;
 using RimWorld;
-using System.Linq;
 using System.Reflection;
 using Verse;
 
@@ -31,10 +30,6 @@ namespace BetterTradersGuild
 
             // Apply def modifications
             ApplyLifeSupportUnitPowerSetting();
-
-            // Log initialization with patch count
-            var patchCount = harmony.GetPatchedMethods().Count();
-            Log.Message($"[Better Traders Guild] Mod initialized with {patchCount} Harmony patches applied.");
         }
 
         /// <summary>

@@ -4,14 +4,17 @@
     When Royalty DLC is active, upgrade Commander's Bedroom carpet to fine carpet.
     CarpetPurpleDeep -> CarpetFinePurpleDeep for a more luxurious appearance.
   -->
-  <Operation Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
-    <xpath>Defs/PrefabDef[defName="BTG_CommandersBedroom"]/terrain/CarpetPurpleDeep</xpath>
-    <value>
-      <CarpetFinePurpleDeep>
-        <rects>
-          <li>(0,0,5,5)</li>
-        </rects>
-      </CarpetFinePurpleDeep>
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="Ludeon.RimWorld.Royalty">
+    <xpath>/Defs/TerrainDef[defName="CarpetFinePurpleDeep"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/PrefabDef[defName="BTG_CommandersBedroom"]/terrain/CarpetPurpleDeep</xpath>
+      <value>
+        <CarpetFinePurpleDeep MayRequire="Ludeon.RimWorld.Royalty">
+          <rects>
+            <li>(0,0,5,5)</li>
+          </rects>
+        </CarpetFinePurpleDeep>
+      </value>
+    </match>
   </Operation>
 </Patch>

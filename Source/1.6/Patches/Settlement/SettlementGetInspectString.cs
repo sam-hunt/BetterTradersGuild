@@ -54,7 +54,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // LEARNING NOTE: We use LabelCap to get the properly capitalized label
             // (e.g., "Combat supplier" instead of "combat supplier")
             // This matches how the label appears in the trade dialog
-            string dockedVesselLabel = "Docked vessel"; // Could be: "DockedVessel".Translate()
 
             // ENHANCEMENT: Show rotation timing for allied players
             // LEARNING NOTE: Allied players get extra information as a reward for
@@ -70,12 +69,15 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
                 // Format with one decimal place for readability
                 // Example: "Docked vessel: Bulk goods trader (departs in 3.2 days)"
-                __result += $"{dockedVesselLabel}: {traderKind.LabelCap} (departs in {daysRemaining:F1} days)";
+                __result += "BTG_DockedVesselDeparts".Translate(
+                    "BTG_DockedVessel".Translate(),
+                    traderKind.LabelCap,
+                    daysRemaining.ToString("F1"));
             }
             else
             {
                 // Neutral/hostile: Show only trader type (no timing info)
-                __result += $"{dockedVesselLabel}: {traderKind.LabelCap}";
+                __result += "BTG_DockedVessel".Translate() + ": " + traderKind.LabelCap;
             }
         }
     }

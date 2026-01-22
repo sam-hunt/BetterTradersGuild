@@ -1,4 +1,4 @@
-# Phase 3.3: Enhanced TradersGuild Pawn Generation
+# Enhanced TradersGuild Pawn Generation Research
 
 ## Research Summary
 

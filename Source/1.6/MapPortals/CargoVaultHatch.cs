@@ -121,8 +121,6 @@ namespace BetterTradersGuild.MapGeneration
 
             // Reset hackable state so hatch is locked on next visit
             ResetHackableState();
-
-            Log.Message("[BTG] CargoVaultHatch: Auto-relocked on settlement map unload");
         }
 
         /// <summary>

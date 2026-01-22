@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
@@ -148,13 +149,15 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         /// Used for pawns and items that couldn't fit on shelves.
         /// Handles oversized stacks by splitting into multiple spawns.
         /// Tracks used cells for non-stackable items to prevent spawn conflicts.
+        /// Items are placed deterministically based on settlementID; pawns use random placement.
         /// </summary>
         /// <param name="map">The map to spawn on</param>
         /// <param name="roomRect">The room boundaries</param>
         /// <param name="things">Things to spawn on floor</param>
+        /// <param name="settlementID">Settlement ID for deterministic placement</param>
         /// <param name="exclusionRect">Optional rect to exclude from spawning (e.g., exit subroom area)</param>
         /// <returns>List of things that couldn't be spawned (should be returned to trade inventory)</returns>
-        public static List<Thing> SpawnOnFloor(Map map, CellRect roomRect, List<Thing> things, CellRect? exclusionRect = null)
+        public static List<Thing> SpawnOnFloor(Map map, CellRect roomRect, List<Thing> things, int settlementID, CellRect? exclusionRect = null)
         {
             var unspawned = new List<Thing>();
 
@@ -175,38 +178,46 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             // Track cells used by non-stackable items to avoid spawn conflicts
             HashSet<IntVec3> usedCells = new HashSet<IntVec3>();
 
-            foreach (Thing thing in things)
+            // Separate pawns from items - pawns use random placement, items use deterministic
+            List<Thing> items = things.Where(t => !(t is Pawn)).ToList();
+            List<Thing> pawns = things.Where(t => t is Pawn).ToList();
+
+            // Spawn items deterministically - each item type gets a position based on its defName hash
+            foreach (Thing thing in items)
             {
-                // Spawn with stack splitting for oversized stacks
-                Thing notSpawned = SpawnWithStackSplitting(map, thing, validCells, usedCells);
+                Thing notSpawned = SpawnWithDeterministicPlacement(map, thing, validCells, usedCells, settlementID);
                 if (notSpawned != null)
                     unspawned.Add(notSpawned);
+            }
+
+            // Spawn pawns with random placement (they move around anyway)
+            foreach (Thing pawn in pawns)
+            {
+                IntVec3 cell = validCells.RandomElement();
+                GenSpawn.Spawn(pawn, cell, map);
             }
 
             return unspawned;
         }
 
         /// <summary>
-        /// Spawns a thing, splitting into multiple stacks if stackCount exceeds stackLimit.
-        /// MinifiedThings are never split since they can't be properly cloned via ThingMaker.
+        /// Spawns a thing with deterministic cell selection based on defName hash.
+        /// Each item type always maps to the same floor position regardless of what other items exist.
+        /// Handles stack splitting for oversized stacks.
         /// Non-stackable items track used cells to avoid spawn conflicts.
         /// </summary>
         /// <returns>The thing if it couldn't be spawned (to return to trade inventory), null if spawned successfully</returns>
-        private static Thing SpawnWithStackSplitting(Map map, Thing thing, List<IntVec3> validCells, HashSet<IntVec3> usedCells)
+        private static Thing SpawnWithDeterministicPlacement(Map map, Thing thing, List<IntVec3> validCells, HashSet<IntVec3> usedCells, int settlementID)
         {
-            if (thing is Pawn)
-            {
-                // Pawns don't stack, just spawn directly (pawns can share cells)
-                IntVec3 cell = validCells.RandomElement();
-                GenSpawn.Spawn(thing, cell, map);
-                return null;
-            }
+            // Get deterministic starting cell index based on item type and settlement
+            int startIndex = GetDeterministicCellIndex(thing.def.defName, settlementID, validCells.Count);
+            bool isNonStackable = thing.def.stackLimit == 1;
 
             // MinifiedThings cannot be split - ThingMaker.MakeThing creates empty crates
             // Always spawn the original object directly, tracking the cell
             if (thing is MinifiedThing)
             {
-                IntVec3 cell = FindUnusedCell(validCells, usedCells);
+                IntVec3 cell = FindUnusedCellFromIndex(validCells, usedCells, startIndex);
                 if (!cell.IsValid)
                 {
                     Log.Warning($"[Better Traders Guild] No available cell for MinifiedThing {thing.Label} - returning to trade inventory");
@@ -220,13 +231,14 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 
             int stackLimit = thing.def.stackLimit;
             int remaining = thing.stackCount;
-            bool isNonStackable = stackLimit == 1;
 
             // First stack uses the original thing
             if (remaining <= stackLimit)
             {
                 // Fits in one stack
-                IntVec3 cell = isNonStackable ? FindUnusedCell(validCells, usedCells) : validCells.RandomElement();
+                IntVec3 cell = isNonStackable
+                    ? FindUnusedCellFromIndex(validCells, usedCells, startIndex)
+                    : validCells[startIndex];
                 if (!cell.IsValid)
                 {
                     Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
@@ -239,93 +251,146 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 return null;
             }
 
-            // Need multiple stacks
-            // Set original thing to stackLimit and spawn it
-            thing.stackCount = stackLimit;
-            remaining -= stackLimit;
-
-            IntVec3 firstCell = isNonStackable ? FindUnusedCell(validCells, usedCells) : validCells.RandomElement();
-            if (!firstCell.IsValid)
+            // Need multiple stacks - use seeded Rand for additional stack placement
+            int seed = Gen.HashCombineInt(thing.def.defName.GetHashCode(), settlementID);
+            Rand.PushState(seed);
+            try
             {
-                // Restore original stack count before returning
-                thing.stackCount = stackLimit + remaining;
-                Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
-                return thing;
-            }
-            GenSpawn.Spawn(thing, firstCell, map);
-            thing.SetForbidden(true, false);
-            if (isNonStackable)
-                usedCells.Add(firstCell);
+                // Set original thing to stackLimit and spawn it at the deterministic position
+                thing.stackCount = stackLimit;
+                remaining -= stackLimit;
 
-            // Spawn additional stacks for the remainder
-            // Note: We create new Things for these, so if they can't spawn we need to
-            // create a consolidated remainder to return to stock
-            int unspawnedCount = 0;
-            while (remaining > 0)
-            {
-                int thisStack = UnityEngine.Mathf.Min(remaining, stackLimit);
-                remaining -= thisStack;
-
-                Thing newStack = ThingMaker.MakeThing(thing.def, thing.Stuff);
-                newStack.stackCount = thisStack;
-
-                // Copy quality if applicable
-                CompQuality origQuality = thing.TryGetComp<CompQuality>();
-                CompQuality newQuality = newStack.TryGetComp<CompQuality>();
-                if (origQuality != null && newQuality != null)
+                IntVec3 firstCell = isNonStackable
+                    ? FindUnusedCellFromIndex(validCells, usedCells, startIndex)
+                    : validCells[startIndex];
+                if (!firstCell.IsValid)
                 {
-                    newQuality.SetQuality(origQuality.Quality, ArtGenerationContext.Outsider);
+                    // Restore original stack count before returning
+                    thing.stackCount = stackLimit + remaining;
+                    Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
+                    return thing;
                 }
-
-                IntVec3 cell = isNonStackable ? FindUnusedCell(validCells, usedCells) : validCells.RandomElement();
-                if (!cell.IsValid)
-                {
-                    Log.Warning($"[Better Traders Guild] No available cell for {newStack.Label} stack - returning to trade inventory");
-                    unspawnedCount += thisStack;
-                    newStack.Destroy(DestroyMode.Vanish);
-                    continue;
-                }
-                GenSpawn.Spawn(newStack, cell, map);
-                newStack.SetForbidden(true, false);
+                GenSpawn.Spawn(thing, firstCell, map);
+                thing.SetForbidden(true, false);
                 if (isNonStackable)
-                    usedCells.Add(cell);
-            }
+                    usedCells.Add(firstCell);
 
-            // If some stacks couldn't spawn, create a consolidated item to return
-            if (unspawnedCount > 0)
-            {
-                Thing remainder = ThingMaker.MakeThing(thing.def, thing.Stuff);
-                remainder.stackCount = unspawnedCount;
-                CompQuality origQuality = thing.TryGetComp<CompQuality>();
-                CompQuality remQuality = remainder.TryGetComp<CompQuality>();
-                if (origQuality != null && remQuality != null)
+                // Spawn additional stacks for the remainder using seeded Rand
+                int unspawnedCount = 0;
+                while (remaining > 0)
                 {
-                    remQuality.SetQuality(origQuality.Quality, ArtGenerationContext.Outsider);
-                }
-                return remainder;
-            }
+                    int thisStack = UnityEngine.Mathf.Min(remaining, stackLimit);
+                    remaining -= thisStack;
 
-            return null;
+                    Thing newStack = ThingMaker.MakeThing(thing.def, thing.Stuff);
+                    newStack.stackCount = thisStack;
+
+                    // Copy quality if applicable
+                    CompQuality origQuality = thing.TryGetComp<CompQuality>();
+                    CompQuality newQuality = newStack.TryGetComp<CompQuality>();
+                    if (origQuality != null && newQuality != null)
+                    {
+                        newQuality.SetQuality(origQuality.Quality, ArtGenerationContext.Outsider);
+                    }
+
+                    IntVec3 cell = isNonStackable
+                        ? FindUnusedCellSeeded(validCells, usedCells)
+                        : validCells[Rand.Range(0, validCells.Count)];
+                    if (!cell.IsValid)
+                    {
+                        Log.Warning($"[Better Traders Guild] No available cell for {newStack.Label} stack - returning to trade inventory");
+                        unspawnedCount += thisStack;
+                        newStack.Destroy(DestroyMode.Vanish);
+                        continue;
+                    }
+                    GenSpawn.Spawn(newStack, cell, map);
+                    newStack.SetForbidden(true, false);
+                    if (isNonStackable)
+                        usedCells.Add(cell);
+                }
+
+                // If some stacks couldn't spawn, create a consolidated item to return
+                if (unspawnedCount > 0)
+                {
+                    Thing remainder = ThingMaker.MakeThing(thing.def, thing.Stuff);
+                    remainder.stackCount = unspawnedCount;
+                    CompQuality origQuality = thing.TryGetComp<CompQuality>();
+                    CompQuality remQuality = remainder.TryGetComp<CompQuality>();
+                    if (origQuality != null && remQuality != null)
+                    {
+                        remQuality.SetQuality(origQuality.Quality, ArtGenerationContext.Outsider);
+                    }
+                    return remainder;
+                }
+
+                return null;
+            }
+            finally
+            {
+                Rand.PopState();
+            }
         }
 
         /// <summary>
-        /// Finds a random cell from validCells that hasn't been used yet.
+        /// Gets a deterministic cell index based on item type and settlement ID.
+        /// Same item type + settlement always maps to the same starting cell.
+        /// </summary>
+        private static int GetDeterministicCellIndex(string defName, int settlementID, int cellCount)
+        {
+            int hash = Gen.HashCombineInt(defName.GetHashCode(), settlementID);
+            return Mathf.Abs(hash) % cellCount;
+        }
+
+        /// <summary>
+        /// Finds the nearest unused cell to the deterministic starting position.
         /// Returns IntVec3.Invalid if no cells are available.
         /// </summary>
-        private static IntVec3 FindUnusedCell(List<IntVec3> validCells, HashSet<IntVec3> usedCells)
+        private static IntVec3 FindUnusedCellFromIndex(List<IntVec3> validCells, HashSet<IntVec3> usedCells, int startIndex)
+        {
+            IntVec3 targetCell = validCells[startIndex];
+
+            // If the target cell is available, use it directly
+            if (!usedCells.Contains(targetCell))
+                return targetCell;
+
+            // Find the nearest unused cell spatially
+            IntVec3 closest = IntVec3.Invalid;
+            float closestDist = float.MaxValue;
+
+            foreach (IntVec3 cell in validCells)
+            {
+                if (usedCells.Contains(cell))
+                    continue;
+
+                float dist = cell.DistanceToSquared(targetCell);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closest = cell;
+                }
+            }
+
+            return closest;
+        }
+
+        /// <summary>
+        /// Finds an unused cell using RimWorld's seeded Rand (caller must push state).
+        /// Returns IntVec3.Invalid if no cells are available.
+        /// </summary>
+        private static IntVec3 FindUnusedCellSeeded(List<IntVec3> validCells, HashSet<IntVec3> usedCells)
         {
             // Fast path: if few cells used, just try random selection
             if (usedCells.Count < validCells.Count / 2)
             {
                 for (int attempts = 0; attempts < 20; attempts++)
                 {
-                    IntVec3 cell = validCells.RandomElement();
+                    IntVec3 cell = validCells[Rand.Range(0, validCells.Count)];
                     if (!usedCells.Contains(cell))
                         return cell;
                 }
             }
 
-            // Fallback: find any unused cell
+            // Fallback: find any unused cell (deterministic order from list)
             foreach (IntVec3 cell in validCells)
             {
                 if (!usedCells.Contains(cell))

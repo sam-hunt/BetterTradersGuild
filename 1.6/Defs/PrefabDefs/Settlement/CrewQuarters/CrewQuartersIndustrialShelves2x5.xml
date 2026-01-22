@@ -40,6 +40,10 @@
           <li>(0, 0, 4)</li>
         </positions>
       </AncientIndustrialShelf>
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
   </PrefabDef>
 </Defs>

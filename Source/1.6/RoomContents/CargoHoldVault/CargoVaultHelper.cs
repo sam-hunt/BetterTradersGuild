@@ -19,12 +19,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             .GetField("stock", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
-        /// Cached reflection access to Settlement_TraderTracker.RegenerateStock() protected method
-        /// </summary>
-        private static readonly MethodInfo regenerateStockMethod = typeof(Settlement_TraderTracker)
-            .GetMethod("RegenerateStock", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        /// <summary>
         /// Navigates from a pocket map to its parent settlement.
         /// The pocket map's Parent is a PocketMapParent, which has a sourceMap
         /// that belongs to the actual Settlement.
@@ -74,40 +68,24 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         }
 
         /// <summary>
-        /// Gets the trade stock from a settlement.
-        /// Convenience method that handles null checks.
-        /// Will trigger stock generation if not already generated.
+        /// Gets the trade stock from a settlement (pure getter - no side effects).
         /// </summary>
         /// <param name="settlement">The settlement</param>
         /// <returns>The stock ThingOwner, or null if not available</returns>
+        /// <remarks>
+        /// This is a pure getter that never triggers regeneration.
+        /// Stock generation is handled by SettlementMapGenerated patch when the map loads.
+        /// This ensures stock is frozen for the entire duration of the settlement visit.
+        /// </remarks>
         public static ThingOwner<Thing> GetStock(Settlement settlement)
         {
             if (settlement?.trader == null)
                 return null;
 
-            // Check if stock needs to be generated
-            ThingOwner<Thing> existingStock = GetStock(settlement.trader);
-            if (existingStock == null)
-            {
-                TraderKindDef traderKind = settlement.trader.TraderKind;
-                if (traderKind == null || regenerateStockMethod == null)
-                {
-                    Log.Warning("[BTG CargoVault] GetStock: Cannot generate stock - TraderKind or RegenerateStock method unavailable");
-                    return null;
-                }
-
-                try
-                {
-                    regenerateStockMethod.Invoke(settlement.trader, null);
-                }
-                catch (System.Exception ex)
-                {
-                    Log.Warning($"[BTG CargoVault] GetStock: Exception during RegenerateStock: {ex.Message}");
-                    return null;
-                }
-            }
-
-            return GetStock(settlement.trader);
+            var tracker = settlement.trader;
+            var stock = GetStock(tracker);
+            Log.Message($"[BTG DEBUG] GetStock(Settlement): settlement.ID={settlement.ID}, tracker={tracker.GetHashCode()}, stock={(stock == null ? "null" : $"{stock.Count} items")}");
+            return stock;
         }
 
         /// <summary>
@@ -126,30 +104,32 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         /// </remarks>
         public static ThingOwner<Thing> GetStock(Map pocketMap)
         {
-            // Try normal path first (settlement still exists)
             Settlement settlement = GetParentSettlement(pocketMap);
-            if (settlement?.trader != null)
+            Log.Message($"[BTG DEBUG] GetStock(pocketMap): settlement={settlement?.Label ?? "null"}, destroyed={settlement?.Destroyed ?? true}");
+
+            // If settlement is alive (not destroyed) and has a trader, use trader stock
+            // Return trader stock even if empty - that's where returned items should go
+            if (settlement?.trader != null && !settlement.Destroyed)
             {
                 var stock = GetStock(settlement);
-                if (stock != null)
-                    return stock;
+                Log.Message($"[BTG DEBUG] GetStock(pocketMap): using settlement stock ({stock?.Count ?? -1} items)");
+                return stock;
             }
 
-            // Fallback: get cached stock from settlement map (settlement was defeated)
-            // Note: Don't check Count > 0 here - the cache may be empty after cargo spawning
-            // but is still the valid destination for returned items when vault is locked.
+            // Settlement destroyed or no trader - fall back to cache
             Map settlementMap = GetSettlementMap(pocketMap);
+            Log.Message($"[BTG DEBUG] GetStock(pocketMap): settlement destroyed/null, trying cache on {settlementMap?.ToString() ?? "null"}");
             if (settlementMap != null)
             {
                 var cache = settlementMap.GetComponent<SettlementStockCache>();
                 if (cache?.preservedStock != null)
                 {
-                    Log.Message($"[BTG CargoVault] Using preserved stock ({cache.preservedStock.Count} items) from defeated settlement");
+                    Log.Message($"[BTG DEBUG] GetStock(pocketMap): using cache ({cache.preservedStock.Count} items)");
                     return cache.preservedStock;
                 }
             }
 
-            Log.Warning("[BTG CargoVault] No stock available (settlement defeated and no cache)");
+            Log.Warning("[BTG CargoVault] No stock available (settlement destroyed and no cache)");
             return null;
         }
 

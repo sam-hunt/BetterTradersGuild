@@ -39,7 +39,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 {
                     // For Traders Guild, always add signal jammer message and disable
                     FloatMenuOption modifiedOption = new FloatMenuOption(
-                        option.Label + " (requires signal jammer)",
+                        option.Label + " " + "BTG_RequiresSignalJammer".Translate(),
                         null  // Disable the action
                     );
 
@@ -62,7 +62,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             if (isTradersGuild && canPeacefullyVisit && !hasTradeOption)
             {
                 FloatMenuOption tradeOption = new FloatMenuOption(
-                    "Trade with " + __instance.Label,
+                    "TradeWithSettlement".Translate(__instance.Label),
                     delegate
                     {
                         // Create and execute a trade arrival action

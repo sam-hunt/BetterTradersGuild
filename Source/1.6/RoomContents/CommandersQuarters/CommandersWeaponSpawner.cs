@@ -34,36 +34,37 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
 
             // Find the ShelfSmall within the entire room area (not just bedroom)
             Building_Storage shelf = null;
-            int shelvesFound = 0;
 
-            // Search full room rect (bedroom + lounge)
+            // Search all room rects (bedroom + lounge, supports multi-rect rooms)
             if (room.rects != null && room.rects.Count > 0)
             {
-                CellRect roomRect = room.rects.First();
-                foreach (IntVec3 cell in roomRect.Cells)
+                foreach (CellRect roomRect in room.rects)
                 {
-                    if (!cell.InBounds(map)) continue;
-
-                    List<Thing> things = cell.GetThingList(map);
-                    if (things != null)
+                    foreach (IntVec3 cell in roomRect.Cells)
                     {
-                        foreach (Thing thing in things)
+                        if (!cell.InBounds(map)) continue;
+
+                        List<Thing> things = cell.GetThingList(map);
+                        if (things != null)
                         {
-                            if (thing.def == Things.ShelfSmall && thing is Building_Storage storage)
+                            foreach (Thing thing in things)
                             {
-                                shelvesFound++;
-                                shelf = storage;
-                                break;
+                                if (thing.def == Things.ShelfSmall && thing is Building_Storage storage)
+                                {
+                                    shelf = storage;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (shelf != null)
-                    {
-                        // Spawn weapon at the shelf's position
-                        GenSpawn.Spawn(weapon, shelf.Position, map, Rot4.North);
-                        break;
+                        if (shelf != null)
+                        {
+                            // Spawn weapon at the shelf's position
+                            GenSpawn.Spawn(weapon, shelf.Position, map, Rot4.North);
+                            break;
+                        }
                     }
+                    if (shelf != null) break;
                 }
             }
 

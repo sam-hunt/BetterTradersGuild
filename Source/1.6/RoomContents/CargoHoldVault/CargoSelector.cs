@@ -22,7 +22,12 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             var selected = new List<Thing>();
 
             if (stock == null || stock.Count == 0)
+            {
+                Log.Message($"[BTG DEBUG] SelectCargo: stock is {(stock == null ? "null" : "empty")}, returning empty list");
                 return selected;
+            }
+
+            Log.Message($"[BTG DEBUG] SelectCargo: Taking {stock.Count} items from stock");
 
             // Take ALL items from stock (simple transfer)
             // Iterate over copy since we're modifying the collection
@@ -32,6 +37,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 selected.Add(taken);
             }
 
+            Log.Message($"[BTG DEBUG] SelectCargo: Took {selected.Count} items, stock now has {stock.Count} items");
             return selected;
         }
 

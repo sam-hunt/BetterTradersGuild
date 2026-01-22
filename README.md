@@ -5,11 +5,11 @@
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey%20Required-orange.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
 [![Version](https://img.shields.io/badge/Version-0.1.0--alpha.1-yellow.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
-[![Development Status](https://img.shields.io/badge/Status-Phase%202%20Complete-green.svg)](https://github.com/sam-hunt/BetterTradersGuild/blob/main/PLAN.md)
+[![Development Status](https://img.shields.io/badge/Status-Alpha-green.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 
-## 🚨 Alpha Release
+## Alpha Release
 
-This is an **alpha release** (v0.1.0-alpha.1) for early testing. Phase 2 (Peaceful Trading) is complete and fully functional. Phase 3 (Enhanced Settlement Generation) is partially implemented. See [Known Limitations](#alpha-limitations) below.
+This is an **alpha release** (v0.1.0-alpha.1) for early testing. Peaceful trading is complete and fully functional. Enhanced settlement generation is partially implemented. See [Known Limitations](#alpha-limitations) below.
 
 Transform the Traders Guild from hostile orbital raiders into valuable trading partners. Visit their orbital settlements peacefully for dynamic trading opportunities, or maintain the vanilla hostile relationship if you prefer the challenge. Your choice.
 
@@ -26,7 +26,7 @@ Vanilla gameplay is preserved for hostile relationships - you can still raid set
 
 ## Features
 
-### ✅ Phase 2: Peaceful Trading Visits (Complete)
+### Peaceful Trading Visits
 
 - **Peaceful Access**: Visit Traders Guild orbital bases via shuttle or caravan when relations are Neutral or better
 - **Dynamic Trader Rotation**: Each settlement rotates between 4 orbital trader types (Bulk Goods, Combat Supplier, Exotic, Pirate Merchant)
@@ -36,20 +36,18 @@ Vanilla gameplay is preserved for hostile relationships - you can still raid set
 - **Desynchronized Schedules**: Each settlement rotates independently based on its unique ID
 - **Mod Compatibility**: Automatically supports any mods that add custom orbital trader types
 
-### 🚧 Phase 3: Enhanced Settlement Generation (In Progress)
+### Enhanced Settlement Generation (In Progress)
 
 - Custom room layouts with modern aesthetics (Trade Shuttle Bay, Commander's Quarters, Command Center, Medical Bay, Barracks, etc.)
 - Dynamic cargo system - items spawn from the settlement's actual trade inventory
 - Realistic consequences: steal cargo and it's missing from trade stock, or sell items and find them in the cargo bay later
 - Configurable cargo percentage (30-100%, default 60%)
 
-### 🔮 Coming later
+### Coming Later
 
 - Other DLC and popular community mod integrations
 - Possible new quest site(s) and/or goodwill opportunities
 - Quality-of-life improvements based on community feedback
-
-See [PLAN.md](PLAN.md) for detailed development roadmap and technical architecture.
 
 ## Requirements
 
@@ -94,7 +92,7 @@ Access mod settings via: **Options → Mod Settings → Better Traders Guild**
   - Shorter intervals = more variety, less strategic planning
   - Longer intervals = more strategic scouting, fewer "check all settlements" trips
 
-### Map Generation (Phase 3 Features)
+### Map Generation
 
 - **Use custom settlement layouts** (checkbox, default: ON)
 
@@ -105,23 +103,21 @@ Access mod settings via: **Options → Mod Settings → Better Traders Guild**
 - **Use enhanced pawn generation** (checkbox, default: ON)
   - Spawn specialized crew members in custom rooms
   - Requires custom layouts to be enabled
-  - _Currently in development (Phase 3.3)_
 
-### Cargo System (Phase 3 Features)
+### Cargo System
 
 - **Cargo bay inventory percentage** (0-100%, default: 60%)
   - How much of trade inventory spawns as cargo in shuttle bay
   - Set to 0% to disable cargo spawning (reduces save file size)
   - Requires custom layouts to be enabled
-  - _Currently in development (Phase 3.4-3.5)_
 
 ## Compatibility
 
 ### Save-Game Safety
 
-✅ **Safe to add** to existing saves - orbital traders begin docking immediately
+**Safe to add** to existing saves - orbital traders begin docking immediately
 
-✅ **Removing mid-playthrough:**
+**Removing mid-playthrough:**
 
 - A one-time red error log entry may be ignored.
 - Any already-generated settlement maps will persist.
@@ -132,8 +128,8 @@ Access mod settings via: **Options → Mod Settings → Better Traders Guild**
 
 ### Load Order Compatibility
 
-- ✅ Compatible with mods that add custom orbital trader types (automatically detected)
-- ⚠️ May conflict with other mods that heavily modify Traders Guild faction behavior (untested)
+- Compatible with mods that add custom orbital trader types (automatically detected)
+- May conflict with other mods that heavily modify Traders Guild faction behavior (untested)
 
 ### Known Issues
 
@@ -143,7 +139,7 @@ Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTr
 
 ### Alpha Limitations
 
-**Phase 3 (Enhanced Settlement Generation) is partially complete** in this alpha release. Current limitations:
+**Enhanced settlement generation is partially complete** in this alpha release. Current limitations:
 
 - **Commander's Quarters Room** - Basic implementation working, but some edge cases unhandled:
 
@@ -154,16 +150,16 @@ Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTr
 
 - **Other Custom Rooms** - Fully defined but using vanilla generation until Commander's Quarters patterns are finalized
 
-- **Dynamic Cargo System** - Designed but not yet implemented (planned for Phase 3 completion)
+- **Dynamic Cargo System** - Designed but not yet implemented
 
 **What works in this alpha:**
 
-- ✅ All Phase 2 peaceful trading features (fully complete and stable)
-- ✅ Custom settlement layout system (18 room types defined)
-- ✅ 10 custom prefabs for furniture arrangements
-- ✅ Commander's Quarters basic generation (bedroom, bookcase, unique weapons)
+- All peaceful trading features (fully complete and stable)
+- Custom settlement layout system (18 room types defined)
+- 10 custom prefabs for furniture arrangements
+- Commander's Quarters basic generation (bedroom, bookcase, unique weapons)
 
-Phase 3 will be completed in a future alpha release. Current implementation is functional but may have minor aesthetic issues in Commander's Quarters.
+Current implementation is functional but may have minor aesthetic issues in Commander's Quarters.
 
 ## FAQ
 
@@ -201,7 +197,7 @@ Found a bug? Please report it on the [GitHub Issues](https://github.com/sam-hunt
 
 ### Feature Requests
 
-Feature ideas are welcome! Check the [PLAN.md roadmap](PLAN.md) first to see if it's already planned.
+Feature ideas are welcome! Open an issue on GitHub to suggest improvements.
 
 ### Contributing
 

@@ -17,10 +17,11 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// <summary>
         /// Scans a LayoutRoom's perimeter and returns all door positions as blockers.
         /// Use this for initial placement in a full room where walls are expected on all edges.
+        /// Scans all rects in the room to find all edge blockers.
         /// </summary>
         /// <param name="room">The layout room to scan</param>
         /// <param name="map">The map containing the room</param>
-        /// <returns>List of edge blocker positions (doors)</returns>
+        /// <returns>List of edge blocker positions (doors) from all rects</returns>
         public static List<DoorPosition> GetEdgeBlockers(LayoutRoom room, Map map)
         {
             var blockers = new List<DoorPosition>();
@@ -28,8 +29,13 @@ namespace BetterTradersGuild.Helpers.RoomContents
             if (room.rects == null || room.rects.Count == 0)
                 return blockers;
 
-            CellRect roomRect = room.rects[0];
-            return GetEdgeBlockersForRect(roomRect, map, wallsOnly: true);
+            // Scan all rects in the room for edge blockers
+            foreach (CellRect roomRect in room.rects)
+            {
+                blockers.AddRange(GetEdgeBlockersForRect(roomRect, map, wallsOnly: true));
+            }
+
+            return blockers;
         }
 
         /// <summary>

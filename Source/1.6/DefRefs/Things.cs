@@ -147,7 +147,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Table_interactive_2x2c;
         [MayRequire("VanillaExpanded.VFESpacerModule")]
         public static ThingDef VFES_AirPurifier;
-        [MayRequire("VanillaExpanded.VFESpacerModule")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_VacBarrierQuintuple;
 
         // === VFE MEDICAL MODULE ===
@@ -175,19 +175,19 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef VNPE_NutrientPasteVat;
 
         // === VE GRAVSHIPS ===
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_OxygenPipe;
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_AstrofuelPipe;
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_HiddenOxygenPipe;
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_HiddenAstrofuelPipe;
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_OxygenValve;
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_AstrofuelValve;
-        [MayRequire("VanillaExpanded.VGravships")]
+        [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_SmallOxygenTank;
 
         // === VRE GENIE ===

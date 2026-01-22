@@ -16,17 +16,20 @@
     with the high-tech spacer aesthetic.
   -->
 
-  <Operation Class="PatchOperationReplace" MayRequire="VanillaExpanded.VFESpacer">
-    <xpath>Defs/PrefabDef[defName="BTG_DiningTables"]/things/Table2x2c</xpath>
-    <value>
-      <Table_interactive_2x2c>
-        <positions>
-          <li>(1, 0, 0)</li>
-          <li>(1, 0, 3)</li>
-        </positions>
-        <stuff>Steel</stuff>
-      </Table_interactive_2x2c>
-    </value>
+  <Operation Class="PatchOperationConditional" MayRequire="VanillaExpanded.VFESpacer">
+    <xpath>/Defs/ThingDef[defName="Table_interactive_2x2c"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/PrefabDef[defName="BTG_DiningTables"]/things/Table2x2c</xpath>
+      <value>
+        <Table_interactive_2x2c MayRequire="VanillaExpanded.VFESpacer">
+          <positions>
+            <li>(1, 0, 0)</li>
+            <li>(1, 0, 3)</li>
+          </positions>
+          <stuff>Steel</stuff>
+        </Table_interactive_2x2c>
+      </value>
+    </match>
   </Operation>
 
   <Operation Class="PatchOperationRemove" MayRequire="VanillaExpanded.VFESpacer">

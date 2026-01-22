@@ -23,8 +23,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
             if (pocketMap == null)
                 return;
 
-            // Get stock (handles fallback to cached stock if settlement defeated)
-            // Returns null only if settlement is gone AND no cache exists
+            // Get stock reference to add items back to.
+            // Note: GetStock only triggers regeneration if stock is null (never created).
+            // Stock may be empty because items were extracted for spawning - that's expected
+            // and will NOT trigger regeneration.
             ThingOwner<Thing> stock = CargoVaultHelper.GetStock(pocketMap);
 
             // Collect all eligible items and pawns from the pocket map
@@ -34,8 +36,6 @@ namespace BetterTradersGuild.Helpers.RoomContents
             // Return items to stock (or destroy if no stock)
             ReturnItemsToStock(itemsToReturn, stock);
             ReturnPawnsToStock(pawnsToReturn, stock);
-
-            Log.Message($"[BTG] CargoReturnHelper: Returned {itemsToReturn.Count} items and {pawnsToReturn.Count} pawns to stock");
         }
 
         /// <summary>
@@ -127,8 +127,6 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </remarks>
         private static void ReturnPawnsToStock(List<Pawn> pawns, ThingOwner<Thing> stock)
         {
-            Log.Message($"[BTG DEBUG] ReturnPawnsToStock: Processing {pawns.Count} pawns, stock is {(stock != null ? "valid" : "NULL")}");
-
             foreach (Pawn pawn in pawns)
             {
                 // Despawn from map

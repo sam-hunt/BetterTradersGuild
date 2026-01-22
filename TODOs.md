@@ -1,7 +1,5 @@
 TODOs
 
-grep codebase for TODO comments
-
 - refactoring
   ensure subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 
@@ -10,13 +8,13 @@ grep codebase for TODO comments
 
 - Crew quarters
   rhs south rotation waste fillers 1xZ instead of 2xZ ?
+  check Filth_MoldyUniform doesn't require ideo?
 
 - Cargo vaults
+  document stock transfer coordination
   pawn entering the vault is a hostile action and sets goodwill to -100
+  test floor spawn cargo positional determinism
   test reentering the map after aborted assault
-  test reentering the map after successful assault
-  test reentering the map after trade inventory refresh
-  test freeze trader type while map is active
 
 - Mod integration
   VGE Faux plants
@@ -24,11 +22,14 @@ grep codebase for TODO comments
   VREA maintenance room
   trader ships shuttles texture option
   VE Brewing whisky shelf in Captain's quarters
+  VE Brewery room for beer like vanilla settlements?
 
 - Workshop screenshots and description
-- Update readme, remove plan and docs, regenerate claude.md?
-- readme with tree diagram for pawnkind hierarchy, map generation breakdown
-- language data for text strings?
-- test that mods work _without_ all dlc/mods we integrate with
+- Update readme
+- readme for map generation flow
+- test that mods work _with_ all dlc/mods we integrate with
 - confirm mod settings copy text
 - confirm mod id name/namespace
+- remove debug logging (again)
+
+- remove research docs?

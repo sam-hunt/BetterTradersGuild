@@ -30,8 +30,6 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
                 return;
             }
 
-            CellRect roomRect = room.rects.First();
-
             // 1. Call base to spawn XML prefabs (hydroponics basins, plant pots, shelves)
             //    IMPORTANT: We need containers to exist before we can populate them
             base.FillRoom(map, room, faction, threatPoints);
@@ -41,18 +39,23 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
             var hydroPlantOptions = new List<ThingDef> { Things.Plant_Rice, Things.Plant_Potato };
             ThingDef hydroPlant = hydroPlantOptions.RandomElementByWeight(p => 1f);
             float hydroGrowth = Rand.Range(0.7f, 1.0f);
-            RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, hydroPlant, hydroGrowth);
 
             // 3. Spawn daylilies in decorative plant pots
             //    Lower growth for young/budding appearance
             float potGrowth = Rand.Range(0.25f, 0.65f);
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, potGrowth);
 
-            // 4. Fill shelves with harvested crops (corn or cotton)
-            FillShelvesWithCrops(map, roomRect);
+            // Process all rects in the room (supports L-shaped or multi-rect rooms)
+            foreach (CellRect roomRect in room.rects)
+            {
+                RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, hydroPlant, hydroGrowth);
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, potGrowth);
 
-            // 5. Connect sun lamps to the conduit network under the room walls
-            RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.SunLamp);
+                // 4. Fill shelves with harvested crops (corn or cotton)
+                FillShelvesWithCrops(map, roomRect);
+
+                // 5. Connect sun lamps to the conduit network under the room walls
+                RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.SunLamp);
+            }
         }
 
         /// <summary>

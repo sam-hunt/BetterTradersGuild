@@ -122,9 +122,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // lastStockGenerationTicks = Find.TickManager.TicksGame
             // We restore our aligned value here to maintain the virtual schedule
             lastStockGenerationTicksField.SetValue(__instance, virtualTicks);
-
-            Verse.Log.Message($"[Better Traders Guild] Aligned {settlement.Label} to virtual schedule " +
-                             $"(virtualTicks={virtualTicks}, prevented vanilla overwrite)");
         }
     }
 }

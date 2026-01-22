@@ -77,10 +77,9 @@
       </li>
 
       <!-- Allow relocking after raiding (reusable, not permanent) -->
+      <!-- Label/desc use Keyed translations: BTG_CargoVaultHatch_RelockLabel/Desc -->
       <li Class="BetterTradersGuild.Comps.CompProperties_Relockable">
         <relockTexPath>UI/Commands/SealHatch</relockTexPath>
-        <relockCommandLabel>Relock cargo vault</relockCommandLabel>
-        <relockCommandDesc>Relock the cargo vault. Contents will be returned to station inventory.</relockCommandDesc>
       </li>
 
       <!-- Orange glow for locked state (swapped to green on hack via code) -->

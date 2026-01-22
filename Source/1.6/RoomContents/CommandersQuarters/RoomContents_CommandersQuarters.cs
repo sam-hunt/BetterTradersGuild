@@ -79,14 +79,16 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             //    ALWAYS runs - fixes books even if bedroom placement failed
             if (room.rects != null && room.rects.Count > 0)
             {
-                CellRect roomRect = room.rects.First();
-                RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
+                foreach (CellRect roomRect in room.rects)
+                {
+                    RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
 
-                // 9. Spawn decorative plants (roses) in all plant pots
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Rose, growth: 1.0f);
+                    // 9. Spawn decorative plants (roses) in all plant pots
+                    RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Rose, growth: 1.0f);
 
-                // 10. Connect VFE Spacer air purifier to power (does nothing if VFE Spacer not installed)
-                RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.VFES_AirPurifier);
+                    // 10. Connect VFE Spacer air purifier to power (does nothing if VFE Spacer not installed)
+                    RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.VFES_AirPurifier);
+                }
             }
         }
 

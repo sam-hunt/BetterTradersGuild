@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German translation for Better Traders Guild -->
+<!-- Uncomment and translate the entries below -->
+<LanguageData>
+
+  <!-- BTG_CargoVaultHatch -->
+  <!-- <BTG_CargoVaultHatch.label>secure cargo vault hatch</BTG_CargoVaultHatch.label> -->
+  <!-- <BTG_CargoVaultHatch.description>A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock.</BTG_CargoVaultHatch.description> -->
+  <!-- NOTE: Comp strings use Keyed translations in BTG.xml (DefInjection doesn't work for comp properties) -->
+
+  <!-- BTG_CargoVaultHatch_Sealed -->
+  <!-- <BTG_CargoVaultHatch_Sealed.label>sealed cargo vault hatch</BTG_CargoVaultHatch_Sealed.label> -->
+  <!-- <BTG_CargoVaultHatch_Sealed.description>A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders.</BTG_CargoVaultHatch_Sealed.description> -->
+
+  <!-- BTG_CargoVaultExit -->
+  <!-- <BTG_CargoVaultExit.label>cargo vault exit</BTG_CargoVaultExit.label> -->
+  <!-- <BTG_CargoVaultExit.description>A secure ladder and hatch providing access back to the station's shuttle bay above.</BTG_CargoVaultExit.description> -->
+
+</LanguageData>

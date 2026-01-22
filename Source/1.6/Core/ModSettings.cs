@@ -7,7 +7,7 @@ namespace BetterTradersGuild
     /// </summary>
     public class BetterTradersGuildSettings : ModSettings
     {
-        // ===== PHASE 2: CORE FEATURES (ALWAYS ENABLED) =====
+        // ===== CORE FEATURES (ALWAYS ENABLED) =====
 
         /// <summary>
         /// Trader rotation interval in days (how often orbital traders change at settlements)
@@ -19,7 +19,7 @@ namespace BetterTradersGuild
         /// </remarks>
         public int traderRotationIntervalDays = 15;
 
-        // ===== PHASE 3: OPTIONAL MAP GENERATION FEATURES =====
+        // ===== MAP GENERATION FEATURES =====
 
         /// <summary>
         /// Enable custom settlement layouts for TradersGuild bases
@@ -43,7 +43,7 @@ namespace BetterTradersGuild
         /// </remarks>
         public bool enableCargoVault = true;
 
-        // ===== PHASE 3: SENTRY DRONE SYSTEM =====
+        // ===== SENTRY DRONE SYSTEM =====
 
         /// <summary>
         /// Sentry drone presence as a factor of threat points
@@ -126,21 +126,21 @@ namespace BetterTradersGuild
 
             // ========== SECTION: CORE FEATURES ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Core Features");
+            listingStandard.Label("BTG_Settings_CoreFeatures".Translate());
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
             // Trader rotation interval slider
-            string intervalLabel = $"Trader rotation interval: {settings.traderRotationIntervalDays} days";
+            string intervalLabel = "BTG_Settings_TraderRotationInterval".Translate(settings.traderRotationIntervalDays);
 
             // Add labels for special values
             if (settings.traderRotationIntervalDays == 15)
             {
-                intervalLabel += " (Default)";
+                intervalLabel += " " + "BTG_Settings_Default".Translate();
             }
             else if (settings.traderRotationIntervalDays == 30)
             {
-                intervalLabel += " (Vanilla)";
+                intervalLabel += " " + "BTG_Settings_Vanilla".Translate();
             }
 
             listingStandard.Label(intervalLabel);
@@ -154,57 +154,54 @@ namespace BetterTradersGuild
             // Description text
             GameFont previousFont = Text.Font;
             Text.Font = GameFont.Tiny;
-            listingStandard.Label("How often orbital traders rotate at TradersGuild settlements.");
-            listingStandard.Label("Lower values = more variety, but less time to reach distant settlements.");
+            listingStandard.Label("BTG_Settings_TraderRotationDesc1".Translate());
+            listingStandard.Label("BTG_Settings_TraderRotationDesc2".Translate());
             Text.Font = previousFont;
 
             listingStandard.Gap(24f);
 
             // ========== SECTION: MAP GENERATION ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Map Generation");
+            listingStandard.Label("BTG_Settings_MapGeneration".Translate());
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
             // Custom layouts checkbox
-            listingStandard.CheckboxLabeled("Use custom settlement map generator", ref settings.useCustomLayouts,
-                "Generate TradersGuild settlements with less abandoned-looking aesthetics.\n" +
-                "Disable if using other map generation mods or prefer vanilla layouts.");
+            listingStandard.CheckboxLabeled("BTG_Settings_UseCustomLayouts".Translate(), ref settings.useCustomLayouts,
+                "BTG_Settings_UseCustomLayoutsDesc".Translate());
             listingStandard.Gap(24f);
 
             // ========== SECTION: CARGO VAULT ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Cargo Vault");
+            listingStandard.Label("BTG_Settings_CargoVault".Translate());
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
             // Cargo vault checkbox (grayed out if layouts disabled)
             UnityEngine.GUI.enabled = settings.useCustomLayouts;
 
-            listingStandard.CheckboxLabeled("Enable cargo vault access", ref settings.enableCargoVault,
-                "When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\n" +
-                "When disabled, cargo vaults spawn sealed and inaccessible.\n" +
-                "Only affects newly generated settlements.");
+            listingStandard.CheckboxLabeled("BTG_Settings_EnableCargoVault".Translate(), ref settings.enableCargoVault,
+                "BTG_Settings_EnableCargoVaultDesc".Translate());
 
             listingStandard.Gap(24f);
 
             // ========== SECTION: SENTRY DRONES ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Sentry Drones");
+            listingStandard.Label("BTG_Settings_SentryDrones".Translate());
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
             // Sentry drone presence slider (grayed out if layouts disabled)
             int dronePercentageDisplay = (int)(settings.sentryDronePresence * 100f);
-            string droneLabel = $"Sentry drone presence: {dronePercentageDisplay}%";
+            string droneLabel = "BTG_Settings_SentryDronePresence".Translate(dronePercentageDisplay);
 
             if (dronePercentageDisplay == 0)
             {
-                droneLabel += " (Disabled)";
+                droneLabel += " " + "BTG_Settings_Disabled".Translate();
             }
             else if (dronePercentageDisplay == 35)
             {
-                droneLabel += " (Default)";
+                droneLabel += " " + "BTG_Settings_Default".Translate();
             }
 
             listingStandard.Label(droneLabel);
@@ -217,23 +214,23 @@ namespace BetterTradersGuild
 
             // Description text
             Text.Font = GameFont.Tiny;
-            listingStandard.Label("Factor of threat points used for patrolling sentry drone spawning.");
+            listingStandard.Label("BTG_Settings_SentryDroneDesc".Translate());
             Text.Font = previousFont;
 
             listingStandard.Gap(24f);
 
             // ========== SECTION: COMBAT DIFFICULTY ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Combat Difficulty");
+            listingStandard.Label("BTG_Settings_CombatDifficulty".Translate());
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
             // Threat points multiplier slider (grayed out if layouts disabled)
-            string multiplierLabel = $"Threat points multiplier: {settings.threatPointsMultiplier:F1}x";
+            string multiplierLabel = "BTG_Settings_ThreatMultiplier".Translate(settings.threatPointsMultiplier.ToString("F1"));
 
             if (settings.threatPointsMultiplier == 1.0f)
             {
-                multiplierLabel += " (Default)";
+                multiplierLabel += " " + "BTG_Settings_Default".Translate();
             }
 
             listingStandard.Label(multiplierLabel);
@@ -246,23 +243,23 @@ namespace BetterTradersGuild
 
             // Description text
             Text.Font = GameFont.Tiny;
-            listingStandard.Label("Multiplier applied to threat points after minimum cap.");
-            listingStandard.Label("Higher values = more/stronger defenders. Requires custom layouts.");
+            listingStandard.Label("BTG_Settings_ThreatMultiplierDesc1".Translate());
+            listingStandard.Label("BTG_Settings_ThreatMultiplierDesc2".Translate());
             Text.Font = previousFont;
 
             listingStandard.Gap(12f);
 
             // Minimum threat points slider (grayed out if layouts disabled)
             int threatPointsDisplay = (int)settings.minimumThreatPoints;
-            string threatLabel = $"Minimum threat points: {threatPointsDisplay}";
+            string threatLabel = "BTG_Settings_MinThreatPoints".Translate(threatPointsDisplay);
 
             if (threatPointsDisplay == 0)
             {
-                threatLabel += " (Disabled)";
+                threatLabel += " " + "BTG_Settings_Disabled".Translate();
             }
             else if (threatPointsDisplay == 2400)
             {
-                threatLabel += " (Default)";
+                threatLabel += " " + "BTG_Settings_Default".Translate();
             }
 
             listingStandard.Label(threatLabel);
@@ -275,9 +272,9 @@ namespace BetterTradersGuild
 
             // Description text
             Text.Font = GameFont.Tiny;
-            listingStandard.Label("Minimum combat points for TradersGuild settlement defenders.");
-            listingStandard.Label("Higher values spawn stronger/more defenders to match custom layout loot.");
-            listingStandard.Label("Set to 0 to use vanilla wealth-based calculation. Requires custom layouts.");
+            listingStandard.Label("BTG_Settings_MinThreatPointsDesc1".Translate());
+            listingStandard.Label("BTG_Settings_MinThreatPointsDesc2".Translate());
+            listingStandard.Label("BTG_Settings_MinThreatPointsDesc3".Translate());
             Text.Font = previousFont;
 
             UnityEngine.GUI.enabled = true;
@@ -286,20 +283,20 @@ namespace BetterTradersGuild
 
             // ========== SECTION: BALANCE ADJUSTMENTS ==========
             Text.Font = GameFont.Medium;
-            listingStandard.Label("Balance Adjustments");
+            listingStandard.Label("BTG_Settings_BalanceAdjustments".Translate());
             Text.Font = GameFont.Small;
             listingStandard.Gap(12f);
 
             // LifeSupportUnit power output slider
-            string powerLabel = $"LifeSupportUnit power output: {settings.lifeSupportUnitPowerOutput}W";
+            string powerLabel = "BTG_Settings_LifeSupportPower".Translate(settings.lifeSupportUnitPowerOutput);
 
             if (settings.lifeSupportUnitPowerOutput == 1200)
             {
-                powerLabel += " (BTG Default)";
+                powerLabel += " " + "BTG_Settings_BTGDefault".Translate();
             }
             else if (settings.lifeSupportUnitPowerOutput == 3200)
             {
-                powerLabel += " (Vanilla)";
+                powerLabel += " " + "BTG_Settings_Vanilla".Translate();
             }
 
             listingStandard.Label(powerLabel);
@@ -312,9 +309,9 @@ namespace BetterTradersGuild
 
             // Description text
             Text.Font = GameFont.Tiny;
-            listingStandard.Label("Power produced by orbital LifeSupportUnits (Requires restart)");
-            listingStandard.Label("BTG connects settlement buildings to a shared power grid,");
-            listingStandard.Label("so vanilla's 3200W output provides excessive free power.");
+            listingStandard.Label("BTG_Settings_LifeSupportDesc1".Translate());
+            listingStandard.Label("BTG_Settings_LifeSupportDesc2".Translate());
+            listingStandard.Label("BTG_Settings_LifeSupportDesc3".Translate());
             Text.Font = previousFont;
 
             listingStandard.Gap(24f);
@@ -324,7 +321,7 @@ namespace BetterTradersGuild
 
         public override string SettingsCategory()
         {
-            return "Better Traders Guild";
+            return "BTG_Settings_ModName".Translate();
         }
     }
 }

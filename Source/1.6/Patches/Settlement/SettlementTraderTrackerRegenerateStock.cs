@@ -63,29 +63,33 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
         /// <summary>
         /// Prefix method - sets flag before regeneration starts.
-        /// Also blocks rotation while settlement map is loaded (player visiting),
-        /// but allows initial stock generation if stock doesn't exist yet.
+        /// Also blocks rotation/regeneration while settlement map is loaded (player visiting),
+        /// but allows INITIAL stock generation if stock has never been created (null).
         /// </summary>
         /// <param name="__instance">The Settlement_TraderTracker instance</param>
         /// <returns>False to skip original method (when blocking rotation), true otherwise</returns>
+        /// <remarks>
+        /// IMPORTANT: Only allow regeneration if stock is NULL (never created).
+        /// An empty stock (Count == 0) means items were legitimately removed (trading, cargo vault)
+        /// and should NOT trigger regeneration - we want the stock to remain frozen while visiting.
+        /// </remarks>
         [HarmonyPrefix]
         public static bool Prefix(Settlement_TraderTracker __instance)
         {
             Settlement settlement = __instance.settlement;
             if (settlement != null && TradersGuildHelper.IsTradersGuildSettlement(settlement))
             {
-                // Block rotation while map is loaded - player is visiting
-                // BUT allow initial stock generation if stock doesn't exist yet
+                // Block rotation/regeneration while map is loaded - player is visiting
+                // ONLY allow initial generation if stock has never been created (null)
                 if (settlement.Map != null)
                 {
-                    // Check if stock already exists - if not, allow generation
                     object existingStock = stockField?.GetValue(__instance);
                     if (existingStock != null)
                     {
-                        // Stock exists - block rotation to prevent trader changing mid-visit
+                        // Stock exists (even if empty) - block to keep it frozen
                         return false; // Skip original RegenerateStock
                     }
-                    // Stock is null - allow initial generation to proceed
+                    // Stock is null - allow initial generation (called by SettlementMapGenerated)
                 }
 
                 regeneratingSettlements.Value.Add(settlement.ID);
@@ -116,13 +120,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Clear the regeneration flag
             regeneratingSettlements.Value.Remove(settlement.ID);
 
-            // Log the new trader type after stock regenerates
-            TraderKindDef newTraderKind = __instance.TraderKind;
-            string traderLabel = newTraderKind?.label ?? "none";
-            int lastStockTicks = (int)lastStockGenerationTicksField.GetValue(__instance);
-
-            Log.Message($"[Better Traders Guild] {settlement.Label} stock regenerated → trader: {traderLabel} " +
-                       $"(ticks={lastStockTicks}, commonality={newTraderKind?.CalculatedCommonality:F2})");
         }
     }
 }

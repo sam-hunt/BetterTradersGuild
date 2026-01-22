@@ -51,7 +51,12 @@ namespace BetterTradersGuild.DefRefs
         public static PrefabDef BTG_ServerRacks_Subroom;
 
         // === NURSERY ===
+        [MayRequireBiotech]
         public static PrefabDef BTG_CribSubroom;
+
+        // === CLASSROOM ===
+        [MayRequireBiotech]
+        public static PrefabDef BTG_ClassroomBookshelf_Edge;
 
         // === CARGO VAULT ===
         public static PrefabDef BTG_PoweredSniperTurretArray;
@@ -68,7 +73,6 @@ namespace BetterTradersGuild.DefRefs
         public static PrefabDef BTG_HospitalBeds_Edge;
         public static PrefabDef BTG_MedicineShelf_Edge;
         public static PrefabDef BTG_BilliardsTable;
-        public static PrefabDef BTG_ClassroomBookshelf_Edge;
         public static PrefabDef BTG_HydroponicHealroot;
 
         static Prefabs() => DefOfHelper.EnsureInitializedInCtor(typeof(Prefabs));

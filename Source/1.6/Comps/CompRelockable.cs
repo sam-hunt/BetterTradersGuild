@@ -53,13 +53,43 @@ namespace BetterTradersGuild.Comps
 
             yield return new Command_Action
             {
-                defaultLabel = Props.relockCommandLabel ?? "Relock",
-                defaultDesc = Props.relockCommandDesc ?? "Relock the hatch. Select a colonist to perform this task.",
+                defaultLabel = Props.relockCommandLabel ?? "BTG_CargoVaultHatch_RelockLabel".Translate(),
+                defaultDesc = Props.relockCommandDesc ?? "BTG_CargoVaultHatch_RelockDesc".Translate(),
                 icon = !string.IsNullOrEmpty(Props.relockTexPath)
                     ? ContentFinder<Texture2D>.Get(Props.relockTexPath)
                     : null,
                 action = () => BeginRelockTargeting()
             };
+        }
+
+        /// <summary>
+        /// Provides float menu options when a pawn right-clicks on the hatch.
+        /// Mirrors vanilla CompSealable behavior for consistency.
+        /// </summary>
+        public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
+        {
+            // Only show relock option when hatch is unlocked (hacked)
+            CompHackable hackable = parent.GetComp<CompHackable>();
+            if (hackable == null || !hackable.IsHacked)
+                yield break;
+
+            // Only show when not on player's home map
+            if (parent.Map != null && parent.Map.IsPlayerHome)
+                yield break;
+
+            // Check if pawn can do the job
+            if (!selPawn.IsColonistPlayerControlled)
+                yield break;
+
+            if (selPawn.Downed || selPawn.Dead)
+                yield break;
+
+            string label = Props.relockCommandLabel ?? "BTG_CargoVaultHatch_RelockLabel".Translate();
+
+            yield return new FloatMenuOption(label, delegate
+            {
+                TryAssignRelockJobWithWarning(selPawn);
+            });
         }
 
         /// <summary>
@@ -232,8 +262,6 @@ namespace BetterTradersGuild.Comps
 
             // 2. Reset CompHackable state via reflection
             ResetHackableState();
-
-            Log.Message("[BTG] CargoVaultHatch relocked");
         }
 
         /// <summary>

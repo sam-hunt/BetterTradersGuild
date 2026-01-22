@@ -144,7 +144,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // Middle strips with exclusion zones at both ends may have "floating island" subrooms
             // disconnected from the wall-based power grid. Running conduits along door rows
             // ensures all subrooms have power connectivity.
-            CorridorPowerConnector.ConnectInteriorDoorRows(map, roomRect);
+            foreach (CellRect rect in room.rects)
+            {
+                CorridorPowerConnector.ConnectInteriorDoorRows(map, rect);
+            }
 
             // 5. Call base to process XML-defined content (lockers spawn in corridors/exclusion zones)
             base.FillRoom(map, room, faction, threatPoints);
@@ -161,7 +164,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             var decorativePlants = DefDatabase<ThingDef>.AllDefs
                 .Where(p => p.plant?.sowTags?.Contains("Decorative") == true)
                 .ToList();
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, decorativePlants, growth: 1.0f);
+            foreach (CellRect rect in room.rects)
+            {
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, rect, decorativePlants, growth: 1.0f);
+            }
         }
 
         /// <summary>

@@ -35,13 +35,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            Log.Message("[BTG CargoVault] FillRoom called");
+            Log.Message($"[BTG DEBUG] FillRoom: Called for map {map}");
 
             if (room.rects == null || room.rects.Count == 0)
-            {
-                Log.Message("[BTG CargoVault] No room rects, exiting");
                 return;
-            }
 
             // Get bounding rect of all room rects for center calculation
             CellRect boundingRect = room.rects[0];
@@ -50,7 +47,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 
             // Calculate exit subroom placement BEFORE base.FillRoom so IsValidCellBase can block it
             CalculateExitSubroomPlacement(boundingRect);
-            Log.Message($"[BTG CargoVault] Exit subroom exclusion rect: {exitSubroomRect}");
 
             // Process XML prefabs (shelves, etc.) - IsValidCellBase will block the center
             base.FillRoom(map, room, faction, threatPoints);
@@ -62,45 +58,18 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 Log.Warning("[BTG CargoVault] Failed to spawn exit subroom");
             }
 
-            // Navigate to parent settlement (may be null if defeated)
-            Log.Message($"[BTG CargoVault] Map.Parent type: {map.Parent?.GetType().Name ?? "null"}");
-            Settlement settlement = CargoVaultHelper.GetParentSettlement(map);
-            if (settlement != null)
-            {
-                Log.Message($"[BTG CargoVault] Found settlement: {settlement.Label}");
-            }
-            else
-            {
-                Log.Message("[BTG CargoVault] No parent settlement (may be defeated), checking for cached stock");
-            }
-
             // Get trade stock (handles fallback to cached stock if settlement defeated)
             ThingOwner<Thing> stock = CargoVaultHelper.GetStock(map);
-            if (stock == null)
-            {
-                Log.Message("[BTG CargoVault] Stock is null, exiting");
+            if (stock == null || stock.Count == 0)
                 return;
-            }
-            if (stock.Count == 0)
-            {
-                Log.Message("[BTG CargoVault] Stock is empty, exiting");
-                return;
-            }
-            Log.Message($"[BTG CargoVault] Stock has {stock.Count} items");
 
             // Select ALL cargo (removes from stock)
             List<Thing> cargo = CargoSelector.SelectCargo(stock);
-            Log.Message($"[BTG CargoVault] Selected {cargo.Count} cargo items");
-
             if (cargo.Count == 0)
-            {
-                Log.Message("[BTG CargoVault] No cargo selected, exiting");
                 return;
-            }
 
             // Categorize into items and pawns
             CargoSelector.CategorizeItems(cargo, out List<Thing> items, out List<Pawn> pawns);
-            Log.Message($"[BTG CargoVault] Categorized: {items.Count} items, {pawns.Count} pawns");
 
             // Get settlement ID for deterministic shelf placement
             // Uses fallback to cached ID if settlement was defeated
@@ -112,17 +81,14 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             // Spawn in each room rect
             foreach (CellRect roomRect in room.rects)
             {
-                Log.Message($"[BTG CargoVault] Spawning in rect: {roomRect}");
-
                 // Contract rect by 1 for floor spawning to avoid blocking doorways on room edges
                 CellRect floorSpawnRect = roomRect.ContractedBy(1);
 
                 // Items go on shelves first (deterministic placement), overflow to floor
                 List<Thing> overflow = CargoSpawner.SpawnItemsOnShelves(map, roomRect, items, settlementID);
-                Log.Message($"[BTG CargoVault] Shelf overflow: {overflow.Count} items");
                 if (overflow.Count > 0)
                 {
-                    List<Thing> floorUnspawned = CargoSpawner.SpawnOnFloor(map, floorSpawnRect, overflow, exitSubroomRect);
+                    List<Thing> floorUnspawned = CargoSpawner.SpawnOnFloor(map, floorSpawnRect, overflow, settlementID, exitSubroomRect);
                     unspawnedItems.AddRange(floorUnspawned);
                 }
 
@@ -137,14 +103,11 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             // Return any unspawned items to the trade inventory
             if (unspawnedItems.Count > 0)
             {
-                Log.Message($"[BTG CargoVault] Returning {unspawnedItems.Count} unspawned items to trade inventory");
                 foreach (Thing item in unspawnedItems)
                 {
                     stock.TryAdd(item, canMergeWithExistingStacks: true);
                 }
             }
-
-            Log.Message("[BTG CargoVault] FillRoom completed");
         }
 
         /// <summary>
@@ -188,8 +151,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             }
 
             PrefabUtility.SpawnPrefab(prefab, map, exitSubroomSpawnPos, Rot4.North, null);
-            Log.Message($"[BTG CargoVault] Spawned exit subroom at {exitSubroomSpawnPos}");
-
             return exitSubroomRect;
         }
 

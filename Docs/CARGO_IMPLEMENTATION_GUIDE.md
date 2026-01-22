@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides concrete code patterns for implementing the dynamic cargo system for TradersGuild settlement shuttle bays during Phase 3.
+This guide provides concrete code patterns for implementing the dynamic cargo system for TradersGuild settlement shuttle bays.
 
 ## Architecture Summary
 
@@ -448,7 +448,7 @@ public class BetterTradersGuildSettings : ModSettings
 {
     // Existing settings...
     
-    // Phase 3: Cargo System Settings
+    // Cargo System Settings
     public int CargoInventoryPercentage = 60; // How much of trade inventory appears as cargo
     
     public override void ExposeData()

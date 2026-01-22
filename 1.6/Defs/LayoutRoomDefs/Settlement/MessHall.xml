@@ -12,15 +12,6 @@
     <minSingleRectWidth>12</minSingleRectWidth>
     <minSingleRectHeight>12</minSingleRectHeight>
 
-    <scatter>
-      <!-- Light trash from dining activity -->
-      <Filth_Trash>
-        <groupsPerHundredCells>1~2</groupsPerHundredCells>
-        <itemsPerGroup>1~2</itemsPerGroup>
-        <minGroups>0</minGroups>
-      </Filth_Trash>
-    </scatter>
-
     <!-- Fine flooring for dining area -->
     <floorTypes>
       <li>WoodPlankFloor</li>
@@ -55,8 +46,7 @@
 
       <!-- Food storage -->
       <BTG_SteelShelf_Edge>
-        <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>2~5</minMaxRange>
+        <countRange>2~6</countRange>
       </BTG_SteelShelf_Edge>
 
       <!-- Decoration -->
@@ -76,5 +66,14 @@
       <!-- Cleaning mech - thematic for food prep area -->
       <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
     </parts>
+
+    <scatter>
+      <!-- Light trash from dining activity -->
+      <Filth_Trash>
+        <groupsPerHundredCells>1~2</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Trash>
+    </scatter>
   </LayoutRoomDef>
 </Defs>

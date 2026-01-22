@@ -50,6 +50,11 @@
         </positions>
         <stuff>Steel</stuff>
       </Table2x2c>
+
+      <WallLamp>
+        <position>(0, 0, 1)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
     </things>
 
     <terrain>

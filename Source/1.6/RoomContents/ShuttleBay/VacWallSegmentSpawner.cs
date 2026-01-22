@@ -149,7 +149,6 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 {
                     Thing barrier = ThingMaker.MakeThing(barrierDef);
                     GenSpawn.Spawn(barrier, barrierPos, map, barrierRotation);
-                    Log.Message($"[Better Traders Guild] Spawned {barrierDef.defName} at {barrierPos} rotation {barrierRotation}");
                 }
             }
         }

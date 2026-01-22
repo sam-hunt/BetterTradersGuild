@@ -22,10 +22,11 @@ namespace BetterTradersGuild.RoomContents.RecRoom
             if (room.rects == null || room.rects.Count == 0)
                 return;
 
-            CellRect roomRect = room.rects.First();
-
-            // Spawn decorative daylilies in corner plant pots
-            RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
+            // Spawn decorative daylilies in corner plant pots (all rects)
+            foreach (CellRect roomRect in room.rects)
+            {
+                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
+            }
         }
     }
 }

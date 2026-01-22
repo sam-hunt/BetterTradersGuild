@@ -18,15 +18,17 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
             // 1. Call base FIRST to spawn XML prefabs (empty shelves, pod launchers)
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 2. Post-process spawned prefabs
+            // 2. Post-process spawned prefabs (all rects)
             if (room.rects != null && room.rects.Count > 0)
             {
-                CellRect roomRect = room.rects.First();
-                FillSupplyShelves(map, roomRect);
-                MalfunctioningPodReplacer.ReplaceSomePodsWithMalfunctioning(map, roomRect);
+                foreach (CellRect roomRect in room.rects)
+                {
+                    FillSupplyShelves(map, roomRect);
+                    MalfunctioningPodReplacer.ReplaceSomePodsWithMalfunctioning(map, roomRect);
 
-                // Connect firefoam poppers to chemfuel pipes (does nothing if VE Chemfuel not installed)
-                RoomEdgeConnector.ConnectBuildingsToInfrastructure(map, roomRect, Things.FirefoamPopper, Things.VCHE_UndergroundChemfuelPipe);
+                    // Connect firefoam poppers to chemfuel pipes (does nothing if VE Chemfuel not installed)
+                    RoomEdgeConnector.ConnectBuildingsToInfrastructure(map, roomRect, Things.FirefoamPopper, Things.VCHE_UndergroundChemfuelPipe);
+                }
             }
         }
 
@@ -39,12 +41,11 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
 
             foreach (Building_Storage shelf in supplyShelves)
             {
-                // Steel
+                // Always chemfuel
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Chemfuel, Rand.RangeInclusive(50, 75));
+                // Sometimes steel
                 if (Rand.Chance(0.65f))
                     RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Steel, Rand.RangeInclusive(50, 75));
-                // Chemfuel
-                if (Rand.Chance(0.65f))
-                    RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Chemfuel, Rand.RangeInclusive(50, 75));
             }
         }
     }

@@ -69,6 +69,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// 2. Converting RimWorld CellRect to PlacementCalculator's SimpleRect
         /// 3. Calling PlacementCalculator.CalculateBestPlacement
         /// 4. Converting the result back to RimWorld types
+        ///
+        /// LIMITATION: This method uses only the first rect of the room. The subroom packing
+        /// algorithm requires a single contiguous rectangular area. Multi-rect rooms (L-shaped, etc.)
+        /// will only have subrooms placed in their first rect.
         /// </summary>
         /// <param name="room">The LayoutRoom to place the subroom in</param>
         /// <param name="map">The map being generated</param>
