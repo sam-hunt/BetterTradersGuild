@@ -223,9 +223,13 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     Log.Warning($"[Better Traders Guild] No available cell for MinifiedThing {thing.Label} - returning to trade inventory");
                     return thing;
                 }
-                GenSpawn.Spawn(thing, cell, map);
+                if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
+                {
+                    Log.Warning($"[Better Traders Guild] Failed to place MinifiedThing {thing.Label} - returning to trade inventory");
+                    return thing;
+                }
                 thing.SetForbidden(true, false);
-                usedCells.Add(cell);
+                usedCells.Add(thing.Position); // Use actual position since TryPlaceThing may adjust
                 return null;
             }
 
@@ -244,10 +248,14 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
                     return thing;
                 }
-                GenSpawn.Spawn(thing, cell, map);
+                if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
+                {
+                    Log.Warning($"[Better Traders Guild] Failed to place {thing.Label} - returning to trade inventory");
+                    return thing;
+                }
                 thing.SetForbidden(true, false);
                 if (isNonStackable)
-                    usedCells.Add(cell);
+                    usedCells.Add(thing.Position);
                 return null;
             }
 
@@ -270,10 +278,16 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
                     return thing;
                 }
-                GenSpawn.Spawn(thing, firstCell, map);
+                if (!GenPlace.TryPlaceThing(thing, firstCell, map, ThingPlaceMode.Near))
+                {
+                    // Restore original stack count before returning
+                    thing.stackCount = stackLimit + remaining;
+                    Log.Warning($"[Better Traders Guild] Failed to place {thing.Label} - returning to trade inventory");
+                    return thing;
+                }
                 thing.SetForbidden(true, false);
                 if (isNonStackable)
-                    usedCells.Add(firstCell);
+                    usedCells.Add(thing.Position);
 
                 // Spawn additional stacks for the remainder using seeded Rand
                 int unspawnedCount = 0;
@@ -303,10 +317,16 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                         newStack.Destroy(DestroyMode.Vanish);
                         continue;
                     }
-                    GenSpawn.Spawn(newStack, cell, map);
+                    if (!GenPlace.TryPlaceThing(newStack, cell, map, ThingPlaceMode.Near))
+                    {
+                        Log.Warning($"[Better Traders Guild] Failed to place {newStack.Label} stack - returning to trade inventory");
+                        unspawnedCount += thisStack;
+                        newStack.Destroy(DestroyMode.Vanish);
+                        continue;
+                    }
                     newStack.SetForbidden(true, false);
                     if (isNonStackable)
-                        usedCells.Add(cell);
+                        usedCells.Add(newStack.Position);
                 }
 
                 // If some stacks couldn't spawn, create a consolidated item to return
@@ -334,11 +354,32 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         /// <summary>
         /// Gets a deterministic cell index based on item type and settlement ID.
         /// Same item type + settlement always maps to the same starting cell.
+        /// Uses prime-based bit mixing to avoid clustering from similar defName prefixes.
         /// </summary>
         private static int GetDeterministicCellIndex(string defName, int settlementID, int cellCount)
         {
             int hash = Gen.HashCombineInt(defName.GetHashCode(), settlementID);
+            hash = ScrambleHash(hash);
             return Mathf.Abs(hash) % cellCount;
+        }
+
+        /// <summary>
+        /// Scrambles a hash value using prime multiplication and bit mixing.
+        /// This ensures better distribution when the source hash has clustering
+        /// (e.g., similar string prefixes producing similar hash codes).
+        /// Uses MurmurHash3 finalizer constants for good avalanche properties.
+        /// </summary>
+        private static int ScrambleHash(int hash)
+        {
+            unchecked
+            {
+                hash ^= hash >> 16;
+                hash *= (int)0x85ebca6b;
+                hash ^= hash >> 13;
+                hash *= (int)0xc2b2ae35;
+                hash ^= hash >> 16;
+            }
+            return hash;
         }
 
         /// <summary>

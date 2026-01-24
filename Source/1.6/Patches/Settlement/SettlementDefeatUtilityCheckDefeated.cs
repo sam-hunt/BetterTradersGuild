@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BetterTradersGuild.MapComponents;
 using BetterTradersGuild.RoomContents.CargoVault;
+using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -102,6 +103,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // This is the key safety check - we KNOW defeat occurred, not just predicted
             if (!factionBase.Destroyed)
                 return;
+
+            // Settlement is destroyed - evict from trader cache
+            // TryDestroyStock was blocked during defeat processing, so we handle eviction here
+            TradersGuildWorldComponent.GetComponent()?.RemoveCachedTraderKind(__state.SettlementId);
 
             Map map = __state.Map;
             if (map == null)

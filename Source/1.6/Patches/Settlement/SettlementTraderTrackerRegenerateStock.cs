@@ -1,3 +1,4 @@
+using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -98,7 +99,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         }
 
         /// <summary>
-        /// Postfix method - clears flag and logs after regeneration completes
+        /// Postfix method - caches trader kind and clears flag after regeneration completes
         /// </summary>
         /// <param name="__instance">The Settlement_TraderTracker instance</param>
         [HarmonyPostfix]
@@ -117,9 +118,23 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
                 return;
 
-            // Clear the regeneration flag
-            regeneratingSettlements.Value.Remove(settlement.ID);
+            // CRITICAL: Cache the trader kind BEFORE clearing the regeneration flag!
+            // The TraderKind getter checks IsRegeneratingStock() to know whether to use
+            // HasPendingAlignment(). If we clear the flag first, the getter won't check
+            // the pending alignment and will use the wrong lastStockTicks value (TicksGame
+            // instead of the aligned virtual ticks), resulting in a different trader type.
+            var worldComponent = TradersGuildWorldComponent.GetComponent();
+            if (worldComponent != null)
+            {
+                TraderKindDef traderKind = __instance.TraderKind;
+                if (traderKind != null)
+                {
+                    worldComponent.CacheTraderKind(settlement.ID, traderKind);
+                }
+            }
 
+            // Clear the regeneration flag AFTER caching
+            regeneratingSettlements.Value.Remove(settlement.ID);
         }
     }
 }

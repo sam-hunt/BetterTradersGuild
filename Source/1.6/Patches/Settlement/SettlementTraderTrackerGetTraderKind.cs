@@ -1,7 +1,9 @@
+using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Verse;
 
@@ -44,6 +46,41 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static Dictionary<int, CachedTraderInfo> traderCache = new Dictionary<int, CachedTraderInfo>();
 
         /// <summary>
+        /// Checks if a faction's ideology approves of slavery.
+        /// Returns true if no ideology system is active (classic mode) or if any ideo approves.
+        /// </summary>
+        private static bool FactionApprovesOfSlavery(Faction faction)
+        {
+            // No ideology system (classic mode) = slavery implicitly approved via Slavery_Classic precept
+            if (faction?.ideos == null)
+                return true;
+
+            foreach (var ideo in faction.ideos.AllIdeos)
+            {
+                if (IdeoUtility.IdeoApprovesOfSlavery(ideo))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if a trader kind has a StockGenerator_Slaves in its stock generators.
+        /// Used to filter out slave ships when the faction doesn't approve of slavery.
+        /// </summary>
+        private static bool HasSlavesStockGenerator(TraderKindDef trader)
+        {
+            if (trader.stockGenerators == null)
+                return false;
+
+            foreach (var sg in trader.stockGenerators)
+            {
+                if (sg is StockGenerator_Slaves)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Static constructor to initialize reflection
         /// </summary>
         static SettlementTraderTrackerGetTraderKind()
@@ -65,10 +102,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         [HarmonyPostfix]
         public static void Postfix(Settlement_TraderTracker __instance, ref TraderKindDef __result)
         {
-            // Only intervene if TraderKind is null (not already set by vanilla)
-            if (__result != null)
-                return;
-
             // Safety check for reflection
             if (lastStockGenerationTicksField == null)
                 return;
@@ -79,14 +112,53 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return;
 
             // Check if this is a TradersGuild settlement
+            // IMPORTANT: Do this check BEFORE the null check, because we want to ALWAYS
+            // override vanilla's result for TradersGuild settlements (not just when null).
+            // Vanilla may return one of the 4 default faction traders, but we want to
+            // use our extended list of ALL orbital traders.
             if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
-                return;
-
-            // Get the faction's orbital trader types
-            Faction faction = settlement.Faction;
-            if (faction?.def?.orbitalTraderKinds == null || faction.def.orbitalTraderKinds.Count == 0)
             {
-                Log.Warning($"[Better Traders Guild] TradersGuild faction has no orbitalTraderKinds defined! Cannot assign trader to {settlement.Label}");
+                // For non-TradersGuild settlements, only intervene if vanilla returned null
+                if (__result != null)
+                    return;
+                // Otherwise fall through to provide a default (shouldn't normally happen)
+                return;
+            }
+            // For TradersGuild settlements, always proceed to override with extended traders
+
+            int settlementID = settlement.ID;
+
+            // PRIORITY: Check WorldComponent cache first
+            // If stock has been generated, use the exact trader that was selected during generation.
+            // This avoids any recalculation divergence issues.
+            var worldComponent = TradersGuildWorldComponent.GetComponent();
+            if (worldComponent != null && worldComponent.TryGetCachedTraderKind(settlementID, out TraderKindDef cachedTrader))
+            {
+                __result = cachedTrader;
+                return;
+            }
+
+            // Cache miss - fall back to deterministic calculation
+            // This happens for unvisited settlements (no stock yet) or after game load before first access
+
+            // Get all orbital trader types from the game (includes modded traders)
+            // LEARNING NOTE: We query DefDatabase instead of faction.def.orbitalTraderKinds
+            // to include orbital traders added by other mods and DLCs
+            List<TraderKindDef> allOrbitalTraders = DefDatabase<TraderKindDef>.AllDefsListForReading
+                .Where(t => t.orbital)
+                .ToList();
+
+            // Filter out traders with slave stock generators if faction's ideology doesn't approve
+            // This prevents the slave ship from appearing when it can't actually deliver slaves
+            // (StockGenerator_Slaves checks IdeoApprovesOfSlavery and generates nothing if false)
+            if (!FactionApprovesOfSlavery(settlement.Faction))
+            {
+                allOrbitalTraders.RemoveAll(t => HasSlavesStockGenerator(t));
+            }
+
+            if (allOrbitalTraders.Count == 0)
+            {
+                Log.Warning($"[Better Traders Guild] No orbital trader types found in DefDatabase! Cannot assign trader to {settlement.Label}");
                 return;
             }
 
@@ -108,8 +180,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // 1. Unvisited settlements (lastStockTicks == -1) → Use virtual schedule
             // 2. First-time regeneration → Use pending alignment value (set by alignment patch)
             // 3. Subsequent regenerations → Use TicksGame to match vanilla's end-of-method update
-            int settlementID = settlement.ID;
-
             if (lastStockTicks == -1)
             {
                 // Stock never initialized - use the virtual schedule
@@ -159,8 +229,12 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             Rand.PushState(seed);
             try
             {
-                // Weighted selection respects TraderKindDef.CalculatedCommonality (commonality * population curve)
-                traderKind = faction.def.orbitalTraderKinds.RandomElementByWeight(t => t.CalculatedCommonality);
+                // Weighted selection using STATIC commonality (not CalculatedCommonality which varies with population)
+                // LEARNING NOTE: CalculatedCommonality = commonality * populationCurve, where populationCurve
+                // depends on current colony population vs storyteller target. This dynamic weighting causes
+                // different traders to be selected between preview and stock generation if population changed.
+                // Using static commonality ensures deterministic selection given the same seed.
+                traderKind = allOrbitalTraders.RandomElementByWeight(t => t.commonality);
             }
             finally
             {

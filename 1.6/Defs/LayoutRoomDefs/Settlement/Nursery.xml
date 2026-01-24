@@ -59,11 +59,11 @@
 
       <BTG_ArmchairsWithPlantpot_Edge>
         <countPerTenEdgeCells>2</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
+        <minMaxRange>1~3</minMaxRange>
       </BTG_ArmchairsWithPlantpot_Edge>
 
       <BTG_GrandSculpture>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
       </BTG_GrandSculpture>
 

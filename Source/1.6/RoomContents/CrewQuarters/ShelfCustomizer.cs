@@ -29,13 +29,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Building_Storage, Map, Faction> action)>
             {
-                (25f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
-                (20f, (shelf, map, faction) => ReplaceShelfWithSculpture(shelf, map)),
-                (20f, (shelf, map, faction) => ReplaceShelfWithBookcase(shelf, map)),
+                (23f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
+                (18f, (shelf, map, faction) => ReplaceShelfWithSculpture(shelf, map)),
+                (18f, (shelf, map, faction) => ReplaceShelfWithBookcase(shelf, map)),
                 (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.ChessTable, Things.Steel)),
-                (4f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSafe)),
-                (4f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSealedCrate)),
-                (7f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentIndustrial)),
+                (6f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSafe)),
+                (6f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSealedCrate)),
+                (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentIndustrial)),
                 (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentSpacer)),
                 (5f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeRifle_Unique)),
                 (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeLance_Unique)),
@@ -291,7 +291,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             if (scrapCubePos.IsValid)
             {
                 Thing scrapCube = ThingMaker.MakeThing(Things.ScrapCubeSculpture);
-                GenSpawn.Spawn(scrapCube, scrapCubePos, map);
+                GenPlace.TryPlaceThing(scrapCube, scrapCubePos, map, ThingPlaceMode.Near);
             }
         }
 

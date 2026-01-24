@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Crew Quarters Industrial Shelves Prefab
+    Industrial shelving for 1-cell wide strips in crew quarters.
+
+    Features:
+    - 1x5 prefab size
+    - Two east-facing industrial shelves for narrow strips, separated by a crate
+    - Spawned when subroom strips can't be filled by available sizes
+
+    Design (top view, North is up, shelves face East):
+        x: 0
+    z=4:   S
+    z=3:   S
+    z=2:   C
+    z=1:   S
+    z=0:   S
+
+    Legend:
+    C = AncientSpacerCrate
+    S = AncientIndustrialShelf (2x1 rotated East = 1x2)
+        Two shelves: z=0-1 and z=3-4
+  -->
+  <PrefabDef>
+    <defName>BTG_CrewQuartersIndustrialShelves1x5</defName>
+    <size>(1,5)</size>
+    <things>
+      <AncientIndustrialShelf>
+        <positions>
+          <li>(0, 0, 1)</li>
+          <li>(0, 0, 4)</li>
+        </positions>
+        <relativeRotation>Clockwise</relativeRotation>
+      </AncientIndustrialShelf>
+      <AncientSpacerCrate>
+        <position>(0, 0, 2)</position>
+      </AncientSpacerCrate>
+      <WallLamp>
+        <position>(0, 0, 2)</position>
+        <relativeRotation>Counterclockwise</relativeRotation>
+      </WallLamp>
+    </things>
+  </PrefabDef>
+</Defs>

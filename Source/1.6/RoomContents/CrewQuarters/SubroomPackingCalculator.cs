@@ -270,8 +270,14 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
                             subrooms.AddRange(fitResult.Subrooms);
 
-                            // Check if waste area borders an exclusion zone
-                            if (fitResult.HasWaste && fitResult.WasteWidth > 0)
+                            // Check if waste area borders an exclusion zone.
+                            // For left-side waste, we allow WasteWidth >= 0 because the exclusion
+                            // zone extension will add 1 cell, making even 0-width waste valid.
+                            // For right-side waste, we require WasteWidth > 0 as before.
+                            bool hasValidWaste = fitResult.HasWaste &&
+                                (fitResult.WasteWidth > 0 || fitResult.WasteOnLeft);
+
+                            if (hasValidWaste)
                             {
                                 bool bordersExclusion = false;
                                 // Prefabs are designed facing East (content on right side).
@@ -301,11 +307,28 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
                                 if (bordersExclusion)
                                 {
+                                    int wasteMinX = fitResult.WasteMinX;
+                                    int wasteWidth = fitResult.WasteWidth;
+
+                                    // For left-side waste (South rotation), extend 1 cell into the
+                                    // exclusion zone. The exclusion zone keeps subrooms away from
+                                    // door access paths, but waste filler items (shelves, etc.)
+                                    // can safely occupy the edge cell without blocking access.
+                                    // This compensates for the wall adjustment in FitSubroomsWithWaste
+                                    // which accounts for the enclosing wall on the subroom side.
+                                    // Right-side waste (North rotation) doesn't need this adjustment
+                                    // as it has no wall adjustment and is already correctly sized.
+                                    if (fitResult.WasteOnLeft)
+                                    {
+                                        wasteMinX -= 1;
+                                        wasteWidth += 1;
+                                    }
+
                                     wasteFillers.Add(new WasteFillerPlacement
                                     {
-                                        MinX = fitResult.WasteMinX,
+                                        MinX = wasteMinX,
                                         MinZ = strip.MinZ,
-                                        Width = fitResult.WasteWidth,
+                                        Width = wasteWidth,
                                         Depth = strip.Depth,
                                         Rotation = wasteFacing
                                     });
@@ -1141,14 +1164,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     // Account for enclosing wall that will be placed between waste and leftmost subroom.
                     // The wall is added at subroom.MinX - 1 when subroom.MinX > room.MinX + 1.
                     // This wall eats into the waste area, so reduce waste width accordingly.
+                    // Note: We do NOT set HasWaste=false even if WasteWidth becomes 0, because
+                    // the Calculate() function may extend the waste filler into the exclusion zone
+                    // when it borders one, which would recover a cell and make the filler valid.
                     var leftmostSubroom = result.Subrooms.OrderBy(s => s.MinX).First();
                     if (leftmostSubroom.MinX > room.MinX + 1)
                     {
                         result.WasteWidth -= 1;
-                        if (result.WasteWidth <= 0)
-                        {
-                            result.HasWaste = false;
-                        }
                     }
                 }
             }

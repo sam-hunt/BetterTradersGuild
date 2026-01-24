@@ -19,7 +19,7 @@ namespace BetterTradersGuild.MapComponents
     /// Access pattern from pocket map:
     /// pocketMap.Parent -> PocketMapParent
     /// pocketMapParent.sourceMap -> Settlement Map (still exists!)
-    /// settlementMap.GetComponent&lt;SettlementStockCache&gt;() -> Cached stock
+    /// settlementMap.GetComponent<SettlementStockCache>() -> Cached stock
     /// </summary>
     /// <remarks>
     /// LEARNING NOTE: Implements IThingHolder because ThingOwner requires a holder.
@@ -44,7 +44,7 @@ namespace BetterTradersGuild.MapComponents
             preservedStock = new ThingOwner<Thing>(this);
         }
 
-        #region IThingHolder Implementation
+        #region IThingHolder Impl
 
         /// <summary>
         /// Returns the parent thing holder (the map).

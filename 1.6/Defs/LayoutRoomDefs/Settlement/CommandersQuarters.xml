@@ -42,7 +42,7 @@
 
       <!-- High-quality marble billiards table (with clearance for interaction) -->
       <BTG_BilliardsTable>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~1</minMaxRange>
       </BTG_BilliardsTable>
 
@@ -66,15 +66,15 @@
 
       <!-- High-quality marble grand sculpture (4x4 footprint with clearance, center placement) -->
       <BTG_GrandSculpture>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>1~2</minMaxRange>
       </BTG_GrandSculpture>
 
       <!-- High-quality marble small sculptures (edge placement) -->
-      <BTG_SmallSculpture>
+      <BTG_SmallSculpture_Edge>
         <countPerTenEdgeCells>5</countPerTenEdgeCells>
         <minMaxRange>3~6</minMaxRange>
-      </BTG_SmallSculpture>
+      </BTG_SmallSculpture_Edge>
     </prefabs>
 
     <parts>

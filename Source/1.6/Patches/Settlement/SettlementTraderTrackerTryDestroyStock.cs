@@ -1,3 +1,4 @@
+using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -25,6 +26,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     {
         /// <summary>
         /// Prefix method - blocks stock destruction while map is loaded or during defeat.
+        /// Also evicts from trader cache when destruction is allowed.
         /// </summary>
         /// <param name="__instance">The Settlement_TraderTracker instance</param>
         /// <returns>False to skip destruction, true to allow</returns>
@@ -46,6 +48,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 {
                     return false;
                 }
+
+                // Destruction allowed - evict from trader cache
+                // The stock is being destroyed, so the cached trader kind is no longer valid
+                TradersGuildWorldComponent.GetComponent()?.RemoveCachedTraderKind(settlement.ID);
             }
             return true;
         }

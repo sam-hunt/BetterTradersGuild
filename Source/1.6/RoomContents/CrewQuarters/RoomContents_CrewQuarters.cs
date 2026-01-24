@@ -124,11 +124,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
 
             // 2b. Spawn waste filler prefabs in areas adjacent to exclusion zones
+            // Track used prefabs to minimize duplicates within the same room
+            var usedWasteFillerPrefabs = new HashSet<PrefabDef>();
             if (result.WasteFillers != null)
             {
                 foreach (var wasteFiller in result.WasteFillers)
                 {
-                    SpawnWasteFillerPrefab(map, wasteFiller);
+                    SpawnWasteFillerPrefab(map, wasteFiller, usedWasteFillerPrefabs);
 
                     // Track waste filler area to prevent XML content from spawning inside
                     CellRect wasteRect = new CellRect(wasteFiller.MinX, wasteFiller.MinZ, wasteFiller.Width, wasteFiller.Depth);
@@ -222,10 +224,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// to dynamically select from available prefabs of the correct size,
         /// automatically supporting DLC-dependent variants.
         /// </summary>
-        private void SpawnWasteFillerPrefab(Map map, WasteFillerPlacement wasteFiller)
+        /// <param name="map">The map to spawn on.</param>
+        /// <param name="wasteFiller">Placement data from SubroomPackingCalculator.</param>
+        /// <param name="usedPrefabs">Set of prefabs already used in this room, to minimize duplicates.</param>
+        private void SpawnWasteFillerPrefab(Map map, WasteFillerPlacement wasteFiller, HashSet<PrefabDef> usedPrefabs)
         {
-            // Use the selector to pick a random prefab of the correct size
-            PrefabDef prefab = WasteFillerPrefabSelector.SelectPrefab(wasteFiller.Width, wasteFiller.Depth);
+            // Use the selector to pick a prefab, avoiding duplicates where possible
+            PrefabDef prefab = WasteFillerPrefabSelector.SelectPrefab(wasteFiller.Width, wasteFiller.Depth, usedPrefabs);
 
             if (prefab == null)
             {

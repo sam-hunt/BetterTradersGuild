@@ -37,12 +37,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         private static Dictionary<string, List<PrefabDef>> prefabsBySize;
 
         /// <summary>
-        /// Selects a random waste filler prefab of the specified size.
+        /// Selects a random waste filler prefab of the specified size, avoiding previously used prefabs.
         /// </summary>
         /// <param name="width">Width of the waste area (1 or 2).</param>
         /// <param name="depth">Depth of the waste area (4 or 5).</param>
+        /// <param name="usedPrefabs">Set of prefabs already used in the current room. Selected prefab will be added to this set.</param>
         /// <returns>A PrefabDef to spawn, or null if no matching prefab is available.</returns>
-        public static PrefabDef SelectPrefab(int width, int depth)
+        public static PrefabDef SelectPrefab(int width, int depth, HashSet<PrefabDef> usedPrefabs)
         {
             EnsureInitialized();
 
@@ -53,8 +54,42 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 return null;
             }
 
-            // Random selection using RimWorld's seeded random
-            return candidates.RandomElement();
+            // Filter out already-used prefabs
+            var unused = new List<PrefabDef>();
+            foreach (var prefab in candidates)
+            {
+                if (!usedPrefabs.Contains(prefab))
+                    unused.Add(prefab);
+            }
+
+            PrefabDef selected;
+            if (unused.Count > 0)
+            {
+                // Random selection from unused prefabs
+                selected = unused.RandomElement();
+            }
+            else
+            {
+                // All variants used - fall back to IndustrialShelves for consistency
+                selected = GetFallbackPrefab(width, depth);
+            }
+
+            if (selected != null)
+            {
+                usedPrefabs.Add(selected);
+            }
+
+            return selected;
+        }
+
+        /// <summary>
+        /// Gets the IndustrialShelves fallback prefab for the specified size.
+        /// Used when all variants have been used in the current room.
+        /// </summary>
+        private static PrefabDef GetFallbackPrefab(int width, int depth)
+        {
+            string defName = $"BTG_CrewQuartersIndustrialShelves{width}x{depth}";
+            return DefDatabase<PrefabDef>.GetNamed(defName, errorOnFail: false);
         }
 
         /// <summary>

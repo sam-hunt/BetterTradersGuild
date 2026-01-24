@@ -292,11 +292,32 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         /// <summary>
         /// Gets a deterministic shelf index based on item type and settlement ID.
         /// Same item type + settlement always maps to the same shelf.
+        /// Uses prime-based bit mixing to avoid clustering from similar defName prefixes.
         /// </summary>
         private static int GetDeterministicShelfIndex(string defName, int settlementID, int shelfCount)
         {
             int hash = Gen.HashCombineInt(defName.GetHashCode(), settlementID);
+            hash = ScrambleHash(hash);
             return Mathf.Abs(hash) % shelfCount;
+        }
+
+        /// <summary>
+        /// Scrambles a hash value using prime multiplication and bit mixing.
+        /// This ensures better distribution when the source hash has clustering
+        /// (e.g., similar string prefixes producing similar hash codes).
+        /// Uses MurmurHash3 finalizer constants for good avalanche properties.
+        /// </summary>
+        private static int ScrambleHash(int hash)
+        {
+            unchecked
+            {
+                hash ^= hash >> 16;
+                hash *= (int)0x85ebca6b;
+                hash ^= hash >> 13;
+                hash *= (int)0xc2b2ae35;
+                hash ^= hash >> 16;
+            }
+            return hash;
         }
     }
 }

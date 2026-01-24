@@ -54,7 +54,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Kibble;
         public static ThingDef VacBarrier;
         public static ThingDef Filth_Trash;
-        public static ThingDef Filth_MoldyUniform;      // TODO: Confirm this is core? ideo?
+        public static ThingDef Filth_MoldyUniform;
         public static ThingDef Gun_ChargeRifle;
         public static ThingDef Gun_ChargeLance;
         public static ThingDef Apparel_ShieldBelt;

@@ -71,7 +71,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             if (shelf == null)
             {
                 Log.Warning($"[Better Traders Guild] Could not find ShelfSmall in commander's quarters - spawning weapon at bedroom center");
-                GenSpawn.Spawn(weapon, bedroomRect.CenterCell, map, Rot4.North);
+                GenPlace.TryPlaceThing(weapon, bedroomRect.CenterCell, map, ThingPlaceMode.Near);
             }
 
             weapon.SetForbidden(true, false);
