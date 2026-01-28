@@ -36,11 +36,15 @@ namespace BetterTradersGuild.Helpers
         /// Calculates the virtual lastStockGenerationTicks for a settlement
         /// </summary>
         /// <param name="settlementID">The settlement's unique ID</param>
-        /// <returns>Virtual lastStockGenerationTicks value (always >= 0)</returns>
+        /// <returns>Virtual lastStockGenerationTicks value (may be negative in early game)</returns>
         /// <remarks>
         /// This creates a stable, settlement-specific rotation schedule.
         /// The same settlement ID always returns the same schedule pattern,
         /// but different settlements have different schedules (desynchronized).
+        ///
+        /// The returned value represents the most recent rotation boundary at or before
+        /// the current tick. In early game, this may be negative (conceptually before
+        /// game start), which is valid for seed calculation and timing purposes.
         /// </remarks>
         public static int GetVirtualLastStockTicks(int settlementID)
         {
@@ -62,12 +66,20 @@ namespace BetterTradersGuild.Helpers
             // Calculate the virtual lastStockTicks (boundary minus the offset)
             int virtualTicks = boundary - offset;
 
-            // CRITICAL FIX: Ensure we never return negative values
-            // In early game, offset might be larger than boundary, causing negative results
-            // If negative, move forward one interval to get a positive value
+            // Ensure virtualTicks represents the most recent PAST rotation boundary
+            // Two adjustments may be needed:
+
+            // 1. Handle negative values (early game, large offset)
             if (virtualTicks < 0)
             {
                 virtualTicks += interval;
+            }
+
+            // 2. Handle overshoot into future (can happen after negative adjustment)
+            // The "last stock" tick must be at or before current time
+            if (virtualTicks > currentTicks)
+            {
+                virtualTicks -= interval;
             }
 
             return virtualTicks;
@@ -83,6 +95,57 @@ namespace BetterTradersGuild.Helpers
             int virtualLastStock = GetVirtualLastStockTicks(settlementID);
             int interval = GetRotationIntervalTicks();
             return virtualLastStock + interval;
+        }
+
+        /// <summary>
+        /// Determines the correct lastStockTicks to use for trader selection.
+        /// This is the unified logic for both preview and stock generation flows.
+        /// </summary>
+        /// <param name="settlementID">The settlement's unique ID</param>
+        /// <param name="storedLastStockTicks">The value stored in Settlement_TraderTracker.lastStockGenerationTicks</param>
+        /// <returns>The effective lastStockTicks to use for deterministic trader selection</returns>
+        /// <remarks>
+        /// This method handles three cases:
+        /// 1. Unvisited settlement (storedLastStockTicks == -1): Use virtual schedule
+        /// 2. Visited settlement, rotation occurred: Use NEW virtual schedule for current rotation cycle
+        /// 3. Visited settlement, no rotation: Use stored value (preserves consistency within rotation period)
+        ///
+        /// By using this helper in both GetTraderKind (preview) and RegenerateStockAlignment (generation),
+        /// we ensure both paths produce the same trader type for the same rotation cycle.
+        /// </remarks>
+        public static int GetEffectiveLastStockTicks(int settlementID, int storedLastStockTicks)
+        {
+            int interval = GetRotationIntervalTicks();
+            int currentTicks = Find.TickManager.TicksGame;
+
+            // Case 1: Never visited - use virtual schedule
+            if (storedLastStockTicks == -1)
+            {
+                int result = GetVirtualLastStockTicks(settlementID);
+                Log.Message($"[BTG DEBUG] GetEffectiveLastStockTicks({settlementID}): " +
+                    $"stored=-1 (unvisited), using virtualTicks={result}");
+                return result;
+            }
+
+            // Case 2 & 3: Visited - check if rotation occurred
+            int expirationTick = storedLastStockTicks + interval;
+            bool rotationOccurred = currentTicks >= expirationTick;
+
+            if (rotationOccurred)
+            {
+                // Rotation occurred - use NEW virtual schedule for current rotation cycle
+                int result = GetVirtualLastStockTicks(settlementID);
+                Log.Message($"[BTG DEBUG] GetEffectiveLastStockTicks({settlementID}): " +
+                    $"stored={storedLastStockTicks}, expiration={expirationTick}, current={currentTicks}, " +
+                    $"ROTATED, using NEW virtualTicks={result}");
+                return result;
+            }
+
+            // No rotation - use stored value to maintain consistency within rotation period
+            Log.Message($"[BTG DEBUG] GetEffectiveLastStockTicks({settlementID}): " +
+                $"stored={storedLastStockTicks}, expiration={expirationTick}, current={currentTicks}, " +
+                $"no rotation, using stored value");
+            return storedLastStockTicks;
         }
 
         /// <summary>

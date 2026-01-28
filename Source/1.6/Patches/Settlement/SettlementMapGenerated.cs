@@ -1,4 +1,5 @@
 using System.Reflection;
+using BetterTradersGuild.Helpers;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -34,6 +35,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static readonly FieldInfo stockField = typeof(Settlement_TraderTracker)
             .GetField("stock", BindingFlags.NonPublic | BindingFlags.Instance);
 
+        // Cached reflection access to lastStockGenerationTicks field
+        private static readonly FieldInfo lastStockGenerationTicksField = typeof(Settlement_TraderTracker)
+            .GetField("lastStockGenerationTicks", BindingFlags.NonPublic | BindingFlags.Instance);
+
         /// <summary>
         /// Postfix that ensures TradersGuild settlement stock exists after map initialization.
         /// </summary>
@@ -55,14 +60,38 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             object existingStock = stockField?.GetValue(tracker);
             if (existingStock != null)
             {
-                // Stock already exists - leave it frozen as-is
-                var stockOwner = existingStock as ThingOwner<Thing>;
-                Log.Message($"[BTG] Settlement map loaded: settlement.ID={settlement.ID}, tracker={tracker.GetHashCode()}, stock has {stockOwner?.Count ?? -1} items");
-                return;
+                // Stock already exists - check if it should have expired (rotation occurred while away)
+                // Use unified helper to detect rotation: if effective differs from stored, rotation occurred
+                int storedLastStockTicks = (int)(lastStockGenerationTicksField?.GetValue(tracker) ?? -1);
+                int effectiveTicks = TradersGuildTraderRotation.GetEffectiveLastStockTicks(settlement.ID, storedLastStockTicks);
+                bool rotationOccurred = (storedLastStockTicks != -1 && effectiveTicks != storedLastStockTicks);
+
+                if (rotationOccurred)
+                {
+                    // Stock has expired - clear it so it will be regenerated below
+                    Log.Message($"[BTG DEBUG] Settlement map loaded: Stock EXPIRED for {settlement.Label} (ID={settlement.ID}). " +
+                        $"storedLastStockTicks={storedLastStockTicks}, effectiveTicks={effectiveTicks}. Clearing for regeneration.");
+
+                    // Clear the stock - this allows RegenerateStock to proceed
+                    var stockOwner = existingStock as ThingOwner<Thing>;
+                    stockOwner?.ClearAndDestroyContents();
+                    stockField.SetValue(tracker, null);
+
+                    // Reset lastStockGenerationTicks to -1 so alignment patch will align to virtual schedule
+                    lastStockGenerationTicksField.SetValue(tracker, -1);
+                }
+                else
+                {
+                    // Stock still valid - leave it frozen as-is
+                    var stockOwner = existingStock as ThingOwner<Thing>;
+                    Log.Message($"[BTG DEBUG] Settlement map loaded: Stock still valid for {settlement.Label} (ID={settlement.ID}). " +
+                        $"storedLastStockTicks={storedLastStockTicks}, effectiveTicks={effectiveTicks}, stock has {stockOwner?.Count ?? -1} items");
+                    return;
+                }
             }
 
             // Stock is null - generate it now to establish the invariant
-            Log.Message($"[BTG] Settlement map loaded: Generating initial stock for {settlement.Label}");
+            Log.Message($"[BTG DEBUG] Settlement map loaded: Generating stock for {settlement.Label} (ID={settlement.ID})");
 
             if (regenerateStockMethod == null)
             {

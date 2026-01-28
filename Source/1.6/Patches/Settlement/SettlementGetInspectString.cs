@@ -3,6 +3,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 using BetterTradersGuild.Helpers;
+using BetterTradersGuild.WorldComponents;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
@@ -55,14 +56,32 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // (e.g., "Combat supplier" instead of "combat supplier")
             // This matches how the label appears in the trade dialog
 
-            // ENHANCEMENT: Show rotation timing for allied players
-            // LEARNING NOTE: Allied players get extra information as a reward for
-            // building strong relations with the Traders Guild faction
-            if (__instance.Faction.PlayerRelationKind == FactionRelationKind.Ally)
+            // ENHANCEMENT: Show rotation timing for allied players when not on map
+            // - Allied players get extra information as a reward for good relations
+            // - Don't show departure time when player is on the map, as rotation is paused
+            //   (our patches block stock regeneration while settlement map is loaded)
+            bool showDepartureTime = __instance.Faction.PlayerRelationKind == FactionRelationKind.Ally
+                && __instance.Map == null;
+
+            if (showDepartureTime)
             {
-                // Calculate time until next rotation
-                int nextRestockTick = TradersGuildTraderRotation.GetNextRestockTick(__instance.ID);
-                int ticksRemaining = nextRestockTick - Find.TickManager.TicksGame;
+                // Get departure time from cached expiration tick
+                // IMPORTANT: Use cached expiration, not recalculated virtual schedule
+                // Recalculating would cause erratic jumps when rotation interval setting changes
+                var worldComponent = TradersGuildWorldComponent.GetComponent();
+                int ticksRemaining;
+
+                if (worldComponent != null && worldComponent.TryGetCachedExpirationTick(__instance.ID, out int expirationTick))
+                {
+                    // Use cached expiration tick - stable even during settings changes
+                    ticksRemaining = expirationTick - Find.TickManager.TicksGame;
+                }
+                else
+                {
+                    // Fallback to calculated value if no cache exists yet
+                    int nextRestockTick = TradersGuildTraderRotation.GetNextRestockTick(__instance.ID);
+                    ticksRemaining = nextRestockTick - Find.TickManager.TicksGame;
+                }
 
                 // Convert to days (60000 ticks = 1 day)
                 float daysRemaining = ticksRemaining / 60000f;
@@ -76,7 +95,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             }
             else
             {
-                // Neutral/hostile: Show only trader type (no timing info)
+                // No timing info when: neutral/hostile, or player is on map
                 __result += "BTG_DockedVessel".Translate() + ": " + traderKind.LabelCap;
             }
         }

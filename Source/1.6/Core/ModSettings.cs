@@ -1,3 +1,5 @@
+using BetterTradersGuild.Patches.SettlementPatches;
+using BetterTradersGuild.WorldComponents;
 using Verse;
 
 namespace BetterTradersGuild
@@ -127,9 +129,16 @@ namespace BetterTradersGuild
     {
         public BetterTradersGuildSettings settings;
 
+        /// <summary>
+        /// Tracks the rotation interval before settings window changes.
+        /// Used to detect when the interval changes and update preview caches.
+        /// </summary>
+        private int previousRotationInterval;
+
         public BetterTradersGuildMod_ModClass(ModContentPack content) : base(content)
         {
             this.settings = GetSettings<BetterTradersGuildSettings>();
+            this.previousRotationInterval = settings.traderRotationIntervalDays;
         }
 
         public override void DoSettingsWindowContents(UnityEngine.Rect inRect)
@@ -160,7 +169,7 @@ namespace BetterTradersGuild
 
             listingStandard.Label(intervalLabel);
 
-            float sliderValue = listingStandard.Slider(settings.traderRotationIntervalDays, 0f, 60f);
+            float sliderValue = listingStandard.Slider(settings.traderRotationIntervalDays, 5f, 60f);
             settings.traderRotationIntervalDays = (int)(System.Math.Round(sliderValue / 5f) * 5f);
 
             listingStandard.Gap(2f);
@@ -329,6 +338,26 @@ namespace BetterTradersGuild
         public override string SettingsCategory()
         {
             return "BTG_Settings_ModName".Translate();
+        }
+
+        public override void WriteSettings()
+        {
+            base.WriteSettings();
+
+            // Check if rotation interval changed
+            if (settings.traderRotationIntervalDays != previousRotationInterval)
+            {
+                // Scale cache expiration times proportionally to preserve trader types
+                // Example: 30→15 days means "departs in 12 days" becomes "departs in 6 days"
+                int oldIntervalTicks = previousRotationInterval * 60000;
+                int newIntervalTicks = settings.traderRotationIntervalDays * 60000;
+                TradersGuildWorldComponent.GetComponent()?.ScaleExpirationsForIntervalChange(oldIntervalTicks, newIntervalTicks);
+
+                // Clear local cache - it uses lastStockTicks as key which doesn't update for scaling
+                SettlementTraderTrackerGetTraderKind.ClearLocalCache();
+
+                previousRotationInterval = settings.traderRotationIntervalDays;
+            }
         }
     }
 }

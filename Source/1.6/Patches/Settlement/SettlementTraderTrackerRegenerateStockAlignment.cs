@@ -10,15 +10,16 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 {
     /// <summary>
     /// Harmony patch: Settlement_TraderTracker.RegenerateStock method
-    /// Aligns first-time stock generation with virtual rotation schedule
+    /// Aligns stock generation with virtual rotation schedule
     /// </summary>
     /// <remarks>
     /// LEARNING NOTE: Vanilla RegenerateStock() sets lastStockGenerationTicks = Find.TickManager.TicksGame
-    /// at the END of the method. For first-time generation, we override this with the virtual schedule
-    /// value to ensure the preview trader type matches what you get when visiting.
+    /// at the END of the method. We override this with the virtual schedule value to ensure:
+    /// 1. First-time generation: preview trader type matches what you get when visiting
+    /// 2. Rotation: trader type matches what the preview showed after rotation occurred
     ///
-    /// This patch uses Prefix to detect first-time generation and Postfix to restore the aligned value
-    /// after vanilla overwrites it.
+    /// This patch uses Prefix to calculate the effective value and Postfix to restore it
+    /// after vanilla overwrites it with TicksGame.
     /// </remarks>
     [HarmonyPatch(typeof(Settlement_TraderTracker), "RegenerateStock")]
     public static class SettlementTraderTrackerRegenerateStockAlignment
@@ -32,8 +33,12 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             new ThreadLocal<Dictionary<int, int>>(() => new Dictionary<int, int>());
 
         /// <summary>
-        /// Check if a settlement has a pending alignment (first-time regeneration in progress)
+        /// Check if a settlement has a pending alignment (regeneration in progress with alignment active)
         /// </summary>
+        /// <remarks>
+        /// Returns true when inside RegenerateStock() and alignment was needed (effective != stored).
+        /// The returned virtualTicks is the aligned value that should be used for trader selection.
+        /// </remarks>
         public static bool HasPendingAlignment(int settlementID, out int virtualTicks)
         {
             return pendingAlignments.Value.TryGetValue(settlementID, out virtualTicks);
@@ -54,7 +59,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         }
 
         /// <summary>
-        /// Prefix method - detects first-time generation and calculates virtual schedule
+        /// Prefix method - calculates effective lastStockTicks for all stock generation scenarios
         /// </summary>
         /// <param name="__instance">The Settlement_TraderTracker instance</param>
         [HarmonyPrefix]
@@ -76,18 +81,22 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Get current lastStockGenerationTicks
             int currentLastStockTicks = (int)lastStockGenerationTicksField.GetValue(__instance);
 
-            // Only align on first generation (when lastStockTicks == -1)
-            if (currentLastStockTicks != -1)
+            // Use unified helper to determine correct effective value
+            // Handles: unvisited (virtual), visited+rotated (new virtual), visited+not rotated (stored)
+            int effectiveTicks = TradersGuildTraderRotation.GetEffectiveLastStockTicks(settlement.ID, currentLastStockTicks);
+
+            // Only set up alignment if value differs from stored
+            // (If no alignment needed, vanilla's TicksGame update is fine)
+            if (effectiveTicks == currentLastStockTicks)
                 return;
 
-            // Calculate virtual lastStockTicks for this settlement
-            int virtualLastStockTicks = TradersGuildTraderRotation.GetVirtualLastStockTicks(settlement.ID);
+            Verse.Log.Message($"[BTG DEBUG] Alignment Prefix({settlement.ID}): stored={currentLastStockTicks}, effective={effectiveTicks}, setting up alignment");
 
             // Store for Postfix to restore after vanilla overwrites it
-            pendingAlignments.Value[settlement.ID] = virtualLastStockTicks;
+            pendingAlignments.Value[settlement.ID] = effectiveTicks;
 
             // Set it now so the TraderKind getter uses the correct value during stock generation
-            lastStockGenerationTicksField.SetValue(__instance, virtualLastStockTicks);
+            lastStockGenerationTicksField.SetValue(__instance, effectiveTicks);
         }
 
         /// <summary>

@@ -14,17 +14,17 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     /// Returns a weighted, deterministic orbital trader type for TradersGuild settlements
     /// </summary>
     /// <remarks>
-    /// LEARNING NOTE: Uses Rand.PushState/PopState for deterministic weighted selection
-    /// The seed is based on settlement ID + lastStockGenerationTicks, ensuring:
-    /// - Deterministic (same settlement + same stock gen = same trader)
-    /// - Weighted by CalculatedCommonality (respects rarity)
-    /// - Rotation (changes when stock regenerates)
-    /// - Save/load stable (uses persisted field)
+    /// Uses Rand.PushState/PopState for deterministic weighted selection.
+    /// The seed is based on settlement ID + effective lastStockTicks, ensuring:
+    /// - Deterministic (same settlement + same rotation cycle = same trader)
+    /// - Weighted by static commonality (not population-dependent CalculatedCommonality)
+    /// - Rotation (changes when rotation interval expires)
+    /// - Save/load stable (uses persisted field when within rotation period)
     ///
-    /// KEY FIX: The RegenerateStock patch sets a flag during execution that we check
-    /// to detect mid-regeneration. When detected, we use Find.TickManager.TicksGame to
-    /// match what RegenerateStock will set lastStockGenerationTicks to at the end,
-    /// ensuring consistent trader type selection during and after stock generation.
+    /// KEY ARCHITECTURE: Uses TradersGuildTraderRotation.GetEffectiveLastStockTicks() to
+    /// determine the correct tick value for trader selection. This unified helper ensures
+    /// preview and stock generation use the same seed for the same rotation cycle.
+    /// During mid-regeneration, defers to the alignment patch's pending value.
     /// </remarks>
     [HarmonyPatch(typeof(Settlement_TraderTracker), nameof(Settlement_TraderTracker.TraderKind), MethodType.Getter)]
     public static class SettlementTraderTrackerGetTraderKind
@@ -44,6 +44,14 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         // Cache trader assignments to avoid recalculating on every property access
         // Key: Settlement ID, Value: Cached trader info
         private static Dictionary<int, CachedTraderInfo> traderCache = new Dictionary<int, CachedTraderInfo>();
+
+        /// <summary>
+        /// Clears the local trader cache. Called when rotation interval setting changes.
+        /// </summary>
+        public static void ClearLocalCache()
+        {
+            traderCache.Clear();
+        }
 
         /// <summary>
         /// Checks if a faction's ideology approves of slavery.
@@ -138,8 +146,12 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return;
             }
 
-            // Cache miss - fall back to deterministic calculation
-            // This happens for unvisited settlements (no stock yet) or after game load before first access
+            // WorldComponent cache miss (expired or never cached) - clear local cache to prevent stale data
+            // The local cache uses lastStockTicks as key, which doesn't change on rotation for visited settlements
+            traderCache.Remove(settlementID);
+
+            // Fall back to deterministic calculation
+            // This happens for unvisited settlements (no stock yet) or after rotation expiry
 
             // Get all orbital trader types from the game (includes modded traders)
             // LEARNING NOTE: We query DefDatabase instead of faction.def.orbitalTraderKinds
@@ -162,53 +174,34 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return;
             }
 
-            // Get the current lastStockGenerationTicks
-            int lastStockTicks = (int)lastStockGenerationTicksField.GetValue(__instance);
+            // Get the current lastStockGenerationTicks from the field
+            int rawLastStockTicks = (int)lastStockGenerationTicksField.GetValue(__instance);
 
-            // CRITICAL FIX: Detect if we're inside RegenerateStock()
-            // During RegenerateStock(), the sequence is:
+            // Track if this is an unvisited settlement (for caching decisions)
+            bool isUnvisitedSettlement = (rawLastStockTicks == -1);
+
+            // Determine the effective lastStockTicks for trader selection
+            // LEARNING NOTE: This handles the stock/dialog desync problem. During RegenerateStock():
             // 1. Old stock destroyed
-            // 2. NEW empty ThingOwner created (stock is NOT null, just empty with Count=0)
+            // 2. NEW empty ThingOwner created
             // 3. TraderKind getter called (HERE!) with OLD lastStockGenerationTicks
             // 4. Stock generated
             // 5. lastStockGenerationTicks updated to Find.TickManager.TicksGame
             //
-            // We must use the FUTURE value (step 5) during step 3 to avoid desync!
-            //
-            // Determine the tick value to use for trader selection
-            // LEARNING NOTE: This logic handles multiple scenarios:
-            // 1. Unvisited settlements (lastStockTicks == -1) → Use virtual schedule
-            // 2. First-time regeneration → Use pending alignment value (set by alignment patch)
-            // 3. Subsequent regenerations → Use TicksGame to match vanilla's end-of-method update
-            if (lastStockTicks == -1)
+            // Without intervention, step 3 and later accesses would use different seeds!
+            int lastStockTicks;
+            if (SettlementTraderTrackerRegenerateStock.IsRegeneratingStock(settlementID) &&
+                SettlementTraderTrackerRegenerateStockAlignment.HasPendingAlignment(settlementID, out int alignedTicks))
             {
-                // Stock never initialized - use the virtual schedule
-                // LEARNING NOTE: For uninitialized settlements, we use the helper to calculate
-                // a stable, settlement-specific rotation schedule. This ensures:
-                // 1. No flickering (stable across frames)
-                // 2. Each settlement has its own schedule (desynchronized via settlement ID offset)
-                // 3. Matches what they'll get when visited (virtual schedule alignment)
-                lastStockTicks = Helpers.TradersGuildTraderRotation.GetVirtualLastStockTicks(settlementID);
+                // Mid-regeneration with alignment: use the pre-calculated aligned value
+                // The alignment patch has already determined the correct virtual schedule tick
+                lastStockTicks = alignedTicks;
             }
-            else if (SettlementTraderTrackerRegenerateStock.IsRegeneratingStock(settlementID))
+            else
             {
-                // We're inside RegenerateStock
-                // CRITICAL: Check if the alignment patch has a pending alignment for this settlement
-                // If yes → first-time generation, use the aligned value
-                // If no → subsequent regeneration, use TicksGame
-
-                if (SettlementTraderTrackerRegenerateStockAlignment.HasPendingAlignment(settlementID, out int alignedTicks))
-                {
-                    // First-time regeneration with alignment - use the aligned virtual value
-                    // This ensures the stock is generated with the same seed as the preview
-                    lastStockTicks = alignedTicks;
-                }
-                else
-                {
-                    // Subsequent regeneration - use TicksGame to match what vanilla sets at the end
-                    // This allows trader rotation while avoiding desync
-                    lastStockTicks = Find.TickManager.TicksGame;
-                }
+                // Preview or post-generation: use unified helper for all cases
+                // Handles: unvisited (virtual), visited+rotated (new virtual), visited+not rotated (stored)
+                lastStockTicks = Helpers.TradersGuildTraderRotation.GetEffectiveLastStockTicks(settlementID, rawLastStockTicks);
             }
 
             // Check cache before expensive calculation
@@ -217,12 +210,15 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             {
                 if (cached.lastStockTicks == lastStockTicks)
                 {
+                    // Don't log every frame - local cache hit is normal
                     __result = cached.traderKind;
                     return; // Cache hit - return immediately
                 }
+                Log.Message($"[BTG DEBUG] GetTraderKind({settlementID}): Local cache STALE - cached.lastStockTicks={cached.lastStockTicks}, current lastStockTicks={lastStockTicks}");
             }
 
             // Cache miss - calculate new trader type with deterministic weighted selection
+            Log.Message($"[BTG DEBUG] GetTraderKind({settlementID}): RECALCULATING - lastStockTicks={lastStockTicks}, isUnvisited={isUnvisitedSettlement}");
             int seed = Gen.HashCombineInt(settlementID, lastStockTicks);
 
             TraderKindDef traderKind;
@@ -241,12 +237,20 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 Rand.PopState();
             }
 
-            // Store in cache for subsequent accesses
+            // Store in local cache for subsequent accesses within this session
             traderCache[settlementID] = new CachedTraderInfo
             {
                 traderKind = traderKind,
                 lastStockTicks = lastStockTicks
             };
+
+            // Cache to WorldComponent with expiration for ALL settlements after recalculation
+            // This ensures both visited and unvisited settlements get re-cached after expiration
+            if (worldComponent != null)
+            {
+                Log.Message($"[BTG DEBUG] GetTraderKind({settlementID}): Caching {traderKind.defName} to WorldComponent, isUnvisited={isUnvisitedSettlement}");
+                worldComponent.CacheTraderKind(settlementID, traderKind);
+            }
 
             __result = traderKind;
         }

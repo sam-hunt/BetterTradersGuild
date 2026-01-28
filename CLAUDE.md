@@ -122,15 +122,27 @@ The mod implements a virtual schedule system for trader rotation across TradersG
 - Unvisited settlements show stable previews that match what they'll get when visited
 - Rotation interval is player-configurable (5-60 days, default 30)
 
+**Core Helper: `TradersGuildTraderRotation.GetEffectiveLastStockTicks()`**
+
+This is the single source of truth for determining which tick value to use for trader selection:
+
+| Scenario                        | Input `storedLastStockTicks`        | Returns                   |
+| ------------------------------- | ----------------------------------- | ------------------------- |
+| Unvisited settlement            | `-1`                                | Virtual schedule tick     |
+| Visited, rotation occurred      | `stored + interval <= currentTicks` | NEW virtual schedule tick |
+| Visited, within rotation period | `stored + interval > currentTicks`  | Stored value (unchanged)  |
+
+By using this helper in both preview (GetTraderKind) and stock generation (RegenerateStockAlignment), we ensure both paths produce the same trader type for the same rotation cycle.
+
 **Three-Patch Architecture:**
 
 The trader rotation system requires three Harmony patches working together:
 
 1. **SettlementTraderTrackerGetTraderKind.cs** (Postfix on `TraderKind` getter)
-   - Provides weighted random orbital trader selection
+   - Provides weighted random orbital trader selection using `Hash(settlementID, effectiveLastStockTicks)` as seed
    - **Priority 1**: Checks `TradersGuildWorldComponent` cache (populated after stock generation)
-   - **Priority 2**: Falls back to deterministic calculation using `Hash(settlementID, lastStockGenerationTicks)`
-   - Checks flags from other patches to determine which tick value to use for calculation
+   - **Priority 2**: During mid-regeneration with alignment, uses pending alignment value
+   - **Priority 3**: Falls back to `GetEffectiveLastStockTicks()` helper for preview or post-generation
 
 2. **SettlementTraderTrackerRegenerateStock.cs** (Prefix/Postfix on `RegenerateStock()`)
    - **ESSENTIAL** - Sets thread-local flag during stock regeneration
@@ -139,8 +151,9 @@ The trader rotation system requires three Harmony patches working together:
    - Exposes `IsRegeneratingStock(settlementID)` for other patches
 
 3. **SettlementTraderTrackerRegenerateStockAlignment.cs** (Prefix/Postfix on `RegenerateStock()`)
-   - Aligns first-visit stock generation with virtual preview schedule
-   - Solves preview/visit mismatch problem (see below)
+   - Aligns stock generation with virtual schedule for BOTH first-time AND rotation scenarios
+   - Prefix: Calls `GetEffectiveLastStockTicks()`, sets up alignment if effective != stored
+   - Postfix: Restores aligned value after vanilla overwrites with TicksGame
    - Exposes `HasPendingAlignment(settlementID)` for other patches
 
 **Critical Problem #1: Stock/Dialog Desync**
@@ -158,22 +171,58 @@ Vanilla `RegenerateStock()` updates `lastStockGenerationTicks` at the END:
 Result: Dialog shows Trader B title but has Trader A's inventory!
 
 **Solution:** Two-part fix:
-1. RegenerateStock Prefix sets `IsRegeneratingStock` flag. TraderKind getter detects flag and uses `Find.TickManager.TicksGame` (or aligned virtual ticks for first-time) so stock generation uses correct trader.
+
+1. Alignment Prefix sets `lastStockGenerationTicks` to effective value and stores in `pendingAlignments`. TraderKind getter detects `IsRegeneratingStock` + `HasPendingAlignment` and uses the aligned value.
 2. RegenerateStock Postfix caches the selected trader to `TradersGuildWorldComponent`. Subsequent TraderKind accesses check this cache first, bypassing recalculation entirely.
 
-**Critical Ordering in Postfix:** The Postfix must call `TraderKind` to cache the result BEFORE clearing the `IsRegeneratingStock` flag. If the flag is cleared first, the getter won't check `HasPendingAlignment()` and will use the wrong tick value (vanilla's `TicksGame` instead of aligned ticks), caching the wrong trader.
+**Critical Ordering in Postfix:** The RegenerateStock Postfix must call `TraderKind` to cache the result BEFORE clearing the `IsRegeneratingStock` flag. If the flag is cleared first, the getter won't check `HasPendingAlignment()` and will use the wrong tick value, caching the wrong trader.
 
 **Critical Problem #2: Preview/Visit Mismatch**
 
-Unvisited settlements use virtual schedules for preview, but first-visit generation uses `TicksGame`:
+Without alignment, preview and stock generation use different seeds:
 
 ```
-1. Preview calculates: GetVirtualLastStockTicks(ID) = -865481 → Shows Exotic Trader
-2. Player visits → RegenerateStock() sets lastStockTicks = TicksGame = 12015
-3. Different seeds → Shows Bulk Trader (broken trust!)
+Preview: GetEffectiveLastStockTicks() → virtual schedule → Shows Exotic Trader
+Visit: RegenerateStock() sets lastStockTicks = TicksGame → Different seed → Bulk Trader
 ```
 
-**Solution:** Alignment patch detects first-time generation (lastStockTicks == -1), pre-sets to virtual schedule, and restores after vanilla overwrites.
+**Solution:** Alignment patch calls `GetEffectiveLastStockTicks()` and pre-sets the field to the effective value. After vanilla overwrites it with TicksGame, Postfix restores the aligned value.
+
+**Critical Problem #3: Visited Settlement After Rotation**
+
+Without proper handling, visited settlements after rotation would use stale stored values:
+
+```
+Previous visit: lastStockTicks = 500000 → Trader A
+Time passes: 500000 + interval < currentTicks (rotation occurred)
+Preview: Uses old stored 500000 → Still shows Trader A (wrong!)
+Should show: NEW virtual schedule for current rotation cycle → Trader B
+```
+
+**Solution:** `GetEffectiveLastStockTicks()` detects rotation (stored + interval <= currentTicks) and returns NEW virtual schedule tick, ensuring both preview and regeneration use the same seed for the current rotation cycle.
+
+**Two Stock Generation Flows:**
+
+Both flows use the same alignment logic via the shared helper:
+
+1. **Settlement Map Entry** (`SettlementMapGenerated.Postfix`)
+   - Triggers when player enters settlement
+   - Checks `GetEffectiveLastStockTicks()` to detect if rotation occurred while away
+   - If rotated: clears stale stock, resets lastStockTicks to -1, triggers regeneration
+   - Regeneration uses alignment patch → consistent with preview
+
+2. **World Map Caravan Trading** (vanilla `RegenerateStock`)
+   - Triggers when player trades via caravan without entering
+   - Alignment patch calls `GetEffectiveLastStockTicks()` to determine effective value
+   - Same logic handles both first-time and rotation scenarios
+
+**Settings Change Handling:**
+
+When the rotation interval setting changes:
+
+- `TradersGuildWorldComponent.ScaleExpirationsForIntervalChange()` proportionally scales remaining time on all cached expiration ticks
+- This preserves trader types while adjusting timing to match new interval
+- Example: 30→15 day interval change, trader with 12 days remaining now has 6 days remaining
 
 **Implementation Pattern:**
 
