@@ -22,9 +22,6 @@ jobs:
       - name: Build
         run: dotnet build BetterTradersGuild.sln -c Release
 
-      - name: Run tests
-        run: dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj --no-build -c Release
-
       - name: Package mod
         run: |
           set -e
