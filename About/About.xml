@@ -3,51 +3,15 @@
   <name>Better Traders Guild</name>
   <author>Sam Hunt</author>
   <packageId>shunter.bettertradersguild</packageId>
-  <description>
-    [h1]About[/h1]
-    In vanilla RimWorld, the Traders Guild are the faction behind orbital trader events - but their world map presence doesn't reflect this. Their orbital settlements can't be visited for trade like other faction bases, only attacked late-game via gravship. Settlement maps are relatively lifeless, despite supposedly hosting a coalition of wealthy merchants.
+  <description>Overhaul for the Odyssey DLC Traders Guild faction:
 
-    This mod brings them in line with other factions:
-    • Shuttle caravan trading at their orbital bases
-    • Rotating orbital traders to simulate active trade operations
-    • Overhauled map generation with inhabited, maintained settlements
-    • Integrated cargo system linking trade stock to physical items
+    - Shuttle caravan trading at orbital faction bases
+    - Rotating orbital traders simulate active trade operations
+    - New map generation with inhabited, maintained settlements
+    - Integrated cargo system linking trade stock to spawned items
 
-    [h1]Features[/h1]
-    [b]Peaceful Trading[/b]
-    • Visit Traders Guild orbital bases via shuttle when relations are Neutral or better
-    • Settlements cycle through orbital trader types on a configurable schedule
-    • Preview which trader is docked before traveling
-    • World map shows the currently docked trader type
 
-    [b]Custom Settlements[/b]
-    • Overhauled room types (Control Center, Crew Quarters, Cargo Hold, Commander's Lounge, Medbay, and more)
-    • Lived-in aesthetics befitting wealthy merchants
-    • Physical cargo spawns from trade inventory - steal it and it's gone from their stock
-
-    [h1]Compatibility[/h1]
-    • Safe to add to existing saves
-    • Safe to remove, just don't be in the cargo vault or have shuttle caravans in the orbit world layer when you do.
-    • Fully compatible with any mods adding custom orbital trader types
-
-    [h1]FAQ[/h1]
-    [b]Q: Do I need the Odyssey DLC?[/b]
-    A: Yes. This mod enhances Odyssey's Traders Guild faction.
-
-    [b]Q: Do I still need a signal jammer to attack them?[/b]
-    A: Yes.
-
-    [b]Q: Does this make the game easier?[/b]
-    A: It adds more trading opportunities. Settlements have better loot but are also better defended.
-
-    [b]Q: Trader stock rotation/map generation/cargo vault/defender strength is imbalanced!!1[/b]
-    A: All configurable in mod settings.
-
-    [b]Q: Why isn't a specific trader type showing up?[/b]
-    A: Trader types are selected randomly based on commonality values. Some are rarer than others. Wait for rotations or check other settlements.
-
-    [h1]Links[/h1]
-    [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url] - Source code, bug reports, and feature requests</description>
+    See Steam Workshop page for full details.</description>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
