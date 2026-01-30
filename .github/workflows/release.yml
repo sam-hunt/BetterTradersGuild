@@ -22,17 +22,24 @@ jobs:
       - name: Build
         run: dotnet build BetterTradersGuild.sln -c Release
 
+      - name: Run tests
+        run: dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj --no-build -c Release
+
       - name: Package mod
         run: |
+          set -e
           mkdir -p release/BetterTradersGuild/About
           mkdir -p release/BetterTradersGuild/1.6/Assemblies
           mkdir -p release/BetterTradersGuild/1.6/Defs
           mkdir -p release/BetterTradersGuild/1.6/Patches
+          mkdir -p release/BetterTradersGuild/1.6/Languages
           cp About/About.xml release/BetterTradersGuild/About/
+          cp About/Preview.png release/BetterTradersGuild/About/
           cp LoadFolders.xml release/BetterTradersGuild/
           cp 1.6/Assemblies/BetterTradersGuild.dll release/BetterTradersGuild/1.6/Assemblies/
           cp -r 1.6/Defs/* release/BetterTradersGuild/1.6/Defs/
           cp -r 1.6/Patches/* release/BetterTradersGuild/1.6/Patches/
+          cp -r 1.6/Languages/* release/BetterTradersGuild/1.6/Languages/
           cd release && zip -r ../BetterTradersGuild-${{ github.ref_name }}.zip BetterTradersGuild
 
       - name: Create Release
@@ -40,3 +47,4 @@ jobs:
         with:
           files: BetterTradersGuild-${{ github.ref_name }}.zip
           generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}

@@ -55,3 +55,6 @@ test_*.exe
 
 # Logs
 *.log
+
+# Research documentation (kept locally, not tracked)
+Docs/

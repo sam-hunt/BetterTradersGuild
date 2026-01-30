@@ -121,10 +121,7 @@ namespace BetterTradersGuild.Helpers
             // Case 1: Never visited - use virtual schedule
             if (storedLastStockTicks == -1)
             {
-                int result = GetVirtualLastStockTicks(settlementID);
-                Log.Message($"[BTG DEBUG] GetEffectiveLastStockTicks({settlementID}): " +
-                    $"stored=-1 (unvisited), using virtualTicks={result}");
-                return result;
+                return GetVirtualLastStockTicks(settlementID);
             }
 
             // Case 2 & 3: Visited - check if rotation occurred
@@ -134,17 +131,10 @@ namespace BetterTradersGuild.Helpers
             if (rotationOccurred)
             {
                 // Rotation occurred - use NEW virtual schedule for current rotation cycle
-                int result = GetVirtualLastStockTicks(settlementID);
-                Log.Message($"[BTG DEBUG] GetEffectiveLastStockTicks({settlementID}): " +
-                    $"stored={storedLastStockTicks}, expiration={expirationTick}, current={currentTicks}, " +
-                    $"ROTATED, using NEW virtualTicks={result}");
-                return result;
+                return GetVirtualLastStockTicks(settlementID);
             }
 
             // No rotation - use stored value to maintain consistency within rotation period
-            Log.Message($"[BTG DEBUG] GetEffectiveLastStockTicks({settlementID}): " +
-                $"stored={storedLastStockTicks}, expiration={expirationTick}, current={currentTicks}, " +
-                $"no rotation, using stored value");
             return storedLastStockTicks;
         }
 

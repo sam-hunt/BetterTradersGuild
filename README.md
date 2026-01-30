@@ -4,56 +4,40 @@
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey%20Required-orange.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
-[![Version](https://img.shields.io/badge/Version-0.1.0--alpha.1-yellow.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
-[![Development Status](https://img.shields.io/badge/Status-Alpha-green.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
-
-## Alpha Release
-
-This is an **alpha release** (v0.1.0-alpha.1) for early testing. Peaceful trading is complete and fully functional. Enhanced settlement generation is partially implemented. See [Known Limitations](#alpha-limitations) below.
-
-Transform the Traders Guild from hostile orbital raiders into valuable trading partners. Visit their orbital settlements peacefully for dynamic trading opportunities, or maintain the vanilla hostile relationship if you prefer the challenge. Your choice.
+[![Version](https://img.shields.io/badge/Version-0.2.0--beta-yellow.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
+[![Development Status](https://img.shields.io/badge/Status-Beta-green.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 
 ## About
 
-In vanilla RimWorld, the Traders Guild faction spawns orbital settlements that are permanently hostile regardless of goodwill, and require signal jammers to reach. This mod unlocks peaceful interactions when you maintain good relations, allowing you to:
+In vanilla RimWorld, the Traders Guild are the faction behind orbital trader events and can be contacted via comms console - but their world map presence doesn't reflect this. Their orbital settlements can't be visited for trade like other faction bases, only attacked late-game via gravship. Settlement maps are relatively lifeless, despite supposedly hosting a coalition of wealthy merchants. There's little reason to interact with them.
 
-- **Trade directly** at their orbital bases via shuttle (or transport pod...)
-- **Meet rotating orbital traders** across different settlements (4 vanilla, supports modded trader types by default)
-- **Plan expeditions** using the virtual schedule system to preview which traders are docked when allied
-- **Configure difficulty** by adjusting trader rotation intervals to match your playstyle with mod options
+This mod brings the Traders Guild in line with other factions:
 
-Vanilla gameplay is preserved for hostile relationships - you can still raid settlements via gravship (with a signal jammer), or by transport pod. This is purely an expansion of diplomatic options, not a gameplay overhaul.
+- **Shuttle caravan trading** - Visit their orbital bases to trade, just like other faction settlements
+- **Rotating orbital traders** - Since they lack faction-specific traders, settlements cycle through orbital trader types to simulate active trade operations
+- **Overhauled map generation** - Settlements look inhabited and maintained, befitting wealthy merchants
+- **Integrated cargo system** - Trade stock appears as physical cargo you can find and steal in the settlement
 
 ## Features
 
-### Peaceful Trading Visits
+### Peaceful Trading
 
-- **Peaceful Access**: Visit Traders Guild orbital bases via shuttle or caravan when relations are Neutral or better
-- **Dynamic Trader Rotation**: Each settlement rotates between 4 orbital trader types (Bulk Goods, Combat Supplier, Exotic, Pirate Merchant)
-- **Virtual Schedule System**: Preview which trader is currently docked at unvisited settlements before you travel
-- **Configurable Rotation**: Adjust trader rotation interval from 5-30 days (default: 15 days) in Mod Settings
-- **Docked Vessel Display**: World map inspection cards show the currently docked trader type
-- **Desynchronized Schedules**: Each settlement rotates independently based on its unique ID
-- **Mod Compatibility**: Automatically supports any mods that add custom orbital trader types
+- **Peaceful Access**: Visit Traders Guild orbital bases via shuttle when relations are Neutral or better
+- **Dynamic Trader Rotation**: Each settlement cycles through orbital trader types on a configurable schedule
+- **Virtual Schedules**: Preview which trader is docked before traveling - what you see is what you get
+- **Docked Vessel Display**: World map shows the currently docked trader type
 
-### Enhanced Settlement Generation (In Progress)
+### Custom Settlements
 
-- Custom room layouts with modern aesthetics (Trade Shuttle Bay, Commander's Quarters, Command Center, Medical Bay, Barracks, etc.)
-- Dynamic cargo system - items spawn from the settlement's actual trade inventory
-- Realistic consequences: steal cargo and it's missing from trade stock, or sell items and find them in the cargo bay later
-- Configurable cargo percentage (30-100%, default 60%)
-
-### Coming Later
-
-- Other DLC and popular community mod integrations
-- Possible new quest site(s) and/or goodwill opportunities
-- Quality-of-life improvements based on community feedback
+- **New Room Types**: Control Center, Crew Quarters, Cargo Hold, Commander's Lounge, Medbay, and more
+- **Lived-In Aesthetics**: Settlements feel inhabited with appropriate furniture and crew
+- **Dynamic Cargo System**: Physical cargo spawns from trade inventory - steal it and it's gone from their stock
 
 ## Requirements
 
 - **RimWorld 1.6** or later
-- **Odyssey DLC** (required - this mod depends on Odyssey's orbital settlement system)
-- **Harmony** (auto-downloaded from Steam Workshop if you don't have it)
+- **Odyssey DLC** (required - depends on Odyssey's TradersGuild faction)
+- **Harmony** (auto-download from Steam Workshop if you don't have it)
 
 ## Installation
 
@@ -71,137 +55,17 @@ _Coming soon to Steam Workshop_ - Subscribe and it will auto-download
 3. Enable the mod in RimWorld's mod menu
 4. Restart RimWorld
 
-### Load Order
-
-Place **Better Traders Guild** after the following mods:
-
-1. Harmony
-2. Core
-3. All DLCs (especially Odyssey)
-
-The mod should load last among Traders Guild-related mods to ensure compatibility.
-
-## Configuration
-
-Access mod settings via: **Options → Mod Settings → Better Traders Guild**
-
-### Core Features
-
-- **Trader Rotation Interval** (5-30 days, default: 15)
-  - How often settlements rotate their docked trader
-  - Shorter intervals = more variety, less strategic planning
-  - Longer intervals = more strategic scouting, fewer "check all settlements" trips
-
-### Map Generation
-
-- **Use custom settlement layouts** (checkbox, default: ON)
-
-  - Generate TradersGuild settlements with custom merchant aesthetics (18 room types)
-  - Disable if using other map generation mods or prefer vanilla layouts
-  - When disabled: TradersGuild settlements use vanilla/other mod generation
-
-- **Use enhanced pawn generation** (checkbox, default: ON)
-  - Spawn specialized crew members in custom rooms
-  - Requires custom layouts to be enabled
-
-### Cargo System
-
-- **Cargo bay inventory percentage** (0-100%, default: 60%)
-  - How much of trade inventory spawns as cargo in shuttle bay
-  - Set to 0% to disable cargo spawning (reduces save file size)
-  - Requires custom layouts to be enabled
-
 ## Compatibility
 
-### Save-Game Safety
+- **Safe to add** to existing saves
+- **Safe to remove**, just don't be in the cargo vault or have shuttle caravans in the orbit world layer when you do.
+- Fully compatible with any mods adding custom orbital trader types
 
-**Safe to add** to existing saves - orbital traders begin docking immediately
+## Contributing
 
-**Removing mid-playthrough:**
+Bug reports and feature requests welcome on [GitHub Issues](https://github.com/sam-hunt/BetterTradersGuild/issues).
 
-- A one-time red error log entry may be ignored.
-- Any already-generated settlement maps will persist.
-- Shuttle caravans in space will still be able to launch back to the planet or into other space maps.
-- Most features can be toggled or tweaked via mod settings menu however.
-
-**Recommendation:** Disable cargo system in mod settings before removing mod from active saves
-
-### Load Order Compatibility
-
-- Compatible with mods that add custom orbital trader types (automatically detected)
-- May conflict with other mods that heavily modify Traders Guild faction behavior (untested)
-
-### Known Issues
-
-- Space tile pathfinding may show minor performance overhead on large world maps (negligible in testing)
-
-Report compatibility issues on the [Issues](https://github.com/sam-hunt/BetterTradersGuild/issues) page.
-
-### Alpha Limitations
-
-**Enhanced settlement generation is partially complete** in this alpha release. Current limitations:
-
-- **Commander's Quarters Room** - Basic implementation working, but some edge cases unhandled:
-
-  - Door detection algorithm incomplete (bedroom may occasionally block doorways)
-  - Edge placement fallbacks need refinement
-  - Cell marking verification incomplete
-  - Billiards table clearance calculation needs improvement
-
-- **Other Custom Rooms** - Fully defined but using vanilla generation until Commander's Quarters patterns are finalized
-
-- **Dynamic Cargo System** - Designed but not yet implemented
-
-**What works in this alpha:**
-
-- All peaceful trading features (fully complete and stable)
-- Custom settlement layout system (18 room types defined)
-- 10 custom prefabs for furniture arrangements
-- Commander's Quarters basic generation (bedroom, bookcase, unique weapons)
-
-Current implementation is functional but may have minor aesthetic issues in Commander's Quarters.
-
-## FAQ
-
-**Q: Can I add this to my saved game?**
-A: Yes.
-
-**Q: Can I safely remove this from my saved game?**
-A: Yes. Any already-generated settlement maps will persist. Shuttle caravans in space will still be able to launch. There may be a one-time red error log entry. Most features can be toggled or tweaked via mod settings menu however.
-
-**Q: What if I don't have the Odyssey DLC?**
-A: This mod requires Odyssey and will not function without it. Odyssey introduces the Traders Guild faction and orbital settlements that this mod enhances.
-
-**Q: Do I still need a signal jammer to attack them?**
-A: Yes.
-
-**Q: Does this make the game _easier_?**
-A: Yes. You can spend chemfuel instead of goodwill to trade with the traders and that's easier to produce. Their settlements also have better loot because they're rich and orbital trader ships push inventory through their settlements.
-
-**Q: Does this make the game _harder_?**
-A: Yes. You may run out of chemfuel for other things because orbital trading is so addictive. Their settlements are also much better defended than in vanilla because they're rich but also their bosses will fire them if inventory goes missing.
-
-**Q: Why isn't Trader Type X showing up?**
-A: Trader types are selected randomly based on their `commonality` values in the game files. This mod respects that. Some traders (like Pirate Merchant) are rarer than others. Check more distant settlements or wait for rotations to see more types. Other mods which add orbital trader types might have imbalanced `commonality` or might change vanilla trader type `commonality`, so checking those is a good place to start if you're seeing issues.
-
-## Support & Contributing
-
-### Bug Reports
-
-Found a bug? Please report it on the [GitHub Issues](https://github.com/sam-hunt/BetterTradersGuild/issues) page with:
-
-- RimWorld version and mod list
-- Steps to reproduce
-- Log file (`Player.log`) if you're getting errors
-- Screenshots if applicable
-
-### Feature Requests
-
-Feature ideas are welcome! Open an issue on GitHub to suggest improvements.
-
-### Contributing
-
-This is a personal project, but contributions are welcome. Check [CLAUDE.md](CLAUDE.md) for development setup and architecture notes.
+For development setup, see [CLAUDE.md](CLAUDE.md).
 
 ## Credits
 
@@ -210,10 +74,11 @@ This is a personal project, but contributions are welcome. Check [CLAUDE.md](CLA
 **Built With**:
 
 - [Harmony](https://github.com/pardeike/Harmony) by Andreas Pardeike - Runtime patching library
-- RimWorld modding community resources and documentation
+- RimWorld modding API, community examples
 
 **Special Thanks**:
 
-- Ludeon Studios for RimWorld and the modding API
-- The RimWorld modding community for ideas, examples, and support
-- [Claude Code](https://claude.com/claude-code) for wading through `monodis` output and writing my C#
+- [Ludeon Studios](https://ludeon.com) for RimWorld and modding API
+- [The RimWorld modding community](https://steamcommunity.com/app/294100/workshop/) for inspiration and working examples
+- [Vanilla Expanded Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) for prefab creation tooling
+- [Claude Code](https://claude.com/claude-code) for wading through `monodis` output and breathing C#

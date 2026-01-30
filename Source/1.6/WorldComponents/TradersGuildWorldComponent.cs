@@ -149,7 +149,6 @@ namespace BetterTradersGuild.WorldComponents
 
             if (!cachedTraderKinds.TryGetValue(settlementId, out string defName))
             {
-                Log.Message($"[BTG DEBUG] TryGetCachedTraderKind({settlementId}): No cache entry");
                 return false;
             }
 
@@ -160,16 +159,14 @@ namespace BetterTradersGuild.WorldComponents
                 if (currentTicks >= expirationTick)
                 {
                     // Expired - remove and return false to trigger recalculation
-                    Log.Message($"[BTG DEBUG] TryGetCachedTraderKind({settlementId}): EXPIRED - currentTicks={currentTicks}, expirationTick={expirationTick}, trader was {defName}");
                     cachedTraderKinds.Remove(settlementId);
                     cacheExpirationTicks.Remove(settlementId);
                     return false;
                 }
-                Log.Message($"[BTG DEBUG] TryGetCachedTraderKind({settlementId}): Cache HIT - {defName}, expires in {(expirationTick - currentTicks) / 60000f:F1} days");
             }
             else
             {
-                Log.Warning($"[BTG DEBUG] TryGetCachedTraderKind({settlementId}): Has trader {defName} but NO expiration tick!");
+                Log.Warning($"[BTG] TryGetCachedTraderKind({settlementId}): Has trader {defName} but NO expiration tick!");
             }
 
             traderKind = DefDatabase<TraderKindDef>.GetNamedSilentFail(defName);

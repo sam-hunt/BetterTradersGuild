@@ -210,15 +210,12 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             {
                 if (cached.lastStockTicks == lastStockTicks)
                 {
-                    // Don't log every frame - local cache hit is normal
                     __result = cached.traderKind;
                     return; // Cache hit - return immediately
                 }
-                Log.Message($"[BTG DEBUG] GetTraderKind({settlementID}): Local cache STALE - cached.lastStockTicks={cached.lastStockTicks}, current lastStockTicks={lastStockTicks}");
             }
 
             // Cache miss - calculate new trader type with deterministic weighted selection
-            Log.Message($"[BTG DEBUG] GetTraderKind({settlementID}): RECALCULATING - lastStockTicks={lastStockTicks}, isUnvisited={isUnvisitedSettlement}");
             int seed = Gen.HashCombineInt(settlementID, lastStockTicks);
 
             TraderKindDef traderKind;
@@ -248,7 +245,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // This ensures both visited and unvisited settlements get re-cached after expiration
             if (worldComponent != null)
             {
-                Log.Message($"[BTG DEBUG] GetTraderKind({settlementID}): Caching {traderKind.defName} to WorldComponent, isUnvisited={isUnvisitedSettlement}");
                 worldComponent.CacheTraderKind(settlementID, traderKind);
             }
 

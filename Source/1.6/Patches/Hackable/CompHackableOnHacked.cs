@@ -60,8 +60,6 @@ namespace BetterTradersGuild.Patches.Hackable
                 canSendHostilityLetter: true,
                 HistoryEventDefOf.AttackedSettlement
             );
-
-            Log.Message("[BTG] Applied goodwill penalty for hacking cargo vault while non-hostile");
         }
     }
 }

@@ -35,8 +35,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
-            Log.Message($"[BTG DEBUG] FillRoom: Called for map {map}");
-
             if (room.rects == null || room.rects.Count == 0)
                 return;
 
@@ -139,16 +137,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         {
             PrefabDef prefab = Prefabs.BTG_CargoVaultExitSubroom;
             if (prefab == null)
-            {
-                Log.Warning("[BTG CargoVault] BTG_CargoVaultExitSubroom prefab not found");
                 return null;
-            }
 
             if (!exitSubroomSpawnPos.IsValid || !exitSubroomSpawnPos.InBounds(map))
-            {
-                Log.Warning($"[BTG CargoVault] Exit subroom spawn position {exitSubroomSpawnPos} invalid or out of bounds");
                 return null;
-            }
 
             PrefabUtility.SpawnPrefab(prefab, map, exitSubroomSpawnPos, Rot4.North, null);
             return exitSubroomRect;

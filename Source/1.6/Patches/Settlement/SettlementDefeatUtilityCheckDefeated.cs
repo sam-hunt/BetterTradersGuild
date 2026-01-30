@@ -134,8 +134,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Store original settlement ID for deterministic seeding
             cache.originalSettlementId = __state.SettlementId;
 
-            Log.Message($"[BTG] Settlement defeated - preserving {stock.Count} items to cache");
-
             // Transfer all items from trader stock to our cache
             cache.preservedStock.TryAddRangeOrTransfer(stock, canMergeWithExistingStacks: true);
         }

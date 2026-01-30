@@ -90,8 +90,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             if (effectiveTicks == currentLastStockTicks)
                 return;
 
-            Verse.Log.Message($"[BTG DEBUG] Alignment Prefix({settlement.ID}): stored={currentLastStockTicks}, effective={effectiveTicks}, setting up alignment");
-
             // Store for Postfix to restore after vanilla overwrites it
             pendingAlignments.Value[settlement.ID] = effectiveTicks;
 

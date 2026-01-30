@@ -82,10 +82,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             if (settlement?.trader == null)
                 return null;
 
-            var tracker = settlement.trader;
-            var stock = GetStock(tracker);
-            Log.Message($"[BTG DEBUG] GetStock(Settlement): settlement.ID={settlement.ID}, tracker={tracker.GetHashCode()}, stock={(stock == null ? "null" : $"{stock.Count} items")}");
-            return stock;
+            return GetStock(settlement.trader);
         }
 
         /// <summary>
@@ -105,26 +102,21 @@ namespace BetterTradersGuild.RoomContents.CargoVault
         public static ThingOwner<Thing> GetStock(Map pocketMap)
         {
             Settlement settlement = GetParentSettlement(pocketMap);
-            Log.Message($"[BTG DEBUG] GetStock(pocketMap): settlement={settlement?.Label ?? "null"}, destroyed={settlement?.Destroyed ?? true}");
 
             // If settlement is alive (not destroyed) and has a trader, use trader stock
             // Return trader stock even if empty - that's where returned items should go
             if (settlement?.trader != null && !settlement.Destroyed)
             {
-                var stock = GetStock(settlement);
-                Log.Message($"[BTG DEBUG] GetStock(pocketMap): using settlement stock ({stock?.Count ?? -1} items)");
-                return stock;
+                return GetStock(settlement);
             }
 
             // Settlement destroyed or no trader - fall back to cache
             Map settlementMap = GetSettlementMap(pocketMap);
-            Log.Message($"[BTG DEBUG] GetStock(pocketMap): settlement destroyed/null, trying cache on {settlementMap?.ToString() ?? "null"}");
             if (settlementMap != null)
             {
                 var cache = settlementMap.GetComponent<SettlementStockCache>();
                 if (cache?.preservedStock != null)
                 {
-                    Log.Message($"[BTG DEBUG] GetStock(pocketMap): using cache ({cache.preservedStock.Count} items)");
                     return cache.preservedStock;
                 }
             }

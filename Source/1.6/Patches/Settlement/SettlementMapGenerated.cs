@@ -69,9 +69,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 if (rotationOccurred)
                 {
                     // Stock has expired - clear it so it will be regenerated below
-                    Log.Message($"[BTG DEBUG] Settlement map loaded: Stock EXPIRED for {settlement.Label} (ID={settlement.ID}). " +
-                        $"storedLastStockTicks={storedLastStockTicks}, effectiveTicks={effectiveTicks}. Clearing for regeneration.");
-
                     // Clear the stock - this allows RegenerateStock to proceed
                     var stockOwner = existingStock as ThingOwner<Thing>;
                     stockOwner?.ClearAndDestroyContents();
@@ -83,16 +80,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 else
                 {
                     // Stock still valid - leave it frozen as-is
-                    var stockOwner = existingStock as ThingOwner<Thing>;
-                    Log.Message($"[BTG DEBUG] Settlement map loaded: Stock still valid for {settlement.Label} (ID={settlement.ID}). " +
-                        $"storedLastStockTicks={storedLastStockTicks}, effectiveTicks={effectiveTicks}, stock has {stockOwner?.Count ?? -1} items");
                     return;
                 }
             }
 
             // Stock is null - generate it now to establish the invariant
-            Log.Message($"[BTG DEBUG] Settlement map loaded: Generating stock for {settlement.Label} (ID={settlement.ID})");
-
             if (regenerateStockMethod == null)
             {
                 Log.Error("[BTG] Failed to find RegenerateStock method via reflection");
@@ -106,12 +98,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
                 // Verify it worked
                 object newStock = stockField?.GetValue(settlement.trader);
-                if (newStock != null)
-                {
-                    var stockOwner = newStock as ThingOwner<Thing>;
-                    Log.Message($"[BTG] Stock generated successfully: {stockOwner?.Count ?? 0} items");
-                }
-                else
+                if (newStock == null)
                 {
                     Log.Warning("[BTG] Stock generation appeared to fail - stock is still null");
                 }

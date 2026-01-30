@@ -96,19 +96,11 @@ namespace BetterTradersGuild.MapGeneration
 
             // Get the layout definition - use parms.layout if provided, otherwise our default
             LayoutDef layoutDef = parms.layout ?? Layouts.BTG_OrbitalCargoVault;
-            if (layoutDef == null)
-            {
-                Log.Error("[Better Traders Guild] GenStep_CargoVaultPlatform: BTG_OrbitalCargoVault layout not found!");
-                return;
-            }
+            if (layoutDef == null) return;
 
             // Get the layout worker
             LayoutWorker worker = layoutDef.Worker;
-            if (worker == null)
-            {
-                Log.Error("[Better Traders Guild] GenStep_CargoVaultPlatform: Layout worker is null!");
-                return;
-            }
+            if (worker == null) return;
 
             // Generate the structure sketch (defines rooms, walls, doors, etc.)
             LayoutStructureSketch sketch = worker.GenerateStructureSketch(genParams);

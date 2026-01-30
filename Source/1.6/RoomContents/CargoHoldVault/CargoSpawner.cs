@@ -197,6 +197,11 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 GenSpawn.Spawn(pawn, cell, map);
             }
 
+            if (unspawned.Count > 0)
+            {
+                Log.Warning($"[Better Traders Guild] {unspawned.Count} item(s) could not be placed in cargo vault - returned to trade inventory");
+            }
+
             return unspawned;
         }
 
@@ -219,15 +224,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             {
                 IntVec3 cell = FindUnusedCellFromIndex(validCells, usedCells, startIndex);
                 if (!cell.IsValid)
-                {
-                    Log.Warning($"[Better Traders Guild] No available cell for MinifiedThing {thing.Label} - returning to trade inventory");
                     return thing;
-                }
                 if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
-                {
-                    Log.Warning($"[Better Traders Guild] Failed to place MinifiedThing {thing.Label} - returning to trade inventory");
                     return thing;
-                }
                 thing.SetForbidden(true, false);
                 usedCells.Add(thing.Position); // Use actual position since TryPlaceThing may adjust
                 return null;
@@ -244,15 +243,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     ? FindUnusedCellFromIndex(validCells, usedCells, startIndex)
                     : validCells[startIndex];
                 if (!cell.IsValid)
-                {
-                    Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
                     return thing;
-                }
                 if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
-                {
-                    Log.Warning($"[Better Traders Guild] Failed to place {thing.Label} - returning to trade inventory");
                     return thing;
-                }
                 thing.SetForbidden(true, false);
                 if (isNonStackable)
                     usedCells.Add(thing.Position);
@@ -275,14 +268,12 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 {
                     // Restore original stack count before returning
                     thing.stackCount = stackLimit + remaining;
-                    Log.Warning($"[Better Traders Guild] No available cell for {thing.Label} - returning to trade inventory");
                     return thing;
                 }
                 if (!GenPlace.TryPlaceThing(thing, firstCell, map, ThingPlaceMode.Near))
                 {
                     // Restore original stack count before returning
                     thing.stackCount = stackLimit + remaining;
-                    Log.Warning($"[Better Traders Guild] Failed to place {thing.Label} - returning to trade inventory");
                     return thing;
                 }
                 thing.SetForbidden(true, false);
@@ -312,14 +303,12 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                         : validCells[Rand.Range(0, validCells.Count)];
                     if (!cell.IsValid)
                     {
-                        Log.Warning($"[Better Traders Guild] No available cell for {newStack.Label} stack - returning to trade inventory");
                         unspawnedCount += thisStack;
                         newStack.Destroy(DestroyMode.Vanish);
                         continue;
                     }
                     if (!GenPlace.TryPlaceThing(newStack, cell, map, ThingPlaceMode.Near))
                     {
-                        Log.Warning($"[Better Traders Guild] Failed to place {newStack.Label} stack - returning to trade inventory");
                         unspawnedCount += thisStack;
                         newStack.Destroy(DestroyMode.Vanish);
                         continue;

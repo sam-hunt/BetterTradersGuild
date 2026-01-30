@@ -39,11 +39,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             // Default to Things.Shelf
             shelfDef = shelfDef ?? Things.Shelf;
-            if (shelfDef == null)
-            {
-                Log.Warning("[Better Traders Guild] Things.Shelf is null - shelf def not loaded");
-                return shelves;
-            }
+            if (shelfDef == null) return shelves;
 
             // Use HashSet to avoid duplicates (multi-cell buildings appear at multiple positions)
             HashSet<Building_Storage> uniqueShelves = new HashSet<Building_Storage>();
