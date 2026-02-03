@@ -241,7 +241,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // Spawn animal bed
             if (Things.AnimalBed != null)
             {
-                Thing bed = ThingMaker.MakeThing(Things.AnimalBed, Things.Steel);
+                Thing bed = ThingMaker.MakeThing(Things.AnimalBed, Things.Cloth);
                 GenSpawn.Spawn(bed, pos, map, rot);
             }
 
