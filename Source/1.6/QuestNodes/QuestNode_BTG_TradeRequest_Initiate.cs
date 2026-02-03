@@ -1,4 +1,3 @@
-using BetterTradersGuild.QuestParts;
 using RimWorld;
 using RimWorld.Planet;
 using RimWorld.QuestGen;
@@ -8,7 +7,7 @@ namespace BetterTradersGuild.QuestNodes
 {
     /// <summary>
     /// Quest node that initiates a trade request on a BTG settlement.
-    /// Creates a QuestPart_BTG_InitiateTradeRequest following vanilla's pattern.
+    /// Uses vanilla's QuestPart_InitiateTradeRequest for save compatibility.
     /// Validation is delegated to upstream QuestNode_GetNearestTGSettlement.
     /// </summary>
     public class QuestNode_BTG_TradeRequest_Initiate : QuestNode
@@ -32,8 +31,8 @@ namespace BetterTradersGuild.QuestNodes
         {
             Slate slate = QuestGen.slate;
 
-            // Create and configure the QuestPart (matches vanilla pattern)
-            QuestPart_BTG_InitiateTradeRequest questPart = new QuestPart_BTG_InitiateTradeRequest
+            // Use vanilla's QuestPart for save compatibility if mod is disabled
+            QuestPart_InitiateTradeRequest questPart = new QuestPart_InitiateTradeRequest
             {
                 settlement = settlement.GetValue(slate),
                 requestedThingDef = requestedThingDef.GetValue(slate),
