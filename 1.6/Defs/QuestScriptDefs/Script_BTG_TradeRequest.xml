@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>BTG_TradeRequest</defName>
+
+    <rootSelectionWeight>0.8</rootSelectionWeight>
+    <rootMinProgressScore>8</rootMinProgressScore>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <expireDaysRange>4~8</expireDaysRange>
+    <everAcceptableInSpace>true</everAcceptableInSpace>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Shuttle Run to [settlement_label]</li>
+        <li>questName->Orbital Trade with [settlement_label]</li>
+        <li>questName->Shipment for [settlement_label]</li>
+        <li>questName->Delivery to [settlement_label]</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:\n\n [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])\n\nIf you want to make the trade, send a shuttle with the requested items.</li>
+        <li>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </li>
+        <li>qualityInfo-></li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+
+        <!-- Gate behind Shuttles research -->
+        <li Class="QuestNode_RequirementsToAcceptResearch">
+          <reserach>Shuttles</reserach>
+        </li>
+
+        <!-- Get player map -->
+        <li Class="QuestNode_GetMap">
+          <canBeSpace>true</canBeSpace>
+        </li>
+
+        <!-- Find nearest TG settlement -->
+        <li Class="BetterTradersGuild.QuestNodes.QuestNode_GetNearestTGSettlement">
+          <storeAs>settlement</storeAs>
+          <storeFactionAs>faction</storeFactionAs>
+          <storeFactionLeaderAs>asker</storeFactionLeaderAs>
+        </li>
+
+        <!-- Fail quest if faction becomes hostile -->
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="LetterLabelQuestFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="LetterTextQuestFailed">[faction_name] became hostile to you.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <!-- Get requested thing -->
+        <!-- From decompiling TryFindRandomRequestedThingDef, vanilla uses ThingSetMakerUtility.allGeneratableItems filtered by:
+            1. Value/mass ratio ≥ 5 - must be worth carrying
+            2. alwaysHaulable - can be transported
+            3. If rottable, daysToRotStart ≥ 10 - won't spoil quickly
+            4. Not human-edible food - no meals, raw food, etc.
+            5. Not silver
+            6. PlayerAcquirable
+            7. PlayerItemAccessibilityUtility.PossiblyAccessible() - player could obtain it
+            8. PlayerItemAccessibilityUtility.PlayerCanMake() - player has means to produce it
+            9. Not tagged "RewardStandardHighFreq"
+            10. Not in dontRequest list
+          Then picks randomly from valid items.
+        -->
+        <li Class="QuestNode_TradeRequest_GetRequestedThing">
+          <storeThingAs>requestedThing</storeThingAs>
+          <storeThingCountAs>requestedThingCount</storeThingCountAs>
+          <storeMarketValueAs>requestedThingMarketValue</storeMarketValueAs>
+          <storeHasQualityAs>requestedThingHasQuality</storeHasQualityAs>
+          <dontRequest>
+            <li>Leather_Patch</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Gravcore</li>
+          </dontRequest>
+        </li>
+
+        <!-- Calculate timeout: 4-8 days in ticks -->
+        <li Class="QuestNode_Set">
+          <name>timeout</name>
+          <value>$(randInt(4,8)*60000)</value>
+        </li>
+
+        <!-- Initiate trade request on settlement -->
+        <li Class="BetterTradersGuild.QuestNodes.QuestNode_BTG_TradeRequest_Initiate">
+          <settlement>$settlement</settlement>
+          <requestedThingDef>$requestedThing</requestedThingDef>
+          <requestedThingCount>$requestedThingCount</requestedThingCount>
+          <duration>$timeout</duration>
+        </li>
+
+        <!-- Rewards calculation -->
+        <li Class="QuestNode_GetMapWealth">
+          <map>$map</map>
+          <storeAs>mapWealth</storeAs>
+        </li>
+        <li Class="QuestNode_EvaluateSimpleCurve">
+          <value>$mapWealth</value>
+          <storeAs>wealthRewardValueFactor</storeAs>
+          <curve>
+            <points>
+              <li>0, 1.15</li>
+              <li>50000, 1</li>
+              <li>300000, 0.85</li>
+            </points>
+          </curve>
+        </li>
+        <li Class="QuestNode_Set">
+          <name>rewardValue</name>
+          <value>$($requestedThingMarketValue * $wealthRewardValueFactor * randFloat(1.5, 2.1))</value>
+        </li>
+
+        <!-- Human leather bonus -->
+        <!-- This is in the equivalent vanilla TradeRequest quest so we've copied it for consistency
+             There doesn't seem to be anything in vanilla that makes Leather_Human particularly common though-->
+        <li Class="QuestNode_Equal">
+          <value1>$requestedThing</value1>
+          <value2>Leather_Human</value2>
+          <node Class="QuestNode_Multiply">
+            <value1>$rewardValue</value1>
+            <value2>1.7</value2>
+            <storeAs>rewardValue</storeAs>
+          </node>
+        </li>
+
+        <!-- Give rewards on fulfillment -->
+        <li Class="QuestNode_GiveRewards">
+          <inSignal>settlement.TradeRequestFulfilled</inSignal>
+          <parms>
+            <allowGoodwill>true</allowGoodwill>
+            <allowRoyalFavor>true</allowRoyalFavor>
+            <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+            <giveToCaravan>true</giveToCaravan>
+            <disallowedThingDefs>
+              <li>$requestedThing</li>
+            </disallowedThingDefs>
+          </parms>
+          <useDifficultyFactor>false</useDifficultyFactor>
+          <nodeIfChosenPawnSignalUsed Class="QuestNode_Letter">
+            <letterDef>ChoosePawn</letterDef>
+            <label TKey="LetterLabelFavorReceiver">[asker_faction_royalFavorLabel]</label>
+            <text TKey="LetterTextFavorReceiver">Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request?</text>
+            <chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal>
+            <useColonistsFromCaravanArg>true</useColonistsFromCaravanArg>
+          </nodeIfChosenPawnSignalUsed>
+        </li>
+
+        <!-- Timeout handling -->
+        <li Class="QuestNode_Delay">
+          <delayTicks>$timeout</delayTicks>
+          <isQuestTimeout>true</isQuestTimeout>
+          <outSignalComplete>TradeRequestTimeout</outSignalComplete>
+        </li>
+
+        <!-- End conditions -->
+        <li Class="QuestNode_End">
+          <inSignal>settlement.TradeRequestFulfilled</inSignal>
+          <outcome>Success</outcome>
+          <sendStandardLetter>true</sendStandardLetter>
+        </li>
+
+        <li Class="QuestNode_End">
+          <inSignal>TradeRequestTimeout</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>
