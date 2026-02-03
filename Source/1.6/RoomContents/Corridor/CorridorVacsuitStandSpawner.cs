@@ -3,6 +3,7 @@ using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using RimWorld.BaseGen;
+using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild.RoomContents.Corridor
@@ -40,8 +41,9 @@ namespace BetterTradersGuild.RoomContents.Corridor
         /// </summary>
         /// <param name="map">The map to spawn on.</param>
         /// <param name="room">The corridor LayoutRoom.</param>
+        /// <param name="faction">The faction for VEF faction color tinting.</param>
         /// <returns>List of spawned outfit stands for further processing (e.g., painting).</returns>
-        public static List<Building_OutfitStand> SpawnVacsuitStands(Map map, LayoutRoom room)
+        public static List<Building_OutfitStand> SpawnVacsuitStands(Map map, LayoutRoom room, Faction faction)
         {
             List<Building_OutfitStand> placedStands = new List<Building_OutfitStand>();
 
@@ -63,7 +65,7 @@ namespace BetterTradersGuild.RoomContents.Corridor
             // Populate all placed stands with vacsuits
             if (placedStands.Count > 0)
             {
-                PopulateStandsWithVacsuits(map, placedStands);
+                PopulateStandsWithVacsuits(map, placedStands, faction);
             }
 
             return placedStands;
@@ -328,7 +330,7 @@ namespace BetterTradersGuild.RoomContents.Corridor
         /// <summary>
         /// Populates all placed outfit stands with vacsuit and helmet.
         /// </summary>
-        private static void PopulateStandsWithVacsuits(Map map, List<Building_OutfitStand> stands)
+        private static void PopulateStandsWithVacsuits(Map map, List<Building_OutfitStand> stands, Faction faction)
         {
             List<ThingDef> vacsuitSet = new List<ThingDef>();
 
@@ -360,6 +362,9 @@ namespace BetterTradersGuild.RoomContents.Corridor
                     Apparel apparel = CreateVacsuitApparel(apparelDef);
                     if (apparel == null)
                         continue;
+
+                    // Apply faction color if VEF is active
+                    ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
 
                     bool success = stand.AddApparel(apparel);
                     if (!success)

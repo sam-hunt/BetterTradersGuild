@@ -37,7 +37,10 @@ namespace BetterTradersGuild.RoomContents.Armory
         /// <summary>
         /// Spawns marine armor and helmet into outfit stands.
         /// </summary>
-        public static void SpawnMarineArmorInOutfitStands(Map map, CellRect roomRect)
+        /// <param name="map">The map to spawn on.</param>
+        /// <param name="roomRect">The room rectangle to search for outfit stands.</param>
+        /// <param name="faction">The faction for VEF faction color tinting.</param>
+        public static void SpawnMarineArmorInOutfitStands(Map map, CellRect roomRect, Faction faction)
         {
             List<ThingDef> marineArmorSet = new List<ThingDef>();
 
@@ -55,7 +58,8 @@ namespace BetterTradersGuild.RoomContents.Armory
                 roomRect,
                 marineArmorSet,
                 QualityCategory.Normal,
-                QualityCategory.Excellent);
+                QualityCategory.Excellent,
+                faction);
         }
     }
 }

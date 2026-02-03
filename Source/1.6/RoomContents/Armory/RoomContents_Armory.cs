@@ -15,7 +15,7 @@ namespace BetterTradersGuild.RoomContents.Armory
             {
                 ArmoryShelfFiller.FillWeaponShelves(map, roomRect);
                 ArmoryOutfitStandHandler.PaintOutfitStands(map, roomRect);
-                ArmoryOutfitStandHandler.SpawnMarineArmorInOutfitStands(map, roomRect);
+                ArmoryOutfitStandHandler.SpawnMarineArmorInOutfitStands(map, roomRect, faction);
             }
         }
     }

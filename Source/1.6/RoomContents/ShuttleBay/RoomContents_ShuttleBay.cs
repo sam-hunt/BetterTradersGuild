@@ -78,7 +78,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3. Spawn landing pad prefab using PrefabUtility API
                 SpawnLandingPadPrefab(map, placement);
 
-                // 3b. Paint the PassengerShuttle to marble
+                // 3b. Paint the PassengerShuttle with BTG_Rust
                 PaintShuttleInLandingPad(map);
 
                 // 3c. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
@@ -181,7 +181,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         }
 
         /// <summary>
-        /// Paints the shuttle in the landing pad area to marble.
+        /// Paints the shuttle in the landing pad area with BTG_Rust.
         /// Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
         /// Called immediately after prefab spawn so the shuttle exists on the map.
         /// </summary>
@@ -196,7 +196,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 (Things.OrcaShuttle != null && b.def == Things.OrcaShuttle));
 
             if (shuttle == null) return;
-            PaintableFurnitureHelper.TryPaint(shuttle, Colors.Structure_Marble);
+
+            // Paint with BTG_Rust (matches TradersGuild faction color)
+            PaintableFurnitureHelper.TryPaint(shuttle, Colors.BTG_Rust);
         }
 
         /// <summary>

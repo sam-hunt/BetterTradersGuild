@@ -11,6 +11,7 @@ namespace BetterTradersGuild.DefRefs
     {
         // === BTG CUSTOM ===
         public static ColorDef BTG_OrbitalSteel;
+        public static ColorDef BTG_Rust;
 
         // === VANILLA STRUCTURE COLORS ===
         public static ColorDef Structure_Marble;

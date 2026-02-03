@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - VEF Faction Apparel Color Integration
+
+  When Vanilla Expanded Framework is loaded, TradersGuild pawns will have
+  their outer apparel and helmets tinted with the faction color.
+-->
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Vanilla Expanded Framework</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/PawnKindDef[@Name="TradersGuildBase"]</xpath>
+      <value>
+        <modExtensions>
+          <li Class="VEF.Pawns.PawnKindDefExtension">
+            <factionColourApparelPartList>
+              <li>Torso</li>
+              <li>UpperHead</li>
+              <li>FullHead</li>
+            </factionColourApparelPartList>
+            <factionColourApparelLayerList>
+              <li>Shell</li>
+              <li>Overhead</li>
+              <li>Overhead</li>
+            </factionColourApparelLayerList>
+          </li>
+        </modExtensions>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

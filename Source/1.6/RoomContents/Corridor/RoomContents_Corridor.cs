@@ -18,7 +18,7 @@ namespace BetterTradersGuild.RoomContents.Corridor
 
             CorridorOxygenPumpSpawner.SpawnOxygenPumps(map, room);
 
-            List<Building_OutfitStand> vacsuitStands = CorridorVacsuitStandSpawner.SpawnVacsuitStands(map, room);
+            List<Building_OutfitStand> vacsuitStands = CorridorVacsuitStandSpawner.SpawnVacsuitStands(map, room, faction);
 
             foreach (Building_OutfitStand stand in vacsuitStands)
                 PaintableFurnitureHelper.TryPaint(stand, Colors.BTG_OrbitalSteel);

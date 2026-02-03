@@ -29,12 +29,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// <param name="apparelDefs">List of apparel ThingDefs to spawn in each stand</param>
         /// <param name="minQuality">Minimum quality for randomization (default: Normal)</param>
         /// <param name="maxQuality">Maximum quality for randomization (default: Excellent)</param>
+        /// <param name="faction">Optional faction for VEF faction color tinting</param>
         public static void SpawnApparelInOutfitStands(
             Map map,
             CellRect searchArea,
             List<ThingDef> apparelDefs,
             QualityCategory minQuality = QualityCategory.Normal,
-            QualityCategory maxQuality = QualityCategory.Excellent)
+            QualityCategory maxQuality = QualityCategory.Excellent,
+            Faction faction = null)
         {
             if (apparelDefs == null || apparelDefs.Count == 0)
             {
@@ -86,6 +88,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     // Create the apparel item
                     Apparel apparel = CreateApparelWithQuality(apparelDef, minQuality, maxQuality);
                     if (apparel == null) continue;
+
+                    // Apply faction color if VEF is active
+                    ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
 
                     // Add to outfit stand using the dedicated API
                     bool success = outfitStand.AddApparel(apparel);

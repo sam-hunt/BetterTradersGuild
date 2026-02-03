@@ -5,6 +5,7 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers;
 using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
@@ -29,7 +30,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Building_Storage, Map, Faction> action)>
             {
-                (23f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
+                (23f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map, faction)),
                 (18f, (shelf, map, faction) => ReplaceShelfWithSculpture(shelf, map)),
                 (18f, (shelf, map, faction) => ReplaceShelfWithBookcase(shelf, map)),
                 (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.ChessTable, Things.Steel)),
@@ -453,7 +454,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// <summary>
         /// Replaces a shelf with an outfit stand and adds a random apparel set.
         /// </summary>
-        private static void ReplaceShelfWithOutfitStand(Building_Storage shelf, Map map)
+        private static void ReplaceShelfWithOutfitStand(Building_Storage shelf, Map map, Faction faction)
         {
             if (Things.Building_OutfitStand == null) return;
 
@@ -473,14 +474,14 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // Add random apparel set
             if (standThing is Building_OutfitStand outfitStand)
             {
-                AddRandomApparelSet(outfitStand);
+                AddRandomApparelSet(outfitStand, faction);
             }
         }
 
         /// <summary>
         /// Adds a random apparel set to an outfit stand.
         /// </summary>
-        private static void AddRandomApparelSet(Building_OutfitStand stand)
+        private static void AddRandomApparelSet(Building_OutfitStand stand, Faction faction)
         {
             // Build list of available apparel sets using DefRefs
             var apparelSets = new List<List<(ThingDef apparel, ThingDef stuff)>>
@@ -544,6 +545,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                         (int)QualityCategory.Normal, (int)QualityCategory.Excellent);
                     compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
                 }
+
+                // Apply faction color if VEF is active
+                ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
 
                 // Add to outfit stand
                 if (!stand.AddApparel(apparel))

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Custom ColorDef for Better Traders Guild faction color.
+
+    This rust/tan/gold color matches the TradersGuild faction color and is used
+    for painting structures and apparel to give them a faction-appropriate look.
+
+    TECHNICAL NOTES:
+    - colorType="Structure" makes this color available for floors and buildings
+    - displayOrder controls sort order in color picker UI
+    - Color values: RGB in 0-1 range (not 0-255!)
+  -->
+
+  <ColorDef>
+    <defName>BTG_Rust</defName>
+    <label>traders guild rust</label>
+    <colorType>Structure</colorType>
+    <displayOrder>101</displayOrder>
+
+    <!-- TradersGuild faction color - brownish/tan/gold -->
+    <!-- Matches faction.Color from FactionDef: (0.57, 0.47, 0.29) -->
+    <color>(0.57, 0.47, 0.29)</color>
+  </ColorDef>
+</Defs>
