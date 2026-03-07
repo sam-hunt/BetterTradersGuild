@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ScenPartDef>
+    <defName>BTG_FactionGoodwill</defName>
+    <label>faction goodwill</label>
+    <category>GameCondition</category>
+    <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_FactionGoodwill</scenPartClass>
+    <summaryPriority>395</summaryPriority>
+  </ScenPartDef>
+
+</Defs>

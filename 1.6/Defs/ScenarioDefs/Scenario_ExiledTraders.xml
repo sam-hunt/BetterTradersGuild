@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>BTG_ExiledTraders</defName>
+    <label>Exiled Traders</label>
+    <description>A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.\n\nNote: This is a difficult scenario and is not recommended for new players.</description>
+    <scenario>
+      <summary>Three exiled traders hunted by mechanoids.</summary>
+      <playerFaction>
+        <factionDef>BTG_IndependentTraders</factionDef>
+      </playerFaction>
+      <parts Inherit="False">
+
+        <!-- Config pages -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes">
+          <def>BTG_ConfigureStartingPawnsXenotypes</def>
+          <pawnCount>3</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+          <allowedDevelopmentalStages>Adult, Child</allowedDevelopmentalStages>
+          <requiredSkills>
+            <li>Intellectual</li>
+          </requiredSkills>
+          <slotXenotypes>
+            <li>Baseliner</li>
+            <li>Starjack</li>
+            <li>Hussar</li>
+            <li>Starjack</li>
+            <li>Genie</li>
+            <li>Hussar</li>
+            <li MayRequire="OskarPotocki.VanillaRacesExpanded.Android">VRE_Android_Awakened</li>
+          </slotXenotypes>
+        </li>
+
+        <!-- Layers -->
+        <li Class="ScenPart_PlanetLayer">
+          <def>PlanetLayerFixed</def>
+          <tag>Orbit</tag>
+          <layer>Orbit</layer>
+          <settingsDef>Orbit</settingsDef>
+          <hide>true</hide>
+          <connections>
+            <Surface>
+              <zoomMode>ZoomIn</zoomMode>
+            </Surface>
+          </connections>
+        </li>
+        <!-- The player starts on a forced Orbital Relay map -->
+        <!-- They must quickly scavange resources and vacate to another location before mechanoids arrive -->
+        <li Class="ScenPart_ForcedMap">
+          <def>ForcedMap</def>
+          <mapGenerator>OrbitalRelay</mapGenerator>
+          <layerDef>Orbit</layerDef>
+        </li>
+
+        <!-- Game start dialog -->
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <!-- <textKey>TODO</textKey> -->
+          <text>Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+
+        <!-- Player starting stuff spawn method -->
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>Gravship</method>
+        </li>
+
+        <!-- Chased by mechanoids wherever the player goes -->
+        <li Class="ScenPart_PursuingMechanoids">
+          <def>PursuingMechanoids</def>
+        </li>
+        <!-- Mechhive quest chain already started per above -->
+        <li Class="ScenPart_DisableQuest">
+          <def>DisableQuest</def>
+          <questDef>MechanoidSignal</questDef>
+        </li>
+
+        <!-- Recolor shell/overhead apparel to guild gold -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_StartingApparelColor">
+          <def>BTG_StartingApparelColor</def>
+          <color>(0.57, 0.47, 0.29)</color>
+        </li>
+
+        <!-- Start hostile with TradersGuild -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_FactionGoodwill">
+          <def>BTG_FactionGoodwill</def>
+          <factionDef>TradersGuild</factionDef>
+          <goodwill>-100</goodwill>
+        </li>
+
+        <!-- Starting research -->
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>BasicGravtech</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>BiofuelRefining</project>
+        </li>
+
+        <!-- Player starting things -->
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Chemfuel</thingDef>
+          <count>250</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Silver</thingDef>
+          <count>2500</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MealSurvivalPack</thingDef>
+          <count>20</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineIndustrial</thingDef>
+          <count>20</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>ComponentIndustrial</thingDef>
+          <count>30</count>
+        </li>
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_StartingUniqueWeapon">
+          <def>BTG_StartingUniqueWeapon</def>
+          <thingDef>Gun_ChargeRifle_Unique</thingDef>
+          <quality>Normal</quality>
+          <requiredTraits>
+            <li>SilverInlay</li>
+          </requiredTraits>
+        </li>
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_StartingUniqueWeapon">
+          <def>BTG_StartingUniqueWeapon</def>
+          <thingDef>Gun_Revolver_Unique</thingDef>
+          <quality>Good</quality>
+          <requiredTraits>
+            <li>PulseCharger</li>
+            <li>SilverInlay</li>
+          </requiredTraits>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MeleeWeapon_Knife</thingDef>
+          <stuff>Plasteel</stuff>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Steel</thingDef>
+          <count>225</count>
+        </li>
+
+        <!-- Scatter some things near player start -->
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>500</count>
+          <allowRoofed>false</allowRoofed>
+        </li>
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>GravlitePanel</thingDef>
+          <count>400</count>
+          <allowRoofed>false</allowRoofed>
+        </li>
+
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+</Defs>

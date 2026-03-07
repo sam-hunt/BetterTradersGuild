@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ScenPartDef>
+    <defName>BTG_PlayerPawnsArriveShuttle</defName>
+    <label>arrive in shuttle</label>
+    <category>StartingImportant</category>
+    <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_PlayerPawnsArriveShuttle</scenPartClass>
+    <summaryPriority>-1</summaryPriority>
+  </ScenPartDef>
+
+</Defs>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <WeaponTraitDef>
+    <defName>SilverInlay</defName>
+    <label>silver inlay</label>
+    <description>This weapon is inlaid with silver. Traders will pay more for it.</description>
+    <commonality>0.5</commonality>
+    <canGenerateAlone>false</canGenerateAlone>
+    <weaponCategory>Ranged</weaponCategory>
+    <exclusionTags>
+      <li>Color</li>
+    </exclusionTags>
+    <forcedColor>BTG_UniqueWeapon_Silver</forcedColor>
+    <statOffsets>
+      <Beauty>15</Beauty>
+    </statOffsets>
+    <statFactors>
+      <MarketValue>1.7</MarketValue>
+    </statFactors>
+    <traitAdjectives>
+      <li>silver</li>
+      <li>silvered</li>
+    </traitAdjectives>
+  </WeaponTraitDef>
+
+</Defs>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ScenPartDef>
+    <defName>BTG_StartingUniqueWeapon</defName>
+    <label>starting unique weapon</label>
+    <category>StartingItem</category>
+    <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_StartingUniqueWeapon</scenPartClass>
+    <summaryPriority>100</summaryPriority>
+  </ScenPartDef>
+
+</Defs>

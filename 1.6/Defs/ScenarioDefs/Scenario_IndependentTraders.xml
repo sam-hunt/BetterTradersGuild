@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ScenarioDef ParentName="ScenarioBase">
+    <defName>BTG_IndependentTraders</defName>
+    <label>Independent Traders</label>
+    <description>After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.</description>
+    <scenario>
+      <summary>Three ex-guild traders and a shuttle.</summary>
+      <playerFaction>
+        <factionDef>BTG_IndependentTraders</factionDef>
+      </playerFaction>
+
+      <!-- Inherits from ScenarioBase: Surface layer, Orbit layer (Odyssey), and default playerFaction (overridden above).
+           Unlike Exiled Traders which uses Inherit="False" to redefine layers with custom settings,
+           we keep the inherited layers so players can choose both planetary and orbital starting tiles. -->
+      <parts>
+
+        <!-- Config pages -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes">
+          <def>BTG_ConfigureStartingPawnsXenotypes</def>
+          <pawnCount>3</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+          <allowedDevelopmentalStages>Adult, Child</allowedDevelopmentalStages>
+          <requiredSkills>
+            <li>Intellectual</li>
+          </requiredSkills>
+          <slotXenotypes>
+            <li>Baseliner</li>
+            <li>Starjack</li>
+            <li>Hussar</li>
+            <li>Starjack</li>
+            <li>Genie</li>
+            <li>Hussar</li>
+            <li MayRequire="OskarPotocki.VanillaRacesExpanded.Android">VRE_Android_Awakened</li>
+          </slotXenotypes>
+        </li>
+
+        <!-- Game start dialog -->
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <!-- <textKey>TODO</textKey> -->
+          <text>The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+
+        <!-- Player starting stuff spawn method-->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_PlayerPawnsArriveShuttle">
+          <def>BTG_PlayerPawnsArriveShuttle</def>
+          <shuttleDef>PassengerShuttle</shuttleDef>
+          <initialFuelPct>0.75</initialFuelPct>
+          <paintColor>BTG_Rust</paintColor>
+        </li>
+
+        <!-- Limited starting resources forcing players to trade for supplies -->
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Silver</thingDef>
+          <count>3000</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MealSurvivalPack</thingDef>
+          <count>15</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MedicineIndustrial</thingDef>
+          <count>15</count>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>ComponentIndustrial</thingDef>
+          <count>25</count>
+        </li>
+
+        <!-- Customized weapons -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_StartingUniqueWeapon">
+          <def>BTG_StartingUniqueWeapon</def>
+          <thingDef>Gun_ChargeRifle_Unique</thingDef>
+          <quality>Normal</quality>
+          <requiredTraits>
+            <li>SilverInlay</li>
+          </requiredTraits>
+        </li>
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_StartingUniqueWeapon">
+          <def>BTG_StartingUniqueWeapon</def>
+          <thingDef>Gun_Revolver_Unique</thingDef>
+          <quality>Good</quality>
+          <requiredTraits>
+            <li>PulseCharger</li>
+            <li>SilverInlay</li>
+          </requiredTraits>
+        </li>
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>MeleeWeapon_Knife</thingDef>
+          <stuff>Plasteel</stuff>
+        </li>
+
+        <!-- Recolor shell/overhead apparel to guild gold -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_StartingApparelColor">
+          <def>BTG_StartingApparelColor</def>
+          <color>(0.57, 0.47, 0.29)</color>
+        </li>
+
+        <!-- Start allied with TradersGuild -->
+        <li Class="BetterTradersGuild.ScenParts.ScenPart_FactionGoodwill">
+          <def>BTG_FactionGoodwill</def>
+          <factionDef>TradersGuild</factionDef>
+          <goodwill>100</goodwill>
+        </li>
+
+        <!-- Starting research -->
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>BiofuelRefining</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>TransportPod</project>
+        </li>
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>Shuttles</project>
+        </li>
+
+        <!-- Player starting things -->
+        <li Class="ScenPart_StartingThing_Defined">
+          <def>StartingThing_Defined</def>
+          <thingDef>Chemfuel</thingDef>
+          <count>250</count>
+        </li>
+
+        <li Class="ScenPart_StartingAnimal">
+          <def>StartingAnimal</def>
+          <count>1</count>
+          <bondToRandomPlayerPawnChance>1.0</bondToRandomPlayerPawnChance>
+        </li>
+
+        <!-- Scatter some things near player start -->
+        <li Class="ScenPart_ScatterThingsNearPlayerStart">
+          <def>ScatterThingsNearPlayerStart</def>
+          <thingDef>Steel</thingDef>
+          <count>225</count>
+        </li>
+
+        <!-- Scatter some things anywhere -->
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsAnywhere</def>
+          <thingDef>Steel</thingDef>
+          <count>420</count>
+        </li>
+        <li Class="ScenPart_ScatterThingsAnywhere">
+          <def>ScatterThingsAnywhere</def>
+          <thingDef>MealSurvivalPack</thingDef>
+          <count>7</count>
+        </li>
+
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+</Defs>

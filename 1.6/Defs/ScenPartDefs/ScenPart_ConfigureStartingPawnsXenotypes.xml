@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ScenPartDef>
+    <defName>BTG_ConfigureStartingPawnsXenotypes</defName>
+    <label>starting people</label>
+    <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes</scenPartClass>
+    <selectionWeight>0</selectionWeight>
+    <pageClass>Page_ConfigureStartingPawns</pageClass>
+    <summaryPriority>500</summaryPriority>
+    <category>Fixed</category>
+  </ScenPartDef>
+
+</Defs>

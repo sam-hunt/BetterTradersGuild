@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ColorDef>
+    <defName>BTG_UniqueWeapon_Silver</defName>
+    <label>silver</label>
+    <colorType>Weapon</colorType>
+    <color>(180, 173, 150)</color>
+    <randomlyPickable>false</randomlyPickable>
+  </ColorDef>
+
+</Defs>

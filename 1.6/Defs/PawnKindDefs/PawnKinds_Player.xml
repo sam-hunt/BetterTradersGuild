@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <PawnKindDef ParentName="BasePlayerPawnKind">
+    <defName>BTG_IndependentTrader</defName>
+    <label>independent trader</label>
+    <defaultFactionDef>BTG_IndependentTraders</defaultFactionDef>
+    <chemicalAddictionChance>0.07</chemicalAddictionChance>
+    <apparelColor>(255,255,255)</apparelColor>
+    <apparelTags>
+      <li>Vacsuit</li>
+      <li>IndustrialBasic</li>
+      <li>SpacerMilitary</li>
+    </apparelTags>
+    <ignoreApparelAllowChance>true</ignoreApparelAllowChance>
+    <apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+    <specificApparelRequirements>
+      <li>
+        <bodyPartGroup>FullHead</bodyPartGroup>
+        <requiredTag>Vacsuit</requiredTag>
+      </li>
+    </specificApparelRequirements>
+    <apparelMoney>1400~2100</apparelMoney>
+    <backstoryCryptosleepCommonality>0.08</backstoryCryptosleepCommonality>
+    <techHediffsChance>0.40</techHediffsChance>
+    <techHediffsMoney>1000~2000</techHediffsMoney>
+    <techHediffsTags>
+      <li>Simple</li>
+      <li>Advanced</li>
+      <li>ImplantEmpireCommon</li>
+    </techHediffsTags>
+    <techHediffsDisallowTags>
+      <li>PainCauser</li>
+    </techHediffsDisallowTags>
+    <initialResistanceRange>13~21</initialResistanceRange>
+    <xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+      <xenotypeChances>
+        <Hussar>0.25</Hussar>
+        <Starjack>0.35</Starjack>
+        <Genie>0.20</Genie>
+        <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
+      </xenotypeChances>
+    </xenotypeSet>
+  </PawnKindDef>
+
+</Defs>
