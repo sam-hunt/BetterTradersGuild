@@ -126,9 +126,9 @@
     <value>
       <xenotypeSet>
         <xenotypeChances>
-          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.05</Hussar>
-          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.55</Genie>
-          <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
+          <Hussar>0.05</Hussar>
+          <Genie>0.55</Genie>
+          <Starjack>0.30</Starjack>
           <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
         </xenotypeChances>
       </xenotypeSet>
@@ -140,8 +140,8 @@
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
       <techHediffsRequired>
-        <li MayRequire="Ludeon.RimWorld.Royalty">Neurocalculator</li>
-        <li MayRequire="Ludeon.RimWorld.Royalty">VacskinGland</li>
+        <li>Neurocalculator</li>
+        <li>VacskinGland</li>
       </techHediffsRequired>
     </value>
   </Operation>

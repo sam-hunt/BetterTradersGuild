@@ -1,6 +1,9 @@
 TODOs
 
 - Workshop screenshots and description
+- scenario translation keys
+- scenario builder test parts
+- tradersguild backstories, including mod integration variants
 
 - refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Add yayo/smokeleaf to crew quarters table customizer
@@ -8,9 +11,10 @@ TODOs
 - Add trade/equivalence-focused storyteller?
 
 - Future Mod integration?
+  Choose where to land (independent traders scenario)
   VE unique weapon types
   VGE Faux plants
   Knick knacks
   VREA maintenance room
-  trader ships shuttles texture option
+  trader ships shuttles texture option?
   VE Brewing whisky shelf in Captain's quarters

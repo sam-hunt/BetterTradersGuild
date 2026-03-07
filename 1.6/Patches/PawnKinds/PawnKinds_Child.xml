@@ -19,7 +19,7 @@
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Child"]</xpath>
     <value>
       <apparelRequired>
-        <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_VacsuitChildren</li>
+        <li>Apparel_VacsuitChildren</li>
         <li>Apparel_VacsuitHelmet</li>
         <li>Apparel_ShieldBelt</li>
       </apparelRequired>
@@ -32,9 +32,9 @@
     <value>
       <xenotypeSet>
         <xenotypeChances>
-          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.05</Hussar>
-          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
-          <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
+          <Hussar>0.05</Hussar>
+          <Genie>0.10</Genie>
+          <Starjack>0.30</Starjack>
         </xenotypeChances>
       </xenotypeSet>
     </value>

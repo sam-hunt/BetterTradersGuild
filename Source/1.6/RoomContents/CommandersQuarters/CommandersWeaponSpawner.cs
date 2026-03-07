@@ -135,63 +135,46 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
 
             // Add weapon traits
             CompUniqueWeapon uniqueComp = weapon.TryGetComp<CompUniqueWeapon>();
-            if (uniqueComp != null)
-            {
-                // CRITICAL: Clear any randomly-generated traits that were added during ThingMaker.MakeThing()
-                // This prevents ending up with 6+ traits (3 random + 3 ours)
-                // Following vanilla pattern from DebugToolsMisc.RemoveTraitFromUniqueWeapon
-                uniqueComp.TraitsListForReading.Clear();
 
-                // Trait 1: Weapon-specific primary trait (MUST be added FIRST)
-                // GoldInlay has canGenerateAlone="false" so it needs another trait to exist first
-                // primaryTrait was already selected above based on weapon type
-                // Fall back to AimAssistance if the selected trait is null
-                WeaponTraitDef effectivePrimaryTrait = primaryTrait ?? WeaponTraits.AimAssistance;
-                if (effectivePrimaryTrait != null && uniqueComp.CanAddTrait(effectivePrimaryTrait))
-                {
-                    uniqueComp.AddTrait(effectivePrimaryTrait);
-                }
-                else
-                {
-                    Log.Warning($"[Better Traders Guild] Could not add primary trait to commander's weapon");
-                }
-
-                // Trait 2: Gold Inlay (added SECOND after primary trait exists)
-                // Note: GoldInlay requires Biotech DLC
-                if (WeaponTraits.GoldInlay != null && uniqueComp.CanAddTrait(WeaponTraits.GoldInlay))
-                {
-                    uniqueComp.AddTrait(WeaponTraits.GoldInlay);
-                }
-                else
-                {
-                    Log.Warning("[Better Traders Guild] Could not add GoldInlay trait to commander's weapon (may require Biotech DLC)");
-                }
-
-                // Trait 3: Random compatible third trait
-                List<WeaponTraitDef> compatibleTraits = DefDatabase<WeaponTraitDef>.AllDefs
-                    .Where(traitDef => uniqueComp.CanAddTrait(traitDef))
-                    .ToList();
-
-                if (compatibleTraits.Count > 0)
-                {
-                    WeaponTraitDef randomTrait = compatibleTraits.RandomElement();
-                    uniqueComp.AddTrait(randomTrait);
-                }
-                else
-                {
-                    Log.Warning("[Better Traders Guild] No compatible traits available for third trait slot");
-                }
-
-                // CRITICAL: Regenerate weapon name and color based on new traits
-                // PostPostMake() cannot be used here because it has an early return guard
-                // in InitializeTraits() that prevents regeneration when traits already exist.
-                // Instead, use reflection-based helper to set name/color fields directly.
-                UniqueWeaponNameColorRegenerator.RegenerateNameAndColor(weapon, uniqueComp);
-            }
-            else
+            if (uniqueComp == null)
             {
                 Log.Warning($"[Better Traders Guild] Weapon '{weaponDef.defName}' does not have CompUniqueWeapon");
+                return weapon;
             }
+
+            // CRITICAL: Clear any randomly-generated traits that were added during ThingMaker.MakeThing()
+            // This prevents ending up with 6+ traits (3 random + 3 ours)
+            // Following vanilla pattern from DebugToolsMisc.RemoveTraitFromUniqueWeapon
+            uniqueComp.TraitsListForReading.Clear();
+
+            // Trait 1: Weapon-specific primary trait (MUST be added FIRST)
+            // GoldInlay has canGenerateAlone="false" so it needs another trait to exist first
+            // primaryTrait was already selected above based on weapon type
+            // Fall back to AimAssistance if the selected trait is null
+            WeaponTraitDef effectivePrimaryTrait = primaryTrait ?? WeaponTraits.AimAssistance;
+            if (effectivePrimaryTrait != null && uniqueComp.CanAddTrait(effectivePrimaryTrait))
+                uniqueComp.AddTrait(effectivePrimaryTrait);
+
+            // Trait 2: Gold Inlay (added SECOND after primary trait exists)
+            if (WeaponTraits.GoldInlay != null && uniqueComp.CanAddTrait(WeaponTraits.GoldInlay))
+                uniqueComp.AddTrait(WeaponTraits.GoldInlay);
+
+            // Trait 3: Random compatible third trait
+            List<WeaponTraitDef> compatibleTraits = DefDatabase<WeaponTraitDef>.AllDefs
+                .Where(uniqueComp.CanAddTrait)
+                .ToList();
+
+            if (compatibleTraits.Count > 0)
+            {
+                WeaponTraitDef randomTrait = compatibleTraits.RandomElement();
+                uniqueComp.AddTrait(randomTrait);
+            }
+
+            // CRITICAL: Regenerate weapon name and color based on new traits
+            // PostPostMake() cannot be used here because it has an early return guard
+            // in InitializeTraits() that prevents regeneration when traits already exist.
+            // Instead, use reflection-based helper to set name/color fields directly.
+            UniqueWeaponNameColorRegenerator.RegenerateNameAndColor(weapon, uniqueComp);
 
             return weapon;
         }
