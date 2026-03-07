@@ -14,8 +14,8 @@ namespace BetterTradersGuild.DefRefs
         public static WeaponTraitDef PulseCharger;
         public static WeaponTraitDef FrequencyAmplifier;
 
-        [MayRequireBiotech]
         public static WeaponTraitDef GoldInlay;
+        public static WeaponTraitDef SilverInlay;
 
         static WeaponTraits() => DefOfHelper.EnsureInitializedInCtor(typeof(WeaponTraits));
     }
