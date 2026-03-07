@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Add "gilded" traitAdjective to vanilla GoldInlay weapon trait -->
+<Patch>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/WeaponTraitDef[defName="GoldInlay"]/traitAdjectives</xpath>
+    <value>
+      <li>gilded</li>
+    </value>
+  </Operation>
+
+</Patch>

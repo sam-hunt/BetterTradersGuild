@@ -422,22 +422,32 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 qualityComp.SetQuality(quality, ArtGenerationContext.Outsider);
             }
 
-            // Add random traits if unique weapon
+            // Add traits: random + SilverInlay + random (SilverInlay has canGenerateAlone=false)
             CompUniqueWeapon uniqueComp = weapon.TryGetComp<CompUniqueWeapon>();
             if (uniqueComp != null)
             {
                 // Clear any auto-generated traits
                 uniqueComp.TraitsListForReading.Clear();
 
-                // Add random compatible traits (up to 3)
-                List<WeaponTraitDef> allTraits = DefDatabase<WeaponTraitDef>.AllDefs.ToList();
-                for (int i = 0; i < 3; i++)
+                // Trait 1: Random compatible trait (MUST be first - SilverInlay needs a companion)
+                List<WeaponTraitDef> compatible = DefDatabase<WeaponTraitDef>.AllDefs
+                    .Where(t => uniqueComp.CanAddTrait(t))
+                    .ToList();
+                if (compatible.Count > 0)
+                    uniqueComp.AddTrait(compatible.RandomElement());
+
+                // Trait 2: Silver Inlay (added SECOND after companion trait exists)
+                if (WeaponTraits.SilverInlay != null && uniqueComp.CanAddTrait(WeaponTraits.SilverInlay))
+                    uniqueComp.AddTrait(WeaponTraits.SilverInlay);
+
+                // Trait 3: 50% chance for a random compatible third trait
+                if (Rand.Bool)
                 {
-                    var compatible = allTraits.Where(t => uniqueComp.CanAddTrait(t)).ToList();
+                    compatible = DefDatabase<WeaponTraitDef>.AllDefs
+                        .Where(t => uniqueComp.CanAddTrait(t))
+                        .ToList();
                     if (compatible.Count > 0)
-                    {
                         uniqueComp.AddTrait(compatible.RandomElement());
-                    }
                 }
 
                 // Regenerate name and color
