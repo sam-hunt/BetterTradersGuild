@@ -27,6 +27,7 @@
         <relativeRotation>Opposite</relativeRotation>
         <quality>Good</quality>
         <stuff>Steel</stuff>
+        <colorDef>BTG_OrbitalSteel</colorDef>
       </Building_OutfitStand>
 
       <!-- Right outfit stand -->
@@ -35,6 +36,7 @@
         <relativeRotation>Opposite</relativeRotation>
         <quality>Good</quality>
         <stuff>Steel</stuff>
+        <colorDef>BTG_OrbitalSteel</colorDef>
       </Building_OutfitStand>
     </things>
   </PrefabDef>
