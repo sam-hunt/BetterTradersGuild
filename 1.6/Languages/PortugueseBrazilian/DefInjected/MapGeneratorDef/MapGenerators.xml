@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Brazilian Portuguese translation for Better Traders Guild -->
+<!-- Portuguese (Brazilian) translation for Better Traders Guild -->
 <!-- Uncomment and translate the entries below -->
 <LanguageData>
 
   <!-- BTG_CargoVaultMapGenerator -->
   <!-- <BTG_CargoVaultMapGenerator.label>cargo vault</BTG_CargoVaultMapGenerator.label> -->
+
+  <!-- BTG_SettlementMapGenerator -->
+  <!-- <BTG_SettlementMapGenerator.label>settlement platform</BTG_SettlementMapGenerator.label> -->
 
 </LanguageData>

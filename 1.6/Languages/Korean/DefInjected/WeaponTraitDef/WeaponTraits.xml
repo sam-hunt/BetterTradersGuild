@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean translation for Better Traders Guild -->
+<!-- Uncomment and translate the entries below -->
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- <SilverInlay.label>silver inlay</SilverInlay.label> -->
+  <!-- <SilverInlay.description>This weapon is inlaid with silver. Traders will pay more for it.</SilverInlay.description> -->
+  <!-- <SilverInlay.traitAdjectives.0>silver</SilverInlay.traitAdjectives.0> -->
+  <!-- <SilverInlay.traitAdjectives.1>silvered</SilverInlay.traitAdjectives.1> -->
+  <!-- <SilverInlay.traitAdjectives.2>gleaming</SilverInlay.traitAdjectives.2> -->
+  <!-- <SilverInlay.traitAdjectives.3>argent</SilverInlay.traitAdjectives.3> -->
+  <!-- <SilverInlay.traitAdjectives.4>fine</SilverInlay.traitAdjectives.4> -->
+
+</LanguageData>

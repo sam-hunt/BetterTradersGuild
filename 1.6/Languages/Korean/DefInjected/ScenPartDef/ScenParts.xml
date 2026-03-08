@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Korean translation for Better Traders Guild -->
+<!-- Uncomment and translate the entries below -->
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes -->
+  <!-- <BTG_ConfigureStartingPawnsXenotypes.label>starting people</BTG_ConfigureStartingPawnsXenotypes.label> -->
+
+  <!-- BTG_FactionGoodwill -->
+  <!-- <BTG_FactionGoodwill.label>faction goodwill</BTG_FactionGoodwill.label> -->
+
+  <!-- BTG_PlayerPawnsArriveShuttle -->
+  <!-- <BTG_PlayerPawnsArriveShuttle.label>arrive in shuttle</BTG_PlayerPawnsArriveShuttle.label> -->
+
+  <!-- BTG_StartingApparelColor -->
+  <!-- <BTG_StartingApparelColor.label>starting apparel color</BTG_StartingApparelColor.label> -->
+
+  <!-- BTG_StartingUniqueWeapon -->
+  <!-- <BTG_StartingUniqueWeapon.label>starting unique weapon</BTG_StartingUniqueWeapon.label> -->
+
+</LanguageData>

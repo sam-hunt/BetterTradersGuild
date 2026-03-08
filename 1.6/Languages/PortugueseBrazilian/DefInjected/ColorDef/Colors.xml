@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Brazilian Portuguese translation for Better Traders Guild -->
+<!-- Portuguese (Brazilian) translation for Better Traders Guild -->
 <!-- Uncomment and translate the entries below -->
 <LanguageData>
 
   <!-- BTG_OrbitalSteel -->
   <!-- <BTG_OrbitalSteel.label>orbital steel</BTG_OrbitalSteel.label> -->
+
+  <!-- BTG_UniqueWeapon_Silver -->
+  <!-- <BTG_UniqueWeapon_Silver.label>silver</BTG_UniqueWeapon_Silver.label> -->
+
+  <!-- BTG_Rust -->
+  <!-- <BTG_Rust.label>rust</BTG_Rust.label> -->
 
 </LanguageData>

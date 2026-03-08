@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Chinese Traditional translation for Better Traders Guild -->
+<!-- Chinese (Traditional) translation for Better Traders Guild -->
 <!-- Uncomment and translate the entries below -->
 <LanguageData>
 
@@ -49,11 +49,20 @@
   <!-- <BTG_Settings_LifeSupportPower>LifeSupportUnit power output: {0}W</BTG_Settings_LifeSupportPower> -->
   <!-- <BTG_Settings_LifeSupportDesc>Power output from orbital LifeSupportUnits. Requires restart.</BTG_Settings_LifeSupportDesc> -->
 
+  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
+  <!-- {0} = multiplier (e.g., "3.0") -->
+  <!-- <BTG_Settings_SalvagersRaidWeight>Salvagers raid weight on TG maps: {0}x</BTG_Settings_SalvagersRaidWeight> -->
+  <!-- <BTG_Settings_SalvagersRaidWeightDesc>When assaulting TradersGuild settlements, Salvagers raids become more likely.</BTG_Settings_SalvagersRaidWeightDesc> -->
+
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName> -->
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- <BTG_CargoVaultHatch_RelockLabel>Relock cargo vault</BTG_CargoVaultHatch_RelockLabel> -->
   <!-- <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Contents will be returned to station inventory.</BTG_CargoVaultHatch_RelockDesc> -->
+
+  <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
+  <!-- <BTG_GameStartDialog_ExiledTraders>Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.</BTG_GameStartDialog_ExiledTraders> -->
+  <!-- <BTG_GameStartDialog_IndependentTraders>The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.</BTG_GameStartDialog_IndependentTraders> -->
 
 </LanguageData>

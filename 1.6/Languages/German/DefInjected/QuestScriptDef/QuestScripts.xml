@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- German translation for Better Traders Guild -->
+<!-- Uncomment and translate the entries below -->
+<LanguageData>
+
+  <!-- BTG_TradeRequest - Quest name variants -->
+  <!-- <BTG_TradeRequest.questNameRules.rulesStrings.0>questName->Shuttle Run to [settlement_label]</BTG_TradeRequest.questNameRules.rulesStrings.0> -->
+  <!-- <BTG_TradeRequest.questNameRules.rulesStrings.1>questName->Orbital Trade with [settlement_label]</BTG_TradeRequest.questNameRules.rulesStrings.1> -->
+  <!-- <BTG_TradeRequest.questNameRules.rulesStrings.2>questName->Shipment for [settlement_label]</BTG_TradeRequest.questNameRules.rulesStrings.2> -->
+  <!-- <BTG_TradeRequest.questNameRules.rulesStrings.3>questName->Delivery to [settlement_label]</BTG_TradeRequest.questNameRules.rulesStrings.3> -->
+
+  <!-- BTG_TradeRequest - Quest description -->
+  <!-- <BTG_TradeRequest.questDescriptionRules.rulesStrings.0>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:\n\n [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])\n\nIf you want to make the trade, send a shuttle with the requested items.</BTG_TradeRequest.questDescriptionRules.rulesStrings.0> -->
+  <!-- <BTG_TradeRequest.questDescriptionRules.rulesStrings.1>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </BTG_TradeRequest.questDescriptionRules.rulesStrings.1> -->
+  <!-- <BTG_TradeRequest.questDescriptionRules.rulesStrings.2>qualityInfo-></BTG_TradeRequest.questDescriptionRules.rulesStrings.2> -->
+
+</LanguageData>

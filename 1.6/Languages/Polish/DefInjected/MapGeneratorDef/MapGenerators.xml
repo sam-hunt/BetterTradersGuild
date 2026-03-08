@@ -6,4 +6,7 @@
   <!-- BTG_CargoVaultMapGenerator -->
   <!-- <BTG_CargoVaultMapGenerator.label>cargo vault</BTG_CargoVaultMapGenerator.label> -->
 
+  <!-- BTG_SettlementMapGenerator -->
+  <!-- <BTG_SettlementMapGenerator.label>settlement platform</BTG_SettlementMapGenerator.label> -->
+
 </LanguageData>

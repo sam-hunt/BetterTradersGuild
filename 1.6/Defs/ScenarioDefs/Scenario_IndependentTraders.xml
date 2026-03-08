@@ -39,8 +39,7 @@
         <!-- Game start dialog -->
         <li Class="ScenPart_GameStartDialog">
           <def>GameStartDialog</def>
-          <!-- <textKey>TODO</textKey> -->
-          <text>The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.</text>
+          <textKey>BTG_GameStartDialog_IndependentTraders</textKey>
           <closeSound>GameStartSting</closeSound>
         </li>
 

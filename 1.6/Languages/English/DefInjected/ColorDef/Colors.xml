@@ -4,4 +4,10 @@
   <!-- BTG_OrbitalSteel -->
   <BTG_OrbitalSteel.label>orbital steel</BTG_OrbitalSteel.label>
 
+  <!-- BTG_UniqueWeapon_Silver -->
+  <BTG_UniqueWeapon_Silver.label>silver</BTG_UniqueWeapon_Silver.label>
+
+  <!-- BTG_Rust -->
+  <BTG_Rust.label>rust</BTG_Rust.label>
+
 </LanguageData>

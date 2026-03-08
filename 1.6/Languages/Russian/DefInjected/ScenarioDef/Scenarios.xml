@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian translation for Better Traders Guild -->
+<!-- Uncomment and translate the entries below -->
+<LanguageData>
+
+  <!-- BTG_ExiledTraders -->
+  <!-- <BTG_ExiledTraders.label>Exiled Traders</BTG_ExiledTraders.label> -->
+  <!-- <BTG_ExiledTraders.description>A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.\n\nNote: This is a difficult scenario and is not recommended for new players.</BTG_ExiledTraders.description> -->
+  <!-- <BTG_ExiledTraders.scenario.summary>Three exiled traders hunted by mechanoids.</BTG_ExiledTraders.scenario.summary> -->
+
+  <!-- BTG_IndependentTraders -->
+  <!-- <BTG_IndependentTraders.label>Independent Traders</BTG_IndependentTraders.label> -->
+  <!-- <BTG_IndependentTraders.description>After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.</BTG_IndependentTraders.description> -->
+  <!-- <BTG_IndependentTraders.scenario.summary>Three ex-guild traders and a shuttle.</BTG_IndependentTraders.scenario.summary> -->
+
+</LanguageData>

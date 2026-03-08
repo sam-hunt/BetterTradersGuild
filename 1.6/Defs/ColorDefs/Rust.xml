@@ -14,7 +14,7 @@
 
   <ColorDef>
     <defName>BTG_Rust</defName>
-    <label>traders guild rust</label>
+    <label>rust</label>
     <colorType>Structure</colorType>
     <displayOrder>101</displayOrder>
 
