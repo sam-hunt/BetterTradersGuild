@@ -62,8 +62,8 @@ namespace BetterTradersGuild.DefRefs
         public static PrefabDef BTG_PoweredSniperTurretArray;
         public static PrefabDef BTG_CargoVaultExitSubroom;
 
-        // === SETTLEMENT EXTERIOR ===
-        public static PrefabDef BTG_EntranceAutocannons;
+        // === CORRIDOR AIRLOCKS ===
+        public static PrefabDef BTG_AirlockDefences;
 
         // === OTHER ROOM PREFABS ===
         public static PrefabDef BTG_CommandersBedroom;
