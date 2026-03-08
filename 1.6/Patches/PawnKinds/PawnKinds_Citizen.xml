@@ -31,9 +31,9 @@
     <value>
       <xenotypeSet>
         <xenotypeChances>
-          <Hussar>0.05</Hussar>
-          <Genie>0.40</Genie>
-          <Starjack>0.30</Starjack>
+          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.05</Hussar>
+          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.40</Genie>
+          <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
           <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
         </xenotypeChances>
       </xenotypeSet>
