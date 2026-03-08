@@ -3,7 +3,6 @@ TODOs
 - Workshop screenshots and description
 - scenario translation keys
 - scenario builder test parts
-- tradersguild backstories, including mod integration variants
 
 - refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Add yayo/smokeleaf to crew quarters table customizer
