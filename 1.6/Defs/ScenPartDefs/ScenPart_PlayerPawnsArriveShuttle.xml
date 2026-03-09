@@ -4,7 +4,10 @@
   <ScenPartDef>
     <defName>BTG_PlayerPawnsArriveShuttle</defName>
     <label>arrive in shuttle</label>
-    <category>StartingImportant</category>
+    <!-- Fixed = non-addable/removable in scenario editor, matching vanilla's arrival method.
+         Vanilla's "Randomize seed" hardcodes core Fixed parts by DefOf, so this won't
+         appear in randomized scenarios. -->
+    <category>Fixed</category>
     <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_PlayerPawnsArriveShuttle</scenPartClass>
     <summaryPriority>-1</summaryPriority>
   </ScenPartDef>

@@ -54,6 +54,9 @@
     <Reference Include="UnityEngine.IMGUIModule" Private="false">
       <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <!-- Fall back to NuGet package for CI builds without local RimWorld -->

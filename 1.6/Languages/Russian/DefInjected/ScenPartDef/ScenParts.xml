@@ -4,7 +4,7 @@
 <LanguageData>
 
   <!-- BTG_ConfigureStartingPawnsXenotypes -->
-  <!-- <BTG_ConfigureStartingPawnsXenotypes.label>starting people</BTG_ConfigureStartingPawnsXenotypes.label> -->
+  <!-- <BTG_ConfigureStartingPawnsXenotypes.label MayRequire="Ludeon.RimWorld.Biotech">starting people</BTG_ConfigureStartingPawnsXenotypes.label> -->
 
   <!-- BTG_FactionGoodwill -->
   <!-- <BTG_FactionGoodwill.label>faction goodwill</BTG_FactionGoodwill.label> -->

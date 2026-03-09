@@ -35,9 +35,9 @@
     <initialResistanceRange>13~21</initialResistanceRange>
     <xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
       <xenotypeChances>
-        <Hussar>0.25</Hussar>
-        <Starjack>0.35</Starjack>
-        <Genie>0.20</Genie>
+        <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.25</Hussar>
+        <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.35</Starjack>
+        <Genie MayRequire="Ludeon.RimWorld.Biotech">0.20</Genie>
         <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
       </xenotypeChances>
     </xenotypeSet>

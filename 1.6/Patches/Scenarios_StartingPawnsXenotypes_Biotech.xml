@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    When Biotech DLC is active, replace vanilla starting pawns config with our
+    xenotype-aware version that supports per-slot xenotype assignments.
+  -->
+
+  <Operation Class="PatchOperationConditional" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/XenotypeDef[defName="Baseliner"]</xpath>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ScenarioDef[defName="BTG_ExiledTraders"]/scenario/parts/li[@Class="ScenPart_ConfigPage_ConfigureStartingPawns"]</xpath>
+          <value>
+            <li Class="BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes" MayRequire="Ludeon.RimWorld.Biotech">
+              <def>BTG_ConfigureStartingPawnsXenotypes</def>
+              <pawnCount>3</pawnCount>
+              <pawnChoiceCount>8</pawnChoiceCount>
+              <allowedDevelopmentalStages>Adult, Child</allowedDevelopmentalStages>
+              <requiredSkills>
+                <li>Intellectual</li>
+              </requiredSkills>
+              <slotXenotypes>
+                <li>Baseliner</li>
+                <li>Starjack</li>
+                <li>Hussar</li>
+                <li>Starjack</li>
+                <li>Genie</li>
+                <li>Hussar</li>
+                <li MayRequire="OskarPotocki.VanillaRacesExpanded.Android">VRE_Android_Awakened</li>
+              </slotXenotypes>
+            </li>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ScenarioDef[defName="BTG_IndependentTraders"]/scenario/parts/li[@Class="ScenPart_ConfigPage_ConfigureStartingPawns"]</xpath>
+          <value>
+            <li Class="BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes" MayRequire="Ludeon.RimWorld.Biotech">
+              <def>BTG_ConfigureStartingPawnsXenotypes</def>
+              <pawnCount>3</pawnCount>
+              <pawnChoiceCount>8</pawnChoiceCount>
+              <allowedDevelopmentalStages>Adult, Child</allowedDevelopmentalStages>
+              <requiredSkills>
+                <li>Intellectual</li>
+              </requiredSkills>
+              <slotXenotypes>
+                <li>Baseliner</li>
+                <li>Starjack</li>
+                <li>Hussar</li>
+                <li>Starjack</li>
+                <li>Genie</li>
+                <li>Hussar</li>
+                <li MayRequire="OskarPotocki.VanillaRacesExpanded.Android">VRE_Android_Awakened</li>
+              </slotXenotypes>
+            </li>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

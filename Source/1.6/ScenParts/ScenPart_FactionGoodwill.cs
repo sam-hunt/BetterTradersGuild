@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild.ScenParts
@@ -14,6 +16,35 @@ namespace BetterTradersGuild.ScenParts
 
         public FactionDef factionDef;
         public int goodwill;
+
+        private string goodwillBuf;
+
+        public override void DoEditInterface(Listing_ScenEdit listing)
+        {
+            Rect rect = listing.GetScenPartRect(this, RowHeight * 2f);
+            Rect factionRect = new Rect(rect.x, rect.y, rect.width, RowHeight);
+            Rect goodwillRect = new Rect(rect.x, rect.y + RowHeight, rect.width, RowHeight);
+
+            string factionLabel = factionDef != null ? factionDef.LabelCap.ToString() : "Choose faction...";
+            if (Widgets.ButtonText(factionRect, factionLabel))
+            {
+                FloatMenuUtility.MakeMenu(
+                    DefDatabase<FactionDef>.AllDefs.Where(d => !d.isPlayer),
+                    d => d.LabelCap,
+                    d => delegate { factionDef = d; }
+                );
+            }
+
+            Widgets.TextFieldNumeric(goodwillRect, ref goodwill, ref goodwillBuf, -100f, 100f);
+        }
+
+        public override void Randomize()
+        {
+            factionDef = DefDatabase<FactionDef>.AllDefs
+                .Where(d => !d.isPlayer)
+                .RandomElementWithFallback();
+            goodwill = Rand.RangeInclusive(-100, 100);
+        }
 
         public override void ExposeData()
         {
@@ -49,10 +80,15 @@ namespace BetterTradersGuild.ScenParts
 
         public override IEnumerable<string> GetSummaryListEntries(string tag)
         {
-            if (tag == SummaryTag)
+            if (tag == SummaryTag && factionDef != null)
             {
                 yield return factionDef.label.CapitalizeFirst() + ": " + goodwill;
             }
+        }
+
+        public override bool HasNullDefs()
+        {
+            return base.HasNullDefs() || factionDef == null;
         }
     }
 }

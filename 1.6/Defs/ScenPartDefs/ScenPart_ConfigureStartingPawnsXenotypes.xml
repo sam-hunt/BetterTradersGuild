@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <ScenPartDef>
+  <ScenPartDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BTG_ConfigureStartingPawnsXenotypes</defName>
     <label>starting people</label>
     <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes</scenPartClass>

@@ -17,23 +17,10 @@
       <parts>
 
         <!-- Config pages -->
-        <li Class="BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes">
-          <def>BTG_ConfigureStartingPawnsXenotypes</def>
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
           <pawnCount>3</pawnCount>
           <pawnChoiceCount>8</pawnChoiceCount>
-          <allowedDevelopmentalStages>Adult, Child</allowedDevelopmentalStages>
-          <requiredSkills>
-            <li>Intellectual</li>
-          </requiredSkills>
-          <slotXenotypes>
-            <li>Baseliner</li>
-            <li>Starjack</li>
-            <li>Hussar</li>
-            <li>Starjack</li>
-            <li>Genie</li>
-            <li>Hussar</li>
-            <li MayRequire="OskarPotocki.VanillaRacesExpanded.Android">VRE_Android_Awakened</li>
-          </slotXenotypes>
         </li>
 
         <!-- Game start dialog -->
