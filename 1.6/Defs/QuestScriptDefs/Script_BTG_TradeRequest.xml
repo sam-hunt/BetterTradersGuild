@@ -4,7 +4,7 @@
   <QuestScriptDef>
     <defName>BTG_TradeRequest</defName>
 
-    <rootSelectionWeight>0.8</rootSelectionWeight>
+    <rootSelectionWeight>1</rootSelectionWeight>
     <rootMinProgressScore>8</rootMinProgressScore>
     <defaultChallengeRating>1</defaultChallengeRating>
     <expireDaysRange>4~8</expireDaysRange>
