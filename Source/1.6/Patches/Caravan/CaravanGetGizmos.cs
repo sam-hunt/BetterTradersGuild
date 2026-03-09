@@ -74,27 +74,29 @@ namespace BetterTradersGuild.Patches.CaravanPatches
             tradeCommand.defaultDesc = "Trade with " + settlement.Label;
             tradeCommand.icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/Trade", true);
 
-            tradeCommand.action = delegate
+            // Check for a valid negotiator (e.g., Imperial traders require Baron+ title)
+            string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, settlement);
+            if (blockedReason != null)
             {
-                // Open trading dialog
-                // The caravan is already at the settlement, so we can directly initiate trade
-
-                // For TradersGuild settlements, we trust our orbital trader system patches
-                // to ensure traders are properly initialized
-                bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(settlement);
-
-                if (isTradersGuild || settlement.CanTradeNow)
+                tradeCommand.Disable(blockedReason);
+            }
+            else
+            {
+                tradeCommand.action = delegate
                 {
-                    // Open the trade dialog using the caravan arrival trade mechanism
-                    // This works for both traditional settlements and TradersGuild space bases
-                    CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
-                    tradeAction.Arrived(caravan);
-                }
-                else
-                {
-                    Messages.Message("Settlement cannot trade right now.", MessageTypes.RejectInput);
-                }
-            };
+                    bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(settlement);
+
+                    if (isTradersGuild || settlement.CanTradeNow)
+                    {
+                        CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
+                        tradeAction.Arrived(caravan);
+                    }
+                    else
+                    {
+                        Messages.Message("Settlement cannot trade right now.", MessageTypes.RejectInput);
+                    }
+                };
+            }
 
             return tradeCommand;
         }

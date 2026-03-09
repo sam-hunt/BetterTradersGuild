@@ -5,6 +5,7 @@
 
   <!-- ========== FLOAT MENU OPTIONS ========== -->
   <!-- <BTG_RequiresSignalJammer>(requires signal jammer)</BTG_RequiresSignalJammer> -->
+  <!-- <BTG_NoNegotiator>No capable negotiator</BTG_NoNegotiator> -->
 
   <!-- ========== INSPECT STRINGS ========== -->
   <!-- <BTG_DockedVessel>Docked vessel</BTG_DockedVessel> -->

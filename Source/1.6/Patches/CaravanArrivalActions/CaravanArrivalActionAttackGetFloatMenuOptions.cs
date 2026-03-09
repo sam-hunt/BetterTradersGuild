@@ -33,7 +33,7 @@ namespace BetterTradersGuild.Patches.CaravanArrivalActions
                 // Modify the label to include signal jammer requirement
                 // Create a new disabled option with modified label
                 FloatMenuOption modifiedOption = new FloatMenuOption(
-                    option.Label + " (requires signal jammer)",
+                    option.Label + " " + "BTG_RequiresSignalJammer".Translate(),
                     null  // null action keeps it disabled
                 );
 

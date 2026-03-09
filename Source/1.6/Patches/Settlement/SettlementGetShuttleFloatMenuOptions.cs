@@ -18,8 +18,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         /// Postfix method - modifies shuttle destination menu options for Traders Guild settlements
         /// pods = the shuttle contents (IThingHolder)
         /// launchAction = the action to execute when launching (used to create TransportersArrivalAction)
+        /// Priority.Last ensures we wrap ALL other postfixes (e.g., "Choose where to land" mod)
+        /// so their added attack variants pass through our filter too.
         /// </summary>
         [HarmonyPostfix]
+        [HarmonyPriority(Priority.Last)]
         public static IEnumerable<FloatMenuOption> Postfix(
             IEnumerable<FloatMenuOption> __result,
             RimWorld.Planet.Settlement __instance,
@@ -50,7 +53,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 {
                     // For Traders Guild, always add signal jammer message and disable
                     FloatMenuOption modifiedOption = new FloatMenuOption(
-                        option.Label + " (requires signal jammer)",
+                        option.Label + " " + "BTG_RequiresSignalJammer".Translate(),
                         null  // Disable the action
                     );
 
@@ -72,21 +75,28 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // If this is a friendly Traders Guild settlement and no trade option was generated, add one
             if (isTradersGuild && canPeacefullyVisit && !hasTradeOption)
             {
-                // Create a trade arrival action for transporters (shuttles)
-                // This uses the same mechanism as transport pods
-                FloatMenuOption tradeOption = new FloatMenuOption(
-                    "Trade with " + __instance.Label,
-                    delegate
-                    {
-                        // Create a TransportersArrivalAction_Trade and execute it
-                        // Second parameter is the translation key for the arrival message
-                        TransportersArrivalAction_Trade tradeAction =
-                            new TransportersArrivalAction_Trade(__instance, "MessageShuttleArrived");
-                        launchAction(__instance.Tile, tradeAction);
-                    }
-                );
+                string tradeLabel = "TradeWithSettlement".Translate(__instance.Label);
+                string blockedReason = TradersGuildHelper.GetTradeBlockedReasonFromPods(pods, __instance);
 
-                yield return tradeOption;
+                if (blockedReason != null)
+                {
+                    // Show disabled option with rejection reason (e.g., title requirement)
+                    yield return new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                }
+                else
+                {
+                    FloatMenuOption tradeOption = new FloatMenuOption(
+                        tradeLabel,
+                        delegate
+                        {
+                            TransportersArrivalAction_Trade tradeAction =
+                                new TransportersArrivalAction_Trade(__instance, "MessageShuttleArrived");
+                            launchAction(__instance.Tile, tradeAction);
+                        }
+                    );
+
+                    yield return tradeOption;
+                }
             }
         }
     }

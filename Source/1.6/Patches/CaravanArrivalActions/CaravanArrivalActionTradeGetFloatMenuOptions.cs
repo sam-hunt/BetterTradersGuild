@@ -1,4 +1,5 @@
 using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +41,21 @@ namespace BetterTradersGuild.Patches.CaravanArrivalActions
 
             // Vanilla didn't generate trade options for this space settlement
             // This happens because space settlements aren't normally tradeable
-            // We'll manually create a trade option that triggers when selected
+            // Check if the caravan has a valid negotiator (e.g., Imperial traders require Baron+ title)
+            string tradeLabel = "TradeWithSettlement".Translate(settlement.Label);
+            string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, settlement);
+
+            if (blockedReason != null)
+            {
+                // Show disabled option with rejection reason (e.g., title requirement)
+                yield return new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                yield break;
+            }
+
             FloatMenuOption tradeOption = new FloatMenuOption(
-                "Trade with " + settlement.Label,
+                tradeLabel,
                 delegate
                 {
-                    // Create and execute a trade arrival action
-                    // Call Arrived() directly to open trade immediately
                     CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
                     tradeAction.Arrived(caravan);
                 }
