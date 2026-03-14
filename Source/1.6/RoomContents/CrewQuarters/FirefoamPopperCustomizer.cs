@@ -49,7 +49,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Anomaly DLC - Shambler
             if (PawnKinds.ShamblerSwarmer != null)
-                outcomes.Add((2f, (marker, map, faction) => SpawnShamblerAtPosition(marker, PawnKinds.ShamblerSwarmer, map)));
+                outcomes.Add((2f, (marker, map, faction) => SpawnShamblerAtPosition(marker, PawnKinds.ShamblerSwarmer, map, faction)));
 
             // VFE Spacer - Interactive Table 1x1
             if (Things.Table_interactive_1x1c != null)
@@ -213,8 +213,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         /// <summary>
         /// Replaces a marker with a shambler (factionless).
+        /// Tints shell and overhead apparel with the faction color so it looks
+        /// like a reanimated guild crew member.
         /// </summary>
-        private static void SpawnShamblerAtPosition(Thing marker, PawnKindDef shamblerKind, Map map)
+        private static void SpawnShamblerAtPosition(Thing marker, PawnKindDef shamblerKind, Map map, Faction faction)
         {
             IntVec3 pos = marker.Position;
             marker.Destroy(DestroyMode.Vanish);
@@ -226,6 +228,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 tile: map.Tile));
 
             GenSpawn.Spawn(shambler, pos, map);
+
+            if (shambler.apparel != null && faction != null)
+            {
+                foreach (Apparel apparel in shambler.apparel.WornApparel)
+                {
+                    ApparelLayerDef lastLayer = apparel.def.apparel?.LastLayer;
+                    if (lastLayer == ApparelLayerDefOf.Shell ||
+                        lastLayer == ApparelLayerDefOf.Overhead)
+                    {
+                        apparel.SetColor(faction.Color);
+                    }
+                }
+            }
         }
 
         /// <summary>
