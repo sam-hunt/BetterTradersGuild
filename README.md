@@ -43,7 +43,7 @@ This mod brings the Traders Guild in line with other factions:
 
 ### Steam Workshop (Recommended)
 
-Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=0000000000) and it will auto-download
+Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591) and it will auto-download
 
 ### Manual Installation
 
