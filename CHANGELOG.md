@@ -5,6 +5,32 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-03-14
+
+### Added
+
+- Trade request quests from Traders Guild orbital settlements
+- Independent Traders and Exiled Traders custom scenarios
+- Scenario editor UI for all custom ScenParts
+- VE Framework faction color tinting for spawned apparel
+- Mod icon for loading screen
+- Guaranteed SilverInlay trait on crew quarters unique weapons
+
+### Changed
+
+- Swapped airlock blast door and vacuum barrier placement to improve combat fairness
+- Extracted translatable strings to language files for localization
+- Moved armory outfit stand painting to PrefabDef colorDef system
+- Switched trade request quest to use vanilla QuestPart
+
+### Fixed
+
+- Validate negotiator exists before opening trade dialog at TG settlements
+- Trade request quest selection weight too low to appear reliably
+- Missing MayRequire attributes for Biotech and Royalty DLC content
+- Missing SilverInlay weapon trait definition and erroneous Biotech requirement on GoldInlay
+- Spawned animal beds using Steel instead of Cloth
+
 ## [0.2.0-beta.1] - 2025-01-31
 
 ### Added
@@ -70,6 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.0.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.0
 [0.2.0-beta.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.2.0-beta.1
 [0.1.0-alpha.2]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.1.0-alpha.2
 [0.1.0-alpha.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v0.1.0-alpha.1

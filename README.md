@@ -4,8 +4,8 @@
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey%20Required-orange.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
-[![Version](https://img.shields.io/badge/Version-0.2.0--beta-yellow.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
-[![Development Status](https://img.shields.io/badge/Status-Beta-green.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
+[![Development Status](https://img.shields.io/badge/Status-Stable-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 
 ## About
 
@@ -43,7 +43,7 @@ This mod brings the Traders Guild in line with other factions:
 
 ### Steam Workshop (Recommended)
 
-_Coming soon to Steam Workshop_ - Subscribe and it will auto-download
+Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=0000000000) and it will auto-download
 
 ### Manual Installation
 
