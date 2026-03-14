@@ -57,13 +57,17 @@ _Coming soon to Steam Workshop_ - Subscribe and it will auto-download
 
 ## Compatibility
 
-- **Safe to add** to existing saves
-- **Safe to remove**, just don't be in the cargo vault or have shuttle caravans in the orbit world layer when you do.
-- Fully compatible with any mods adding custom orbital trader types
+- **Safe to add** to existing saves.
+- **Not recommended to remove** from saves, especially if:
+  - You have shuttle caravans in the world orbit layer
+  - You've got the cargo vault pocket map open
+  - You're playing a custom scenario from this mod
+- Not tested with Combat Extended.
 
 ## Contributing
 
 Bug reports and feature requests welcome on [GitHub Issues](https://github.com/sam-hunt/BetterTradersGuild/issues).
+Please attach any relevant logs/stack traces/mod lists etc
 
 For development setup, see [CLAUDE.md](CLAUDE.md).
 
