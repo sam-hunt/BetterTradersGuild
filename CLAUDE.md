@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build Commands
 
 ```bash
-# Build the mod (outputs to 1.6/Assemblies/)
+# Build the mod (outputs to 1.6/Assemblies/ and deploys to RimWorld Mods folder)
 dotnet build BetterTradersGuild.sln -c Release
 
 # Build only the main project
@@ -30,9 +30,20 @@ dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj
 
 # Clean build artifacts
 dotnet clean BetterTradersGuild.sln
+
+# Clean deployed mod folder (use when Defs/Patches are renamed or deleted)
+dotnet build Source/1.6/BetterTradersGuild.csproj -t:CleanModFolder
 ```
 
-The build system auto-detects the RimWorld installation path on Windows/Linux/Mac. For CI builds without RimWorld installed, it falls back to the `Krafs.Rimworld.Ref` NuGet package.
+The build system auto-detects the RimWorld installation path on Windows/Linux/Mac (including WSL targeting a Windows install). For CI builds without RimWorld installed, it falls back to the `Krafs.Rimworld.Ref` NuGet package.
+
+### Deployment
+
+The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods folder. A post-build MSBuild target (`DeployToModFolder`) automatically copies only runtime files (About, Assemblies, Defs, Patches, Languages, LoadFolders.xml) to `$RIMWORLD_PATH/Mods/BetterTradersGuild/`. It uses `SkipUnchangedFiles` for fast incremental builds.
+
+**Important:** The deploy copies files but does not delete stale files. If you rename or delete a Def/Patch XML, run `dotnet build Source/1.6/BetterTradersGuild.csproj -t:CleanModFolder` to wipe the deployed folder, then rebuild to redeploy cleanly.
+
+**WSL Setup:** Requires `RIMWORLD_PATH` env var in `~/.bashrc` pointing to the Windows RimWorld install (e.g., `/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld`). The csproj auto-detects `RimWorldWin64_Data` when the Linux data folder isn't found.
 
 ## Architecture
 

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <!-- RimWorld Installation Path Configuration -->
-  <!-- Override with environment variable RIMWORLD_PATH or pass -p:RimWorldPath="..." to dotnet build -->
+  <!-- Override with environment variables RIMWORLD_PATH / RIMWORLD_DATA_FOLDER or pass -p: properties to dotnet build -->
   <PropertyGroup>
     <RimWorldPath Condition="'$(RimWorldPath)' == ''">$(RIMWORLD_PATH)</RimWorldPath>
   </PropertyGroup>
@@ -25,14 +25,22 @@
   </PropertyGroup>
 
   <!-- Platform-specific data folder names -->
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+  <!-- Override with environment variable RIMWORLD_DATA_FOLDER or pass -p:RimWorldDataFolder="..." to dotnet build -->
+  <PropertyGroup>
+    <RimWorldDataFolder Condition="'$(RimWorldDataFolder)' == ''">$(RIMWORLD_DATA_FOLDER)</RimWorldDataFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RimWorldDataFolder)' == '' And $([MSBuild]::IsOSPlatform('Windows'))">
     <RimWorldDataFolder>RimWorldWin64_Data</RimWorldDataFolder>
   </PropertyGroup>
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+  <PropertyGroup Condition="'$(RimWorldDataFolder)' == '' And $([MSBuild]::IsOSPlatform('Linux'))">
     <RimWorldDataFolder>RimWorldLinux_Data</RimWorldDataFolder>
   </PropertyGroup>
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+  <PropertyGroup Condition="'$(RimWorldDataFolder)' == '' And $([MSBuild]::IsOSPlatform('OSX'))">
     <RimWorldDataFolder>RimWorldMac_Data</RimWorldDataFolder>
+  </PropertyGroup>
+  <!-- WSL fallback: if Linux data folder not found, try Windows data folder -->
+  <PropertyGroup Condition="'$(RimWorldPath)' != '' And !Exists('$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Assembly-CSharp.dll') And Exists('$(RimWorldPath)/RimWorldWin64_Data/Managed/Assembly-CSharp.dll')">
+    <RimWorldDataFolder>RimWorldWin64_Data</RimWorldDataFolder>
   </PropertyGroup>
 
   <!-- Detect if local RimWorld installation exists -->
@@ -69,4 +77,31 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <!-- Deploy runtime mod files to RimWorld Mods folder after build -->
+  <PropertyGroup>
+    <ModDeployPath>$(RimWorldPath)/Mods/BetterTradersGuild</ModDeployPath>
+  </PropertyGroup>
+  <!-- Clean deployed mod folder (use: dotnet build -t:CleanModFolder) -->
+  <Target Name="CleanModFolder" Condition="'$(UseLocalRimWorld)' == 'true'">
+    <RemoveDir Directories="$(ModDeployPath)/About;$(ModDeployPath)/1.6" />
+    <Delete Files="$(ModDeployPath)/LoadFolders.xml" />
+    <Message Text="Cleaned deployed mod folder: $(ModDeployPath)" Importance="high" />
+  </Target>
+  <Target Name="DeployToModFolder" AfterTargets="Build" Condition="'$(UseLocalRimWorld)' == 'true'">
+    <ItemGroup>
+      <AboutFiles Include="$(MSBuildProjectDirectory)/../../About/**/*" />
+      <AssemblyFiles Include="$(MSBuildProjectDirectory)/../../1.6/Assemblies/*.dll" />
+      <DefFiles Include="$(MSBuildProjectDirectory)/../../1.6/Defs/**/*" Exclude="$(MSBuildProjectDirectory)/../../1.6/Defs/**/*.md" />
+      <PatchFiles Include="$(MSBuildProjectDirectory)/../../1.6/Patches/**/*" />
+      <LanguageFiles Include="$(MSBuildProjectDirectory)/../../1.6/Languages/**/*" />
+      <LoadFoldersFile Include="$(MSBuildProjectDirectory)/../../LoadFolders.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AboutFiles)" DestinationFiles="@(AboutFiles->'$(ModDeployPath)/About/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(AssemblyFiles)" DestinationFiles="@(AssemblyFiles->'$(ModDeployPath)/1.6/Assemblies/%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(DefFiles)" DestinationFiles="@(DefFiles->'$(ModDeployPath)/1.6/Defs/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(PatchFiles)" DestinationFiles="@(PatchFiles->'$(ModDeployPath)/1.6/Patches/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(LanguageFiles)" DestinationFiles="@(LanguageFiles->'$(ModDeployPath)/1.6/Languages/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(LoadFoldersFile)" DestinationFolder="$(ModDeployPath)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>
