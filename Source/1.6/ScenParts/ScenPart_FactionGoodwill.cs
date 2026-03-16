@@ -53,7 +53,7 @@ namespace BetterTradersGuild.ScenParts
             Scribe_Values.Look(ref goodwill, "goodwill");
         }
 
-        public override void PostWorldGenerate()
+        public override void PostGameStart()
         {
             Faction target = Find.FactionManager.FirstFactionOfDef(factionDef);
             if (target == null || target.IsPlayer)

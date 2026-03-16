@@ -123,13 +123,16 @@ namespace BetterTradersGuild
         /// </summary>
         public static bool CanPeacefullyVisit(Faction faction)
         {
-            // Null check
             if (faction == null)
                 return false;
 
-            // Check if the faction is hostile to the player
-            // PlayerRelationKind.Hostile means they're enemies
-            // We want Neutral or Ally
+            // During world generation, the player faction doesn't exist yet
+            // (created in ScenPart_PlayerFaction.PostWorldGenerate, after FinalizeInit).
+            // Our PlanetTile.LayerDef patch can fire during path cost recalculation
+            // before that point, so bail out early.
+            if (Faction.OfPlayerSilentFail == null)
+                return false;
+
             return faction.PlayerRelationKind != FactionRelationKind.Hostile;
         }
 
