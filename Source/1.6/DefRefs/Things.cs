@@ -71,7 +71,11 @@ namespace BetterTradersGuild.DefRefs
 
         // Turrets
         public static ThingDef AncientSecurityTurret;
+        public static ThingDef Turret_AncientArmoredTurret;
         public static ThingDef Turret_MiniTurret;
+
+        // Defences
+        public static ThingDef Barricade;
 
         // Plants
         public static ThingDef Plant_Rose;
