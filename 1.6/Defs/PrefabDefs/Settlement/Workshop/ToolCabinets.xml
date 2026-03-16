@@ -8,28 +8,19 @@
         x: 0 1
     z=0:   T T   (tool cabinets against wall)
   -->
-  <!--
-    DISABLED: Vanilla ToolCabinet is not stuffable, but VFE Production
-    (VanillaExpanded.VFEProduction) patches it to be. MayRequire on the
-    <stuff> element inside our custom PrefabDef doesn't get processed by
-    RimWorld's XML loader, so without VFE Production loaded this produces:
-      "MakeThing error: ToolCabinet is not madeFromStuff but stuff=Steel"
-    Fix: On mod load, check if VFE Production is active and programmatically
-    set stuff=Steel on this prefab's ToolCabinet entries. Re-enable both this
-    def and BTG_ToolCabinets in Workshop.xml once that's in place.
-  -->
-  <!-- <PrefabDef>
+  <PrefabDef>
     <defName>BTG_ToolCabinets</defName>
     <edgeOnly>true</edgeOnly>
     <size>(2,1)</size>
     <things>
+      <!-- Vanilla ToolCabinet is not stuffable, but VFE Production patches
+           it to be. A separate XML patch (Patches/Prefabs/) conditionally
+           adds <stuff>Steel</stuff> when VFE Production is loaded. -->
       <ToolCabinet>
-        <stuff MayRequire="VanillaExpanded.VFEProduction">Steel</stuff>
         <positions>
           <li>(0, 0, 0)</li>
-          <li>(1, 0, 0)</li>
         </positions>
       </ToolCabinet>
     </things>
-  </PrefabDef> -->
+  </PrefabDef>
 </Defs>

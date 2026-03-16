@@ -42,12 +42,10 @@
       </BTG_ElectricSmelter_Edge>
 
       <!-- === Tool Storage === -->
-      <!-- DISABLED: BTG_ToolCabinets has a VFE Production stuff issue —
-           see PrefabDefs/Settlement/Workshop/ToolCabinets.xml for details. -->
-      <!-- <BTG_ToolCabinets>
+      <BTG_ToolCabinets>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
         <minMaxRange>1~2</minMaxRange>
-      </BTG_ToolCabinets> -->
+      </BTG_ToolCabinets>
 
       <IndustrialShelf_Edge>
         <countPerTenEdgeCells>1</countPerTenEdgeCells>

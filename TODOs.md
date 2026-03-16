@@ -2,9 +2,8 @@ TODOs
 
 Cleanup
 
+- Investigate issues with "Layered Atmosphere Orbit"
 - Unlock some doors in the crew quarters since there's a lot and it's tedious to hack them all
-- Ensure crew quarters shamblers spawn with correctly colored apparel
-- stuff=steel patch for VE Furniture Production Module
 - Investigate threat scaling of settlement defender group generation, seems a little low
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 
