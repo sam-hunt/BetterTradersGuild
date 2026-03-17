@@ -499,7 +499,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 // Synthread shirt + pants
                 new List<(ThingDef, ThingDef)>
                 {
-                    (Things.Apparel_BasicShirt, Things.Synthread),
+                    (Things.Apparel_CollarShirt, Things.Synthread),
                     (Things.Apparel_Pants, Things.Synthread)
                 },
                 // Power armor set

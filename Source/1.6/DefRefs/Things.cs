@@ -91,7 +91,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Gun_Revolver_Unique;
 
         // Apparel
-        public static ThingDef Apparel_BasicShirt;
+        public static ThingDef Apparel_CollarShirt;
         public static ThingDef Apparel_Pants;
         public static ThingDef Apparel_Vacsuit;
         public static ThingDef Apparel_VacsuitHelmet;
