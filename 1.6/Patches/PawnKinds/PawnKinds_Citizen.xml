@@ -14,11 +14,11 @@
     </value>
   </Operation>
 
-  <!-- Fix Citizen apparelRequired: Remove children's vacsuit, use adult vacsuit -->
+  <!-- Fix Citizen apparelRequired: Replace children's vacsuit with adult vacsuit -->
   <Operation Class="PatchOperationReplace">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]/apparelRequired</xpath>
     <value>
-      <apparelRequired>
+      <apparelRequired Inherit="False">
         <li>Apparel_Vacsuit</li>
         <li>Apparel_VacsuitHelmet</li>
       </apparelRequired>
