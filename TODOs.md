@@ -2,7 +2,8 @@ TODOs
 
 Cleanup
 
-- Unlock some doors in the crew quarters since there's a lot and it's tedious to hack them all
+- Imperial trader float options disabled state checks bugged
+- Imperial trader can be assigned to TG settlements even if faction isn't present in world
 - Investigate threat scaling of settlement defender group generation, seems a little low
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
@@ -33,6 +34,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
     /// </summary>
     public class RoomContents_CrewQuarters : RoomContentsWorker
     {
+        /// <summary>
+        /// Reflection access to CompHackable.hacked private field.
+        /// Used to pre-unlock subroom doors. Same pattern as CargoVaultHatch/CompRelockable.
+        /// </summary>
+        private static readonly FieldInfo HackedField = typeof(CompHackable)
+            .GetField("hacked", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        /// <summary>
+        /// Reflection access to CompHackable.progress private field.
+        /// </summary>
+        private static readonly FieldInfo ProgressField = typeof(CompHackable)
+            .GetField("progress", BindingFlags.NonPublic | BindingFlags.Instance);
+
         /// <summary>
         /// Available prefab widths (perpendicular to door direction).
         /// Subrooms are fit starting with minimum width, then expanded to fill waste.
@@ -123,7 +137,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 subroomRects.Add(subroomRect);
             }
 
-            // 2b. Spawn waste filler prefabs in areas adjacent to exclusion zones
+            // 2b. Randomly unlock ~50% of subroom doors to reduce hack tedium
+            UnlockRandomSubroomDoors(map, roomRect);
+
+            // 2c. Spawn waste filler prefabs in areas adjacent to exclusion zones
             // Track used prefabs to minimize duplicates within the same room
             var usedWasteFillerPrefabs = new HashSet<PrefabDef>();
             if (result.WasteFillers != null)
@@ -214,6 +231,31 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             IntVec3 spawnPos = new IntVec3(subroom.CenterX, 0, subroom.CenterZ);
 
             PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
+        }
+
+        /// <summary>
+        /// Randomly unlocks ~50% of subroom blast doors to reduce tedium.
+        /// All AncientBlastDoors within the crew quarters room are subroom doors.
+        /// Uses reflection to set CompHackable state, matching the pattern
+        /// used by CargoVaultHatch and CompRelockable.
+        /// </summary>
+        private void UnlockRandomSubroomDoors(Map map, CellRect roomRect)
+        {
+            foreach (Thing thing in map.listerThings.ThingsOfDef(Things.AncientBlastDoor))
+            {
+                if (!roomRect.Contains(thing.Position))
+                    continue;
+
+                if (Rand.Bool) // 50% chance
+                {
+                    CompHackable hackable = thing.TryGetComp<CompHackable>();
+                    if (hackable != null && HackedField != null && ProgressField != null)
+                    {
+                        HackedField.SetValue(hackable, true);
+                        ProgressField.SetValue(hackable, 1f);
+                    }
+                }
+            }
         }
 
         /// <summary>
