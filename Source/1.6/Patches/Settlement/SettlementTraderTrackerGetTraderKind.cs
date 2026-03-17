@@ -160,6 +160,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 .Where(t => t.orbital)
                 .ToList();
 
+            // Filter out traders tied to factions not present in the current world
+            // (e.g., Imperial trader when Royalty DLC / Empire faction is not active)
+            allOrbitalTraders.RemoveAll(t =>
+                t.faction != null && Find.FactionManager.FirstFactionOfDef(t.faction) == null);
+
             // Filter out traders with slave stock generators if faction's ideology doesn't approve
             // This prevents the slave ship from appearing when it can't actually deliver slaves
             // (StockGenerator_Slaves checks IdeoApprovesOfSlavery and generates nothing if false)
