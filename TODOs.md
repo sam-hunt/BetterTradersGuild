@@ -3,12 +3,13 @@ TODOs
 Cleanup
 
 - Imperial trader float options disabled state checks bugged
-- Imperial trader can be assigned to TG settlements even if faction isn't present in world
 - Investigate threat scaling of settlement defender group generation, seems a little low
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
+- Investigate space tile player settlement distance mod setting
 
 Possible future features
 
+- Investigate mod Settlement Visit compatibility
 - Timed reinforcement TG raid after 12~24 hours?
 - Add trade/equivalence-focused storyteller?
 - Add yayo/smokeleaf to crew quarters table customizer
