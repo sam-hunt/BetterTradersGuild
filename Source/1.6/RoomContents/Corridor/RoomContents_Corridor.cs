@@ -70,7 +70,9 @@ namespace BetterTradersGuild.RoomContents.Corridor
         {
             return def == Things.Barricade
                 || def == Things.AncientSecurityTurret
-                || def == Things.Turret_AncientArmoredTurret;
+                || def == Things.Turret_AncientArmoredTurret
+                || def == Things.LifeSupportUnit
+                || def == Things.WallLamp;
         }
 
         private CellRect GetStructureBounds(Map map)
