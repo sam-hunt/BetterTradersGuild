@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
@@ -33,6 +34,13 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
     /// </summary>
     public class LayoutWorker_Settlement : LayoutWorker_OrbitalPlatform
     {
+        /// <summary>
+        /// Context flag: true while BTG structure sketch generation is in progress.
+        /// Set by LayoutWorkerGenerateStructureSketch patch (Prefix/Finalizer).
+        /// Read by LayoutWorkerResolveRoomDefs transpiler to downgrade room placement errors.
+        /// </summary>
+        internal static bool IsGenerating;
+
         /// <summary>
         /// Maximum attempts to generate a layout with a valid ShuttleBay room.
         /// Based on testing, most layouts succeed on first attempt.
@@ -145,7 +153,15 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             // BASE SPAWN: Vanilla orbital platform generation
             // (walls, doors, room layouts, RoomContentsWorkers, furniture)
             // ═══════════════════════════════════════════════════════════════════
-            base.Spawn(layoutStructureSketch, map, pos, threatPoints, allSpawnedThings, roofs, canReuseSketch, faction);
+            try
+            {
+                base.Spawn(layoutStructureSketch, map, pos, threatPoints, allSpawnedThings, roofs, canReuseSketch, faction);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Better Traders Guild] Error during settlement layout generation " +
+                          $"(room contents may be incomplete): {e}");
+            }
 
             // ═══════════════════════════════════════════════════════════════════
             // POST-SPAWN INFRASTRUCTURE: Power and fluid networks

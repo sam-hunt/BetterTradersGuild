@@ -108,7 +108,7 @@
       </BTG_Workshop>
 
       <BTG_MechRepairPost MayRequire="Ludeon.RimWorld.Biotech">
-        <countRange>0~2</countRange>
+        <countRange>0~1</countRange>
       </BTG_MechRepairPost>
 
       <!-- Filler rooms by weight -->
