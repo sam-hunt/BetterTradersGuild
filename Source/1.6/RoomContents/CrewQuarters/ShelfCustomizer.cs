@@ -492,6 +492,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // Add random apparel set
             if (standThing is Building_OutfitStand outfitStand)
             {
+                OutfitStandHarFixer.NormalizeOutfitStand(outfitStand);
                 AddRandomApparelSet(outfitStand, faction);
             }
         }

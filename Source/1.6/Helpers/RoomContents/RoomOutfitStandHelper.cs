@@ -71,6 +71,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             // Populate each outfit stand with apparel
             foreach (Building_OutfitStand outfitStand in uniqueStands)
             {
+                OutfitStandHarFixer.NormalizeOutfitStand(outfitStand);
                 foreach (ThingDef apparelDef in apparelDefs)
                 {
                     if (apparelDef == null)

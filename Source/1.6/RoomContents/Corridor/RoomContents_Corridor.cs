@@ -1,3 +1,4 @@
+using System;
 using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
@@ -24,9 +25,23 @@ namespace BetterTradersGuild.RoomContents.Corridor
             // placing airlock defences.
             ClearCheckpointsFromReservedZone(map, room);
 
-            CorridorAirlockDefenceSpawner.SpawnAirlockDefences(map, room, faction);
+            try
+            {
+                CorridorAirlockDefenceSpawner.SpawnAirlockDefences(map, room, faction);
+            }
+            catch (Exception e)
+            {
+                Log.Warning($"[Better Traders Guild] Error spawning airlock defences: {e}");
+            }
 
-            CorridorTurretReplacer.ReplaceAncientTurrets(map, room, faction);
+            try
+            {
+                CorridorTurretReplacer.ReplaceAncientTurrets(map, room, faction);
+            }
+            catch (Exception e)
+            {
+                Log.Warning($"[Better Traders Guild] Error replacing turrets: {e}");
+            }
         }
 
         /// <summary>

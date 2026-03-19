@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Better Traders Guild - TradersGuild basicMemberKind Patch
+
+  Adds basicMemberKind to the TradersGuild FactionDef.
+
+  The Odyssey DLC doesn't define basicMemberKind for TradersGuild, which is fine
+  for vanilla (code null-checks it). However, Humanoid Alien Races (HAR) reads
+  faction.def.basicMemberKind.race without null-checking, causing a NullRef when
+  spawning any Building_OutfitStand owned by TradersGuild.
+
+  TradersGuild_Citizen is the natural choice as the faction's basic member kind.
+-->
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/FactionDef[defName="TradersGuild"]/basicMemberKind</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/FactionDef[defName="TradersGuild"]</xpath>
+      <value>
+        <basicMemberKind>TradersGuild_Citizen</basicMemberKind>
+      </value>
+    </nomatch>
+  </Operation>
+</Patch>

@@ -3,6 +3,7 @@ using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
+using static BetterTradersGuild.Helpers.RoomContents.OutfitStandHarFixer;
 
 namespace BetterTradersGuild.RoomContents.Corridor
 {
@@ -102,6 +103,8 @@ namespace BetterTradersGuild.RoomContents.Corridor
 
             foreach (Building_OutfitStand stand in stands)
             {
+                NormalizeOutfitStand(stand);
+
                 if (!Rand.Chance(PopulateChancePerStand))
                     continue;
 
