@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
@@ -8,241 +9,112 @@ namespace BetterTradersGuild.RoomContents.Armory
 {
     /// <summary>
     /// Fills armory shelves with randomized military equipment.
-    /// Each shelf gets content from a randomly selected pool:
-    /// - Mortar shells (25% antigrain, 75% random shells)
-    /// - Charge rifles (Normal/Good/Excellent quality distribution)
-    /// - Utility items (smokepop belts + shield belts + gunlinks if Royalty)
-    /// - Charge lances (Normal/Good/Excellent quality distribution)
+    /// Each shelf gets content from a randomly selected pool.
+    /// Pools are discovered dynamically at startup and cached.
+    /// Per cell slot, a random ThingDef is selected and its count is determined
+    /// by a value-based algorithm (soft-max between 150-250 market value).
     /// </summary>
     public static class ArmoryShelfFiller
     {
-        private enum ShelfContentPool
-        {
-            MortarShells,
-            ChargeRifles,
-            UtilityItems,
-            ChargeLances
-        }
+        private static List<List<ThingDef>> pools;
+        private static bool initialized;
 
-        /// <summary>
-        /// Finds all 2-cell wide shelves in the room and fills them with random content.
-        /// Each shelf gets content from a randomly selected pool.
-        /// </summary>
         public static void FillWeaponShelves(Map map, CellRect roomRect)
         {
+            EnsureInitialized();
+
+            if (pools.Count == 0)
+            {
+                Log.Warning("[Better Traders Guild] ArmoryShelfFiller: No item pools available");
+                return;
+            }
+
             List<Building_Storage> weaponShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
+
+            // Copy pool list so we can remove categories as they're assigned,
+            // ensuring no two shelves in the same room share a category.
+            var availablePools = new List<List<ThingDef>>(pools);
 
             foreach (Building_Storage shelf in weaponShelves)
             {
-                ShelfContentPool pool = GetRandomContentPool();
-                FillShelfWithContent(map, shelf, pool);
+                if (availablePools.Count == 0)
+                    availablePools.AddRange(pools);
+
+                List<ThingDef> pool = availablePools.RandomElement();
+                availablePools.Remove(pool);
+                FillShelf(map, shelf, pool);
             }
         }
 
-        private static ShelfContentPool GetRandomContentPool()
+        private static void EnsureInitialized()
         {
-            // Equal weights for all pools
-            return (ShelfContentPool)Rand.Range(0, 4);
+            if (initialized) return;
+
+            pools = new List<List<ThingDef>>();
+            AddPoolIfNonEmpty(DiscoverBaseWeaponsByCategory(WeaponCategories.PulseCharge));
+            AddPoolIfNonEmpty(DiscoverBaseWeaponsByCategory(WeaponCategories.BeamWeapon));
+            AddPoolIfNonEmpty(DiscoverMortarShells());
+            AddPoolIfNonEmpty(DiscoverUtilityItems());
+            AddPoolIfNonEmpty(DiscoverCombatDrugs());
+            initialized = true;
         }
 
-        private static void FillShelfWithContent(Map map, Building_Storage shelf, ShelfContentPool pool)
+        private static void AddPoolIfNonEmpty(List<ThingDef> pool)
         {
-            switch (pool)
-            {
-                case ShelfContentPool.MortarShells:
-                    FillWithMortarShells(map, shelf);
-                    break;
-                case ShelfContentPool.ChargeRifles:
-                    FillWithWeapons(map, shelf, Things.Gun_ChargeRifle);
-                    break;
-                case ShelfContentPool.UtilityItems:
-                    FillWithUtilityItems(map, shelf);
-                    break;
-                case ShelfContentPool.ChargeLances:
-                    FillWithWeapons(map, shelf, Things.Gun_ChargeLance);
-                    break;
-            }
+            if (pool.Count > 0)
+                pools.Add(pool);
         }
 
-        /// <summary>
-        /// Fills shelf with mortar shells.
-        /// First cell: 6-12 HE shells (guaranteed)
-        /// Second cell: 25% chance antigrain (1-3), 75% chance random shells (8-14)
-        /// </summary>
-        private static void FillWithMortarShells(Map map, Building_Storage shelf)
+        private static void FillShelf(Map map, Building_Storage shelf, List<ThingDef> pool)
         {
-            // First cell: Guaranteed HE shells
-            RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Shell_HighExplosive, Rand.RangeInclusive(6, 12));
-
-            // Second cell: Random ordnance
-            SpawnRandomOrdnance(map, shelf);
-        }
-
-        /// <summary>
-        /// Spawns random mortar ordnance into the shelf.
-        /// 25% chance: 1-3 antigrain warhead shells
-        /// 75% chance: 8-14 random mortar shells (excluding antigrain)
-        /// </summary>
-        private static void SpawnRandomOrdnance(Map map, Building_Storage shelf)
-        {
-            if (Rand.Chance(0.25f))
+            int slotCount = shelf.AllSlotCellsList().Count;
+            for (int i = 0; i < slotCount; i++)
             {
-                // 25% chance: Antigrain warheads (rare, powerful)
-                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Shell_AntigrainWarhead, Rand.RangeInclusive(1, 3));
-                return;
-            }
+                ThingDef def = pool.RandomElement();
+                int count = DetermineCount(def);
+                Thing item = CreateItem(def, count);
 
-            // 75% chance (or fallback): Random mortar shell
-            SpawnRandomNonAntigrainShell(map, shelf);
-        }
-
-        /// <summary>
-        /// Spawns 8-14 random mortar shells (excluding antigrain warheads).
-        /// </summary>
-        private static void SpawnRandomNonAntigrainShell(Map map, Building_Storage shelf)
-        {
-            List<ThingDef> mortarShells = GetAllMortarShellTypes(excludeAntigrain: true);
-
-            if (mortarShells.Count == 0)
-            {
-                Log.Warning("[Better Traders Guild] No mortar shell types found");
-                return;
-            }
-
-            ThingDef shellDef = mortarShells.RandomElement();
-            Thing ordnance = ThingMaker.MakeThing(shellDef);
-            ordnance.stackCount = Rand.RangeInclusive(8, 14);
-
-            if (!RoomShelfHelper.AddItemToShelf(map, shelf, ordnance))
-            {
-                ordnance.Destroy(DestroyMode.Vanish);
-            }
-        }
-
-        /// <summary>
-        /// Discovers all mortar shell types at runtime for mod compatibility.
-        /// </summary>
-        private static List<ThingDef> GetAllMortarShellTypes(bool excludeAntigrain)
-        {
-            ThingDef antigrainDef = excludeAntigrain ? Things.Shell_AntigrainWarhead : null;
-
-            List<ThingDef> shells = new List<ThingDef>();
-
-            if (ThingCategories.MortarShells != null)
-            {
-                foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
+                if (!RoomShelfHelper.AddItemToShelf(map, shelf, item))
                 {
-                    if (def.thingCategories != null && def.thingCategories.Contains(ThingCategories.MortarShells))
-                    {
-                        if (excludeAntigrain && def == antigrainDef)
-                            continue;
-                        shells.Add(def);
-                    }
+                    item.Destroy(DestroyMode.Vanish);
                 }
             }
-
-            // Fallback: defName pattern
-            if (shells.Count == 0)
-            {
-                foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
-                {
-                    if (def.defName.StartsWith("Shell_") && def.category == ThingCategory.Item)
-                    {
-                        if (excludeAntigrain && def == antigrainDef)
-                            continue;
-                        shells.Add(def);
-                    }
-                }
-            }
-
-            return shells;
         }
 
         /// <summary>
-        /// Fills shelf with weapons (charge rifles or charge lances).
-        /// Uses quality distribution: Normal 70%, Good 50%, Excellent 30%.
-        /// Respects shelf capacity (maxItemsInCell) via helper.
+        /// Determines item count using a value-based algorithm.
+        /// Generates a random soft-max between 250-350, then increments count
+        /// until total value exceeds the soft-max. Naturally produces high counts
+        /// for cheap items (shells) and low counts for expensive items (weapons).
         /// </summary>
-        private static void FillWithWeapons(Map map, Building_Storage shelf, ThingDef weaponDef)
+        private static int DetermineCount(ThingDef def)
         {
-            if (weaponDef == null)
-            {
-                Log.Warning("[Better Traders Guild] FillWithWeapons called with null weaponDef");
-                return;
-            }
+            float softMax = Rand.Range(250f, 350f);
+            float marketValue = def.BaseMarketValue;
 
-            // Quality distribution - each roll is independent
-            // Helper will place in first available cell, respecting maxItemsInCell
-            if (Rand.Chance(0.70f))
-            {
-                SpawnWeaponWithQuality(map, shelf, weaponDef, QualityCategory.Normal);
-            }
-            if (Rand.Chance(0.50f))
-            {
-                SpawnWeaponWithQuality(map, shelf, weaponDef, QualityCategory.Good);
-            }
-            if (Rand.Chance(0.30f))
-            {
-                SpawnWeaponWithQuality(map, shelf, weaponDef, QualityCategory.Excellent);
-            }
+            // Safety: avoid infinite loop for zero-value items
+            if (marketValue <= 0f)
+                return 1;
+
+            int count = 0;
+            while (count * marketValue <= softMax)
+                count++;
+
+            return System.Math.Min(count, def.stackLimit);
         }
 
-        private static void SpawnWeaponWithQuality(Map map, Building_Storage shelf, ThingDef weaponDef, QualityCategory quality)
+        private static Thing CreateItem(ThingDef def, int count)
         {
-            Thing weapon = ThingMaker.MakeThing(weaponDef);
+            Thing item = ThingMaker.MakeThing(def);
+            item.stackCount = count;
 
-            CompQuality compQuality = weapon.TryGetComp<CompQuality>();
+            CompQuality compQuality = item.TryGetComp<CompQuality>();
             if (compQuality != null)
             {
-                compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
+                compQuality.SetQuality(GetRandomQuality(), ArtGenerationContext.Outsider);
             }
 
-            if (!RoomShelfHelper.AddItemToShelf(map, shelf, weapon))
-            {
-                weapon.Destroy(DestroyMode.Vanish);
-            }
-        }
-
-        /// <summary>
-        /// Fills shelf with utility items.
-        /// 1-2 smokepop belts (Normal-Excellent quality) - vanilla
-        /// 1-2 shield belts (Normal-Excellent quality) - vanilla
-        /// 1-2 gunlinks (Normal-Excellent quality) - Royalty DLC only
-        /// </summary>
-        private static void FillWithUtilityItems(Map map, Building_Storage shelf)
-        {
-            // Smokepop belts (vanilla)
-            if (Things.Apparel_SmokepopBelt != null)
-            {
-                int smokepopCount = Rand.RangeInclusive(1, 2);
-                for (int i = 0; i < smokepopCount; i++)
-                {
-                    QualityCategory quality = GetRandomQuality();
-                    SpawnApparelWithQuality(map, shelf, Things.Apparel_SmokepopBelt, quality);
-                }
-            }
-
-            // Shield belts (vanilla)
-            if (Things.Apparel_ShieldBelt != null)
-            {
-                int shieldCount = Rand.RangeInclusive(1, 2);
-                for (int i = 0; i < shieldCount; i++)
-                {
-                    QualityCategory quality = GetRandomQuality();
-                    SpawnApparelWithQuality(map, shelf, Things.Apparel_ShieldBelt, quality);
-                }
-            }
-
-            // Gunlinks (Royalty DLC)
-            if (Things.Apparel_Gunlink != null)
-            {
-                int gunlinkCount = Rand.RangeInclusive(1, 2);
-                for (int i = 0; i < gunlinkCount; i++)
-                {
-                    QualityCategory quality = GetRandomQuality();
-                    SpawnApparelWithQuality(map, shelf, Things.Apparel_Gunlink, quality);
-                }
-            }
+            return item;
         }
 
         /// <summary>
@@ -258,20 +130,100 @@ namespace BetterTradersGuild.RoomContents.Armory
             return QualityCategory.Excellent;
         }
 
-        private static void SpawnApparelWithQuality(Map map, Building_Storage shelf, ThingDef apparelDef, QualityCategory quality)
+        /// <summary>
+        /// Discovers non-unique base weapons by finding unique weapons with the given
+        /// WeaponCategoryDef and resolving their base weapon via descriptionHyperlinks.
+        /// </summary>
+        private static List<ThingDef> DiscoverBaseWeaponsByCategory(WeaponCategoryDef category)
         {
-            Thing apparel = ThingMaker.MakeThing(apparelDef);
+            var weapons = new List<ThingDef>();
+            if (category == null) return weapons;
 
-            CompQuality compQuality = apparel.TryGetComp<CompQuality>();
-            if (compQuality != null)
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
             {
-                compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
+                if (def.comps == null) continue;
+
+                var props = def.comps.OfType<CompProperties_UniqueWeapon>().FirstOrDefault();
+                if (props?.weaponCategories == null || !props.weaponCategories.Contains(category))
+                    continue;
+
+                // Resolve the base (non-unique) weapon via descriptionHyperlinks
+                if (def.descriptionHyperlinks == null) continue;
+                foreach (DefHyperlink hyperlink in def.descriptionHyperlinks)
+                {
+                    if (hyperlink.def is ThingDef baseDef && baseDef != def)
+                    {
+                        weapons.Add(baseDef);
+                    }
+                }
             }
 
-            if (!RoomShelfHelper.AddItemToShelf(map, shelf, apparel))
+            if (weapons.Count == 0)
+                Log.Warning($"[Better Traders Guild] ArmoryShelfFiller: No base weapons found for category {category.defName}");
+
+            return weapons;
+        }
+
+        /// <summary>
+        /// Discovers all mortar shell types via ThingCategoryDef,
+        /// with defName prefix fallback for mod compatibility.
+        /// </summary>
+        private static List<ThingDef> DiscoverMortarShells()
+        {
+            var shells = new List<ThingDef>();
+
+            if (ThingCategories.MortarShells != null)
             {
-                apparel.Destroy(DestroyMode.Vanish);
+                foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
+                {
+                    if (def.thingCategories != null && def.thingCategories.Contains(ThingCategories.MortarShells))
+                        shells.Add(def);
+                }
             }
+
+            // Fallback: defName pattern
+            if (shells.Count == 0)
+            {
+                foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
+                {
+                    if (def.defName.StartsWith("Shell_") && def.category == ThingCategory.Item)
+                        shells.Add(def);
+                }
+            }
+
+            return shells;
+        }
+
+        private static List<ThingDef> DiscoverUtilityItems()
+        {
+            var items = new List<ThingDef>();
+            if (Things.Apparel_SmokepopBelt != null) items.Add(Things.Apparel_SmokepopBelt);
+            if (Things.Apparel_ShieldBelt != null) items.Add(Things.Apparel_ShieldBelt);
+            if (Things.Apparel_Gunlink != null) items.Add(Things.Apparel_Gunlink);
+            return items;
+        }
+
+        /// <summary>
+        /// Discovers all drugs marked as combat-enhancing via CompProperties_Drug.isCombatEnhancingDrug.
+        /// In vanilla, this includes Go-juice and Yayo.
+        /// </summary>
+        private static List<ThingDef> DiscoverCombatDrugs()
+        {
+            var drugs = new List<ThingDef>();
+
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
+            {
+                if (def.comps == null) continue;
+
+                var drugProps = def.comps.OfType<CompProperties_Drug>().FirstOrDefault();
+                if (drugProps != null && drugProps.isCombatEnhancingDrug)
+                    drugs.Add(def);
+            }
+
+            if (drugs.Count == 0)
+                Log.Warning("[Better Traders Guild] ArmoryShelfFiller: No combat-enhancing drugs found");
+
+            return drugs;
         }
     }
 }

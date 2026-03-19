@@ -28,7 +28,7 @@
       <!-- Steel shelves (contents filled by RoomContents_Armory from random pool) -->
       <BTG_SteelShelf_Edge>
         <countPerTenEdgeCells>3</countPerTenEdgeCells>
-        <minMaxRange>1~5</minMaxRange>
+        <minMaxRange>2~5</minMaxRange>
       </BTG_SteelShelf_Edge>
 
       <!-- Security terminals for weapon access control -->
@@ -56,8 +56,8 @@
       </AncientLockerBank_Row>
 
       <IndustrialShelf_Edge>
-        <countPerTenEdgeCells>4</countPerTenEdgeCells>
-        <minMaxRange>3~12</minMaxRange>
+        <countPerTenEdgeCells>3</countPerTenEdgeCells>
+        <minMaxRange>1~6</minMaxRange>
       </IndustrialShelf_Edge>
 
       <IndustrialShelf_Rows>

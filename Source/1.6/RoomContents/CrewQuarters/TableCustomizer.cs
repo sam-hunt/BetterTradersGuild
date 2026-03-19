@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
 
@@ -24,10 +25,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Map, IntVec3> action)>
             {
-                (30f, (map, pos) => SpawnItemOnTable(map, pos, Things.MealSurvivalPack, 1)),
+                (25f, (map, pos) => SpawnItemOnTable(map, pos, Things.MealSurvivalPack, 1)),
                 (5f,  (map, pos) => SpawnRandomBookOnTable(map, pos)),
                 (3f,  (map, pos) => SpawnItemOnTable(map, pos, Things.RawBerries, Rand.RangeInclusive(10, 15))),
-                (20f, (map, pos) => SpawnItemOnTable(map, pos, Things.Beer, 1)),
+                (15f, (map, pos) => SpawnItemOnTable(map, pos, Things.Beer, 1)),
+                (5f,  (map, pos) => SpawnItemOnTable(map, pos, Things.Yayo, Rand.RangeInclusive(1, 2))),
+                (5f,  (map, pos) => SpawnItemOnTable(map, pos, Things.SmokeleafJoint, 1)),
                 (5f,  (map, pos) => SpawnUnfinishedItem(map, pos, Things.SculptureSmall, Things.Steel)),
                 (5f,  (map, pos) => SpawnUnfinishedItem(map, pos, Things.ComponentSpacer, null)),
                 (3f,  (map, pos) => SpawnUnfinishedItem(map, pos, Things.Gun_ChargeRifle, null)),
@@ -85,20 +88,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         /// </summary>
         private static void SpawnRandomBookOnTable(Map map, IntVec3 pos)
         {
-            Thing book = GenerateRandomBook();
+            Thing book = BookGenerationHelper.GenerateRandomBook();
             if (book == null) return;
             GenSpawn.Spawn(book, pos, map);
-        }
-
-        /// <summary>
-        /// Generates a random book with proper title/content initialization.
-        /// Uses BookUtility.MakeBook for novels and textbooks.
-        /// </summary>
-        private static Thing GenerateRandomBook()
-        {
-            if (Things.Novel == null) return null;
-
-            return BookUtility.MakeBook(Things.Novel, ArtGenerationContext.Outsider, null);
         }
 
         /// <summary>

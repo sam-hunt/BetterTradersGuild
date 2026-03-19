@@ -38,10 +38,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 (6f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientSealedCrate)),
                 (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentIndustrial)),
                 (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.AncientBox_ComponentSpacer)),
-                (5f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeRifle_Unique)),
-                (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_ChargeLance_Unique)),
-                (2f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_BeamRepeater_Unique)),
-                (4f,  (shelf, map, faction) => SpawnUniqueWeaponOnShelf(map, shelf, Things.Gun_Revolver_Unique))
+                (13f, (shelf, map, faction) => SpawnRandomPoolWeaponOnShelf(map, shelf))
             };
 
             // Biotech DLC - Cribs/children
@@ -198,7 +195,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // Add a random book if bookshelf is a bookcase
             if (bookshelf is Building_Bookcase bookcase)
             {
-                Thing book = GenerateRandomBook();
+                Thing book = BookGenerationHelper.GenerateRandomBook();
                 if (book != null)
                 {
                     var container = bookcase.GetDirectlyHeldThings();
@@ -406,6 +403,17 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         /// <summary>
+        /// Picks a random unique weapon from the PulseCharge/BeamWeapon pool and spawns it on the shelf.
+        /// Skips spawning if the weapon pool is empty.
+        /// </summary>
+        private static void SpawnRandomPoolWeaponOnShelf(Map map, Building_Storage shelf)
+        {
+            IReadOnlyList<ThingDef> pool = UniqueWeaponPoolHelper.GetPulseChargeAndBeamWeapons();
+            if (pool.Count == 0) return;
+            SpawnUniqueWeaponOnShelf(map, shelf, pool.RandomElement());
+        }
+
+        /// <summary>
         /// Spawns a unique weapon with random traits on a shelf.
         /// </summary>
         private static void SpawnUniqueWeaponOnShelf(Map map, Building_Storage shelf, ThingDef weaponDef)
@@ -570,17 +578,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         #endregion
 
         #region Helper Methods
-
-        /// <summary>
-        /// Generates a random book with proper title/content initialization.
-        /// Uses BookUtility.MakeBook for novels and textbooks.
-        /// </summary>
-        private static Thing GenerateRandomBook()
-        {
-            if (Things.Novel == null) return null;
-
-            return BookUtility.MakeBook(Things.Novel, ArtGenerationContext.Outsider, null);
-        }
 
         /// <summary>
         /// Spawns baby food on the nearest empty Table1x2c.

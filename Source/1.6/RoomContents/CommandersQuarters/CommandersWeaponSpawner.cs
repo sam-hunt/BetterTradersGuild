@@ -80,48 +80,26 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
         /// <summary>
         /// Generates a unique high-quality weapon with gold inlay for the commander's bedroom.
         ///
-        /// Weapon selection (weighted random):
-        /// - 30% Revolver (Gold + HighPowerRounds + random)
-        /// - 30% Charge Rifle (Gold + ChargeCapacitor + random)
-        /// - 20% Charge Lance (Gold + ChargeCapacitor + random)
-        /// - 20% Beam Repeater (Gold + FrequencyAmplifier + random)
+        /// Weapon selection: uniform random from all discovered unique weapons with PulseCharge
+        /// or BeamWeapon categories. Automatically includes VWE weapons when loaded.
         ///
-        /// All weapons spawn with Excellent/Masterwork/Legendary quality via QualityUtility.GenerateQualitySuper()
-        /// and have 3 unique traits (Gold Inlay + weapon-specific + random compatible).
+        /// Trait logic: category-specific primary trait (ChargeCapacitor for PulseCharge,
+        /// FrequencyAmplifier for BeamWeapon) + Gold Inlay + random compatible trait.
+        ///
+        /// All weapons spawn with Excellent/Masterwork/Legendary quality via QualityUtility.GenerateQualitySuper().
         /// </summary>
         private static Thing GenerateCommandersWeapon()
         {
-            // Weighted random weapon selection
-            float roll = Rand.Value;
-            ThingDef weaponDef;
-            WeaponTraitDef primaryTrait;
-
-            if (roll < 0.3f)
+            // Select uniformly from discovered PulseCharge/BeamWeapon unique weapons
+            IReadOnlyList<ThingDef> weaponPool = UniqueWeaponPoolHelper.GetPulseChargeAndBeamWeapons();
+            if (weaponPool.Count == 0)
             {
-                weaponDef = Things.Gun_Revolver_Unique;
-                primaryTrait = WeaponTraits.PulseCharger;
-            }
-            else if (roll < 0.6f)
-            {
-                weaponDef = Things.Gun_ChargeRifle_Unique;
-                primaryTrait = WeaponTraits.ChargeCapacitor;
-            }
-            else if (roll < 0.8f)
-            {
-                weaponDef = Things.Gun_ChargeLance_Unique;
-                primaryTrait = WeaponTraits.ChargeCapacitor;
-            }
-            else
-            {
-                weaponDef = Things.Gun_BeamRepeater_Unique;
-                primaryTrait = WeaponTraits.FrequencyAmplifier;
-            }
-
-            if (weaponDef == null)
-            {
-                Log.Error("[Better Traders Guild] Selected unique weapon ThingDef is null");
+                Log.Warning("[Better Traders Guild] No PulseCharge/BeamWeapon weapons available for commander's quarters");
                 return null;
             }
+
+            ThingDef weaponDef = weaponPool.RandomElement();
+            WeaponTraitDef primaryTrait = UniqueWeaponPoolHelper.GetPrimaryTrait(weaponDef);
 
             Thing weapon = ThingMaker.MakeThing(weaponDef, null);
 

@@ -23,6 +23,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef GoJuice;
         public static ThingDef Synthread;
         public static ThingDef Beer;
+        public static ThingDef Yayo;
+        public static ThingDef SmokeleafJoint;
         public static ThingDef Chocolate;
         public static ThingDef HiddenConduit;
         public static ThingDef Heater;
@@ -37,7 +39,6 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef AncientSealedCrate;
         public static ThingDef AncientBox_ComponentIndustrial;
         public static ThingDef AncientBox_ComponentSpacer;
-        public static ThingDef Novel;
         public static ThingDef Table1x2c;
         public static ThingDef MealSurvivalPack;
         public static ThingDef RawBerries;
