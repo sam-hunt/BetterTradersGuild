@@ -70,8 +70,6 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             if (weapons.Count == 0)
                 Log.Warning("[Better Traders Guild] UniqueWeaponPoolHelper: No PulseCharge or BeamWeapon unique weapons found in DefDatabase");
-            else
-                Log.Message($"[Better Traders Guild] UniqueWeaponPoolHelper: Discovered {weapons.Count} PulseCharge/BeamWeapon unique weapons");
 
             return weapons;
         }
