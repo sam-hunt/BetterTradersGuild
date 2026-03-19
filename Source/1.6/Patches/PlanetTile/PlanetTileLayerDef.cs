@@ -1,3 +1,4 @@
+using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -8,14 +9,15 @@ namespace BetterTradersGuild.Patches.PlanetTilePatches
     /// Harmony patch: Allow caravans to reach friendly Traders Guild settlements in space
     /// Modifies the LayerDef check for caravan formation
     /// </summary>
-    [HarmonyPatch(typeof(RimWorld.Planet.PlanetTile), nameof(RimWorld.Planet.PlanetTile.LayerDef), MethodType.Getter)]
+    [HarmonyPatch(typeof(PlanetTile), nameof(PlanetTile.LayerDef), MethodType.Getter)]
     public static class PlanetTileLayerDef
     {
-        // Store modified LayerDef to reuse
         private static PlanetLayerDef modifiedSpaceDef = null;
+        private static readonly MethodInfo MemberwiseCloneMethod =
+            AccessTools.Method(typeof(object), "MemberwiseClone");
 
         [HarmonyPostfix]
-        public static void Postfix(RimWorld.Planet.PlanetTile __instance, ref PlanetLayerDef __result)
+        public static void Postfix(PlanetTile __instance, ref PlanetLayerDef __result)
         {
             // Only care about space layers that don't allow caravans
             if (__result == null || __result.canFormCaravans || !__result.isSpace)
@@ -25,16 +27,16 @@ namespace BetterTradersGuild.Patches.PlanetTilePatches
             if (!TileHelper.IsFriendlyTradersGuildTile(__instance))
                 return;
 
-            // Create modified def once
+            // Clone the orbit LayerDef once, preserving all vanilla properties
+            // (e.g. rangeDistanceFactor=20 prevents proximity goodwill penalties,
+            // onlyAllowWhitelist* filters inappropriate incidents/arrivals/quests)
+            // and only overriding canFormCaravans.
             if (modifiedSpaceDef == null)
             {
-                modifiedSpaceDef = new PlanetLayerDef();
+                modifiedSpaceDef = (PlanetLayerDef)MemberwiseCloneMethod.Invoke(__result, null);
                 modifiedSpaceDef.defName = "Space_BTG";
-                modifiedSpaceDef.label = __result.label;
-                modifiedSpaceDef.canFormCaravans = true;  // Key change!
-                modifiedSpaceDef.isSpace = true;
-                modifiedSpaceDef.alwaysRaycastable = true;
-                modifiedSpaceDef.obstructsExpandingIcons = true;
+                modifiedSpaceDef.canFormCaravans = true;    // This is the key change for trade visits
+                modifiedSpaceDef.raidPointsFactor = 1.0f;   // Default for space is 0.85
             }
 
             __result = modifiedSpaceDef;
