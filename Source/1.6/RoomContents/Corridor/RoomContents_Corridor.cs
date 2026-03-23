@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
@@ -19,10 +20,11 @@ namespace BetterTradersGuild.RoomContents.Corridor
 
             base.FillRoom(map, room, faction, threatPoints);
 
-            // base.FillRoom() triggers Checkpoint_Corridor.SpawnCheckpoints() which
-            // spawns barricades and turrets via GenSpawn.Spawn directly, bypassing
-            // IsValidCellBase. Clean them out of the reserved perimeter zone before
-            // placing airlock defences.
+            // Clean checkpoint debris AND wallAttachment-spawned buildings (e.g.
+            // LifeSupportUnit) from the reserved perimeter zone before placing
+            // airlock defences. Checkpoints bypass IsValidCellBase via direct
+            // GenSpawn.Spawn; wallAttachments are placed by vanilla LayoutWorker
+            // before FillRoom is called.
             ClearCheckpointsFromReservedZone(map, room);
 
             try
@@ -59,8 +61,10 @@ namespace BetterTradersGuild.RoomContents.Corridor
         }
 
         /// <summary>
-        /// Destroys checkpoint barricades and turrets that were placed in the reserved
-        /// perimeter zone by RoomContents_Checkpoint_Corridor.SpawnCheckpoints().
+        /// Destroys checkpoint barricades, turrets, and wall-attached buildings that were
+        /// placed in the reserved perimeter zone. Checks all things on each cell, not just
+        /// the edifice, because wallAttachment-spawned buildings (e.g. LifeSupportUnit)
+        /// share a cell with the wall and are not the edifice.
         /// </summary>
         private void ClearCheckpointsFromReservedZone(Map map, LayoutRoom room)
         {
@@ -74,9 +78,12 @@ namespace BetterTradersGuild.RoomContents.Corridor
                     if (validInterior.Contains(cell) || !cell.InBounds(map))
                         continue;
 
-                    Building edifice = cell.GetEdifice(map);
-                    if (edifice != null && IsCheckpointDebris(edifice.def))
-                        edifice.Destroy(DestroyMode.Vanish);
+                    List<Thing> things = cell.GetThingList(map);
+                    for (int i = things.Count - 1; i >= 0; i--)
+                    {
+                        if (IsCheckpointDebris(things[i].def))
+                            things[i].Destroy(DestroyMode.Vanish);
+                    }
                 }
             }
         }
