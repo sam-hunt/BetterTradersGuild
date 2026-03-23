@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.Comps;
 using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
@@ -45,8 +46,15 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 return default;
             }
 
-            // Choose hatch type based on cargo vault setting
-            ThingDef hatchDef = BetterTradersGuildMod.Settings.enableCargoVault
+            // Choose hatch type: quest site comp overrides mod setting
+            bool enableVault = BetterTradersGuildMod.Settings.enableCargoVault;
+            var questComp = map.Parent?.GetComponent<WorldObjectComp_QuestVault>();
+            if (questComp != null)
+            {
+                enableVault = questComp.HasCargoVault;
+            }
+
+            ThingDef hatchDef = enableVault
                 ? Things.BTG_CargoVaultHatch
                 : Things.BTG_CargoVaultHatch_Sealed;
 

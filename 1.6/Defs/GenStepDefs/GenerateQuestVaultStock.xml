@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Smuggler's Den - Generate Quest Vault Stock GenStep
+
+    Pre-populates the cargo vault stock from the quest's chosen TraderKindDef.
+    Reads WorldObjectComp_QuestVault from the Site and generates stock using
+    QuestVaultStockGenerator. Stores in SettlementStockCache.preservedStock.
+
+    Order 698: after structure (200), before pawns (700).
+    No-ops gracefully if the map parent doesn't have the quest vault comp.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_GenerateQuestVaultStock</defName>
+    <order>698</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_GenerateQuestVaultStock" />
+  </GenStepDef>
+</Defs>

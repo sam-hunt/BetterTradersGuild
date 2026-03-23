@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <SitePartDef>
+    <defName>BTG_SmugglersDen</defName>
+    <label>smuggler's den</label>
+    <description>An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.\n\nThese platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer.</description>
+    <workerClass>BetterTradersGuild.SitePartWorkers.SitePartWorker_SmugglersDen</workerClass>
+    <siteTexture>World/WorldObjects/Expanding/SettlementPlatform</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/SettlementPlatform</expandingIconTexture>
+    <applyFactionColorToSiteTexture>true</applyFactionColorToSiteTexture>
+    <showFactionInInspectString>true</showFactionInInspectString>
+    <requiresFaction>true</requiresFaction>
+    <approachOrderString>Attack {0}</approachOrderString>
+    <approachingReportString>Attacking {0}.</approachingReportString>
+    <wantsThreatPoints>true</wantsThreatPoints>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
+    <tags>
+      <li>HostileBase</li>
+    </tags>
+  </SitePartDef>
+
+</Defs>

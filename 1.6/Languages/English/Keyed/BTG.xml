@@ -60,6 +60,11 @@
   <BTG_CargoVaultHatch_RelockLabel>Relock cargo vault</BTG_CargoVaultHatch_RelockLabel>
   <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Contents will be returned to station inventory.</BTG_CargoVaultHatch_RelockDesc>
 
+  <!-- ========== SMUGGLER'S DEN QUEST ========== -->
+  <!-- {0} = trader kind label (e.g., "exotic goods") -->
+  <BTG_Reward_CargoClaim>Cargo claim: {0}</BTG_Reward_CargoClaim>
+  <BTG_Reward_CargoClaim_Unknown>Cargo claim: unknown manifest</BTG_Reward_CargoClaim_Unknown>
+
   <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
   <BTG_GameStartDialog_ExiledTraders>Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.</BTG_GameStartDialog_ExiledTraders>
   <BTG_GameStartDialog_IndependentTraders>The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.</BTG_GameStartDialog_IndependentTraders>

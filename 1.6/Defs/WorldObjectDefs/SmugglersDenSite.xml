@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Smuggler's Den Quest Site WorldObjectDef
+
+    Inherits from SpaceSite (which inherits from Site) to get:
+    - Space layer rendering (expandingIcon, fullyExpandedInSpace)
+    - Vanilla Site comps (DefeatAllEnemiesQuest, TimedDetectionRaids, FormCaravan, etc.)
+
+    Overrides mapGenerator with BTG_SmugglersDenMapGenerator for custom settlement layout.
+    Uses Inherit="True" on comps to preserve parent comps while adding QuestVault.
+  -->
+
+  <WorldObjectDef ParentName="SpaceSite">
+    <defName>BTG_SmugglersDenSite</defName>
+    <label>smuggler's den</label>
+    <worldObjectClass>Site</worldObjectClass>
+    <canBePlayerHome>false</canBePlayerHome>
+    <!-- Salvagers colorSpectrum is (0.75, 0.5, 0.5) = ~(191, 128, 128) in 0-255 -->
+    <expandingIconColor>(191, 128, 128, 255)</expandingIconColor>
+    <expandingIconDrawSize>1.1</expandingIconDrawSize>
+    <requiresSignalJammerToReach>true</requiresSignalJammerToReach>
+    <mapGenerator>BTG_SmugglersDenMapGenerator</mapGenerator>
+    <overrideMapSize>(200,1,200)</overrideMapSize>
+    <comps Inherit="True">
+      <li Class="BetterTradersGuild.Comps.WorldObjectCompProperties_QuestVault" />
+    </comps>
+  </WorldObjectDef>
+
+</Defs>

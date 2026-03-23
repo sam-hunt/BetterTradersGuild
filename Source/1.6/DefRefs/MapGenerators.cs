@@ -31,6 +31,15 @@ namespace BetterTradersGuild.DefRefs
         /// </summary>
         public static MapGeneratorDef BTG_CargoVaultMapGenerator;
 
+        /// <summary>
+        /// Custom MapGeneratorDef for smuggler's den quest sites.
+        ///
+        /// Forked from BTG_SettlementMapGenerator with:
+        /// - BTG_SmugglersDenPlatform layout (no nursery/classroom, required armory)
+        /// - BTG_GenerateQuestVaultStock step for vault stock pre-population
+        /// </summary>
+        public static MapGeneratorDef BTG_SmugglersDenMapGenerator;
+
         static MapGenerators() => DefOfHelper.EnsureInitializedInCtor(typeof(MapGenerators));
     }
 }

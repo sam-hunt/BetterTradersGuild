@@ -74,9 +74,8 @@ namespace BetterTradersGuild.MapGeneration
             if (dronePresence <= 0f)
                 return;
 
-            // STEP 2: Get faction for drone spawning
-            Settlement settlement = map?.Parent as Settlement;
-            Faction faction = settlement?.Faction;
+            // STEP 2: Get faction for drone spawning (works for both Settlements and Sites)
+            Faction faction = map?.Parent?.Faction;
             if (faction == null)
                 return;
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Smuggler's Den Platform GenStep
+
+    Uses vanilla GenStep_OrbitalPlatform with BTG_SmugglersDenPlatform layout.
+    Same properties as BTG_SettlementPlatform but references the forked layout
+    (no nursery/classroom, required armory).
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SmugglersDenPlatform</defName>
+    <order>200</order>
+    <genStep Class="GenStep_OrbitalPlatform">
+      <platformTerrain>OrbitalPlatform</platformTerrain>
+      <useSiteFaction>true</useSiteFaction>
+      <layoutDef>BTG_SmugglersDenPlatform</layoutDef>
+      <cannonDef>GaussCannon</cannonDef>
+      <temperature>20</temperature>
+    </genStep>
+  </GenStepDef>
+</Defs>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Smuggler's Den Orbital Platform Layout
+
+    Forked from BTG_SettlementPlatform with thematic changes for a pirate hub:
+    - Removed: Nursery and Classroom (pirates don't raise children)
+    - Changed: Armory count increased from 0~1 to 1~3 (pirates are heavily armed)
+    - All other rooms remain the same (functional facilities still needed)
+
+    Uses the same LayoutWorker as the TG settlement for pre/post spawn processing.
+  -->
+
+  <StructureLayoutDef ParentName="OrbitalAncientPlatformBase">
+    <defName>BTG_SmugglersDenPlatform</defName>
+
+    <workerClass>BetterTradersGuild.LayoutWorkers.Settlement.LayoutWorker_Settlement</workerClass>
+
+    <clearDoorFaction>true</clearDoorFaction>
+    <ensureOneDoorUnlocked>false</ensureOneDoorUnlocked>
+    <corridorDef>BTG_Corridor</corridorDef>
+    <wallLampDef>WallLamp</wallLampDef>
+    <wallLampChancePerPosition>1</wallLampChancePerPosition>
+
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>1~1</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
+    <!-- Place ShuttleBay FIRST - it's the largest room and needs priority placement -->
+    <importantRoomDef>BTG_ShuttleBay</importantRoomDef>
+
+    <roomDefs>
+      <!-- Core operational facilities -->
+
+      <BTG_ControlCenter>
+        <countRange>1~1</countRange>
+      </BTG_ControlCenter>
+
+      <BTG_CommandersQuarters>
+        <countRange>1~1</countRange>
+      </BTG_CommandersQuarters>
+
+      <!-- No Nursery or Classroom - pirates don't raise children -->
+
+      <BTG_MessHall>
+        <countRange>1~1</countRange>
+      </BTG_MessHall>
+
+      <BTG_MedicalBay>
+        <countRange>1~1</countRange>
+      </BTG_MedicalBay>
+
+      <BTG_PodLaunchBay>
+        <countRange>1~1</countRange>
+      </BTG_PodLaunchBay>
+
+      <BTG_CrewQuarters>
+        <countRange>3~4</countRange>
+      </BTG_CrewQuarters>
+
+      <BTG_Greenhouse>
+        <countRange>2~4</countRange>
+      </BTG_Greenhouse>
+
+      <BTG_RecRoom>
+        <countRange>1~1</countRange>
+      </BTG_RecRoom>
+
+      <BTG_MechSecurityPost>
+        <countRange>0~2</countRange>
+      </BTG_MechSecurityPost>
+
+      <!-- Pirates are heavily armed - armory is required and can spawn multiple -->
+      <BTG_Armory>
+        <countRange>1~3</countRange>
+      </BTG_Armory>
+
+      <BTG_Workshop>
+        <countRange>0~1</countRange>
+      </BTG_Workshop>
+
+      <BTG_MechRepairPost MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>0~1</countRange>
+      </BTG_MechRepairPost>
+
+      <!-- Filler rooms by weight -->
+      <BTG_Storeroom>3</BTG_Storeroom>
+      <NarrowHalls>2</NarrowHalls>
+    </roomDefs>
+
+    <junkScaterrers />
+
+  </StructureLayoutDef>
+</Defs>

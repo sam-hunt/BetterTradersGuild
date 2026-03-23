@@ -53,40 +53,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             traderCache.Clear();
         }
 
-        /// <summary>
-        /// Checks if a faction's ideology approves of slavery.
-        /// Returns true if no ideology system is active (classic mode) or if any ideo approves.
-        /// </summary>
-        private static bool FactionApprovesOfSlavery(Faction faction)
-        {
-            // No ideology system (classic mode) = slavery implicitly approved via Slavery_Classic precept
-            if (faction?.ideos == null)
-                return true;
-
-            foreach (var ideo in faction.ideos.AllIdeos)
-            {
-                if (IdeoUtility.IdeoApprovesOfSlavery(ideo))
-                    return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Checks if a trader kind has a StockGenerator_Slaves in its stock generators.
-        /// Used to filter out slave ships when the faction doesn't approve of slavery.
-        /// </summary>
-        private static bool HasSlavesStockGenerator(TraderKindDef trader)
-        {
-            if (trader.stockGenerators == null)
-                return false;
-
-            foreach (var sg in trader.stockGenerators)
-            {
-                if (sg is StockGenerator_Slaves)
-                    return true;
-            }
-            return false;
-        }
+        // Slavery and stock generator checks are in OrbitalTraderHelper (shared with quest reward system)
 
         /// <summary>
         /// Static constructor to initialize reflection
@@ -153,25 +120,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Fall back to deterministic calculation
             // This happens for unvisited settlements (no stock yet) or after rotation expiry
 
-            // Get all orbital trader types from the game (includes modded traders)
-            // LEARNING NOTE: We query DefDatabase instead of faction.def.orbitalTraderKinds
-            // to include orbital traders added by other mods and DLCs
-            List<TraderKindDef> allOrbitalTraders = DefDatabase<TraderKindDef>.AllDefsListForReading
-                .Where(t => t.orbital)
-                .ToList();
-
-            // Filter out traders tied to factions not present in the current world
-            // (e.g., Imperial trader when Royalty DLC / Empire faction is not active)
-            allOrbitalTraders.RemoveAll(t =>
-                t.faction != null && Find.FactionManager.FirstFactionOfDef(t.faction) == null);
-
-            // Filter out traders with slave stock generators if faction's ideology doesn't approve
-            // This prevents the slave ship from appearing when it can't actually deliver slaves
-            // (StockGenerator_Slaves checks IdeoApprovesOfSlavery and generates nothing if false)
-            if (!FactionApprovesOfSlavery(settlement.Faction))
-            {
-                allOrbitalTraders.RemoveAll(t => HasSlavesStockGenerator(t));
-            }
+            // Get all available orbital traders (filtered for world state and ideology)
+            // Uses shared helper also used by smuggler's den quest reward system
+            List<TraderKindDef> allOrbitalTraders = Helpers.OrbitalTraderHelper.GetAvailableOrbitalTraders(settlement.Faction);
 
             if (allOrbitalTraders.Count == 0)
             {

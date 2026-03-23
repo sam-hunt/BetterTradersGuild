@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -93,8 +94,8 @@ namespace BetterTradersGuild.MapComponents
         {
             base.MapRemoved();
 
-            // Only clean up if settlement was defeated (parent is DestroyedSettlement)
-            if (map.Parent is DestroyedSettlement && preservedStock != null)
+            // Clean up if settlement was defeated or quest site is being removed
+            if ((map.Parent is DestroyedSettlement || map.Parent is Site) && preservedStock != null)
             {
                 // Mirror TryDestroyStock behavior:
                 // - Pawns: don't destroy (they're world pawns)

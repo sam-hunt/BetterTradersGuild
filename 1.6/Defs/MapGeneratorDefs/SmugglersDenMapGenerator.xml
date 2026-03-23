@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Smuggler's Den Map Generator
+
+    Custom MapGeneratorDef for smuggler's den quest sites.
+    Reuses most GenSteps from BTG_SettlementMapGenerator with these differences:
+    - BTG_SmugglersDenPlatform: Forked layout (no nursery/classroom, required armory)
+    - BTG_GenerateQuestVaultStock: Pre-populates vault stock from quest reward choice
+    - Reuses BTG_SettlementPawnsLoot and BTG_SpawnSentryDrones as-is
+  -->
+
+  <MapGeneratorDef ParentName="SpaceMapGenerator">
+    <defName>BTG_SmugglersDenMapGenerator</defName>
+    <label>smuggler's den platform</label>
+
+    <!-- Enemies behind locked doors in fogged areas still count as active threats -->
+    <defeatRequiresCantReachUnfogged>false</defeatRequiresCantReachUnfogged>
+
+    <genSteps>
+      <!-- Core platform generation using forked smuggler's den layout -->
+      <li>BTG_SmugglersDenPlatform</li>     <!-- order 200 -->
+
+      <!-- Static post-processing -->
+      <li>BTG_ReplaceTerrain</li>            <!-- order 250 -->
+      <li>BTG_PaintTerrain</li>              <!-- order 255 -->
+      <li>BTG_ExtendLandingPadPipes</li>     <!-- order 260 -->
+      <li>BTG_SetWallLampColor</li>          <!-- order 265 -->
+
+      <!-- Pre-populate vault stock from quest reward choice -->
+      <li>BTG_GenerateQuestVaultStock</li>   <!-- order 698 -->
+
+      <!-- Spawn defenders -->
+      <li>BTG_SettlementPawnsLoot</li>       <!-- order 700 -->
+      <li>BTG_SpawnSentryDrones</li>         <!-- order 705 -->
+    </genSteps>
+
+  </MapGeneratorDef>
+</Defs>

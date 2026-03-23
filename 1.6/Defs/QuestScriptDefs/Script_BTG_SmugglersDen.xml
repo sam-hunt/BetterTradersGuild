@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <QuestScriptDef>
+    <defName>BTG_SmugglersDen</defName>
+
+    <rootSelectionWeight>1</rootSelectionWeight>
+    <rootMinProgressScore>0</rootMinProgressScore>
+    <defaultChallengeRating>2</defaultChallengeRating>
+    <expireDaysRange>8~15</expireDaysRange>
+    <everAcceptableInSpace>true</everAcceptableInSpace>
+
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Smuggler's Den Near [settlement_label]</li>
+        <li>questName->Orbital Pirate Haven</li>
+        <li>questName->Salvager Outpost Near [settlement_label]</li>
+        <li>questName->Black Market Station</li>
+      </rulesStrings>
+    </questNameRules>
+
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+
+    <root Class="QuestNode_Sequence">
+      <nodes>
+
+        <!-- Gate: Advanced Gravtech research (signal jammer unlock) -->
+        <li Class="QuestNode_RequirementsToAcceptResearch">
+          <reserach>AdvancedGravtech</reserach>
+        </li>
+
+        <!-- Get player map -->
+        <li Class="QuestNode_GetMap">
+          <canBeSpace>true</canBeSpace>
+        </li>
+
+        <!-- Find nearest TG settlement (quest giver) -->
+        <li Class="BetterTradersGuild.QuestNodes.QuestNode_GetNearestTGSettlement">
+          <storeAs>settlement</storeAs>
+          <storeFactionAs>faction</storeFactionAs>
+          <storeFactionLeaderAs>asker</storeFactionLeaderAs>
+        </li>
+
+        <!-- Threat/reward scaling -->
+        <li Class="QuestNode_GetMapWealth">
+          <map>$map</map>
+          <storeAs>mapWealth</storeAs>
+        </li>
+        <li Class="QuestNode_EvaluateSimpleCurve">
+          <value>$mapWealth</value>
+          <storeAs>siteThreatPoints</storeAs>
+          <curve>
+            <points>
+              <li>0, 800</li>
+              <li>100000, 1600</li>
+              <li>300000, 3200</li>
+            </points>
+          </curve>
+        </li>
+
+        <!-- Create smuggler's den site (deferred to quest acceptance) -->
+        <li Class="BetterTradersGuild.QuestNodes.QuestNode_BTG_SmugglersDen_CreateSite">
+          <storeAs>site</storeAs>
+          <nearSettlement>$settlement</nearSettlement>
+        </li>
+
+        <!-- Reward choices: 2 cargo vault types + goodwill -->
+        <li Class="BetterTradersGuild.QuestNodes.QuestNode_BTG_SmugglersDen_Rewards">
+          <site>$site</site>
+          <faction>$faction</faction>
+          <traderTypeCount>2</traderTypeCount>
+        </li>
+
+        <!-- Fail if TG becomes hostile -->
+        <li Class="QuestNode_Letter">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <label TKey="BTG_LetterLabel_SmugglersDenFailed">Quest failed: [resolvedQuestName]</label>
+          <text TKey="BTG_LetterText_SmugglersDenFailed">[faction_name] became hostile to you.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>faction.BecameHostileToPlayer</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+        <!-- Timeout -->
+        <li Class="QuestNode_Delay">
+          <delayTicks>$(randInt(8,15)*60000)</delayTicks>
+          <isQuestTimeout>true</isQuestTimeout>
+          <outSignalComplete>SmugglersDenTimeout</outSignalComplete>
+        </li>
+
+        <!-- Completion: all enemies defeated -->
+        <li Class="QuestNode_End">
+          <inSignal>site.AllEnemiesDefeated</inSignal>
+          <outcome>Success</outcome>
+          <sendStandardLetter>true</sendStandardLetter>
+        </li>
+
+        <!-- Failure: timeout -->
+        <li Class="QuestNode_End">
+          <inSignal>SmugglersDenTimeout</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>
