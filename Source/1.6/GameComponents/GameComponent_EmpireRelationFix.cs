@@ -20,6 +20,14 @@ namespace BetterTradersGuild.GameComponents
 
         public GameComponent_EmpireRelationFix(Game game) { }
 
+        public override void StartedNewGame()
+        {
+            // New games have the XML patch active, so no fix is needed.
+            // Set the flag to prevent the dialog showing if the player
+            // later becomes hostile with the Empire through normal gameplay.
+            empireRelationFixed = true;
+        }
+
         public override void LoadedGame()
         {
             if (empireRelationFixed)
