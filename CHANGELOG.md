@@ -5,6 +5,13 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-03-24
+
+### Fixed
+
+- Fix Empire being permanently hostile when using BTG scenarios with Royalty DLC active. Existing saves show a one-time dialog to reset relations
+- Fix wallAttachment buildings not being cleared from corridor perimeter zones during settlement generation
+
 ## [1.0.3] - 2026-03-19
 
 ### Added
@@ -136,6 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.0.4]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.4
 [1.0.3]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.3
 [1.0.2]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.2
 [1.0.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.1
