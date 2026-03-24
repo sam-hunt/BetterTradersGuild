@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    The Empire (Royalty DLC) is permanently hostile to every faction NOT listed in
+    its permanentEnemyToEveryoneExcept. Vanilla lists PlayerColony and PlayerTribe,
+    but not our custom player faction BTG_IndependentTraders.
+    Without this patch, players using BTG scenarios face permanent Empire hostility.
+  -->
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/FactionDef[defName="Empire"]/permanentEnemyToEveryoneExcept</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/FactionDef[defName="Empire"]/permanentEnemyToEveryoneExcept</xpath>
+      <value>
+        <li>BTG_IndependentTraders</li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>
