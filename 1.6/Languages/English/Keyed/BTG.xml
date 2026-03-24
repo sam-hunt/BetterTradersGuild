@@ -61,11 +61,12 @@
   <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Contents will be returned to station inventory.</BTG_CargoVaultHatch_RelockDesc>
 
   <!-- ========== ONE-TIME FIX NOTIFICATIONS ========== -->
-  <BTG_EmpireRelationFix_DialogTitle>Better Traders Guild: Update</BTG_EmpireRelationFix_DialogTitle>
-  <!-- {0} = Empire faction name -->
-  <BTG_EmpireRelationFix_DialogBody>A bug in a previous version of Better Traders Guild caused {0} to be permanently hostile toward your faction when using a BTG scenario. This has been corrected.\n\nWould you like to reset your goodwill with {0} to neutral?</BTG_EmpireRelationFix_DialogBody>
+  <!-- {0} = mod name (colorized) -->
+  <BTG_EmpireRelationFix_DialogTitle>{0}: Update</BTG_EmpireRelationFix_DialogTitle>
+  <!-- {0} = Empire faction name, {1} = player faction name, {2} = mod name (all colorized) -->
+  <BTG_EmpireRelationFix_DialogBody>A bug in a previous version of {2} caused {0} to be permanently hostile when playing as {1}.\n\nThis has been corrected.\n\nWould you like to reset your relations with {0} to neutral, or remain hostile for now?</BTG_EmpireRelationFix_DialogBody>
   <BTG_EmpireRelationFix_Neutral>Reset to neutral</BTG_EmpireRelationFix_Neutral>
-  <BTG_EmpireRelationFix_LeaveHostile>No, leave as-is</BTG_EmpireRelationFix_LeaveHostile>
+  <BTG_EmpireRelationFix_LeaveHostile>Remain hostile for now</BTG_EmpireRelationFix_LeaveHostile>
 
   <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
   <BTG_GameStartDialog_ExiledTraders>Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.</BTG_GameStartDialog_ExiledTraders>

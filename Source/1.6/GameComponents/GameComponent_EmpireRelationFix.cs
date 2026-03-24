@@ -56,10 +56,15 @@ namespace BetterTradersGuild.GameComponents
 
         private void ShowFixDialog(Faction empire)
         {
-            string empireName = empire.Name;
+            string empireName = empire.Name.Colorize(ColoredText.FactionColor_Hostile);
+            string playerName = Faction.OfPlayer.Name.Colorize(ColoredText.FactionColor_Neutral);
+
+            Faction tgFaction = Find.FactionManager.FirstFactionOfDef(DefRefs.Factions.TradersGuild);
+            string modName = "BTG_Settings_ModName".Translate()
+                .Colorize(tgFaction?.Color ?? ColoredText.NameColor);
 
             Find.WindowStack.Add(new Dialog_MessageBox(
-                "BTG_EmpireRelationFix_DialogBody".Translate(empireName),
+                "BTG_EmpireRelationFix_DialogBody".Translate(empireName, playerName, modName),
                 buttonAText: "BTG_EmpireRelationFix_Neutral".Translate(),
                 buttonAAction: () =>
                 {
@@ -82,7 +87,7 @@ namespace BetterTradersGuild.GameComponents
                         $"player chose to leave {empire.Name} goodwill at {empire.PlayerGoodwill}");
                     empireRelationFixed = true;
                 },
-                title: "BTG_EmpireRelationFix_DialogTitle".Translate()));
+                title: "BTG_EmpireRelationFix_DialogTitle".Translate(modName)));
         }
 
         public override void ExposeData()
