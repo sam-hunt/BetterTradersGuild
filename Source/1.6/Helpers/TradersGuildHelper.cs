@@ -78,6 +78,11 @@ namespace BetterTradersGuild
 
             Faction tradeCheckFaction = GetFactionForTradeCheck(settlement);
 
+            // If the trader's faction is hostile (e.g., Empire), block with a clear reason
+            if (tradeCheckFaction != settlement.Faction
+                && FactionUtility.HostileTo(tradeCheckFaction, Faction.OfPlayer))
+                return "BTG_TraderFactionHostile".Translate(tradeCheckFaction.Name);
+
             // If we can find a negotiator, trade is not blocked
             if (BestCaravanPawnUtility.FindBestNegotiator(
                     caravan, tradeCheckFaction, settlement.TraderKind) != null)
@@ -114,6 +119,11 @@ namespace BetterTradersGuild
                 return null;
 
             Faction tradeCheckFaction = GetFactionForTradeCheck(settlement);
+
+            if (tradeCheckFaction != settlement.Faction
+                && FactionUtility.HostileTo(tradeCheckFaction, Faction.OfPlayer))
+                return "BTG_TraderFactionHostile".Translate(tradeCheckFaction.Name);
+
             string reason = null;
             foreach (IThingHolder pod in pods)
             {

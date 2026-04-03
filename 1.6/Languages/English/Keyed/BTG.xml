@@ -4,6 +4,8 @@
   <!-- ========== FLOAT MENU OPTIONS ========== -->
   <BTG_RequiresSignalJammer>(requires signal jammer)</BTG_RequiresSignalJammer>
   <BTG_NoNegotiator>No capable negotiator</BTG_NoNegotiator>
+  <!-- {0} = faction name (e.g., "The Empire") -->
+  <BTG_TraderFactionHostile>Hostile relations with {0}</BTG_TraderFactionHostile>
 
   <!-- ========== INSPECT STRINGS ========== -->
   <BTG_DockedVessel>Docked vessel</BTG_DockedVessel>
