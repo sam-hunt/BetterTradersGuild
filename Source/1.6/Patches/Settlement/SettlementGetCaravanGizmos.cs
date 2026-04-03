@@ -47,7 +47,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                     // ATTACK GIZMOS: Disable and add signal jammer message
                     if (label.Contains("attack"))
                     {
-                        command.Disable("Requires signal jammer");
+                        command.Disable("BTG_RequiresSignalJammer".Translate());
                         yield return command;
                     }
                     // TRADE GIZMOS: Replace with correctly faction-checked version
@@ -63,14 +63,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         {
                             command.action = delegate
                             {
-                                Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, __instance);
-                                if (negotiator != null)
-                                {
-                                    CameraJumper.TryJumpAndSelect(
-                                        (GlobalTargetInfo)caravan,
-                                        CameraJumper.MovementMode.Cut);
-                                    Find.WindowStack.Add(new Dialog_Trade(negotiator, __instance, false));
-                                }
+                                TradersGuildHelper.OpenTradeDialog(caravan, __instance);
                             };
                         }
                         yield return command;

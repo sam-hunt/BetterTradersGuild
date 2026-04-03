@@ -89,14 +89,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         tradeLabel,
                         delegate
                         {
-                            Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, __instance);
-                            if (negotiator != null)
-                            {
-                                CameraJumper.TryJumpAndSelect(
-                                    (RimWorld.Planet.GlobalTargetInfo)caravan,
-                                    CameraJumper.MovementMode.Cut);
-                                Find.WindowStack.Add(new RimWorld.Dialog_Trade(negotiator, __instance, false));
-                            }
+                            TradersGuildHelper.OpenTradeDialog(caravan, __instance);
                         }
                     );
 

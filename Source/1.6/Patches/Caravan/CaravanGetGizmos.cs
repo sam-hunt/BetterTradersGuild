@@ -46,7 +46,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
                     if (attackCommand.defaultLabel != null && attackCommand.defaultLabel.Contains("Attack"))
                     {
                         // Disable this gizmo and add signal jammer message to tooltip
-                        attackCommand.Disable("Requires signal jammer");
+                        attackCommand.Disable("BTG_RequiresSignalJammer".Translate());
                         yield return attackCommand;
                         continue;
                     }
@@ -84,14 +84,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
             {
                 tradeCommand.action = delegate
                 {
-                    Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, settlement);
-                    if (negotiator != null)
-                    {
-                        CameraJumper.TryJumpAndSelect(
-                            (RimWorld.Planet.GlobalTargetInfo)caravan,
-                            CameraJumper.MovementMode.Cut);
-                        Find.WindowStack.Add(new RimWorld.Dialog_Trade(negotiator, settlement, false));
-                    }
+                    TradersGuildHelper.OpenTradeDialog(caravan, settlement);
                 };
             }
 

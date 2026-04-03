@@ -8,7 +8,7 @@ using Verse;
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
     /// <summary>
-    /// Harmony patch: Fixes shuttle trade-on-arrival at TG settlements with title-gated traders.
+    /// Harmony patches fixing shuttle trade-on-arrival at TG settlements with title-gated traders.
     ///
     /// Two patches work together:
     /// 1. CanTradeWith Prefix: Vanilla's StillValid calls CanTradeWith(pods, settlement) using
@@ -27,22 +27,17 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 new[] { typeof(IEnumerable<IThingHolder>), typeof(Settlement) });
         }
 
-        /// <summary>
-        /// For TG settlements with title-gated traders, replaces vanilla's faction check
-        /// with our corrected version so the arrival action passes StillValid.
-        /// </summary>
         [HarmonyPrefix]
         public static bool Prefix(IEnumerable<IThingHolder> pods, Settlement settlement,
             ref FloatMenuAcceptanceReport __result)
         {
             if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
-                return true; // Let vanilla handle non-TG settlements
+                return true;
 
             if (settlement.TraderKind?.permitRequiredForTrading == null)
-                return true; // No title gate, vanilla's logic is fine
+                return true;
 
-            // Replicate vanilla's checks but use the correct faction for the permit check
-            if (settlement == null || !settlement.Spawned || settlement.HasMap
+            if (!settlement.Spawned || settlement.HasMap
                 || settlement.Faction == null || settlement.Faction == Faction.OfPlayer
                 || settlement.Faction.def.permanentEnemy
                 || FactionUtility.HostileTo(settlement.Faction, Faction.OfPlayer)
@@ -52,36 +47,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return false;
             }
 
-            // Check pods for a negotiator using the trader's faction (not settlement faction)
-            Faction tradeCheckFaction = TradersGuildHelper.GetFactionForTradeCheck(settlement);
-            foreach (IThingHolder pod in pods)
-            {
-                ThingOwner thingsOwner = pod.GetDirectlyHeldThings();
-                CompTransporter compTransporter = pod as CompTransporter;
-                if (compTransporter != null && CaravanShuttleUtility.IsCaravanShuttle(compTransporter))
-                {
-                    Caravan caravan = CaravanUtility.GetCaravan(compTransporter.parent);
-                    if (caravan != null)
-                        thingsOwner = caravan.GetDirectlyHeldThings();
-                }
-
-                foreach (Thing thing in thingsOwner)
-                {
-                    Pawn pawn = thing as Pawn;
-                    if (pawn == null || !pawn.RaceProps.Humanlike)
-                        continue;
-
-                    AcceptanceReport report = FactionUtility.CanTradeWith(
-                        pawn, tradeCheckFaction, settlement.TraderKind);
-                    if (report.Accepted)
-                    {
-                        __result = true;
-                        return false;
-                    }
-                }
-            }
-
-            __result = false;
+            __result = TradersGuildHelper.HasNegotiatorInPods(pods, settlement);
             return false;
         }
     }
@@ -89,26 +55,24 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     [HarmonyPatch]
     public static class TransportersArrivalActionTradeArrived
     {
+        private static readonly FieldInfo settlementField = AccessTools.Field(
+            typeof(TransportersArrivalAction_VisitSettlement), "settlement");
+
         static MethodBase TargetMethod()
         {
             return AccessTools.Method(typeof(TransportersArrivalAction_Trade), "Arrived");
         }
 
-        /// <summary>
-        /// After vanilla's Arrived runs (skipping the dialog due to wrong faction in
-        /// HasNegotiator), opens the trade dialog using the correct faction.
-        /// </summary>
         [HarmonyPostfix]
         public static void Postfix(TransportersArrivalAction_Trade __instance)
         {
-            Settlement settlement = Traverse.Create(__instance).Field("settlement").GetValue<Settlement>();
+            Settlement settlement = (Settlement)settlementField.GetValue(__instance);
             if (settlement == null || !TradersGuildHelper.IsTradersGuildSettlement(settlement))
                 return;
 
             if (settlement.TraderKind?.permitRequiredForTrading == null)
                 return;
 
-            // If vanilla already opened the dialog, don't duplicate
             if (Find.WindowStack.IsOpen<Dialog_Trade>())
                 return;
 
@@ -130,14 +94,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return;
             }
 
-            Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, settlement);
-            if (negotiator == null)
-                return;
-
-            CameraJumper.TryJumpAndSelect(
-                (GlobalTargetInfo)caravan,
-                CameraJumper.MovementMode.Cut);
-            Find.WindowStack.Add(new Dialog_Trade(negotiator, settlement, false));
+            TradersGuildHelper.OpenTradeDialog(caravan, settlement);
         }
     }
 }
