@@ -25,7 +25,7 @@ namespace BetterTradersGuild
         static BetterTradersGuildMod()
         {
             // Apply Harmony patches
-            var harmony = new Harmony("samhunt.bettertradersguild");
+            var harmony = new Harmony("shunter.bettertradersguild");
             harmony.PatchAll();
 
             // Apply def modifications

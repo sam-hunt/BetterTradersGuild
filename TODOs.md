@@ -5,8 +5,9 @@ Cleanup
 - Suppress error if can't place all bedrooms/rooms?
 - Investigate space tile player settlement distance mod setting
 - Imperial trader float options disabled state checks bugged
+- Set workbench.IsForbidden(Faction.OfPlayer) for chargers in MechRepairPost room so player mechs don't use them?
 - Investigate threat scaling of settlement defender group generation, seems a little low
-- Subroom placement small room off-by-one?
+- Rare Subroom placement small room off-by-one?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 
 Possible future features
