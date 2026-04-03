@@ -5,6 +5,25 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2026-04-04
+
+### Added
+
+- Odyssey DLC icon on Preview.png
+- Pod launcher fuel tanks are now filled in pod launch bay
+
+### Fixed
+
+- Fully charge batteries in control center server rack subroom
+- Prevent player mechs from charging at hostile faction rechargers
+- Contract nursery subroom rect for civilian spawning
+- Show trader faction hostility reason in trade-blocked messages
+- Use trader faction for trade permission checks at TG settlements
+
+### Changed
+
+- Consolidate trade dialog and pod iteration logic into shared helpers
+
 ## [1.0.5] - 2026-03-24
 
 ### Fixed
@@ -149,6 +168,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.0.6]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.6
 [1.0.5]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.5
 [1.0.4]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.4
 [1.0.3]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.3

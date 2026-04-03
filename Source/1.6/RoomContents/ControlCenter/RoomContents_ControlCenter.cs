@@ -83,7 +83,15 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
             PrefabDef prefab = Prefabs.BTG_ServerRacks_Subroom;
             if (prefab == null) return;
 
-            PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
+            PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null,
+                null, null,
+                thing =>
+                {
+                    if (thing is Building_Battery battery)
+                    {
+                        battery.GetComp<CompPowerBattery>()?.AddEnergy(float.MaxValue);
+                    }
+                });
         }
     }
 }

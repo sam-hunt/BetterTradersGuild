@@ -46,7 +46,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
                     if (attackCommand.defaultLabel != null && attackCommand.defaultLabel.Contains("Attack"))
                     {
                         // Disable this gizmo and add signal jammer message to tooltip
-                        attackCommand.Disable("Requires signal jammer");
+                        attackCommand.Disable("BTG_RequiresSignalJammer".Translate());
                         yield return attackCommand;
                         continue;
                     }
@@ -84,17 +84,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
             {
                 tradeCommand.action = delegate
                 {
-                    bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(settlement);
-
-                    if (isTradersGuild || settlement.CanTradeNow)
-                    {
-                        CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
-                        tradeAction.Arrived(caravan);
-                    }
-                    else
-                    {
-                        Messages.Message("Settlement cannot trade right now.", MessageTypes.RejectInput);
-                    }
+                    TradersGuildHelper.OpenTradeDialog(caravan, settlement);
                 };
             }
 

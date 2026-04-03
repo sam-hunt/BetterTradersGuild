@@ -12,6 +12,25 @@ namespace BetterTradersGuild
     public static class TradersGuildHelper
     {
         /// <summary>
+        /// Returns the faction to use for trade permission checks (royal title requirements).
+        /// Only resolves the TraderKind's own faction when it has a permitRequiredForTrading,
+        /// so that royal title checks look up the correct faction (e.g., Empire for Imperial
+        /// traders). For traders without title requirements (pirates, generic, modded), always
+        /// returns the settlement faction to avoid false hostility rejections.
+        /// </summary>
+        public static Faction GetFactionForTradeCheck(Settlement settlement)
+        {
+            TraderKindDef traderKind = settlement.TraderKind;
+            if (traderKind?.permitRequiredForTrading != null && traderKind.faction != null)
+            {
+                Faction traderFaction = Find.FactionManager.FirstFactionOfDef(traderKind.faction);
+                if (traderFaction != null)
+                    return traderFaction;
+            }
+            return settlement.Faction;
+        }
+
+        /// <summary>
         /// Finds a valid negotiator pawn in the caravan for trading with the given settlement.
         /// Returns null if no pawn qualifies (e.g., missing required royal title for Imperial traders).
         /// </summary>
@@ -21,7 +40,31 @@ namespace BetterTradersGuild
                 return null;
 
             return BestCaravanPawnUtility.FindBestNegotiator(
-                caravan, settlement.Faction, settlement.TraderKind);
+                caravan, GetFactionForTradeCheck(settlement), settlement.TraderKind);
+        }
+
+        /// <summary>
+        /// Finds a negotiator, jumps the camera, and opens the trade dialog.
+        /// Shared by all BTG trade initiation paths (gizmos, float menus, shuttle arrival).
+        /// </summary>
+        public static void OpenTradeDialog(Caravan caravan, Settlement settlement)
+        {
+            Pawn negotiator = FindNegotiator(caravan, settlement);
+            if (negotiator != null)
+            {
+                CameraJumper.TryJumpAndSelect(
+                    (GlobalTargetInfo)caravan,
+                    CameraJumper.MovementMode.Cut);
+                Find.WindowStack.Add(new Dialog_Trade(negotiator, settlement, false));
+            }
+        }
+
+        /// <summary>
+        /// Checks whether any pawn in the shuttle pods can negotiate with the settlement.
+        /// </summary>
+        public static bool HasNegotiatorInPods(IEnumerable<IThingHolder> pods, Settlement settlement)
+        {
+            return GetTradeBlockedReasonFromPods(pods, settlement) == null;
         }
 
         /// <summary>
@@ -33,12 +76,19 @@ namespace BetterTradersGuild
             if (caravan == null || settlement == null)
                 return null;
 
+            Faction tradeCheckFaction = GetFactionForTradeCheck(settlement);
+
+            // If the trader's faction is hostile (e.g., Empire), block with a clear reason
+            if (tradeCheckFaction != settlement.Faction
+                && FactionUtility.HostileTo(tradeCheckFaction, Faction.OfPlayer))
+                return "BTG_TraderFactionHostile".Translate(tradeCheckFaction.Name);
+
             // If we can find a negotiator, trade is not blocked
-            if (FindNegotiator(caravan, settlement) != null)
+            if (BestCaravanPawnUtility.FindBestNegotiator(
+                    caravan, tradeCheckFaction, settlement.TraderKind) != null)
                 return null;
 
             // Check each pawn to find the most informative rejection reason
-            // Prefer title-related rejections over generic ones
             string reason = null;
             foreach (Pawn pawn in caravan.PawnsListForReading)
             {
@@ -46,15 +96,13 @@ namespace BetterTradersGuild
                     continue;
 
                 AcceptanceReport report = FactionUtility.CanTradeWith(
-                    pawn, settlement.Faction, settlement.TraderKind);
+                    pawn, tradeCheckFaction, settlement.TraderKind);
 
                 if (!report.Accepted && report.Reason != null)
                 {
                     reason = report.Reason;
-                    // Title-related reasons are the most specific, keep looking
-                    // only if we haven't found one yet
                     if (settlement.TraderKind?.permitRequiredForTrading != null)
-                        return reason; // This is the title reason, return immediately
+                        return reason;
                 }
             }
 
@@ -70,12 +118,17 @@ namespace BetterTradersGuild
             if (pods == null || settlement == null)
                 return null;
 
+            Faction tradeCheckFaction = GetFactionForTradeCheck(settlement);
+
+            if (tradeCheckFaction != settlement.Faction
+                && FactionUtility.HostileTo(tradeCheckFaction, Faction.OfPlayer))
+                return "BTG_TraderFactionHostile".Translate(tradeCheckFaction.Name);
+
             string reason = null;
             foreach (IThingHolder pod in pods)
             {
                 ThingOwner thingsOwner = pod.GetDirectlyHeldThings();
 
-                // For caravan shuttles, get items from the caravan instead of the pod
                 CompTransporter compTransporter = pod as CompTransporter;
                 if (compTransporter != null && CaravanShuttleUtility.IsCaravanShuttle(compTransporter))
                 {
@@ -91,10 +144,10 @@ namespace BetterTradersGuild
                         continue;
 
                     AcceptanceReport report = FactionUtility.CanTradeWith(
-                        pawn, settlement.Faction, settlement.TraderKind);
+                        pawn, tradeCheckFaction, settlement.TraderKind);
 
                     if (report.Accepted)
-                        return null; // Found a valid negotiator
+                        return null;
 
                     if (!report.Accepted && report.Reason != null)
                         reason = report.Reason;

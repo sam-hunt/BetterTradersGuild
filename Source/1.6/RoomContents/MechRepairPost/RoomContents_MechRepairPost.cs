@@ -23,7 +23,6 @@ namespace BetterTradersGuild.RoomContents.MechRepairPost
 
             foreach (CellRect roomRect in room.rects)
                 FillSupplyShelves(map, roomRect);
-
         }
 
         private void FillSupplyShelves(Map map, CellRect roomRect)

@@ -2,9 +2,8 @@ TODOs
 
 Cleanup
 
-- Imperial trader float options disabled state checks bugged
 - Investigate threat scaling of settlement defender group generation, seems a little low
-- Subroom placement small room off-by-one?
+- Rare Subroom placement small room off-by-one?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 
 Possible future features

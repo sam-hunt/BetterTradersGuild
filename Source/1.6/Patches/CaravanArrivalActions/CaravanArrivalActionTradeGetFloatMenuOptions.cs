@@ -2,7 +2,6 @@ using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 
 namespace BetterTradersGuild.Patches.CaravanArrivalActions
@@ -17,51 +16,37 @@ namespace BetterTradersGuild.Patches.CaravanArrivalActions
         [HarmonyPostfix]
         public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> __result, Caravan caravan, Settlement settlement)
         {
-            // First, return all original options
+            // Track whether vanilla generated any options
+            bool hasOptions = false;
             foreach (FloatMenuOption option in __result)
             {
+                hasOptions = true;
                 yield return option;
             }
 
-            // Check if this is a Traders Guild settlement
             if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
                 yield break;
 
-            // Check if we have good relations
             if (!TradersGuildHelper.CanPeacefullyVisit(settlement.Faction))
                 yield break;
 
-            // If we already got options from vanilla, don't add duplicates
-            bool hasOptions = __result.Any();
+            // If vanilla already generated options, don't add duplicates
             if (hasOptions)
-            {
-                // Vanilla generated options successfully, nothing more to do
                 yield break;
-            }
 
-            // Vanilla didn't generate trade options for this space settlement
-            // This happens because space settlements aren't normally tradeable
-            // Check if the caravan has a valid negotiator (e.g., Imperial traders require Baron+ title)
             string tradeLabel = "TradeWithSettlement".Translate(settlement.Label);
             string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, settlement);
 
             if (blockedReason != null)
             {
-                // Show disabled option with rejection reason (e.g., title requirement)
                 yield return new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
                 yield break;
             }
 
-            FloatMenuOption tradeOption = new FloatMenuOption(
+            yield return new FloatMenuOption(
                 tradeLabel,
-                delegate
-                {
-                    CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
-                    tradeAction.Arrived(caravan);
-                }
+                delegate { TradersGuildHelper.OpenTradeDialog(caravan, settlement); }
             );
-
-            yield return tradeOption;
         }
     }
 }

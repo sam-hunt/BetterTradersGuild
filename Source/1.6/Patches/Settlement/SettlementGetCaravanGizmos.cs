@@ -1,4 +1,5 @@
 using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using Verse;
@@ -46,13 +47,25 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                     // ATTACK GIZMOS: Disable and add signal jammer message
                     if (label.Contains("attack"))
                     {
-                        command.Disable("Requires signal jammer");
+                        command.Disable("BTG_RequiresSignalJammer".Translate());
                         yield return command;
                     }
-                    // TRADE GIZMOS: Check if trade option exists
+                    // TRADE GIZMOS: Replace with correctly faction-checked version
                     else if (label.Contains("trade"))
                     {
                         hasTradeGizmo = true;
+                        string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, __instance);
+                        if (blockedReason != null)
+                        {
+                            command.Disable(blockedReason);
+                        }
+                        else
+                        {
+                            command.action = delegate
+                            {
+                                TradersGuildHelper.OpenTradeDialog(caravan, __instance);
+                            };
+                        }
                         yield return command;
                     }
                     // OTHER GIZMOS: Return unchanged

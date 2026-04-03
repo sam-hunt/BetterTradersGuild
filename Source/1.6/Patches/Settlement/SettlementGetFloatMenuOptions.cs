@@ -1,4 +1,5 @@
 using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using Verse;
@@ -79,7 +80,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 if (blockedReason != null)
                 {
                     // Show disabled option with rejection reason (e.g., title requirement)
-                    yield return new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                    FloatMenuOption disabledOption = new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                    yield return disabledOption;
                 }
                 else
                 {
@@ -87,8 +89,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         tradeLabel,
                         delegate
                         {
-                            CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(__instance);
-                            tradeAction.Arrived(caravan);
+                            TradersGuildHelper.OpenTradeDialog(caravan, __instance);
                         }
                     );
 

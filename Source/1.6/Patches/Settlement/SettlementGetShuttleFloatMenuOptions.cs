@@ -81,7 +81,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 if (blockedReason != null)
                 {
                     // Show disabled option with rejection reason (e.g., title requirement)
-                    yield return new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                    FloatMenuOption disabledOption = new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                    yield return disabledOption;
                 }
                 else
                 {
