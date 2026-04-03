@@ -84,16 +84,13 @@ namespace BetterTradersGuild.Patches.CaravanPatches
             {
                 tradeCommand.action = delegate
                 {
-                    bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(settlement);
-
-                    if (isTradersGuild || settlement.CanTradeNow)
+                    Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, settlement);
+                    if (negotiator != null)
                     {
-                        CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
-                        tradeAction.Arrived(caravan);
-                    }
-                    else
-                    {
-                        Messages.Message("Settlement cannot trade right now.", MessageTypes.RejectInput);
+                        CameraJumper.TryJumpAndSelect(
+                            (RimWorld.Planet.GlobalTargetInfo)caravan,
+                            CameraJumper.MovementMode.Cut);
+                        Find.WindowStack.Add(new RimWorld.Dialog_Trade(negotiator, settlement, false));
                     }
                 };
             }

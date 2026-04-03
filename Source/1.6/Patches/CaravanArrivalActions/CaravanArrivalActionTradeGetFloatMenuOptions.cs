@@ -48,7 +48,9 @@ namespace BetterTradersGuild.Patches.CaravanArrivalActions
             if (blockedReason != null)
             {
                 // Show disabled option with rejection reason (e.g., title requirement)
-                yield return new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                FloatMenuOption disabledOption = new FloatMenuOption(tradeLabel + " (" + blockedReason + ")", null);
+                disabledOption.Disabled = true;
+                yield return disabledOption;
                 yield break;
             }
 
@@ -56,8 +58,14 @@ namespace BetterTradersGuild.Patches.CaravanArrivalActions
                 tradeLabel,
                 delegate
                 {
-                    CaravanArrivalAction_Trade tradeAction = new CaravanArrivalAction_Trade(settlement);
-                    tradeAction.Arrived(caravan);
+                    Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, settlement);
+                    if (negotiator != null)
+                    {
+                        CameraJumper.TryJumpAndSelect(
+                            (RimWorld.Planet.GlobalTargetInfo)caravan,
+                            CameraJumper.MovementMode.Cut);
+                        Find.WindowStack.Add(new RimWorld.Dialog_Trade(negotiator, settlement, false));
+                    }
                 }
             );
 

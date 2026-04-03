@@ -12,6 +12,25 @@ namespace BetterTradersGuild
     public static class TradersGuildHelper
     {
         /// <summary>
+        /// Returns the faction to use for trade permission checks (royal title requirements).
+        /// Only resolves the TraderKind's own faction when it has a permitRequiredForTrading,
+        /// so that royal title checks look up the correct faction (e.g., Empire for Imperial
+        /// traders). For traders without title requirements (pirates, generic, modded), always
+        /// returns the settlement faction to avoid false hostility rejections.
+        /// </summary>
+        public static Faction GetFactionForTradeCheck(Settlement settlement)
+        {
+            TraderKindDef traderKind = settlement.TraderKind;
+            if (traderKind?.permitRequiredForTrading != null && traderKind.faction != null)
+            {
+                Faction traderFaction = Find.FactionManager.FirstFactionOfDef(traderKind.faction);
+                if (traderFaction != null)
+                    return traderFaction;
+            }
+            return settlement.Faction;
+        }
+
+        /// <summary>
         /// Finds a valid negotiator pawn in the caravan for trading with the given settlement.
         /// Returns null if no pawn qualifies (e.g., missing required royal title for Imperial traders).
         /// </summary>
@@ -21,7 +40,7 @@ namespace BetterTradersGuild
                 return null;
 
             return BestCaravanPawnUtility.FindBestNegotiator(
-                caravan, settlement.Faction, settlement.TraderKind);
+                caravan, GetFactionForTradeCheck(settlement), settlement.TraderKind);
         }
 
         /// <summary>
@@ -46,7 +65,7 @@ namespace BetterTradersGuild
                     continue;
 
                 AcceptanceReport report = FactionUtility.CanTradeWith(
-                    pawn, settlement.Faction, settlement.TraderKind);
+                    pawn, GetFactionForTradeCheck(settlement), settlement.TraderKind);
 
                 if (!report.Accepted && report.Reason != null)
                 {
@@ -91,7 +110,7 @@ namespace BetterTradersGuild
                         continue;
 
                     AcceptanceReport report = FactionUtility.CanTradeWith(
-                        pawn, settlement.Faction, settlement.TraderKind);
+                        pawn, GetFactionForTradeCheck(settlement), settlement.TraderKind);
 
                     if (report.Accepted)
                         return null; // Found a valid negotiator

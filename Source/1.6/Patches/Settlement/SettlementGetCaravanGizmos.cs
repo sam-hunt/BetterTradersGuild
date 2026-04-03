@@ -1,4 +1,5 @@
 using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using Verse;
@@ -49,10 +50,29 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         command.Disable("Requires signal jammer");
                         yield return command;
                     }
-                    // TRADE GIZMOS: Check if trade option exists
+                    // TRADE GIZMOS: Replace with correctly faction-checked version
                     else if (label.Contains("trade"))
                     {
                         hasTradeGizmo = true;
+                        string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, __instance);
+                        if (blockedReason != null)
+                        {
+                            command.Disable(blockedReason);
+                        }
+                        else
+                        {
+                            command.action = delegate
+                            {
+                                Pawn negotiator = TradersGuildHelper.FindNegotiator(caravan, __instance);
+                                if (negotiator != null)
+                                {
+                                    CameraJumper.TryJumpAndSelect(
+                                        (GlobalTargetInfo)caravan,
+                                        CameraJumper.MovementMode.Cut);
+                                    Find.WindowStack.Add(new Dialog_Trade(negotiator, __instance, false));
+                                }
+                            };
+                        }
                         yield return command;
                     }
                     // OTHER GIZMOS: Return unchanged
