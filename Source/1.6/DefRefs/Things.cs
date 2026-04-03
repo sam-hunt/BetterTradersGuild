@@ -64,6 +64,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Shell_HighExplosive;
         public static ThingDef Shell_AntigrainWarhead;
         public static ThingDef Leather_Panthera;
+        public static ThingDef PodLauncher;
         public static ThingDef TransportPod;
         public static ThingDef MalfunctioningTransportPod;
         public static ThingDef SunLamp;

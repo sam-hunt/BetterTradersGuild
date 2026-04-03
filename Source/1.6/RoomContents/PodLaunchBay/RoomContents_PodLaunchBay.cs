@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
+using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -25,10 +26,34 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
                 {
                     FillSupplyShelves(map, roomRect);
                     MalfunctioningPodReplacer.ReplaceSomePodsWithMalfunctioning(map, roomRect);
+                    FillPodLauncherFuel(map, roomRect);
 
                     // Connect firefoam poppers to chemfuel pipes (does nothing if VE Chemfuel not installed)
                     RoomEdgeConnector.ConnectBuildingsToInfrastructure(map, roomRect, Things.FirefoamPopper, Things.VCHE_UndergroundChemfuelPipe);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sets pod launcher fuel levels. Launchers with a malfunctioning pod get 45%
+        /// (heavy use led to the malfunction), others get 25%. Must run after
+        /// MalfunctioningPodReplacer. Uses Traverse to set the private fuel field
+        /// directly, avoiding the difficulty multiplier baked into Refuel(float).
+        /// </summary>
+        private void FillPodLauncherFuel(Map map, CellRect roomRect)
+        {
+            foreach (Building launcher in RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.PodLauncher))
+            {
+                CompRefuelable fuelComp = launcher.TryGetComp<CompRefuelable>();
+                if (fuelComp == null) continue;
+
+                bool hasMalfunctioningPod = GenAdj.CellsAdjacent8Way(launcher)
+                    .Any(c => c.InBounds(map) && c.GetThingList(map)
+                        .Any(t => t.def == Things.MalfunctioningTransportPod));
+
+                float fuelPct = hasMalfunctioningPod ? 0.4f : 0.2f;
+                float targetFuel = fuelComp.Props.fuelCapacity * fuelPct;
+                Traverse.Create(fuelComp).Field("fuel").SetValue(targetFuel);
             }
         }
 
