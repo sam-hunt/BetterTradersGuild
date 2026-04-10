@@ -51,7 +51,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         yield return command;
                     }
                     // TRADE GIZMOS: Replace with correctly faction-checked version
-                    else if (label.Contains("trade"))
+                    // Use exact match to avoid catching quest gizmos like "Fulfill trade request"
+                    else if (label == "CommandTrade".Translate().RawText.ToLower())
                     {
                         hasTradeGizmo = true;
                         string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, __instance);
