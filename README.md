@@ -7,6 +7,8 @@
 [![Version](https://img.shields.io/badge/Version-1.0.7-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 [![Development Status](https://img.shields.io/badge/Status-Stable-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 
+![Preview](About/Preview.png)
+
 ## About
 
 In vanilla RimWorld, the Traders Guild are the faction behind orbital trader events and can be contacted via comms console - but their world map presence doesn't reflect this. Their orbital settlements can't be visited for trade like other faction bases, only attacked late-game via gravship. Settlement maps are relatively lifeless, despite supposedly hosting a coalition of wealthy merchants. There's little reason to interact with them.
