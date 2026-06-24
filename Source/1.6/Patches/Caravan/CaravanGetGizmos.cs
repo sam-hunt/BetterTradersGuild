@@ -43,7 +43,8 @@ namespace BetterTradersGuild.Patches.CaravanPatches
                 {
                     // Identify attack gizmos by their icon or label
                     // Attack gizmos typically have "Attack" in the label
-                    if (attackCommand.defaultLabel != null && attackCommand.defaultLabel.Contains("Attack"))
+                    string label = attackCommand.defaultLabel?.ToLower() ?? "";
+                    if (label.Contains("attack"))
                     {
                         // Disable this gizmo and add signal jammer message to tooltip
                         attackCommand.Disable("BTG_RequiresSignalJammer".Translate());
