@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.LordJobs;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -112,25 +113,22 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             // Stun the mech briefly (180 ticks = 3 seconds)
             mech.stances?.stunner?.StunFor(180, null, false, true, false);
 
-            // Find or create a lord for this faction's defense
-            // LordJob_DefendBase is what vanilla uses for settlement defenders
-            // Mechs will patrol the base and attack hostiles who intrude
+            // Find or create a bounded defender lord. LordJob_BTGDefendStructure
+            // holds the defenders inside the settlement structure footprint
+            // permanently — no assault transition, no chasing intruders out
+            // into vacuum.
             Lord lord = map.lordManager.lords.FirstOrDefault(l =>
                 l.faction == faction &&
-                l.LordJob is LordJob_DefendBase);
+                l.LordJob is LordJob_BTGDefendStructure);
 
             if (lord == null)
             {
-                // Create new defense lord centered on the gestator tank
-                // delayBeforeAssault: 25000 ticks (~7 hours) before they go fully aggressive
-                // attackWhenPlayerBecameEnemy: true - attack if player becomes hostile
                 IntVec3 baseCenter = parent.Position;
-                var lordJob = new LordJob_DefendBase(faction, baseCenter, 25000, true);
+                var lordJob = new LordJob_BTGDefendStructure(faction, baseCenter);
                 lord = LordMaker.MakeNewLord(faction, lordJob, map, new List<Pawn> { mech });
             }
             else
             {
-                // Add to existing lord
                 lord.AddPawn(mech);
             }
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Better Traders Guild - Bounded Defender Duty
+
+    BTG_DefendStructure: Combat-engaged defensive posture that never assaults.
+    Pawns with this duty:
+    - Self-tend wounds when not currently engaged with an enemy
+    - Eat from inventory / forage within the focus radius when hungry
+    - Acquire and engage hostile targets, but only inside the settlement
+      structure (target acquisition filtered by JobGiver_BTGDefendStructure)
+    - Fall back to wandering near the focus point when no targets remain
+
+    Used by: LordJob_BTGDefendStructure, assigned to settlement defenders
+    (gestator-spawned mechs and, in future, human guards).
+
+    Design intent: model a "reverse siege" where defenders hold an
+    entrenched, terrain-advantaged position and never path out of the
+    structure to chase intruders.
+  -->
+
+  <DutyDef>
+    <defName>BTG_DefendStructure</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="JobGiver_SelfTend" />
+        <li Class="JobGiver_GetFood">
+          <minCategory>Hungry</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGDefendStructure" />
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>12</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

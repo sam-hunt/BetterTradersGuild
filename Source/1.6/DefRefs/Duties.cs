@@ -16,6 +16,15 @@ namespace BetterTradersGuild.DefRefs
         /// </summary>
         public static DutyDef BTG_WanderInArea;
 
+        /// <summary>
+        /// Bounded defender duty - combat-engaged but constrained to the
+        /// settlement structure footprint. Target acquisition is filtered
+        /// by JobGiver_BTGDefendStructure so defenders never path outside the
+        /// structure to pursue intruders. Includes self-tend and forage
+        /// fallbacks for human defenders.
+        /// </summary>
+        public static DutyDef BTG_DefendStructure;
+
         static Duties() => DefOfHelper.EnsureInitializedInCtor(typeof(Duties));
     }
 }
