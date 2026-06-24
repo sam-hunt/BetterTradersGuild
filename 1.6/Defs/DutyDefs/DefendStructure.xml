@@ -5,30 +5,54 @@
     Better Traders Guild - Bounded Defender Duty
 
     BTG_DefendStructure: Combat-engaged defensive posture that never assaults.
-    Pawns with this duty:
-    - Self-tend wounds when not currently engaged with an enemy
-    - Eat from inventory / forage within the focus radius when hungry
-    - Acquire and engage hostile targets, but only inside the settlement
-      structure (target acquisition filtered by JobGiver_BTGDefendStructure)
-    - Fall back to wandering near the focus point when no targets remain
+    Pawns with this duty, in priority order:
+    1. Acquire and engage hostile targets, but only inside the settlement
+       structure (target acquisition filtered by JobGiver_BTGDefendStructure).
+       Combat is first, so a defender never breaks off to eat/tend while a
+       valid in-structure target remains.
+    2. When no target remains: self-tend wounds, then eat when hungry. Both are
+       wrapped in ThinkNode_ForbidOutsideFlagRadius, which marks every cell more
+       than maxDistToSquadFlag from the duty focus (baseCenter) as forbidden for
+       the duration of the wrapped subtree. JobGiver_GetFood therefore cannot
+       path to food outside the structure footprint. (Mirrors how vanilla
+       DefendBase / Defend wrap SatisfyBasicNeeds; matches the 16-cell radius
+       vanilla uses for entrenched defenders.) JobGiver_SelfTend tends in place,
+       so the wrap never affects it, but it stays inside for parity.
+    3. Fall back to wandering near the focus point (radius 12) when idle.
+
+    Containment summary — defenders never leave the structure because:
+      * combat targets are filtered to the union of room rects, and
+        JobGiver_AIDefendPoint (chaseTarget=false) holds firing positions within
+        the duty radius of baseCenter rather than pursuing, and
+      * need-satisfaction is leashed to maxDistToSquadFlag of baseCenter.
 
     Used by: LordJob_BTGDefendStructure, assigned to settlement defenders
-    (gestator-spawned mechs and, in future, human guards).
+    (gestator-spawned mechs and, in future, human guards). Self-tend and
+    GetFood are inert for mechs (SelfTend is Humanlike-gated; mechs have no food
+    need) and take effect only once human guards join this lord.
 
-    Design intent: model a "reverse siege" where defenders hold an
-    entrenched, terrain-advantaged position and never path out of the
-    structure to chase intruders.
+    Design intent: model a "reverse siege" where defenders hold an entrenched,
+    terrain-advantaged position and never path out of the structure to chase
+    intruders or forage.
   -->
 
   <DutyDef>
     <defName>BTG_DefendStructure</defName>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <li Class="JobGiver_SelfTend" />
-        <li Class="JobGiver_GetFood">
-          <minCategory>Hungry</minCategory>
-        </li>
+        <!-- 1. Combat first: engage in-structure targets before any need. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGDefendStructure" />
+        <!-- 2. Needs, leashed near baseCenter so foragers never leave the structure. -->
+        <li Class="ThinkNode_ForbidOutsideFlagRadius">
+          <maxDistToSquadFlag>16</maxDistToSquadFlag>
+          <subNodes>
+            <li Class="JobGiver_SelfTend" />
+            <li Class="JobGiver_GetFood">
+              <minCategory>Hungry</minCategory>
+            </li>
+          </subNodes>
+        </li>
+        <!-- 3. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>

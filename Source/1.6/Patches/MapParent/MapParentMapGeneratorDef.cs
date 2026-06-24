@@ -1,7 +1,5 @@
 using BetterTradersGuild.DefRefs;
-using BetterTradersGuild.Helpers;
 using HarmonyLib;
-using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -23,7 +21,7 @@ namespace BetterTradersGuild.Patches.MapParentPatches
     /// - We postfix to swap the result for TradersGuild settlements
     /// - The custom MapGeneratorDef (BTG_SettlementMapGenerator) includes:
     ///   - BTG_SettlementPlatform: GenStep_OrbitalPlatform with BTG_SettlementPlatform layout
-    ///   - BTG_SettlementPawnsLoot: GenStep_SettlementPawnsLoot with loot disabled
+    ///   - BTG_SettlementPawnsLoot: GenStep_BTGSettlementPawns (loot disabled, bounded defender lord)
     ///   - BTG_SettlementPostProcess: Custom GenStep for terrain/pipes/lighting
     ///
     /// WHY THIS APPROACH:

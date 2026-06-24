@@ -17,7 +17,7 @@ namespace BetterTradersGuild.DefRefs
         ///
         /// Includes:
         /// - BTG_SettlementPlatform: GenStep_OrbitalPlatform with BTG_SettlementPlatform layout
-        /// - BTG_SettlementPawnsLoot: GenStep_SettlementPawnsLoot with loot disabled
+        /// - BTG_SettlementPawnsLoot: GenStep_BTGSettlementPawns (loot disabled, bounded defender lord)
         /// - BTG_SettlementPostProcess: Custom GenStep for terrain/pipes/lighting
         /// </summary>
         public static MapGeneratorDef BTG_SettlementMapGenerator;

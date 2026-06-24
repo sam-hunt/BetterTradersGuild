@@ -7,11 +7,13 @@ namespace BetterTradersGuild.LordJobs
 {
     /// <summary>
     /// LordToil for the bounded defender state. Assigns Duties.BTG_DefendStructure
-    /// to every pawn in the lord with focus = baseCenter and a generous
-    /// radius. The radius governs vanilla JobGiver_AIDefendPoint's target
-    /// acquire/keep distances (60 cells acquire, 90 cells keep); the actual
-    /// geographic constraint comes from JobGiver_BTGDefendStructure filtering
-    /// targets to the union of structure room rects.
+    /// to every pawn in the lord with focus = baseCenter and a generous radius.
+    /// PawnDuty.radius becomes the "flag radius" in JobGiver_AIDefendPoint — targets
+    /// must lie within 60 cells of baseCenter. The per-pawn acquire/keep distances
+    /// come from JobGiver_AIFightEnemy's defaults (56 acquire, 65 keep), which our
+    /// duty XML leaves unchanged. None of these radii are the real geographic
+    /// constraint: that comes from JobGiver_BTGDefendStructure filtering targets to
+    /// the union of structure room rects.
     /// </summary>
     public class LordToil_BTGDefendStructure : LordToil
     {
