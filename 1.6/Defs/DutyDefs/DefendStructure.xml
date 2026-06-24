@@ -8,28 +8,30 @@
     Pawns with this duty, in priority order:
     1. Acquire and engage hostile targets, but only inside the settlement
        structure (target acquisition filtered by JobGiver_BTGDefendStructure).
-       Combat is first, so a defender never breaks off to eat/tend while a
+       Combat is first, so a defender never breaks off to tend or eat while a
        valid in-structure target remains.
-    2. When no target remains: self-tend wounds, then eat when hungry. Both are
-       wrapped in ThinkNode_ForbidOutsideFlagRadius, which marks every cell more
-       than maxDistToSquadFlag from the duty focus (baseCenter) as forbidden for
-       the duration of the wrapped subtree. JobGiver_GetFood therefore cannot
-       path to food outside the structure footprint. (Mirrors how vanilla
-       DefendBase / Defend wrap SatisfyBasicNeeds; matches the 16-cell radius
-       vanilla uses for entrenched defenders.) JobGiver_SelfTend tends in place,
-       so the wrap never affects it, but it stays inside for parity.
-    3. Fall back to wandering near the focus point (radius 12) when idle.
+    2. Self-tend wounds. JobGiver_SelfTend tends in place (no pathing), so it
+       needs no containment. No-op for mechs (Humanlike-gated).
+    3. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
+       then the best food source that lies inside the structure footprint. It
+       never targets food outside the structure, so a player cannot bait a hungry
+       defender out by dropping food past the walls. (Replaces vanilla
+       JobGiver_GetFood, whose unbounded map search has no location filter.)
+    4. Fall back to wandering near the focus point (radius 12) when idle.
 
-    Containment summary — defenders never leave the structure because:
+    Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
         JobGiver_AIDefendPoint (chaseTarget=false) holds firing positions within
         the duty radius of baseCenter rather than pursuing, and
-      * need-satisfaction is leashed to maxDistToSquadFlag of baseCenter.
+      * foraging is restricted to food inside the same rect union, and
+      * self-tend and idle wander are in-place / focus-local.
 
-    Used by: LordJob_BTGDefendStructure, assigned to settlement defenders
-    (gestator-spawned mechs and, in future, human guards). Self-tend and
-    GetFood are inert for mechs (SelfTend is Humanlike-gated; mechs have no food
-    need) and take effect only once human guards join this lord.
+    No GetRest node: defenders hold their post rather than path off to sleep
+    (another straying vector); tiredness is an accepted debuff.
+
+    Used by: LordJob_BTGDefendStructure, assigned to the mapgen settlement
+    defender group (human guards + gestator-spawned mechs). The forager is inert
+    for mechs (no food need) but live for human guards.
 
     Design intent: model a "reverse siege" where defenders hold an entrenched,
     terrain-advantaged position and never path out of the structure to chase
@@ -42,17 +44,13 @@
       <subNodes>
         <!-- 1. Combat first: engage in-structure targets before any need. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGDefendStructure" />
-        <!-- 2. Needs, leashed near baseCenter so foragers never leave the structure. -->
-        <li Class="ThinkNode_ForbidOutsideFlagRadius">
-          <maxDistToSquadFlag>16</maxDistToSquadFlag>
-          <subNodes>
-            <li Class="JobGiver_SelfTend" />
-            <li Class="JobGiver_GetFood">
-              <minCategory>Hungry</minCategory>
-            </li>
-          </subNodes>
+        <!-- 2. Self-tend (in place; no containment needed). -->
+        <li Class="JobGiver_SelfTend" />
+        <!-- 3. Eat, restricted to food inside the structure footprint. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
+          <minCategory>Hungry</minCategory>
         </li>
-        <!-- 3. Idle: wander near the focus point. -->
+        <!-- 4. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>

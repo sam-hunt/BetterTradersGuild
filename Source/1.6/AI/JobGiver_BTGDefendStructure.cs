@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using RimWorld;
 using Verse;
 
@@ -23,21 +22,7 @@ namespace BetterTradersGuild.AI
             if (!base.ExtraTargetValidator(pawn, target))
                 return false;
 
-            return IsInsideStructure(pawn.Map, target.Position);
-        }
-
-        private static bool IsInsideStructure(Map map, IntVec3 pos)
-        {
-            List<CellRect> rects = StructureBoundsCache.GetRoomRects(map);
-            if (rects == null)
-                return true;
-
-            for (int i = 0; i < rects.Count; i++)
-            {
-                if (rects[i].Contains(pos))
-                    return true;
-            }
-            return false;
+            return StructureBoundsCache.Contains(pawn.Map, target.Position);
         }
     }
 }

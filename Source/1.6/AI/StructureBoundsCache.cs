@@ -14,6 +14,14 @@ namespace BetterTradersGuild.AI
     ///
     /// Returns null when the map has no layout sketch — callers should treat
     /// that as "no bounds known" and fall back to permissive behavior.
+    ///
+    /// The rect union covers rooms AND corridors: RoomLayoutGenerator registers
+    /// corridors as LayoutRooms (with the corridorDef), so their rects are present
+    /// here and the union is the full walkable interior, not a set of disconnected
+    /// rooms. LayoutRoom.rects is serialized, so this works across save/load and on
+    /// saves made before this feature existed. Shared by combat target filtering
+    /// (JobGiver_BTGDefendStructure) and forage containment
+    /// (JobGiver_BTGForageInStructure).
     /// </summary>
     internal static class StructureBoundsCache
     {
@@ -30,6 +38,25 @@ namespace BetterTradersGuild.AI
             rects = ComputeRoomRects(map);
             cache.Add(map, rects);
             return rects.Count == 0 ? null : rects;
+        }
+
+        /// <summary>
+        /// True if <paramref name="pos"/> lies inside the structure footprint.
+        /// Permissive (returns true) when no layout bounds are known, matching the
+        /// "no bounds → don't constrain" fallback callers expect.
+        /// </summary>
+        public static bool Contains(Map map, IntVec3 pos)
+        {
+            List<CellRect> rects = GetRoomRects(map);
+            if (rects == null)
+                return true;
+
+            for (int i = 0; i < rects.Count; i++)
+            {
+                if (rects[i].Contains(pos))
+                    return true;
+            }
+            return false;
         }
 
         private static List<CellRect> ComputeRoomRects(Map map)
