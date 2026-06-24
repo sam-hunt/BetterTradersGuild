@@ -40,6 +40,42 @@ namespace BetterTradersGuild.WorldComponents
         /// </summary>
         private Dictionary<int, int> cacheExpirationTicks = new Dictionary<int, int>();
 
+        /// <summary>
+        /// How often (in game ticks) the friendly Traders Guild tile cache is rebuilt from
+        /// <see cref="WorldComponentTick"/>. ~4 seconds at 1x speed - settlement existence and
+        /// faction relations change slowly, so a short staleness window is imperceptible for
+        /// caravan formation.
+        /// </summary>
+        private const int FriendlyTileCacheRefreshInterval = 250;
+
+        /// <summary>
+        /// Tiles that currently host a peacefully-visitable Traders Guild settlement. Rebuilt
+        /// periodically on the main thread by <see cref="WorldComponentTick"/> and read (never
+        /// mutated) by <see cref="IsFriendlyTradersGuildTile"/>.
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="PlanetTile.LayerDef"/> getter is extremely hot - queried per-tile during
+        /// world/orbital rendering, caravan path-cost recalculation, and reachability checks, some
+        /// of which RimWorld runs off the main thread. The PlanetTileLayerDef patch consults this
+        /// set on every space-layer tile access; the original direct
+        /// <see cref="WorldObjectsHolder.SettlementAt"/> call was a per-call linear scan over all
+        /// settlements (reported as ~10% of frame time in Dubs Performance Analyzer).
+        ///
+        /// This is a single-writer / multi-reader cache: only the main-thread tick rebuilds it,
+        /// publishing a fully-built replacement set via the <c>volatile</c> reference below, and
+        /// readers only ever capture that reference and call <see cref="HashSet{T}.Contains"/> (an
+        /// O(1) lookup). Because the component is owned by the World, the set is discarded
+        /// automatically on world unload - no manual lifecycle handling. Purely derived data, so it
+        /// is not serialized.
+        /// </remarks>
+        private volatile HashSet<PlanetTile> friendlyTradersGuildTiles = new HashSet<PlanetTile>();
+
+        /// <summary>
+        /// Game tick of the last friendly-tile rebuild, or -1 if never built (just after
+        /// construction or load), which forces a rebuild on the next <see cref="WorldComponentTick"/>.
+        /// </summary>
+        private int lastFriendlyTileRebuildTick = -1;
+
         public TradersGuildWorldComponent(World world) : base(world)
         {
         }
@@ -51,6 +87,103 @@ namespace BetterTradersGuild.WorldComponents
         public static TradersGuildWorldComponent GetComponent()
         {
             return Find.World?.GetComponent<TradersGuildWorldComponent>();
+        }
+
+        /// <summary>
+        /// Seeds the friendly tile cache as soon as the world is ready.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="WorldComponentTick"/> does not run while the game is paused, and a freshly
+        /// loaded save starts paused, so without this a just-loaded world would report no friendly
+        /// tiles until the player unpaused for a tick. On a brand-new game the player faction may
+        /// not exist yet (created after worldgen FinalizeInit), so we leave the rebuild tick at -1
+        /// and let the first <see cref="WorldComponentTick"/> build it once relations can resolve.
+        /// </remarks>
+        public override void FinalizeInit(bool fromLoad)
+        {
+            base.FinalizeInit(fromLoad);
+
+            if (Faction.OfPlayerSilentFail != null)
+            {
+                RebuildFriendlyTileCache();
+                lastFriendlyTileRebuildTick = Find.TickManager?.TicksGame ?? -1;
+            }
+        }
+
+        /// <summary>
+        /// Rebuilds the friendly Traders Guild tile cache at most once per
+        /// <see cref="FriendlyTileCacheRefreshInterval"/>. Runs on the main thread only.
+        /// </summary>
+        public override void WorldComponentTick()
+        {
+            base.WorldComponentTick();
+
+            // WorldComponentTick only runs while the game is ticking, by which point the player
+            // faction always exists, so CanPeacefullyVisit can resolve relations correctly (no
+            // need for the early-load / worldgen special-casing the lazy cache once required).
+            int currentTick = Find.TickManager.TicksGame;
+            if (lastFriendlyTileRebuildTick < 0
+                || currentTick - lastFriendlyTileRebuildTick >= FriendlyTileCacheRefreshInterval)
+            {
+                RebuildFriendlyTileCache();
+                lastFriendlyTileRebuildTick = currentTick;
+            }
+        }
+
+        /// <summary>
+        /// Checks if a tile currently hosts a peacefully-visitable Traders Guild settlement.
+        /// O(1) read of the periodically-rebuilt cache; safe to call from any thread.
+        /// </summary>
+        public bool IsFriendlyTradersGuildTile(PlanetTile tile)
+        {
+            // Capture the volatile reference once so a concurrent main-thread rebuild (which swaps
+            // in a brand-new set) can never expose a half-populated collection to this reader.
+            HashSet<PlanetTile> cache = friendlyTradersGuildTiles;
+            return cache != null && cache.Contains(tile);
+        }
+
+        /// <summary>
+        /// Forces an immediate rebuild of the friendly tile cache. Call from the main thread when
+        /// membership is known to have just changed (e.g. a Traders Guild settlement being defeated)
+        /// to eliminate the staleness window for that event.
+        /// </summary>
+        /// <remarks>
+        /// The periodic <see cref="WorldComponentTick"/> rebuild remains the primary catch-all
+        /// freshness mechanism; this is an optional accelerator and is cheap/safe to call spuriously.
+        /// </remarks>
+        public void InvalidateFriendlyTileCache()
+        {
+            RebuildFriendlyTileCache();
+            if (Find.TickManager != null)
+                lastFriendlyTileRebuildTick = Find.TickManager.TicksGame;
+        }
+
+        private void RebuildFriendlyTileCache()
+        {
+            HashSet<PlanetTile> rebuilt = new HashSet<PlanetTile>();
+
+            WorldObjectsHolder worldObjects = Find.WorldObjects;
+            if (worldObjects != null)
+            {
+                List<Settlement> settlements = worldObjects.Settlements;
+                for (int i = 0; i < settlements.Count; i++)
+                {
+                    Settlement settlement = settlements[i];
+
+                    // Tile.Valid (tileId >= 0) defensively skips a settlement with an unset tile,
+                    // i.e. PlanetTile.Invalid {tileId:-1}, which should never be a friendly tile.
+                    // (A real settlement always has a valid tile, so this rarely fires in practice.)
+                    if (settlement.Tile.Valid
+                        && TradersGuildHelper.IsTradersGuildSettlement(settlement)
+                        && TradersGuildHelper.CanPeacefullyVisit(settlement.Faction))
+                    {
+                        rebuilt.Add(settlement.Tile);
+                    }
+                }
+            }
+
+            // Atomic publish (volatile write): readers see either the old or the fully-built new set.
+            friendlyTradersGuildTiles = rebuilt;
         }
 
         /// <summary>

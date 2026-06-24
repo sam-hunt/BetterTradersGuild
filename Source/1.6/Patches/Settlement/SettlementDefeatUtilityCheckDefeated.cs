@@ -3,7 +3,6 @@ using BetterTradersGuild.MapComponents;
 using BetterTradersGuild.RoomContents.CargoVault;
 using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
-using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -107,6 +106,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Settlement is destroyed - evict from trader cache
             // TryDestroyStock was blocked during defeat processing, so we handle eviction here
             TradersGuildWorldComponent.GetComponent()?.RemoveCachedTraderKind(__state.SettlementId);
+
+            // The settlement is gone, so it can no longer be a friendly caravan destination.
+            // Invalidate the friendly tile cache now rather than waiting for its periodic rebuild.
+            TradersGuildWorldComponent.GetComponent()?.InvalidateFriendlyTileCache();
 
             Map map = __state.Map;
             if (map == null)
