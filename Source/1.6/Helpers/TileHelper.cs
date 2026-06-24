@@ -1,5 +1,5 @@
+using BetterTradersGuild.WorldComponents;
 using RimWorld.Planet;
-using Verse;
 
 namespace BetterTradersGuild
 {
@@ -22,20 +22,15 @@ namespace BetterTradersGuild
         /// Checks if a tile has a friendly Traders Guild settlement.
         /// Used to determine if we should allow caravan operations at this tile.
         /// </summary>
+        /// <remarks>
+        /// Delegates to <see cref="TradersGuildWorldComponent"/>, which maintains a
+        /// periodically-rebuilt cache, so this is an O(1) lookup on the hot
+        /// <see cref="PlanetTile.LayerDef"/> path. Returns false when no world is loaded.
+        /// </remarks>
         public static bool IsFriendlyTradersGuildTile(PlanetTile tile)
         {
-            WorldObjectsHolder worldObjects = Find.WorldObjects;
-            if (worldObjects == null)
-                return false;
-
-            Settlement settlement = worldObjects.SettlementAt(tile);
-            if (settlement == null)
-                return false;
-
-            if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
-                return false;
-
-            return TradersGuildHelper.CanPeacefullyVisit(settlement.Faction);
+            TradersGuildWorldComponent component = TradersGuildWorldComponent.GetComponent();
+            return component != null && component.IsFriendlyTradersGuildTile(tile);
         }
     }
 }

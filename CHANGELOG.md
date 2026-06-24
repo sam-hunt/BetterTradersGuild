@@ -5,6 +5,14 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2026-06-24
+
+### Fixed
+
+- Caravans now clone each space layer definition rather than reusing the first one seen
+- Attack gizmo labels now match case-insensitively
+- Fixed world-map performance issue from uncached friendly tile lookups in WorldComponent
+
 ## [1.0.7] - 2026-04-10
 
 ### Fixed
@@ -174,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.0.8]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.8
 [1.0.7]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.7
 [1.0.6]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.6
 [1.0.5]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.5

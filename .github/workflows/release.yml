@@ -22,22 +22,18 @@ jobs:
       - name: Build
         run: dotnet build BetterTradersGuild.sln -c Release
 
+      - name: Stage mod files
+        # Reuse the .csproj's StageMod target — the single source of truth for what
+        # files constitute the mod — so the release zip can never drift from the
+        # local deploy (e.g. forget Patches). StageMod wipes + recopies $(StageDir).
+        run: >
+          dotnet build Source/1.6/BetterTradersGuild.csproj -c Release
+          -t:StageMod -p:StageDir=${{ github.workspace }}/release/BetterTradersGuild
+
       - name: Package mod
         run: |
           set -e
-          mkdir -p release/BetterTradersGuild/About
-          mkdir -p release/BetterTradersGuild/1.6/Assemblies
-          mkdir -p release/BetterTradersGuild/1.6/Defs
-          mkdir -p release/BetterTradersGuild/1.6/Patches
-          mkdir -p release/BetterTradersGuild/1.6/Languages
-          cp About/About.xml release/BetterTradersGuild/About/
-          cp About/Preview.png release/BetterTradersGuild/About/
-          cp LoadFolders.xml release/BetterTradersGuild/
-          cp 1.6/Assemblies/BetterTradersGuild.dll release/BetterTradersGuild/1.6/Assemblies/
-          cp -r 1.6/Defs/* release/BetterTradersGuild/1.6/Defs/
-          cp -r 1.6/Patches/* release/BetterTradersGuild/1.6/Patches/
-          cp -r 1.6/Languages/* release/BetterTradersGuild/1.6/Languages/
-          cd release && zip -r ../BetterTradersGuild-${{ github.ref_name }}.zip BetterTradersGuild
+          cd release && zip -r ../BetterTradersGuild-${GITHUB_REF_NAME}.zip BetterTradersGuild
 
       - name: Create Release
         uses: softprops/action-gh-release@v2

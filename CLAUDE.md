@@ -18,30 +18,33 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build Commands
 
 ```bash
-# Build the mod (outputs to 1.6/Assemblies/ and deploys to RimWorld Mods folder)
+# Build the mod (outputs to 1.6/Assemblies/ AND atomically redeploys to the RimWorld Mods folder)
 dotnet build BetterTradersGuild.sln -c Release
 
-# Build only the main project
+# Build only the main project (also triggers the deploy)
 dotnet build Source/1.6/BetterTradersGuild.csproj
 
 # Run tests
 dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj
-./Scripts/run-tests.sh  # Prefer this on WSL as dotnet test runner hangs
 
 # Clean build artifacts
 dotnet clean BetterTradersGuild.sln
 
-# Clean deployed mod folder (use when Defs/Patches are renamed or deleted)
-dotnet build Source/1.6/BetterTradersGuild.csproj -t:CleanModFolder
+# Stage the mod into an arbitrary folder (used by CI; same manifest as the local deploy)
+dotnet build Source/1.6/BetterTradersGuild.csproj -c Release \
+  -t:StageMod -p:StageDir=/path/to/output/BetterTradersGuild
 ```
 
 The build system auto-detects the RimWorld installation path on Windows/Linux/Mac (including WSL targeting a Windows install). For CI builds without RimWorld installed, it falls back to the `Krafs.Rimworld.Ref` NuGet package.
 
 ### Deployment
 
-The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods folder. A post-build MSBuild target (`DeployToModFolder`) automatically copies only runtime files (About, Assemblies, Defs, Patches, Languages, LoadFolders.xml) to `$RIMWORLD_PATH/Mods/BetterTradersGuild/`. It uses `SkipUnchangedFiles` for fast incremental builds.
+The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods folder. Every local build redeploys automatically and atomically — there is no separate clean step to remember.
 
-**Important:** The deploy copies files but does not delete stale files. If you rename or delete a Def/Patch XML, run `dotnet build Source/1.6/BetterTradersGuild.csproj -t:CleanModFolder` to wipe the deployed folder, then rebuild to redeploy cleanly.
+- **Single source of truth:** what ships is the `_ModFiles` ItemGroup in the `StageMod` target (`Source/1.6/BetterTradersGuild.csproj`) — the only place to edit the manifest. It whitelists by file type per content folder (`About`, `Assemblies`, `Defs`, `Patches`, `Languages`, plus `Textures`/`Sounds` if ever added), matched at the root and under any version folder, so a new content folder of an existing type deploys automatically and only a brand-new file type needs a new line. Only game-loaded types are listed (e.g. `.xml`), so stray dev notes (`README.md`, `RESEARCH.md`) never ship.
+- **Self-cleaning:** `StageMod` wipes `$(StageDir)` and recopies from source, so renamed/deleted files never linger. The post-build `DeployToModFolder` target calls it with `StageDir = $RIMWORLD_PATH/Mods/BetterTradersGuild` (only when a local RimWorld install is detected).
+- **CI reuses the same target:** `.github/workflows/release.yml` invokes `StageMod` with `-p:StageDir=<release dir>` instead of its own `cp` list, so the release zip can't drift from the local deploy. Triggers on `v*.*.*` tags.
+- **Stop hook (`.claude/hooks/sync-mod.sh`, gitignored/local-only):** after each turn, rebuilds+redeploys only when mod source/content actually changed (doc-only turns are a fast no-op) and warns on build failure rather than leaving a stale DLL. Mechanism details are in the script's own header.
 
 **WSL Setup:** Requires `RIMWORLD_PATH` env var in `~/.bashrc` pointing to the Windows RimWorld install (e.g., `/mnt/c/Program Files (x86)/Steam/steamapps/common/RimWorld`). The csproj auto-detects `RimWorldWin64_Data` when the Linux data folder isn't found.
 
@@ -317,9 +320,7 @@ The context flag pattern is required because `RaidCommonalityFromPoints` has no 
 
 ### Testing
 
-XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, subroom packing). Tests use ASCII diagram visualization for room layouts.
-
-**WSL Note:** `dotnet test` has timeout issues on WSL with .NET Framework 4.7.2. Use `./Scripts/run-tests.sh` instead.
+XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, subroom packing). Tests use ASCII diagram visualization for room layouts. Run with `dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj`.
 
 **Excluded Test Files:** `Tests/Tools/RegenerateDiagrams.cs` (utility), `Tests/Helpers/DiagramGeneratorTests.cs` - excluded via `<Compile Remove="..." />`.
 
