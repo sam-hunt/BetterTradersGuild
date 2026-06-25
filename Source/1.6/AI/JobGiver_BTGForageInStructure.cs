@@ -130,6 +130,12 @@ namespace BetterTradersGuild.AI
                     continue;
                 if (!StructureBoundsCache.Contains(map, food.Position))
                     continue;
+                // Corpses carry nutrition and ride along in FoodSourceNotPlantOrTree, and
+                // vanilla WillEat does not reject them - but eating the dead is beneath the
+                // guild, and would also pre-empt the pallet/tap/resupply escalation below.
+                // TODO: Unless they're cannibal trait or precept?
+                if (food is Corpse)
+                    continue;
                 if (food.IsForbidden(pawn) || !pawn.WillEat(food, pawn))
                     continue;
                 if (!pawn.CanReserveAndReach(food, PathEndMode.ClosestTouch, maxDanger))

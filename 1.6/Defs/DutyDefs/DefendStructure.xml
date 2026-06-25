@@ -21,7 +21,8 @@
     3. Self-tend wounds when not in combat. JobGiver_SelfTend tends in place (no
        pathing), so it needs no containment. No-op for mechs (Humanlike-gated).
     4. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
-       then the best food item that lies inside the structure footprint. Once
+       then the best food item that lies inside the structure footprint (never a
+       corpse - eating the dead is beneath the guild). Once
        urgently hungry with no item food left, two in-structure "last resort"
        sources, in order: crack open survival-meal pallets, then dispense from
        nutrient-paste dispensers / VNPE taps. Raw crops from the hydroponics are
@@ -39,7 +40,15 @@
        A per-map cooldown keeps the garrison from all calling at once; with several
        consoles it is enforced at call completion, so only the first defender to finish
        triggers a drop and starts the cooldown - the rest abort. No-op for mechs.
-    6. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
+    6. Break out to eat when starving and walled in, via JobGiver_BTGHackDoorForFood:
+       a pawn that spawned trapped behind a locked AncientBlastDoor can reach none of
+       the food above (nor a comms console), so as a last resort it hacks the nearest
+       reachable, still-locked blast door open, then re-evaluates - the forage/resupply
+       nodes can finally path to food. Below resupply and gated to Starving, so it only
+       fires when a pawn truly is sealed off. Stays in-bounds: BTG's perimeter is sealed
+       by VacBarriers (not blast doors), so every hackable door is interior. All hack
+       eligibility is delegated to vanilla CompHackable.CanHackNow. No-op for mechs.
+    7. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
        above wants the pawn (no combat target, wounds, or hunger), so the ordering
        itself is the "no immediate threat" gate. Reuses vanilla bed/ground-spot
        selection but rejects any spot outside the structure footprint, so a defender
@@ -47,7 +56,7 @@
        toil re-runs this tree every 211 ticks (combat is above this node, so a
        hostile re-entering the perimeter pulls the defender back into the fight
        within ~3.5s), and taking damage wakes it the same tick. No-op for mechs.
-    7. Fall back to wandering near the focus point (radius 12) when idle.
+    8. Fall back to wandering near the focus point (radius 12) when idle.
 
     Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
@@ -56,6 +65,8 @@
       * foraging is restricted to food inside the same rect union, and
       * resupply drops land in an in-structure room and the calling defender only
         paths to an in-structure comms console, and
+      * break-out hacking only targets interior blast doors (the perimeter is sealed
+        by VacBarriers), so unlocking one never opens a path to vacuum, and
       * rest beds / sleep spots are constrained to the same rect union, and
       * self-tend and idle wander are in-place / focus-local.
 
@@ -90,7 +101,16 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGCallResupply">
           <minCategory>Starving</minCategory>
         </li>
-        <!-- 6. Rest when tired, but only once nothing above wants the pawn (no combat
+        <!-- 6. Starving and sealed off: a pawn that spawned trapped behind a locked
+             AncientBlastDoor can reach no food or comms console above, so it hacks the
+             nearest reachable blast door open as a last resort, then re-evaluates. Below
+             resupply, gated to Starving. Only interior doors exist to hack (perimeter is
+             VacBarriers), so this stays in-bounds. Eligibility = vanilla CompHackable.
+             CanHackNow. No-op for mechs. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGHackDoorForFood">
+          <minCategory>Starving</minCategory>
+        </li>
+        <!-- 7. Rest when tired, but only once nothing above wants the pawn (no combat
              target, wounds, or hunger). Reuses vanilla bed/spot selection, constrained
              to the structure footprint. Defenders wake natively: the LayDown toil
              re-checks this tree every 211 ticks (combat sits above), and damage wakes
@@ -98,7 +118,7 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
           <minRestCategory>Tired</minRestCategory>
         </li>
-        <!-- 7. Idle: wander near the focus point. -->
+        <!-- 8. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>

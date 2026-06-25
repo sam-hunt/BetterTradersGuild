@@ -16,12 +16,13 @@ Features?
 
 - AI defense lords
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
-  - Pawns can hack doors if starving and can't path to food
   - New lord for paramedic to tend defender wounds/restore manipulation via surgery?
   - Also drop reinforcements on resupply meal drops
 
 - Smuggler nest elimination quest with TG settlement mapgen
   `/resume "smuggler-den-quest-btg"`
+
+- Way more backstories?!
 
 - Investigate mod Settlement Visit compatibility
 - Investigate Simple Warrants fulfilment
