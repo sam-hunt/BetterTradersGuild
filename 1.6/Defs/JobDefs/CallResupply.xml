@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Call Resupply Job Definition
+
+    BTG_CallResupply: Lets a starving non-colonist settlement defender use an
+    in-structure comms console (as a powered waypoint) to call in a survival-meal
+    cargo-pod drop. Vanilla's UseCommsConsole job opens the player comms dialog and
+    needs comm targets + the Talking capacity, which an NPC defender lacks. Driven by
+    JobDriver_BTGCallResupply; issued by JobGiver_BTGCallResupply as the last-resort
+    hunger escalation below the in-structure forager. The drop lands inside the
+    structure (ResupplyDropUtility), keeping the bounded defenders' behavior in-bounds.
+  -->
+
+  <JobDef>
+    <defName>BTG_CallResupply</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGCallResupply</driverClass>
+    <reportString>calling for resupply.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

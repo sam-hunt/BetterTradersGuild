@@ -22,14 +22,24 @@
        pathing), so it needs no containment. No-op for mechs (Humanlike-gated).
     4. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
        then the best food item that lies inside the structure footprint. Once
-       urgently hungry with no item food left, three in-structure "last resort"
-       sources, in order: crack open survival-meal pallets, dispense from
-       nutrient-paste dispensers / VNPE taps, then harvest mature food crops (the
-       way a wild person does). It never targets food outside the structure, so a
-       player cannot bait a hungry defender out by dropping food past the walls.
-       (Replaces vanilla JobGiver_GetFood, whose unbounded map search has no
-       location filter.)
-    5. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
+       urgently hungry with no item food left, two in-structure "last resort"
+       sources, in order: crack open survival-meal pallets, then dispense from
+       nutrient-paste dispensers / VNPE taps. Raw crops from the hydroponics are
+       deliberately NOT foraged - wealthy guild traders escalate hunger with a
+       packaged-meal resupply drop (the comms-console path), not unprepared
+       produce. It never targets food outside the structure, so a player cannot
+       bait a hungry defender out by dropping food past the walls. (Replaces
+       vanilla JobGiver_GetFood, whose unbounded map search has no location
+       filter.)
+    5. Call a resupply when starving, via JobGiver_BTGCallResupply: only once every
+       in-structure food source above is exhausted (gated to Starving, one rung past
+       the forager's UrgentlyHungry), a defender walks to a powered in-structure comms
+       console and calls in a survival-meal cargo-pod drop. The drop lands in an
+       in-structure room (ResupplyDropUtility's priority list), so this stays in-bounds.
+       A per-map cooldown keeps the garrison from all calling at once; with several
+       consoles it is enforced at call completion, so only the first defender to finish
+       triggers a drop and starts the cooldown - the rest abort. No-op for mechs.
+    6. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
        above wants the pawn (no combat target, wounds, or hunger), so the ordering
        itself is the "no immediate threat" gate. Reuses vanilla bed/ground-spot
        selection but rejects any spot outside the structure footprint, so a defender
@@ -37,13 +47,15 @@
        toil re-runs this tree every 211 ticks (combat is above this node, so a
        hostile re-entering the perimeter pulls the defender back into the fight
        within ~3.5s), and taking damage wakes it the same tick. No-op for mechs.
-    6. Fall back to wandering near the focus point (radius 12) when idle.
+    7. Fall back to wandering near the focus point (radius 12) when idle.
 
     Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
         JobGiver_AIDefendPoint (chaseTarget=false) holds firing positions within
         the duty radius of baseCenter rather than pursuing, and
       * foraging is restricted to food inside the same rect union, and
+      * resupply drops land in an in-structure room and the calling defender only
+        paths to an in-structure comms console, and
       * rest beds / sleep spots are constrained to the same rect union, and
       * self-tend and idle wander are in-place / focus-local.
 
@@ -71,7 +83,14 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
-        <!-- 5. Rest when tired, but only once nothing above wants the pawn (no combat
+        <!-- 5. Starving with no in-structure food left: use an in-structure comms console
+             to call in a survival-meal cargo-pod resupply. Below the forager, so real food
+             is always tried first; gated one rung past it (Starving vs UrgentlyHungry). The
+             pod lands inside the structure, so this stays in-bounds like everything else. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGCallResupply">
+          <minCategory>Starving</minCategory>
+        </li>
+        <!-- 6. Rest when tired, but only once nothing above wants the pawn (no combat
              target, wounds, or hunger). Reuses vanilla bed/spot selection, constrained
              to the structure footprint. Defenders wake natively: the LayDown toil
              re-checks this tree every 211 ticks (combat sits above), and damage wakes
@@ -79,7 +98,7 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
           <minRestCategory>Tired</minRestCategory>
         </li>
-        <!-- 6. Idle: wander near the focus point. -->
+        <!-- 7. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>

@@ -22,6 +22,12 @@ namespace BetterTradersGuild.DefRefs
         /// </summary>
         public static JobDef BTG_OpenContainer;
 
+        /// <summary>
+        /// Job for a starving defender to use an in-structure comms console and call
+        /// in a cargo-pod food resupply drop (last-resort hunger escalation).
+        /// </summary>
+        public static JobDef BTG_CallResupply;
+
         static Jobs() => DefOfHelper.EnsureInitializedInCtor(typeof(Jobs));
     }
 }

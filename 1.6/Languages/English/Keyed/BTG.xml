@@ -58,6 +58,19 @@
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName>
 
+  <!-- ========== DEFENDER RESUPPLY ========== -->
+  <BTG_ResupplyDropArrived>The settlement defenders have called in an emergency ration drop.</BTG_ResupplyDropArrived>
+
+  <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
+  <BTG_Settings_EnableResupply>Enable resupply meals</BTG_Settings_EnableResupply>
+  <BTG_Settings_EnableResupplyDesc>When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod.</BTG_Settings_EnableResupplyDesc>
+  <!-- {0} = meals per defender -->
+  <BTG_Settings_ResupplyMealsPerDefender>Resupply meals per defender: {0}</BTG_Settings_ResupplyMealsPerDefender>
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>Survival meals dropped per surviving defender each time a starving garrison calls in a resupply.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- {0} = hours -->
+  <BTG_Settings_ResupplyCooldown>Resupply cooldown: {0}h</BTG_Settings_ResupplyCooldown>
+  <BTG_Settings_ResupplyCooldownDesc>Minimum time between resupply drops at a single settlement.</BTG_Settings_ResupplyCooldownDesc>
+
   <!-- ========== CARGO VAULT HATCH ========== -->
   <BTG_CargoVaultHatch_RelockLabel>Relock cargo vault</BTG_CargoVaultHatch_RelockLabel>
   <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Contents will be returned to station inventory.</BTG_CargoVaultHatch_RelockDesc>

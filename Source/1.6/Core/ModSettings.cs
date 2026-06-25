@@ -108,6 +108,39 @@ namespace BetterTradersGuild
         /// </remarks>
         public int lifeSupportUnitPowerOutput = 1200;
 
+        // ===== DEFENDER RESUPPLY =====
+
+        /// <summary>
+        /// Master toggle for the defender comms-console food resupply behavior.
+        /// </summary>
+        /// <remarks>
+        /// Default: true. When off, starving defenders never call in a resupply drop
+        /// (the meals/cooldown sliders still retain their values, just grayed out).
+        /// </remarks>
+        public bool enableResupply = true;
+
+        /// <summary>
+        /// Survival-meal packs delivered per surviving humanlike defender, each time the
+        /// garrison calls in a comms-console resupply drop.
+        /// </summary>
+        /// <remarks>
+        /// Range: 1-10
+        /// Default: 2 (drop size = 2 x living humanlike defenders on the lord)
+        /// Last-resort hunger escalation: when every in-structure food source is
+        /// exhausted, a starving defender radios in a survival-meal cargo pod. No per-map
+        /// cap is needed - the drop shrinks as the player neutralizes defenders.
+        /// </remarks>
+        public int resupplyMealsPerDefender = 2;
+
+        /// <summary>
+        /// Cooldown between defender resupply drops on a single settlement map, in hours.
+        /// </summary>
+        /// <remarks>
+        /// Range: 1-120 hours
+        /// Default: 12 hours
+        /// </remarks>
+        public int resupplyCooldownHours = 12;
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -119,6 +152,9 @@ namespace BetterTradersGuild
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 0f);
             Scribe_Values.Look(ref lifeSupportUnitPowerOutput, "lifeSupportUnitPowerOutput", 1200);
             Scribe_Values.Look(ref salvagersRaidWeightMultiplier, "salvagersRaidWeightMultiplier", 3.0f);
+            Scribe_Values.Look(ref enableResupply, "enableResupply", true);
+            Scribe_Values.Look(ref resupplyMealsPerDefender, "resupplyMealsPerDefender", 2);
+            Scribe_Values.Look(ref resupplyCooldownHours, "resupplyCooldownHours", 12);
         }
     }
 
@@ -326,6 +362,49 @@ namespace BetterTradersGuild
             Text.Font = GameFont.Tiny;
             listingStandard.Label("BTG_Settings_LifeSupportDesc".Translate());
             Text.Font = previousFont;
+
+            listingStandard.Gap(16f);
+
+            // Resupply master toggle (editable whenever custom layouts are on)
+            listingStandard.CheckboxLabeled("BTG_Settings_EnableResupply".Translate(), ref settings.enableResupply,
+                "BTG_Settings_EnableResupplyDesc".Translate());
+
+            // The two resupply sliders sit indented under the toggle and gray out with it.
+            listingStandard.Indent(12f);
+            listingStandard.ColumnWidth -= 12f;
+            UnityEngine.GUI.enabled = settings.useCustomLayouts && settings.enableResupply;
+
+            listingStandard.Gap(8f);
+
+            // Resupply meals-per-defender slider
+            listingStandard.Label("BTG_Settings_ResupplyMealsPerDefender".Translate(settings.resupplyMealsPerDefender));
+
+            float resupplyMealsSliderValue = listingStandard.Slider(settings.resupplyMealsPerDefender, 1f, 10f);
+            settings.resupplyMealsPerDefender = (int)System.Math.Round(resupplyMealsSliderValue);
+
+            listingStandard.Gap(2f);
+
+            Text.Font = GameFont.Tiny;
+            listingStandard.Label("BTG_Settings_ResupplyMealsPerDefenderDesc".Translate());
+            Text.Font = previousFont;
+
+            listingStandard.Gap(16f);
+
+            // Resupply cooldown slider (hours)
+            listingStandard.Label("BTG_Settings_ResupplyCooldown".Translate(settings.resupplyCooldownHours));
+
+            float resupplyCooldownSliderValue = listingStandard.Slider(settings.resupplyCooldownHours, 1f, 120f);
+            settings.resupplyCooldownHours = (int)System.Math.Round(resupplyCooldownSliderValue);
+
+            listingStandard.Gap(2f);
+
+            Text.Font = GameFont.Tiny;
+            listingStandard.Label("BTG_Settings_ResupplyCooldownDesc".Translate());
+            Text.Font = previousFont;
+
+            UnityEngine.GUI.enabled = settings.useCustomLayouts;
+            listingStandard.ColumnWidth += 12f;
+            listingStandard.Outdent(12f);
 
             listingStandard.ColumnWidth += 12f;
             listingStandard.Outdent(12f);

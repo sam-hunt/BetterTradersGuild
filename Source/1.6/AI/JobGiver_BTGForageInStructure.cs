@@ -20,7 +20,7 @@ namespace BetterTradersGuild.AI
     ///   1. Carried rations            - eaten in place, no pathing, no exploit surface.
     ///   2. Spawned food items         - the best reachable meal/ingredient on the floor.
     /// Then, only once UrgentlyHungry and able to manipulate (real food is preferred
-    /// via the ordering above), three "last resort" in-structure sources:
+    /// via the ordering above), two "last resort" in-structure sources:
     ///   3. Survival-meal pallets      - opened via BTG_OpenContainer; ejected meals are
     ///                                   then eaten by step 2 on a later think tick.
     ///   4. Nutrient-paste dispensers  - vanilla dispensers AND VNPE taps (the tap
@@ -28,22 +28,21 @@ namespace BetterTradersGuild.AI
     ///                                   detecting the base type needs no hard VNPE dep;
     ///                                   VNPE's Harmony prefix makes the vanilla Ingest
     ///                                   job draw from the paste pipe net).
-    ///   5. Mature food crops          - harvested like a wild person (JobDefOf.Harvest);
-    ///                                   the produce is then eaten by step 2 later.
     ///
-    /// Steps 3-5 all require manipulation (opening crates, operating dispensers, and
-    /// harvesting all do in vanilla) and are gated to UrgentlyHungry so a merely-Hungry
-    /// defender holds its post rather than tearing open pallets or crops. Mechs never
-    /// reach any of this (no food need). Hunger escalation beyond food (a resupply drop
-    /// vs. an all-in assault) is a deliberately open design choice - see the research doc.
+    /// Steps 3-4 both require manipulation (opening crates and operating dispensers both
+    /// do in vanilla) and are gated to UrgentlyHungry so a merely-Hungry defender holds
+    /// its post rather than tearing open pallets. Mechs never reach any of this (no food
+    /// need). Raw crops from the hydroponics are deliberately NOT foraged - wealthy guild
+    /// traders escalate hunger by radioing in a packaged-meal resupply drop (the comms-
+    /// console path), not by eating unprepared produce; see the research doc.
     /// </summary>
     public class JobGiver_BTGForageInStructure : ThinkNode_JobGiver
     {
         public HungerCategory minCategory = HungerCategory.Hungry;
         public float maxLevelPercentage = 1f;
 
-        // Building/plant fallbacks (pallets, dispensers, crops) only kick in at this
-        // hunger level, so real food (inventory + floor items) is always preferred.
+        // Building fallbacks (pallets, dispensers) only kick in at this hunger level, so
+        // real food (inventory + floor items) is always preferred.
         public HungerCategory fallbackMinCategory = HungerCategory.UrgentlyHungry;
 
         // Openable in-structure containers a defender will crack for food, by defName.
@@ -83,9 +82,9 @@ namespace BetterTradersGuild.AI
             if (structureFood != null)
                 return IngestJob(pawn, structureFood);
 
-            // 3-5. Last-resort in-structure building/plant food. Only once urgently
-            // hungry, and only for pawns that can manipulate (open / dispense / harvest
-            // all need it). Mechs never get here (no food need).
+            // 3-4. Last-resort in-structure building food. Only once urgently hungry,
+            // and only for pawns that can manipulate (opening / dispensing both need it).
+            // Mechs never get here (no food need).
             if ((int)need.CurCategory < (int)fallbackMinCategory
                 || !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
                 return null;
@@ -96,12 +95,7 @@ namespace BetterTradersGuild.AI
                 return openJob;
 
             // 4. Dispense a meal from a nutrient-paste dispenser / VNPE tap.
-            Job dispenseJob = TryDispenseFromTap(pawn);
-            if (dispenseJob != null)
-                return dispenseJob;
-
-            // 5. Harvest a mature food crop; its produce is eaten on a later tick.
-            return TryHarvestFoodPlant(pawn);
+            return TryDispenseFromTap(pawn);
         }
 
         private static Job IngestJob(Pawn pawn, Thing food)
@@ -227,49 +221,6 @@ namespace BetterTradersGuild.AI
             }
 
             return best != null ? IngestJob(pawn, best) : null;
-        }
-
-        // 5. Best mature in-structure food crop, harvested the way a wild person does
-        // (mirrors FoodUtility's harvest validator). The Harvest job drops the produce;
-        // the defender eats it via BestFoodInStructure on a later think tick.
-        private Job TryHarvestFoodPlant(Pawn pawn)
-        {
-            Map map = pawn.Map;
-            Danger maxDanger = MaxDanger(pawn);
-            List<Thing> plants = map.listerThings.ThingsInGroup(ThingRequestGroup.HarvestablePlant);
-
-            Plant best = null;
-            FoodPreferability bestPref = FoodPreferability.Undefined;
-            float bestDistSq = float.MaxValue;
-            for (int i = 0; i < plants.Count; i++)
-            {
-                if (!(plants[i] is Plant plant))
-                    continue;
-                if (!StructureBoundsCache.Contains(map, plant.Position))
-                    continue;
-                if (!plant.HarvestableNow)
-                    continue;
-                ThingDef harvested = plant.def.plant.harvestedThingDef;
-                if (harvested == null || !harvested.IsNutritionGivingIngestible)
-                    continue;
-                if (!pawn.WillEat(harvested, pawn))
-                    continue;
-                if (plant.IsForbidden(pawn))
-                    continue;
-                if (!pawn.CanReserveAndReach(plant, PathEndMode.Touch, maxDanger))
-                    continue;
-
-                FoodPreferability pref = harvested.ingestible.preferability;
-                float distSq = (pawn.Position - plant.Position).LengthHorizontalSquared;
-                if (pref > bestPref || (pref == bestPref && distSq < bestDistSq))
-                {
-                    bestPref = pref;
-                    bestDistSq = distSq;
-                    best = plant;
-                }
-            }
-
-            return best != null ? JobMaker.MakeJob(JobDefOf.Harvest, best) : null;
         }
 
         private List<ThingDef> MealContainerDefs()
