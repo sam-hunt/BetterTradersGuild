@@ -6,18 +6,26 @@
 
     BTG_DefendStructure: Combat-engaged defensive posture that never assaults.
     Pawns with this duty, in priority order:
-    1. Acquire and engage hostile targets, but only inside the settlement
+    1. Withdraw-and-tend when critically wounded, via JobGiver_BTGWithdrawAndTend.
+       This sits ABOVE combat: a defender too badly hurt to fight without risking
+       immediate death (bleeding heavily OR low overall health) breaks off, ducks
+       out of enemy line of sight inside the structure, tends its worst wounds,
+       then returns to the fight. The withdraw cell is constrained to the
+       structure footprint, so it never flees into vacuum. No-op for mechs
+       (Humanlike-gated). Distinct from node 3 below, which only tends when no
+       target remains; this one fires even with hostiles in line of sight.
+    2. Acquire and engage hostile targets, but only inside the settlement
        structure (target acquisition filtered by JobGiver_BTGDefendStructure).
-       Combat is first, so a defender never breaks off to tend or eat while a
-       valid in-structure target remains.
-    2. Self-tend wounds. JobGiver_SelfTend tends in place (no pathing), so it
-       needs no containment. No-op for mechs (Humanlike-gated).
-    3. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
+       Combat outranks ordinary needs, so a defender never breaks off to eat (or
+       to tend non-critical wounds) while a valid in-structure target remains.
+    3. Self-tend wounds when not in combat. JobGiver_SelfTend tends in place (no
+       pathing), so it needs no containment. No-op for mechs (Humanlike-gated).
+    4. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
        then the best food source that lies inside the structure footprint. It
        never targets food outside the structure, so a player cannot bait a hungry
        defender out by dropping food past the walls. (Replaces vanilla
        JobGiver_GetFood, whose unbounded map search has no location filter.)
-    4. Fall back to wandering near the focus point (radius 12) when idle.
+    5. Fall back to wandering near the focus point (radius 12) when idle.
 
     Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
@@ -42,15 +50,18 @@
     <defName>BTG_DefendStructure</defName>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <!-- 1. Combat first: engage in-structure targets before any need. -->
+        <!-- 1. Critically wounded: withdraw out of LoS (inside the structure) and
+             tend before resuming the fight. Preempts combat by design. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGWithdrawAndTend" />
+        <!-- 2. Combat: engage in-structure targets before any ordinary need. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGDefendStructure" />
-        <!-- 2. Self-tend (in place; no containment needed). -->
+        <!-- 3. Self-tend when not in combat (in place; no containment needed). -->
         <li Class="JobGiver_SelfTend" />
-        <!-- 3. Eat, restricted to food inside the structure footprint. -->
+        <!-- 4. Eat, restricted to food inside the structure footprint. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
-        <!-- 4. Idle: wander near the focus point. -->
+        <!-- 5. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>
