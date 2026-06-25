@@ -29,17 +29,23 @@
        player cannot bait a hungry defender out by dropping food past the walls.
        (Replaces vanilla JobGiver_GetFood, whose unbounded map search has no
        location filter.)
-    5. Fall back to wandering near the focus point (radius 12) when idle.
+    5. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
+       above wants the pawn (no combat target, wounds, or hunger), so the ordering
+       itself is the "no immediate threat" gate. Reuses vanilla bed/ground-spot
+       selection but rejects any spot outside the structure footprint, so a defender
+       never paths out to sleep. Waking is fully native: while asleep the LayDown
+       toil re-runs this tree every 211 ticks (combat is above this node, so a
+       hostile re-entering the perimeter pulls the defender back into the fight
+       within ~3.5s), and taking damage wakes it the same tick. No-op for mechs.
+    6. Fall back to wandering near the focus point (radius 12) when idle.
 
     Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
         JobGiver_AIDefendPoint (chaseTarget=false) holds firing positions within
         the duty radius of baseCenter rather than pursuing, and
       * foraging is restricted to food inside the same rect union, and
+      * rest beds / sleep spots are constrained to the same rect union, and
       * self-tend and idle wander are in-place / focus-local.
-
-    No GetRest node: defenders hold their post rather than path off to sleep
-    (another straying vector); tiredness is an accepted debuff.
 
     Used by: LordJob_BTGDefendStructure, assigned to the mapgen settlement
     defender group (human guards + gestator-spawned mechs). The forager is inert
@@ -65,7 +71,15 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
-        <!-- 5. Idle: wander near the focus point. -->
+        <!-- 5. Rest when tired, but only once nothing above wants the pawn (no combat
+             target, wounds, or hunger). Reuses vanilla bed/spot selection, constrained
+             to the structure footprint. Defenders wake natively: the LayDown toil
+             re-checks this tree every 211 ticks (combat sits above), and damage wakes
+             them the same tick. No-op for mechs (no rest need). -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
+          <minRestCategory>Tired</minRestCategory>
+        </li>
+        <!-- 6. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>
