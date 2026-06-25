@@ -16,6 +16,12 @@ namespace BetterTradersGuild.DefRefs
         /// </summary>
         public static JobDef BTG_Relock;
 
+        /// <summary>
+        /// Job for a defender to open an in-structure container (survival-meal
+        /// pallet) when foraging, without a player Open designation.
+        /// </summary>
+        public static JobDef BTG_OpenContainer;
+
         static Jobs() => DefOfHelper.EnsureInitializedInCtor(typeof(Jobs));
     }
 }

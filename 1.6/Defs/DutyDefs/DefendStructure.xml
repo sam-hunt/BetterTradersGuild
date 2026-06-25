@@ -21,10 +21,14 @@
     3. Self-tend wounds when not in combat. JobGiver_SelfTend tends in place (no
        pathing), so it needs no containment. No-op for mechs (Humanlike-gated).
     4. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
-       then the best food source that lies inside the structure footprint. It
-       never targets food outside the structure, so a player cannot bait a hungry
-       defender out by dropping food past the walls. (Replaces vanilla
-       JobGiver_GetFood, whose unbounded map search has no location filter.)
+       then the best food item that lies inside the structure footprint. Once
+       urgently hungry with no item food left, three in-structure "last resort"
+       sources, in order: crack open survival-meal pallets, dispense from
+       nutrient-paste dispensers / VNPE taps, then harvest mature food crops (the
+       way a wild person does). It never targets food outside the structure, so a
+       player cannot bait a hungry defender out by dropping food past the walls.
+       (Replaces vanilla JobGiver_GetFood, whose unbounded map search has no
+       location filter.)
     5. Fall back to wandering near the focus point (radius 12) when idle.
 
     Containment summary - defenders never leave the structure because:

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Open Container Job Definition
+
+    BTG_OpenContainer: Lets a non-colonist settlement defender open an IOpenable
+    container (Odyssey survival-meal pallet) without a player Open designation.
+    Vanilla's Open job is designation-gated to the colonist work path, which NPC
+    defenders can never satisfy. Driven by JobDriver_BTGOpenContainer; issued by
+    JobGiver_BTGForageInStructure as a last-resort food fallback. Opening ejects
+    the pallet's meals onto the floor, which the defender eats on a later forage tick.
+  -->
+
+  <JobDef>
+    <defName>BTG_OpenContainer</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGOpenContainer</driverClass>
+    <reportString>opening TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>
