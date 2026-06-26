@@ -1,8 +1,8 @@
 TODOs
 
-- Port runtime reflection safety check pattern from UMW/AAH
 - thinknode not found warning on TG custom map entry?
 - Landing pad pipe extenders can fail to connect if they hit NarrowHalls
+- Review mod settings page layout
 - Enable shuttle attacks once hostiles cleared?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Narrow PlanetTile.LayerDef patch: the getter is extremely hot, so patching it taxes every access
@@ -11,8 +11,6 @@ TODOs
 - Investigate threat scaling of settlement defender group generation, seems a little low?
 
 - AI defense lords
-  - Foraged packaged meal pallets drop unforbidden meals
-  - Check forager hacker node checks door isn't already hacked
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
   - New lord for paramedic to tend defender wounds/restore manipulation via surgery?
   - Also drop reinforcements on resupply meal drops

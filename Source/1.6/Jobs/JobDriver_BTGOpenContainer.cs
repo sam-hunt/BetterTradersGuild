@@ -14,11 +14,16 @@ namespace BetterTradersGuild.JobDrivers
     /// containers the player has flagged. Settlement defenders are non-colonist NPCs
     /// with no work settings and no player designations, so they can never use that
     /// path. This driver mirrors JobDriver_Open's toils (goto -> wait OpenTicks ->
-    /// Toils_General.Open) but drops the designation gates, letting a foraging
-    /// defender crack open an in-structure meal pallet when no other food remains.
-    /// Toils_General.Open still no-ops the (absent) designation delete and calls
-    /// IOpenable.Open(), which ejects the crate contents onto the floor for the
-    /// defender to eat on its next forage think tick.
+    /// open) but drops the designation gates, letting a foraging defender crack
+    /// open an in-structure meal pallet when no other food remains.
+    ///
+    /// The final toil opens via IOpenable.Open() (which ejects the crate contents
+    /// onto the floor) and then forbids the ejected items. Forbidding keeps player
+    /// pawns from being handed haul jobs for the meals while hostile defenders are
+    /// still active inside the structure; it does NOT stop the defenders from
+    /// eating them, because ForbidUtility only honours the forbidden flag against
+    /// Faction.OfPlayer - a hostile defender's IsForbidden() check (including the
+    /// one in JobGiver_BTGForageInStructure step 2) returns false regardless.
     ///
     /// Used by JobGiver_BTGForageInStructure (the survival-meal-pallet fallback).
     /// </summary>
@@ -53,7 +58,48 @@ namespace BetterTradersGuild.JobDrivers
                 wait.PlaySoundAtStart(Container.def.building.openingStartedSound);
             yield return wait;
 
-            yield return Toils_General.Open(ContainerIndex);
+            yield return OpenAndForbidToil();
+        }
+
+        // Replaces vanilla Toils_General.Open: opens the container, then forbids the
+        // meals it just ejected so player pawns won't haul them mid-fight. The skipped
+        // record/designation bookkeeping in the vanilla toil is colonist-only and
+        // irrelevant to an NPC defender.
+        private Toil OpenAndForbidToil()
+        {
+            Toil toil = ToilMaker.MakeToil("BTGOpenAndForbid");
+            toil.initAction = () =>
+            {
+                if (!(Container is IOpenable openable) || !openable.CanOpen)
+                    return;
+
+                // Snapshot the contents before opening. Open() ejects them via
+                // ThingOwner.TryDropAll(.., Near), which spawns these same Thing
+                // references unless one stacks into an adjacent pile (then it is
+                // destroyed and the surviving pile - already forbidden from an
+                // earlier open in this settlement - keeps the flag).
+                List<Thing> ejected = null;
+                if (Container is IThingHolder holder)
+                {
+                    ThingOwner owner = holder.GetDirectlyHeldThings();
+                    if (owner != null && owner.Count > 0)
+                        ejected = new List<Thing>(owner);
+                }
+
+                openable.Open();
+
+                if (ejected != null)
+                {
+                    for (int i = 0; i < ejected.Count; i++)
+                    {
+                        Thing thing = ejected[i];
+                        if (thing != null && thing.Spawned)
+                            thing.SetForbidden(true, warnOnFail: false);
+                    }
+                }
+            };
+            toil.defaultCompleteMode = ToilCompleteMode.Instant;
+            return toil;
         }
     }
 }
