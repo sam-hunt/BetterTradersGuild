@@ -32,22 +32,22 @@ namespace BetterTradersGuild.RoomContents.MedicalBay
 
         private static void FillShelfWithMedicalSupplies(Map map, Building_Storage shelf)
         {
-            // Industrial medicine - guaranteed (8-10)
+            // Industrial medicine - guaranteed (18-24)
             if (Things.MedicineIndustrial != null)
             {
-                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineIndustrial, Rand.RangeInclusive(8, 10));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineIndustrial, Rand.RangeInclusive(18, 24));
             }
 
-            // Ultratech medicine - 50% chance (6-8)
+            // Ultratech medicine - 50% chance (6-12)
             if (Things.MedicineUltratech != null && Rand.Chance(0.5f))
             {
-                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineUltratech, Rand.RangeInclusive(6, 8));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.MedicineUltratech, Rand.RangeInclusive(6, 12));
             }
 
-            // Luciferium - 50% chance (6-9)
+            // Luciferium - 50% chance (8-14)
             if (Things.Luciferium != null && Rand.Chance(0.5f))
             {
-                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Luciferium, Rand.RangeInclusive(6, 9));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Luciferium, Rand.RangeInclusive(8, 14));
             }
 
             // Go-juice - guaranteed (6-9)
@@ -56,10 +56,10 @@ namespace BetterTradersGuild.RoomContents.MedicalBay
                 RoomShelfHelper.AddItemsToShelf(map, shelf, Things.GoJuice, Rand.RangeInclusive(6, 9));
             }
 
-            // VRE Antibiotics - 50% chance if mod present (6-9)
+            // VRE Antibiotics - 50% chance if mod present (10-16)
             if (Things.VRE_Antibiotics != null && Rand.Chance(0.5f))
             {
-                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.VRE_Antibiotics, Rand.RangeInclusive(6, 9));
+                RoomShelfHelper.AddItemsToShelf(map, shelf, Things.VRE_Antibiotics, Rand.RangeInclusive(10, 16));
             }
         }
     }
