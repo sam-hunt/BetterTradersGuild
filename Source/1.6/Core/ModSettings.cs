@@ -1,165 +1,125 @@
 using BetterTradersGuild.Patches.SettlementPatches;
 using BetterTradersGuild.WorldComponents;
+using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild
 {
     /// <summary>
-    /// Mod settings and configuration
+    /// Mod settings and configuration.
+    ///
+    /// This class is split across several files (see <c>Core/Settings/</c>): each UI
+    /// section owns its own fields, scribe entries, defaults, and draw method in a
+    /// dedicated partial-class file, so adding or tuning a setting is a one-file
+    /// edit. This file holds only the structural glue — the scroll/reset frame in
+    /// <see cref="DoWindowContents"/>, the per-section orchestration of
+    /// <see cref="ExposeData"/> / <see cref="ResetToDefaults"/>, and the shared
+    /// <see cref="SectionHeader"/> / <see cref="Annotate"/> / <see cref="Description"/>
+    /// helpers.
     /// </summary>
-    public class BetterTradersGuildSettings : ModSettings
+    public partial class BetterTradersGuildSettings : ModSettings
     {
-        // ===== CORE FEATURES (ALWAYS ENABLED) =====
+        // Transient UI state for the scrollable settings panel — not serialized.
+        private Vector2 settingsScroll;
+        private float settingsHeight;
 
-        /// <summary>
-        /// Trader rotation interval in days (how often orbital traders change at settlements)
-        /// </summary>
-        /// <remarks>
-        /// Range: 5-30 days
-        /// Default: 30 days (same as vanilla)
-        /// </remarks>
-        public int traderRotationIntervalDays = 30;
-
-        // ===== MAP GENERATION FEATURES =====
-
-        /// <summary>
-        /// Enable custom settlement layouts for TradersGuild bases
-        /// </summary>
-        /// <remarks>
-        /// When enabled: Uses BTG_OrbitalSettlement layout with 18 custom room types
-        /// When disabled: Uses vanilla/other mod generation
-        /// Default: true
-        /// </remarks>
-        public bool useCustomLayouts = true;
-
-        /// <summary>
-        /// Enable cargo vault access in TradersGuild settlements
-        /// </summary>
-        /// <remarks>
-        /// When enabled: Cargo vault hatch spawns hackable (can be accessed)
-        /// When disabled: Cargo vault hatch spawns sealed (permanently inaccessible)
-        /// Default: true
-        /// Only affects newly generated maps
-        /// Requires useCustomLayouts to be enabled
-        /// </remarks>
-        public bool enableCargoVault = true;
-
-        // ===== SENTRY DRONE SYSTEM =====
-
-        /// <summary>
-        /// Additional sentry drone presence as a factor of threat points
-        /// </summary>
-        /// <remarks>
-        /// Range: 0.0-2.0 (0-200% of threat points)
-        /// 0 = vanilla (no additional sentry drones)
-        /// Default: 0.25 (25% of threat points used for drone calculation)
-        /// Uses minimum threat points cap from PawnGroupMakerUtilityMinimumPoints
-        /// Requires useCustomLayouts to be enabled
-        /// </remarks>
-        public float sentryDronePresence = 0.25f;
-
-        /// <summary>
-        /// Threat points multiplier for TradersGuild settlement initial defender generation
-        /// </summary>
-        /// <remarks>
-        /// Range: 0.5-3.0
-        /// Default: 1.0 (no modification)
-        /// Applied after minimum threat points cap
-        /// Requires useCustomLayouts to be enabled
-        /// Only affects initial defenders when entering settlements, not subsequent raid incidents
-        /// </remarks>
-        public float threatPointsMultiplier = 1.0f;
-
-        /// <summary>
-        /// Minimum threat points for TradersGuild settlement initial defender generation
-        /// </summary>
-        /// <remarks>
-        /// Range: 0-5000
-        /// 0 = vanilla (no minimum floor)
-        /// Default: 0 (vanilla behavior)
-        /// BTG Recommended: 2400 (ensures elite pawn types can spawn at low wealth)
-        /// Requires useCustomLayouts to be enabled
-        /// Only affects initial defenders when entering settlements, not subsequent raid incidents
-        /// </remarks>
-        public float minimumThreatPoints = 0f;
-
-        // ===== BALANCE ADJUSTMENTS =====
-
-        /// <summary>
-        /// Salvagers raid weight multiplier when on TradersGuild maps
-        /// </summary>
-        /// <remarks>
-        /// Range: 0.0-5.0
-        /// 1.0 = vanilla (no change)
-        /// Default: 3.0 (BTG Recommended)
-        /// When attacking TradersGuild settlements, Salvagers raids are more likely.
-        /// This creates emergent gameplay where attacking the guild attracts opportunistic pirates.
-        /// </remarks>
-        public float salvagersRaidWeightMultiplier = 3.0f;
-
-        /// <summary>
-        /// LifeSupportUnit power output in watts
-        /// </summary>
-        /// <remarks>
-        /// Range: 0-5000W
-        /// Default: 1200W (balanced for connected power grids)
-        /// Vanilla: 3200W (designed for isolated rooms)
-        /// BTG connects buildings in a map-wide grid, so vanilla output would be excessive
-        /// </remarks>
-        public int lifeSupportUnitPowerOutput = 1200;
-
-        // ===== DEFENDER RESUPPLY =====
-
-        /// <summary>
-        /// Master toggle for the defender comms-console food resupply behavior.
-        /// </summary>
-        /// <remarks>
-        /// Default: true. When off, starving defenders never call in a resupply drop
-        /// (the meals/cooldown sliders still retain their values, just grayed out).
-        /// </remarks>
-        public bool enableResupply = true;
-
-        /// <summary>
-        /// Survival-meal packs delivered per surviving humanlike defender, each time the
-        /// garrison calls in a comms-console resupply drop.
-        /// </summary>
-        /// <remarks>
-        /// Range: 1-10
-        /// Default: 2 (drop size = 2 x living humanlike defenders on the lord)
-        /// Last-resort hunger escalation: when every in-structure food source is
-        /// exhausted, a starving defender radios in a survival-meal cargo pod. No per-map
-        /// cap is needed - the drop shrinks as the player neutralizes defenders.
-        /// </remarks>
-        public int resupplyMealsPerDefender = 2;
-
-        /// <summary>
-        /// Cooldown between defender resupply drops on a single settlement map, in hours.
-        /// </summary>
-        /// <remarks>
-        /// Range: 1-120 hours
-        /// Default: 12 hours
-        /// </remarks>
-        public int resupplyCooldownHours = 12;
-
+        // Each section's fields, scribe entries, defaults, and draw method live in
+        // its own partial-class file under Core/Settings/. These orchestrators just
+        // fan out to them in display order; serialization order is immaterial
+        // (Scribe is keyed by name).
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref traderRotationIntervalDays, "traderRotationIntervalDays", 30);
-            Scribe_Values.Look(ref useCustomLayouts, "useCustomLayouts", true);
-            Scribe_Values.Look(ref enableCargoVault, "enableCargoVault", true);
-            Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
-            Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
-            Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 0f);
-            Scribe_Values.Look(ref lifeSupportUnitPowerOutput, "lifeSupportUnitPowerOutput", 1200);
-            Scribe_Values.Look(ref salvagersRaidWeightMultiplier, "salvagersRaidWeightMultiplier", 3.0f);
-            Scribe_Values.Look(ref enableResupply, "enableResupply", true);
-            Scribe_Values.Look(ref resupplyMealsPerDefender, "resupplyMealsPerDefender", 2);
-            Scribe_Values.Look(ref resupplyCooldownHours, "resupplyCooldownHours", 12);
+            ExposeTradingSettings();
+            ExposeMiscSettings();
+            ExposeMapGenerationSettings();
+            ExposeDefenderSettings();
+            ExposeResupplySettings();
+        }
+
+        public void ResetToDefaults()
+        {
+            ResetTradingSettings();
+            ResetMiscSettings();
+            ResetMapGenerationSettings();
+            ResetDefenderSettings();
+            ResetResupplySettings();
+        }
+
+        public void DoWindowContents(Rect inRect)
+        {
+            const float buttonHeight = 30f;
+            const float buttonGap = 10f;
+
+            // Reserve a row at the bottom for the reset button; everything above
+            // scrolls. settingsHeight (set at the end of the previous frame) drives
+            // the scrollable content height so the view grows as we add settings.
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - buttonHeight - buttonGap);
+            Rect buttonRect = new Rect(inRect.x, inRect.yMax - buttonHeight, 200f, buttonHeight);
+
+            float innerWidth = viewRect.width - 16f;
+            Rect innerRect = new Rect(0f, 0f, innerWidth, Mathf.Max(settingsHeight, viewRect.height));
+            Widgets.BeginScrollView(viewRect, ref settingsScroll, innerRect);
+
+            Listing_Standard listing = new Listing_Standard();
+            listing.Begin(new Rect(0f, 0f, innerWidth - 8f, 99999f));
+            GameFont prevFont = Text.Font;
+
+            // Trading and Misc are global/balance knobs that apply regardless of the
+            // map generator; the rest depend on (and self-gate on) custom layouts.
+            DrawTradingSection(listing);
+            DrawMiscSection(listing);
+            DrawMapGenerationSection(listing);
+            DrawDefendersSection(listing);
+            DrawResupplySection(listing);
+
+            Text.Font = prevFont;
+            settingsHeight = listing.CurHeight;
+            listing.End();
+            Widgets.EndScrollView();
+
+            if (Widgets.ButtonText(buttonRect, "BTG_Settings_ResetToDefaults".Translate()))
+                ResetToDefaults();
+        }
+
+        /// <summary>Top-level section heading (medium font), e.g. "Trading".</summary>
+        private static void SectionHeader(Listing_Standard listing, string label)
+        {
+            Text.Font = GameFont.Medium;
+            listing.Label(label);
+            Text.Font = GameFont.Small;
+            listing.Gap(8f);
+        }
+
+        /// <summary>
+        /// Appends a "(Vanilla)" / "(BTG Recommended)" tag to a slider label when the
+        /// current value matches the vanilla default or BTG's recommended value. The
+        /// two are mutually exclusive in practice; vanilla wins if both are passed.
+        /// </summary>
+        private static string Annotate(string label, bool vanilla = false, bool recommended = false)
+        {
+            if (vanilla)
+                return label + " " + "BTG_Settings_Vanilla".Translate();
+            if (recommended)
+                return label + " " + "BTG_Settings_BTGRecommended".Translate();
+            return label;
+        }
+
+        /// <summary>Explanatory sub-label rendered in tiny font under a control.</summary>
+        private static void Description(Listing_Standard listing, string text)
+        {
+            GameFont prev = Text.Font;
+            Text.Font = GameFont.Tiny;
+            listing.Label(text);
+            Text.Font = prev;
         }
     }
 
     /// <summary>
-    /// Mod class for handling settings UI
+    /// Mod class for handling settings UI. The window itself is drawn by
+    /// <see cref="BetterTradersGuildSettings.DoWindowContents"/>; this class owns the
+    /// lifecycle glue (category name, and re-aligning the trader rotation cache when
+    /// the interval setting changes).
     /// </summary>
     public class BetterTradersGuildMod_ModClass : Mod
     {
@@ -179,239 +139,7 @@ namespace BetterTradersGuild
 
         public override void DoSettingsWindowContents(UnityEngine.Rect inRect)
         {
-            base.DoSettingsWindowContents(inRect);
-
-            Listing_Standard listingStandard = new Listing_Standard();
-            listingStandard.Begin(inRect);
-
-            GameFont previousFont = Text.Font;
-
-            // ========== SECTION: TRADING ==========
-            Text.Font = GameFont.Medium;
-            listingStandard.Label("BTG_Settings_Trading".Translate());
-            Text.Font = GameFont.Small;
-            listingStandard.Gap(6f);
-
-            listingStandard.Indent(12f);
-            listingStandard.ColumnWidth -= 12f;
-
-            // Trader rotation interval slider
-            string intervalLabel = "BTG_Settings_TraderRotationInterval".Translate(settings.traderRotationIntervalDays);
-
-            if (settings.traderRotationIntervalDays == 30)
-            {
-                intervalLabel += " " + "BTG_Settings_Vanilla".Translate();
-            }
-
-            listingStandard.Label(intervalLabel);
-
-            float sliderValue = listingStandard.Slider(settings.traderRotationIntervalDays, 5f, 60f);
-            settings.traderRotationIntervalDays = (int)(System.Math.Round(sliderValue / 5f) * 5f);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_TraderRotationDesc1".Translate());
-            listingStandard.Label("BTG_Settings_TraderRotationDesc2".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.ColumnWidth += 12f;
-            listingStandard.Outdent(12f);
-
-            listingStandard.Gap(24f);
-
-            // ========== SECTION: MAP GENERATION ==========
-            Text.Font = GameFont.Medium;
-            listingStandard.Label("BTG_Settings_MapGeneration".Translate());
-            Text.Font = GameFont.Small;
-            listingStandard.Gap(6f);
-
-            listingStandard.Indent(12f);
-            listingStandard.ColumnWidth -= 12f;
-
-            // Custom layouts checkbox
-            listingStandard.CheckboxLabeled("BTG_Settings_UseCustomLayouts".Translate(), ref settings.useCustomLayouts,
-                "BTG_Settings_UseCustomLayoutsDesc".Translate());
-            listingStandard.Gap(12f);
-
-            // All remaining settings are grayed out if custom layouts disabled
-            UnityEngine.GUI.enabled = settings.useCustomLayouts;
-
-            // Cargo vault checkbox
-            listingStandard.CheckboxLabeled("BTG_Settings_EnableCargoVault".Translate(), ref settings.enableCargoVault,
-                "BTG_Settings_EnableCargoVaultDesc".Translate());
-            listingStandard.Gap(12f);
-
-            // Threat points multiplier slider
-            string multiplierLabel = "BTG_Settings_ThreatMultiplier".Translate(settings.threatPointsMultiplier.ToString("F1"));
-
-            if (settings.threatPointsMultiplier == 1.0f)
-            {
-                multiplierLabel += " " + "BTG_Settings_Vanilla".Translate();
-            }
-
-            listingStandard.Label(multiplierLabel);
-
-            float multiplierSliderValue = listingStandard.Slider(settings.threatPointsMultiplier, 0.5f, 3.0f);
-            settings.threatPointsMultiplier = (float)(System.Math.Round(multiplierSliderValue / 0.25) * 0.25);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_ThreatMultiplierDesc".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.Gap(16f);
-
-            // Minimum threat points slider
-            int threatPointsDisplay = (int)settings.minimumThreatPoints;
-            string threatLabel = "BTG_Settings_MinThreatPoints".Translate(threatPointsDisplay);
-
-            if (threatPointsDisplay == 0)
-            {
-                threatLabel += " " + "BTG_Settings_Vanilla".Translate();
-            }
-            else if (threatPointsDisplay == 2400)
-            {
-                threatLabel += " " + "BTG_Settings_BTGRecommended".Translate();
-            }
-
-            listingStandard.Label(threatLabel);
-
-            float threatSliderValue = listingStandard.Slider(settings.minimumThreatPoints, 0f, 5000f);
-            settings.minimumThreatPoints = (int)(System.Math.Round(threatSliderValue / 100f) * 100f);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_MinThreatPointsDesc".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.Gap(16f);
-
-            // Additional sentry drone presence slider
-            int dronePercentageDisplay = (int)(settings.sentryDronePresence * 100f);
-            string droneLabel = "BTG_Settings_SentryDronePresence".Translate(dronePercentageDisplay);
-
-            if (dronePercentageDisplay == 0)
-            {
-                droneLabel += " " + "BTG_Settings_Vanilla".Translate();
-            }
-            else if (dronePercentageDisplay == 25)
-            {
-                droneLabel += " " + "BTG_Settings_BTGRecommended".Translate();
-            }
-
-            listingStandard.Label(droneLabel);
-
-            float droneSliderValue = listingStandard.Slider(settings.sentryDronePresence * 100f, 0f, 200f);
-            settings.sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 5f) * 5f) / 100f;
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_SentryDroneDesc".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.Gap(16f);
-
-            // Salvagers raid weight multiplier slider
-            string salvagersLabel = "BTG_Settings_SalvagersRaidWeight".Translate(settings.salvagersRaidWeightMultiplier.ToString("F1"));
-
-            if (settings.salvagersRaidWeightMultiplier == 1.0f)
-            {
-                salvagersLabel += " " + "BTG_Settings_Vanilla".Translate();
-            }
-            else if (settings.salvagersRaidWeightMultiplier == 3.0f)
-            {
-                salvagersLabel += " " + "BTG_Settings_BTGRecommended".Translate();
-            }
-
-            listingStandard.Label(salvagersLabel);
-
-            float salvagersSliderValue = listingStandard.Slider(settings.salvagersRaidWeightMultiplier, 0f, 5f);
-            settings.salvagersRaidWeightMultiplier = (float)(System.Math.Round(salvagersSliderValue / 0.5) * 0.5);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_SalvagersRaidWeightDesc".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.Gap(16f);
-
-            // LifeSupportUnit power output slider
-            string powerLabel = "BTG_Settings_LifeSupportPower".Translate(settings.lifeSupportUnitPowerOutput);
-
-            if (settings.lifeSupportUnitPowerOutput == 1200)
-            {
-                powerLabel += " " + "BTG_Settings_BTGRecommended".Translate();
-            }
-            else if (settings.lifeSupportUnitPowerOutput == 3200)
-            {
-                powerLabel += " " + "BTG_Settings_Vanilla".Translate();
-            }
-
-            listingStandard.Label(powerLabel);
-
-            float powerSliderValue = listingStandard.Slider(settings.lifeSupportUnitPowerOutput, 0f, 5000f);
-            settings.lifeSupportUnitPowerOutput = (int)(System.Math.Round(powerSliderValue / 100f) * 100f);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_LifeSupportDesc".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.Gap(16f);
-
-            // Resupply master toggle (editable whenever custom layouts are on)
-            listingStandard.CheckboxLabeled("BTG_Settings_EnableResupply".Translate(), ref settings.enableResupply,
-                "BTG_Settings_EnableResupplyDesc".Translate());
-
-            // The two resupply sliders sit indented under the toggle and gray out with it.
-            listingStandard.Indent(12f);
-            listingStandard.ColumnWidth -= 12f;
-            UnityEngine.GUI.enabled = settings.useCustomLayouts && settings.enableResupply;
-
-            listingStandard.Gap(8f);
-
-            // Resupply meals-per-defender slider
-            listingStandard.Label("BTG_Settings_ResupplyMealsPerDefender".Translate(settings.resupplyMealsPerDefender));
-
-            float resupplyMealsSliderValue = listingStandard.Slider(settings.resupplyMealsPerDefender, 1f, 10f);
-            settings.resupplyMealsPerDefender = (int)System.Math.Round(resupplyMealsSliderValue);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_ResupplyMealsPerDefenderDesc".Translate());
-            Text.Font = previousFont;
-
-            listingStandard.Gap(16f);
-
-            // Resupply cooldown slider (hours)
-            listingStandard.Label("BTG_Settings_ResupplyCooldown".Translate(settings.resupplyCooldownHours));
-
-            float resupplyCooldownSliderValue = listingStandard.Slider(settings.resupplyCooldownHours, 1f, 120f);
-            settings.resupplyCooldownHours = (int)System.Math.Round(resupplyCooldownSliderValue);
-
-            listingStandard.Gap(2f);
-
-            Text.Font = GameFont.Tiny;
-            listingStandard.Label("BTG_Settings_ResupplyCooldownDesc".Translate());
-            Text.Font = previousFont;
-
-            UnityEngine.GUI.enabled = settings.useCustomLayouts;
-            listingStandard.ColumnWidth += 12f;
-            listingStandard.Outdent(12f);
-
-            listingStandard.ColumnWidth += 12f;
-            listingStandard.Outdent(12f);
-
-            UnityEngine.GUI.enabled = true;
-
-            listingStandard.End();
+            settings.DoWindowContents(inRect);
         }
 
         public override string SettingsCategory()

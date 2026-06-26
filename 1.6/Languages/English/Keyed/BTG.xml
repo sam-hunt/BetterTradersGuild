@@ -14,7 +14,11 @@
 
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <BTG_Settings_Trading>Trading</BTG_Settings_Trading>
+  <BTG_Settings_Misc>Misc</BTG_Settings_Misc>
   <BTG_Settings_MapGeneration>Map Generation</BTG_Settings_MapGeneration>
+  <BTG_Settings_Defenders>Defenders</BTG_Settings_Defenders>
+  <BTG_Settings_Resupply>Defender Resupply</BTG_Settings_Resupply>
+  <BTG_Settings_ResetToDefaults>Reset to defaults</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- {0} = days -->

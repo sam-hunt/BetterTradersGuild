@@ -28,9 +28,8 @@ namespace BetterTradersGuild.Patches.Incidents
         [HarmonyPrefix]
         public static void Prefix(IncidentParms parms)
         {
-            if (!BetterTradersGuildMod.Settings.useCustomLayouts)
-                return;
-
+            // Salvagers weighting keys off the TradersGuild faction map, not the map
+            // generator, so it applies whether or not custom layouts are enabled.
             if (parms?.target is Map map && TradersGuildHelper.IsMapInTradersGuildSettlement(map))
             {
                 RaidFactionSelectionContext.IsOnTradersGuildMap = true;
