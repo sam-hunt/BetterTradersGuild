@@ -58,6 +58,17 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static readonly FieldInfo settlementField = AccessTools.Field(
             typeof(TransportersArrivalAction_VisitSettlement), "settlement");
 
+        /// <summary>
+        /// Logs a targeted error if the field failed to resolve. Called once at startup
+        /// from <see cref="ReflectionVerification.VerifyAll"/>.
+        /// </summary>
+        public static void VerifyReflection()
+        {
+            if (settlementField == null)
+                Log.Error("[Better Traders Guild] TransportersArrivalAction_VisitSettlement.settlement field not found via reflection; "
+                    + "shuttle trade-on-arrival at title-gated Traders Guild traders won't open the trade dialog. RimWorld API may have changed.");
+        }
+
         static MethodBase TargetMethod()
         {
             return AccessTools.Method(typeof(TransportersArrivalAction_Trade), "Arrived");
@@ -66,6 +77,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         [HarmonyPostfix]
         public static void Postfix(TransportersArrivalAction_Trade __instance)
         {
+            if (settlementField == null)
+                return;
+
             Settlement settlement = (Settlement)settlementField.GetValue(__instance);
             if (settlement == null || !TradersGuildHelper.IsTradersGuildSettlement(settlement))
                 return;

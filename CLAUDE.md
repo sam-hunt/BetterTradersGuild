@@ -92,6 +92,15 @@ Source/1.6/
 
 **Room Contents Workers:** Each room type has a `RoomContents_[RoomName].cs` file that handles specialized furniture and pawn spawning using `Prefab` definitions.
 
+### Reflection Verification
+
+BTG reaches private RimWorld members and optional-mod APIs by string-named reflection. To catch API drift at startup instead of as a silent runtime failure (the `lifeSupportUnitPowerOutput` bug), every reflection dependency is self-checked when the game loads. Pattern ported from the sister mod `UniqueWeaponsUnbound`.
+
+- **Single trigger, not a registry:** `ReflectionVerification.VerifyAll()` (`Core/`) runs once from `BetterTradersGuildMod`'s static ctor, right after `Harmony.PatchAll()`. Each looked-up member name still lives in exactly **one** owner — `VerifyAll()` only triggers the checks, so nothing is declared twice or can drift apart.
+- **Base-game lookups (Pattern A):** the owning class caches its `FieldInfo`/`MethodInfo` in `static readonly` fields and exposes `public static void VerifyReflection()`, which `Log.Error`s a message naming the member, the user-visible consequence, and "RimWorld API may have changed." Shared base-game members live in single owners under `Helpers/Reflection/` (`TraderTrackerReflection`, `CompHackableReflection`, `RefuelableReflection`); single-consumer ones verify in-place. Every runtime caller still null-guards, so a missing member degrades to a no-op rather than throwing.
+- **Optional-mod integrations (Pattern B):** dedicated classes under `Integrations/` (`HARIntegration`, `VEPipesIntegration`) resolve their type/members in a `try/catch` static ctor, expose `static bool Available`, and `Log.Warning` **only when the mod is detected present but a member failed to resolve** (silent when the mod isn't installed). `VerifyAll()` forces each static ctor via `_ = X.Available;`.
+- **Adding a new reflection site:** put the lookup in the relevant owner (or a new `Helpers/Reflection/` / `Integrations/` class), add its `VerifyReflection()`/`Available`, and call it from `VerifyAll()`. Note: checks must run against the real game DLL — the `Krafs.Rimworld.Ref` package strips private members, so they can't be unit-tested.
+
 ### Map Generation Architecture
 
 BTG uses a declarative, XML-driven approach for custom map generation:

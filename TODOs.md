@@ -1,20 +1,14 @@
 TODOs
 
-Cleanup
-
-- Investigate report that shuttles attacks are allowed without signal jammer
-- Investigate threat scaling of settlement defender group generation, seems a little low?
-- Rare Subroom placement small room off-by-one?
+- Port runtime reflection safety check pattern from UMW/AAH
+- thinknode not found warning on TG custom map entry?
+- Landing pad pipe extenders can fail to connect if they hit NarrowHalls
+- Enable shuttle attacks once hostiles cleared?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Narrow PlanetTile.LayerDef patch: the getter is extremely hot, so patching it taxes every access
   - patch only the caravan-formation/world-pathfinding methods that consult canFormCaravans for friendly TG space tiles instead
-- Enable shuttle attacks once hostiles cleared?
-- Split ModSettings per AAH pattern
-- Remove unused language folders, contributers typically release a dependent mod to implement this instead
-- Landing pad pipe extenders can fail to connect if they hit NarrowHalls
-- Port runtime reflection safety check pattern from UMW/AAH
-
-Features?
+- Rare Subroom placement small room off-by-one?
+- Investigate threat scaling of settlement defender group generation, seems a little low?
 
 - AI defense lords
   - Foraged packaged meal pallets drop unforbidden meals
@@ -30,6 +24,7 @@ Features?
 
 - Investigate mod Settlement Visit compatibility
 - Investigate Simple Warrants fulfilment
+- Investigate report that shuttles attacks are allowed without signal jammer? (can't seem to repro)
 
 - Add trade/equivalence-focused storyteller?
 - Mod integration: VREA maintenance room

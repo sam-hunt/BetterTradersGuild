@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
-using RimWorld.BaseGen;
 using Verse;
 using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 using static BetterTradersGuild.RoomContents.CrewQuarters.SubroomPackingCalculator;
@@ -34,19 +33,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
     /// </summary>
     public class RoomContents_CrewQuarters : RoomContentsWorker
     {
-        /// <summary>
-        /// Reflection access to CompHackable.hacked private field.
-        /// Used to pre-unlock subroom doors. Same pattern as CargoVaultHatch/CompRelockable.
-        /// </summary>
-        private static readonly FieldInfo HackedField = typeof(CompHackable)
-            .GetField("hacked", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        /// <summary>
-        /// Reflection access to CompHackable.progress private field.
-        /// </summary>
-        private static readonly FieldInfo ProgressField = typeof(CompHackable)
-            .GetField("progress", BindingFlags.NonPublic | BindingFlags.Instance);
-
         /// <summary>
         /// Available prefab widths (perpendicular to door direction).
         /// Subrooms are fit starting with minimum width, then expanded to fill waste.
@@ -249,11 +235,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 if (Rand.Bool) // 50% chance
                 {
                     CompHackable hackable = thing.TryGetComp<CompHackable>();
-                    if (hackable != null && HackedField != null && ProgressField != null)
-                    {
-                        HackedField.SetValue(hackable, true);
-                        ProgressField.SetValue(hackable, 1f);
-                    }
+                    CompHackableReflection.TrySetHackedState(hackable, hacked: true, progress: 1f);
                 }
             }
         }

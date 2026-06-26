@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using UnityEngine;
@@ -26,18 +24,6 @@ namespace BetterTradersGuild.Comps
     /// </summary>
     public class CompRelockable : ThingComp
     {
-        /// <summary>
-        /// Cached reflection access to CompHackable.hacked private field.
-        /// </summary>
-        private static readonly FieldInfo HackedField = typeof(CompHackable)
-            .GetField("hacked", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        /// <summary>
-        /// Cached reflection access to CompHackable.progress private field.
-        /// </summary>
-        private static readonly FieldInfo ProgressField = typeof(CompHackable)
-            .GetField("progress", BindingFlags.NonPublic | BindingFlags.Instance);
-
         public CompProperties_Relockable Props => (CompProperties_Relockable)props;
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -277,14 +263,8 @@ namespace BetterTradersGuild.Comps
                 return;
             }
 
-            if (HackedField == null || ProgressField == null)
-            {
-                Log.Warning("[BTG] CompRelockable.ResetHackableState: Could not find hackable fields via reflection");
-                return;
-            }
-
-            HackedField.SetValue(hackable, false);
-            ProgressField.SetValue(hackable, 0f);
+            if (!CompHackableReflection.TrySetHackedState(hackable, hacked: false, progress: 0f))
+                Log.Warning("[BTG] CompRelockable.ResetHackableState: Could not reset hackable state (reflection unavailable)");
         }
     }
 }

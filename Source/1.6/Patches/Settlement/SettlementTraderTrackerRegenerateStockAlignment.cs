@@ -1,10 +1,10 @@
 using HarmonyLib;
-using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using BetterTradersGuild.Helpers;
+using BetterTradersGuild.Helpers.Reflection;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
@@ -24,8 +24,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     [HarmonyPatch(typeof(Settlement_TraderTracker), "RegenerateStock")]
     public static class SettlementTraderTrackerRegenerateStockAlignment
     {
-        // Cache the FieldInfo for accessing private lastStockGenerationTicks
-        private static FieldInfo lastStockGenerationTicksField;
+        // Aliases the shared Settlement_TraderTracker.lastStockGenerationTicks lookup,
+        // resolved and verified once in TraderTrackerReflection.
+        private static readonly FieldInfo lastStockGenerationTicksField =
+            TraderTrackerReflection.LastStockGenerationTicksField;
 
         // Thread-local tracking of settlements needing alignment
         // Key: Settlement ID, Value: Virtual lastStockTicks to restore
@@ -42,20 +44,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         public static bool HasPendingAlignment(int settlementID, out int virtualTicks)
         {
             return pendingAlignments.Value.TryGetValue(settlementID, out virtualTicks);
-        }
-
-        /// <summary>
-        /// Static constructor to initialize reflection
-        /// </summary>
-        static SettlementTraderTrackerRegenerateStockAlignment()
-        {
-            lastStockGenerationTicksField = typeof(Settlement_TraderTracker).GetField("lastStockGenerationTicks",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-
-            if (lastStockGenerationTicksField == null)
-            {
-                Verse.Log.Error("[Better Traders Guild] Failed to find 'lastStockGenerationTicks' field for alignment patch!");
-            }
         }
 
         /// <summary>

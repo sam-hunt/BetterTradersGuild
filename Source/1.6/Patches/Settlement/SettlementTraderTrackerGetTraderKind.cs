@@ -1,3 +1,4 @@
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
@@ -38,8 +39,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             public int lastStockTicks;
         }
 
-        // Cache the FieldInfo for accessing private lastStockGenerationTicks field
-        private static FieldInfo lastStockGenerationTicksField;
+        // Aliases the shared Settlement_TraderTracker.lastStockGenerationTicks lookup,
+        // resolved and verified once in TraderTrackerReflection.
+        private static readonly FieldInfo lastStockGenerationTicksField =
+            TraderTrackerReflection.LastStockGenerationTicksField;
 
         // Cache trader assignments to avoid recalculating on every property access
         // Key: Settlement ID, Value: Cached trader info
@@ -86,20 +89,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                     return true;
             }
             return false;
-        }
-
-        /// <summary>
-        /// Static constructor to initialize reflection
-        /// </summary>
-        static SettlementTraderTrackerGetTraderKind()
-        {
-            lastStockGenerationTicksField = typeof(Settlement_TraderTracker).GetField("lastStockGenerationTicks",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-
-            if (lastStockGenerationTicksField == null)
-            {
-                Log.Error("[Better Traders Guild] Failed to find 'lastStockGenerationTicks' field via reflection!");
-            }
         }
 
         /// <summary>

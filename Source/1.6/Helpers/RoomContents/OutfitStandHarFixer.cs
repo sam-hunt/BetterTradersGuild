@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using System.Reflection;
+using BetterTradersGuild.Integrations;
 using RimWorld;
 using Verse;
 
@@ -20,10 +20,6 @@ namespace BetterTradersGuild.Helpers.RoomContents
     /// </summary>
     public static class OutfitStandHarFixer
     {
-        private static bool _reflectionInitialized;
-        private static Type _compType;
-        private static PropertyInfo _bodyTypeProp;
-
         /// <summary>
         /// Normalizes an outfit stand after spawn by fixing HAR's juvenile body type selection.
         /// Safe to call when HAR is not installed. All errors are caught and logged.
@@ -54,18 +50,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// </summary>
         private static bool TryFixHarBodyType(Building_OutfitStand stand)
         {
-            InitReflection();
-            if (_compType == null) return false;
+            if (HARIntegration.CompType == null) return false;
 
-            ThingComp harComp = stand.AllComps?.FirstOrDefault(c => _compType.IsInstanceOfType(c));
+            ThingComp harComp = stand.AllComps?.FirstOrDefault(c => HARIntegration.CompType.IsInstanceOfType(c));
             if (harComp == null) return false;
 
-            if (_bodyTypeProp == null) return true; // HAR found but can't fix — caller should use fallback
+            if (HARIntegration.BodyTypeProperty == null) return true; // HAR found but can't fix — caller uses fallback
 
-            BodyTypeDef currentBody = _bodyTypeProp.GetValue(harComp) as BodyTypeDef;
+            BodyTypeDef currentBody = HARIntegration.BodyTypeProperty.GetValue(harComp) as BodyTypeDef;
             if (currentBody == null || currentBody == BodyTypeDefOf.Baby || currentBody == BodyTypeDefOf.Child)
             {
-                _bodyTypeProp.SetValue(harComp, BodyTypeDefOf.Thin);
+                HARIntegration.BodyTypeProperty.SetValue(harComp, BodyTypeDefOf.Thin);
             }
 
             return true;
@@ -85,18 +80,6 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             if (adultFilter != null) filter.SetAllow(adultFilter, true);
             if (childFilter != null) filter.SetAllow(childFilter, false);
-        }
-
-        private static void InitReflection()
-        {
-            if (_reflectionInitialized) return;
-            _reflectionInitialized = true;
-
-            _compType = GenTypes.GetTypeInAnyAssembly("AlienRace.Comp_OutfitStandHAR");
-            if (_compType == null) return;
-
-            _bodyTypeProp = _compType.GetProperty("BodyType",
-                BindingFlags.Public | BindingFlags.Instance);
         }
     }
 }

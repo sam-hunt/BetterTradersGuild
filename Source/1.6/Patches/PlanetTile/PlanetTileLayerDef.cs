@@ -38,6 +38,11 @@ namespace BetterTradersGuild.Patches.PlanetTilePatches
 
         static PlanetTileLayerDef()
         {
+            // Guard the reflection used to build the clones below. VerifyReflection() reports the
+            // drift at startup; leaving the dictionary empty makes the postfix harmlessly no-op.
+            if (MemberwiseCloneMethod == null)
+                return;
+
             foreach (PlanetLayerDef layer in DefDatabase<PlanetLayerDef>.AllDefsListForReading)
             {
                 // Only space layers that don't already allow caravans need a caravan-enabled variant.
@@ -53,6 +58,17 @@ namespace BetterTradersGuild.Patches.PlanetTilePatches
                 clone.raidPointsFactor = 1.0f;   // Default for space is 0.85
                 caravanEnabledClones[layer] = clone;
             }
+        }
+
+        /// <summary>
+        /// Logs a targeted error if the MemberwiseClone lookup failed. Called once at startup
+        /// from <see cref="ReflectionVerification.VerifyAll"/>.
+        /// </summary>
+        public static void VerifyReflection()
+        {
+            if (MemberwiseCloneMethod == null)
+                Log.Error("[Better Traders Guild] object.MemberwiseClone method not found via reflection; "
+                    + "caravans will be unable to form on Traders Guild orbital tiles. .NET runtime may have changed.");
         }
 
         [HarmonyPostfix]

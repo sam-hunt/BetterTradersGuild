@@ -28,6 +28,11 @@ namespace BetterTradersGuild
             var harmony = new Harmony("shunter.bettertradersguild");
             harmony.PatchAll();
 
+            // Verify every reflection-based lookup the mod depends on actually resolved, so any
+            // base-game or optional-mod API drift surfaces here at startup rather than as a silent
+            // feature failure later. (Pattern ported from UniqueWeaponsUnbound.)
+            ReflectionVerification.VerifyAll();
+
             // Apply def modifications
             ApplyLifeSupportUnitPowerSetting();
         }
@@ -57,8 +62,8 @@ namespace BetterTradersGuild
                 BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             if (field == null)
             {
-                Log.Warning("[Better Traders Guild] Could not find CompProperties_Power.basePowerConsumption; "
-                    + "LifeSupportUnit power output setting will not apply.");
+                Log.Error("[Better Traders Guild] CompProperties_Power.basePowerConsumption field not found via reflection; "
+                    + "the LifeSupportUnit power output setting will not apply. RimWorld API may have changed.");
                 return;
             }
 

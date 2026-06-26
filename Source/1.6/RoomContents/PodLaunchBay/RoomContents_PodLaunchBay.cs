@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.Helpers.RoomContents;
-using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -37,8 +37,8 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
         /// <summary>
         /// Sets pod launcher fuel levels. Launchers with a malfunctioning pod get 45%
         /// (heavy use led to the malfunction), others get 25%. Must run after
-        /// MalfunctioningPodReplacer. Uses Traverse to set the private fuel field
-        /// directly, avoiding the difficulty multiplier baked into Refuel(float).
+        /// MalfunctioningPodReplacer. Sets the private fuel field directly (via
+        /// RefuelableReflection), avoiding the difficulty multiplier baked into Refuel(float).
         /// </summary>
         private void FillPodLauncherFuel(Map map, CellRect roomRect)
         {
@@ -53,7 +53,7 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
 
                 float fuelPct = hasMalfunctioningPod ? 0.4f : 0.2f;
                 float targetFuel = fuelComp.Props.fuelCapacity * fuelPct;
-                Traverse.Create(fuelComp).Field("fuel").SetValue(targetFuel);
+                RefuelableReflection.TrySetFuel(fuelComp, targetFuel);
             }
         }
 

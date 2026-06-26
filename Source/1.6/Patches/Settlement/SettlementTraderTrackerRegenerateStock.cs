@@ -1,3 +1,4 @@
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
@@ -5,7 +6,6 @@ using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
-using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
@@ -21,11 +21,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     [HarmonyPatch(typeof(Settlement_TraderTracker), "RegenerateStock")]
     public static class SettlementTraderTrackerRegenerateStock
     {
-        // Cache the FieldInfo for accessing private lastStockGenerationTicks
-        private static FieldInfo lastStockGenerationTicksField;
-
-        // Cache the FieldInfo for accessing private stock field
-        private static FieldInfo stockField;
+        // Alias the shared Settlement_TraderTracker lookups, resolved and verified once
+        // in TraderTrackerReflection.
+        private static readonly FieldInfo lastStockGenerationTicksField =
+            TraderTrackerReflection.LastStockGenerationTicksField;
+        private static readonly FieldInfo stockField = TraderTrackerReflection.StockField;
 
         // Thread-local set of settlement IDs currently regenerating stock
         // Using ThreadLocal to avoid issues with concurrent regeneration
@@ -38,28 +38,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         public static bool IsRegeneratingStock(int settlementID)
         {
             return regeneratingSettlements.Value.Contains(settlementID);
-        }
-
-        /// <summary>
-        /// Static constructor to initialize reflection
-        /// </summary>
-        static SettlementTraderTrackerRegenerateStock()
-        {
-            lastStockGenerationTicksField = typeof(Settlement_TraderTracker).GetField("lastStockGenerationTicks",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-
-            if (lastStockGenerationTicksField == null)
-            {
-                Log.Error("[Better Traders Guild] Failed to find 'lastStockGenerationTicks' field via reflection!");
-            }
-
-            stockField = typeof(Settlement_TraderTracker).GetField("stock",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-
-            if (stockField == null)
-            {
-                Log.Error("[Better Traders Guild] Failed to find 'stock' field via reflection!");
-            }
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.LordJobs;
 using HarmonyLib;
@@ -24,6 +25,21 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
     [HarmonyPatch(typeof(CompMechGestatorTank), "Trigger")]
     public static class CompMechGestatorTankTrigger
     {
+        // Cached reflection access to CompMechGestatorTank's private 'state' field
+        // (only a setter is public; reading the current state needs reflection).
+        private static readonly FieldInfo StateField = AccessTools.Field(typeof(CompMechGestatorTank), "state");
+
+        /// <summary>
+        /// Logs a targeted error if the field failed to resolve. Called once at startup
+        /// from <see cref="ReflectionVerification.VerifyAll"/>.
+        /// </summary>
+        public static void VerifyReflection()
+        {
+            if (StateField == null)
+                Log.Error("[Better Traders Guild] CompMechGestatorTank.state field not found via reflection; "
+                    + "Traders Guild gestator mechs will fall back to vanilla hostile-faction spawning. RimWorld API may have changed.");
+        }
+
         /// <summary>
         /// Prefix that intercepts gestator triggering in TradersGuild settlements.
         /// If the gestator is in a TradersGuild settlement, we run our modified
@@ -45,6 +61,11 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             if (tradersGuild == null)
                 return true;
 
+            // If the gestator state can't be read via reflection (verified at startup), let
+            // vanilla handle it rather than silently doing nothing.
+            if (StateField == null)
+                return true;
+
             // Run our modified trigger logic with TradersGuild faction
             TriggerWithFaction(__instance, map, tradersGuild);
 
@@ -59,12 +80,8 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
         /// </summary>
         private static void TriggerWithFaction(CompMechGestatorTank comp, Map map, Faction faction)
         {
-            // Access private fields via reflection
-            var stateField = AccessTools.Field(typeof(CompMechGestatorTank), "state");
-            var triggerRadiusField = AccessTools.Field(typeof(CompMechGestatorTank), "triggerRadius");
-
             // Get current state - if Empty (0), return early
-            int currentState = (int)stateField.GetValue(comp);
+            int currentState = (int)StateField.GetValue(comp);
             if (currentState == 0) // TankState.Empty
                 return;
 

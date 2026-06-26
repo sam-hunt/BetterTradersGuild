@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using BetterTradersGuild.Integrations;
 using BetterTradersGuild.LayoutWorkers.Settlement;
 using HarmonyLib;
 using Verse;
@@ -27,13 +28,12 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     {
         public static bool Prepare()
         {
-            return GenTypes.GetTypeInAnyAssembly("AlienRace.Comp_OutfitStandHAR") != null;
+            return HARIntegration.CompType != null;
         }
 
         public static MethodBase TargetMethod()
         {
-            Type compType = GenTypes.GetTypeInAnyAssembly("AlienRace.Comp_OutfitStandHAR");
-            return compType?.GetMethod("PostSpawnSetup", new[] { typeof(bool) });
+            return HARIntegration.PostSpawnSetupMethod;
         }
 
         [HarmonyFinalizer]

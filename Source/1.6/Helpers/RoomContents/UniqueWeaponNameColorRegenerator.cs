@@ -28,6 +28,20 @@ namespace BetterTradersGuild.Helpers.RoomContents
             .GetField("color", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
+        /// Logs a targeted error for any member that failed to resolve. Called once at startup
+        /// from <see cref="ReflectionVerification.VerifyAll"/>.
+        /// </summary>
+        public static void VerifyReflection()
+        {
+            if (NameField == null)
+                Log.Error("[Better Traders Guild] CompUniqueWeapon.name field not found via reflection; "
+                    + "unique weapons from settlements will keep their default name after trait changes. RimWorld API may have changed.");
+            if (ColorField == null)
+                Log.Error("[Better Traders Guild] CompUniqueWeapon.color field not found via reflection; "
+                    + "unique weapons from settlements won't be recoloured after trait changes. RimWorld API may have changed.");
+        }
+
+        /// <summary>
         /// Regenerates weapon name and color based on current traits.
         /// Must be called AFTER all traits have been added to the component.
         /// </summary>

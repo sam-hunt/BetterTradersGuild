@@ -1,6 +1,6 @@
 using System.Reflection;
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.MapComponents;
-using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -13,10 +13,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
     public static class CargoVaultHelper
     {
         /// <summary>
-        /// Cached reflection access to Settlement_TraderTracker.stock private field
+        /// Aliases the shared Settlement_TraderTracker.stock lookup, resolved and verified
+        /// once in TraderTrackerReflection.
         /// </summary>
-        private static readonly FieldInfo stockField = typeof(Settlement_TraderTracker)
-            .GetField("stock", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly FieldInfo stockField = TraderTrackerReflection.StockField;
 
         /// <summary>
         /// Navigates from a pocket map to its parent settlement.

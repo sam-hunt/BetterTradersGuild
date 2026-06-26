@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Reflection;
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
@@ -21,18 +21,6 @@ namespace BetterTradersGuild.MapGeneration
     /// </summary>
     public class CargoVaultHatch : MapPortal
     {
-        /// <summary>
-        /// Cached reflection access to CompHackable.hacked private field.
-        /// </summary>
-        private static readonly FieldInfo HackedField = typeof(CompHackable)
-            .GetField("hacked", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        /// <summary>
-        /// Cached reflection access to CompHackable.progress private field.
-        /// </summary>
-        private static readonly FieldInfo ProgressField = typeof(CompHackable)
-            .GetField("progress", BindingFlags.NonPublic | BindingFlags.Instance);
-
         /// <summary>
         /// Override GetExtraGenSteps to return empty - we don't want any extra steps.
         /// All pocket map generation is handled by BTG_CargoVault GenStep in our MapGeneratorDef
@@ -130,14 +118,8 @@ namespace BetterTradersGuild.MapGeneration
         private void ResetHackableState()
         {
             CompHackable hackable = this.GetComp<CompHackable>();
-            if (hackable == null || HackedField == null || ProgressField == null)
-            {
-                Log.Warning("[BTG] CargoVaultHatch.ResetHackableState: Could not find hackable fields via reflection");
-                return;
-            }
-
-            HackedField.SetValue(hackable, false);
-            ProgressField.SetValue(hackable, 0f);
+            if (!CompHackableReflection.TrySetHackedState(hackable, hacked: false, progress: 0f))
+                Log.Warning("[BTG] CargoVaultHatch.ResetHackableState: Could not reset hackable state (reflection unavailable)");
         }
     }
 }

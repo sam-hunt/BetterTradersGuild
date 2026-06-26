@@ -1,7 +1,7 @@
 using System.Reflection;
 using BetterTradersGuild.Helpers;
+using BetterTradersGuild.Helpers.Reflection;
 using HarmonyLib;
-using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -27,17 +27,12 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     [HarmonyPatch(typeof(Map), nameof(Map.FinalizeInit))]
     public static class SettlementMapGenerated
     {
-        // Cached reflection access to RegenerateStock method
-        private static readonly MethodInfo regenerateStockMethod = typeof(Settlement_TraderTracker)
-            .GetMethod("RegenerateStock", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        // Cached reflection access to stock field
-        private static readonly FieldInfo stockField = typeof(Settlement_TraderTracker)
-            .GetField("stock", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        // Cached reflection access to lastStockGenerationTicks field
-        private static readonly FieldInfo lastStockGenerationTicksField = typeof(Settlement_TraderTracker)
-            .GetField("lastStockGenerationTicks", BindingFlags.NonPublic | BindingFlags.Instance);
+        // Alias the shared Settlement_TraderTracker lookups, resolved and verified once
+        // in TraderTrackerReflection.
+        private static readonly MethodInfo regenerateStockMethod = TraderTrackerReflection.RegenerateStockMethod;
+        private static readonly FieldInfo stockField = TraderTrackerReflection.StockField;
+        private static readonly FieldInfo lastStockGenerationTicksField =
+            TraderTrackerReflection.LastStockGenerationTicksField;
 
         /// <summary>
         /// Postfix that ensures TradersGuild settlement stock exists after map initialization.
