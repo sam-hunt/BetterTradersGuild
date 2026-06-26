@@ -30,11 +30,10 @@ namespace BetterTradersGuild.RoomContents.Nursery
                 return;
             }
 
-            // Add baby food (30-50 units) - requires Biotech DLC
+            // Add full stack of baby food (75 units) - requires Biotech DLC
             if (Things.BabyFood != null)
             {
-                int babyFoodCount = Rand.RangeInclusive(40, 80);
-                RoomShelfHelper.AddItemsToShelf(map, shelves[0], Things.BabyFood, babyFoodCount, setForbidden: true);
+                RoomShelfHelper.AddItemsToShelf(map, shelves[0], Things.BabyFood, 75, setForbidden: true);
             }
 
             // Add packaged survival meals in two stacks (max stack size is 10)
