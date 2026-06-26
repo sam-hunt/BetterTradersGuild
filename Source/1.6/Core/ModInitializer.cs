@@ -50,12 +50,47 @@ namespace BetterTradersGuild
             var powerComp = lifeSupportDef.GetCompProperties<CompProperties_Power>();
             if (powerComp == null) return;
 
-            // Use reflection to access basePowerConsumption field
+            // Reflect basePowerConsumption — it is a *private* field on CompProperties_Power
+            // (only the read-only PowerConsumption property is public), so NonPublic is
+            // required. Without it GetField returns null and the setting silently no-ops.
             var field = typeof(CompProperties_Power).GetField("basePowerConsumption",
-                BindingFlags.Public | BindingFlags.Instance);
+                BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            if (field == null)
+            {
+                Log.Warning("[Better Traders Guild] Could not find CompProperties_Power.basePowerConsumption; "
+                    + "LifeSupportUnit power output setting will not apply.");
+                return;
+            }
+
             // Negative value = power production
-            if (field != null)
-                field.SetValue(powerComp, (float)(-Settings.lifeSupportUnitPowerOutput));
+            field.SetValue(powerComp, (float)(-Settings.lifeSupportUnitPowerOutput));
+
+            // Force already-spawned units to recompute their CURRENT output. CompPowerPlant
+            // only recomputes in CompTick, but LifeSupportUnit is a Rare ticker so CompTick
+            // never fires — the output is set once in PostSpawnSetup and otherwise frozen.
+            // Without this, a live setting change would only move the max-power stat (read
+            // from the def) while the actual output stayed at the spawn-time value.
+            RefreshSpawnedLifeSupportUnits(lifeSupportDef);
+        }
+
+        /// <summary>
+        /// Recomputes the live power output of every spawned LifeSupportUnit across all
+        /// loaded maps. No-op outside of an active game (e.g. at startup or from the main
+        /// menu), where there are no maps to refresh.
+        /// </summary>
+        private static void RefreshSpawnedLifeSupportUnits(ThingDef lifeSupportDef)
+        {
+            if (Current.ProgramState != ProgramState.Playing) return;
+
+            var maps = Find.Maps;
+            if (maps == null) return;
+
+            for (int i = 0; i < maps.Count; i++)
+            {
+                var things = maps[i].listerThings.ThingsOfDef(lifeSupportDef);
+                for (int j = 0; j < things.Count; j++)
+                    things[j].TryGetComp<CompPowerPlant>()?.UpdateDesiredPowerOutput();
+            }
         }
     }
 }

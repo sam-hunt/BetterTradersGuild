@@ -151,6 +151,11 @@ namespace BetterTradersGuild
         {
             base.WriteSettings();
 
+            // Push the life-support power output onto the LifeSupportUnit def and refresh the
+            // live output of any already-spawned units (ApplyLifeSupportUnitPowerSetting does
+            // both), so the change takes effect immediately with no restart needed.
+            BetterTradersGuildMod.ApplyLifeSupportUnitPowerSetting();
+
             // Check if rotation interval changed
             if (settings.traderRotationIntervalDays != previousRotationInterval)
             {

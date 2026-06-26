@@ -48,7 +48,7 @@
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- {0} = watts -->
   <!-- <BTG_Settings_LifeSupportPower>LifeSupportUnit power output: {0}W</BTG_Settings_LifeSupportPower> -->
-  <!-- <BTG_Settings_LifeSupportDesc>Power output from orbital LifeSupportUnits. Requires restart.</BTG_Settings_LifeSupportDesc> -->
+  <!-- <BTG_Settings_LifeSupportDesc>Power output from orbital LifeSupportUnits.</BTG_Settings_LifeSupportDesc> -->
 
   <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
   <!-- {0} = multiplier (e.g., "3.0") -->

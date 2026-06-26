@@ -11,10 +11,14 @@ Cleanup
 - Enable shuttle attacks once hostiles cleared?
 - Split ModSettings per AAH pattern
 - Remove unused language folders, contributers typically release a dependent mod to implement this instead
+- Landing pad pipe extenders can fail to connect if they hit NarrowHalls
+- Port runtime reflection safety check pattern from UMW/AAH
 
 Features?
 
 - AI defense lords
+  - Foraged packaged meal pallets drop unforbidden meals
+  - Check forager hacker node checks door isn't already hacked
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
   - New lord for paramedic to tend defender wounds/restore manipulation via surgery?
   - Also drop reinforcements on resupply meal drops

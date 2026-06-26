@@ -25,22 +25,23 @@ namespace BetterTradersGuild
         /// LifeSupportUnit power output in watts.
         /// </summary>
         /// <remarks>
-        /// Range: 0-5000W. Default: 1200W (balanced for connected power grids).
-        /// Vanilla: 3200W (designed for isolated rooms). BTG connects buildings in a
-        /// map-wide grid, so vanilla output would be excessive. Requires restart.
+        /// Range: 0-5000W. Default: 3200W (vanilla; the value v1.0.x actually shipped, and a
+        /// safe fallback for existing saves). BTG Recommended: 800W for a tighter grid —
+        /// BTG connects buildings into a map-wide grid where vanilla output is generous.
+        /// Applied live on save via WriteSettings (no restart needed).
         /// </remarks>
-        public int lifeSupportUnitPowerOutput = 1200;
+        public int lifeSupportUnitPowerOutput = 3200;
 
         private void ExposeMiscSettings()
         {
             Scribe_Values.Look(ref salvagersRaidWeightMultiplier, "salvagersRaidWeightMultiplier", 3.0f);
-            Scribe_Values.Look(ref lifeSupportUnitPowerOutput, "lifeSupportUnitPowerOutput", 1200);
+            Scribe_Values.Look(ref lifeSupportUnitPowerOutput, "lifeSupportUnitPowerOutput", 3200);
         }
 
         private void ResetMiscSettings()
         {
             salvagersRaidWeightMultiplier = 3.0f;
-            lifeSupportUnitPowerOutput = 1200;
+            lifeSupportUnitPowerOutput = 3200;
         }
 
         private void DrawMiscSection(Listing_Standard listing)
@@ -66,7 +67,7 @@ namespace BetterTradersGuild
             string powerLabel = Annotate(
                 "BTG_Settings_LifeSupportPower".Translate(lifeSupportUnitPowerOutput),
                 vanilla: lifeSupportUnitPowerOutput == 3200,
-                recommended: lifeSupportUnitPowerOutput == 1200);
+                recommended: lifeSupportUnitPowerOutput == 800);
             listing.Label(powerLabel);
 
             float powerSliderValue = listing.Slider(lifeSupportUnitPowerOutput, 0f, 5000f);
