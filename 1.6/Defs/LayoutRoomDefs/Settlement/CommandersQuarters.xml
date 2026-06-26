@@ -30,6 +30,19 @@
     </floorTypes>
     <edgeTerrain>SilverTile</edgeTerrain>
 
+    <!--
+      Extra LifeSupportUnit on top of the structure-level one (room-level and
+      structure-level wallAttachments are additive), to better heat the lounge.
+      NOTE: wall attachments are placed before the bedroom subroom walls exist, so
+      both units serve the outer lounge - the inner bedroom subroom is heated by the
+      LifeSupportUnit baked into the CommandersBedroom prefab.
+    -->
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>1~1</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
     <prefabs>
       <!--
         BEDROOM: Spawned programmatically by RoomContents_CommandersQuarters worker

@@ -27,6 +27,16 @@
     </floorTypes>
     <edgeTerrain>SterileTile</edgeTerrain>
 
+    <!--
+      Extra LifeSupportUnit on top of the structure-level one (room-level and
+      structure-level wallAttachments are additive), to keep this larger room warm.
+    -->
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>1~1</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
     <prefabs>
       <!-- Modern hospital beds with vitals monitors (edge) -->
       <BTG_HospitalBeds_Edge>

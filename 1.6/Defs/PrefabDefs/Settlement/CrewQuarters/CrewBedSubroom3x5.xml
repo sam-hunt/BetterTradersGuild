@@ -73,6 +73,11 @@
         <relativeRotation>Opposite</relativeRotation>
       </WallLamp>
 
+      <LifeSupportUnit>
+        <position>(1, 0, 1)</position>
+        <relativeRotation>Opposite</relativeRotation>
+      </LifeSupportUnit>
+
       <AncientBlastDoor>
         <position>(2, 0, 0)</position>
       </AncientBlastDoor>

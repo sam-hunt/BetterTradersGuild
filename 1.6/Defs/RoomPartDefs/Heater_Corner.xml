@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Heater Room Part
+
+    Uses vanilla RoomPart_CornerThing worker to place a LifeSupportUnit in a room
+    corner, supplementing the structure-level wall-attachment heating so smaller or
+    poorly-served rooms hold the target interior temperature.
+
+    NOTE: RoomPart_CornerThing spawns at the thing's default rotation (no wall-facing
+    logic), so the unit only visually attaches to a wall in corners that have a wall
+    to its north. It heats/pressurizes the room regardless of facing.
+  -->
+
+  <RoomPart_ThingDef>
+    <defName>BTG_Heater_Corner</defName>
+    <workerClass>RoomPart_CornerThing</workerClass>
+    <thingDef>LifeSupportUnit</thingDef>
+  </RoomPart_ThingDef>
+
+</Defs>

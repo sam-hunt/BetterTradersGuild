@@ -3,7 +3,6 @@ TODOs
 Cleanup
 
 - Investigate report that shuttles attacks are allowed without signal jammer
-- Guild base babies get hypothermia
 - Investigate threat scaling of settlement defender group generation, seems a little low?
 - Rare Subroom placement small room off-by-one?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
@@ -11,6 +10,7 @@ Cleanup
   - patch only the caravan-formation/world-pathfinding methods that consult canFormCaravans for friendly TG space tiles instead
 - Enable shuttle attacks once hostiles cleared?
 - Split ModSettings per AAH pattern
+- Remove unused language folders, contributers typically release a dependent mod to implement this instead
 
 Features?
 

@@ -62,9 +62,11 @@
     </parts>
 
     <!--
-      Override inherited wallAttachments from StructureLayoutDef.
-      Spawn 4 LifeSupportUnits to ensure at least one lands outside the unroofed
-      landing pad subroom. RoomContents worker prunes to keep only 1 valid unit.
+      Over-spawn LifeSupportUnits. This is additive with the structure-level
+      wallAttachments (one more unit), so ~7 spawn in total. Over-spawning ensures
+      enough land outside the unroofed landing pad subroom; the RoomContents worker
+      then removes any inside the pad (vacuum) and caps the pressurized area at a few
+      units (see PruneLifeSupportUnits / LIFE_SUPPORT_UNITS_TO_KEEP).
     -->
     <wallAttachments>
       <LifeSupportUnit>

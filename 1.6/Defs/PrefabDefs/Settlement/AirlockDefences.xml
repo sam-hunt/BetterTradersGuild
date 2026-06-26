@@ -36,7 +36,7 @@
     W = OrbitalAncientFortifiedWall
     w = OrbitalAncientFortifiedWall (not included)
     D = AncientBlastDoor
-    S = Building_OutfitStand (Steel)
+    S = Building_OutfitStand (Steel) + LifeSupportUnit (lhs only)
     . = Empty
   -->
 
@@ -108,6 +108,12 @@
         <stuff>Steel</stuff>
         <colorDef>BTG_OrbitalSteel</colorDef>
       </Building_OutfitStand>
+      <!-- Back the outfit stands with LifeSupportUnits -->
+      <!-- Often we remove some of them from the base room gen to make room for the airlock -->
+      <!-- Without putting some back, the corridors sometimes can't maintain the min temp -->
+      <LifeSupportUnit>
+        <position>(4, 0, 1)</position>
+      </LifeSupportUnit>
     </things>
 
     <terrain>

@@ -39,6 +39,12 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         private const int LANDING_PAD_PREFAB_SIZE = 10;
 
         /// <summary>
+        /// Number of LifeSupportUnits to keep in the pressurized area (outside the landing pad).
+        /// Several are kept so the large bay holds temperature and can repressurize quickly.
+        /// </summary>
+        private const int LIFE_SUPPORT_UNITS_TO_KEEP = 3;
+
+        /// <summary>
         /// Stores the landing pad rect to prevent XML-defined prefabs from spawning on it.
         /// Set BEFORE base.FillRoom() is called.
         /// </summary>
@@ -112,13 +118,10 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             //    Other prefabs will avoid landing pad and cargo hatch areas (hatch is now a physical building)
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 6b. Prune LifeSupportUnits to keep only one outside the landing pad subroom
-            //     XML spawns 4 to ensure at least one lands in the pressurized area
-            //     Search all rects to find all units
-            foreach (CellRect roomRect in room.rects)
-            {
-                PruneLifeSupportUnits(map, roomRect);
-            }
+            // 6b. Prune LifeSupportUnits: the XML over-spawns (6) so enough land in the
+            //     pressurized area. Remove any inside the unroofed landing pad (vacuum -
+            //     they heat nothing) and cap the pressurized-area count at a few units.
+            PruneLifeSupportUnits(map, room);
 
             // 7. Connect AncientSealedCrate marker to room edge with conduits (search all rects)
             if (Things.HiddenConduit != null)
@@ -223,33 +226,46 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         }
 
         /// <summary>
-        /// Prunes LifeSupportUnits to keep only one that is outside the landing pad subroom.
-        /// The subroom is unroofed/exposed to space, so LifeSupportUnits shouldn't be there.
-        /// XML spawns 4 units to ensure at least one lands in the pressurized area.
+        /// Prunes LifeSupportUnits down to a few in the pressurized area (outside the landing
+        /// pad subroom). The XML over-spawns (6) so enough land outside the pad; this removes
+        /// the surplus. The landing pad is unroofed/exposed to space, so any unit inside it is
+        /// always removed (it heats nothing in vacuum). Up to LIFE_SUPPORT_UNITS_TO_KEEP units
+        /// are retained outside the pad so the large bay holds temperature and can repressurize
+        /// quickly if the vac barriers are breached.
         /// </summary>
-        private void PruneLifeSupportUnits(Map map, CellRect roomRect)
+        private void PruneLifeSupportUnits(Map map, LayoutRoom room)
         {
             if (Things.LifeSupportUnit == null) return;
 
-            // Find all LifeSupportUnits in the room (uses cell iteration, works for any faction)
-            var units = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.LifeSupportUnit);
-
-            if (units.Count <= 1) return;
-
-            // Find first unit outside the landing pad subroom (preferred)
-            Building keepUnit = units.FirstOrDefault(b =>
-                this.landingPadRect.Width == 0 || !this.landingPadRect.Contains(b.Position));
-
-            // Fallback: keep the last one if all are in the subroom
-            if (keepUnit == null)
-                keepUnit = units.Last();
-
-            // Despawn all others
-            foreach (var unit in units)
+            // Collect every LifeSupportUnit across all room rects (dedup in case rects overlap)
+            var units = new List<Building>();
+            foreach (CellRect roomRect in room.rects)
             {
-                if (unit != keepUnit)
-                    unit.Destroy(DestroyMode.Vanish);
+                foreach (Building unit in RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.LifeSupportUnit))
+                {
+                    if (!units.Contains(unit))
+                        units.Add(unit);
+                }
             }
+
+            // Partition into pressurized-area units and those inside the unroofed landing pad
+            var outside = new List<Building>();
+            var insidePad = new List<Building>();
+            foreach (Building unit in units)
+            {
+                if (this.landingPadRect.Width > 0 && this.landingPadRect.Contains(unit.Position))
+                    insidePad.Add(unit);
+                else
+                    outside.Add(unit);
+            }
+
+            // Always remove units inside the unroofed pad (vacuum - they heat nothing)
+            foreach (Building unit in insidePad)
+                unit.Destroy(DestroyMode.Vanish);
+
+            // Cap the pressurized-area units, removing any beyond the keep count
+            for (int i = LIFE_SUPPORT_UNITS_TO_KEEP; i < outside.Count; i++)
+                outside[i].Destroy(DestroyMode.Vanish);
         }
 
     }
