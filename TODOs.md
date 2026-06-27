@@ -9,6 +9,7 @@ TODOs
   - patch only the caravan-formation/world-pathfinding methods that consult canFormCaravans for friendly TG space tiles instead
 - Rare Subroom placement small room off-by-one?
 - Investigate threat scaling of settlement defender group generation, seems a little low?
+- Test mech ai doesn't load without biotech
 
 - AI defense lords
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?

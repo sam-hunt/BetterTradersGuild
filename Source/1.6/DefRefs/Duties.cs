@@ -25,6 +25,15 @@ namespace BetterTradersGuild.DefRefs
         /// </summary>
         public static DutyDef BTG_DefendStructure;
 
+        /// <summary>
+        /// Paramedic-mech medic duty - room-bound triage. Priority order: emergency
+        /// tend the worst-bleeding defender in place, rescue downed defenders to an
+        /// in-room medical bed, routine tend (bed or floor, best in-room medicine),
+        /// then dormant self-charge when idle. Every action is confined to the mech's
+        /// MedicalBay (see MedicRoomBounds). Used by LordJob_MechMedic.
+        /// </summary>
+        public static DutyDef BTG_MechMedic;
+
         static Duties() => DefOfHelper.EnsureInitializedInCtor(typeof(Duties));
     }
 }

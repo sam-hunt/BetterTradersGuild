@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Better Traders Guild - Paramedic Mech Medic Duty
+
+    BTG_MechMedic: room-bound medical triage for the Paramedic mech. Every action is
+    confined to the mech's MedicalBay (resolved by rect membership in MedicRoomBounds,
+    never a radius - so an arbitrarily large or multi-rect medbay works exactly).
+
+    Priority order:
+    1. Emergency tend - stabilise the worst-bleeding same-faction defender in the room
+       IN PLACE (bed or floor), using the highest-potency medicine in the room. Sits
+       above rescue so a heavily bleeding casualty is patched before being hauled.
+    2. Rescue - carry a downed defender to an unreserved medical bed inside the room
+       (worst-bleed first). No-op when no in-room bed is free, so the routine-tend node
+       below patches the casualty on the floor instead.
+    3. Routine tend - tend remaining wounded, worst bleed/severity first, one at a time,
+       best in-room medicine (any quality) first. endAfterTendedOnce keeps re-triaging.
+    4. Idle - dormant self-charge (SelfShutdown, forceSleep off so the LayDown re-check
+       wakes it for the next casualty within ~211 ticks).
+
+    Used by: LordJob_MechMedic, assigned via RoomMechLordHelper to the Paramedic mech
+    (RoomPart Mech_Paramedic, behavior=Medic).
+  -->
+
+  <DutyDef>
+    <defName>BTG_MechMedic</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- 1. Emergency: stabilise the worst-bleeding defender in place before hauling. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGMechMedicTend">
+          <minBleedRate>0.4</minBleedRate>
+        </li>
+        <!-- 2. Rescue downed defenders to an unreserved in-room medical bed. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGMechMedicRescue" />
+        <!-- 3. Routine tend, worst-first (bed or floor), best in-room medicine first. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGMechMedicTend" />
+        <!-- 4. Idle: dormant self-charge; re-checks ~every 211 ticks to wake for casualties. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGMechMedicStandby" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

@@ -11,7 +11,7 @@
     <defName>BTG_Mech_Paramedic</defName>
     <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
     <pawnKindDef>Mech_Paramedic</pawnKindDef>
-    <behavior>Passive</behavior>
+    <behavior>Medic</behavior>
   </BetterTradersGuild.RoomParts.RoomPart_MechDef>
 
 </Defs>

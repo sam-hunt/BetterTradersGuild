@@ -26,6 +26,12 @@ namespace BetterTradersGuild.DefRefs
         /// <summary>Comms/command center. A roofed defender resupply-drop fallback (pod punches the roof).</summary>
         public static LayoutRoomDef BTG_ControlCenter;
 
+        /// <summary>
+        /// Medical bay. Confines the paramedic mech's tend/rescue/medicine search
+        /// (resolved via StructureRoomLocator in MedicRoomBounds) to this one room.
+        /// </summary>
+        public static LayoutRoomDef BTG_MedicalBay;
+
         // === BTG CARGO VAULT ROOMS ===
 
         /// <summary>

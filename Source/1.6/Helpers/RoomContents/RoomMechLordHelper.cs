@@ -22,9 +22,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// Passive - wanders in room but does not seek enemies.
         /// Uses LordJob_StayInArea with BTG_WanderInArea duty.
         /// Self-defense only via ThinkTree fallback if directly threatened.
-        /// Suitable for expensive/specialized mechs (Fabricor, Paramedic, Cleansweeper, Agrihand).
+        /// Suitable for expensive/specialized mechs (Fabricor, Cleansweeper, Agrihand).
         /// </summary>
-        Passive
+        Passive,
+
+        /// <summary>
+        /// Medic - room-bound triage. Tends and rescues wounded same-faction
+        /// defenders inside its room, and goes dormant (self-charge) when idle.
+        /// Uses LordJob_MechMedic with the BTG_MechMedic duty. Suitable for the
+        /// Paramedic mech.
+        /// </summary>
+        Medic
     }
 
     /// <summary>
@@ -143,6 +151,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
                             return lord;
                     }
                 }
+                else if (behavior == MechRoomBehavior.Medic)
+                {
+                    if (!(lord.LordJob is LordJob_MechMedic))
+                        continue;
+
+                    if (lord.CurLordToil is LordToil_MechMedic medicToil)
+                    {
+                        if (medicToil.Point.DistanceTo(point) <= PointMatchTolerance)
+                            return lord;
+                    }
+                }
                 else // Passive
                 {
                     if (!(lord.LordJob is LordJob_StayInArea))
@@ -175,6 +194,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     isCaravanSendable: false,
                     addFleeToil: false
                 );
+            }
+            else if (behavior == MechRoomBehavior.Medic)
+            {
+                lordJob = new LordJob_MechMedic(roomCenter);
             }
             else // Passive
             {
