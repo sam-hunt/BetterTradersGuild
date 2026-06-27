@@ -12,7 +12,7 @@ namespace BetterTradersGuild.DefRefs
         /// <summary>
         /// Passive wander duty - mechs wander within 7 tiles of focus point
         /// without actively seeking enemies. Used for expensive/specialized
-        /// mechs (Fabricor, Paramedic, Cleansweeper, Agrihand).
+        /// mechs (Fabricor, Agrihand).
         /// </summary>
         public static DutyDef BTG_WanderInArea;
 
@@ -33,6 +33,15 @@ namespace BetterTradersGuild.DefRefs
         /// MedicalBay (see MedicRoomBounds). Used by LordJob_MechMedic.
         /// </summary>
         public static DutyDef BTG_MechMedic;
+
+        /// <summary>
+        /// Cleansweeper-mech janitor duty - radius-bound, structure-confined. Priority
+        /// order: clean the nearest in-range filth and its cluster in one vanilla Clean
+        /// job, then dormant self-charge near the anchor point when none remains. Filth
+        /// is searched only within a moderate radius of the anchor and never outside the
+        /// settlement structure footprint (see CleanArea). Used by LordJob_MechClean.
+        /// </summary>
+        public static DutyDef BTG_MechClean;
 
         static Duties() => DefOfHelper.EnsureInitializedInCtor(typeof(Duties));
     }

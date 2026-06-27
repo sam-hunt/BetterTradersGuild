@@ -22,7 +22,7 @@ namespace BetterTradersGuild.RoomParts
     ///   <defName>BTG_Mech_Cleansweeper</defName>
     ///   <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
     ///   <pawnKindDef>Mech_Cleansweeper</pawnKindDef>
-    ///   <behavior>Passive</behavior>
+    ///   <behavior>Clean</behavior>
     /// </BetterTradersGuild.RoomParts.RoomPart_MechDef>
     /// ]]>
     /// </summary>
