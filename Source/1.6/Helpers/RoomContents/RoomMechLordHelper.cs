@@ -40,7 +40,16 @@ namespace BetterTradersGuild.Helpers.RoomContents
         /// near the point when none remains. Uses LordJob_MechClean with the BTG_MechClean
         /// duty. Suitable for the Cleansweeper mech.
         /// </summary>
-        Clean
+        Clean,
+
+        /// <summary>
+        /// Farm - greenhouse tender. Harvests mature food crops within a moderate radius
+        /// of its anchor point (never outside the settlement structure bounds), hauls the
+        /// produce to a nearby shelf, sows rice into the emptied basin cells, and goes
+        /// dormant (self-charge) near the point when there is no work. Uses LordJob_MechFarm
+        /// with the BTG_MechFarm duty. Suitable for the Agrihand mech.
+        /// </summary>
+        Farm
     }
 
     /// <summary>
@@ -56,6 +65,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
     /// - Passive: Wander only using LordJob_StayInArea (for utility mechs)
     /// - Medic: Room-bound triage using LordJob_MechMedic (for Paramedics)
     /// - Clean: Radius-bound filth cleaning using LordJob_MechClean (for Cleansweepers)
+    /// - Farm: Radius-bound greenhouse tending using LordJob_MechFarm (for Agrihands)
     ///
     /// TECHNICAL APPROACH:
     /// - Each room gets one shared Lord at the room's center point
@@ -69,7 +79,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
     /// // For combat mechs (Militor):
     /// RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Defend);
     ///
-    /// // For utility mechs (Fabricor, Agrihand, etc.):
+    /// // For utility mechs (Fabricor, Lifter, etc.):
     /// RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Passive);
     /// ]]>
     /// </summary>
@@ -183,6 +193,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
                             return lord;
                     }
                 }
+                else if (behavior == MechRoomBehavior.Farm)
+                {
+                    if (!(lord.LordJob is LordJob_MechFarm))
+                        continue;
+
+                    if (lord.CurLordToil is LordToil_MechFarm farmToil)
+                    {
+                        if (farmToil.Point.DistanceTo(point) <= PointMatchTolerance)
+                            return lord;
+                    }
+                }
                 else // Passive
                 {
                     if (!(lord.LordJob is LordJob_StayInArea))
@@ -223,6 +244,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
             else if (behavior == MechRoomBehavior.Clean)
             {
                 lordJob = new LordJob_MechClean(roomCenter);
+            }
+            else if (behavior == MechRoomBehavior.Farm)
+            {
+                lordJob = new LordJob_MechFarm(roomCenter);
             }
             else // Passive
             {

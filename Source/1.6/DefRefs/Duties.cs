@@ -12,7 +12,7 @@ namespace BetterTradersGuild.DefRefs
         /// <summary>
         /// Passive wander duty - mechs wander within 7 tiles of focus point
         /// without actively seeking enemies. Used for expensive/specialized
-        /// mechs (Fabricor, Agrihand).
+        /// mechs (Fabricor, Lifter).
         /// </summary>
         public static DutyDef BTG_WanderInArea;
 
@@ -42,6 +42,17 @@ namespace BetterTradersGuild.DefRefs
         /// settlement structure footprint (see CleanArea). Used by LordJob_MechClean.
         /// </summary>
         public static DutyDef BTG_MechClean;
+
+        /// <summary>
+        /// Agrihand-mech farming duty - radius-bound, structure-confined greenhouse
+        /// tending. Priority order: harvest mature food crops from in-range hydroponics
+        /// basins, haul the (forbidden) produce to a nearby shelf, sow the basin crop
+        /// (rice) into the emptied cells, then dormant self-charge near the anchor point
+        /// when idle. Every action is confined to a moderate radius of the anchor and
+        /// never outside the settlement structure footprint (see FarmArea). Used by
+        /// LordJob_MechFarm.
+        /// </summary>
+        public static DutyDef BTG_MechFarm;
 
         static Duties() => DefOfHelper.EnsureInitializedInCtor(typeof(Duties));
     }

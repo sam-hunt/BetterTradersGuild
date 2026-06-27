@@ -45,6 +45,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Chemfuel;
         public static ThingDef ChemfuelTank;
         public static ThingDef RawCorn;
+        public static ThingDef RawRice;
         public static ThingDef Cloth;
         public static ThingDef Building_OutfitStand;
         public static ThingDef GameOfUrBoard;
