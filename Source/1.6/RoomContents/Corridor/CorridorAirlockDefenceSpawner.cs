@@ -7,14 +7,12 @@ using static BetterTradersGuild.Helpers.RoomContents.OutfitStandHarFixer;
 
 namespace BetterTradersGuild.RoomContents.Corridor
 {
-    /// <summary>
-    /// Finds AncientBlastDoors on corridor rect edges, replaces each with an
-    /// airlock defense prefab (airlock + autocannons), and populates the
-    /// prefab's outfit stands with vacsuits.
-    ///
-    /// Must run BEFORE base room content placement so the airlock space is
-    /// occupied and unavailable for other prefab placement.
-    /// </summary>
+    // Finds AncientBlastDoors on corridor rect edges, replaces each with an
+    // airlock defense prefab (airlock + autocannons), and populates the
+    // prefab's outfit stands with vacsuits.
+    //
+    // Must run BEFORE base room content placement so the airlock space is
+    // occupied and unavailable for other prefab placement.
     public static class CorridorAirlockDefenceSpawner
     {
         private const float PopulateChancePerStand = 0.5f;
@@ -51,10 +49,8 @@ namespace BetterTradersGuild.RoomContents.Corridor
             PopulateVacsuitStands(map, room, faction);
         }
 
-        /// <summary>
-        /// Returns the prefab rotation based on which edge of the rect the cell is on.
-        /// Returns null for corner cells (ambiguous edge).
-        /// </summary>
+        // Returns the prefab rotation based on which edge of the rect the cell is on.
+        // Returns null for corner cells (ambiguous edge).
         private static Rot4? GetEdgeRotation(IntVec3 cell, CellRect rect)
         {
             bool onNorth = cell.z == rect.maxZ;
@@ -74,10 +70,8 @@ namespace BetterTradersGuild.RoomContents.Corridor
             return null;
         }
 
-        /// <summary>
-        /// Populates outfit stands placed by the airlock defense prefab with vacsuits.
-        /// Each stand has a 50% chance of being populated with a vacsuit and helmet.
-        /// </summary>
+        // Populates outfit stands placed by the airlock defense prefab with vacsuits.
+        // Each stand has a 50% chance of being populated with a vacsuit and helmet.
         private static void PopulateVacsuitStands(Map map, LayoutRoom room, Faction faction)
         {
             List<ThingDef> vacsuitSet = new List<ThingDef>();

@@ -10,29 +10,23 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement_TraderTracker.TraderKind property getter
-    /// Returns a weighted, deterministic orbital trader type for TradersGuild settlements
-    /// </summary>
-    /// <remarks>
-    /// Uses Rand.PushState/PopState for deterministic weighted selection.
-    /// The seed is based on settlement ID + effective lastStockTicks, ensuring:
-    /// - Deterministic (same settlement + same rotation cycle = same trader)
-    /// - Weighted by static commonality (not population-dependent CalculatedCommonality)
-    /// - Rotation (changes when rotation interval expires)
-    /// - Save/load stable (uses persisted field when within rotation period)
-    ///
-    /// KEY ARCHITECTURE: Uses TradersGuildTraderRotation.GetEffectiveLastStockTicks() to
-    /// determine the correct tick value for trader selection. This unified helper ensures
-    /// preview and stock generation use the same seed for the same rotation cycle.
-    /// During mid-regeneration, defers to the alignment patch's pending value.
-    /// </remarks>
+    // Harmony patch: Settlement_TraderTracker.TraderKind property getter
+    // Returns a weighted, deterministic orbital trader type for TradersGuild settlements
+    // Uses Rand.PushState/PopState for deterministic weighted selection.
+    // The seed is based on settlement ID + effective lastStockTicks, ensuring:
+    // - Deterministic (same settlement + same rotation cycle = same trader)
+    // - Weighted by static commonality (not population-dependent CalculatedCommonality)
+    // - Rotation (changes when rotation interval expires)
+    // - Save/load stable (uses persisted field when within rotation period)
+    //
+    // KEY ARCHITECTURE: Uses TradersGuildTraderRotation.GetEffectiveLastStockTicks() to
+    // determine the correct tick value for trader selection. This unified helper ensures
+    // preview and stock generation use the same seed for the same rotation cycle.
+    // During mid-regeneration, defers to the alignment patch's pending value.
     [HarmonyPatch(typeof(Settlement_TraderTracker), nameof(Settlement_TraderTracker.TraderKind), MethodType.Getter)]
     public static class SettlementTraderTrackerGetTraderKind
     {
-        /// <summary>
-        /// Cached trader information to avoid recalculating every frame
-        /// </summary>
+        // Cached trader information to avoid recalculating every frame
         private class CachedTraderInfo
         {
             public TraderKindDef traderKind;
@@ -48,18 +42,14 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         // Key: Settlement ID, Value: Cached trader info
         private static Dictionary<int, CachedTraderInfo> traderCache = new Dictionary<int, CachedTraderInfo>();
 
-        /// <summary>
-        /// Clears the local trader cache. Called when rotation interval setting changes.
-        /// </summary>
+        // Clears the local trader cache. Called when rotation interval setting changes.
         public static void ClearLocalCache()
         {
             traderCache.Clear();
         }
 
-        /// <summary>
-        /// Checks if a faction's ideology approves of slavery.
-        /// Returns true if no ideology system is active (classic mode) or if any ideo approves.
-        /// </summary>
+        // Checks if a faction's ideology approves of slavery.
+        // Returns true if no ideology system is active (classic mode) or if any ideo approves.
         private static bool FactionApprovesOfSlavery(Faction faction)
         {
             // No ideology system (classic mode) = slavery implicitly approved via Slavery_Classic precept
@@ -74,10 +64,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             return false;
         }
 
-        /// <summary>
-        /// Checks if a trader kind has a StockGenerator_Slaves in its stock generators.
-        /// Used to filter out slave ships when the faction doesn't approve of slavery.
-        /// </summary>
+        // Checks if a trader kind has a StockGenerator_Slaves in its stock generators.
+        // Used to filter out slave ships when the faction doesn't approve of slavery.
         private static bool HasSlavesStockGenerator(TraderKindDef trader)
         {
             if (trader.stockGenerators == null)
@@ -91,11 +79,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             return false;
         }
 
-        /// <summary>
-        /// Postfix method - provides weighted orbital trader types for TradersGuild settlements
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
-        /// <param name="__result">The TraderKindDef result (can be modified)</param>
+        // Postfix method - provides weighted orbital trader types for TradersGuild settlements
+        // __instance: The Settlement_TraderTracker instance
+        // __result: The TraderKindDef result (can be modified)
         [HarmonyPostfix]
         public static void Postfix(Settlement_TraderTracker __instance, ref TraderKindDef __result)
         {

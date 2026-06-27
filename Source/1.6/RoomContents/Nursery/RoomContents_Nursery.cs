@@ -8,22 +8,20 @@ using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Nursery rooms (Biotech DLC).
-    ///
-    /// Spawns a crib subroom prefab with an L-shaped wall configuration
-    /// that can be placed in corners (preferred) or along edges (with procedural wall completion).
-    ///
-    /// Uses the same placement strategy as Commander's Quarters:
-    /// - Corner placement (preferred): Uses 2 room walls, no additional walls needed
-    /// - Edge placement (fallback): Uses 1 room wall, spawns 1 side wall
-    /// - Center placement (last resort): Uses 0 room walls, spawns 2 walls (back + left)
-    ///
-    /// Post-generation customization is handled by helper classes:
-    /// - ShelteringCivilianSpawner: Spawns caretaker and children in the subroom
-    /// - NurseryShelfPopulator: Adds baby food and meals to shelves
-    /// - RoomFurniturePastelPainter: Paints furniture with pastel colors
-    /// </summary>
+    // Custom RoomContentsWorker for Nursery rooms (Biotech DLC).
+    //
+    // Spawns a crib subroom prefab with an L-shaped wall configuration
+    // that can be placed in corners (preferred) or along edges (with procedural wall completion).
+    //
+    // Uses the same placement strategy as Commander's Quarters:
+    // - Corner placement (preferred): Uses 2 room walls, no additional walls needed
+    // - Edge placement (fallback): Uses 1 room wall, spawns 1 side wall
+    // - Center placement (last resort): Uses 0 room walls, spawns 2 walls (back + left)
+    //
+    // Post-generation customization is handled by helper classes:
+    // - ShelteringCivilianSpawner: Spawns caretaker and children in the subroom
+    // - NurseryShelfPopulator: Adds baby food and meals to shelves
+    // - RoomFurniturePastelPainter: Paints furniture with pastel colors
     public class RoomContents_Nursery : RoomContentsWorker
     {
         // Prefab actual size (6×6) - the content defined in XML
@@ -32,10 +30,8 @@ namespace BetterTradersGuild.RoomContents.Nursery
         // Stores the crib subroom area to prevent other prefabs from spawning there
         private CellRect cribSubroomRect;
 
-        /// <summary>
-        /// Main room generation method. Orchestrates crib subroom placement and calls base class
-        /// to process XML-defined content (prefabs, scatter, parts) in remaining space.
-        /// </summary>
+        // Main room generation method. Orchestrates crib subroom placement and calls base class
+        // to process XML-defined content (prefabs, scatter, parts) in remaining space.
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             // Explicitly initialize cribSubroomRect to default (safety mechanism)
@@ -101,15 +97,13 @@ namespace BetterTradersGuild.RoomContents.Nursery
             }
         }
 
-        /// <summary>
-        /// Override to prevent other prefabs from spawning in crib subroom area.
-        ///
-        /// CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
-        /// doesn't work because other prefabs overwrite subroom furniture at the same cells,
-        /// and removing them afterward leaves the subroom furniture already destroyed.
-        ///
-        /// Called by base.FillRoom() during prefab placement validation.
-        /// </summary>
+        // Override to prevent other prefabs from spawning in crib subroom area.
+        //
+        // CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
+        // doesn't work because other prefabs overwrite subroom furniture at the same cells,
+        // and removing them afterward leaves the subroom furniture already destroyed.
+        //
+        // Called by base.FillRoom() during prefab placement validation.
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             // Block prefab placement in crib subroom area (prevent furniture overwriting)

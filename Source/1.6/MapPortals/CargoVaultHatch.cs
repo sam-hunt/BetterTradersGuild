@@ -6,36 +6,30 @@ using Verse;
 
 namespace BetterTradersGuild.MapGeneration
 {
-    /// <summary>
-    /// Custom MapPortal class for the cargo vault hatch.
-    ///
-    /// Unlike AncientHatch, this class does NOT add extra GenSteps to the pocket map.
-    /// All generation is controlled entirely by the MapGeneratorDef (BTG_CargoVault)
-    /// and its specified GenSteps.
-    ///
-    /// This prevents vanilla's AncientStockpile generation from interfering with
-    /// our custom BTG_CargoVault GenStep.
-    ///
-    /// Additionally, this class handles auto-relock when the settlement map unloads
-    /// by overriding DeSpawn to clean up the pocket map and reset hackable state.
-    /// </summary>
+    // Custom MapPortal class for the cargo vault hatch.
+    //
+    // Unlike AncientHatch, this class does NOT add extra GenSteps to the pocket map.
+    // All generation is controlled entirely by the MapGeneratorDef (BTG_CargoVault)
+    // and its specified GenSteps.
+    //
+    // This prevents vanilla's AncientStockpile generation from interfering with
+    // our custom BTG_CargoVault GenStep.
+    //
+    // Additionally, this class handles auto-relock when the settlement map unloads
+    // by overriding DeSpawn to clean up the pocket map and reset hackable state.
     public class CargoVaultHatch : MapPortal
     {
-        /// <summary>
-        /// Override GetExtraGenSteps to return empty - we don't want any extra steps.
-        /// All pocket map generation is handled by BTG_CargoVault GenStep in our MapGeneratorDef
-        /// specified in the MapGeneratorDef.
-        /// </summary>
+        // Override GetExtraGenSteps to return empty - we don't want any extra steps.
+        // All pocket map generation is handled by BTG_CargoVault GenStep in our MapGeneratorDef
+        // specified in the MapGeneratorDef.
         protected override IEnumerable<GenStepWithParams> GetExtraGenSteps()
         {
             yield break;
         }
 
-        /// <summary>
-        /// Override IsEnterable to check CompHackable status before allowing entry.
-        /// This prevents pawns from entering the vault before hacking is complete.
-        /// Mirrors the behavior of vanilla AncientHatch.
-        /// </summary>
+        // Override IsEnterable to check CompHackable status before allowing entry.
+        // This prevents pawns from entering the vault before hacking is complete.
+        // Mirrors the behavior of vanilla AncientHatch.
         public override bool IsEnterable(out string reason)
         {
             CompHackable hackable = this.GetComp<CompHackable>();
@@ -47,11 +41,9 @@ namespace BetterTradersGuild.MapGeneration
             return base.IsEnterable(out reason);
         }
 
-        /// <summary>
-        /// Override GetGizmos to hide the "View pocket map" gizmo when the hatch is locked.
-        /// The base MapPortal class provides a gizmo to view/select the pocket map, but this
-        /// should only be visible when the hatch has been hacked (unlocked).
-        /// </summary>
+        // Override GetGizmos to hide the "View pocket map" gizmo when the hatch is locked.
+        // The base MapPortal class provides a gizmo to view/select the pocket map, but this
+        // should only be visible when the hatch has been hacked (unlocked).
         public override IEnumerable<Gizmo> GetGizmos()
         {
             CompHackable hackable = this.GetComp<CompHackable>();
@@ -78,11 +70,9 @@ namespace BetterTradersGuild.MapGeneration
             }
         }
 
-        /// <summary>
-        /// Override DeSpawn to clean up the pocket map when the settlement map unloads.
-        /// This implements the auto-relock behavior: when the player leaves the settlement,
-        /// any pocket map is cleaned up and the hatch returns to its locked state.
-        /// </summary>
+        // Override DeSpawn to clean up the pocket map when the settlement map unloads.
+        // This implements the auto-relock behavior: when the player leaves the settlement,
+        // any pocket map is cleaned up and the hatch returns to its locked state.
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
             // Before despawning, clean up pocket map and reset hackable state
@@ -91,10 +81,8 @@ namespace BetterTradersGuild.MapGeneration
             base.DeSpawn(mode);
         }
 
-        /// <summary>
-        /// Cleans up the pocket map by returning items to stock and destroying the map.
-        /// Also resets the hackable state so the hatch will be locked on next visit.
-        /// </summary>
+        // Cleans up the pocket map by returning items to stock and destroying the map.
+        // Also resets the hackable state so the hatch will be locked on next visit.
         private void CleanupPocketMap()
         {
             Map pocketMap = this.PocketMap;
@@ -111,10 +99,8 @@ namespace BetterTradersGuild.MapGeneration
             ResetHackableState();
         }
 
-        /// <summary>
-        /// Resets the CompHackable component to its initial locked state.
-        /// Uses reflection to access private fields.
-        /// </summary>
+        // Resets the CompHackable component to its initial locked state.
+        // Uses reflection to access private fields.
         private void ResetHackableState()
         {
             CompHackable hackable = this.GetComp<CompHackable>();

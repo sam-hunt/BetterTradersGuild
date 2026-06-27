@@ -5,18 +5,14 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
 {
-    /// <summary>
-    /// Handles selection of cargo items from trade inventory.
-    /// Transfers ALL items from stock to the cargo vault.
-    /// </summary>
+    // Handles selection of cargo items from trade inventory.
+    // Transfers ALL items from stock to the cargo vault.
     public static class CargoSelector
     {
-        /// <summary>
-        /// Selects ALL cargo from stock.
-        /// All items are REMOVED from the source stock and returned.
-        /// </summary>
-        /// <param name="stock">The trade inventory to select from</param>
-        /// <returns>List of Things removed from stock</returns>
+        // Selects ALL cargo from stock.
+        // All items are REMOVED from the source stock and returned.
+        // stock: The trade inventory to select from
+        // Returns: List of Things removed from stock
         public static List<Thing> SelectCargo(ThingOwner<Thing> stock)
         {
             var selected = new List<Thing>();
@@ -37,14 +33,12 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return selected;
         }
 
-        /// <summary>
-        /// Categorizes selected cargo into items and pawns for different spawn handling.
-        /// Pawns spawn on floor; items try shelves first, then floor.
-        /// Filters out corrupt MinifiedThings (null InnerThing) to prevent render crashes.
-        /// </summary>
-        /// <param name="cargo">All selected cargo</param>
-        /// <param name="items">Output: Non-pawn items</param>
-        /// <param name="pawns">Output: Pawns (slaves from pirate merchants)</param>
+        // Categorizes selected cargo into items and pawns for different spawn handling.
+        // Pawns spawn on floor; items try shelves first, then floor.
+        // Filters out corrupt MinifiedThings (null InnerThing) to prevent render crashes.
+        // cargo: All selected cargo
+        // items: Output: Non-pawn items
+        // pawns: Output: Pawns (slaves from pirate merchants)
         public static void CategorizeItems(
             List<Thing> cargo,
             out List<Thing> items,

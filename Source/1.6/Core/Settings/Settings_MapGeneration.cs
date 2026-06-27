@@ -3,31 +3,21 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// "Map Generation" settings section. <see cref="useCustomLayouts"/> is the master
-    /// toggle for BTG's custom settlement generation; the Defenders and Defender
-    /// Resupply sections (and the cargo vault below) all gate on it. Drawn first so
-    /// the dependent sections that follow read as enabled/disabled beneath it.
-    /// </summary>
+    // "Map Generation" settings section. useCustomLayouts is the master
+    // toggle for BTG's custom settlement generation; the Defenders and Defender
+    // Resupply sections (and the cargo vault below) all gate on it. Drawn first so
+    // the dependent sections that follow read as enabled/disabled beneath it.
     public partial class BetterTradersGuildSettings
     {
-        /// <summary>
-        /// Enable custom settlement layouts for TradersGuild bases.
-        /// </summary>
-        /// <remarks>
-        /// When enabled: uses BTG_OrbitalSettlement layout with custom room types.
-        /// When disabled: uses vanilla/other mod generation. Default: true.
-        /// </remarks>
+        // Enable custom settlement layouts for TradersGuild bases.
+        // When enabled: uses BTG_OrbitalSettlement layout with custom room types.
+        // When disabled: uses vanilla/other mod generation. Default: true.
         public bool useCustomLayouts = true;
 
-        /// <summary>
-        /// Enable cargo vault access in TradersGuild settlements.
-        /// </summary>
-        /// <remarks>
-        /// When enabled: cargo vault hatch spawns hackable. When disabled: spawns
-        /// sealed. Default: true. Only affects newly generated maps. Requires
-        /// <see cref="useCustomLayouts"/>.
-        /// </remarks>
+        // Enable cargo vault access in TradersGuild settlements.
+        // When enabled: cargo vault hatch spawns hackable. When disabled: spawns
+        // sealed. Default: true. Only affects newly generated maps. Requires
+        // useCustomLayouts.
         public bool enableCargoVault = true;
 
         private void ExposeMapGenerationSettings()

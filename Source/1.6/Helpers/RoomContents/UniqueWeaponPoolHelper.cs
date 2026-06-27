@@ -6,20 +6,16 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Discovers and caches all unique weapons with PulseCharge or BeamWeapon categories.
-    /// Used by CommandersWeaponSpawner and ShelfCustomizer for dynamic weapon pool selection.
-    /// Automatically includes VWE weapons when Vanilla Weapons Expanded is loaded.
-    /// </summary>
+    // Discovers and caches all unique weapons with PulseCharge or BeamWeapon categories.
+    // Used by CommandersWeaponSpawner and ShelfCustomizer for dynamic weapon pool selection.
+    // Automatically includes VWE weapons when Vanilla Weapons Expanded is loaded.
     internal static class UniqueWeaponPoolHelper
     {
         private static List<ThingDef> cachedWeapons;
         private static bool initialized;
 
-        /// <summary>
-        /// Gets all unique weapon ThingDefs whose CompProperties_UniqueWeapon.weaponCategories
-        /// include PulseCharge or BeamWeapon. Results are cached after first call.
-        /// </summary>
+        // Gets all unique weapon ThingDefs whose CompProperties_UniqueWeapon.weaponCategories
+        // include PulseCharge or BeamWeapon. Results are cached after first call.
         internal static IReadOnlyList<ThingDef> GetPulseChargeAndBeamWeapons()
         {
             if (!initialized)
@@ -30,11 +26,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return cachedWeapons;
         }
 
-        /// <summary>
-        /// Returns the appropriate primary WeaponTraitDef for a weapon based on its category:
-        /// PulseCharge -> ChargeCapacitor, BeamWeapon -> FrequencyAmplifier.
-        /// Falls back to AimAssistance if neither category is found.
-        /// </summary>
+        // Returns the appropriate primary WeaponTraitDef for a weapon based on its category:
+        // PulseCharge -> ChargeCapacitor, BeamWeapon -> FrequencyAmplifier.
+        // Falls back to AimAssistance if neither category is found.
         internal static WeaponTraitDef GetPrimaryTrait(ThingDef weaponDef)
         {
             if (HasCategory(weaponDef, WeaponCategories.PulseCharge))

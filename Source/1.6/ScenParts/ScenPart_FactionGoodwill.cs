@@ -6,10 +6,8 @@ using Verse;
 
 namespace BetterTradersGuild.ScenParts
 {
-    /// <summary>
-    /// ScenPart that sets a target faction's goodwill toward the player faction
-    /// to a specific value at game start.
-    /// </summary>
+    // ScenPart that sets a target faction's goodwill toward the player faction
+    // to a specific value at game start.
     public class ScenPart_FactionGoodwill : ScenPart
     {
         private const string SummaryTag = "FactionGoodwill";

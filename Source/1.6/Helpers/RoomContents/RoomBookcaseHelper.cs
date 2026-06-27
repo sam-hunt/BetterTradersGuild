@@ -5,31 +5,27 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Helper class for fixing bookcase contents in room generation.
-    /// Provides methods for inserting books spawned by prefabs into bookcase innerContainers.
-    ///
-    /// LEARNING NOTE: Vanilla PrefabUtility.SpawnPrefab() spawns items at cell positions
-    /// using GenSpawn.Spawn(), which does NOT automatically insert items into containers.
-    /// This affects all IThingHolder containers (bookcases, shelves, crates, etc).
-    ///
-    /// USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
-    /// to fix books spawned by XML prefabs that include bookcases with books.
-    /// </summary>
+    // Helper class for fixing bookcase contents in room generation.
+    // Provides methods for inserting books spawned by prefabs into bookcase innerContainers.
+    //
+    // LEARNING NOTE: Vanilla PrefabUtility.SpawnPrefab() spawns items at cell positions
+    // using GenSpawn.Spawn(), which does NOT automatically insert items into containers.
+    // This affects all IThingHolder containers (bookcases, shelves, crates, etc).
+    //
+    // USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
+    // to fix books spawned by XML prefabs that include bookcases with books.
     public static class RoomBookcaseHelper
     {
-        /// <summary>
-        /// Fixes bookcase contents by moving books from map into innerContainer.
-        ///
-        /// This post-spawn fixup finds books spawned at the same position (or adjacent to)
-        /// bookcases and properly inserts them into the bookcase's innerContainer for correct
-        /// rendering and interaction mechanics.
-        ///
-        /// DESIGN NOTE: Searches bookcase cell AND adjacent 8-way cells because books might
-        /// be slightly offset in prefab definitions. This ensures we catch all intended books.
-        /// </summary>
-        /// <param name="map">The map to search for bookcases and books</param>
-        /// <param name="searchArea">Area to search (typically the full room rect)</param>
+        // Fixes bookcase contents by moving books from map into innerContainer.
+        //
+        // This post-spawn fixup finds books spawned at the same position (or adjacent to)
+        // bookcases and properly inserts them into the bookcase's innerContainer for correct
+        // rendering and interaction mechanics.
+        //
+        // DESIGN NOTE: Searches bookcase cell AND adjacent 8-way cells because books might
+        // be slightly offset in prefab definitions. This ensures we catch all intended books.
+        // map: The map to search for bookcases and books
+        // searchArea: Area to search (typically the full room rect)
         public static void InsertBooksIntoBookcases(Map map, CellRect searchArea)
         {
             // Find all unique bookcases in search area

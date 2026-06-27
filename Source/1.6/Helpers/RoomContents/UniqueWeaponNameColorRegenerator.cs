@@ -6,18 +6,16 @@ using RimWorld;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Regenerates CompUniqueWeapon name and color after manual trait modification.
-    ///
-    /// PROBLEM SOLVED:
-    /// PostPostMake() cannot be called a second time to regenerate name/color
-    /// because it has an early return guard in InitializeTraits() that skips
-    /// regeneration if traits already exist.
-    ///
-    /// SOLUTION:
-    /// Directly set the private 'name' and 'color' fields via reflection,
-    /// bypassing the PostPostMake() guard entirely.
-    /// </summary>
+    // Regenerates CompUniqueWeapon name and color after manual trait modification.
+    //
+    // PROBLEM SOLVED:
+    // PostPostMake() cannot be called a second time to regenerate name/color
+    // because it has an early return guard in InitializeTraits() that skips
+    // regeneration if traits already exist.
+    //
+    // SOLUTION:
+    // Directly set the private 'name' and 'color' fields via reflection,
+    // bypassing the PostPostMake() guard entirely.
     public static class UniqueWeaponNameColorRegenerator
     {
         // Cache the FieldInfo objects for performance (reflection is expensive)
@@ -27,10 +25,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
         private static readonly FieldInfo ColorField = typeof(CompUniqueWeapon)
             .GetField("color", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        /// <summary>
-        /// Logs a targeted error for any member that failed to resolve. Called once at startup
-        /// from <see cref="ReflectionVerification.VerifyAll"/>.
-        /// </summary>
+        // Logs a targeted error for any member that failed to resolve. Called once at startup
+        // from ReflectionVerification.VerifyAll.
         public static void VerifyReflection()
         {
             if (NameField == null)
@@ -41,10 +37,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     + "unique weapons from settlements won't be recoloured after trait changes. RimWorld API may have changed.");
         }
 
-        /// <summary>
-        /// Regenerates weapon name and color based on current traits.
-        /// Must be called AFTER all traits have been added to the component.
-        /// </summary>
+        // Regenerates weapon name and color based on current traits.
+        // Must be called AFTER all traits have been added to the component.
         public static void RegenerateNameAndColor(Thing weapon, CompUniqueWeapon uniqueComp)
         {
             if (weapon == null || uniqueComp == null)
@@ -81,10 +75,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Selects weapon color based on trait definitions.
-        /// Traits with forcedColor (like GoldInlay) take priority.
-        /// </summary>
+        // Selects weapon color based on trait definitions.
+        // Traits with forcedColor (like GoldInlay) take priority.
         private static ColorDef SelectWeaponColor(CompUniqueWeapon uniqueComp)
         {
             if (uniqueComp?.TraitsListForReading == null || uniqueComp.TraitsListForReading.Count == 0)
@@ -109,11 +101,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return null;
         }
 
-        /// <summary>
-        /// Generates weapon name using trait adjectives, color, and weapon type.
-        /// Format: "[adjective] [color] [weapon_type]"
-        /// Examples: "Golden Charge Rifle", "Brilliant Revolver"
-        /// </summary>
+        // Generates weapon name using trait adjectives, color, and weapon type.
+        // Format: "[adjective] [color] [weapon_type]"
+        // Examples: "Golden Charge Rifle", "Brilliant Revolver"
         private static string GenerateWeaponName(CompUniqueWeapon uniqueComp)
         {
             if (uniqueComp == null)

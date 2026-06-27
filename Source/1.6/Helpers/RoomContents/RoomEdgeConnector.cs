@@ -5,29 +5,25 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Connects buildings to room edge infrastructure (conduits, pipes, etc.).
-    ///
-    /// PURPOSE:
-    /// Prefabs placed in room interiors (like sun lamps, pod launchers) need to connect
-    /// to the infrastructure network that runs under room walls. This helper places
-    /// a line of hidden conduits/pipes from an interior position to the nearest room edge.
-    ///
-    /// DESIGN NOTE:
-    /// The edge cell itself is excluded because LayoutConduitPlacer already places
-    /// infrastructure under walls during initial layout generation.
-    /// </summary>
+    // Connects buildings to room edge infrastructure (conduits, pipes, etc.).
+    //
+    // PURPOSE:
+    // Prefabs placed in room interiors (like sun lamps, pod launchers) need to connect
+    // to the infrastructure network that runs under room walls. This helper places
+    // a line of hidden conduits/pipes from an interior position to the nearest room edge.
+    //
+    // DESIGN NOTE:
+    // The edge cell itself is excluded because LayoutConduitPlacer already places
+    // infrastructure under walls during initial layout generation.
     public static class RoomEdgeConnector
     {
-        /// <summary>
-        /// Places a line of things from startPos toward the nearest room edge.
-        /// Stops one cell before the edge (edge already has conduits under walls).
-        /// </summary>
-        /// <param name="map">The map</param>
-        /// <param name="startPos">Position to start from (e.g., a sun lamp)</param>
-        /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="thingDefs">ThingDefs to place at each position (e.g., HiddenConduit, pipes)</param>
-        /// <returns>Number of positions where things were placed</returns>
+        // Places a line of things from startPos toward the nearest room edge.
+        // Stops one cell before the edge (edge already has conduits under walls).
+        // map: The map
+        // startPos: Position to start from (e.g., a sun lamp)
+        // roomRect: The room's bounding rect
+        // thingDefs: ThingDefs to place at each position (e.g., HiddenConduit, pipes)
+        // Returns: Number of positions where things were placed
         public static int ConnectToNearestEdge(Map map, IntVec3 startPos, CellRect roomRect, IEnumerable<ThingDef> thingDefs)
         {
             // Calculate distance to each edge
@@ -116,21 +112,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return placedCount;
         }
 
-        /// <summary>
-        /// Convenience overload for connecting with a single ThingDef.
-        /// </summary>
+        // Convenience overload for connecting with a single ThingDef.
         public static int ConnectToNearestEdge(Map map, IntVec3 startPos, CellRect roomRect, ThingDef thingDef)
         {
             return ConnectToNearestEdge(map, startPos, roomRect, new[] { thingDef });
         }
 
-        /// <summary>
-        /// Finds all buildings of a specific type within a room rect.
-        /// </summary>
-        /// <param name="map">The map</param>
-        /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="buildingDef">The ThingDef to search for (use DefRefs.Things.*)</param>
-        /// <returns>List of matching buildings, or empty list if buildingDef is null</returns>
+        // Finds all buildings of a specific type within a room rect.
+        // map: The map
+        // roomRect: The room's bounding rect
+        // buildingDef: The ThingDef to search for (use DefRefs.Things.*)
+        // Returns: List of matching buildings, or empty list if buildingDef is null
         public static List<Building> FindBuildingsInRoom(Map map, CellRect roomRect, ThingDef buildingDef)
         {
             List<Building> buildings = new List<Building>();
@@ -154,29 +146,25 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return buildings;
         }
 
-        /// <summary>
-        /// Connects all buildings of a specific type to the room edge using hidden conduits.
-        /// Convenience method for the common pattern of connecting power-hungry interior
-        /// buildings (sun lamps, vitals monitors, etc.) to the wall conduit network.
-        /// </summary>
-        /// <param name="map">The map</param>
-        /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="buildingDef">The ThingDef of buildings to connect (use DefRefs.Things.*)</param>
-        /// <returns>Number of conduit segments placed, or 0 if buildingDef is null</returns>
+        // Connects all buildings of a specific type to the room edge using hidden conduits.
+        // Convenience method for the common pattern of connecting power-hungry interior
+        // buildings (sun lamps, vitals monitors, etc.) to the wall conduit network.
+        // map: The map
+        // roomRect: The room's bounding rect
+        // buildingDef: The ThingDef of buildings to connect (use DefRefs.Things.*)
+        // Returns: Number of conduit segments placed, or 0 if buildingDef is null
         public static int ConnectBuildingsToConduitNetwork(Map map, CellRect roomRect, ThingDef buildingDef)
         {
             return ConnectBuildingsToInfrastructure(map, roomRect, buildingDef, Things.HiddenConduit);
         }
 
-        /// <summary>
-        /// Connects all buildings of a specific type to the room edge using a specified
-        /// infrastructure type (conduits, pipes, etc.).
-        /// </summary>
-        /// <param name="map">The map</param>
-        /// <param name="roomRect">The room's bounding rect</param>
-        /// <param name="buildingDef">The ThingDef of buildings to connect (use DefRefs.Things.*)</param>
-        /// <param name="infrastructureDef">The ThingDef of infrastructure to place (use DefRefs.Things.*)</param>
-        /// <returns>Number of infrastructure segments placed, or 0 if either def is null</returns>
+        // Connects all buildings of a specific type to the room edge using a specified
+        // infrastructure type (conduits, pipes, etc.).
+        // map: The map
+        // roomRect: The room's bounding rect
+        // buildingDef: The ThingDef of buildings to connect (use DefRefs.Things.*)
+        // infrastructureDef: The ThingDef of infrastructure to place (use DefRefs.Things.*)
+        // Returns: Number of infrastructure segments placed, or 0 if either def is null
         public static int ConnectBuildingsToInfrastructure(Map map, CellRect roomRect, ThingDef buildingDef, ThingDef infrastructureDef)
         {
             // Silent abort if either def not available (e.g., mod not loaded)

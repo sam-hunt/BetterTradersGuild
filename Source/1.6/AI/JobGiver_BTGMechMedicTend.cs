@@ -5,21 +5,19 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Paramedic-mech tending, confined to the mech's MedicalBay (MedicRoomBounds).
-    /// Picks the single most urgent wounded same-faction (Traders Guild) defender in
-    /// the room - worst bleed rate first, then lowest overall health - and tends it,
-    /// in a bed or on the floor. Uses the highest-potency medicine lying inside the
-    /// room (any quality, ranked by StatDefOf.MedicalPotency exactly as vanilla
-    /// FindBestMedicine does), or tends medicine-free if the room holds none. Mechs
-    /// are skipped: they have no tendable wounds.
-    ///
-    /// Listed twice in the BTG_MechMedic duty: once with a high minBleedRate (above
-    /// the rescue node, so a heavily bleeding casualty is stabilised in place BEFORE
-    /// anyone is hauled to a bed) and once at minBleedRate 0 (below rescue, routine).
-    /// endAfterTendedOnce re-runs the duty tree after each tend action, so the medic
-    /// continually re-triages to whoever is currently worst - "one at a time".
-    /// </summary>
+    // Paramedic-mech tending, confined to the mech's MedicalBay (MedicRoomBounds).
+    // Picks the single most urgent wounded same-faction (Traders Guild) defender in
+    // the room - worst bleed rate first, then lowest overall health - and tends it,
+    // in a bed or on the floor. Uses the highest-potency medicine lying inside the
+    // room (any quality, ranked by StatDefOf.MedicalPotency exactly as vanilla
+    // FindBestMedicine does), or tends medicine-free if the room holds none. Mechs
+    // are skipped: they have no tendable wounds.
+    //
+    // Listed twice in the BTG_MechMedic duty: once with a high minBleedRate (above
+    // the rescue node, so a heavily bleeding casualty is stabilised in place BEFORE
+    // anyone is hauled to a bed) and once at minBleedRate 0 (below rescue, routine).
+    // endAfterTendedOnce re-runs the duty tree after each tend action, so the medic
+    // continually re-triages to whoever is currently worst - "one at a time".
     public class JobGiver_BTGMechMedicTend : ThinkNode_JobGiver
     {
         // Emergency gate: when > 0, only fires for patients bleeding at least this fast.

@@ -5,31 +5,29 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Agrihand-mech hauling: move freshly-harvested produce off the greenhouse floor
-    /// onto the nearest in-range shelf. Both the produce and the destination shelf must
-    /// lie inside the farm area (moderate radius around the anchor AND the structure
-    /// footprint - see FarmArea).
-    ///
-    /// Emits a plain vanilla JobDefOf.HaulToCell job. The harvest yield is already
-    /// forbidden (the harvest giver runs as a non-player faction, which forbids on drop),
-    /// and JobDriver_HaulToCell preserves that: it records forbiddenInitially in
-    /// Notify_Starting, skips its FailOnForbidden(A) for an initially-forbidden item, and
-    /// places it with ThingPlaceMode.Direct without ever clearing the flag - so the produce
-    /// arrives on the shelf still forbidden, no custom driver required.
-    ///
-    /// The two searches use different centres on purpose. Pickup is centred tightly on the
-    /// mech (FarmArea.HaulPickupRadius): the harvest toil drops yield on the mech's own
-    /// cell, so the mech is always standing on its fresh produce, and a small radius keeps
-    /// the haul local and cheap. Delivery searches the full farm area for the nearest shelf,
-    /// so produce can always reach storage somewhere in the greenhouse. Any pile dropped
-    /// outside the pickup radius (e.g. earlier in a multi-basin harvest) is not stranded:
-    /// the sow phase revisits those cells and haul, being higher priority, sweeps it then.
-    ///
-    /// If no shelf with a free, accepting slot can be found in range, this returns null and
-    /// the produce is simply left where it fell (already forbidden) - exactly the requested
-    /// fallback. Already-stored produce is skipped, so the mech never re-hauls a full shelf.
-    /// </summary>
+    // Agrihand-mech hauling: move freshly-harvested produce off the greenhouse floor
+    // onto the nearest in-range shelf. Both the produce and the destination shelf must
+    // lie inside the farm area (moderate radius around the anchor AND the structure
+    // footprint - see FarmArea).
+    //
+    // Emits a plain vanilla JobDefOf.HaulToCell job. The harvest yield is already
+    // forbidden (the harvest giver runs as a non-player faction, which forbids on drop),
+    // and JobDriver_HaulToCell preserves that: it records forbiddenInitially in
+    // Notify_Starting, skips its FailOnForbidden(A) for an initially-forbidden item, and
+    // places it with ThingPlaceMode.Direct without ever clearing the flag - so the produce
+    // arrives on the shelf still forbidden, no custom driver required.
+    //
+    // The two searches use different centres on purpose. Pickup is centred tightly on the
+    // mech (FarmArea.HaulPickupRadius): the harvest toil drops yield on the mech's own
+    // cell, so the mech is always standing on its fresh produce, and a small radius keeps
+    // the haul local and cheap. Delivery searches the full farm area for the nearest shelf,
+    // so produce can always reach storage somewhere in the greenhouse. Any pile dropped
+    // outside the pickup radius (e.g. earlier in a multi-basin harvest) is not stranded:
+    // the sow phase revisits those cells and haul, being higher priority, sweeps it then.
+    //
+    // If no shelf with a free, accepting slot can be found in range, this returns null and
+    // the produce is simply left where it fell (already forbidden) - exactly the requested
+    // fallback. Already-stored produce is skipped, so the mech never re-hauls a full shelf.
     public class JobGiver_BTGAgrihandHaul : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)

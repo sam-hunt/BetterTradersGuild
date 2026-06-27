@@ -7,23 +7,19 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Ensures TradersGuild settlement stock is generated when the settlement map loads.
-    ///
-    /// This establishes the invariant: once settlement.Map is non-null, stock is guaranteed to exist.
-    /// Combined with patches that block RegenerateStock and TryDestroyStock while the map is active,
-    /// this ensures stock remains frozen for the duration of the visit.
-    /// </summary>
-    /// <remarks>
-    /// ARCHITECTURE:
-    /// - On map load: Ensure stock exists (generate if null)
-    /// - While map active: Stock is frozen (other patches block changes)
-    /// - On defeat: Stock transfers to cache (CheckDefeated patch)
-    /// - GetStock: Pure getter, never regenerates
-    ///
-    /// This patch hooks into Map.FinalizeInit which is called after map generation completes
-    /// and the map is fully initialized. At this point settlement.Map is set.
-    /// </remarks>
+    // Harmony patch: Ensures TradersGuild settlement stock is generated when the settlement map loads.
+    //
+    // This establishes the invariant: once settlement.Map is non-null, stock is guaranteed to exist.
+    // Combined with patches that block RegenerateStock and TryDestroyStock while the map is active,
+    // this ensures stock remains frozen for the duration of the visit.
+    // ARCHITECTURE:
+    // - On map load: Ensure stock exists (generate if null)
+    // - While map active: Stock is frozen (other patches block changes)
+    // - On defeat: Stock transfers to cache (CheckDefeated patch)
+    // - GetStock: Pure getter, never regenerates
+    //
+    // This patch hooks into Map.FinalizeInit which is called after map generation completes
+    // and the map is fully initialized. At this point settlement.Map is set.
     [HarmonyPatch(typeof(Map), nameof(Map.FinalizeInit))]
     public static class SettlementMapGenerated
     {
@@ -34,9 +30,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static readonly FieldInfo lastStockGenerationTicksField =
             TraderTrackerReflection.LastStockGenerationTicksField;
 
-        /// <summary>
-        /// Postfix that ensures TradersGuild settlement stock exists after map initialization.
-        /// </summary>
+        // Postfix that ensures TradersGuild settlement stock exists after map initialization.
         [HarmonyPostfix]
         public static void Postfix(Map __instance)
         {

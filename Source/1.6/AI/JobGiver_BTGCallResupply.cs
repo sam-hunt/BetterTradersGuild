@@ -7,24 +7,22 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Last-resort hunger escalation for bounded defenders: a starving defender walks to a
-    /// powered in-structure comms console and calls in a survival-meal cargo-pod drop.
-    ///
-    /// Sits BELOW the forager (JobGiver_BTGForageInStructure) in the duty think tree, so it
-    /// only fires once every in-structure food source - carried rations, floor items, meal
-    /// pallets, paste taps - has run dry. Gated one rung past the forager's UrgentlyHungry
-    /// (this node requires Starving), so a defender exhausts real food before radioing out.
-    ///
-    /// Everything stays inside the structure: the console is found within the rect union and
-    /// the drop (ResupplyDropUtility) lands in an in-structure room, so a player can't bait a
-    /// defender out by sieging. The per-map cooldown (ResupplyDropTracker) is the real rate
-    /// limit, and it is enforced authoritatively at job COMPLETION (in the JobDriver), not
-    /// here - several consoles can exist, so multiple defenders may call in parallel, and only
-    /// the first to finish records the cooldown while the rest abort. The CanResupplyNow check
-    /// below is just a coarse filter so pawns don't path to a console while clearly on cooldown.
-    /// Mechs never reach this node (no food need).
-    /// </summary>
+    // Last-resort hunger escalation for bounded defenders: a starving defender walks to a
+    // powered in-structure comms console and calls in a survival-meal cargo-pod drop.
+    //
+    // Sits BELOW the forager (JobGiver_BTGForageInStructure) in the duty think tree, so it
+    // only fires once every in-structure food source - carried rations, floor items, meal
+    // pallets, paste taps - has run dry. Gated one rung past the forager's UrgentlyHungry
+    // (this node requires Starving), so a defender exhausts real food before radioing out.
+    //
+    // Everything stays inside the structure: the console is found within the rect union and
+    // the drop (ResupplyDropUtility) lands in an in-structure room, so a player can't bait a
+    // defender out by sieging. The per-map cooldown (ResupplyDropTracker) is the real rate
+    // limit, and it is enforced authoritatively at job COMPLETION (in the JobDriver), not
+    // here - several consoles can exist, so multiple defenders may call in parallel, and only
+    // the first to finish records the cooldown while the rest abort. The CanResupplyNow check
+    // below is just a coarse filter so pawns don't path to a console while clearly on cooldown.
+    // Mechs never reach this node (no food need).
     public class JobGiver_BTGCallResupply : ThinkNode_JobGiver
     {
         public HungerCategory minCategory = HungerCategory.Starving;

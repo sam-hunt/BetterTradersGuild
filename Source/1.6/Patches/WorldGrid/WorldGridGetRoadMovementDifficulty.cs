@@ -3,22 +3,20 @@ using RimWorld.Planet;
 
 namespace BetterTradersGuild.Patches.WorldGridPatches
 {
-    /// <summary>
-    /// Harmony patch: Prevent InvalidCastException in WorldGrid.GetRoadMovementDifficultyMultiplier
-    ///
-    /// PURPOSE: Prevents UI crashes during path cost calculations involving space tiles.
-    ///
-    /// CONTEXT: This method is called during movement cost calculations and display rendering.
-    /// The vanilla implementation casts tiles to SurfaceTile to check for roads, but space/orbital
-    /// tiles are just Tile (not SurfaceTile), causing InvalidCastException.
-    ///
-    /// RELATED PATCHES:
-    /// - WorldGridFindMostReasonableAdjacentTile: Also prevents UI crashes for adjacent tile lookups
-    /// - CaravanPathFollowerStartPath: Blocks actual movement initiation from space tiles
-    ///
-    /// Together these patches allow caravans to exist on space tiles (for TradersGuild trading)
-    /// while preventing both UI crashes and unintended movement.
-    /// </summary>
+    // Harmony patch: Prevent InvalidCastException in WorldGrid.GetRoadMovementDifficultyMultiplier
+    //
+    // PURPOSE: Prevents UI crashes during path cost calculations involving space tiles.
+    //
+    // CONTEXT: This method is called during movement cost calculations and display rendering.
+    // The vanilla implementation casts tiles to SurfaceTile to check for roads, but space/orbital
+    // tiles are just Tile (not SurfaceTile), causing InvalidCastException.
+    //
+    // RELATED PATCHES:
+    // - WorldGridFindMostReasonableAdjacentTile: Also prevents UI crashes for adjacent tile lookups
+    // - CaravanPathFollowerStartPath: Blocks actual movement initiation from space tiles
+    //
+    // Together these patches allow caravans to exist on space tiles (for TradersGuild trading)
+    // while preventing both UI crashes and unintended movement.
     [HarmonyPatch(typeof(RimWorld.Planet.WorldGrid), "GetRoadMovementDifficultyMultiplier")]
     public static class WorldGridGetRoadMovementDifficulty
     {

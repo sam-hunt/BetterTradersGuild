@@ -5,31 +5,25 @@ using RimWorld.Planet;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement_TraderTracker.TryDestroyStock method
-    /// Prevents stock destruction while settlement map is loaded or during defeat processing.
-    /// </summary>
-    /// <remarks>
-    /// Blocks stock destruction in two scenarios:
-    /// 1. While map is loaded (player visiting) - prevents 1-day stock expiry
-    /// 2. During defeat processing - allows CheckDefeated Postfix to transfer stock to cache
-    ///
-    /// The second scenario is critical because during defeat:
-    /// - CheckDefeated reparents the map (settlement.Map becomes null)
-    /// - Then calls settlement.Destroy() which triggers TryDestroyStock
-    /// - Without blocking, stock would be destroyed before our Postfix can cache it
-    ///
-    /// Coordination with CheckDefeated patch via settlementsBeingDefeated HashSet.
-    /// </remarks>
+    // Harmony patch: Settlement_TraderTracker.TryDestroyStock method
+    // Prevents stock destruction while settlement map is loaded or during defeat processing.
+    // Blocks stock destruction in two scenarios:
+    // 1. While map is loaded (player visiting) - prevents 1-day stock expiry
+    // 2. During defeat processing - allows CheckDefeated Postfix to transfer stock to cache
+    //
+    // The second scenario is critical because during defeat:
+    // - CheckDefeated reparents the map (settlement.Map becomes null)
+    // - Then calls settlement.Destroy() which triggers TryDestroyStock
+    // - Without blocking, stock would be destroyed before our Postfix can cache it
+    //
+    // Coordination with CheckDefeated patch via settlementsBeingDefeated HashSet.
     [HarmonyPatch(typeof(Settlement_TraderTracker), "TryDestroyStock")]
     public static class SettlementTraderTrackerTryDestroyStock
     {
-        /// <summary>
-        /// Prefix method - blocks stock destruction while map is loaded or during defeat.
-        /// Also evicts from trader cache when destruction is allowed.
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
-        /// <returns>False to skip destruction, true to allow</returns>
+        // Prefix method - blocks stock destruction while map is loaded or during defeat.
+        // Also evicts from trader cache when destruction is allowed.
+        // __instance: The Settlement_TraderTracker instance
+        // Returns: False to skip destruction, true to allow
         [HarmonyPrefix]
         public static bool Prefix(Settlement_TraderTracker __instance)
         {

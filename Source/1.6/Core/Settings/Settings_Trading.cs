@@ -2,18 +2,12 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// "Trading" settings section — orbital trader rotation cadence. Applies
-    /// regardless of the map generator, so it is never gated on custom layouts.
-    /// </summary>
+    // "Trading" settings section — orbital trader rotation cadence. Applies
+    // regardless of the map generator, so it is never gated on custom layouts.
     public partial class BetterTradersGuildSettings
     {
-        /// <summary>
-        /// Trader rotation interval in days (how often orbital traders change at settlements).
-        /// </summary>
-        /// <remarks>
-        /// Range: 5-60 days. Default: 30 days (same as vanilla).
-        /// </remarks>
+        // Trader rotation interval in days (how often orbital traders change at settlements).
+        // Range: 5-60 days. Default: 30 days (same as vanilla).
         public int traderRotationIntervalDays = 30;
 
         private void ExposeTradingSettings()

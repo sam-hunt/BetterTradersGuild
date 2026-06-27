@@ -6,11 +6,9 @@ using Verse;
 
 namespace BetterTradersGuild.QuestNodes
 {
-    /// <summary>
-    /// Quest node that finds the nearest Traders Guild settlement for trade request quests.
-    /// Filters settlements by faction, relations, and active trade request status.
-    /// Uses 3D spherical distance for orbital settlements.
-    /// </summary>
+    // Quest node that finds the nearest Traders Guild settlement for trade request quests.
+    // Filters settlements by faction, relations, and active trade request status.
+    // Uses 3D spherical distance for orbital settlements.
     public class QuestNode_GetNearestTGSettlement : QuestNode
     {
         // Output slot names (matching vanilla QuestNode_GetNearbySettlement pattern)
@@ -137,11 +135,9 @@ namespace BetterTradersGuild.QuestNodes
             return nearest;
         }
 
-        /// <summary>
-        /// Calculate 3D spherical distance between two world tiles.
-        /// Uses WorldGrid.GetTileCenter for accurate planet surface positions.
-        /// Works correctly for both surface and orbital tiles.
-        /// </summary>
+        // Calculate 3D spherical distance between two world tiles.
+        // Uses WorldGrid.GetTileCenter for accurate planet surface positions.
+        // Works correctly for both surface and orbital tiles.
         private float GetSphericalDistance(int tile1, int tile2)
         {
             Vector3 pos1 = Find.WorldGrid.GetTileCenter(tile1);

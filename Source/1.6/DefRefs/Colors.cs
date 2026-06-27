@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized ColorDef references (BTG custom colors and vanilla structure colors).
-    /// </summary>
+    // Centralized ColorDef references (BTG custom colors and vanilla structure colors).
     [DefOf]
     public static class Colors
     {

@@ -8,23 +8,19 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
 {
-    /// <summary>
-    /// Handles spawning cargo items in the cargo vault.
-    /// Items go on shelves first (clustered by type), overflow and pawns go on floor.
-    /// </summary>
+    // Handles spawning cargo items in the cargo vault.
+    // Items go on shelves first (clustered by type), overflow and pawns go on floor.
     public static class CargoSpawner
     {
-        /// <summary>
-        /// Spawns items on shelves in the room using clustered placement.
-        /// Items of the same type are placed adjacently on shelves.
-        /// Each item type maps to a deterministic shelf based on settlement ID.
-        /// Pre-filters items that can't be stored on shelves (minified buildings, chunks, etc.).
-        /// </summary>
-        /// <param name="map">The map to spawn on</param>
-        /// <param name="roomRect">The room boundaries</param>
-        /// <param name="items">Items to spawn on shelves</param>
-        /// <param name="settlementID">Settlement ID for deterministic shelf assignment</param>
-        /// <returns>Items that couldn't fit on shelves (overflow) or can't be stored on shelves</returns>
+        // Spawns items on shelves in the room using clustered placement.
+        // Items of the same type are placed adjacently on shelves.
+        // Each item type maps to a deterministic shelf based on settlement ID.
+        // Pre-filters items that can't be stored on shelves (minified buildings, chunks, etc.).
+        // map: The map to spawn on
+        // roomRect: The room boundaries
+        // items: Items to spawn on shelves
+        // settlementID: Settlement ID for deterministic shelf assignment
+        // Returns: Items that couldn't fit on shelves (overflow) or can't be stored on shelves
         public static List<Thing> SpawnItemsOnShelves(Map map, CellRect roomRect, List<Thing> items, int settlementID)
         {
             if (items == null || items.Count == 0)
@@ -59,12 +55,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return floorItems;
         }
 
-        /// <summary>
-        /// Gets all storage buildings in the room (shelves, industrial shelves, etc.).
-        /// </summary>
-        /// <param name="map">The map to search</param>
-        /// <param name="roomRect">The room boundaries</param>
-        /// <returns>List of all storage buildings in the room</returns>
+        // Gets all storage buildings in the room (shelves, industrial shelves, etc.).
+        // map: The map to search
+        // roomRect: The room boundaries
+        // Returns: List of all storage buildings in the room
         private static List<Building_Storage> GetAllStorageInRoom(Map map, CellRect roomRect)
         {
             var storage = new HashSet<Building_Storage>();
@@ -84,10 +78,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return storage.ToList();
         }
 
-        /// <summary>
-        /// Splits items with stackCount > stackLimit into multiple Things.
-        /// MinifiedThings are never split since they can't be properly cloned via ThingMaker.
-        /// </summary>
+        // Splits items with stackCount > stackLimit into multiple Things.
+        // MinifiedThings are never split since they can't be properly cloned via ThingMaker.
         private static List<Thing> SplitOversizedStacks(List<Thing> items)
         {
             var result = new List<Thing>();
@@ -144,19 +136,17 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return result;
         }
 
-        /// <summary>
-        /// Spawns things on the floor of the room.
-        /// Used for pawns and items that couldn't fit on shelves.
-        /// Handles oversized stacks by splitting into multiple spawns.
-        /// Tracks used cells for non-stackable items to prevent spawn conflicts.
-        /// Items are placed deterministically based on settlementID; pawns use random placement.
-        /// </summary>
-        /// <param name="map">The map to spawn on</param>
-        /// <param name="roomRect">The room boundaries</param>
-        /// <param name="things">Things to spawn on floor</param>
-        /// <param name="settlementID">Settlement ID for deterministic placement</param>
-        /// <param name="exclusionRect">Optional rect to exclude from spawning (e.g., exit subroom area)</param>
-        /// <returns>List of things that couldn't be spawned (should be returned to trade inventory)</returns>
+        // Spawns things on the floor of the room.
+        // Used for pawns and items that couldn't fit on shelves.
+        // Handles oversized stacks by splitting into multiple spawns.
+        // Tracks used cells for non-stackable items to prevent spawn conflicts.
+        // Items are placed deterministically based on settlementID; pawns use random placement.
+        // map: The map to spawn on
+        // roomRect: The room boundaries
+        // things: Things to spawn on floor
+        // settlementID: Settlement ID for deterministic placement
+        // exclusionRect: Optional rect to exclude from spawning (e.g., exit subroom area)
+        // Returns: List of things that couldn't be spawned (should be returned to trade inventory)
         public static List<Thing> SpawnOnFloor(Map map, CellRect roomRect, List<Thing> things, int settlementID, CellRect? exclusionRect = null)
         {
             var unspawned = new List<Thing>();
@@ -205,13 +195,11 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return unspawned;
         }
 
-        /// <summary>
-        /// Spawns a thing with deterministic cell selection based on defName hash.
-        /// Each item type always maps to the same floor position regardless of what other items exist.
-        /// Handles stack splitting for oversized stacks.
-        /// Non-stackable items track used cells to avoid spawn conflicts.
-        /// </summary>
-        /// <returns>The thing if it couldn't be spawned (to return to trade inventory), null if spawned successfully</returns>
+        // Spawns a thing with deterministic cell selection based on defName hash.
+        // Each item type always maps to the same floor position regardless of what other items exist.
+        // Handles stack splitting for oversized stacks.
+        // Non-stackable items track used cells to avoid spawn conflicts.
+        // Returns: The thing if it couldn't be spawned (to return to trade inventory), null if spawned successfully
         private static Thing SpawnWithDeterministicPlacement(Map map, Thing thing, List<IntVec3> validCells, HashSet<IntVec3> usedCells, int settlementID)
         {
             // Get deterministic starting cell index based on item type and settlement
@@ -340,11 +328,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             }
         }
 
-        /// <summary>
-        /// Gets a deterministic cell index based on item type and settlement ID.
-        /// Same item type + settlement always maps to the same starting cell.
-        /// Uses prime-based bit mixing to avoid clustering from similar defName prefixes.
-        /// </summary>
+        // Gets a deterministic cell index based on item type and settlement ID.
+        // Same item type + settlement always maps to the same starting cell.
+        // Uses prime-based bit mixing to avoid clustering from similar defName prefixes.
         private static int GetDeterministicCellIndex(string defName, int settlementID, int cellCount)
         {
             int hash = Gen.HashCombineInt(defName.GetHashCode(), settlementID);
@@ -352,12 +338,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return Mathf.Abs(hash) % cellCount;
         }
 
-        /// <summary>
-        /// Scrambles a hash value using prime multiplication and bit mixing.
-        /// This ensures better distribution when the source hash has clustering
-        /// (e.g., similar string prefixes producing similar hash codes).
-        /// Uses MurmurHash3 finalizer constants for good avalanche properties.
-        /// </summary>
+        // Scrambles a hash value using prime multiplication and bit mixing.
+        // This ensures better distribution when the source hash has clustering
+        // (e.g., similar string prefixes producing similar hash codes).
+        // Uses MurmurHash3 finalizer constants for good avalanche properties.
         private static int ScrambleHash(int hash)
         {
             unchecked
@@ -371,10 +355,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return hash;
         }
 
-        /// <summary>
-        /// Finds the nearest unused cell to the deterministic starting position.
-        /// Returns IntVec3.Invalid if no cells are available.
-        /// </summary>
+        // Finds the nearest unused cell to the deterministic starting position.
+        // Returns IntVec3.Invalid if no cells are available.
         private static IntVec3 FindUnusedCellFromIndex(List<IntVec3> validCells, HashSet<IntVec3> usedCells, int startIndex)
         {
             IntVec3 targetCell = validCells[startIndex];
@@ -403,10 +385,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return closest;
         }
 
-        /// <summary>
-        /// Finds an unused cell using RimWorld's seeded Rand (caller must push state).
-        /// Returns IntVec3.Invalid if no cells are available.
-        /// </summary>
+        // Finds an unused cell using RimWorld's seeded Rand (caller must push state).
+        // Returns IntVec3.Invalid if no cells are available.
         private static IntVec3 FindUnusedCellSeeded(List<IntVec3> validCells, HashSet<IntVec3> usedCells)
         {
             // Fast path: if few cells used, just try random selection
@@ -430,27 +410,25 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return IntVec3.Invalid;
         }
 
-        /// <summary>
-        /// Spawns pawns on the floor of the room as factionless/wild with wandering behavior.
-        ///
-        /// Unlike vanilla trader caravans where pawns belong to the trader faction with
-        /// lord duties (follow, flee, defend), cargo vault pawns are spawned factionless:
-        ///
-        /// - The vault can only be reached via hostile raid (player is already hostile to TradersGuild)
-        /// - Pawns are trapped in space and cannot flee the map
-        /// - Captured pawns shouldn't auto-side with their captors (TradersGuild)
-        /// - Factionless represents thematic "apathy" of being imprisoned in a space vault
-        /// - Wild animals won't trigger auto-attack from player pawns
-        ///
-        /// A Lord with LordJob_WanderNest is assigned to prevent pawns from pathing to the
-        /// exit portal. Instead, they wander aimlessly in the vault area.
-        ///
-        /// This creates emergent gameplay where captured pawns may be "liberated" by the player.
-        /// </summary>
-        /// <param name="map">The map to spawn on</param>
-        /// <param name="roomRect">The room boundaries</param>
-        /// <param name="pawns">Pawns to spawn</param>
-        /// <param name="exclusionRect">Optional rect to exclude from spawning (e.g., exit subroom area)</param>
+        // Spawns pawns on the floor of the room as factionless/wild with wandering behavior.
+        //
+        // Unlike vanilla trader caravans where pawns belong to the trader faction with
+        // lord duties (follow, flee, defend), cargo vault pawns are spawned factionless:
+        //
+        // - The vault can only be reached via hostile raid (player is already hostile to TradersGuild)
+        // - Pawns are trapped in space and cannot flee the map
+        // - Captured pawns shouldn't auto-side with their captors (TradersGuild)
+        // - Factionless represents thematic "apathy" of being imprisoned in a space vault
+        // - Wild animals won't trigger auto-attack from player pawns
+        //
+        // A Lord with LordJob_WanderNest is assigned to prevent pawns from pathing to the
+        // exit portal. Instead, they wander aimlessly in the vault area.
+        //
+        // This creates emergent gameplay where captured pawns may be "liberated" by the player.
+        // map: The map to spawn on
+        // roomRect: The room boundaries
+        // pawns: Pawns to spawn
+        // exclusionRect: Optional rect to exclude from spawning (e.g., exit subroom area)
         public static void SpawnPawns(Map map, CellRect roomRect, List<Pawn> pawns, CellRect? exclusionRect = null)
         {
             if (pawns == null || pawns.Count == 0)
@@ -485,13 +463,11 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 AssignWanderLord(map, spawnedPawns);
         }
 
-        /// <summary>
-        /// Assigns a wandering Lord to the spawned pawns to prevent them from
-        /// immediately pathing to the exit portal.
-        ///
-        /// Uses LordJob_WanderNest which assigns DutyDefOf.WanderNest to all pawns,
-        /// making them wander aimlessly in the area.
-        /// </summary>
+        // Assigns a wandering Lord to the spawned pawns to prevent them from
+        // immediately pathing to the exit portal.
+        //
+        // Uses LordJob_WanderNest which assigns DutyDefOf.WanderNest to all pawns,
+        // making them wander aimlessly in the area.
         private static void AssignWanderLord(Map map, List<Pawn> pawns)
         {
             // Use Faction.OfAncients for the Lord (base game faction, no DLC required)
@@ -502,13 +478,11 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             LordMaker.MakeNewLord(lordFaction, lordJob, map, pawns);
         }
 
-        /// <summary>
-        /// Gets valid floor cells for spawning (walkable, not blocked by buildings).
-        /// </summary>
-        /// <param name="map">The map to check</param>
-        /// <param name="roomRect">The room boundaries (use ContractedBy(1) to exclude edges)</param>
-        /// <param name="exclusionRect">Optional rect to exclude from valid cells (e.g., exit subroom area)</param>
-        /// <returns>List of valid cells for floor spawning</returns>
+        // Gets valid floor cells for spawning (walkable, not blocked by buildings).
+        // map: The map to check
+        // roomRect: The room boundaries (use ContractedBy(1) to exclude edges)
+        // exclusionRect: Optional rect to exclude from valid cells (e.g., exit subroom area)
+        // Returns: List of valid cells for floor spawning
         public static List<IntVec3> GetValidFloorCells(Map map, CellRect roomRect, CellRect? exclusionRect = null)
         {
             var validCells = new List<IntVec3>();

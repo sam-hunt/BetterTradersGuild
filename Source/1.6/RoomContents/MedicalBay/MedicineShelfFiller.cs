@@ -6,20 +6,16 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.MedicalBay
 {
-    /// <summary>
-    /// Fills medical bay shelves with medicines and combat drugs.
-    /// Contents match the original prefab definition:
-    /// - Industrial medicine (8-10, guaranteed)
-    /// - Ultratech medicine (6-8, 50% chance)
-    /// - Luciferium (6-9, 50% chance)
-    /// - Go-juice (6-9, guaranteed)
-    /// - VRE Antibiotics (6-9, 50% chance, if mod present)
-    /// </summary>
+    // Fills medical bay shelves with medicines and combat drugs.
+    // Contents match the original prefab definition:
+    // - Industrial medicine (8-10, guaranteed)
+    // - Ultratech medicine (6-8, 50% chance)
+    // - Luciferium (6-9, 50% chance)
+    // - Go-juice (6-9, guaranteed)
+    // - VRE Antibiotics (6-9, 50% chance, if mod present)
     public static class MedicineShelfFiller
     {
-        /// <summary>
-        /// Finds all 2-cell wide shelves in the room and fills them with medical supplies.
-        /// </summary>
+        // Finds all 2-cell wide shelves in the room and fills them with medical supplies.
         public static void FillMedicineShelves(Map map, CellRect roomRect)
         {
             List<Building_Storage> shelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);

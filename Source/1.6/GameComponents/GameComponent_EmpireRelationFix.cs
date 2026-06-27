@@ -4,16 +4,14 @@ using Verse;
 
 namespace BetterTradersGuild.GameComponents
 {
-    /// <summary>
-    /// Retroactive fix for the Empire permanent hostility bug.
-    ///
-    /// Prior versions did not add BTG_IndependentTraders to the Empire's
-    /// permanentEnemyToEveryoneExcept list. The XML patch (Faction_Empire_Royalty.xml)
-    /// fixes new games, but existing saves still have -100 goodwill baked in.
-    /// This component removes the permanent lock on first load, then shows a
-    /// one-time dialog letting the player choose whether to reset goodwill to
-    /// neutral or leave it at -100.
-    /// </summary>
+    // Retroactive fix for the Empire permanent hostility bug.
+    //
+    // Prior versions did not add BTG_IndependentTraders to the Empire's
+    // permanentEnemyToEveryoneExcept list. The XML patch (Faction_Empire_Royalty.xml)
+    // fixes new games, but existing saves still have -100 goodwill baked in.
+    // This component removes the permanent lock on first load, then shows a
+    // one-time dialog letting the player choose whether to reset goodwill to
+    // neutral or leave it at -100.
     public class GameComponent_EmpireRelationFix : GameComponent
     {
         private bool empireRelationFixed;

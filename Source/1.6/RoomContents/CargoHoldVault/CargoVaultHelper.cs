@@ -6,25 +6,19 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
 {
-    /// <summary>
-    /// Helper class for cargo vault operations.
-    /// Provides navigation from pocket maps to parent settlements and stock access.
-    /// </summary>
+    // Helper class for cargo vault operations.
+    // Provides navigation from pocket maps to parent settlements and stock access.
     public static class CargoVaultHelper
     {
-        /// <summary>
-        /// Aliases the shared Settlement_TraderTracker.stock lookup, resolved and verified
-        /// once in TraderTrackerReflection.
-        /// </summary>
+        // Aliases the shared Settlement_TraderTracker.stock lookup, resolved and verified
+        // once in TraderTrackerReflection.
         private static readonly FieldInfo stockField = TraderTrackerReflection.StockField;
 
-        /// <summary>
-        /// Navigates from a pocket map to its parent settlement.
-        /// The pocket map's Parent is a PocketMapParent, which has a sourceMap
-        /// that belongs to the actual Settlement.
-        /// </summary>
-        /// <param name="pocketMap">The pocket map (cargo vault map)</param>
-        /// <returns>The parent Settlement, or null if not found</returns>
+        // Navigates from a pocket map to its parent settlement.
+        // The pocket map's Parent is a PocketMapParent, which has a sourceMap
+        // that belongs to the actual Settlement.
+        // pocketMap: The pocket map (cargo vault map)
+        // Returns: The parent Settlement, or null if not found
         public static Settlement GetParentSettlement(Map pocketMap)
         {
             if (pocketMap?.Parent is PocketMapParent pocketParent)
@@ -35,11 +29,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return null;
         }
 
-        /// <summary>
-        /// Gets the source map (settlement map) from a pocket map.
-        /// </summary>
-        /// <param name="pocketMap">The pocket map (cargo vault map)</param>
-        /// <returns>The settlement map, or null if not found</returns>
+        // Gets the source map (settlement map) from a pocket map.
+        // pocketMap: The pocket map (cargo vault map)
+        // Returns: The settlement map, or null if not found
         public static Map GetSettlementMap(Map pocketMap)
         {
             if (pocketMap?.Parent is PocketMapParent pocketParent)
@@ -49,15 +41,11 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return null;
         }
 
-        /// <summary>
-        /// Gets the trade stock from a settlement's trader tracker using reflection.
-        /// </summary>
-        /// <param name="tracker">The settlement's trader tracker</param>
-        /// <returns>The stock ThingOwner, or null if reflection fails</returns>
-        /// <remarks>
-        /// LEARNING NOTE: Settlement_TraderTracker.stock is private, requiring reflection.
-        /// This pattern is also used in SettlementTraderTrackerRegenerateStock.cs.
-        /// </remarks>
+        // Gets the trade stock from a settlement's trader tracker using reflection.
+        // tracker: The settlement's trader tracker
+        // Returns: The stock ThingOwner, or null if reflection fails
+        // LEARNING NOTE: Settlement_TraderTracker.stock is private, requiring reflection.
+        // This pattern is also used in SettlementTraderTrackerRegenerateStock.cs.
         public static ThingOwner<Thing> GetStock(Settlement_TraderTracker tracker)
         {
             if (tracker == null || stockField == null)
@@ -67,16 +55,12 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return stockField.GetValue(tracker) as ThingOwner<Thing>;
         }
 
-        /// <summary>
-        /// Gets the trade stock from a settlement (pure getter - no side effects).
-        /// </summary>
-        /// <param name="settlement">The settlement</param>
-        /// <returns>The stock ThingOwner, or null if not available</returns>
-        /// <remarks>
-        /// This is a pure getter that never triggers regeneration.
-        /// Stock generation is handled by SettlementMapGenerated patch when the map loads.
-        /// This ensures stock is frozen for the entire duration of the settlement visit.
-        /// </remarks>
+        // Gets the trade stock from a settlement (pure getter - no side effects).
+        // settlement: The settlement
+        // Returns: The stock ThingOwner, or null if not available
+        // This is a pure getter that never triggers regeneration.
+        // Stock generation is handled by SettlementMapGenerated patch when the map loads.
+        // This ensures stock is frozen for the entire duration of the settlement visit.
         public static ThingOwner<Thing> GetStock(Settlement settlement)
         {
             if (settlement?.trader == null)
@@ -85,20 +69,16 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return GetStock(settlement.trader);
         }
 
-        /// <summary>
-        /// Gets the trade stock for a pocket map, with fallback to cached stock.
-        /// Handles the case where the parent settlement has been defeated.
-        /// </summary>
-        /// <param name="pocketMap">The pocket map (cargo vault)</param>
-        /// <returns>The stock ThingOwner, or null if not available</returns>
-        /// <remarks>
-        /// Access pattern:
-        /// 1. Try normal path first (settlement still exists)
-        /// 2. Fallback: get cached stock from settlement map (settlement was defeated)
-        ///
-        /// The settlement map survives defeat (just gets a new DestroyedSettlement parent),
-        /// so the SettlementStockCache MapComponent persists with the preserved inventory.
-        /// </remarks>
+        // Gets the trade stock for a pocket map, with fallback to cached stock.
+        // Handles the case where the parent settlement has been defeated.
+        // pocketMap: The pocket map (cargo vault)
+        // Returns: The stock ThingOwner, or null if not available
+        // Access pattern:
+        // 1. Try normal path first (settlement still exists)
+        // 2. Fallback: get cached stock from settlement map (settlement was defeated)
+        //
+        // The settlement map survives defeat (just gets a new DestroyedSettlement parent),
+        // so the SettlementStockCache MapComponent persists with the preserved inventory.
         public static ThingOwner<Thing> GetStock(Map pocketMap)
         {
             Settlement settlement = GetParentSettlement(pocketMap);
@@ -125,12 +105,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return null;
         }
 
-        /// <summary>
-        /// Gets the original settlement ID for deterministic seeding.
-        /// Handles the case where the parent settlement has been defeated.
-        /// </summary>
-        /// <param name="pocketMap">The pocket map (cargo vault)</param>
-        /// <returns>The settlement ID, or map.Tile as fallback</returns>
+        // Gets the original settlement ID for deterministic seeding.
+        // Handles the case where the parent settlement has been defeated.
+        // pocketMap: The pocket map (cargo vault)
+        // Returns: The settlement ID, or map.Tile as fallback
         public static int GetSettlementId(Map pocketMap)
         {
             // Try normal path first (settlement still exists)

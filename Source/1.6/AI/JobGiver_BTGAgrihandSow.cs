@@ -6,22 +6,20 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Agrihand-mech sowing: replant empty hydroponics cells in range once their crop has
-    /// been harvested. Runs below harvest and haul, so the mech only sows after it has
-    /// cleared and shelved the mature crop.
-    ///
-    /// Emits a plain vanilla JobDefOf.Sow job (one empty cell at a time - vanilla sowing
-    /// has no target queue) for the nearest reachable empty cell of an in-range basin. The
-    /// sown species is whatever the basin is configured to grow (GetPlantDefToGrow); the
-    /// BTG greenhouse sets every basin to rice, whose 3-day grow cycle keeps the
-    /// harvest/sow loop visibly busy. Pre-filters with the exact gates JobDriver_PlantSow
-    /// fails on (CanNowPlantAt, no adjacent sow blocker, cell empty of plants) so the job
-    /// can never spawn only to instantly abort.
-    ///
-    /// Returns null when no in-range basin has an empty, plantable, reservable cell, letting
-    /// the standby node send the mech home to dormant self-charge.
-    /// </summary>
+    // Agrihand-mech sowing: replant empty hydroponics cells in range once their crop has
+    // been harvested. Runs below harvest and haul, so the mech only sows after it has
+    // cleared and shelved the mature crop.
+    //
+    // Emits a plain vanilla JobDefOf.Sow job (one empty cell at a time - vanilla sowing
+    // has no target queue) for the nearest reachable empty cell of an in-range basin. The
+    // sown species is whatever the basin is configured to grow (GetPlantDefToGrow); the
+    // BTG greenhouse sets every basin to rice, whose 3-day grow cycle keeps the
+    // harvest/sow loop visibly busy. Pre-filters with the exact gates JobDriver_PlantSow
+    // fails on (CanNowPlantAt, no adjacent sow blocker, cell empty of plants) so the job
+    // can never spawn only to instantly abort.
+    //
+    // Returns null when no in-range basin has an empty, plantable, reservable cell, letting
+    // the standby node send the mech home to dormant self-charge.
     public class JobGiver_BTGAgrihandSow : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)

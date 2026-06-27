@@ -6,32 +6,30 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Break-out-to-eat fallback for bounded defenders that spawned trapped. Settlement
-    /// pawns are scattered across the structure at map-gen, and some land in a side room
-    /// (bedroom, etc.) sealed by a locked AncientBlastDoor. Such a pawn can reach none of
-    /// the food the nodes above rely on - floor items, meal pallets, paste taps, or a comms
-    /// console - so without this it would either starve in place or pointlessly batter the
-    /// door (vanilla's desperate response to being walled in).
-    ///
-    /// Sits BELOW the forager (JobGiver_BTGForageInStructure) AND the resupply caller
-    /// (JobGiver_BTGCallResupply) in the duty think tree, and is gated to Starving. The
-    /// ordering is the trigger: a pawn only breaks out once every reachable in-structure
-    /// food source and the resupply path have come up empty - i.e. it really is sealed off.
-    /// It issues the vanilla Hack job against the nearest reachable, still-locked
-    /// AncientBlastDoor; once the door unlocks the pawn re-runs this tree and the
-    /// forage/resupply nodes can finally path to food.
-    ///
-    /// Containment holds: BTG seals the perimeter with VacBarriers, not blast doors (see
-    /// CorridorAirlockDefenceSpawner), so every AncientBlastDoor on the map is an interior /
-    /// airlock door - hacking one never opens a path to vacuum. We additionally require the
-    /// door to touch the structure footprint as defence-in-depth. All capability and state
-    /// gating (not already hacked, not locked out, pawn can manipulate and meets the
-    /// intellectual prerequisite, door is reachable) is delegated to the vanilla
-    /// CompHackable.CanHackNow(pawn), so we accept exactly the hacks the game itself would
-    /// and an incapable pawn simply gets no job (and falls through to rest/wander).
-    /// Mechs never reach this node (no food need).
-    /// </summary>
+    // Break-out-to-eat fallback for bounded defenders that spawned trapped. Settlement
+    // pawns are scattered across the structure at map-gen, and some land in a side room
+    // (bedroom, etc.) sealed by a locked AncientBlastDoor. Such a pawn can reach none of
+    // the food the nodes above rely on - floor items, meal pallets, paste taps, or a comms
+    // console - so without this it would either starve in place or pointlessly batter the
+    // door (vanilla's desperate response to being walled in).
+    //
+    // Sits BELOW the forager (JobGiver_BTGForageInStructure) AND the resupply caller
+    // (JobGiver_BTGCallResupply) in the duty think tree, and is gated to Starving. The
+    // ordering is the trigger: a pawn only breaks out once every reachable in-structure
+    // food source and the resupply path have come up empty - i.e. it really is sealed off.
+    // It issues the vanilla Hack job against the nearest reachable, still-locked
+    // AncientBlastDoor; once the door unlocks the pawn re-runs this tree and the
+    // forage/resupply nodes can finally path to food.
+    //
+    // Containment holds: BTG seals the perimeter with VacBarriers, not blast doors (see
+    // CorridorAirlockDefenceSpawner), so every AncientBlastDoor on the map is an interior /
+    // airlock door - hacking one never opens a path to vacuum. We additionally require the
+    // door to touch the structure footprint as defence-in-depth. All capability and state
+    // gating (not already hacked, not locked out, pawn can manipulate and meets the
+    // intellectual prerequisite, door is reachable) is delegated to the vanilla
+    // CompHackable.CanHackNow(pawn), so we accept exactly the hacks the game itself would
+    // and an incapable pawn simply gets no job (and falls through to rest/wander).
+    // Mechs never reach this node (no food need).
     public class JobGiver_BTGHackDoorForFood : ThinkNode_JobGiver
     {
         public HungerCategory minCategory = HungerCategory.Starving;

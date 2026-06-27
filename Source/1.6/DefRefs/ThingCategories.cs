@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized ThingCategoryDef references.
-    /// </summary>
+    // Centralized ThingCategoryDef references.
     [DefOf]
     public static class ThingCategories
     {

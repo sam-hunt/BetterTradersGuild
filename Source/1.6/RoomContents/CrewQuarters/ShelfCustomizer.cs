@@ -10,19 +10,15 @@ using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Handles customization of small shelves in CrewQuarters subrooms.
-    /// Includes adding random items to shelves and replacing empty shelves
-    /// with interesting furniture like bookcases, cribs, weapons, or outfit stands.
-    /// </summary>
+    // Handles customization of small shelves in CrewQuarters subrooms.
+    // Includes adding random items to shelves and replacing empty shelves
+    // with interesting furniture like bookcases, cribs, weapons, or outfit stands.
     internal static class ShelfCustomizer
     {
         #region Weighted Outcome Tables
 
-        /// <summary>
-        /// Weighted outcomes for empty shelf replacement.
-        /// Lazily built to filter out DLC-gated outcomes when those DLCs aren't present.
-        /// </summary>
+        // Weighted outcomes for empty shelf replacement.
+        // Lazily built to filter out DLC-gated outcomes when those DLCs aren't present.
         private static List<(float weight, Action<Building_Storage, Map, Faction> action)> _emptyShelfOutcomes;
         private static List<(float weight, Action<Building_Storage, Map, Faction> action)> EmptyShelfOutcomes => _emptyShelfOutcomes ?? (_emptyShelfOutcomes = BuildEmptyShelfOutcomes());
 
@@ -56,10 +52,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return outcomes;
         }
 
-        /// <summary>
-        /// Weighted outcomes for shelf contents (items to add).
-        /// All vanilla items - no DLC gating needed.
-        /// </summary>
+        // Weighted outcomes for shelf contents (items to add).
+        // All vanilla items - no DLC gating needed.
         private static readonly List<(float weight, Action<Map, Building_Storage> action)> ShelfContentsOutcomes = new List<(float, Action<Map, Building_Storage>)>
         {
             (1f,    (map, shelf) => RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Gold, Rand.RangeInclusive(10, 50))),
@@ -75,9 +69,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Public Entry Points
 
-        /// <summary>
-        /// Adds random items to small shelves in subrooms. Rolls twice per shelf.
-        /// </summary>
+        // Adds random items to small shelves in subrooms. Rolls twice per shelf.
         internal static void CustomizeSmallShelves(Map map, List<CellRect> subroomRects)
         {
             if (Things.ShelfSmall == null) return;
@@ -94,9 +86,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Replaces empty small shelves with interesting furniture/items.
-        /// </summary>
+        // Replaces empty small shelves with interesting furniture/items.
         internal static void CustomizeEmptyShelves(Map map, List<CellRect> subroomRects, Faction faction)
         {
             if (Things.ShelfSmall == null) return;
@@ -117,9 +107,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Shelf Finding
 
-        /// <summary>
-        /// Finds all small shelves within the given subroom rects.
-        /// </summary>
+        // Finds all small shelves within the given subroom rects.
         private static List<Building_Storage> FindSmallShelves(Map map, List<CellRect> subroomRects)
         {
             List<Building_Storage> smallShelves = new List<Building_Storage>();
@@ -143,9 +131,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return smallShelves;
         }
 
-        /// <summary>
-        /// Checks if a shelf has no items stored.
-        /// </summary>
+        // Checks if a shelf has no items stored.
         private static bool IsShelfEmpty(Building_Storage shelf, Map map)
         {
             foreach (IntVec3 cell in shelf.AllSlotCellsList())
@@ -165,9 +151,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Shelf Contents Rolling
 
-        /// <summary>
-        /// Single roll on the shelf contents table.
-        /// </summary>
+        // Single roll on the shelf contents table.
         private static void RollShelfContents(Map map, Building_Storage shelf)
         {
             var (_, action) = ShelfContentsOutcomes.RandomElementByWeight(x => x.weight);
@@ -178,9 +162,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Shelf Replacements
 
-        /// <summary>
-        /// Replaces a shelf with a small bookshelf and adds a random book.
-        /// </summary>
+        // Replaces a shelf with a small bookshelf and adds a random book.
         private static void ReplaceShelfWithBookcase(Building_Storage shelf, Map map)
         {
             if (Things.BookcaseSmall == null) return;
@@ -211,18 +193,14 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Generic shelf replacement helper. Replaces a shelf with the specified thing.
-        /// </summary>
+        // Generic shelf replacement helper. Replaces a shelf with the specified thing.
         private static void TryReplaceShelfWith(Building_Storage shelf, Map map, ThingDef replacementDef, ThingDef stuffDef = null)
         {
             if (replacementDef == null) return;
             CrewQuartersHelpers.ReplaceThingAt(shelf, replacementDef, stuffDef, map);
         }
 
-        /// <summary>
-        /// Replaces a shelf with a small steel sculpture of random quality.
-        /// </summary>
+        // Replaces a shelf with a small steel sculpture of random quality.
         private static void ReplaceShelfWithSculpture(Building_Storage shelf, Map map)
         {
             if (Things.SculptureSmall == null) return;
@@ -238,11 +216,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
         }
 
-        /// <summary>
-        /// Spawns a golden cube on the shelf (or replaces shelf with scrap cube if golden cube
-        /// already exists on map), and always spawns an additional scrap cube sculpture nearby.
-        /// This ensures only one golden cube spawns per map across all CrewQuarters rooms.
-        /// </summary>
+        // Spawns a golden cube on the shelf (or replaces shelf with scrap cube if golden cube
+        // already exists on map), and always spawns an additional scrap cube sculpture nearby.
+        // This ensures only one golden cube spawns per map across all CrewQuarters rooms.
         private static void SpawnGoldenCubeOrScrapCube(Building_Storage shelf, Map map)
         {
             if (Things.ScrapCubeSculpture == null) return;
@@ -293,9 +269,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Finds the nearest unoccupied standable tile from a position.
-        /// </summary>
+        // Finds the nearest unoccupied standable tile from a position.
         private static IntVec3 FindNearestUnoccupiedTile(IntVec3 fromPos, Map map)
         {
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(fromPos, 15f, true))
@@ -323,11 +297,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return IntVec3.Invalid;
         }
 
-        /// <summary>
-        /// Replaces a shelf with a crib and spawns a newborn.
-        /// Also places baby food on the nearest table if available.
-        /// Requires Biotech DLC (Crib def won't exist otherwise).
-        /// </summary>
+        // Replaces a shelf with a crib and spawns a newborn.
+        // Also places baby food on the nearest table if available.
+        // Requires Biotech DLC (Crib def won't exist otherwise).
         private static void ReplaceShelfWithCrib(Building_Storage shelf, Map map, Faction faction)
         {
             if (Things.Crib == null) return;
@@ -349,9 +321,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             SpawnBabyFoodOnNearestTable(pos, map);
         }
 
-        /// <summary>
-        /// Spawns a newborn pawn in a crib (similar to Nursery pattern).
-        /// </summary>
+        // Spawns a newborn pawn in a crib (similar to Nursery pattern).
         private static void SpawnNewbornInCrib(Building_Bed crib, Map map, Faction faction)
         {
             PawnKindDef childKind = PawnKinds.TradersGuild_Child ?? PawnKinds.TradersGuild_Citizen;
@@ -402,10 +372,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Picks a random unique weapon from the PulseCharge/BeamWeapon pool and spawns it on the shelf.
-        /// Skips spawning if the weapon pool is empty.
-        /// </summary>
+        // Picks a random unique weapon from the PulseCharge/BeamWeapon pool and spawns it on the shelf.
+        // Skips spawning if the weapon pool is empty.
         private static void SpawnRandomPoolWeaponOnShelf(Map map, Building_Storage shelf)
         {
             IReadOnlyList<ThingDef> pool = UniqueWeaponPoolHelper.GetPulseChargeAndBeamWeapons();
@@ -413,9 +381,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             SpawnUniqueWeaponOnShelf(map, shelf, pool.RandomElement());
         }
 
-        /// <summary>
-        /// Spawns a unique weapon with random traits on a shelf.
-        /// </summary>
+        // Spawns a unique weapon with random traits on a shelf.
         private static void SpawnUniqueWeaponOnShelf(Map map, Building_Storage shelf, ThingDef weaponDef)
         {
             if (weaponDef == null) return;
@@ -469,9 +435,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Replaces a shelf with an outfit stand and adds a random apparel set.
-        /// </summary>
+        // Replaces a shelf with an outfit stand and adds a random apparel set.
         private static void ReplaceShelfWithOutfitStand(Building_Storage shelf, Map map, Faction faction)
         {
             if (Things.Building_OutfitStand == null) return;
@@ -497,9 +461,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Adds a random apparel set to an outfit stand.
-        /// </summary>
+        // Adds a random apparel set to an outfit stand.
         private static void AddRandomApparelSet(Building_OutfitStand stand, Faction faction)
         {
             // Build list of available apparel sets using DefRefs
@@ -580,9 +542,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Helper Methods
 
-        /// <summary>
-        /// Spawns baby food on the nearest empty Table1x2c.
-        /// </summary>
+        // Spawns baby food on the nearest empty Table1x2c.
         private static void SpawnBabyFoodOnNearestTable(IntVec3 fromPos, Map map)
         {
             if (Things.BabyFood == null || Things.Table1x2c == null) return;

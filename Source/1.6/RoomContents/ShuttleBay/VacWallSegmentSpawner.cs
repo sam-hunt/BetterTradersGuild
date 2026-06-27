@@ -6,25 +6,21 @@ using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
-    /// <summary>
-    /// Spawns walls from PlacementCalculator.WallSegment lists with optional centered vac barriers.
-    ///
-    /// This helper handles:
-    /// - Vertical and horizontal wall segments
-    /// - VGE mod detection for barrier selection (5x1 VGE_VacBarrierQuintuple vs 1x1 VacBarrier)
-    /// - Gap calculation for barrier placement at wall midpoint
-    /// - Proper barrier rotation based on wall orientation
-    ///
-    /// Used by rooms that need procedural walls with atmospheric barriers (e.g., ShuttleBay).
-    /// </summary>
+    // Spawns walls from PlacementCalculator.WallSegment lists with optional centered vac barriers.
+    //
+    // This helper handles:
+    // - Vertical and horizontal wall segments
+    // - VGE mod detection for barrier selection (5x1 VGE_VacBarrierQuintuple vs 1x1 VacBarrier)
+    // - Gap calculation for barrier placement at wall midpoint
+    // - Proper barrier rotation based on wall orientation
+    //
+    // Used by rooms that need procedural walls with atmospheric barriers (e.g., ShuttleBay).
     public static class VacWallSegmentSpawner
     {
-        /// <summary>
-        /// Spawns walls from WallSegment list with centered vac barriers.
-        /// </summary>
-        /// <param name="map">The map to spawn on.</param>
-        /// <param name="walls">List of wall segments from PlacementCalculator.</param>
-        /// <param name="wallDef">ThingDef for wall (defaults to OrbitalAncientFortifiedWall).</param>
+        // Spawns walls from WallSegment list with centered vac barriers.
+        // map: The map to spawn on.
+        // walls: List of wall segments from PlacementCalculator.
+        // wallDef: ThingDef for wall (defaults to OrbitalAncientFortifiedWall).
         public static void SpawnWallsWithBarriers(Map map, List<WallSegment> walls, ThingDef wallDef = null)
         {
             if (walls == null || walls.Count == 0)
@@ -42,12 +38,10 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
         }
 
-        /// <summary>
-        /// Spawns walls from WallSegment list without barriers (solid walls only).
-        /// </summary>
-        /// <param name="map">The map to spawn on.</param>
-        /// <param name="walls">List of wall segments from PlacementCalculator.</param>
-        /// <param name="wallDef">ThingDef for wall (defaults to OrbitalAncientFortifiedWall).</param>
+        // Spawns walls from WallSegment list without barriers (solid walls only).
+        // map: The map to spawn on.
+        // walls: List of wall segments from PlacementCalculator.
+        // wallDef: ThingDef for wall (defaults to OrbitalAncientFortifiedWall).
         public static void SpawnWallsWithoutBarriers(Map map, List<WallSegment> walls, ThingDef wallDef = null)
         {
             if (walls == null || walls.Count == 0)
@@ -61,9 +55,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
         }
 
-        /// <summary>
-        /// Spawns a single wall segment with optional centered barrier.
-        /// </summary>
+        // Spawns a single wall segment with optional centered barrier.
         private static void SpawnSingleWallSegment(
             Map map,
             WallSegment wall,

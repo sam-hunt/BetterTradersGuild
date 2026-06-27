@@ -8,49 +8,41 @@ using Verse;
 
 namespace BetterTradersGuild.LayoutWorkers.Settlement
 {
-    /// <summary>
-    /// Custom LayoutWorker for BTG Settlement orbital platforms.
-    ///
-    /// Extends vanilla LayoutWorker_OrbitalPlatform with pre-spawn hooks and
-    /// infrastructure setup that must happen during structure generation.
-    ///
-    /// LIFECYCLE:
-    /// 1. PRE-SPAWN: Initialize TradersGuildSettlementComponent for cargo tracking
-    /// 2. BASE SPAWN: Vanilla orbital platform generation (walls, doors, rooms, contents)
-    /// 3. POST-SPAWN INFRASTRUCTURE: Hidden conduits, pipe network tanks, valves
-    ///
-    /// NOTE: Post-spawn aesthetics and external infrastructure are handled by separate GenSteps
-    /// which run AFTER all structure generation completes (including external landing pads):
-    /// - GenStep_ReplaceTerrain (order 250): Replace AncientTile with MetalTile
-    /// - GenStep_PaintTerrain (order 255): Paint terrain with BTG_OrbitalSteel
-    /// - GenStep_ExtendLandingPadPipes (order 260): Extend VE pipes to landing pads
-    /// - GenStep_SetWallLampColor (order 265): Set WallLamp glow color
-    /// - GenStep_SpawnSentryDrones (order 705): Spawn sentry drones
-    ///
-    /// ARCHITECTURE:
-    /// The LayoutWorker handles operations on things spawned by base.Spawn().
-    /// The GenStep handles operations that need external features (landing pads, terrain)
-    /// which are generated after the LayoutWorker returns.
-    /// </summary>
+    // Custom LayoutWorker for BTG Settlement orbital platforms.
+    //
+    // Extends vanilla LayoutWorker_OrbitalPlatform with pre-spawn hooks and
+    // infrastructure setup that must happen during structure generation.
+    //
+    // LIFECYCLE:
+    // 1. PRE-SPAWN: Initialize TradersGuildSettlementComponent for cargo tracking
+    // 2. BASE SPAWN: Vanilla orbital platform generation (walls, doors, rooms, contents)
+    // 3. POST-SPAWN INFRASTRUCTURE: Hidden conduits, pipe network tanks, valves
+    //
+    // NOTE: Post-spawn aesthetics and external infrastructure are handled by separate GenSteps
+    // which run AFTER all structure generation completes (including external landing pads):
+    // - GenStep_ReplaceTerrain (order 250): Replace AncientTile with MetalTile
+    // - GenStep_PaintTerrain (order 255): Paint terrain with BTG_OrbitalSteel
+    // - GenStep_ExtendLandingPadPipes (order 260): Extend VE pipes to landing pads
+    // - GenStep_SetWallLampColor (order 265): Set WallLamp glow color
+    // - GenStep_SpawnSentryDrones (order 705): Spawn sentry drones
+    //
+    // ARCHITECTURE:
+    // The LayoutWorker handles operations on things spawned by base.Spawn().
+    // The GenStep handles operations that need external features (landing pads, terrain)
+    // which are generated after the LayoutWorker returns.
     public class LayoutWorker_Settlement : LayoutWorker_OrbitalPlatform
     {
-        /// <summary>
-        /// Context flag: true while BTG structure sketch generation is in progress.
-        /// Set by LayoutWorkerGenerateStructureSketch patch (Prefix/Finalizer).
-        /// Read by LayoutWorkerResolveRoomDefs transpiler to downgrade room placement errors.
-        /// </summary>
+        // Context flag: true while BTG structure sketch generation is in progress.
+        // Set by LayoutWorkerGenerateStructureSketch patch (Prefix/Finalizer).
+        // Read by LayoutWorkerResolveRoomDefs transpiler to downgrade room placement errors.
         internal static bool IsGenerating;
 
-        /// <summary>
-        /// Maximum attempts to generate a layout with a valid ShuttleBay room.
-        /// Based on testing, most layouts succeed on first attempt.
-        /// </summary>
+        // Maximum attempts to generate a layout with a valid ShuttleBay room.
+        // Based on testing, most layouts succeed on first attempt.
         private const int MaxLayoutAttempts = 10;
 
-        /// <summary>
-        /// Minimum ShuttleBay room dimensions.
-        /// Room must fit both the 10x10 landing pad subroom AND the 3x3 cargo vault hatch.
-        /// </summary>
+        // Minimum ShuttleBay room dimensions.
+        // Room must fit both the 10x10 landing pad subroom AND the 3x3 cargo vault hatch.
         private const int MinShuttleBayWidth = 19;
         private const int MinShuttleBayHeight = 15;
 
@@ -58,10 +50,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
         {
         }
 
-        /// <summary>
-        /// Override layout generation to ensure at least one room meets ShuttleBay size requirements.
-        /// Retries generation up to MaxLayoutAttempts times, then falls back to largest room.
-        /// </summary>
+        // Override layout generation to ensure at least one room meets ShuttleBay size requirements.
+        // Retries generation up to MaxLayoutAttempts times, then falls back to largest room.
         protected override StructureLayout GetStructureLayout(StructureGenParams parms, CellRect rect)
         {
             for (int attempt = 0; attempt < MaxLayoutAttempts; attempt++)
@@ -84,10 +74,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             return base.GetStructureLayout(parms, rect);
         }
 
-        /// <summary>
-        /// Override important room assignment to enforce minimum ShuttleBay size.
-        /// Vanilla uses hardcoded 7x7 minimum which doesn't respect our size requirement.
-        /// </summary>
+        // Override important room assignment to enforce minimum ShuttleBay size.
+        // Vanilla uses hardcoded 7x7 minimum which doesn't respect our size requirement.
         protected override void PostGraphsGenerated(StructureLayout layout, StructureGenParams parms)
         {
             // Don't call base - we're replacing the important room assignment logic entirely
@@ -125,9 +113,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             }
         }
 
-        /// <summary>
-        /// Checks if the layout has any room meeting ShuttleBay size requirements (either orientation).
-        /// </summary>
+        // Checks if the layout has any room meeting ShuttleBay size requirements (either orientation).
         private bool HasValidShuttleBayRoom(StructureLayout layout)
         {
             return layout.Rooms.Any(r =>
@@ -136,9 +122,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
                  r.TryGetRectOfSize(MinShuttleBayHeight, MinShuttleBayWidth, out _)));
         }
 
-        /// <summary>
-        /// Main entry point - overrides vanilla Spawn with clear pre/post hooks.
-        /// </summary>
+        // Main entry point - overrides vanilla Spawn with clear pre/post hooks.
         public override void Spawn(
             LayoutStructureSketch layoutStructureSketch,
             Map map,

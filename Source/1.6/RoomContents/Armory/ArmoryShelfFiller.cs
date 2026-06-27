@@ -7,13 +7,11 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.Armory
 {
-    /// <summary>
-    /// Fills armory shelves with randomized military equipment.
-    /// Each shelf gets content from a randomly selected pool.
-    /// Pools are discovered dynamically at startup and cached.
-    /// Per cell slot, a random ThingDef is selected and its count is determined
-    /// by a value-based algorithm (soft-max between 150-250 market value).
-    /// </summary>
+    // Fills armory shelves with randomized military equipment.
+    // Each shelf gets content from a randomly selected pool.
+    // Pools are discovered dynamically at startup and cached.
+    // Per cell slot, a random ThingDef is selected and its count is determined
+    // by a value-based algorithm (soft-max between 150-250 market value).
     public static class ArmoryShelfFiller
     {
         private static List<List<ThingDef>> pools;
@@ -81,12 +79,10 @@ namespace BetterTradersGuild.RoomContents.Armory
             }
         }
 
-        /// <summary>
-        /// Determines item count using a value-based algorithm.
-        /// Generates a random soft-max between 250-350, then increments count
-        /// until total value exceeds the soft-max. Naturally produces high counts
-        /// for cheap items (shells) and low counts for expensive items (weapons).
-        /// </summary>
+        // Determines item count using a value-based algorithm.
+        // Generates a random soft-max between 250-350, then increments count
+        // until total value exceeds the soft-max. Naturally produces high counts
+        // for cheap items (shells) and low counts for expensive items (weapons).
         private static int DetermineCount(ThingDef def)
         {
             float softMax = Rand.Range(250f, 350f);
@@ -117,9 +113,7 @@ namespace BetterTradersGuild.RoomContents.Armory
             return item;
         }
 
-        /// <summary>
-        /// Returns a random quality weighted toward Normal/Good.
-        /// </summary>
+        // Returns a random quality weighted toward Normal/Good.
         private static QualityCategory GetRandomQuality()
         {
             float roll = Rand.Value;
@@ -130,10 +124,8 @@ namespace BetterTradersGuild.RoomContents.Armory
             return QualityCategory.Excellent;
         }
 
-        /// <summary>
-        /// Discovers non-unique base weapons by finding unique weapons with the given
-        /// WeaponCategoryDef and resolving their base weapon via descriptionHyperlinks.
-        /// </summary>
+        // Discovers non-unique base weapons by finding unique weapons with the given
+        // WeaponCategoryDef and resolving their base weapon via descriptionHyperlinks.
         private static List<ThingDef> DiscoverBaseWeaponsByCategory(WeaponCategoryDef category)
         {
             var weapons = new List<ThingDef>();
@@ -164,10 +156,8 @@ namespace BetterTradersGuild.RoomContents.Armory
             return weapons;
         }
 
-        /// <summary>
-        /// Discovers all mortar shell types via ThingCategoryDef,
-        /// with defName prefix fallback for mod compatibility.
-        /// </summary>
+        // Discovers all mortar shell types via ThingCategoryDef,
+        // with defName prefix fallback for mod compatibility.
         private static List<ThingDef> DiscoverMortarShells()
         {
             var shells = new List<ThingDef>();
@@ -203,10 +193,8 @@ namespace BetterTradersGuild.RoomContents.Armory
             return items;
         }
 
-        /// <summary>
-        /// Discovers all drugs marked as combat-enhancing via CompProperties_Drug.isCombatEnhancingDrug.
-        /// In vanilla, this includes Go-juice and Yayo.
-        /// </summary>
+        // Discovers all drugs marked as combat-enhancing via CompProperties_Drug.isCombatEnhancingDrug.
+        // In vanilla, this includes Go-juice and Yayo.
         private static List<ThingDef> DiscoverCombatDrugs()
         {
             var drugs = new List<ThingDef>();

@@ -6,23 +6,21 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Agrihand-mech harvesting: cut every mature food plant growing in a hydroponics
-    /// basin within the mech's farm area (moderate radius around its anchor AND inside
-    /// the settlement structure footprint - see FarmArea).
-    ///
-    /// Builds a single vanilla JobDefOf.Harvest job whose TargetA queue is the nearest
-    /// in-range reachable plant plus the cluster around it (capped, nearest-first) - the
-    /// same shape JobDriver_PlantHarvest consumes, so one job clears a batch before the
-    /// duty tree re-evaluates. The vanilla harvest toil drops the yield Near the mech and
-    /// - because the mech is not the player faction - forbids it on drop automatically
-    /// (JobDriver_PlantWork), so the haul giver can shelve it without any extra forbid step.
-    ///
-    /// Only food plants are harvested (harvestedThingDef is a nutrition-giving ingestible),
-    /// so a decorative pot plant or a medical-bay healroot basin that happens to sit inside
-    /// the radius is left alone. When no qualifying plant remains this returns null and the
-    /// haul / sow / standby nodes take over.
-    /// </summary>
+    // Agrihand-mech harvesting: cut every mature food plant growing in a hydroponics
+    // basin within the mech's farm area (moderate radius around its anchor AND inside
+    // the settlement structure footprint - see FarmArea).
+    //
+    // Builds a single vanilla JobDefOf.Harvest job whose TargetA queue is the nearest
+    // in-range reachable plant plus the cluster around it (capped, nearest-first) - the
+    // same shape JobDriver_PlantHarvest consumes, so one job clears a batch before the
+    // duty tree re-evaluates. The vanilla harvest toil drops the yield Near the mech and
+    // - because the mech is not the player faction - forbids it on drop automatically
+    // (JobDriver_PlantWork), so the haul giver can shelve it without any extra forbid step.
+    //
+    // Only food plants are harvested (harvestedThingDef is a nutrition-giving ingestible),
+    // so a decorative pot plant or a medical-bay healroot basin that happens to sit inside
+    // the radius is left alone. When no qualifying plant remains this returns null and the
+    // haul / sow / standby nodes take over.
     public class JobGiver_BTGAgrihandHarvest : ThinkNode_JobGiver
     {
         // Same per-job cap idea as vanilla WorkGiver_GrowerHarvest / our clean giver:

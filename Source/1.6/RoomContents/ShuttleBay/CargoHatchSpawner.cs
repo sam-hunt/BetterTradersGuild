@@ -5,37 +5,33 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
-    /// <summary>
-    /// Handles spawning of the cargo vault hatch in the ShuttleBay room.
-    ///
-    /// The hatch is a 3x3 hackable portal that leads to a secure cargo vault.
-    /// It is placed in the exact center of the largest free rectangular region
-    /// remaining after the shuttle landing pad area is excluded.
-    ///
-    /// IMPORTANT: SpawnHatch must be called BEFORE base.FillRoom() to ensure
-    /// priority placement. At that point only the landing pad exists, so the
-    /// hatch placement is guaranteed to succeed without needing fallback logic.
-    ///
-    /// RimWorld spawn behavior for 3x3 buildings:
-    /// - GenSpawn.Spawn uses center-based positioning for odd-sized buildings
-    /// - Position passed is the center cell (thing.Position)
-    /// - OccupiedRect expands from center by (size-1)/2 = 1 cell in each direction
-    ///
-    /// When cargo vault is enabled: spawns BTG_CargoVaultHatch (hackable, relockable)
-    /// When cargo vault is disabled: spawns BTG_CargoVaultHatch_Sealed (permanently sealed)
-    /// </summary>
+    // Handles spawning of the cargo vault hatch in the ShuttleBay room.
+    //
+    // The hatch is a 3x3 hackable portal that leads to a secure cargo vault.
+    // It is placed in the exact center of the largest free rectangular region
+    // remaining after the shuttle landing pad area is excluded.
+    //
+    // IMPORTANT: SpawnHatch must be called BEFORE base.FillRoom() to ensure
+    // priority placement. At that point only the landing pad exists, so the
+    // hatch placement is guaranteed to succeed without needing fallback logic.
+    //
+    // RimWorld spawn behavior for 3x3 buildings:
+    // - GenSpawn.Spawn uses center-based positioning for odd-sized buildings
+    // - Position passed is the center cell (thing.Position)
+    // - OccupiedRect expands from center by (size-1)/2 = 1 cell in each direction
+    //
+    // When cargo vault is enabled: spawns BTG_CargoVaultHatch (hackable, relockable)
+    // When cargo vault is disabled: spawns BTG_CargoVaultHatch_Sealed (permanently sealed)
     public static class CargoVaultHatchSpawner
     {
         private const int HATCH_SIZE = 3;
 
-        /// <summary>
-        /// Finds the best position for the cargo hatch and spawns it.
-        /// Returns the CellRect of the spawned hatch for blocking purposes, or default if spawn failed.
-        /// </summary>
-        /// <param name="map">The map to spawn on.</param>
-        /// <param name="roomRect">The room's bounding rectangle.</param>
-        /// <param name="excludedRect">Area to exclude (e.g., landing pad). Pass default/empty to exclude nothing.</param>
-        /// <returns>The CellRect occupied by the hatch, or default if spawning failed.</returns>
+        // Finds the best position for the cargo hatch and spawns it.
+        // Returns the CellRect of the spawned hatch for blocking purposes, or default if spawn failed.
+        // map: The map to spawn on.
+        // roomRect: The room's bounding rectangle.
+        // excludedRect: Area to exclude (e.g., landing pad). Pass default/empty to exclude nothing.
+        // Returns: The CellRect occupied by the hatch, or default if spawning failed.
         public static CellRect SpawnHatch(Map map, CellRect roomRect, CellRect excludedRect)
         {
             IntVec3 position = FindBestPosition(map, roomRect, excludedRect);
@@ -62,20 +58,16 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             return GetBlockingRectFromCenter(position);
         }
 
-        /// <summary>
-        /// Calculates the blocking rect from a center position.
-        /// Multi-cell things spawn from their center, so we expand outward.
-        /// </summary>
+        // Calculates the blocking rect from a center position.
+        // Multi-cell things spawn from their center, so we expand outward.
         private static CellRect GetBlockingRectFromCenter(IntVec3 center)
         {
             int halfSize = HATCH_SIZE / 2;
             return new CellRect(center.x - halfSize, center.z - halfSize, HATCH_SIZE, HATCH_SIZE);
         }
 
-        /// <summary>
-        /// Finds the best position for a 3x3 hatch by centering it in the largest
-        /// free rectangular region of the room.
-        /// </summary>
+        // Finds the best position for a 3x3 hatch by centering it in the largest
+        // free rectangular region of the room.
         private static IntVec3 FindBestPosition(Map map, CellRect roomRect, CellRect excludedRect)
         {
             // Find the largest free region by checking candidate areas
@@ -95,10 +87,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             return IntVec3.Invalid;
         }
 
-        /// <summary>
-        /// Finds rectangular free regions in the room by subtracting the excluded area.
-        /// Returns up to 4 regions (above, below, left, right of excluded rect).
-        /// </summary>
+        // Finds rectangular free regions in the room by subtracting the excluded area.
+        // Returns up to 4 regions (above, below, left, right of excluded rect).
         private static List<CellRect> FindFreeRegions(CellRect roomRect, CellRect excludedRect)
         {
             var regions = new List<CellRect>();
@@ -168,11 +158,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             return regions;
         }
 
-        /// <summary>
-        /// Finds the centered position for the hatch within the given region.
-        /// Since SpawnHatch is called before base.FillRoom(), the region is guaranteed
-        /// to be clear (only the landing pad exists at this point).
-        /// </summary>
+        // Finds the centered position for the hatch within the given region.
+        // Since SpawnHatch is called before base.FillRoom(), the region is guaranteed
+        // to be clear (only the landing pad exists at this point).
         private static IntVec3 FindCenteredPosition(Map map, CellRect region)
         {
             IntVec3 center = region.CenterCell;
@@ -185,10 +173,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             return IntVec3.Invalid;
         }
 
-        /// <summary>
-        /// Checks if all cells in the rect are valid for hatch placement.
-        /// Cells must be in bounds, not contain walls/doors/impassables.
-        /// </summary>
+        // Checks if all cells in the rect are valid for hatch placement.
+        // Cells must be in bounds, not contain walls/doors/impassables.
         private static bool IsValidPlacement(Map map, CellRect rect)
         {
             foreach (IntVec3 cell in rect)

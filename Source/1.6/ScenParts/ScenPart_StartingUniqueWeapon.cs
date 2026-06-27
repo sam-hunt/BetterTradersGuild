@@ -7,11 +7,9 @@ using Verse;
 
 namespace BetterTradersGuild.ScenParts
 {
-    /// <summary>
-    /// Generic ScenPart that generates a unique weapon with specific quality and guaranteed
-    /// weapon traits. Handles canGenerateAlone=false traits by ensuring a standalone trait
-    /// exists first (generating a random one if needed).
-    /// </summary>
+    // Generic ScenPart that generates a unique weapon with specific quality and guaranteed
+    // weapon traits. Handles canGenerateAlone=false traits by ensuring a standalone trait
+    // exists first (generating a random one if needed).
     public class ScenPart_StartingUniqueWeapon : ScenPart
     {
         public ThingDef thingDef;
@@ -140,11 +138,9 @@ namespace BetterTradersGuild.ScenParts
                 .Where(d => d.comps != null && d.comps.Any(c => c.compClass == typeof(CompUniqueWeapon)));
         }
 
-        /// <summary>
-        /// Returns trait defs compatible with the currently selected weapon and existing trait
-        /// selections. excludeIndex allows the trait at that slot to be replaced (pass -1 when
-        /// adding a new trait). Filters by weapon category and exclusion tag overlap.
-        /// </summary>
+        // Returns trait defs compatible with the currently selected weapon and existing trait
+        // selections. excludeIndex allows the trait at that slot to be replaced (pass -1 when
+        // adding a new trait). Filters by weapon category and exclusion tag overlap.
         private IEnumerable<WeaponTraitDef> CompatibleTraitDefs(int excludeIndex)
         {
             List<WeaponCategoryDef> weaponCategories = GetWeaponCategories();

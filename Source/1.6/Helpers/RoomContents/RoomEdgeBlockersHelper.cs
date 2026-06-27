@@ -6,22 +6,18 @@ using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Helper for scanning edge blockers that prevent prefab placement.
-    /// Edge blockers include:
-    /// - Doors (cells that must remain accessible)
-    /// - Non-wall edge cells (for reduced rects where edges are interior space)
-    /// </summary>
+    // Helper for scanning edge blockers that prevent prefab placement.
+    // Edge blockers include:
+    // - Doors (cells that must remain accessible)
+    // - Non-wall edge cells (for reduced rects where edges are interior space)
     public static class RoomEdgeBlockersHelper
     {
-        /// <summary>
-        /// Scans a LayoutRoom's perimeter and returns all door positions as blockers.
-        /// Use this for initial placement in a full room where walls are expected on all edges.
-        /// Scans all rects in the room to find all edge blockers.
-        /// </summary>
-        /// <param name="room">The layout room to scan</param>
-        /// <param name="map">The map containing the room</param>
-        /// <returns>List of edge blocker positions (doors) from all rects</returns>
+        // Scans a LayoutRoom's perimeter and returns all door positions as blockers.
+        // Use this for initial placement in a full room where walls are expected on all edges.
+        // Scans all rects in the room to find all edge blockers.
+        // room: The layout room to scan
+        // map: The map containing the room
+        // Returns: List of edge blocker positions (doors) from all rects
         public static List<DoorPosition> GetEdgeBlockers(LayoutRoom room, Map map)
         {
             var blockers = new List<DoorPosition>();
@@ -38,24 +34,20 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return blockers;
         }
 
-        /// <summary>
-        /// Scans a CellRect's perimeter and returns all edge blockers.
-        /// Use this for iterative placement in reduced rects where some edges may be interior space.
-        /// </summary>
-        /// <param name="rect">The rectangular area to scan</param>
-        /// <param name="map">The map containing the rect</param>
-        /// <param name="wallsOnly">If true, only detect doors. If false, also detect non-wall edges.</param>
-        /// <returns>List of edge blocker positions</returns>
+        // Scans a CellRect's perimeter and returns all edge blockers.
+        // Use this for iterative placement in reduced rects where some edges may be interior space.
+        // rect: The rectangular area to scan
+        // map: The map containing the rect
+        // wallsOnly: If true, only detect doors. If false, also detect non-wall edges.
+        // Returns: List of edge blocker positions
         public static List<DoorPosition> GetEdgeBlockers(CellRect rect, Map map, bool wallsOnly = false)
         {
             return GetEdgeBlockersForRect(rect, map, wallsOnly);
         }
 
-        /// <summary>
-        /// Core implementation for scanning edge blockers.
-        /// When wallsOnly=true: only doors count as blockers (original behavior).
-        /// When wallsOnly=false: doors AND non-wall cells count as blockers (for reduced rects).
-        /// </summary>
+        // Core implementation for scanning edge blockers.
+        // When wallsOnly=true: only doors count as blockers (original behavior).
+        // When wallsOnly=false: doors AND non-wall cells count as blockers (for reduced rects).
         private static List<DoorPosition> GetEdgeBlockersForRect(CellRect rect, Map map, bool wallsOnly)
         {
             var blockers = new List<DoorPosition>();

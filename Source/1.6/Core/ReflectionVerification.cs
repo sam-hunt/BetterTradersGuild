@@ -8,19 +8,17 @@ using BetterTradersGuild.Patches.WorldObjectPatches;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// Single startup trigger for all of BTG's reflection self-checks (pattern ported from
-    /// UniqueWeaponsUnbound). Each reflecting class owns and caches its own FieldInfo/MethodInfo
-    /// and exposes a <c>VerifyReflection()</c> that logs a targeted, consequence-naming error if a
-    /// member failed to resolve; each optional-mod integration self-reports drift from its own
-    /// static constructor.
-    ///
-    /// <para>This is a central <em>trigger</em>, not a central registry: every reflected member
-    /// name still lives in exactly one owner, so nothing is declared twice and nothing can drift
-    /// apart. Called once from <see cref="BetterTradersGuildMod"/>'s static constructor right after
-    /// <c>Harmony.PatchAll()</c>, so API drift surfaces at startup rather than as a silent feature
-    /// failure (or a player's bug report) much later.</para>
-    /// </summary>
+    // Single startup trigger for all of BTG's reflection self-checks (pattern ported from
+    // UniqueWeaponsUnbound). Each reflecting class owns and caches its own FieldInfo/MethodInfo
+    // and exposes a VerifyReflection() that logs a targeted, consequence-naming error if a
+    // member failed to resolve; each optional-mod integration self-reports drift from its own
+    // static constructor.
+    //
+    // This is a central trigger, not a central registry: every reflected member
+    // name still lives in exactly one owner, so nothing is declared twice and nothing can drift
+    // apart. Called once from BetterTradersGuildMod's static constructor right after
+    // Harmony.PatchAll(), so API drift surfaces at startup rather than as a silent feature
+    // failure (or a player's bug report) much later.
     public static class ReflectionVerification
     {
         public static void VerifyAll()

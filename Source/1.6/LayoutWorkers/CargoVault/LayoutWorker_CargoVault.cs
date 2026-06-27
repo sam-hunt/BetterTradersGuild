@@ -5,34 +5,30 @@ using Verse;
 
 namespace BetterTradersGuild.LayoutWorkers.CargoVault
 {
-    /// <summary>
-    /// Custom LayoutWorker for the cargo vault pocket map.
-    ///
-    /// Creates a simple single-room enclosed structure with:
-    /// - Walls around the perimeter
-    /// - AncientBlastDoor in the middle of each wall (4 doors for bridge access)
-    /// - Floor tiles inside
-    /// - Single room for contents (shelves, turrets, exit portal)
-    ///
-    /// This is specifically designed for small pocket maps where
-    /// LayoutWorker_AncientStockpile's multi-room dungeon generation
-    /// is overkill and fails due to size constraints.
-    ///
-    /// Extends LayoutWorker_Structure which handles:
-    /// - Wall/door/floor sketch generation from our layout
-    /// - Room content resolution (prefabs, parts, RoomContentsWorkers)
-    /// - Proper spawning with faction ownership
-    /// </summary>
+    // Custom LayoutWorker for the cargo vault pocket map.
+    //
+    // Creates a simple single-room enclosed structure with:
+    // - Walls around the perimeter
+    // - AncientBlastDoor in the middle of each wall (4 doors for bridge access)
+    // - Floor tiles inside
+    // - Single room for contents (shelves, turrets, exit portal)
+    //
+    // This is specifically designed for small pocket maps where
+    // LayoutWorker_AncientStockpile's multi-room dungeon generation
+    // is overkill and fails due to size constraints.
+    //
+    // Extends LayoutWorker_Structure which handles:
+    // - Wall/door/floor sketch generation from our layout
+    // - Room content resolution (prefabs, parts, RoomContentsWorkers)
+    // - Proper spawning with faction ownership
     public class LayoutWorker_CargoVault : LayoutWorker_Structure
     {
         public LayoutWorker_CargoVault(LayoutDef def) : base(def)
         {
         }
 
-        /// <summary>
-        /// Creates the structure layout - a simple rectangular room with walls and a door.
-        /// This is called by the base class during GenerateStructureSketch().
-        /// </summary>
+        // Creates the structure layout - a simple rectangular room with walls and a door.
+        // This is called by the base class during GenerateStructureSketch().
         protected override StructureLayout GetStructureLayout(StructureGenParams parms, CellRect rect)
         {
             // Create a new LayoutStructureSketch to hold our layout

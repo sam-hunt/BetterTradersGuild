@@ -7,10 +7,8 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.PlanetTilePatches
 {
-    /// <summary>
-    /// Harmony patch: Allow caravans to reach friendly Traders Guild settlements in space
-    /// Modifies the LayerDef check for caravan formation
-    /// </summary>
+    // Harmony patch: Allow caravans to reach friendly Traders Guild settlements in space
+    // Modifies the LayerDef check for caravan formation
     [HarmonyPatch(typeof(PlanetTile), nameof(PlanetTile.LayerDef), MethodType.Getter)]
     [StaticConstructorOnStartup]
     public static class PlanetTileLayerDef
@@ -18,21 +16,17 @@ namespace BetterTradersGuild.Patches.PlanetTilePatches
         private static readonly MethodInfo MemberwiseCloneMethod =
             AccessTools.Method(typeof(object), "MemberwiseClone");
 
-        /// <summary>
-        /// Maps each space <see cref="PlanetLayerDef"/> that forbids caravans to a caravan-enabled
-        /// clone of itself.
-        /// </summary>
-        /// <remarks>
-        /// Built once at startup from the loaded defs - the set of space layers is global and fixed
-        /// for the session, so it never varies per world/save and does not belong on a WorldComponent.
-        /// At runtime the hot LayerDef getter only reads this dictionary (no allocation, mutation, or
-        /// locking), which keeps concurrent reads from RimWorld's path/render threads safe.
-        ///
-        /// Keyed per source def rather than collapsed into a single shared clone: a mod can introduce
-        /// more than one space layer (vanilla Odyssey has just one, "Orbit"), and each must retain its
-        /// own raidPointsFactor / whitelist / rangeDistanceFactor instead of inheriting whichever layer
-        /// happened to be requested first.
-        /// </remarks>
+        // Maps each space PlanetLayerDef that forbids caravans to a caravan-enabled
+        // clone of itself.
+        // Built once at startup from the loaded defs - the set of space layers is global and fixed
+        // for the session, so it never varies per world/save and does not belong on a WorldComponent.
+        // At runtime the hot LayerDef getter only reads this dictionary (no allocation, mutation, or
+        // locking), which keeps concurrent reads from RimWorld's path/render threads safe.
+        //
+        // Keyed per source def rather than collapsed into a single shared clone: a mod can introduce
+        // more than one space layer (vanilla Odyssey has just one, "Orbit"), and each must retain its
+        // own raidPointsFactor / whitelist / rangeDistanceFactor instead of inheriting whichever layer
+        // happened to be requested first.
         private static readonly Dictionary<PlanetLayerDef, PlanetLayerDef> caravanEnabledClones =
             new Dictionary<PlanetLayerDef, PlanetLayerDef>();
 
@@ -60,10 +54,8 @@ namespace BetterTradersGuild.Patches.PlanetTilePatches
             }
         }
 
-        /// <summary>
-        /// Logs a targeted error if the MemberwiseClone lookup failed. Called once at startup
-        /// from <see cref="ReflectionVerification.VerifyAll"/>.
-        /// </summary>
+        // Logs a targeted error if the MemberwiseClone lookup failed. Called once at startup
+        // from ReflectionVerification.VerifyAll.
         public static void VerifyReflection()
         {
             if (MemberwiseCloneMethod == null)

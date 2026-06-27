@@ -3,41 +3,27 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// "Defenders" settings section — strength and composition of the garrison that
-    /// spawns when the player enters a settlement. All three knobs only affect
-    /// BTG's custom generation, so the whole section gates on
-    /// <see cref="useCustomLayouts"/> (greyed out, values preserved, when off).
-    /// None of these affect subsequent raid incidents, only initial defenders.
-    /// </summary>
+    // "Defenders" settings section — strength and composition of the garrison that
+    // spawns when the player enters a settlement. All three knobs only affect
+    // BTG's custom generation, so the whole section gates on
+    // useCustomLayouts (greyed out, values preserved, when off).
+    // None of these affect subsequent raid incidents, only initial defenders.
     public partial class BetterTradersGuildSettings
     {
-        /// <summary>
-        /// Threat points multiplier for initial defender generation.
-        /// </summary>
-        /// <remarks>
-        /// Range: 0.5-3.0. Default: 1.0 (no modification). Applied after the minimum
-        /// threat points cap. Requires <see cref="useCustomLayouts"/>.
-        /// </remarks>
+        // Threat points multiplier for initial defender generation.
+        // Range: 0.5-3.0. Default: 1.0 (no modification). Applied after the minimum
+        // threat points cap. Requires useCustomLayouts.
         public float threatPointsMultiplier = 1.0f;
 
-        /// <summary>
-        /// Minimum threat points for initial defender generation.
-        /// </summary>
-        /// <remarks>
-        /// Range: 0-5000. 0 = vanilla (no floor). Default: 0. BTG Recommended: 2400
-        /// (ensures elite pawn types can spawn at low wealth). Requires
-        /// <see cref="useCustomLayouts"/>.
-        /// </remarks>
+        // Minimum threat points for initial defender generation.
+        // Range: 0-5000. 0 = vanilla (no floor). Default: 0. BTG Recommended: 2400
+        // (ensures elite pawn types can spawn at low wealth). Requires
+        // useCustomLayouts.
         public float minimumThreatPoints = 0f;
 
-        /// <summary>
-        /// Additional sentry drone presence as a factor of threat points.
-        /// </summary>
-        /// <remarks>
-        /// Range: 0.0-2.0 (0-200% of threat points). 0 = vanilla. Default: 0.25.
-        /// Requires <see cref="useCustomLayouts"/>.
-        /// </remarks>
+        // Additional sentry drone presence as a factor of threat points.
+        // Range: 0.0-2.0 (0-200% of threat points). 0 = vanilla. Default: 0.25.
+        // Requires useCustomLayouts.
         public float sentryDronePresence = 0.25f;
 
         private void ExposeDefenderSettings()

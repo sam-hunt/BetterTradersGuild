@@ -3,23 +3,19 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
-    /// <summary>
-    /// Applies roofing to rooms with optional exclusion zones (open-sky areas).
-    ///
-    /// Used by rooms that need partial roofing:
-    /// - ShuttleBay: Landing pad area left unroofed for shuttle access
-    /// - Greenhouse: Could have skylight areas
-    /// - Any room requiring mixed indoor/outdoor cells
-    /// </summary>
+    // Applies roofing to rooms with optional exclusion zones (open-sky areas).
+    //
+    // Used by rooms that need partial roofing:
+    // - ShuttleBay: Landing pad area left unroofed for shuttle access
+    // - Greenhouse: Could have skylight areas
+    // - Any room requiring mixed indoor/outdoor cells
     public static class PartialRoofingHelper
     {
-        /// <summary>
-        /// Applies roofing to a room, excluding cells within the specified rect.
-        /// </summary>
-        /// <param name="map">The map to modify.</param>
-        /// <param name="roomRect">The full room bounds to roof.</param>
-        /// <param name="exclusionRect">Area to leave unroofed (open to sky). If Width == 0, roofs entire room.</param>
-        /// <param name="roofDef">RoofDef to use (defaults to RoofConstructed).</param>
+        // Applies roofing to a room, excluding cells within the specified rect.
+        // map: The map to modify.
+        // roomRect: The full room bounds to roof.
+        // exclusionRect: Area to leave unroofed (open to sky). If Width == 0, roofs entire room.
+        // roofDef: RoofDef to use (defaults to RoofConstructed).
         public static void ApplyRoofingWithExclusion(Map map, CellRect roomRect, CellRect exclusionRect, RoofDef roofDef = null)
         {
             roofDef = roofDef ?? Roofs.RoofConstructed;
@@ -45,12 +41,10 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
         }
 
-        /// <summary>
-        /// Applies roofing to an entire room (no exclusions).
-        /// </summary>
-        /// <param name="map">The map to modify.</param>
-        /// <param name="roomRect">The room bounds to roof.</param>
-        /// <param name="roofDef">RoofDef to use (defaults to RoofConstructed).</param>
+        // Applies roofing to an entire room (no exclusions).
+        // map: The map to modify.
+        // roomRect: The room bounds to roof.
+        // roofDef: RoofDef to use (defaults to RoofConstructed).
         public static void ApplyFullRoofing(Map map, CellRect roomRect, RoofDef roofDef = null)
         {
             roofDef = roofDef ?? Roofs.RoofConstructed;
@@ -64,11 +58,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
         }
 
-        /// <summary>
-        /// Removes roofing from a specific area (creates open-sky zone).
-        /// </summary>
-        /// <param name="map">The map to modify.</param>
-        /// <param name="areaRect">The area to unroof.</param>
+        // Removes roofing from a specific area (creates open-sky zone).
+        // map: The map to modify.
+        // areaRect: The area to unroof.
         public static void RemoveRoofing(Map map, CellRect areaRect)
         {
             foreach (IntVec3 cell in areaRect)

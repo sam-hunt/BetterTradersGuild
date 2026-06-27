@@ -7,19 +7,15 @@ using BetterTradersGuild.DefRefs;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
-    /// <summary>
-    /// Spawns civilians (a caretaker and their children) sheltering inside the nursery crib subroom.
-    /// These represent non-combatants who have locked themselves behind the blast door.
-    /// </summary>
+    // Spawns civilians (a caretaker and their children) sheltering inside the nursery crib subroom.
+    // These represent non-combatants who have locked themselves behind the blast door.
     public static class ShelteringCivilianSpawner
     {
-        /// <summary>
-        /// Weighted developmental stages for young pawn generation.
-        /// Slight skew towards younger stages for variety - pure random by age
-        /// would give ~77% Child (10-year span) vs ~23% Baby/Newborn (~1 year combined).
-        ///
-        /// Distribution: ~17% Newborn, ~33% Baby, ~50% Child
-        /// </summary>
+        // Weighted developmental stages for young pawn generation.
+        // Slight skew towards younger stages for variety - pure random by age
+        // would give ~77% Child (10-year span) vs ~23% Baby/Newborn (~1 year combined).
+        //
+        // Distribution: ~17% Newborn, ~33% Baby, ~50% Child
         private static readonly List<(DevelopmentalStage stage, float weight, FloatRange ageRange)> YoungStageWeights =
             new List<(DevelopmentalStage, float, FloatRange)>
         {
@@ -28,20 +24,18 @@ namespace BetterTradersGuild.RoomContents.Nursery
             (DevelopmentalStage.Child, 3f, new FloatRange(3f, 12.8f)),        // 3-13 years
         };
 
-        /// <summary>
-        /// Spawns civilians sheltering inside the crib subroom.
-        ///
-        /// Spawn counts:
-        /// - 1 TradersGuild_Citizen (caretaker/parent)
-        /// - 2-4 young pawns (Newborn/Baby/Child mix, requires Biotech DLC)
-        ///
-        /// Placement strategy:
-        /// - Newborns and Babies are placed in cribs with a LayDown job
-        /// - Children (who can walk) are spawned at standable cells
-        /// - Caretaker is spawned at a standable cell
-        ///
-        /// Each young pawn is assigned the caretaker as their parent for realism.
-        /// </summary>
+        // Spawns civilians sheltering inside the crib subroom.
+        //
+        // Spawn counts:
+        // - 1 TradersGuild_Citizen (caretaker/parent)
+        // - 2-4 young pawns (Newborn/Baby/Child mix, requires Biotech DLC)
+        //
+        // Placement strategy:
+        // - Newborns and Babies are placed in cribs with a LayDown job
+        // - Children (who can walk) are spawned at standable cells
+        // - Caretaker is spawned at a standable cell
+        //
+        // Each young pawn is assigned the caretaker as their parent for realism.
         public static void SpawnShelteringCivilians(Map map, Faction faction, CellRect subroomRect)
         {
             // Get standable cells inside the subroom (avoid walls, doors, furniture)
@@ -135,14 +129,12 @@ namespace BetterTradersGuild.RoomContents.Nursery
             }
         }
 
-        /// <summary>
-        /// Attempts to spawn a pawn in an available crib with a LayDown job.
-        /// The pawn is spawned at the crib's sleeping position and given a resting job.
-        /// </summary>
-        /// <param name="pawn">The pawn to place in the crib (should be a newborn or baby)</param>
-        /// <param name="availableCribs">List of cribs with available slots (will be modified)</param>
-        /// <param name="map">The map to spawn on</param>
-        /// <returns>True if successfully placed in a crib, false otherwise</returns>
+        // Attempts to spawn a pawn in an available crib with a LayDown job.
+        // The pawn is spawned at the crib's sleeping position and given a resting job.
+        // pawn: The pawn to place in the crib (should be a newborn or baby)
+        // availableCribs: List of cribs with available slots (will be modified)
+        // map: The map to spawn on
+        // Returns: True if successfully placed in a crib, false otherwise
         private static bool TrySpawnPawnInCrib(Pawn pawn, List<Building_Bed> availableCribs, Map map)
         {
             if (availableCribs.Count == 0)
@@ -177,9 +169,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             return true;
         }
 
-        /// <summary>
-        /// Generates a single adult civilian pawn for the TradersGuild faction.
-        /// </summary>
+        // Generates a single adult civilian pawn for the TradersGuild faction.
         private static Pawn GenerateCivilian(PawnKindDef kindDef, Faction faction, int tile)
         {
             if (kindDef == null || faction == null)
@@ -215,13 +205,11 @@ namespace BetterTradersGuild.RoomContents.Nursery
             }
         }
 
-        /// <summary>
-        /// Generates a young pawn (Newborn, Baby, or Child) for the TradersGuild faction.
-        /// Uses weighted random selection to provide variety while slightly favoring younger stages.
-        ///
-        /// Must explicitly specify DevelopmentalStage since the PawnKindDef's
-        /// pawnGroupDevelopmentStage field only applies to group generation, not individual spawns.
-        /// </summary>
+        // Generates a young pawn (Newborn, Baby, or Child) for the TradersGuild faction.
+        // Uses weighted random selection to provide variety while slightly favoring younger stages.
+        //
+        // Must explicitly specify DevelopmentalStage since the PawnKindDef's
+        // pawnGroupDevelopmentStage field only applies to group generation, not individual spawns.
         private static Pawn GenerateYoungPawn(PawnKindDef kindDef, Faction faction, int tile)
         {
             if (kindDef == null || faction == null)

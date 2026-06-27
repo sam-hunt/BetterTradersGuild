@@ -6,25 +6,21 @@ using Verse;
 
 namespace BetterTradersGuild.LayoutWorkers.Settlement
 {
-    /// <summary>
-    /// Detects landing pads by finding and clustering beacon things.
-    ///
-    /// PURPOSE:
-    /// Provides landing pad detection for multiple use cases:
-    /// - External pads (outside structure) for pipe network extension
-    /// - Internal pads (inside rooms) for selective roofing
-    ///
-    /// TECHNICAL APPROACH:
-    /// - Finds AncientShipBeacon OR ShipLandingBeacon (Royalty) things on the map
-    /// - Only clusters homogenous beacon types (all corners same type)
-    /// - Clusters beacons by grid-aligned direct paths (handles large pads >50 cells)
-    /// - Returns bounding rect and beacon positions for each detected pad
-    /// </summary>
+    // Detects landing pads by finding and clustering beacon things.
+    //
+    // PURPOSE:
+    // Provides landing pad detection for multiple use cases:
+    // - External pads (outside structure) for pipe network extension
+    // - Internal pads (inside rooms) for selective roofing
+    //
+    // TECHNICAL APPROACH:
+    // - Finds AncientShipBeacon OR ShipLandingBeacon (Royalty) things on the map
+    // - Only clusters homogenous beacon types (all corners same type)
+    // - Clusters beacons by grid-aligned direct paths (handles large pads >50 cells)
+    // - Returns bounding rect and beacon positions for each detected pad
     public static class LandingPadDetector
     {
-        /// <summary>
-        /// Data structure representing a detected landing pad.
-        /// </summary>
+        // Data structure representing a detected landing pad.
         public struct LandingPadInfo
         {
             public CellRect BoundingRect;
@@ -32,13 +28,11 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             public List<IntVec3> BeaconPositions;
         }
 
-        /// <summary>
-        /// Detects landing pads OUTSIDE a bounding rect (external pads).
-        /// Used by LandingPadPipeExtender for pipe extension to external landing areas.
-        /// </summary>
-        /// <param name="map">The map to search</param>
-        /// <param name="excludeRect">Rect to exclude (typically structure bounds)</param>
-        /// <returns>List of landing pads found outside the exclude rect</returns>
+        // Detects landing pads OUTSIDE a bounding rect (external pads).
+        // Used by LandingPadPipeExtender for pipe extension to external landing areas.
+        // map: The map to search
+        // excludeRect: Rect to exclude (typically structure bounds)
+        // Returns: List of landing pads found outside the exclude rect
         public static List<LandingPadInfo> DetectOutsideRect(Map map, CellRect excludeRect)
         {
             List<Thing> allBeacons = FindBeacons(map);
@@ -56,14 +50,12 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             return ClusterAndBuildPadInfos(map, filteredBeacons);
         }
 
-        /// <summary>
-        /// Detects landing pads INSIDE a bounding rect (internal pads).
-        /// Used by RoomContents_ShuttleBay for selective roofing.
-        /// Returns the beacon bounding rect for the first pad found, or null.
-        /// </summary>
-        /// <param name="map">The map to search</param>
-        /// <param name="searchRect">Rect to search within (typically room bounds)</param>
-        /// <returns>Bounding rect of first landing pad found, or null if none</returns>
+        // Detects landing pads INSIDE a bounding rect (internal pads).
+        // Used by RoomContents_ShuttleBay for selective roofing.
+        // Returns the beacon bounding rect for the first pad found, or null.
+        // map: The map to search
+        // searchRect: Rect to search within (typically room bounds)
+        // Returns: Bounding rect of first landing pad found, or null if none
         public static CellRect? DetectInsideRect(Map map, CellRect searchRect)
         {
             List<Thing> allBeacons = FindBeacons(map);
@@ -86,10 +78,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             return pads[0].BoundingRect;
         }
 
-        /// <summary>
-        /// Finds all beacon things on the map (AncientShipBeacon or ShipLandingBeacon).
-        /// Uses DefRefs/Things.cs for centralized def resolution.
-        /// </summary>
+        // Finds all beacon things on the map (AncientShipBeacon or ShipLandingBeacon).
+        // Uses DefRefs/Things.cs for centralized def resolution.
         private static List<Thing> FindBeacons(Map map)
         {
             List<Thing> allBeacons = new List<Thing>();
@@ -109,11 +99,9 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             return allBeacons;
         }
 
-        /// <summary>
-        /// Clusters beacons and builds LandingPadInfo for each cluster.
-        /// Groups beacons by ThingDef first to ensure homogenous pads
-        /// (all corners must be the same beacon type).
-        /// </summary>
+        // Clusters beacons and builds LandingPadInfo for each cluster.
+        // Groups beacons by ThingDef first to ensure homogenous pads
+        // (all corners must be the same beacon type).
         private static List<LandingPadInfo> ClusterAndBuildPadInfos(Map map, List<Thing> beacons)
         {
             if (Terrains.OrbitalPlatform == null)
@@ -146,9 +134,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             return landingPads;
         }
 
-        /// <summary>
-        /// Builds a LandingPadInfo from a cluster of beacons.
-        /// </summary>
+        // Builds a LandingPadInfo from a cluster of beacons.
         private static LandingPadInfo? BuildLandingPadInfo(List<Thing> cluster)
         {
             if (cluster.Count == 0)
@@ -171,18 +157,16 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             };
         }
 
-        /// <summary>
-        /// Clusters beacons that form grid-aligned rectangles with direct terrain paths.
-        /// Two beacons belong to same pad if:
-        /// 1. They share the same X or Z coordinate (grid-aligned on same row/column)
-        /// 2. The straight-line path between them is all OrbitalPlatform terrain
-        ///
-        /// This correctly separates pads connected by walkways because:
-        /// - Same pad: beacons at corners share X/Z coords with direct pad-edge paths
-        /// - Different pads: beacons don't share coordinates (or path isn't continuous)
-        ///
-        /// Handles large landing pads (DoLargePlatforms) where beacons can be >50 cells apart.
-        /// </summary>
+        // Clusters beacons that form grid-aligned rectangles with direct terrain paths.
+        // Two beacons belong to same pad if:
+        // 1. They share the same X or Z coordinate (grid-aligned on same row/column)
+        // 2. The straight-line path between them is all OrbitalPlatform terrain
+        //
+        // This correctly separates pads connected by walkways because:
+        // - Same pad: beacons at corners share X/Z coords with direct pad-edge paths
+        // - Different pads: beacons don't share coordinates (or path isn't continuous)
+        //
+        // Handles large landing pads (DoLargePlatforms) where beacons can be >50 cells apart.
         private static List<List<Thing>> ClusterBeaconsByGridAlignment(
             Map map, List<Thing> beacons, TerrainDef terrainDef)
         {
@@ -245,11 +229,9 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             return clusterMap.Values.ToList();
         }
 
-        /// <summary>
-        /// Checks if a straight horizontal or vertical path between two cells
-        /// consists entirely of the specified terrain type.
-        /// Returns false if cells are not grid-aligned (neither same X nor same Z).
-        /// </summary>
+        // Checks if a straight horizontal or vertical path between two cells
+        // consists entirely of the specified terrain type.
+        // Returns false if cells are not grid-aligned (neither same X nor same Z).
         private static bool HasDirectTerrainPath(Map map, IntVec3 a, IntVec3 b, TerrainDef terrainDef)
         {
             // Must be grid-aligned (same X or same Z)

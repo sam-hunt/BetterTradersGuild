@@ -5,9 +5,7 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.CaravanArrivalActions
 {
-    /// <summary>
-    /// Harmony patch: Modifies attack float menu options to show "(requires signal jammer)" for Traders Guild
-    /// </summary>
+    // Harmony patch: Modifies attack float menu options to show "(requires signal jammer)" for Traders Guild
     [HarmonyPatch(typeof(CaravanArrivalAction_AttackSettlement), nameof(CaravanArrivalAction_AttackSettlement.GetFloatMenuOptions))]
     public static class CaravanArrivalActionAttackGetFloatMenuOptions
     {

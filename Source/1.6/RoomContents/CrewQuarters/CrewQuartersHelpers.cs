@@ -4,18 +4,14 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Shared utilities for CrewQuarters subroom customization.
-    /// Note: DLC def lookups now use centralized DefRefs classes instead of caching here.
-    /// </summary>
+    // Shared utilities for CrewQuarters subroom customization.
+    // Note: DLC def lookups now use centralized DefRefs classes instead of caching here.
     internal static class CrewQuartersHelpers
     {
         #region Shared Utilities
 
-        /// <summary>
-        /// Replaces a thing with a new thing of the specified def at the same position.
-        /// Preserves rotation only for things with meaningful directional graphics.
-        /// </summary>
+        // Replaces a thing with a new thing of the specified def at the same position.
+        // Preserves rotation only for things with meaningful directional graphics.
         internal static Thing ReplaceThingAt(Thing oldThing, ThingDef newDef, ThingDef stuff, Map map)
         {
             IntVec3 pos = oldThing.Position;
@@ -33,9 +29,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return newThing;
         }
 
-        /// <summary>
-        /// Finds all things of a specific def within the given subroom rects.
-        /// </summary>
+        // Finds all things of a specific def within the given subroom rects.
         internal static List<T> FindThingsInSubrooms<T>(Map map, List<CellRect> subroomRects, ThingDef thingDef) where T : Thing
         {
             List<T> results = new List<T>();
@@ -60,9 +54,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return results;
         }
 
-        /// <summary>
-        /// Finds all things of a specific def within the given subroom rects (non-generic version).
-        /// </summary>
+        // Finds all things of a specific def within the given subroom rects (non-generic version).
         internal static List<Thing> FindThingsInSubrooms(Map map, List<CellRect> subroomRects, ThingDef thingDef)
         {
             return FindThingsInSubrooms<Thing>(map, subroomRects, thingDef);

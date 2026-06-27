@@ -2,34 +2,24 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// "Misc" settings section — global balance knobs that apply to any TradersGuild
-    /// settlement regardless of the map generator, so they are never gated on custom
-    /// layouts (the salvagers raid weight acts on TG faction maps however they were
-    /// generated; the life-support power output is pushed onto the ThingDef at
-    /// startup).
-    /// </summary>
+    // "Misc" settings section — global balance knobs that apply to any TradersGuild
+    // settlement regardless of the map generator, so they are never gated on custom
+    // layouts (the salvagers raid weight acts on TG faction maps however they were
+    // generated; the life-support power output is pushed onto the ThingDef at
+    // startup).
     public partial class BetterTradersGuildSettings
     {
-        /// <summary>
-        /// Salvagers raid weight multiplier when on TradersGuild maps.
-        /// </summary>
-        /// <remarks>
-        /// Range: 0.0-5.0. 1.0 = vanilla. Default: 3.0 (BTG Recommended).
-        /// When attacking TradersGuild settlements, Salvagers raids become more likely —
-        /// emergent gameplay where assaulting the guild attracts opportunistic pirates.
-        /// </remarks>
+        // Salvagers raid weight multiplier when on TradersGuild maps.
+        // Range: 0.0-5.0. 1.0 = vanilla. Default: 3.0 (BTG Recommended).
+        // When attacking TradersGuild settlements, Salvagers raids become more likely —
+        // emergent gameplay where assaulting the guild attracts opportunistic pirates.
         public float salvagersRaidWeightMultiplier = 3.0f;
 
-        /// <summary>
-        /// LifeSupportUnit power output in watts.
-        /// </summary>
-        /// <remarks>
-        /// Range: 0-5000W. Default: 3200W (vanilla; the value v1.0.x actually shipped, and a
-        /// safe fallback for existing saves). BTG Recommended: 800W for a tighter grid —
-        /// BTG connects buildings into a map-wide grid where vanilla output is generous.
-        /// Applied live on save via WriteSettings (no restart needed).
-        /// </remarks>
+        // LifeSupportUnit power output in watts.
+        // Range: 0-5000W. Default: 3200W (vanilla; the value v1.0.x actually shipped, and a
+        // safe fallback for existing saves). BTG Recommended: 800W for a tighter grid —
+        // BTG connects buildings into a map-wide grid where vanilla output is generous.
+        // Applied live on save via WriteSettings (no restart needed).
         public int lifeSupportUnitPowerOutput = 3200;
 
         private void ExposeMiscSettings()

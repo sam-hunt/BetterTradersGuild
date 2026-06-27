@@ -5,38 +5,34 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.MapGeneration
 {
-    /// <summary>
-    /// Places hidden conduits and VE pipes under walls during layout generation.
-    ///
-    /// PURPOSE:
-    /// Creates a station-wide power and resource network by placing hidden infrastructure
-    /// under all walls in the generated structure. This ensures all electrical devices
-    /// are connected to power sources (LifeSupportUnits) and VE pipe networks are unified.
-    ///
-    /// TECHNICAL APPROACH:
-    /// - Iterates room rects' edge cells (walls are on rect edges, not interior)
-    /// - O(perimeter) instead of O(area) - efficient for large structures
-    /// - Places HiddenConduit under walls/doors (vanilla power network)
-    /// - Also places any VE hidden pipes from HiddenPipeHelper
-    ///
-    /// LEARNING NOTE (Room Rect Edges):
-    /// Room rects INCLUDE their walls. The edge cells of each rect correspond to
-    /// the room's walls, so we iterate just the edges instead of checking every cell.
-    /// For a 20x20 room: edges = 76 cells vs interior = 400 cells (5x fewer checks).
-    /// </summary>
+    // Places hidden conduits and VE pipes under walls during layout generation.
+    //
+    // PURPOSE:
+    // Creates a station-wide power and resource network by placing hidden infrastructure
+    // under all walls in the generated structure. This ensures all electrical devices
+    // are connected to power sources (LifeSupportUnits) and VE pipe networks are unified.
+    //
+    // TECHNICAL APPROACH:
+    // - Iterates room rects' edge cells (walls are on rect edges, not interior)
+    // - O(perimeter) instead of O(area) - efficient for large structures
+    // - Places HiddenConduit under walls/doors (vanilla power network)
+    // - Also places any VE hidden pipes from HiddenPipeHelper
+    //
+    // LEARNING NOTE (Room Rect Edges):
+    // Room rects INCLUDE their walls. The edge cells of each rect correspond to
+    // the room's walls, so we iterate just the edges instead of checking every cell.
+    // For a 20x20 room: edges = 76 cells vs interior = 400 cells (5x fewer checks).
     public static class LayoutConduitPlacer
     {
-        /// <summary>
-        /// Places hidden conduits (and VE hidden pipes) under all wall and door cells.
-        ///
-        /// BEHAVIOR:
-        /// - HiddenConduit under all walls and doors (invisible, clean aesthetics)
-        /// - Also spawns any VE hidden pipes at same locations
-        /// - Tracks processed cells to avoid duplicates at shared walls
-        /// </summary>
-        /// <param name="map">The map being generated</param>
-        /// <param name="sketch">The LayoutStructureSketch containing structure data</param>
-        /// <returns>Number of conduit positions placed</returns>
+        // Places hidden conduits (and VE hidden pipes) under all wall and door cells.
+        //
+        // BEHAVIOR:
+        // - HiddenConduit under all walls and doors (invisible, clean aesthetics)
+        // - Also spawns any VE hidden pipes at same locations
+        // - Tracks processed cells to avoid duplicates at shared walls
+        // map: The map being generated
+        // sketch: The LayoutStructureSketch containing structure data
+        // Returns: Number of conduit positions placed
         public static int PlaceHiddenConduits(Map map, LayoutStructureSketch sketch)
         {
             StructureLayout layout = sketch.structureLayout;

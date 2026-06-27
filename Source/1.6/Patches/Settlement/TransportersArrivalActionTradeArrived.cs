@@ -7,16 +7,14 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patches fixing shuttle trade-on-arrival at TG settlements with title-gated traders.
-    ///
-    /// Two patches work together:
-    /// 1. CanTradeWith Prefix: Vanilla's StillValid calls CanTradeWith(pods, settlement) using
-    ///    settlement.Faction (TradersGuild), which fails for Imperial traders. Without this fix,
-    ///    the arrival action is discarded before Arrived is ever called.
-    /// 2. Arrived Postfix: After vanilla's Arrived runs (and skips the dialog due to wrong faction
-    ///    in HasNegotiator), this opens the trade dialog with the correct faction.
-    /// </summary>
+    // Harmony patches fixing shuttle trade-on-arrival at TG settlements with title-gated traders.
+    //
+    // Two patches work together:
+    // 1. CanTradeWith Prefix: Vanilla's StillValid calls CanTradeWith(pods, settlement) using
+    //    settlement.Faction (TradersGuild), which fails for Imperial traders. Without this fix,
+    //    the arrival action is discarded before Arrived is ever called.
+    // 2. Arrived Postfix: After vanilla's Arrived runs (and skips the dialog due to wrong faction
+    //    in HasNegotiator), this opens the trade dialog with the correct faction.
     [HarmonyPatch]
     public static class TransportersArrivalActionTradeCanTradeWith
     {
@@ -58,10 +56,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static readonly FieldInfo settlementField = AccessTools.Field(
             typeof(TransportersArrivalAction_VisitSettlement), "settlement");
 
-        /// <summary>
-        /// Logs a targeted error if the field failed to resolve. Called once at startup
-        /// from <see cref="ReflectionVerification.VerifyAll"/>.
-        /// </summary>
+        // Logs a targeted error if the field failed to resolve. Called once at startup
+        // from ReflectionVerification.VerifyAll.
         public static void VerifyReflection()
         {
             if (settlementField == null)

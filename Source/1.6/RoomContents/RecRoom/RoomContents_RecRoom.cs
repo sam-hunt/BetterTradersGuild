@@ -7,11 +7,9 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.RecRoom
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Recreation Room.
-    ///
-    /// Post-processes the rec room to spawn decorative plants in corner plant pots.
-    /// </summary>
+    // Custom RoomContentsWorker for Recreation Room.
+    //
+    // Post-processes the rec room to spawn decorative plants in corner plant pots.
     public class RoomContents_RecRoom : RoomContentsWorker
     {
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)

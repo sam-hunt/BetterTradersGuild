@@ -7,30 +7,24 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
 {
-    /// <summary>
-    /// RoomContentsWorker for the cargo vault room.
-    /// Populates the room with items from the parent settlement's trade inventory.
-    /// Uses weighted random selection (higher value = higher probability).
-    /// Items are removed from trade inventory and spawned in the vault.
-    ///
-    /// Also spawns the exit subroom prefab (9x9 walled room with doors) in the center.
-    /// The doors prevent wild animals from escaping through the portal.
-    ///
-    /// The exit subroom rect is calculated before base.FillRoom() and used in
-    /// IsValidCellBase() to prevent XML prefabs (shelves) from spawning in the center.
-    /// </summary>
+    // RoomContentsWorker for the cargo vault room.
+    // Populates the room with items from the parent settlement's trade inventory.
+    // Uses weighted random selection (higher value = higher probability).
+    // Items are removed from trade inventory and spawned in the vault.
+    //
+    // Also spawns the exit subroom prefab (9x9 walled room with doors) in the center.
+    // The doors prevent wild animals from escaping through the portal.
+    //
+    // The exit subroom rect is calculated before base.FillRoom() and used in
+    // IsValidCellBase() to prevent XML prefabs (shelves) from spawning in the center.
     public class RoomContents_CargoVault : RoomContentsWorker
     {
-        /// <summary>
-        /// The rect where the exit subroom will be placed (9x9 center area).
-        /// Calculated before FillRoom to block XML prefabs from spawning there.
-        /// </summary>
+        // The rect where the exit subroom will be placed (9x9 center area).
+        // Calculated before FillRoom to block XML prefabs from spawning there.
         private CellRect exitSubroomRect;
 
-        /// <summary>
-        /// The spawn position for the exit subroom prefab.
-        /// Stored alongside exitSubroomRect to avoid recalculation.
-        /// </summary>
+        // The spawn position for the exit subroom prefab.
+        // Stored alongside exitSubroomRect to avoid recalculation.
         private IntVec3 exitSubroomSpawnPos;
 
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
@@ -108,11 +102,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             }
         }
 
-        /// <summary>
-        /// Calculates the rect and spawn position for the exit subroom.
-        /// Called before base.FillRoom() so IsValidCellBase can block XML prefabs from this area.
-        /// Stores both exitSubroomRect and exitSubroomSpawnPos in class fields.
-        /// </summary>
+        // Calculates the rect and spawn position for the exit subroom.
+        // Called before base.FillRoom() so IsValidCellBase can block XML prefabs from this area.
+        // Stores both exitSubroomRect and exitSubroomSpawnPos in class fields.
         private void CalculateExitSubroomPlacement(CellRect boundingRect)
         {
             PrefabDef prefab = Prefabs.BTG_CargoVaultExitSubroom;
@@ -129,10 +121,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             exitSubroomRect = SpawnPositionHelper.GetOccupiedRect(exitSubroomSpawnPos, prefabSize, Rot4.North);
         }
 
-        /// <summary>
-        /// Spawns the exit subroom prefab at the pre-calculated position.
-        /// </summary>
-        /// <returns>The rect occupied by the subroom, or null if spawn failed</returns>
+        // Spawns the exit subroom prefab at the pre-calculated position.
+        // Returns: The rect occupied by the subroom, or null if spawn failed
         private CellRect? SpawnExitSubroom(Map map)
         {
             PrefabDef prefab = Prefabs.BTG_CargoVaultExitSubroom;
@@ -146,10 +136,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return exitSubroomRect;
         }
 
-        /// <summary>
-        /// Override IsValidCellBase to block XML prefabs (shelves, etc.) from spawning
-        /// in the center area where the exit subroom will be placed.
-        /// </summary>
+        // Override IsValidCellBase to block XML prefabs (shelves, etc.) from spawning
+        // in the center area where the exit subroom will be placed.
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             // Block spawning in the exit subroom area

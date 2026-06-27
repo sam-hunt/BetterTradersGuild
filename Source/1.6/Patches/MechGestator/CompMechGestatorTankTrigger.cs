@@ -11,17 +11,15 @@ using Verse.Sound;
 
 namespace BetterTradersGuild.Patches.MechGestatorPatches
 {
-    /// <summary>
-    /// Harmony patch: Makes mechs from gestator tanks in TradersGuild settlements
-    /// spawn belonging to the TradersGuild faction instead of hostile mechanoids.
-    ///
-    /// Without this patch, Ancient gestator tanks always spawn mechs belonging to
-    /// Faction.OfMechanoids, which is hostile to everyone. This creates a confusing
-    /// experience where the TradersGuild's own security mechs attack their owners.
-    ///
-    /// This patch intercepts the Trigger method and substitutes the TradersGuild
-    /// faction when the gestator is located in a TradersGuild settlement map.
-    /// </summary>
+    // Harmony patch: Makes mechs from gestator tanks in TradersGuild settlements
+    // spawn belonging to the TradersGuild faction instead of hostile mechanoids.
+    //
+    // Without this patch, Ancient gestator tanks always spawn mechs belonging to
+    // Faction.OfMechanoids, which is hostile to everyone. This creates a confusing
+    // experience where the TradersGuild's own security mechs attack their owners.
+    //
+    // This patch intercepts the Trigger method and substitutes the TradersGuild
+    // faction when the gestator is located in a TradersGuild settlement map.
     [HarmonyPatch(typeof(CompMechGestatorTank), "Trigger")]
     public static class CompMechGestatorTankTrigger
     {
@@ -29,10 +27,8 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
         // (only a setter is public; reading the current state needs reflection).
         private static readonly FieldInfo StateField = AccessTools.Field(typeof(CompMechGestatorTank), "state");
 
-        /// <summary>
-        /// Logs a targeted error if the field failed to resolve. Called once at startup
-        /// from <see cref="ReflectionVerification.VerifyAll"/>.
-        /// </summary>
+        // Logs a targeted error if the field failed to resolve. Called once at startup
+        // from ReflectionVerification.VerifyAll.
         public static void VerifyReflection()
         {
             if (StateField == null)
@@ -40,11 +36,9 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
                     + "Traders Guild gestator mechs will fall back to vanilla hostile-faction spawning. RimWorld API may have changed.");
         }
 
-        /// <summary>
-        /// Prefix that intercepts gestator triggering in TradersGuild settlements.
-        /// If the gestator is in a TradersGuild settlement, we run our modified
-        /// version and skip the original. Otherwise, vanilla behavior proceeds.
-        /// </summary>
+        // Prefix that intercepts gestator triggering in TradersGuild settlements.
+        // If the gestator is in a TradersGuild settlement, we run our modified
+        // version and skip the original. Otherwise, vanilla behavior proceeds.
         [HarmonyPrefix]
         public static bool Prefix(CompMechGestatorTank __instance, Map map)
         {
@@ -73,11 +67,9 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             return false;
         }
 
-        /// <summary>
-        /// Modified trigger logic that uses the specified faction instead of Faction.OfMechanoids.
-        /// This is essentially a copy of the vanilla CompMechGestatorTank.Trigger method
-        /// with faction substitutions.
-        /// </summary>
+        // Modified trigger logic that uses the specified faction instead of Faction.OfMechanoids.
+        // This is essentially a copy of the vanilla CompMechGestatorTank.Trigger method
+        // with faction substitutions.
         private static void TriggerWithFaction(CompMechGestatorTank comp, Map map, Faction faction)
         {
             // Get current state - if Empty (0), return early

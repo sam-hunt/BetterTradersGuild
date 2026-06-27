@@ -5,28 +5,26 @@ using Verse.AI;
 
 namespace BetterTradersGuild.JobDrivers
 {
-    /// <summary>
-    /// Opens an IOpenable container (e.g. an Odyssey survival-meal pallet) WITHOUT
-    /// requiring a player Open designation.
-    ///
-    /// Vanilla JobDriver_Open is the colonist work path: its goto toil
-    /// FailsOnThingMissingDesignation(DesignationDefOf.Open), so it only runs on
-    /// containers the player has flagged. Settlement defenders are non-colonist NPCs
-    /// with no work settings and no player designations, so they can never use that
-    /// path. This driver mirrors JobDriver_Open's toils (goto -> wait OpenTicks ->
-    /// open) but drops the designation gates, letting a foraging defender crack
-    /// open an in-structure meal pallet when no other food remains.
-    ///
-    /// The final toil opens via IOpenable.Open() (which ejects the crate contents
-    /// onto the floor) and then forbids the ejected items. Forbidding keeps player
-    /// pawns from being handed haul jobs for the meals while hostile defenders are
-    /// still active inside the structure; it does NOT stop the defenders from
-    /// eating them, because ForbidUtility only honours the forbidden flag against
-    /// Faction.OfPlayer - a hostile defender's IsForbidden() check (including the
-    /// one in JobGiver_BTGForageInStructure step 2) returns false regardless.
-    ///
-    /// Used by JobGiver_BTGForageInStructure (the survival-meal-pallet fallback).
-    /// </summary>
+    // Opens an IOpenable container (e.g. an Odyssey survival-meal pallet) WITHOUT
+    // requiring a player Open designation.
+    //
+    // Vanilla JobDriver_Open is the colonist work path: its goto toil
+    // FailsOnThingMissingDesignation(DesignationDefOf.Open), so it only runs on
+    // containers the player has flagged. Settlement defenders are non-colonist NPCs
+    // with no work settings and no player designations, so they can never use that
+    // path. This driver mirrors JobDriver_Open's toils (goto -> wait OpenTicks ->
+    // open) but drops the designation gates, letting a foraging defender crack
+    // open an in-structure meal pallet when no other food remains.
+    //
+    // The final toil opens via IOpenable.Open() (which ejects the crate contents
+    // onto the floor) and then forbids the ejected items. Forbidding keeps player
+    // pawns from being handed haul jobs for the meals while hostile defenders are
+    // still active inside the structure; it does NOT stop the defenders from
+    // eating them, because ForbidUtility only honours the forbidden flag against
+    // Faction.OfPlayer - a hostile defender's IsForbidden() check (including the
+    // one in JobGiver_BTGForageInStructure step 2) returns false regardless.
+    //
+    // Used by JobGiver_BTGForageInStructure (the survival-meal-pallet fallback).
     public class JobDriver_BTGOpenContainer : JobDriver
     {
         private const TargetIndex ContainerIndex = TargetIndex.A;

@@ -7,15 +7,11 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.CaravanPatches
 {
-    /// <summary>
-    /// Harmony patch: Adds trade gizmo and modifies attack gizmo when caravan is at Traders Guild settlement
-    /// </summary>
+    // Harmony patch: Adds trade gizmo and modifies attack gizmo when caravan is at Traders Guild settlement
     [HarmonyPatch(typeof(RimWorld.Planet.Caravan), nameof(RimWorld.Planet.Caravan.GetGizmos))]
     public static class CaravanGetGizmos
     {
-        /// <summary>
-        /// Postfix method - adds/modifies gizmos for caravans at Traders Guild settlements
-        /// </summary>
+        // Postfix method - adds/modifies gizmos for caravans at Traders Guild settlements
         [HarmonyPostfix]
         public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> __result, RimWorld.Planet.Caravan __instance)
         {
@@ -64,9 +60,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
             }
         }
 
-        /// <summary>
-        /// Creates a "Trade" gizmo for caravans at Traders Guild settlements
-        /// </summary>
+        // Creates a "Trade" gizmo for caravans at Traders Guild settlements
         private static Command_Action CreateTradeGizmo(RimWorld.Planet.Caravan caravan, Settlement settlement)
         {
             Command_Action tradeCommand = new Command_Action();

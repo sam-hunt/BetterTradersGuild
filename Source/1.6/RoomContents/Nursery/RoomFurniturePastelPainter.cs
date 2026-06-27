@@ -7,18 +7,14 @@ using BetterTradersGuild.Helpers;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
-    /// <summary>
-    /// Paints nursery furniture with matching pastel colors.
-    /// Colors match the checkered floor pattern for a cohesive nursery look.
-    /// </summary>
+    // Paints nursery furniture with matching pastel colors.
+    // Colors match the checkered floor pattern for a cohesive nursery look.
     public static class RoomFurniturePastelPainter
     {
-        /// <summary>
-        /// Paints furniture in the room with pastel colors (pink, blue pastel, green pastel).
-        /// Excludes walls and blast doors from painting.
-        /// </summary>
-        /// <param name="map">The map containing the room</param>
-        /// <param name="roomRect">The room rectangle (will be contracted by 1 to exclude walls)</param>
+        // Paints furniture in the room with pastel colors (pink, blue pastel, green pastel).
+        // Excludes walls and blast doors from painting.
+        // map: The map containing the room
+        // roomRect: The room rectangle (will be contracted by 1 to exclude walls)
         public static void PaintFurniture(Map map, CellRect roomRect)
         {
             List<ColorDef> pastelColors = new List<ColorDef>

@@ -3,39 +3,25 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// "Defender Resupply" settings section — the last-resort comms-console food drop
-    /// for starving defenders. Gates on <see cref="useCustomLayouts"/> (the behavior
-    /// only runs in BTG-generated settlements); the two sliders additionally gate on
-    /// the <see cref="enableResupply"/> master toggle and sit indented beneath it.
-    /// </summary>
+    // "Defender Resupply" settings section — the last-resort comms-console food drop
+    // for starving defenders. Gates on useCustomLayouts (the behavior
+    // only runs in BTG-generated settlements); the two sliders additionally gate on
+    // the enableResupply master toggle and sit indented beneath it.
     public partial class BetterTradersGuildSettings
     {
-        /// <summary>
-        /// Master toggle for the defender comms-console food resupply behavior.
-        /// </summary>
-        /// <remarks>
-        /// Default: true. When off, starving defenders never call in a resupply drop
-        /// (the meals/cooldown sliders retain their values, just grayed out).
-        /// </remarks>
+        // Master toggle for the defender comms-console food resupply behavior.
+        // Default: true. When off, starving defenders never call in a resupply drop
+        // (the meals/cooldown sliders retain their values, just grayed out).
         public bool enableResupply = true;
 
-        /// <summary>
-        /// Survival-meal packs delivered per surviving humanlike defender, each time the
-        /// garrison calls in a comms-console resupply drop.
-        /// </summary>
-        /// <remarks>
-        /// Range: 1-10. Default: 2 (drop size = 2 × living humanlike defenders). The
-        /// drop shrinks as the player neutralizes defenders, so no per-map cap is needed.
-        /// </remarks>
+        // Survival-meal packs delivered per surviving humanlike defender, each time the
+        // garrison calls in a comms-console resupply drop.
+        // Range: 1-10. Default: 2 (drop size = 2 × living humanlike defenders). The
+        // drop shrinks as the player neutralizes defenders, so no per-map cap is needed.
         public int resupplyMealsPerDefender = 2;
 
-        /// <summary>
-        /// Cooldown between defender resupply drops on a single settlement map, in hours.
-        /// </summary>
-        /// <remarks>
-        /// Range: 1-120 hours. Default: 12 hours.
-        /// </remarks>
+        // Cooldown between defender resupply drops on a single settlement map, in hours.
+        // Range: 1-120 hours. Default: 12 hours.
         public int resupplyCooldownHours = 12;
 
         private void ExposeResupplySettings()

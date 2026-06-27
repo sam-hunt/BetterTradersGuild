@@ -9,15 +9,11 @@ using System.Threading;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement_TraderTracker.RegenerateStock method
-    /// Sets a flag during regeneration to help TraderKind getter detect mid-regeneration state
-    /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: This patch sets a thread-local flag that the TraderKind getter uses
-    /// to detect when it's being called from within RegenerateStock(). This is more reliable
-    /// than checking if stock is empty, which can have false positives.
-    /// </remarks>
+    // Harmony patch: Settlement_TraderTracker.RegenerateStock method
+    // Sets a flag during regeneration to help TraderKind getter detect mid-regeneration state
+    // LEARNING NOTE: This patch sets a thread-local flag that the TraderKind getter uses
+    // to detect when it's being called from within RegenerateStock(). This is more reliable
+    // than checking if stock is empty, which can have false positives.
     [HarmonyPatch(typeof(Settlement_TraderTracker), "RegenerateStock")]
     public static class SettlementTraderTrackerRegenerateStock
     {
@@ -32,26 +28,20 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static ThreadLocal<HashSet<int>> regeneratingSettlements =
             new ThreadLocal<HashSet<int>>(() => new HashSet<int>());
 
-        /// <summary>
-        /// Check if a settlement is currently regenerating stock
-        /// </summary>
+        // Check if a settlement is currently regenerating stock
         public static bool IsRegeneratingStock(int settlementID)
         {
             return regeneratingSettlements.Value.Contains(settlementID);
         }
 
-        /// <summary>
-        /// Prefix method - sets flag before regeneration starts.
-        /// Also blocks rotation/regeneration while settlement map is loaded (player visiting),
-        /// but allows INITIAL stock generation if stock has never been created (null).
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
-        /// <returns>False to skip original method (when blocking rotation), true otherwise</returns>
-        /// <remarks>
-        /// IMPORTANT: Only allow regeneration if stock is NULL (never created).
-        /// An empty stock (Count == 0) means items were legitimately removed (trading, cargo vault)
-        /// and should NOT trigger regeneration - we want the stock to remain frozen while visiting.
-        /// </remarks>
+        // Prefix method - sets flag before regeneration starts.
+        // Also blocks rotation/regeneration while settlement map is loaded (player visiting),
+        // but allows INITIAL stock generation if stock has never been created (null).
+        // __instance: The Settlement_TraderTracker instance
+        // Returns: False to skip original method (when blocking rotation), true otherwise
+        // IMPORTANT: Only allow regeneration if stock is NULL (never created).
+        // An empty stock (Count == 0) means items were legitimately removed (trading, cargo vault)
+        // and should NOT trigger regeneration - we want the stock to remain frozen while visiting.
         [HarmonyPrefix]
         public static bool Prefix(Settlement_TraderTracker __instance)
         {
@@ -76,10 +66,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             return true; // Allow original method to run
         }
 
-        /// <summary>
-        /// Postfix method - caches trader kind and clears flag after regeneration completes
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
+        // Postfix method - caches trader kind and clears flag after regeneration completes
+        // __instance: The Settlement_TraderTracker instance
         [HarmonyPostfix]
         public static void Postfix(Settlement_TraderTracker __instance)
         {

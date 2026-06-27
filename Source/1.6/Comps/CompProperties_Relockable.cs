@@ -2,25 +2,17 @@ using Verse;
 
 namespace BetterTradersGuild.Comps
 {
-    /// <summary>
-    /// CompProperties for the relockable cargo vault hatch.
-    /// Defines the UI elements for the relock gizmo.
-    /// </summary>
+    // CompProperties for the relockable cargo vault hatch.
+    // Defines the UI elements for the relock gizmo.
     public class CompProperties_Relockable : CompProperties
     {
-        /// <summary>
-        /// Texture path for the relock button icon.
-        /// </summary>
+        // Texture path for the relock button icon.
         public string relockTexPath;
 
-        /// <summary>
-        /// Label text for the relock button.
-        /// </summary>
+        // Label text for the relock button.
         public string relockCommandLabel;
 
-        /// <summary>
-        /// Description text for the relock button tooltip.
-        /// </summary>
+        // Description text for the relock button tooltip.
         public string relockCommandDesc;
 
         public CompProperties_Relockable()

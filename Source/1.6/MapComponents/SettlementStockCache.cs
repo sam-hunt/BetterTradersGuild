@@ -4,39 +4,31 @@ using Verse;
 
 namespace BetterTradersGuild.MapComponents
 {
-    /// <summary>
-    /// MapComponent that preserves trade inventory when a TradersGuild settlement is defeated.
-    ///
-    /// Problem: When SettlementDefeatUtility.CheckDefeated() runs:
-    /// 1. Creates a DestroyedSettlement
-    /// 2. Reassigns map.info.parent = destroyedSettlement
-    /// 3. Destroys the original Settlement via settlement.Destroy()
-    /// 4. Settlement.PostRemove() calls trader.TryDestroyStock() - stock is destroyed
-    ///
-    /// Solution: This MapComponent caches the trade inventory before defeat.
-    /// The settlement map survives defeat (just gets a new parent), so this component persists.
-    ///
-    /// Access pattern from pocket map:
-    /// pocketMap.Parent -> PocketMapParent
-    /// pocketMapParent.sourceMap -> Settlement Map (still exists!)
-    /// settlementMap.GetComponent<SettlementStockCache>() -> Cached stock
-    /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: Implements IThingHolder because ThingOwner requires a holder.
-    /// The IThingHolder interface provides the container hierarchy for things.
-    /// </remarks>
+    // MapComponent that preserves trade inventory when a TradersGuild settlement is defeated.
+    //
+    // Problem: When SettlementDefeatUtility.CheckDefeated() runs:
+    // 1. Creates a DestroyedSettlement
+    // 2. Reassigns map.info.parent = destroyedSettlement
+    // 3. Destroys the original Settlement via settlement.Destroy()
+    // 4. Settlement.PostRemove() calls trader.TryDestroyStock() - stock is destroyed
+    //
+    // Solution: This MapComponent caches the trade inventory before defeat.
+    // The settlement map survives defeat (just gets a new parent), so this component persists.
+    //
+    // Access pattern from pocket map:
+    // pocketMap.Parent -> PocketMapParent
+    // pocketMapParent.sourceMap -> Settlement Map (still exists!)
+    // settlementMap.GetComponent<SettlementStockCache>() -> Cached stock
+    // LEARNING NOTE: Implements IThingHolder because ThingOwner requires a holder.
+    // The IThingHolder interface provides the container hierarchy for things.
     public class SettlementStockCache : MapComponent, IThingHolder
     {
-        /// <summary>
-        /// Trade inventory preserved from the defeated settlement.
-        /// Items are transferred here before TryDestroyStock runs.
-        /// </summary>
+        // Trade inventory preserved from the defeated settlement.
+        // Items are transferred here before TryDestroyStock runs.
         public ThingOwner<Thing> preservedStock;
 
-        /// <summary>
-        /// The ID of the original settlement before defeat.
-        /// Used for deterministic seeding in cargo vault generation.
-        /// </summary>
+        // The ID of the original settlement before defeat.
+        // Used for deterministic seeding in cargo vault generation.
         public int originalSettlementId;
 
         public SettlementStockCache(Map map) : base(map)
@@ -46,22 +38,16 @@ namespace BetterTradersGuild.MapComponents
 
         #region IThingHolder Impl
 
-        /// <summary>
-        /// Returns the parent thing holder (the map).
-        /// </summary>
+        // Returns the parent thing holder (the map).
         public IThingHolder ParentHolder => map;
 
-        /// <summary>
-        /// Returns all direct thing holders (our preserved stock).
-        /// </summary>
+        // Returns all direct thing holders (our preserved stock).
         public void GetChildHolders(List<IThingHolder> outChildren)
         {
             ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, GetDirectlyHeldThings());
         }
 
-        /// <summary>
-        /// Returns all things directly held (the preserved stock contents).
-        /// </summary>
+        // Returns all things directly held (the preserved stock contents).
         public ThingOwner GetDirectlyHeldThings()
         {
             return preservedStock;
@@ -69,9 +55,7 @@ namespace BetterTradersGuild.MapComponents
 
         #endregion
 
-        /// <summary>
-        /// Saves and loads the preserved stock and original settlement ID.
-        /// </summary>
+        // Saves and loads the preserved stock and original settlement ID.
         public override void ExposeData()
         {
             base.ExposeData();
@@ -85,10 +69,8 @@ namespace BetterTradersGuild.MapComponents
             }
         }
 
-        /// <summary>
-        /// Called when the map is being removed from the game.
-        /// Cleans up remaining preserved stock to mirror TryDestroyStock behavior.
-        /// </summary>
+        // Called when the map is being removed from the game.
+        // Cleans up remaining preserved stock to mirror TryDestroyStock behavior.
         public override void MapRemoved()
         {
             base.MapRemoved();

@@ -8,17 +8,13 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Handles customization of firefoam poppers used as markers in CrewQuarters subrooms.
-    /// Each marker has various replacement/removal chances including
-    /// drones, mechs, shamblers, pets, furniture, and decorative items.
-    /// </summary>
+    // Handles customization of firefoam poppers used as markers in CrewQuarters subrooms.
+    // Each marker has various replacement/removal chances including
+    // drones, mechs, shamblers, pets, furniture, and decorative items.
     internal static class FirefoamPopperCustomizer
     {
-        /// <summary>
-        /// Weighted outcomes for firefoam popper customization.
-        /// Lazily built to filter out DLC-gated outcomes when those DLCs aren't present.
-        /// </summary>
+        // Weighted outcomes for firefoam popper customization.
+        // Lazily built to filter out DLC-gated outcomes when those DLCs aren't present.
         private static List<(float weight, Action<Thing, Map, Faction> action)> _outcomes;
         private static List<(float weight, Action<Thing, Map, Faction> action)> Outcomes => _outcomes ?? (_outcomes = BuildOutcomes());
 
@@ -62,10 +58,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return outcomes;
         }
 
-        /// <summary>
-        /// Finds and customizes firefoam poppers (used as markers) in subrooms.
-        /// Each marker has various replacement/removal chances.
-        /// </summary>
+        // Finds and customizes firefoam poppers (used as markers) in subrooms.
+        // Each marker has various replacement/removal chances.
         internal static void Customize(Map map, List<CellRect> subroomRects, Faction faction)
         {
             // Find all FirefoamPoppers in subroom areas (used as customization markers)
@@ -116,11 +110,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             CrewQuartersHelpers.ReplaceThingAt(marker, Things.PlantPot, Things.Steel, map);
         }
 
-        /// <summary>
-        /// Replaces a marker with a pile of trash filth.
-        /// Spawns moldy uniform and trash at the marker position, plus more trash at a nearby cell.
-        /// Also attempts to replace the nearest PlantPot with an AncientPlantPot.
-        /// </summary>
+        // Replaces a marker with a pile of trash filth.
+        // Spawns moldy uniform and trash at the marker position, plus more trash at a nearby cell.
+        // Also attempts to replace the nearest PlantPot with an AncientPlantPot.
         private static void SpawnTrashPile(Thing marker, Map map)
         {
             if (Things.Filth_Trash == null) return;
@@ -149,9 +141,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             TryReplaceNearestPlantPot(pos, map);
         }
 
-        /// <summary>
-        /// Finds the nearest PlantPot building and replaces it with an AncientPlantPot.
-        /// </summary>
+        // Finds the nearest PlantPot building and replaces it with an AncientPlantPot.
         private static void TryReplaceNearestPlantPot(IntVec3 searchOrigin, Map map)
         {
             if (Things.PlantPot == null || Things.AncientPlantPot == null) return;
@@ -181,9 +171,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             GenSpawn.Spawn(ancientPot, potPos, map, potRot);
         }
 
-        /// <summary>
-        /// Replaces a marker with a dormant drone trap.
-        /// </summary>
+        // Replaces a marker with a dormant drone trap.
         private static void ReplaceWithTrap(Thing marker, ThingDef trapDef, Map map, Faction faction)
         {
             IntVec3 pos = marker.Position;
@@ -194,9 +182,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             trap.SetFactionDirect(faction);
         }
 
-        /// <summary>
-        /// Replaces a marker with a mech pawn.
-        /// </summary>
+        // Replaces a marker with a mech pawn.
         private static void SpawnMechAtPosition(Thing marker, PawnKindDef mechKind, Map map, Faction faction)
         {
             IntVec3 pos = marker.Position;
@@ -211,11 +197,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             GenSpawn.Spawn(mech, pos, map);
         }
 
-        /// <summary>
-        /// Replaces a marker with a shambler (factionless).
-        /// Tints shell and overhead apparel with the faction color so it looks
-        /// like a reanimated guild crew member.
-        /// </summary>
+        // Replaces a marker with a shambler (factionless).
+        // Tints shell and overhead apparel with the faction color so it looks
+        // like a reanimated guild crew member.
         private static void SpawnShamblerAtPosition(Thing marker, PawnKindDef shamblerKind, Map map, Faction faction)
         {
             IntVec3 pos = marker.Position;
@@ -243,10 +227,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Replaces a marker with an animal bed and spawns a pet.
-        /// Adds kibble to the nearest reachable small shelf.
-        /// </summary>
+        // Replaces a marker with an animal bed and spawns a pet.
+        // Adds kibble to the nearest reachable small shelf.
         private static void SpawnPetWithKibble(Thing marker, Map map)
         {
             IntVec3 pos = marker.Position;
@@ -267,17 +249,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             RoomPetHelper.AddKibbleToNearestShelf(map, pos);
         }
 
-        /// <summary>
-        /// Replaces marker with a meditation spot (Royalty DLC).
-        /// </summary>
+        // Replaces marker with a meditation spot (Royalty DLC).
         private static void ReplaceWithMeditationSpot(Thing marker, Map map)
         {
             CrewQuartersHelpers.ReplaceThingAt(marker, Things.MeditationSpot, null, map);
         }
 
-        /// <summary>
-        /// Replaces marker with a party spot.
-        /// </summary>
+        // Replaces marker with a party spot.
         private static void ReplaceWithPartySpot(Thing marker, Map map)
         {
             IntVec3 pos = marker.Position;

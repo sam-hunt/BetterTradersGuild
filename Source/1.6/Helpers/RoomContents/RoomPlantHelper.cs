@@ -7,31 +7,27 @@ using UnityEngine;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Helper class for spawning plants in room generation.
-    /// Provides methods for populating plant pots and hydroponics basins with decorative or food plants.
-    ///
-    /// DESIGN: Separated into two methods for different building types:
-    /// - SpawnPlantsInPlantPots: For decorative pots, grow zones, etc.
-    /// - SpawnPlantsInHydroponics: For hydroponics basins with hydroponic-compatible plants
-    /// </summary>
+    // Helper class for spawning plants in room generation.
+    // Provides methods for populating plant pots and hydroponics basins with decorative or food plants.
+    //
+    // DESIGN: Separated into two methods for different building types:
+    // - SpawnPlantsInPlantPots: For decorative pots, grow zones, etc.
+    // - SpawnPlantsInHydroponics: For hydroponics basins with hydroponic-compatible plants
     public static class RoomPlantHelper
     {
-        /// <summary>
-        /// Spawns decorative or food plants in all plant pots within the search area.
-        ///
-        /// LEARNING NOTE: Plant pots use Building_PlantGrower (same as hydroponics basins).
-        /// Plants are NOT stored in a container - they spawn as separate Plant things at
-        /// the same cell as the plant pot. This is fundamentally different from bookcases
-        /// where items go into innerContainer.
-        ///
-        /// USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
-        /// to spawn plants in pots placed by XML prefabs.
-        /// </summary>
-        /// <param name="map">The map to spawn plants on</param>
-        /// <param name="searchArea">Area to search for plant pots</param>
-        /// <param name="plantDefs">List of plants to randomly choose from (null/empty = use pot's default)</param>
-        /// <param name="growth">Growth percentage (0.0-1.0, where 1.0 = fully mature)</param>
+        // Spawns decorative or food plants in all plant pots within the search area.
+        //
+        // LEARNING NOTE: Plant pots use Building_PlantGrower (same as hydroponics basins).
+        // Plants are NOT stored in a container - they spawn as separate Plant things at
+        // the same cell as the plant pot. This is fundamentally different from bookcases
+        // where items go into innerContainer.
+        //
+        // USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
+        // to spawn plants in pots placed by XML prefabs.
+        // map: The map to spawn plants on
+        // searchArea: Area to search for plant pots
+        // plantDefs: List of plants to randomly choose from (null/empty = use pot's default)
+        // growth: Growth percentage (0.0-1.0, where 1.0 = fully mature)
         public static void SpawnPlantsInPlantPots(Map map, CellRect searchArea, List<ThingDef> plantDefs, float growth)
         {
             // Filter out nulls from the list
@@ -41,21 +37,19 @@ namespace BetterTradersGuild.Helpers.RoomContents
             SpawnPlantsInPlantPotsInternal(map, searchArea, validPlants, growth);
         }
 
-        /// <summary>
-        /// Spawns decorative or food plants in all plant pots within the search area.
-        ///
-        /// LEARNING NOTE: Plant pots use Building_PlantGrower (same as hydroponics basins).
-        /// Plants are NOT stored in a container - they spawn as separate Plant things at
-        /// the same cell as the plant pot. This is fundamentally different from bookcases
-        /// where items go into innerContainer.
-        ///
-        /// USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
-        /// to spawn plants in pots placed by XML prefabs.
-        /// </summary>
-        /// <param name="map">The map to spawn plants on</param>
-        /// <param name="searchArea">Area to search for plant pots</param>
-        /// <param name="plantDef">Plant to spawn (null = use pot's default via GetPlantDefToGrow)</param>
-        /// <param name="growth">Growth percentage (0.0-1.0, where 1.0 = fully mature)</param>
+        // Spawns decorative or food plants in all plant pots within the search area.
+        //
+        // LEARNING NOTE: Plant pots use Building_PlantGrower (same as hydroponics basins).
+        // Plants are NOT stored in a container - they spawn as separate Plant things at
+        // the same cell as the plant pot. This is fundamentally different from bookcases
+        // where items go into innerContainer.
+        //
+        // USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
+        // to spawn plants in pots placed by XML prefabs.
+        // map: The map to spawn plants on
+        // searchArea: Area to search for plant pots
+        // plantDef: Plant to spawn (null = use pot's default via GetPlantDefToGrow)
+        // growth: Growth percentage (0.0-1.0, where 1.0 = fully mature)
         public static void SpawnPlantsInPlantPots(Map map, CellRect searchArea, ThingDef plantDef, float growth)
         {
             // Wrap single plant in a list (or null if no plant specified)
@@ -63,9 +57,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             SpawnPlantsInPlantPotsInternal(map, searchArea, plantList, growth);
         }
 
-        /// <summary>
-        /// Internal implementation that handles both single and multiple plant types.
-        /// </summary>
+        // Internal implementation that handles both single and multiple plant types.
         private static void SpawnPlantsInPlantPotsInternal(Map map, CellRect searchArea, List<ThingDef> plantDefs, float growth)
         {
             // Validate growth parameter
@@ -148,27 +140,25 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Spawns food or medicinal plants in all hydroponics basins within the search area.
-        ///
-        /// LEARNING NOTE: Hydroponics basins are Building_PlantGrower instances, but they require
-        /// plants with the "Hydroponic" sow tag. This method validates plant compatibility to prevent
-        /// spawning ground-only plants (like roses) in hydroponics.
-        ///
-        /// USAGE: Designed for reuse in any RoomContentsWorker with hydroponics. Call this AFTER
-        /// base.FillRoom() to spawn plants in basins placed by XML prefabs.
-        ///
-        /// Common hydroponic-compatible plants:
-        /// - Plant_Rice: Fast-growing food crop (3 days)
-        /// - Plant_Potato: Reliable food crop (5.5 days)
-        /// - Plant_Corn: High-yield food crop (14 days)
-        /// - Plant_Healroot: Medicinal herb (9 days)
-        /// - Plant_Strawberry: Food/beauty hybrid (4.6 days)
-        /// </summary>
-        /// <param name="map">The map to spawn plants on</param>
-        /// <param name="searchArea">Area to search for hydroponics basins</param>
-        /// <param name="plantDef">Plant to spawn (null = use basin's default via GetPlantDefToGrow)</param>
-        /// <param name="growth">Growth percentage (0.0-1.0, where 1.0 = fully mature)</param>
+        // Spawns food or medicinal plants in all hydroponics basins within the search area.
+        //
+        // LEARNING NOTE: Hydroponics basins are Building_PlantGrower instances, but they require
+        // plants with the "Hydroponic" sow tag. This method validates plant compatibility to prevent
+        // spawning ground-only plants (like roses) in hydroponics.
+        //
+        // USAGE: Designed for reuse in any RoomContentsWorker with hydroponics. Call this AFTER
+        // base.FillRoom() to spawn plants in basins placed by XML prefabs.
+        //
+        // Common hydroponic-compatible plants:
+        // - Plant_Rice: Fast-growing food crop (3 days)
+        // - Plant_Potato: Reliable food crop (5.5 days)
+        // - Plant_Corn: High-yield food crop (14 days)
+        // - Plant_Healroot: Medicinal herb (9 days)
+        // - Plant_Strawberry: Food/beauty hybrid (4.6 days)
+        // map: The map to spawn plants on
+        // searchArea: Area to search for hydroponics basins
+        // plantDef: Plant to spawn (null = use basin's default via GetPlantDefToGrow)
+        // growth: Growth percentage (0.0-1.0, where 1.0 = fully mature)
         public static void SpawnPlantsInHydroponics(Map map, CellRect searchArea, ThingDef plantDef, float growth)
         {
             // Validate growth parameter
@@ -243,12 +233,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Checks if a plant ThingDef is compatible with hydroponics basins.
-        /// A plant is hydroponic-compatible if it has the "Hydroponic" sow tag.
-        /// </summary>
-        /// <param name="plantDef">The plant ThingDef to check</param>
-        /// <returns>True if plant can grow in hydroponics, false otherwise</returns>
+        // Checks if a plant ThingDef is compatible with hydroponics basins.
+        // A plant is hydroponic-compatible if it has the "Hydroponic" sow tag.
+        // plantDef: The plant ThingDef to check
+        // Returns: True if plant can grow in hydroponics, false otherwise
         private static bool IsHydroponicCompatible(ThingDef plantDef)
         {
             if (plantDef == null || plantDef.plant == null) return false;

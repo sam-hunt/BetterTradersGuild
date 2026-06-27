@@ -5,17 +5,15 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Paramedic-mech rescue, confined to the mech's MedicalBay (MedicRoomBounds).
-    /// If a downed same-faction (Traders Guild) defender is lying in the room and not
-    /// already in a bed, and an unreserved medical bed with a free slot exists IN THE
-    /// SAME ROOM, the medic carries them to it (worst-bleed casualty first). When no
-    /// in-room bed is free this returns null and the lower-priority tend node patches
-    /// the casualty on the floor instead.
-    ///
-    /// Sits below the emergency-tend node (so a heavily bleeding casualty is stabilised
-    /// before being moved) and above the routine-tend node.
-    /// </summary>
+    // Paramedic-mech rescue, confined to the mech's MedicalBay (MedicRoomBounds).
+    // If a downed same-faction (Traders Guild) defender is lying in the room and not
+    // already in a bed, and an unreserved medical bed with a free slot exists IN THE
+    // SAME ROOM, the medic carries them to it (worst-bleed casualty first). When no
+    // in-room bed is free this returns null and the lower-priority tend node patches
+    // the casualty on the floor instead.
+    //
+    // Sits below the emergency-tend node (so a heavily bleeding casualty is stabilised
+    // before being moved) and above the routine-tend node.
     public class JobGiver_BTGMechMedicRescue : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)

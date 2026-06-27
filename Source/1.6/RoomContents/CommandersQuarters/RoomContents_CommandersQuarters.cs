@@ -8,16 +8,14 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CommandersQuarters
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Commander's Quarters.
-    ///
-    /// Spawns a secure bedroom subroom with an L-shaped prefab (front + right side walls only)
-    /// that can be placed in corners (preferred) or along edges (with procedural wall completion).
-    ///
-    /// LEARNING NOTE: RoomContentsWorkers provide programmatic control over room generation,
-    /// working alongside XML definitions. The three-phase system (PreFillRooms, FillRoom, PostFillRooms)
-    /// allows custom structures to coexist with XML-defined prefabs, scatter items, and parts.
-    /// </summary>
+    // Custom RoomContentsWorker for Commander's Quarters.
+    //
+    // Spawns a secure bedroom subroom with an L-shaped prefab (front + right side walls only)
+    // that can be placed in corners (preferred) or along edges (with procedural wall completion).
+    //
+    // LEARNING NOTE: RoomContentsWorkers provide programmatic control over room generation,
+    // working alongside XML definitions. The three-phase system (PreFillRooms, FillRoom, PostFillRooms)
+    // allows custom structures to coexist with XML-defined prefabs, scatter items, and parts.
     public class RoomContents_CommandersQuarters : RoomContentsWorker
     {
         // Prefab actual size (6×6) - the content defined in XML
@@ -26,13 +24,11 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
         // Stores the bedroom area to prevent other prefabs from spawning there
         private CellRect bedroomRect;
 
-        /// <summary>
-        /// Main room generation method. Orchestrates bedroom placement and calls base class
-        /// to process XML-defined content (prefabs, scatter, parts) in remaining space.
-        ///
-        /// LEARNING NOTE: Call base.FillRoom() AFTER custom structure spawning to allow
-        /// XML prefabs to spawn in the remaining valid space (controlled via IsValidCellBase).
-        /// </summary>
+        // Main room generation method. Orchestrates bedroom placement and calls base class
+        // to process XML-defined content (prefabs, scatter, parts) in remaining space.
+        //
+        // LEARNING NOTE: Call base.FillRoom() AFTER custom structure spawning to allow
+        // XML prefabs to spawn in the remaining valid space (controlled via IsValidCellBase).
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             // Explicitly initialize bedroomRect to default (safety mechanism)
@@ -92,15 +88,13 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             }
         }
 
-        /// <summary>
-        /// Override to prevent lounge prefabs from spawning in bedroom area.
-        ///
-        /// CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
-        /// doesn't work because lounge prefabs overwrite bedroom furniture at the same cells,
-        /// and removing them afterward leaves the bedroom furniture already destroyed.
-        ///
-        /// Called by base.FillRoom() during prefab placement validation.
-        /// </summary>
+        // Override to prevent lounge prefabs from spawning in bedroom area.
+        //
+        // CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
+        // doesn't work because lounge prefabs overwrite bedroom furniture at the same cells,
+        // and removing them afterward leaves the bedroom furniture already destroyed.
+        //
+        // Called by base.FillRoom() during prefab placement validation.
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             // Block lounge prefab placement in bedroom area (prevent furniture overwriting)
@@ -110,15 +104,13 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
         }
 
-        /// <summary>
-        /// Spawns the bedroom prefab using PrefabUtility API.
-        /// The prefab contains the L-shaped walls (front + right side), furniture, and AncientBlastDoor.
-        ///
-        /// LEARNING NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning!
-        /// The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
-        /// For a 6×6 prefab, the center is at (localX=3, localZ=3), and the prefab extends
-        /// ±3 cells in each direction from that center point.
-        /// </summary>
+        // Spawns the bedroom prefab using PrefabUtility API.
+        // The prefab contains the L-shaped walls (front + right side), furniture, and AncientBlastDoor.
+        //
+        // LEARNING NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning!
+        // The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
+        // For a 6×6 prefab, the center is at (localX=3, localZ=3), and the prefab extends
+        // ±3 cells in each direction from that center point.
         private void SpawnBedroomPrefab(Map map, SubroomPlacementResult placement)
         {
             PrefabDef prefab = Prefabs.BTG_CommandersBedroom;
@@ -129,10 +121,8 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }
 
-        /// <summary>
-        /// Spawns a random pet (cat or dog) at the animal bed location in the bedroom.
-        /// Searches the bedroom rect for the AnimalBed spawned by the prefab.
-        /// </summary>
+        // Spawns a random pet (cat or dog) at the animal bed location in the bedroom.
+        // Searches the bedroom rect for the AnimalBed spawned by the prefab.
         private void SpawnPetAtAnimalBed(Map map, CellRect bedroomRect)
         {
             if (Things.AnimalBed == null)

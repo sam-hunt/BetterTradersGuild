@@ -5,25 +5,23 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.MapGeneration
 {
-    /// <summary>
-    /// Drop-in replacement for vanilla GenStep_SettlementPawnsLoot that attaches
-    /// the generated defender group to a bounded LordJob_BTGDefendStructure
-    /// instead of LordJob_DefendBase.
-    ///
-    /// Vanilla bakes the LordJob into GenStep_SettlementPawnsLoot.Generate with no
-    /// virtual hook, so the only way to swap the defenders' lord is to override
-    /// Generate wholesale. The body mirrors vanilla exactly (same SpawnRect lookup,
-    /// same MapGenUtility.GeneratePawns / GenerateLoot calls, same loot gating) so
-    /// pawn generation, placement, and loot behaviour are unchanged — the single
-    /// difference is the LordJob handed to the spawned defenders.
-    ///
-    /// SeedPart is inherited unchanged: neither LordJob ctor nor LordMaker.MakeNewLord
-    /// consumes Rand before GeneratePawns runs, so the generated pawns are identical
-    /// to what vanilla would produce for the same seed.
-    ///
-    /// This GenStep only runs inside the BTG settlement pipeline
-    /// (BTG_SettlementMapGenerator), so no TradersGuild-map guard is needed.
-    /// </summary>
+    // Drop-in replacement for vanilla GenStep_SettlementPawnsLoot that attaches
+    // the generated defender group to a bounded LordJob_BTGDefendStructure
+    // instead of LordJob_DefendBase.
+    //
+    // Vanilla bakes the LordJob into GenStep_SettlementPawnsLoot.Generate with no
+    // virtual hook, so the only way to swap the defenders' lord is to override
+    // Generate wholesale. The body mirrors vanilla exactly (same SpawnRect lookup,
+    // same MapGenUtility.GeneratePawns / GenerateLoot calls, same loot gating) so
+    // pawn generation, placement, and loot behaviour are unchanged — the single
+    // difference is the LordJob handed to the spawned defenders.
+    //
+    // SeedPart is inherited unchanged: neither LordJob ctor nor LordMaker.MakeNewLord
+    // consumes Rand before GeneratePawns runs, so the generated pawns are identical
+    // to what vanilla would produce for the same seed.
+    //
+    // This GenStep only runs inside the BTG settlement pipeline
+    // (BTG_SettlementMapGenerator), so no TradersGuild-map guard is needed.
     public class GenStep_BTGSettlementPawns : GenStep_SettlementPawnsLoot
     {
         public override void Generate(Map map, GenStepParams parms)
@@ -53,11 +51,9 @@ namespace BetterTradersGuild.MapGeneration
             }
         }
 
-        /// <summary>
-        /// Reimplementation of the base class's private GetFaction. Identical logic,
-        /// using the public factionDef field: explicit faction if set, otherwise the
-        /// map's parent faction, falling back to a random enemy faction.
-        /// </summary>
+        // Reimplementation of the base class's private GetFaction. Identical logic,
+        // using the public factionDef field: explicit faction if set, otherwise the
+        // map's parent faction, falling back to a random enemy faction.
         private Faction GetFaction(Map map)
         {
             if (factionDef != null)

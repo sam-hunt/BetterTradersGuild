@@ -5,18 +5,16 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.LordJobs
 {
-    /// <summary>
-    /// LordToil that assigns the BTG_MechFarm duty (radius-bound, structure-confined
-    /// greenhouse tending) to every pawn in the lord, focused on the room centre. The
-    /// focus point is what FarmArea uses as the centre of the search radius and the
-    /// "return home" dormancy target, and what RoomMechLordHelper matches on so multiple
-    /// agrihands in one greenhouse share a single lord.
-    /// </summary>
+    // LordToil that assigns the BTG_MechFarm duty (radius-bound, structure-confined
+    // greenhouse tending) to every pawn in the lord, focused on the room centre. The
+    // focus point is what FarmArea uses as the centre of the search radius and the
+    // "return home" dormancy target, and what RoomMechLordHelper matches on so multiple
+    // agrihands in one greenhouse share a single lord.
     public class LordToil_MechFarm : LordToil
     {
         private IntVec3 point;
 
-        /// <summary>The greenhouse centre this farm lord is anchored to. Used for lord matching.</summary>
+        // The greenhouse centre this farm lord is anchored to. Used for lord matching.
         public IntVec3 Point => point;
 
         public LordToil_MechFarm(IntVec3 point)

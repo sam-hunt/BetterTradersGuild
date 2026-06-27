@@ -5,36 +5,28 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.LordJobs
 {
-    /// <summary>
-    /// LordToil that assigns BTG_WanderInArea duty to all pawns.
-    ///
-    /// This toil makes pawns wander near a point without aggressive behavior.
-    /// Used by LordJob_StayInArea for passive mechs.
-    /// </summary>
+    // LordToil that assigns BTG_WanderInArea duty to all pawns.
+    //
+    // This toil makes pawns wander near a point without aggressive behavior.
+    // Used by LordJob_StayInArea for passive mechs.
     public class LordToil_WanderInArea : LordToil
     {
         private IntVec3 point;
 
-        /// <summary>
-        /// The center point that pawns wander around.
-        /// Exposed for Lord matching in RoomMechLordHelper.
-        /// </summary>
+        // The center point that pawns wander around.
+        // Exposed for Lord matching in RoomMechLordHelper.
         public IntVec3 Point => point;
 
         // Parameterless constructor not needed - toils are recreated via LordJob.CreateGraph()
 
-        /// <summary>
-        /// Creates a new wander-in-area toil.
-        /// </summary>
-        /// <param name="point">The center point to wander near</param>
+        // Creates a new wander-in-area toil.
+        // point: The center point to wander near
         public LordToil_WanderInArea(IntVec3 point)
         {
             this.point = point;
         }
 
-        /// <summary>
-        /// Assigns BTG_WanderInArea duty to all pawns in the lord.
-        /// </summary>
+        // Assigns BTG_WanderInArea duty to all pawns in the lord.
         public override void UpdateAllDuties()
         {
             foreach (Pawn pawn in lord.ownedPawns)

@@ -7,20 +7,16 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CommandersQuarters
 {
-    /// <summary>
-    /// Handles unique weapon generation and spawning for the Commander's Quarters.
-    /// Creates a high-quality weapon with gold inlay and weapon-specific traits.
-    /// </summary>
+    // Handles unique weapon generation and spawning for the Commander's Quarters.
+    // Creates a high-quality weapon with gold inlay and weapon-specific traits.
     public static class CommandersWeaponSpawner
     {
-        /// <summary>
-        /// Spawns a unique weapon on the shelf in the commander's quarters.
-        /// Searches for the ShelfSmall within the entire room area (bedroom + lounge).
-        ///
-        /// LEARNING NOTE: The shelf is in the bedroom prefab, but we search the full room
-        /// to be robust. Also, we must add at least one trait BEFORE GoldInlay since it
-        /// has canGenerateAlone="false" which prevents it from being the only trait.
-        /// </summary>
+        // Spawns a unique weapon on the shelf in the commander's quarters.
+        // Searches for the ShelfSmall within the entire room area (bedroom + lounge).
+        //
+        // LEARNING NOTE: The shelf is in the bedroom prefab, but we search the full room
+        // to be robust. Also, we must add at least one trait BEFORE GoldInlay since it
+        // has canGenerateAlone="false" which prevents it from being the only trait.
         public static void SpawnUniqueWeaponOnShelf(Map map, LayoutRoom room, CellRect bedroomRect)
         {
             // Generate the unique weapon
@@ -77,17 +73,15 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             weapon.SetForbidden(true, false);
         }
 
-        /// <summary>
-        /// Generates a unique high-quality weapon with gold inlay for the commander's bedroom.
-        ///
-        /// Weapon selection: uniform random from all discovered unique weapons with PulseCharge
-        /// or BeamWeapon categories. Automatically includes VWE weapons when loaded.
-        ///
-        /// Trait logic: category-specific primary trait (ChargeCapacitor for PulseCharge,
-        /// FrequencyAmplifier for BeamWeapon) + Gold Inlay + random compatible trait.
-        ///
-        /// All weapons spawn with Excellent/Masterwork/Legendary quality via QualityUtility.GenerateQualitySuper().
-        /// </summary>
+        // Generates a unique high-quality weapon with gold inlay for the commander's bedroom.
+        //
+        // Weapon selection: uniform random from all discovered unique weapons with PulseCharge
+        // or BeamWeapon categories. Automatically includes VWE weapons when loaded.
+        //
+        // Trait logic: category-specific primary trait (ChargeCapacitor for PulseCharge,
+        // FrequencyAmplifier for BeamWeapon) + Gold Inlay + random compatible trait.
+        //
+        // All weapons spawn with Excellent/Masterwork/Legendary quality via QualityUtility.GenerateQualitySuper().
         private static Thing GenerateCommandersWeapon()
         {
             // Select uniformly from discovered PulseCharge/BeamWeapon unique weapons

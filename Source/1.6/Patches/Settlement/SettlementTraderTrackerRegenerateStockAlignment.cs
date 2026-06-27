@@ -8,19 +8,15 @@ using BetterTradersGuild.Helpers.Reflection;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement_TraderTracker.RegenerateStock method
-    /// Aligns stock generation with virtual rotation schedule
-    /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: Vanilla RegenerateStock() sets lastStockGenerationTicks = Find.TickManager.TicksGame
-    /// at the END of the method. We override this with the virtual schedule value to ensure:
-    /// 1. First-time generation: preview trader type matches what you get when visiting
-    /// 2. Rotation: trader type matches what the preview showed after rotation occurred
-    ///
-    /// This patch uses Prefix to calculate the effective value and Postfix to restore it
-    /// after vanilla overwrites it with TicksGame.
-    /// </remarks>
+    // Harmony patch: Settlement_TraderTracker.RegenerateStock method
+    // Aligns stock generation with virtual rotation schedule
+    // LEARNING NOTE: Vanilla RegenerateStock() sets lastStockGenerationTicks = Find.TickManager.TicksGame
+    // at the END of the method. We override this with the virtual schedule value to ensure:
+    // 1. First-time generation: preview trader type matches what you get when visiting
+    // 2. Rotation: trader type matches what the preview showed after rotation occurred
+    //
+    // This patch uses Prefix to calculate the effective value and Postfix to restore it
+    // after vanilla overwrites it with TicksGame.
     [HarmonyPatch(typeof(Settlement_TraderTracker), "RegenerateStock")]
     public static class SettlementTraderTrackerRegenerateStockAlignment
     {
@@ -34,22 +30,16 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         private static ThreadLocal<Dictionary<int, int>> pendingAlignments =
             new ThreadLocal<Dictionary<int, int>>(() => new Dictionary<int, int>());
 
-        /// <summary>
-        /// Check if a settlement has a pending alignment (regeneration in progress with alignment active)
-        /// </summary>
-        /// <remarks>
-        /// Returns true when inside RegenerateStock() and alignment was needed (effective != stored).
-        /// The returned virtualTicks is the aligned value that should be used for trader selection.
-        /// </remarks>
+        // Check if a settlement has a pending alignment (regeneration in progress with alignment active)
+        // Returns true when inside RegenerateStock() and alignment was needed (effective != stored).
+        // The returned virtualTicks is the aligned value that should be used for trader selection.
         public static bool HasPendingAlignment(int settlementID, out int virtualTicks)
         {
             return pendingAlignments.Value.TryGetValue(settlementID, out virtualTicks);
         }
 
-        /// <summary>
-        /// Prefix method - calculates effective lastStockTicks for all stock generation scenarios
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
+        // Prefix method - calculates effective lastStockTicks for all stock generation scenarios
+        // __instance: The Settlement_TraderTracker instance
         [HarmonyPrefix]
         public static void Prefix(Settlement_TraderTracker __instance)
         {
@@ -85,10 +75,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             lastStockGenerationTicksField.SetValue(__instance, effectiveTicks);
         }
 
-        /// <summary>
-        /// Postfix method - restores aligned value after vanilla overwrites it
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
+        // Postfix method - restores aligned value after vanilla overwrites it
+        // __instance: The Settlement_TraderTracker instance
         [HarmonyPostfix]
         public static void Postfix(Settlement_TraderTracker __instance)
         {

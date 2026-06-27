@@ -4,34 +4,32 @@ using Verse;
 
 namespace BetterTradersGuild.Integrations
 {
-    /// <summary>
-    /// Optional integration with Vanilla Expanded Framework's <c>PipeSystem.CompResourceStorage</c>.
-    /// BTG fills pipe-network tanks on generated maps so stations feel operational on arrival.
-    ///
-    /// <para>Self-reports drift at startup (Pattern B, ported from UniqueWeaponsUnbound): silent
-    /// when VE Pipes isn't installed; one <see cref="Log.Warning"/> when the type IS present but
-    /// its API has shifted.</para>
-    ///
-    /// <para>Note: the per-tank <c>storageCapacity</c> field lives on the runtime type of the comp's
-    /// Props object, so it can only be resolved per-instance and stays a runtime-guarded lookup in
-    /// the consumer. Everything resolvable without an instance is verified here at startup.</para>
-    /// </summary>
+    // Optional integration with Vanilla Expanded Framework's PipeSystem.CompResourceStorage.
+    // BTG fills pipe-network tanks on generated maps so stations feel operational on arrival.
+    //
+    // Self-reports drift at startup (Pattern B, ported from UniqueWeaponsUnbound): silent
+    // when VE Pipes isn't installed; one Log.Warning when the type IS present but
+    // its API has shifted.
+    //
+    // Note: the per-tank storageCapacity field lives on the runtime type of the comp's
+    // Props object, so it can only be resolved per-instance and stays a runtime-guarded lookup in
+    // the consumer. Everything resolvable without an instance is verified here at startup.
     public static class VEPipesIntegration
     {
         private const string CompTypeName = "PipeSystem.CompResourceStorage";
         private const string PropsPropName = "Props";
         private const string AddResourceMethodName = "AddResource";
 
-        /// <summary>The VE Pipes storage comp type, or null if VE Pipes isn't loaded.</summary>
+        // The VE Pipes storage comp type, or null if VE Pipes isn't loaded.
         public static readonly Type CompType;
 
-        /// <summary>The comp's <c>Props</c> property (declared override, hiding base ThingComp.Props).</summary>
+        // The comp's Props property (declared override, hiding base ThingComp.Props).
         public static readonly PropertyInfo PropsProperty;
 
-        /// <summary>The comp's <c>AddResource(float)</c> method.</summary>
+        // The comp's AddResource(float) method.
         public static readonly MethodInfo AddResourceMethod;
 
-        /// <summary>True only when VE Pipes is loaded AND every reflected member resolved.</summary>
+        // True only when VE Pipes is loaded AND every reflected member resolved.
         public static bool Available =>
             CompType != null && PropsProperty != null && AddResourceMethod != null;
 
@@ -64,11 +62,9 @@ namespace BetterTradersGuild.Integrations
             }
         }
 
-        /// <summary>
-        /// Resolves the <c>Props</c> property using DeclaredOnly to avoid an AmbiguousMatchException
-        /// (CompResourceStorage declares its own Props that hides the base ThingComp.Props), walking
-        /// up the hierarchy as a fallback.
-        /// </summary>
+        // Resolves the Props property using DeclaredOnly to avoid an AmbiguousMatchException
+        // (CompResourceStorage declares its own Props that hides the base ThingComp.Props), walking
+        // up the hierarchy as a fallback.
         private static PropertyInfo ResolveProps(Type type)
         {
             for (Type t = type; t != null; t = t.BaseType)

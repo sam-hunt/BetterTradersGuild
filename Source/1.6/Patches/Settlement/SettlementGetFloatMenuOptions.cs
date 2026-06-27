@@ -6,17 +6,13 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement.GetFloatMenuOptions for regular caravan interactions
-    /// This is called when right-clicking on settlements or during caravan pathing
-    /// </summary>
+    // Harmony patch: Settlement.GetFloatMenuOptions for regular caravan interactions
+    // This is called when right-clicking on settlements or during caravan pathing
     [HarmonyPatch(typeof(RimWorld.Planet.Settlement), nameof(RimWorld.Planet.Settlement.GetFloatMenuOptions))]
     public static class SettlementGetFloatMenuOptions
     {
-        /// <summary>
-        /// Priority.Last ensures we wrap ALL other postfixes so attack variants
-        /// added by other mods pass through our filter too.
-        /// </summary>
+        // Priority.Last ensures we wrap ALL other postfixes so attack variants
+        // added by other mods pass through our filter too.
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
         public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> __result, RimWorld.Planet.Settlement __instance, Caravan caravan)

@@ -11,56 +11,44 @@ using static BetterTradersGuild.RoomContents.CrewQuarters.SubroomPackingCalculat
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Crew Quarters.
-    ///
-    /// Spawns multiple enclosed subrooms (private bedrooms) using the SubroomPackingCalculator.
-    /// The algorithm divides the room into horizontal strips and packs subrooms into available space,
-    /// avoiding door exclusion zones and creating shared walls between adjacent subrooms.
-    ///
-    /// Available prefab sizes: 3x4, 3x5, 4x4, 4x5 (width x depth)
-    ///
-    /// Layout pattern:
-    /// - Room divided into horizontal strips based on prefab depths
-    /// - Top strips face South, bottom strip faces North
-    /// - Corridors between strips (1 cell if facing, 2 cells if backs)
-    /// - Exclusion zones around doors (3 cells for N/S, 2 cells for E/W)
-    ///
-    /// Subroom customization is handled by separate helper classes in the CrewQuarters/ subfolder:
-    /// - FirefoamPopperCustomizer: Replaces firefoam popper markers with various items/creatures
-    /// - ShelfCustomizer: Adds items to shelves and replaces empty shelves
-    /// - TableCustomizer: Adds items to small tables
-    /// </summary>
+    // Custom RoomContentsWorker for Crew Quarters.
+    //
+    // Spawns multiple enclosed subrooms (private bedrooms) using the SubroomPackingCalculator.
+    // The algorithm divides the room into horizontal strips and packs subrooms into available space,
+    // avoiding door exclusion zones and creating shared walls between adjacent subrooms.
+    //
+    // Available prefab sizes: 3x4, 3x5, 4x4, 4x5 (width x depth)
+    //
+    // Layout pattern:
+    // - Room divided into horizontal strips based on prefab depths
+    // - Top strips face South, bottom strip faces North
+    // - Corridors between strips (1 cell if facing, 2 cells if backs)
+    // - Exclusion zones around doors (3 cells for N/S, 2 cells for E/W)
+    //
+    // Subroom customization is handled by separate helper classes in the CrewQuarters/ subfolder:
+    // - FirefoamPopperCustomizer: Replaces firefoam popper markers with various items/creatures
+    // - ShelfCustomizer: Adds items to shelves and replaces empty shelves
+    // - TableCustomizer: Adds items to small tables
     public class RoomContents_CrewQuarters : RoomContentsWorker
     {
-        /// <summary>
-        /// Available prefab widths (perpendicular to door direction).
-        /// Subrooms are fit starting with minimum width, then expanded to fill waste.
-        /// </summary>
+        // Available prefab widths (perpendicular to door direction).
+        // Subrooms are fit starting with minimum width, then expanded to fill waste.
         private static readonly List<int> AVAILABLE_WIDTHS = new List<int> { 3, 4 };
 
-        /// <summary>
-        /// Available prefab depths (parallel to door direction).
-        /// Strip depth is determined by the smallest available depth that fits.
-        /// </summary>
+        // Available prefab depths (parallel to door direction).
+        // Strip depth is determined by the smallest available depth that fits.
         private static readonly List<int> AVAILABLE_DEPTHS = new List<int> { 4, 5 };
 
-        /// <summary>
-        /// Stores all subroom areas to prevent other prefabs from spawning inside them.
-        /// Populated during FillRoom and checked in IsValidCellBase.
-        /// </summary>
+        // Stores all subroom areas to prevent other prefabs from spawning inside them.
+        // Populated during FillRoom and checked in IsValidCellBase.
         private List<CellRect> subroomRects = new List<CellRect>();
 
-        /// <summary>
-        /// Stores all waste filler areas to prevent other prefabs from spawning inside them.
-        /// Populated during FillRoom and checked in IsValidCellBase.
-        /// </summary>
+        // Stores all waste filler areas to prevent other prefabs from spawning inside them.
+        // Populated during FillRoom and checked in IsValidCellBase.
         private List<CellRect> wasteFillerRects = new List<CellRect>();
 
-        /// <summary>
-        /// Main room generation method. Calculates subroom packing, spawns walls and prefabs,
-        /// then calls base class to process XML-defined content (lockers, etc.) in corridors.
-        /// </summary>
+        // Main room generation method. Calculates subroom packing, spawns walls and prefabs,
+        // then calls base class to process XML-defined content (lockers, etc.) in corridors.
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             // Reset subroom and waste filler tracking
@@ -175,10 +163,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Override to prevent XML-defined prefabs (like lockers) from spawning inside subrooms or waste fillers.
-        /// Called by base.FillRoom() during prefab placement validation.
-        /// </summary>
+        // Override to prevent XML-defined prefabs (like lockers) from spawning inside subrooms or waste fillers.
+        // Called by base.FillRoom() during prefab placement validation.
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             // Block placement inside any subroom area
@@ -198,11 +184,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
         }
 
-        /// <summary>
-        /// Spawns a subroom prefab at the calculated position with appropriate rotation.
-        /// Uses SubroomPlacement.CenterX/CenterZ which have rotation-dependent formulas
-        /// to account for RimWorld's center adjustments on even-sized dimensions.
-        /// </summary>
+        // Spawns a subroom prefab at the calculated position with appropriate rotation.
+        // Uses SubroomPlacement.CenterX/CenterZ which have rotation-dependent formulas
+        // to account for RimWorld's center adjustments on even-sized dimensions.
         private void SpawnSubroomPrefab(Map map, SubroomPlacement subroom)
         {
             PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(subroom.PrefabDefName, false);
@@ -219,12 +203,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
         }
 
-        /// <summary>
-        /// Randomly unlocks ~50% of subroom blast doors to reduce tedium.
-        /// All AncientBlastDoors within the crew quarters room are subroom doors.
-        /// Uses reflection to set CompHackable state, matching the pattern
-        /// used by CargoVaultHatch and CompRelockable.
-        /// </summary>
+        // Randomly unlocks ~50% of subroom blast doors to reduce tedium.
+        // All AncientBlastDoors within the crew quarters room are subroom doors.
+        // Uses reflection to set CompHackable state, matching the pattern
+        // used by CargoVaultHatch and CompRelockable.
         private void UnlockRandomSubroomDoors(Map map, CellRect roomRect)
         {
             foreach (Thing thing in map.listerThings.ThingsOfDef(Things.AncientBlastDoor))
@@ -240,17 +222,15 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Spawns a waste filler prefab at the calculated position.
-        ///
-        /// Waste fillers are decorative prefabs placed in 1-2 cell wide areas
-        /// between subrooms and exclusion zones. Uses WasteFillerPrefabSelector
-        /// to dynamically select from available prefabs of the correct size,
-        /// automatically supporting DLC-dependent variants.
-        /// </summary>
-        /// <param name="map">The map to spawn on.</param>
-        /// <param name="wasteFiller">Placement data from SubroomPackingCalculator.</param>
-        /// <param name="usedPrefabs">Set of prefabs already used in this room, to minimize duplicates.</param>
+        // Spawns a waste filler prefab at the calculated position.
+        //
+        // Waste fillers are decorative prefabs placed in 1-2 cell wide areas
+        // between subrooms and exclusion zones. Uses WasteFillerPrefabSelector
+        // to dynamically select from available prefabs of the correct size,
+        // automatically supporting DLC-dependent variants.
+        // map: The map to spawn on.
+        // wasteFiller: Placement data from SubroomPackingCalculator.
+        // usedPrefabs: Set of prefabs already used in this room, to minimize duplicates.
         private void SpawnWasteFillerPrefab(Map map, WasteFillerPlacement wasteFiller, HashSet<PrefabDef> usedPrefabs)
         {
             // Use the selector to pick a prefab, avoiding duplicates where possible
@@ -269,11 +249,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
         }
 
-        /// <summary>
-        /// Spawns walls from the SubroomPackingCalculator's wall segments.
-        /// These include shared walls between adjacent subrooms and enclosing walls
-        /// that separate subrooms from corridors and exclusion zones.
-        /// </summary>
+        // Spawns walls from the SubroomPackingCalculator's wall segments.
+        // These include shared walls between adjacent subrooms and enclosing walls
+        // that separate subrooms from corridors and exclusion zones.
         private void SpawnWallsFromSegments(Map map, List<WallSegment> walls)
         {
             ThingDef wallDef = Things.OrbitalAncientFortifiedWall;
@@ -300,9 +278,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Spawns a single wall cell if the location is valid and empty.
-        /// </summary>
+        // Spawns a single wall cell if the location is valid and empty.
         private void SpawnWallCell(Map map, IntVec3 cell, ThingDef wallDef)
         {
             if (!cell.InBounds(map))

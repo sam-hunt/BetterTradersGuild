@@ -8,41 +8,33 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: SettlementDefeatUtility.CheckDefeated method
-    /// Preserves trade inventory in a MapComponent after settlement defeat is confirmed.
-    /// </summary>
-    /// <remarks>
-    /// ARCHITECTURE:
-    /// When a settlement is defeated, CheckDefeated():
-    /// 1. Creates a DestroyedSettlement
-    /// 2. Reassigns map.info.parent = destroyedSettlement (map reparented, settlement.Map becomes null)
-    /// 3. Destroys the original Settlement via settlement.Destroy()
-    /// 4. Settlement.PostRemove() calls trader.TryDestroyStock() - blocked by our TryDestroyStock patch
-    ///
-    /// Our approach uses Prefix + Postfix with coordination:
-    /// - Prefix: Capture map reference, add settlement ID to settlementsBeingDefeated set
-    /// - TryDestroyStock patch: Block if settlement ID is in settlementsBeingDefeated
-    /// - Postfix: After CheckDefeated completes, transfer stock if defeated, remove from set
-    ///
-    /// This coordination ensures TryDestroyStock is blocked during defeat processing
-    /// even after settlement.Map becomes null (due to map reparenting).
-    ///
-    /// Priority.Last ensures we run after other mods' Postfixes.
-    /// </remarks>
+    // Harmony patch: SettlementDefeatUtility.CheckDefeated method
+    // Preserves trade inventory in a MapComponent after settlement defeat is confirmed.
+    // ARCHITECTURE:
+    // When a settlement is defeated, CheckDefeated():
+    // 1. Creates a DestroyedSettlement
+    // 2. Reassigns map.info.parent = destroyedSettlement (map reparented, settlement.Map becomes null)
+    // 3. Destroys the original Settlement via settlement.Destroy()
+    // 4. Settlement.PostRemove() calls trader.TryDestroyStock() - blocked by our TryDestroyStock patch
+    //
+    // Our approach uses Prefix + Postfix with coordination:
+    // - Prefix: Capture map reference, add settlement ID to settlementsBeingDefeated set
+    // - TryDestroyStock patch: Block if settlement ID is in settlementsBeingDefeated
+    // - Postfix: After CheckDefeated completes, transfer stock if defeated, remove from set
+    //
+    // This coordination ensures TryDestroyStock is blocked during defeat processing
+    // even after settlement.Map becomes null (due to map reparenting).
+    //
+    // Priority.Last ensures we run after other mods' Postfixes.
     [HarmonyPatch(typeof(SettlementDefeatUtility), nameof(SettlementDefeatUtility.CheckDefeated))]
     public static class SettlementDefeatUtilityCheckDefeated
     {
-        /// <summary>
-        /// Settlement IDs currently being processed by CheckDefeated.
-        /// Used by TryDestroyStock patch to block destruction during defeat processing.
-        /// </summary>
+        // Settlement IDs currently being processed by CheckDefeated.
+        // Used by TryDestroyStock patch to block destruction during defeat processing.
         public static readonly HashSet<int> settlementsBeingDefeated = new HashSet<int>();
 
-        /// <summary>
-        /// State passed from Prefix to Postfix.
-        /// Captures references that become unavailable after defeat processing.
-        /// </summary>
+        // State passed from Prefix to Postfix.
+        // Captures references that become unavailable after defeat processing.
         public class DefeatState
         {
             public Map Map;
@@ -50,11 +42,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             public bool IsTradersGuild;
         }
 
-        /// <summary>
-        /// Prefix: Capture map reference and mark settlement as being processed.
-        /// After defeat, settlement.Map is null, so we need to store it here.
-        /// The settlementsBeingDefeated set tells TryDestroyStock to block destruction.
-        /// </summary>
+        // Prefix: Capture map reference and mark settlement as being processed.
+        // After defeat, settlement.Map is null, so we need to store it here.
+        // The settlementsBeingDefeated set tells TryDestroyStock to block destruction.
         [HarmonyPrefix]
         public static void Prefix(Settlement factionBase, out DefeatState __state)
         {
@@ -79,11 +69,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             };
         }
 
-        /// <summary>
-        /// Postfix: After CheckDefeated completes, transfer stock to cache if defeat confirmed.
-        /// Always removes settlement from settlementsBeingDefeated set to prevent leaks.
-        /// Runs with Priority.Last to ensure we execute after all other mods' patches.
-        /// </summary>
+        // Postfix: After CheckDefeated completes, transfer stock to cache if defeat confirmed.
+        // Always removes settlement from settlementsBeingDefeated set to prevent leaks.
+        // Runs with Priority.Last to ensure we execute after all other mods' patches.
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
         public static void Postfix(Settlement factionBase, DefeatState __state)

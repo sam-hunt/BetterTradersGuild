@@ -3,11 +3,9 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized ThingDef references. ALL defs used by BTG go here - vanilla, DLC, mod, and custom.
-    /// Auto-populated by RimWorld's [DefOf] system at startup.
-    /// Unified syntax: always use Things.* regardless of def source.
-    /// </summary>
+    // Centralized ThingDef references. ALL defs used by BTG go here - vanilla, DLC, mod, and custom.
+    // Auto-populated by RimWorld's [DefOf] system at startup.
+    // Unified syntax: always use Things.* regardless of def source.
     [DefOf]
     public static class Things
     {

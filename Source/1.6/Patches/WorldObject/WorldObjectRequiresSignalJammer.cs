@@ -6,11 +6,9 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.WorldObjectPatches
 {
-    /// <summary>
-    /// Harmony patch: Override RequiresSignalJammerToReach for Traders Guild settlements
-    /// Allows transport pods (e.g., gifts) and shuttles to reach TradersGuild regardless of hostility
-    /// Context-aware: Preserves vanilla gravship signal jammer requirement for attacks
-    /// </summary>
+    // Harmony patch: Override RequiresSignalJammerToReach for Traders Guild settlements
+    // Allows transport pods (e.g., gifts) and shuttles to reach TradersGuild regardless of hostility
+    // Context-aware: Preserves vanilla gravship signal jammer requirement for attacks
     [HarmonyPatch(typeof(RimWorld.Planet.WorldObject), nameof(RimWorld.Planet.WorldObject.RequiresSignalJammerToReach), MethodType.Getter)]
     public static class WorldObjectRequiresSignalJammer
     {
@@ -18,10 +16,8 @@ namespace BetterTradersGuild.Patches.WorldObjectPatches
         private static readonly FieldInfo TilePickerActiveField = AccessTools.Field(typeof(TilePicker), "active");
         private static readonly FieldInfo TilePickerForGravshipField = AccessTools.Field(typeof(TilePicker), "forGravship");
 
-        /// <summary>
-        /// Logs a targeted error if a field failed to resolve. Called once at startup
-        /// from <see cref="ReflectionVerification.VerifyAll"/>.
-        /// </summary>
+        // Logs a targeted error if a field failed to resolve. Called once at startup
+        // from ReflectionVerification.VerifyAll.
         public static void VerifyReflection()
         {
             if (TilePickerActiveField == null || TilePickerForGravshipField == null)
@@ -29,10 +25,8 @@ namespace BetterTradersGuild.Patches.WorldObjectPatches
                     + "gravship targeting of Traders Guild settlements may incorrectly bypass the signal-jammer requirement. RimWorld API may have changed.");
         }
 
-        /// <summary>
-        /// Postfix for WorldObject.RequiresSignalJammerToReach property
-        /// Context-aware: Preserves signal jammer requirement for gravship targeting
-        /// </summary>
+        // Postfix for WorldObject.RequiresSignalJammerToReach property
+        // Context-aware: Preserves signal jammer requirement for gravship targeting
         [HarmonyPostfix]
         public static void Postfix(RimWorld.Planet.WorldObject __instance, ref bool __result)
         {

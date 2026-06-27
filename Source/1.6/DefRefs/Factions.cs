@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized FactionDef references.
-    /// </summary>
+    // Centralized FactionDef references.
     [DefOf]
     public static class Factions
     {

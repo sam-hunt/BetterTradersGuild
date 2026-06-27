@@ -92,6 +92,8 @@ Source/1.6/
 
 **Room Contents Workers:** Each room type has a `RoomContents_[RoomName].cs` file that handles specialized furniture and pawn spawning using `Prefab` definitions.
 
+**Comments:** In `Source/`, use plain `//` comments only — do **not** write XML doc comments (`///`, `<summary>`, `<param>`, etc.); nothing consumes them there, so they add ceremony without benefit. `Tests/` is exempt: XML doc comments are fine there (they read cleanly on the test helpers and are the most likely place to adopt a tool that parses them).
+
 ### Reflection Verification
 
 BTG reaches private RimWorld members and optional-mod APIs by string-named reflection. To catch API drift at startup instead of as a silent runtime failure (the `lifeSupportUnitPowerOutput` bug), every reflection dependency is self-checked when the game loads. Pattern ported from the sister mod `UniqueWeaponsUnbound`.

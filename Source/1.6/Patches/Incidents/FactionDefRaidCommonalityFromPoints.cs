@@ -4,18 +4,14 @@ using RimWorld;
 
 namespace BetterTradersGuild.Patches.Incidents
 {
-    /// <summary>
-    /// Harmony patch: FactionDef.RaidCommonalityFromPoints
-    /// Increases Salvagers raid weight when on a Traders Guild map.
-    /// </summary>
-    /// <remarks>
-    /// When the player assaults a Traders Guild settlement, this makes Salvagers
-    /// more likely to appear as raiders. The multiplier is configurable via mod settings.
-    /// This creates emergent gameplay where attacking the guild attracts opportunistic pirates.
-    ///
-    /// Context is provided by RaidFactionSelectionContext, which is set by the
-    /// PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted patch.
-    /// </remarks>
+    // Harmony patch: FactionDef.RaidCommonalityFromPoints
+    // Increases Salvagers raid weight when on a Traders Guild map.
+    // When the player assaults a Traders Guild settlement, this makes Salvagers
+    // more likely to appear as raiders. The multiplier is configurable via mod settings.
+    // This creates emergent gameplay where attacking the guild attracts opportunistic pirates.
+    //
+    // Context is provided by RaidFactionSelectionContext, which is set by the
+    // PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted patch.
     [HarmonyPatch(typeof(FactionDef), nameof(FactionDef.RaidCommonalityFromPoints))]
     public static class FactionDefRaidCommonalityFromPoints
     {

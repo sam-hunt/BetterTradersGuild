@@ -5,33 +5,31 @@ using Verse;
 
 namespace BetterTradersGuild.Integrations
 {
-    /// <summary>
-    /// Optional integration with Humanoid Alien Races (HAR)'s <c>AlienRace.Comp_OutfitStandHAR</c>.
-    /// BTG reflects into it to (a) suppress a NullReferenceException HAR throws during settlement
-    /// generation and (b) fix HAR's juvenile body-type selection on factionless outfit stands.
-    ///
-    /// <para>Self-reports drift at startup (Pattern B, ported from UniqueWeaponsUnbound): silent
-    /// when HAR isn't installed; a single <see cref="Log.Warning"/> when HAR IS present but its
-    /// API has shifted, so only affected users see it. Consumers reference the individual members
-    /// they need (the fixer needs <see cref="CompType"/> + <see cref="BodyTypeProperty"/>; the
-    /// crash-suppression patch needs <see cref="CompType"/> + <see cref="PostSpawnSetupMethod"/>).</para>
-    /// </summary>
+    // Optional integration with Humanoid Alien Races (HAR)'s AlienRace.Comp_OutfitStandHAR.
+    // BTG reflects into it to (a) suppress a NullReferenceException HAR throws during settlement
+    // generation and (b) fix HAR's juvenile body-type selection on factionless outfit stands.
+    //
+    // Self-reports drift at startup (Pattern B, ported from UniqueWeaponsUnbound): silent
+    // when HAR isn't installed; a single Log.Warning when HAR IS present but its
+    // API has shifted, so only affected users see it. Consumers reference the individual members
+    // they need (the fixer needs CompType + BodyTypeProperty; the
+    // crash-suppression patch needs CompType + PostSpawnSetupMethod).
     public static class HARIntegration
     {
         private const string CompTypeName = "AlienRace.Comp_OutfitStandHAR";
         private const string BodyTypePropName = "BodyType";
         private const string PostSpawnSetupMethodName = "PostSpawnSetup";
 
-        /// <summary>The HAR comp type, or null if HAR isn't loaded.</summary>
+        // The HAR comp type, or null if HAR isn't loaded.
         public static readonly Type CompType;
 
-        /// <summary>HAR's <c>BodyType</c> property (validated to be a <see cref="BodyTypeDef"/>).</summary>
+        // HAR's BodyType property (validated to be a BodyTypeDef).
         public static readonly PropertyInfo BodyTypeProperty;
 
-        /// <summary>HAR's <c>PostSpawnSetup(bool)</c> override (Harmony target for crash suppression).</summary>
+        // HAR's PostSpawnSetup(bool) override (Harmony target for crash suppression).
         public static readonly MethodInfo PostSpawnSetupMethod;
 
-        /// <summary>True only when HAR is loaded AND every reflected member resolved.</summary>
+        // True only when HAR is loaded AND every reflected member resolved.
         public static bool Available =>
             CompType != null && BodyTypeProperty != null && PostSpawnSetupMethod != null;
 

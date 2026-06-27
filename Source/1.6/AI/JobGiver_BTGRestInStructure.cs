@@ -4,35 +4,33 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Rest response for bounded defenders. Placed LAST in the duty think tree, just
-    /// above idle wander, so it is only reached when nothing more important wants the
-    /// pawn: no critical-withdraw, no in-structure combat target, no wounds to tend, no
-    /// hunger. That ordering is itself the "no immediate threat" gate - a defender only
-    /// lies down once combat acquires nothing inside the structure.
-    ///
-    /// Waking is entirely vanilla and needs no help from us:
-    ///   - JobDriver_LayDown's toil calls CheckForJobOverride() every 211 ticks while
-    ///     sleeping (LookForOtherJobs == true). That re-runs the whole duty tree top-down,
-    ///     and combat sits ABOVE this node, so a hostile that has entered the structure
-    ///     perimeter pulls the defender back into the fight within ~3.5s.
-    ///   - Pawn_JobTracker.Notify_DamageTaken calls CheckForJobOverride() immediately, so a
-    ///     defender that is shot while asleep wakes the same tick.
-    ///   - RestUtility.CanFallAsleep refuses sleep for 400 ticks after any disturbance, so
-    ///     a defender woken by a brief skirmish does not instantly flop back down.
-    ///
-    /// Why subclass JobGiver_GetRest rather than use it directly: the duty tree is a
-    /// ThinkNode_Priority, whose TryIssueJobPackage ignores GetPriority() and only uses the
-    /// first non-null TryGiveJob in order. Vanilla GetRest puts its tiredness gate ("rest
-    /// only when the rest need is low") entirely in GetPriority - bypassed here - so its
-    /// raw TryGiveJob would hand back a LayDown job even when fully rested. We re-apply the
-    /// gate in the TryGiveJob path, then reuse base.TryGiveJob (and through it
-    /// RestUtility.FindBedFor) for the actual bed/spot selection, and finally constrain the
-    /// chosen spot to the structure footprint.
-    ///
-    /// Mechs fall out immediately (no rest need). Combat-leashing, containment, and the
-    /// "tiredness is an accepted debuff" stance match the duty's other nodes.
-    /// </summary>
+    // Rest response for bounded defenders. Placed LAST in the duty think tree, just
+    // above idle wander, so it is only reached when nothing more important wants the
+    // pawn: no critical-withdraw, no in-structure combat target, no wounds to tend, no
+    // hunger. That ordering is itself the "no immediate threat" gate - a defender only
+    // lies down once combat acquires nothing inside the structure.
+    //
+    // Waking is entirely vanilla and needs no help from us:
+    //   - JobDriver_LayDown's toil calls CheckForJobOverride() every 211 ticks while
+    //     sleeping (LookForOtherJobs == true). That re-runs the whole duty tree top-down,
+    //     and combat sits ABOVE this node, so a hostile that has entered the structure
+    //     perimeter pulls the defender back into the fight within ~3.5s.
+    //   - Pawn_JobTracker.Notify_DamageTaken calls CheckForJobOverride() immediately, so a
+    //     defender that is shot while asleep wakes the same tick.
+    //   - RestUtility.CanFallAsleep refuses sleep for 400 ticks after any disturbance, so
+    //     a defender woken by a brief skirmish does not instantly flop back down.
+    //
+    // Why subclass JobGiver_GetRest rather than use it directly: the duty tree is a
+    // ThinkNode_Priority, whose TryIssueJobPackage ignores GetPriority() and only uses the
+    // first non-null TryGiveJob in order. Vanilla GetRest puts its tiredness gate ("rest
+    // only when the rest need is low") entirely in GetPriority - bypassed here - so its
+    // raw TryGiveJob would hand back a LayDown job even when fully rested. We re-apply the
+    // gate in the TryGiveJob path, then reuse base.TryGiveJob (and through it
+    // RestUtility.FindBedFor) for the actual bed/spot selection, and finally constrain the
+    // chosen spot to the structure footprint.
+    //
+    // Mechs fall out immediately (no rest need). Combat-leashing, containment, and the
+    // "tiredness is an accepted debuff" stance match the duty's other nodes.
     public class JobGiver_BTGRestInStructure : JobGiver_GetRest
     {
         // Lowest rest category that makes a defender lie down. Defaults to Tired (rest

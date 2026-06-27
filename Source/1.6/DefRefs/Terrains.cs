@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized TerrainDef references.
-    /// </summary>
+    // Centralized TerrainDef references.
     [DefOf]
     public static class Terrains
     {

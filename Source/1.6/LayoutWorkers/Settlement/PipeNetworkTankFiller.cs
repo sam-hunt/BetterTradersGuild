@@ -5,29 +5,25 @@ using Verse;
 
 namespace BetterTradersGuild.LayoutWorkers.Settlement
 {
-    /// <summary>
-    /// Fills VE Pipes network storage tanks to random levels on generated maps.
-    ///
-    /// PURPOSE:
-    /// After map generation, tanks in VE pipe networks are empty. This helper fills
-    /// them to appropriate levels to make the station feel operational:
-    /// - Standard tanks: 20-50% (reasonable stockpile)
-    /// - Oxygen tanks: 30-60% (life support critical, should be well-stocked)
-    ///
-    /// TECHNICAL APPROACH:
-    /// Uses reflection to access PipeSystem.CompResourceStorage since VE Framework
-    /// is an optional dependency. Gracefully handles cases where the mod isn't installed.
-    ///
-    /// LEARNING NOTE (Optional Mod Integration):
-    /// Since VE Framework is not a hard dependency, we can't reference its types directly.
-    /// Reflection allows graceful handling when the mod isn't installed - the method
-    /// simply returns 0 tanks filled.
-    /// </summary>
+    // Fills VE Pipes network storage tanks to random levels on generated maps.
+    //
+    // PURPOSE:
+    // After map generation, tanks in VE pipe networks are empty. This helper fills
+    // them to appropriate levels to make the station feel operational:
+    // - Standard tanks: 20-50% (reasonable stockpile)
+    // - Oxygen tanks: 30-60% (life support critical, should be well-stocked)
+    //
+    // TECHNICAL APPROACH:
+    // Uses reflection to access PipeSystem.CompResourceStorage since VE Framework
+    // is an optional dependency. Gracefully handles cases where the mod isn't installed.
+    //
+    // LEARNING NOTE (Optional Mod Integration):
+    // Since VE Framework is not a hard dependency, we can't reference its types directly.
+    // Reflection allows graceful handling when the mod isn't installed - the method
+    // simply returns 0 tanks filled.
     public static class PipeNetworkTankFiller
     {
-        /// <summary>
-        /// Fill percentage range for a tank type.
-        /// </summary>
+        // Fill percentage range for a tank type.
         private struct TankFillRange
         {
             public float MinPct;
@@ -40,20 +36,14 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             }
         }
 
-        /// <summary>
-        /// Standard fill range for most tanks (20-50%).
-        /// </summary>
+        // Standard fill range for most tanks (20-50%).
         private static readonly TankFillRange StandardFillRange = new TankFillRange(0.20f, 0.50f);
 
-        /// <summary>
-        /// Life support fill range for oxygen tanks (30-60% - critical systems).
-        /// </summary>
+        // Life support fill range for oxygen tanks (30-60% - critical systems).
         private static readonly TankFillRange LifeSupportFillRange = new TankFillRange(0.30f, 0.60f);
 
-        /// <summary>
-        /// Fills VE pipe network tanks on the map to random levels.
-        /// Uses VEPipesIntegration to access PipeSystem.CompResourceStorage (optional mod).
-        /// </summary>
+        // Fills VE pipe network tanks on the map to random levels.
+        // Uses VEPipesIntegration to access PipeSystem.CompResourceStorage (optional mod).
         public static void FillTanksOnMap(Map map)
         {
             // No-op when VE Pipes isn't installed (or its API drifted — reported at startup).
@@ -73,9 +63,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             FillTanksOfDef(map, Things.ChemfuelTank, StandardFillRange);
         }
 
-        /// <summary>
-        /// Fills all tanks of a specific ThingDef on the map.
-        /// </summary>
+        // Fills all tanks of a specific ThingDef on the map.
         private static void FillTanksOfDef(Map map, ThingDef tankDef, TankFillRange fillRange)
         {
             if (tankDef == null) return;
@@ -86,12 +74,10 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             }
         }
 
-        /// <summary>
-        /// Fills a single tank to a random level within the specified range.
-        /// </summary>
-        /// <param name="thing">The tank Thing</param>
-        /// <param name="fillRange">The fill percentage range</param>
-        /// <returns>True if tank was filled successfully</returns>
+        // Fills a single tank to a random level within the specified range.
+        // thing: The tank Thing
+        // fillRange: The fill percentage range
+        // Returns: True if tank was filled successfully
         private static bool FillTank(Thing thing, TankFillRange fillRange)
         {
             // Must be a ThingWithComps to have comps

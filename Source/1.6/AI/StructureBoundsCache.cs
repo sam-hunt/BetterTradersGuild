@@ -5,24 +5,22 @@ using Verse;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Per-map cache of the union of room rects from a settlement's layout
-    /// structure sketch. The rect list is fixed once the map is generated, so
-    /// we compute it once on first access and reuse it for the lifetime of
-    /// the Map object. Uses ConditionalWeakTable so the cache entry is
-    /// collected automatically when the Map itself is.
-    ///
-    /// Returns null when the map has no layout sketch — callers should treat
-    /// that as "no bounds known" and fall back to permissive behavior.
-    ///
-    /// The rect union covers rooms AND corridors: RoomLayoutGenerator registers
-    /// corridors as LayoutRooms (with the corridorDef), so their rects are present
-    /// here and the union is the full walkable interior, not a set of disconnected
-    /// rooms. LayoutRoom.rects is serialized, so this works across save/load and on
-    /// saves made before this feature existed. Shared by combat target filtering
-    /// (JobGiver_BTGDefendStructure) and forage containment
-    /// (JobGiver_BTGForageInStructure).
-    /// </summary>
+    // Per-map cache of the union of room rects from a settlement's layout
+    // structure sketch. The rect list is fixed once the map is generated, so
+    // we compute it once on first access and reuse it for the lifetime of
+    // the Map object. Uses ConditionalWeakTable so the cache entry is
+    // collected automatically when the Map itself is.
+    //
+    // Returns null when the map has no layout sketch — callers should treat
+    // that as "no bounds known" and fall back to permissive behavior.
+    //
+    // The rect union covers rooms AND corridors: RoomLayoutGenerator registers
+    // corridors as LayoutRooms (with the corridorDef), so their rects are present
+    // here and the union is the full walkable interior, not a set of disconnected
+    // rooms. LayoutRoom.rects is serialized, so this works across save/load and on
+    // saves made before this feature existed. Shared by combat target filtering
+    // (JobGiver_BTGDefendStructure) and forage containment
+    // (JobGiver_BTGForageInStructure).
     internal static class StructureBoundsCache
     {
         private static readonly ConditionalWeakTable<Map, List<CellRect>> cache = new ConditionalWeakTable<Map, List<CellRect>>();
@@ -40,11 +38,9 @@ namespace BetterTradersGuild.AI
             return rects.Count == 0 ? null : rects;
         }
 
-        /// <summary>
-        /// True if <paramref name="pos"/> lies inside the structure footprint.
-        /// Permissive (returns true) when no layout bounds are known, matching the
-        /// "no bounds → don't constrain" fallback callers expect.
-        /// </summary>
+        // True if pos lies inside the structure footprint.
+        // Permissive (returns true) when no layout bounds are known, matching the
+        // "no bounds → don't constrain" fallback callers expect.
         public static bool Contains(Map map, IntVec3 pos)
         {
             List<CellRect> rects = GetRoomRects(map);

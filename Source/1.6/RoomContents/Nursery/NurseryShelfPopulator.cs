@@ -6,19 +6,15 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
-    /// <summary>
-    /// Populates nursery shelves with baby food and survival meals.
-    /// </summary>
+    // Populates nursery shelves with baby food and survival meals.
     public static class NurseryShelfPopulator
     {
-        /// <summary>
-        /// Populates the nursery shelf with baby food and packaged survival meals.
-        /// Uses RoomShelfHelper to find and fill shelves in the subroom.
-        ///
-        /// Contents:
-        /// - 40-80 baby food (for infants)
-        /// - 16-20 packaged survival meals in two stacks (max stack size is 10)
-        /// </summary>
+        // Populates the nursery shelf with baby food and packaged survival meals.
+        // Uses RoomShelfHelper to find and fill shelves in the subroom.
+        //
+        // Contents:
+        // - 40-80 baby food (for infants)
+        // - 16-20 packaged survival meals in two stacks (max stack size is 10)
         public static void PopulateNurseryShelf(Map map, CellRect subroomRect)
         {
             // Find shelves in the subroom

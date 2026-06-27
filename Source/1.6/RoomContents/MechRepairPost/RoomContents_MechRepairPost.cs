@@ -7,12 +7,10 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.MechRepairPost
 {
-    /// <summary>
-    /// Custom room contents worker for the Mech Repair Post.
-    ///
-    /// Note: This is distinct from MechSecurityPost which contains volatile
-    /// Ancient gestator tanks that release hostile mechanoids.
-    /// </summary>
+    // Custom room contents worker for the Mech Repair Post.
+    //
+    // Note: This is distinct from MechSecurityPost which contains volatile
+    // Ancient gestator tanks that release hostile mechanoids.
     public class RoomContents_MechRepairPost : RoomContentsWorker
     {
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)

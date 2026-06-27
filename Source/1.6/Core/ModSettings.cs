@@ -5,18 +5,16 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// Mod settings and configuration.
-    ///
-    /// This class is split across several files (see <c>Core/Settings/</c>): each UI
-    /// section owns its own fields, scribe entries, defaults, and draw method in a
-    /// dedicated partial-class file, so adding or tuning a setting is a one-file
-    /// edit. This file holds only the structural glue — the scroll/reset frame in
-    /// <see cref="DoWindowContents"/>, the per-section orchestration of
-    /// <see cref="ExposeData"/> / <see cref="ResetToDefaults"/>, and the shared
-    /// <see cref="SectionHeader"/> / <see cref="Annotate"/> / <see cref="Description"/>
-    /// helpers.
-    /// </summary>
+    // Mod settings and configuration.
+    //
+    // This class is split across several files (see Core/Settings/): each UI
+    // section owns its own fields, scribe entries, defaults, and draw method in a
+    // dedicated partial-class file, so adding or tuning a setting is a one-file
+    // edit. This file holds only the structural glue — the scroll/reset frame in
+    // DoWindowContents, the per-section orchestration of
+    // ExposeData / ResetToDefaults, and the shared
+    // SectionHeader / Annotate / Description
+    // helpers.
     public partial class BetterTradersGuildSettings : ModSettings
     {
         // Transient UI state for the scrollable settings panel — not serialized.
@@ -82,7 +80,7 @@ namespace BetterTradersGuild
                 ResetToDefaults();
         }
 
-        /// <summary>Top-level section heading (medium font), e.g. "Trading".</summary>
+        // Top-level section heading (medium font), e.g. "Trading".
         private static void SectionHeader(Listing_Standard listing, string label)
         {
             Text.Font = GameFont.Medium;
@@ -91,11 +89,9 @@ namespace BetterTradersGuild
             listing.Gap(8f);
         }
 
-        /// <summary>
-        /// Appends a "(Vanilla)" / "(BTG Recommended)" tag to a slider label when the
-        /// current value matches the vanilla default or BTG's recommended value. The
-        /// two are mutually exclusive in practice; vanilla wins if both are passed.
-        /// </summary>
+        // Appends a "(Vanilla)" / "(BTG Recommended)" tag to a slider label when the
+        // current value matches the vanilla default or BTG's recommended value. The
+        // two are mutually exclusive in practice; vanilla wins if both are passed.
         private static string Annotate(string label, bool vanilla = false, bool recommended = false)
         {
             if (vanilla)
@@ -105,7 +101,7 @@ namespace BetterTradersGuild
             return label;
         }
 
-        /// <summary>Explanatory sub-label rendered in tiny font under a control.</summary>
+        // Explanatory sub-label rendered in tiny font under a control.
         private static void Description(Listing_Standard listing, string text)
         {
             GameFont prev = Text.Font;
@@ -115,20 +111,16 @@ namespace BetterTradersGuild
         }
     }
 
-    /// <summary>
-    /// Mod class for handling settings UI. The window itself is drawn by
-    /// <see cref="BetterTradersGuildSettings.DoWindowContents"/>; this class owns the
-    /// lifecycle glue (category name, and re-aligning the trader rotation cache when
-    /// the interval setting changes).
-    /// </summary>
+    // Mod class for handling settings UI. The window itself is drawn by
+    // BetterTradersGuildSettings.DoWindowContents; this class owns the
+    // lifecycle glue (category name, and re-aligning the trader rotation cache when
+    // the interval setting changes).
     public class BetterTradersGuildMod_ModClass : Mod
     {
         public BetterTradersGuildSettings settings;
 
-        /// <summary>
-        /// Tracks the rotation interval before settings window changes.
-        /// Used to detect when the interval changes and update preview caches.
-        /// </summary>
+        // Tracks the rotation interval before settings window changes.
+        // Used to detect when the interval changes and update preview caches.
         private int previousRotationInterval;
 
         public BetterTradersGuildMod_ModClass(ModContentPack content) : base(content)

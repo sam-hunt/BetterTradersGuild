@@ -6,36 +6,34 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Hunger response for bounded defenders. Everything it targets lies inside the
-    /// structure footprint (StructureBoundsCache rect union), so a player can never
-    /// bait a hungry guard out by dropping food past the walls. It replaces vanilla
-    /// JobGiver_GetFood, whose TryFindBestFoodSourceFor fuses inventory eating with an
-    /// UNBOUNDED map search and exposes no location filter, but it reuses vanilla's
-    /// scoring/edibility/job helpers (BestFoodInInventory, WillEat, FoodOptimality,
-    /// GetFinalIngestibleDef, GetNutrition, WillIngestStackCountOf) rather than
-    /// reimplementing food-preference logic.
-    ///
-    /// Resolution order (each step only reached when the previous found nothing):
-    ///   1. Carried rations            - eaten in place, no pathing, no exploit surface.
-    ///   2. Spawned food items         - the best reachable meal/ingredient on the floor.
-    /// Then, only once UrgentlyHungry and able to manipulate (real food is preferred
-    /// via the ordering above), two "last resort" in-structure sources:
-    ///   3. Survival-meal pallets      - opened via BTG_OpenContainer; ejected meals are
-    ///                                   then eaten by step 2 on a later think tick.
-    ///   4. Nutrient-paste dispensers  - vanilla dispensers AND VNPE taps (the tap
-    ///                                   subclasses Building_NutrientPasteDispenser, so
-    ///                                   detecting the base type needs no hard VNPE dep;
-    ///                                   VNPE's Harmony prefix makes the vanilla Ingest
-    ///                                   job draw from the paste pipe net).
-    ///
-    /// Steps 3-4 both require manipulation (opening crates and operating dispensers both
-    /// do in vanilla) and are gated to UrgentlyHungry so a merely-Hungry defender holds
-    /// its post rather than tearing open pallets. Mechs never reach any of this (no food
-    /// need). Raw crops from the hydroponics are deliberately NOT foraged - wealthy guild
-    /// traders escalate hunger by radioing in a packaged-meal resupply drop (the comms-
-    /// console path), not by eating unprepared produce; see the research doc.
-    /// </summary>
+    // Hunger response for bounded defenders. Everything it targets lies inside the
+    // structure footprint (StructureBoundsCache rect union), so a player can never
+    // bait a hungry guard out by dropping food past the walls. It replaces vanilla
+    // JobGiver_GetFood, whose TryFindBestFoodSourceFor fuses inventory eating with an
+    // UNBOUNDED map search and exposes no location filter, but it reuses vanilla's
+    // scoring/edibility/job helpers (BestFoodInInventory, WillEat, FoodOptimality,
+    // GetFinalIngestibleDef, GetNutrition, WillIngestStackCountOf) rather than
+    // reimplementing food-preference logic.
+    //
+    // Resolution order (each step only reached when the previous found nothing):
+    //   1. Carried rations            - eaten in place, no pathing, no exploit surface.
+    //   2. Spawned food items         - the best reachable meal/ingredient on the floor.
+    // Then, only once UrgentlyHungry and able to manipulate (real food is preferred
+    // via the ordering above), two "last resort" in-structure sources:
+    //   3. Survival-meal pallets      - opened via BTG_OpenContainer; ejected meals are
+    //                                   then eaten by step 2 on a later think tick.
+    //   4. Nutrient-paste dispensers  - vanilla dispensers AND VNPE taps (the tap
+    //                                   subclasses Building_NutrientPasteDispenser, so
+    //                                   detecting the base type needs no hard VNPE dep;
+    //                                   VNPE's Harmony prefix makes the vanilla Ingest
+    //                                   job draw from the paste pipe net).
+    //
+    // Steps 3-4 both require manipulation (opening crates and operating dispensers both
+    // do in vanilla) and are gated to UrgentlyHungry so a merely-Hungry defender holds
+    // its post rather than tearing open pallets. Mechs never reach any of this (no food
+    // need). Raw crops from the hydroponics are deliberately NOT foraged - wealthy guild
+    // traders escalate hunger by radioing in a packaged-meal resupply drop (the comms-
+    // console path), not by eating unprepared produce; see the research doc.
     public class JobGiver_BTGForageInStructure : ThinkNode_JobGiver
     {
         public HungerCategory minCategory = HungerCategory.Hungry;

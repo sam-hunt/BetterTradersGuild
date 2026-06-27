@@ -2,42 +2,34 @@ using RimWorld;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized LayoutRoomDef references for BTG custom rooms.
-    /// Auto-populated by RimWorld's [DefOf] system at startup.
-    /// </summary>
+    // Centralized LayoutRoomDef references for BTG custom rooms.
+    // Auto-populated by RimWorld's [DefOf] system at startup.
     [DefOf]
     public static class LayoutRooms
     {
         // === BTG SETTLEMENT ROOMS ===
 
-        /// <summary>
-        /// Shuttle bay room - large room containing landing pad subroom and cargo vault hatch.
-        /// Requires minimum 18x15 (ideal) or 17x14 (relaxed, with 1-2 doors only).
-        /// </summary>
+        // Shuttle bay room - large room containing landing pad subroom and cargo vault hatch.
+        // Requires minimum 18x15 (ideal) or 17x14 (relaxed, with 1-2 doors only).
         public static LayoutRoomDef BTG_ShuttleBay;
 
-        /// <summary>Open-air cargo-pod launch bay. A defender resupply-drop target (open sky).</summary>
+        // Open-air cargo-pod launch bay. A defender resupply-drop target (open sky).
         public static LayoutRoomDef BTG_PodLaunchBay;
 
-        /// <summary>Dining room. A roofed defender resupply-drop fallback (pod punches the roof).</summary>
+        // Dining room. A roofed defender resupply-drop fallback (pod punches the roof).
         public static LayoutRoomDef BTG_MessHall;
 
-        /// <summary>Comms/command center. A roofed defender resupply-drop fallback (pod punches the roof).</summary>
+        // Comms/command center. A roofed defender resupply-drop fallback (pod punches the roof).
         public static LayoutRoomDef BTG_ControlCenter;
 
-        /// <summary>
-        /// Medical bay. Confines the paramedic mech's tend/rescue/medicine search
-        /// (resolved via StructureRoomLocator in MedicRoomBounds) to this one room.
-        /// </summary>
+        // Medical bay. Confines the paramedic mech's tend/rescue/medicine search
+        // (resolved via StructureRoomLocator in MedicRoomBounds) to this one room.
         public static LayoutRoomDef BTG_MedicalBay;
 
         // === BTG CARGO VAULT ROOMS ===
 
-        /// <summary>
-        /// Cargo vault room - secure storage room within BTG_OrbitalCargoVault.
-        /// Contains exit portal, shelves, and turrets.
-        /// </summary>
+        // Cargo vault room - secure storage room within BTG_OrbitalCargoVault.
+        // Contains exit portal, shelves, and turrets.
         public static LayoutRoomDef BTG_CargoVaultRoom;
     }
 }

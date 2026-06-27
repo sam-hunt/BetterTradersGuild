@@ -5,18 +5,16 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Cleansweeper-mech filth cleaning, confined to a moderate radius around the
-    /// mech's anchor point AND to the settlement structure footprint (see CleanArea):
-    /// it never scans, reserves, or paths to a filth outside the walls or beyond its
-    /// home radius.
-    ///
-    /// Builds a single vanilla JobDefOf.Clean job whose TargetA queue is the nearest
-    /// in-range reachable filth plus the cluster around it (capped, nearest-first) -
-    /// exactly the shape JobDriver_CleanFilth consumes, so one job sweeps a whole mess
-    /// before the duty tree re-evaluates. When no qualifying filth remains this returns
-    /// null and the standby node sends the mech home to dormant self-charge.
-    /// </summary>
+    // Cleansweeper-mech filth cleaning, confined to a moderate radius around the
+    // mech's anchor point AND to the settlement structure footprint (see CleanArea):
+    // it never scans, reserves, or paths to a filth outside the walls or beyond its
+    // home radius.
+    //
+    // Builds a single vanilla JobDefOf.Clean job whose TargetA queue is the nearest
+    // in-range reachable filth plus the cluster around it (capped, nearest-first) -
+    // exactly the shape JobDriver_CleanFilth consumes, so one job sweeps a whole mess
+    // before the duty tree re-evaluates. When no qualifying filth remains this returns
+    // null and the standby node sends the mech home to dormant self-charge.
     public class JobGiver_BTGMechCleanFilth : ThinkNode_JobGiver
     {
         // Matches vanilla WorkGiver_CleanFilth's per-job cap: clean a cluster, then

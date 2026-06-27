@@ -5,36 +5,34 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    /// <summary>
-    /// Critical-condition withdrawal for bounded defenders. When a defender is so
-    /// badly hurt that staying in the firing line risks immediate death, it breaks
-    /// off combat, ducks out of the enemy's line of sight (still inside the
-    /// structure), tends its most critical wounds, then returns to the fight once
-    /// stable.
-    ///
-    /// This sits ABOVE the combat job-giver, so it deliberately preempts
-    /// seek-and-destroy even when acquirable targets exist. It is NOT the
-    /// tend-when-idle case (that is handled by the lower-priority vanilla
-    /// JobGiver_SelfTend, which only runs once combat finds no target). The intent
-    /// here is the opposite: there ARE hostiles, possibly in line of sight, but
-    /// this pawn can no longer meaningfully contribute without dying, so it
-    /// temporarily withdraws to patch itself up.
-    ///
-    /// Withdraw-cell selection (every candidate is constrained to the structure
-    /// rect union via StructureBoundsCache, so a critically wounded defender never
-    /// flees into vacuum), in order of preference:
-    ///   1. nearest reachable cell that breaks line of sight from every hostile
-    ///      AND lies away from the nearest hostile (retreat, don't sidestep into it);
-    ///   2. else the nearest line-of-sight-breaking cell in any direction;
-    ///   3. else the cell with the most ranged cover from all hostiles, if it
-    ///      clears coverFallbackThreshold (partial cover beats none);
-    ///   4. else tend where standing rather than keep fighting while dying.
-    ///
-    /// Cheap-gate ordering: the humanlike / needs-tend / critical checks run first
-    /// and bail on the overwhelming majority of think ticks, so the hostile scan
-    /// and cover search only run for the rare critically wounded defender. Inert
-    /// for mechs (Humanlike-gated), like vanilla self-tend.
-    /// </summary>
+    // Critical-condition withdrawal for bounded defenders. When a defender is so
+    // badly hurt that staying in the firing line risks immediate death, it breaks
+    // off combat, ducks out of the enemy's line of sight (still inside the
+    // structure), tends its most critical wounds, then returns to the fight once
+    // stable.
+    //
+    // This sits ABOVE the combat job-giver, so it deliberately preempts
+    // seek-and-destroy even when acquirable targets exist. It is NOT the
+    // tend-when-idle case (that is handled by the lower-priority vanilla
+    // JobGiver_SelfTend, which only runs once combat finds no target). The intent
+    // here is the opposite: there ARE hostiles, possibly in line of sight, but
+    // this pawn can no longer meaningfully contribute without dying, so it
+    // temporarily withdraws to patch itself up.
+    //
+    // Withdraw-cell selection (every candidate is constrained to the structure
+    // rect union via StructureBoundsCache, so a critically wounded defender never
+    // flees into vacuum), in order of preference:
+    //   1. nearest reachable cell that breaks line of sight from every hostile
+    //      AND lies away from the nearest hostile (retreat, don't sidestep into it);
+    //   2. else the nearest line-of-sight-breaking cell in any direction;
+    //   3. else the cell with the most ranged cover from all hostiles, if it
+    //      clears coverFallbackThreshold (partial cover beats none);
+    //   4. else tend where standing rather than keep fighting while dying.
+    //
+    // Cheap-gate ordering: the humanlike / needs-tend / critical checks run first
+    // and bail on the overwhelming majority of think ticks, so the hostile scan
+    // and cover search only run for the rare critically wounded defender. Inert
+    // for mechs (Humanlike-gated), like vanilla self-tend.
     public class JobGiver_BTGWithdrawAndTend : ThinkNode_JobGiver
     {
         // "Critical condition" thresholds (user choice: bleeding OR low health).

@@ -5,17 +5,15 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.LordJobs
 {
-    /// <summary>
-    /// LordToil that assigns the BTG_MechMedic duty (room-bound triage) to every pawn
-    /// in the lord, focused on the room centre. The focus point is what MedicRoomBounds
-    /// uses as a stable anchor to resolve the medbay rects, and what RoomMechLordHelper
-    /// matches on so multiple medics in one room share a single lord.
-    /// </summary>
+    // LordToil that assigns the BTG_MechMedic duty (room-bound triage) to every pawn
+    // in the lord, focused on the room centre. The focus point is what MedicRoomBounds
+    // uses as a stable anchor to resolve the medbay rects, and what RoomMechLordHelper
+    // matches on so multiple medics in one room share a single lord.
     public class LordToil_MechMedic : LordToil
     {
         private IntVec3 point;
 
-        /// <summary>The room centre this medic lord is anchored to. Used for lord matching.</summary>
+        // The room centre this medic lord is anchored to. Used for lord matching.
         public IntVec3 Point => point;
 
         public LordToil_MechMedic(IntVec3 point)

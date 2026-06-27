@@ -6,49 +6,43 @@ using Verse;
 
 namespace BetterTradersGuild.MapGeneration
 {
-    /// <summary>
-    /// GenStep that spawns patrolling sentry drones in TradersGuild settlements.
-    ///
-    /// No XML parameters - reads configuration from ModSettings:
-    /// - useCustomLayouts: Master toggle for BTG settlement features
-    /// - sentryDronePresence: Scale factor (0-200%) for drone count
-    /// - minimumThreatPoints: Minimum threat points for difficulty scaling
-    ///
-    /// Example usage in GenStepDef:
-    /// <![CDATA[
-    /// <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnSentryDrones" />
-    /// ]]>
-    ///
-    /// SENTRY DRONE BEHAVIOR:
-    /// - Patrol Mode: Wander around the map using JobGiver_SentryPatrol
-    /// - Attack Mode: Triggered when enemies detected (65 cell radius, requires LoS)
-    /// - Uses SentryDroneConstant ThinkTree with CompSentryDrone component
-    /// - Creates more dynamic encounters vs all defenders rushing at once
-    ///
-    /// CURVE SCALING:
-    /// To apply a factor to threat points, we scale the X-axis of the curve.
-    /// If dronePresence=0.25, we want 3000 points to behave like 750 points.
-    /// We achieve this by scaling X values by 1/dronePresence (e.g., 3000 -> 12000).
-    /// When vanilla evaluates 3000 against the scaled curve, it gets the reduced result.
-    /// </summary>
+    // GenStep that spawns patrolling sentry drones in TradersGuild settlements.
+    //
+    // No XML parameters - reads configuration from ModSettings:
+    // - useCustomLayouts: Master toggle for BTG settlement features
+    // - sentryDronePresence: Scale factor (0-200%) for drone count
+    // - minimumThreatPoints: Minimum threat points for difficulty scaling
+    //
+    // Example usage in GenStepDef:
+    // <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnSentryDrones" />
+    //
+    // SENTRY DRONE BEHAVIOR:
+    // - Patrol Mode: Wander around the map using JobGiver_SentryPatrol
+    // - Attack Mode: Triggered when enemies detected (65 cell radius, requires LoS)
+    // - Uses SentryDroneConstant ThinkTree with CompSentryDrone component
+    // - Creates more dynamic encounters vs all defenders rushing at once
+    //
+    // CURVE SCALING:
+    // To apply a factor to threat points, we scale the X-axis of the curve.
+    // If dronePresence=0.25, we want 3000 points to behave like 750 points.
+    // We achieve this by scaling X values by 1/dronePresence (e.g., 3000 -> 12000).
+    // When vanilla evaluates 3000 against the scaled curve, it gets the reduced result.
     public class GenStep_SpawnSentryDrones : GenStep
     {
-        /// <summary>
-        /// Base curve that maps threat points to sentry drone count at 100% presence.
-        /// X values will be scaled by 1/dronePresence to create the effective curve.
-        ///
-        /// At 100% presence (dronePresence=1.0):
-        /// Points -> Drones:
-        /// 0 -> 0 (no drones at zero points)
-        /// 600 -> 2 (minimum meaningful patrol)
-        /// 1200 -> 3 (light defense)
-        /// 2400 -> 5 (standard defense at minimum cap)
-        /// 4800 -> 8 (heavy defense for wealthy colonies)
-        /// 9600 -> 12 (maximum defense)
-        ///
-        /// At 25% presence (dronePresence=0.25, default):
-        /// 2400 points -> ~2-3 drones (X scaled to 9600)
-        /// </summary>
+        // Base curve that maps threat points to sentry drone count at 100% presence.
+        // X values will be scaled by 1/dronePresence to create the effective curve.
+        //
+        // At 100% presence (dronePresence=1.0):
+        // Points -> Drones:
+        // 0 -> 0 (no drones at zero points)
+        // 600 -> 2 (minimum meaningful patrol)
+        // 1200 -> 3 (light defense)
+        // 2400 -> 5 (standard defense at minimum cap)
+        // 4800 -> 8 (heavy defense for wealthy colonies)
+        // 9600 -> 12 (maximum defense)
+        //
+        // At 25% presence (dronePresence=0.25, default):
+        // 2400 points -> ~2-3 drones (X scaled to 9600)
         private static readonly CurvePoint[] BaseCurvePoints = new CurvePoint[]
         {
             new CurvePoint(0f, 0f),
@@ -59,14 +53,10 @@ namespace BetterTradersGuild.MapGeneration
             new CurvePoint(9600f, 12f)
         };
 
-        /// <summary>
-        /// Deterministic seed for this GenStep.
-        /// </summary>
+        // Deterministic seed for this GenStep.
         public override int SeedPart => 847291005;
 
-        /// <summary>
-        /// Spawns sentry drones in TradersGuild settlements based on ModSettings.
-        /// </summary>
+        // Spawns sentry drones in TradersGuild settlements based on ModSettings.
         public override void Generate(Map map, GenStepParams parms)
         {
             // STEP 1: Check if sentry drone presence is enabled
@@ -96,11 +86,9 @@ namespace BetterTradersGuild.MapGeneration
             BaseGenUtility.ScatterSentryDronesInMap(scaledCurve, map, faction, parms);
         }
 
-        /// <summary>
-        /// Creates a scaled SimpleCurve based on dronePresence factor.
-        /// Scaling the X-axis by 1/dronePresence effectively reduces drone count
-        /// for the same threat points.
-        /// </summary>
+        // Creates a scaled SimpleCurve based on dronePresence factor.
+        // Scaling the X-axis by 1/dronePresence effectively reduces drone count
+        // for the same threat points.
         private SimpleCurve CreateScaledCurve(float dronePresence)
         {
             SimpleCurve scaledCurve = new SimpleCurve();

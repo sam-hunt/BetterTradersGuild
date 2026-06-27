@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized MessageTypeDef references.
-    /// </summary>
+    // Centralized MessageTypeDef references.
     [DefOf]
     public static class MessageTypes
     {

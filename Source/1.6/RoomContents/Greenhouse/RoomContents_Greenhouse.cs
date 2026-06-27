@@ -5,21 +5,17 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.Greenhouse
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Greenhouse.
-    ///
-    /// Populates the greenhouse with:
-    /// - Rice in hydroponics basins (food production; rice's fast 3-day grow cycle keeps
-    ///   the agrihand mech's harvest/replant loop visibly busy)
-    /// - Daylilies in decorative plant pots (aesthetics)
-    /// - Harvested crops on shelves (rice or cotton)
-    /// </summary>
+    // Custom RoomContentsWorker for Greenhouse.
+    //
+    // Populates the greenhouse with:
+    // - Rice in hydroponics basins (food production; rice's fast 3-day grow cycle keeps
+    //   the agrihand mech's harvest/replant loop visibly busy)
+    // - Daylilies in decorative plant pots (aesthetics)
+    // - Harvested crops on shelves (rice or cotton)
     public class RoomContents_Greenhouse : RoomContentsWorker
     {
-        /// <summary>
-        /// Main room generation method. Spawns XML-defined prefabs (hydroponics basins,
-        /// plant pots, shelves), then populates them with appropriate contents.
-        /// </summary>
+        // Main room generation method. Spawns XML-defined prefabs (hydroponics basins,
+        // plant pots, shelves), then populates them with appropriate contents.
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             if (room.rects == null || room.rects.Count == 0)
@@ -56,11 +52,9 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
             }
         }
 
-        /// <summary>
-        /// Fills steel shelves with harvested crops - randomly either rice or cotton per shelf.
-        /// Rice matches what the agrihand mech harvests and shelves, so the starting stock
-        /// reads as the product of the same crop loop.
-        /// </summary>
+        // Fills steel shelves with harvested crops - randomly either rice or cotton per shelf.
+        // Rice matches what the agrihand mech harvests and shelves, so the starting stock
+        // reads as the product of the same crop loop.
         private void FillShelvesWithCrops(Map map, CellRect roomRect)
         {
             var shelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);

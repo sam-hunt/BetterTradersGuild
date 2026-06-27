@@ -5,25 +5,19 @@ using BetterTradersGuild.Helpers;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement_TraderTracker.RegenerateStockEveryDays property getter
-    /// Returns custom rotation interval for TradersGuild settlements
-    /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: RegenerateStockEveryDays is a protected virtual property
-    /// that returns the number of days between stock regenerations. Vanilla returns 30.
-    ///
-    /// By patching this for TradersGuild settlements, we ensure both visited and unvisited
-    /// settlements use the same rotation interval (player-configurable, default 15 days).
-    /// </remarks>
+    // Harmony patch: Settlement_TraderTracker.RegenerateStockEveryDays property getter
+    // Returns custom rotation interval for TradersGuild settlements
+    // LEARNING NOTE: RegenerateStockEveryDays is a protected virtual property
+    // that returns the number of days between stock regenerations. Vanilla returns 30.
+    //
+    // By patching this for TradersGuild settlements, we ensure both visited and unvisited
+    // settlements use the same rotation interval (player-configurable, default 15 days).
     [HarmonyPatch(typeof(Settlement_TraderTracker), "RegenerateStockEveryDays", MethodType.Getter)]
     public static class SettlementTraderTrackerRegenerateStockEveryDays
     {
-        /// <summary>
-        /// Postfix method - modifies the regeneration interval for TradersGuild settlements
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
-        /// <param name="__result">The regeneration interval in days (can be modified)</param>
+        // Postfix method - modifies the regeneration interval for TradersGuild settlements
+        // __instance: The Settlement_TraderTracker instance
+        // __result: The regeneration interval in days (can be modified)
         [HarmonyPostfix]
         public static void Postfix(Settlement_TraderTracker __instance, ref int __result)
         {

@@ -5,24 +5,18 @@ using Verse.AI;
 
 namespace BetterTradersGuild.JobDrivers
 {
-    /// <summary>
-    /// JobDriver for relocking a cargo vault hatch.
-    /// Similar to vanilla's JobDriver_Seal but allows the hatch to be hacked again.
-    ///
-    /// The pawn goes to the hatch and performs work, then the hatch is relocked.
-    /// This mirrors the vanilla sealing behavior for consistency.
-    /// </summary>
+    // JobDriver for relocking a cargo vault hatch.
+    // Similar to vanilla's JobDriver_Seal but allows the hatch to be hacked again.
+    //
+    // The pawn goes to the hatch and performs work, then the hatch is relocked.
+    // This mirrors the vanilla sealing behavior for consistency.
     public class JobDriver_Relock : JobDriver
     {
-        /// <summary>
-        /// Work amount required to relock the hatch.
-        /// Similar to vanilla seal work amount.
-        /// </summary>
+        // Work amount required to relock the hatch.
+        // Similar to vanilla seal work amount.
         private const float WorkAmount = 300f;
 
-        /// <summary>
-        /// Target index for the hatch being relocked.
-        /// </summary>
+        // Target index for the hatch being relocked.
         private const TargetIndex HatchIndex = TargetIndex.A;
 
         private Thing Hatch => job.GetTarget(HatchIndex).Thing;

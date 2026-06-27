@@ -4,45 +4,37 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Selects appropriate waste filler prefabs based on size requirements.
-    ///
-    /// Design goals:
-    /// 1. Support multiple variants per size (for visual variety)
-    /// 2. Automatic DLC checking (RimWorld's [MayRequire] on XML defs handles this)
-    /// 3. Dynamic discovery (new prefabs added via XML are automatically found)
-    ///
-    /// Prefab naming convention: BTG_CrewQuarters*{width}x{depth}*
-    /// Examples:
-    /// - BTG_CrewQuartersIndustrialShelves1x4
-    /// - BTG_CrewQuartersLockers1x5
-    /// - BTG_CrewQuartersPasteDiner2x5 (VNutrientE)
-    ///
-    /// The selector scans DefDatabase<PrefabDef> on first use and caches results.
-    /// DLC-dependent prefabs that use [MayRequire] in XML will simply not be in
-    /// DefDatabase if the required DLC isn't loaded.
-    /// </summary>
+    // Selects appropriate waste filler prefabs based on size requirements.
+    //
+    // Design goals:
+    // 1. Support multiple variants per size (for visual variety)
+    // 2. Automatic DLC checking (RimWorld's [MayRequire] on XML defs handles this)
+    // 3. Dynamic discovery (new prefabs added via XML are automatically found)
+    //
+    // Prefab naming convention: BTG_CrewQuarters*{width}x{depth}*
+    // Examples:
+    // - BTG_CrewQuartersIndustrialShelves1x4
+    // - BTG_CrewQuartersLockers1x5
+    // - BTG_CrewQuartersPasteDiner2x5 (VNutrientE)
+    //
+    // The selector scans DefDatabase<PrefabDef> on first use and caches results.
+    // DLC-dependent prefabs that use [MayRequire] in XML will simply not be in
+    // DefDatabase if the required DLC isn't loaded.
     public static class WasteFillerPrefabSelector
     {
-        /// <summary>
-        /// Prefix for waste filler prefab defNames.
-        /// Prefabs matching this prefix will be considered for selection.
-        /// </summary>
+        // Prefix for waste filler prefab defNames.
+        // Prefabs matching this prefix will be considered for selection.
         private const string PREFAB_PREFIX = "BTG_CrewQuarters";
 
-        /// <summary>
-        /// Cache of available prefabs grouped by (width, depth).
-        /// Key format: "WxD" (e.g., "1x4", "2x5")
-        /// </summary>
+        // Cache of available prefabs grouped by (width, depth).
+        // Key format: "WxD" (e.g., "1x4", "2x5")
         private static Dictionary<string, List<PrefabDef>> prefabsBySize;
 
-        /// <summary>
-        /// Selects a random waste filler prefab of the specified size, avoiding previously used prefabs.
-        /// </summary>
-        /// <param name="width">Width of the waste area (1 or 2).</param>
-        /// <param name="depth">Depth of the waste area (4 or 5).</param>
-        /// <param name="usedPrefabs">Set of prefabs already used in the current room. Selected prefab will be added to this set.</param>
-        /// <returns>A PrefabDef to spawn, or null if no matching prefab is available.</returns>
+        // Selects a random waste filler prefab of the specified size, avoiding previously used prefabs.
+        // width: Width of the waste area (1 or 2).
+        // depth: Depth of the waste area (4 or 5).
+        // usedPrefabs: Set of prefabs already used in the current room. Selected prefab will be added to this set.
+        // Returns: A PrefabDef to spawn, or null if no matching prefab is available.
         public static PrefabDef SelectPrefab(int width, int depth, HashSet<PrefabDef> usedPrefabs)
         {
             EnsureInitialized();
@@ -82,23 +74,19 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return selected;
         }
 
-        /// <summary>
-        /// Gets the IndustrialShelves fallback prefab for the specified size.
-        /// Used when all variants have been used in the current room.
-        /// </summary>
+        // Gets the IndustrialShelves fallback prefab for the specified size.
+        // Used when all variants have been used in the current room.
         private static PrefabDef GetFallbackPrefab(int width, int depth)
         {
             string defName = $"BTG_CrewQuartersIndustrialShelves{width}x{depth}";
             return DefDatabase<PrefabDef>.GetNamed(defName, errorOnFail: false);
         }
 
-        /// <summary>
-        /// Gets all available prefabs for the specified size.
-        /// Useful for debugging or for callers that want to implement their own selection logic.
-        /// </summary>
-        /// <param name="width">Width of the waste area.</param>
-        /// <param name="depth">Depth of the waste area.</param>
-        /// <returns>List of available prefabs, or empty list if none available.</returns>
+        // Gets all available prefabs for the specified size.
+        // Useful for debugging or for callers that want to implement their own selection logic.
+        // width: Width of the waste area.
+        // depth: Depth of the waste area.
+        // Returns: List of available prefabs, or empty list if none available.
         public static List<PrefabDef> GetAvailablePrefabs(int width, int depth)
         {
             EnsureInitialized();
@@ -113,12 +101,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return new List<PrefabDef>();
         }
 
-        /// <summary>
-        /// Checks if any waste filler prefabs are available for the specified size.
-        /// </summary>
-        /// <param name="width">Width of the waste area.</param>
-        /// <param name="depth">Depth of the waste area.</param>
-        /// <returns>True if at least one prefab is available.</returns>
+        // Checks if any waste filler prefabs are available for the specified size.
+        // width: Width of the waste area.
+        // depth: Depth of the waste area.
+        // Returns: True if at least one prefab is available.
         public static bool HasPrefabsForSize(int width, int depth)
         {
             EnsureInitialized();
@@ -127,19 +113,15 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return prefabsBySize.TryGetValue(sizeKey, out var candidates) && candidates.Count > 0;
         }
 
-        /// <summary>
-        /// Forces re-scanning of available prefabs.
-        /// Call this if prefabs are dynamically added/removed after initial load.
-        /// </summary>
+        // Forces re-scanning of available prefabs.
+        // Call this if prefabs are dynamically added/removed after initial load.
         public static void Refresh()
         {
             prefabsBySize = null;
             EnsureInitialized();
         }
 
-        /// <summary>
-        /// Ensures the prefab cache is initialized by scanning DefDatabase.
-        /// </summary>
+        // Ensures the prefab cache is initialized by scanning DefDatabase.
         private static void EnsureInitialized()
         {
             if (prefabsBySize != null)
@@ -178,9 +160,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Creates a cache key from width and depth.
-        /// </summary>
+        // Creates a cache key from width and depth.
         private static string GetSizeKey(int width, int depth)
         {
             return $"{width}x{depth}";

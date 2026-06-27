@@ -4,28 +4,24 @@ using Verse;
 
 namespace BetterTradersGuild.RoomParts
 {
-    /// <summary>
-    /// Generic RoomPartWorker that spawns a mech based on XML-defined parameters.
-    ///
-    /// PURPOSE:
-    /// Single worker class that handles all mech types via parameterization.
-    /// The mech type and behavior are specified in the RoomPart_MechDef XML.
-    ///
-    /// TECHNICAL APPROACH:
-    /// - Casts def to RoomPart_MechDef to access pawnKindDef and behavior
-    /// - Follows vanilla RoomPart_SentryDrone pattern for spawning
-    /// - Uses RoomMechLordHelper to assign mechs to room-specific Lords
-    ///
-    /// USAGE:
-    /// <![CDATA[
-    /// <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
-    ///   <defName>BTG_Mech_Cleansweeper</defName>
-    ///   <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
-    ///   <pawnKindDef>Mech_Cleansweeper</pawnKindDef>
-    ///   <behavior>Clean</behavior>
-    /// </BetterTradersGuild.RoomParts.RoomPart_MechDef>
-    /// ]]>
-    /// </summary>
+    // Generic RoomPartWorker that spawns a mech based on XML-defined parameters.
+    //
+    // PURPOSE:
+    // Single worker class that handles all mech types via parameterization.
+    // The mech type and behavior are specified in the RoomPart_MechDef XML.
+    //
+    // TECHNICAL APPROACH:
+    // - Casts def to RoomPart_MechDef to access pawnKindDef and behavior
+    // - Follows vanilla RoomPart_SentryDrone pattern for spawning
+    // - Uses RoomMechLordHelper to assign mechs to room-specific Lords
+    //
+    // USAGE:
+    // <BetterTradersGuild.RoomParts.RoomPart_MechDef MayRequire="Ludeon.RimWorld.Biotech">
+    //   <defName>BTG_Mech_Cleansweeper</defName>
+    //   <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
+    //   <pawnKindDef>Mech_Cleansweeper</pawnKindDef>
+    //   <behavior>Clean</behavior>
+    // </BetterTradersGuild.RoomParts.RoomPart_MechDef>
     public class RoomPart_Mech : RoomPartWorker
     {
         private RoomPart_MechDef Def => (RoomPart_MechDef)def;

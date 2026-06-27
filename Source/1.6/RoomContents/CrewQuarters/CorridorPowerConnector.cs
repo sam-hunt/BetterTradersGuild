@@ -5,23 +5,19 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Connects "floating island" subrooms to the power grid by placing HiddenConduit
-    /// along horizontal rows where interior subroom doors exist.
-    ///
-    /// Subrooms in middle strips with exclusion zones at both ends (due to side doors)
-    /// may be disconnected from the wall-based power grid. Since subroom prefabs
-    /// have doors (AncientBlastDoor) at their entrance, this helper finds these door
-    /// rows and runs conduits along them to ensure power connectivity.
-    /// </summary>
+    // Connects "floating island" subrooms to the power grid by placing HiddenConduit
+    // along horizontal rows where interior subroom doors exist.
+    //
+    // Subrooms in middle strips with exclusion zones at both ends (due to side doors)
+    // may be disconnected from the wall-based power grid. Since subroom prefabs
+    // have doors (AncientBlastDoor) at their entrance, this helper finds these door
+    // rows and runs conduits along them to ensure power connectivity.
     internal static class CorridorPowerConnector
     {
-        /// <summary>
-        /// Places HiddenConduit along horizontal rows where interior subroom doors exist.
-        /// </summary>
-        /// <param name="map">The map</param>
-        /// <param name="roomRect">The room's bounding rect (includes walls)</param>
-        /// <returns>Number of door rows connected</returns>
+        // Places HiddenConduit along horizontal rows where interior subroom doors exist.
+        // map: The map
+        // roomRect: The room's bounding rect (includes walls)
+        // Returns: Number of door rows connected
         internal static int ConnectInteriorDoorRows(Map map, CellRect roomRect)
         {
             if (Things.HiddenConduit == null)

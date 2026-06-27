@@ -7,13 +7,11 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.ControlCenter
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Control Center.
-    ///
-    /// Spawns a server room subroom with an L-shaped prefab (front + right side walls only)
-    /// that can be placed in corners (preferred) or along edges (with procedural wall completion).
-    /// The main room contains consoles and terminals for station operations.
-    /// </summary>
+    // Custom RoomContentsWorker for Control Center.
+    //
+    // Spawns a server room subroom with an L-shaped prefab (front + right side walls only)
+    // that can be placed in corners (preferred) or along edges (with procedural wall completion).
+    // The main room contains consoles and terminals for station operations.
     public class RoomContents_ControlCenter : RoomContentsWorker
     {
         // Prefab size (6x6)
@@ -22,10 +20,8 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
         // Stores the server room area to prevent other prefabs from spawning there
         private CellRect serverRoomRect;
 
-        /// <summary>
-        /// Main room generation method. Orchestrates server room placement and calls base class
-        /// to process XML-defined content (prefabs, scatter, parts) in remaining space.
-        /// </summary>
+        // Main room generation method. Orchestrates server room placement and calls base class
+        // to process XML-defined content (prefabs, scatter, parts) in remaining space.
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             // Initialize serverRoomRect to default (safety mechanism)
@@ -64,9 +60,7 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
             }
         }
 
-        /// <summary>
-        /// Override to prevent XML prefabs from spawning in server room area.
-        /// </summary>
+        // Override to prevent XML prefabs from spawning in server room area.
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             if (this.serverRoomRect.Width > 0 && this.serverRoomRect.Contains(c))
@@ -75,9 +69,7 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
         }
 
-        /// <summary>
-        /// Spawns the server room prefab using PrefabUtility API.
-        /// </summary>
+        // Spawns the server room prefab using PrefabUtility API.
         private void SpawnServerRoomPrefab(Map map, SubroomPlacementResult placement)
         {
             PrefabDef prefab = Prefabs.BTG_ServerRacks_Subroom;

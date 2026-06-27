@@ -5,15 +5,11 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// Main mod class - handles initialization and Harmony patching
-    /// </summary>
+    // Main mod class - handles initialization and Harmony patching
     [StaticConstructorOnStartup]
     public static class BetterTradersGuildMod
     {
-        /// <summary>
-        /// Mod settings instance - accessed statically throughout the mod
-        /// </summary>
+        // Mod settings instance - accessed statically throughout the mod
         public static BetterTradersGuildSettings Settings
         {
             get
@@ -37,16 +33,12 @@ namespace BetterTradersGuild
             ApplyLifeSupportUnitPowerSetting();
         }
 
-        /// <summary>
-        /// Applies the configured power output to LifeSupportUnit ThingDef
-        /// </summary>
-        /// <remarks>
-        /// Vanilla LifeSupportUnits output 3200W, but are isolated in small rooms.
-        /// BTG connects settlement buildings in a map-wide power grid, so this
-        /// setting allows players to balance or restore vanilla behavior.
-        /// Negative basePowerConsumption = power production in RimWorld.
-        /// Uses reflection since the NuGet reference package doesn't expose the field.
-        /// </remarks>
+        // Applies the configured power output to LifeSupportUnit ThingDef
+        // Vanilla LifeSupportUnits output 3200W, but are isolated in small rooms.
+        // BTG connects settlement buildings in a map-wide power grid, so this
+        // setting allows players to balance or restore vanilla behavior.
+        // Negative basePowerConsumption = power production in RimWorld.
+        // Uses reflection since the NuGet reference package doesn't expose the field.
         public static void ApplyLifeSupportUnitPowerSetting()
         {
             var lifeSupportDef = DefDatabase<ThingDef>.GetNamedSilentFail("LifeSupportUnit");
@@ -78,11 +70,9 @@ namespace BetterTradersGuild
             RefreshSpawnedLifeSupportUnits(lifeSupportDef);
         }
 
-        /// <summary>
-        /// Recomputes the live power output of every spawned LifeSupportUnit across all
-        /// loaded maps. No-op outside of an active game (e.g. at startup or from the main
-        /// menu), where there are no maps to refresh.
-        /// </summary>
+        // Recomputes the live power output of every spawned LifeSupportUnit across all
+        // loaded maps. No-op outside of an active game (e.g. at startup or from the main
+        // menu), where there are no maps to refresh.
         private static void RefreshSpawnedLifeSupportUnits(ThingDef lifeSupportDef)
         {
             if (Current.ProgramState != ProgramState.Playing) return;

@@ -6,21 +6,17 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: THE KEY PATCH for shuttle destination targeting!
-    /// Settlement.GetShuttleFloatMenuOptions is called when clicking on settlements during shuttle launch targeting
-    /// This handles the float menu that appears when targeting a settlement with shuttles
-    /// </summary>
+    // Harmony patch: THE KEY PATCH for shuttle destination targeting!
+    // Settlement.GetShuttleFloatMenuOptions is called when clicking on settlements during shuttle launch targeting
+    // This handles the float menu that appears when targeting a settlement with shuttles
     [HarmonyPatch(typeof(RimWorld.Planet.Settlement), nameof(RimWorld.Planet.Settlement.GetShuttleFloatMenuOptions))]
     public static class SettlementGetShuttleFloatMenuOptions
     {
-        /// <summary>
-        /// Postfix method - modifies shuttle destination menu options for Traders Guild settlements
-        /// pods = the shuttle contents (IThingHolder)
-        /// launchAction = the action to execute when launching (used to create TransportersArrivalAction)
-        /// Priority.Last ensures we wrap ALL other postfixes (e.g., "Choose where to land" mod)
-        /// so their added attack variants pass through our filter too.
-        /// </summary>
+        // Postfix method - modifies shuttle destination menu options for Traders Guild settlements
+        // pods = the shuttle contents (IThingHolder)
+        // launchAction = the action to execute when launching (used to create TransportersArrivalAction)
+        // Priority.Last ensures we wrap ALL other postfixes (e.g., "Choose where to land" mod)
+        // so their added attack variants pass through our filter too.
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
         public static IEnumerable<FloatMenuOption> Postfix(

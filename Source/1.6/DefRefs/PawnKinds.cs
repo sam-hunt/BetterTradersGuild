@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized PawnKindDef references (both BTG custom and DLC-gated).
-    /// </summary>
+    // Centralized PawnKindDef references (both BTG custom and DLC-gated).
     [DefOf]
     public static class PawnKinds
     {

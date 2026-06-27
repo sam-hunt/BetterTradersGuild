@@ -7,28 +7,26 @@ using Verse.AI;
 
 namespace BetterTradersGuild.JobDrivers
 {
-    /// <summary>
-    /// Drives a starving defender to a powered in-structure comms console and, on
-    /// completion, calls in a survival-meal cargo-pod drop (ResupplyDropUtility).
-    ///
-    /// Mirrors JobDriver_BTGOpenContainer's designation-free goto -> wait -> effect shape.
-    /// We can't reuse vanilla JobDriver_UseCommsConsole: its toil opens the player comms
-    /// dialog (and its float-menu entry needs comm targets + the Talking capacity), none of
-    /// which an NPC defender has. Here the console is purely a powered waypoint - the real
-    /// work is spawning the drop.
-    ///
-    /// Concurrency: several consoles can exist (the ControlCenter alone often spawns more
-    /// than one; Armory/CrewQuarters can too), so multiple starving defenders may call in
-    /// parallel on different consoles. That's fine and first-come-first-served by COMPLETION,
-    /// not initiation: only the first caller to finish the call re-checks the cooldown, finds
-    /// it clear, spawns the drop, and records the cooldown. Later finishers (possibly closer
-    /// pawns that started later) re-check, find the cooldown now active, and abort silently.
-    /// The check-then-record is safe without locking because toil initActions never run
-    /// concurrently (single-threaded tick loop) - the first to execute claims the slot.
-    ///
-    /// TargetA = the console. TargetB = the drop cell scouted by the JobGiver, re-validated
-    /// at drop time (and re-found if it was blocked while the defender walked over).
-    /// </summary>
+    // Drives a starving defender to a powered in-structure comms console and, on
+    // completion, calls in a survival-meal cargo-pod drop (ResupplyDropUtility).
+    //
+    // Mirrors JobDriver_BTGOpenContainer's designation-free goto -> wait -> effect shape.
+    // We can't reuse vanilla JobDriver_UseCommsConsole: its toil opens the player comms
+    // dialog (and its float-menu entry needs comm targets + the Talking capacity), none of
+    // which an NPC defender has. Here the console is purely a powered waypoint - the real
+    // work is spawning the drop.
+    //
+    // Concurrency: several consoles can exist (the ControlCenter alone often spawns more
+    // than one; Armory/CrewQuarters can too), so multiple starving defenders may call in
+    // parallel on different consoles. That's fine and first-come-first-served by COMPLETION,
+    // not initiation: only the first caller to finish the call re-checks the cooldown, finds
+    // it clear, spawns the drop, and records the cooldown. Later finishers (possibly closer
+    // pawns that started later) re-check, find the cooldown now active, and abort silently.
+    // The check-then-record is safe without locking because toil initActions never run
+    // concurrently (single-threaded tick loop) - the first to execute claims the slot.
+    //
+    // TargetA = the console. TargetB = the drop cell scouted by the JobGiver, re-validated
+    // at drop time (and re-found if it was blocked while the defender walked over).
     public class JobDriver_BTGCallResupply : JobDriver
     {
         private const TargetIndex ConsoleIndex = TargetIndex.A;

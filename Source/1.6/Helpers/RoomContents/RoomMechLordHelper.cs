@@ -6,109 +6,85 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Defines mech behavior modes for room assignment.
-    /// </summary>
+    // Defines mech behavior modes for room assignment.
     public enum MechRoomBehavior
     {
-        /// <summary>
-        /// Active defense - wanders in room and aggressively attacks nearby hostiles.
-        /// Uses LordJob_DefendPoint with DutyDefOf.Defend.
-        /// Suitable for combat mechs (Militor).
-        /// </summary>
+        // Active defense - wanders in room and aggressively attacks nearby hostiles.
+        // Uses LordJob_DefendPoint with DutyDefOf.Defend.
+        // Suitable for combat mechs (Militor).
         Defend,
 
-        /// <summary>
-        /// Passive - wanders in room but does not seek enemies.
-        /// Uses LordJob_StayInArea with BTG_WanderInArea duty.
-        /// Self-defense only via ThinkTree fallback if directly threatened.
-        /// Suitable for expensive/specialized mechs (Fabricor, Agrihand).
-        /// </summary>
+        // Passive - wanders in room but does not seek enemies.
+        // Uses LordJob_StayInArea with BTG_WanderInArea duty.
+        // Self-defense only via ThinkTree fallback if directly threatened.
+        // Suitable for expensive/specialized mechs (Fabricor, Agrihand).
         Passive,
 
-        /// <summary>
-        /// Medic - room-bound triage. Tends and rescues wounded same-faction
-        /// defenders inside its room, and goes dormant (self-charge) when idle.
-        /// Uses LordJob_MechMedic with the BTG_MechMedic duty. Suitable for the
-        /// Paramedic mech.
-        /// </summary>
+        // Medic - room-bound triage. Tends and rescues wounded same-faction
+        // defenders inside its room, and goes dormant (self-charge) when idle.
+        // Uses LordJob_MechMedic with the BTG_MechMedic duty. Suitable for the
+        // Paramedic mech.
         Medic,
 
-        /// <summary>
-        /// Clean - janitor. Cleans filth within a moderate radius of its anchor point
-        /// (never outside the settlement structure bounds) and goes dormant (self-charge)
-        /// near the point when none remains. Uses LordJob_MechClean with the BTG_MechClean
-        /// duty. Suitable for the Cleansweeper mech.
-        /// </summary>
+        // Clean - janitor. Cleans filth within a moderate radius of its anchor point
+        // (never outside the settlement structure bounds) and goes dormant (self-charge)
+        // near the point when none remains. Uses LordJob_MechClean with the BTG_MechClean
+        // duty. Suitable for the Cleansweeper mech.
         Clean,
 
-        /// <summary>
-        /// Farm - greenhouse tender. Harvests mature food crops within a moderate radius
-        /// of its anchor point (never outside the settlement structure bounds), hauls the
-        /// produce to a nearby shelf, sows rice into the emptied basin cells, and goes
-        /// dormant (self-charge) near the point when there is no work. Uses LordJob_MechFarm
-        /// with the BTG_MechFarm duty. Suitable for the Agrihand mech.
-        /// </summary>
+        // Farm - greenhouse tender. Harvests mature food crops within a moderate radius
+        // of its anchor point (never outside the settlement structure bounds), hauls the
+        // produce to a nearby shelf, sows rice into the emptied basin cells, and goes
+        // dormant (self-charge) near the point when there is no work. Uses LordJob_MechFarm
+        // with the BTG_MechFarm duty. Suitable for the Agrihand mech.
         Farm
     }
 
-    /// <summary>
-    /// Manages Lords for mechs spawned in TradersGuild rooms via RoomPartWorkers.
-    ///
-    /// PURPOSE:
-    /// Keeps mechs in their designated rooms by assigning them to a shared Lord.
-    /// Without this, NPC mechs fall through to default "wander anywhere" behavior
-    /// in the Mechanoid ThinkTree.
-    ///
-    /// BEHAVIOR MODES:
-    /// - Defend: Active defense using LordJob_DefendPoint (for Militors)
-    /// - Passive: Wander only using LordJob_StayInArea (for utility mechs)
-    /// - Medic: Room-bound triage using LordJob_MechMedic (for Paramedics)
-    /// - Clean: Radius-bound filth cleaning using LordJob_MechClean (for Cleansweepers)
-    /// - Farm: Radius-bound greenhouse tending using LordJob_MechFarm (for Agrihands)
-    ///
-    /// TECHNICAL APPROACH:
-    /// - Each room gets one shared Lord at the room's center point
-    /// - Multiple mechs in the same room share the Lord
-    /// - Mechs with same behavior mode in same room share a Lord
-    /// - Different behavior modes create separate Lords (rare case)
-    ///
-    /// USAGE:
-    /// Called from RoomPart_MechXxx workers after spawning each mech:
-    /// <![CDATA[
-    /// // For combat mechs (Militor):
-    /// RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Defend);
-    ///
-    /// // For utility mechs (Fabricor, Lifter, etc.):
-    /// RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Passive);
-    /// ]]>
-    /// </summary>
+    // Manages Lords for mechs spawned in TradersGuild rooms via RoomPartWorkers.
+    //
+    // PURPOSE:
+    // Keeps mechs in their designated rooms by assigning them to a shared Lord.
+    // Without this, NPC mechs fall through to default "wander anywhere" behavior
+    // in the Mechanoid ThinkTree.
+    //
+    // BEHAVIOR MODES:
+    // - Defend: Active defense using LordJob_DefendPoint (for Militors)
+    // - Passive: Wander only using LordJob_StayInArea (for utility mechs)
+    // - Medic: Room-bound triage using LordJob_MechMedic (for Paramedics)
+    // - Clean: Radius-bound filth cleaning using LordJob_MechClean (for Cleansweepers)
+    // - Farm: Radius-bound greenhouse tending using LordJob_MechFarm (for Agrihands)
+    //
+    // TECHNICAL APPROACH:
+    // - Each room gets one shared Lord at the room's center point
+    // - Multiple mechs in the same room share the Lord
+    // - Mechs with same behavior mode in same room share a Lord
+    // - Different behavior modes create separate Lords (rare case)
+    //
+    // USAGE:
+    // Called from RoomPart_MechXxx workers after spawning each mech:
+    // // For combat mechs (Militor):
+    // RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Defend);
+    //
+    // // For utility mechs (Fabricor, Lifter, etc.):
+    // RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Passive);
     public static class RoomMechLordHelper
     {
-        /// <summary>
-        /// Default wander radius for Defend mode - how far mechs roam from room center.
-        /// </summary>
+        // Default wander radius for Defend mode - how far mechs roam from room center.
         public const float DefaultWanderRadius = 7f;
 
-        /// <summary>
-        /// Default defend radius - how far Defend mode mechs will chase/engage enemies.
-        /// </summary>
+        // Default defend radius - how far Defend mode mechs will chase/engage enemies.
         public const float DefaultDefendRadius = 16f;
 
-        /// <summary>
-        /// Tolerance for matching existing Lords to room center points.
-        /// </summary>
+        // Tolerance for matching existing Lords to room center points.
         private const float PointMatchTolerance = 3f;
 
-        /// <summary>
-        /// Finds or creates a Lord for the room and adds the mech to it.
-        /// Multiple mechs with the same behavior in the same room share one Lord.
-        /// </summary>
-        /// <param name="mech">The spawned mech pawn to add</param>
-        /// <param name="map">The map</param>
-        /// <param name="room">The LayoutRoom (used to calculate center point)</param>
-        /// <param name="faction">The faction for the Lord (typically TradersGuild)</param>
-        /// <param name="behavior">The behavior mode (Defend or Passive)</param>
+        // Finds or creates a Lord for the room and adds the mech to it.
+        // Multiple mechs with the same behavior in the same room share one Lord.
+        // mech: The spawned mech pawn to add
+        // map: The map
+        // room: The LayoutRoom (used to calculate center point)
+        // faction: The faction for the Lord (typically TradersGuild)
+        // behavior: The behavior mode (Defend or Passive)
         public static void AddMechToRoomLord(
             Pawn mech,
             Map map,
@@ -137,9 +113,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Overload for backward compatibility - defaults to Defend behavior.
-        /// </summary>
+        // Overload for backward compatibility - defaults to Defend behavior.
         public static void AddMechToRoomLord(
             Pawn mech,
             Map map,
@@ -149,9 +123,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             AddMechToRoomLord(mech, map, room, faction, MechRoomBehavior.Defend);
         }
 
-        /// <summary>
-        /// Finds an existing Lord matching the faction, location, and behavior type.
-        /// </summary>
+        // Finds an existing Lord matching the faction, location, and behavior type.
         private static Lord FindMatchingLord(Map map, Faction faction, IntVec3 point, MechRoomBehavior behavior)
         {
             foreach (Lord lord in map.lordManager.lords)
@@ -220,9 +192,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return null;
         }
 
-        /// <summary>
-        /// Creates a new Lord with the appropriate LordJob for the behavior.
-        /// </summary>
+        // Creates a new Lord with the appropriate LordJob for the behavior.
         private static void CreateNewLord(Pawn mech, Map map, Faction faction, IntVec3 roomCenter, MechRoomBehavior behavior)
         {
             LordJob lordJob;

@@ -10,10 +10,8 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
 {
     public class RoomContents_PodLaunchBay : RoomContentsWorker
     {
-        /// <summary>
-        /// Main room generation method for the pod launch bay.
-        /// Spawns XML-defined prefabs, then fills shelves with pod supplies.
-        /// </summary>
+        // Main room generation method for the pod launch bay.
+        // Spawns XML-defined prefabs, then fills shelves with pod supplies.
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
         {
             // 1. Call base FIRST to spawn XML prefabs (empty shelves, pod launchers)
@@ -34,12 +32,10 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
             }
         }
 
-        /// <summary>
-        /// Sets pod launcher fuel levels. Launchers with a malfunctioning pod get 45%
-        /// (heavy use led to the malfunction), others get 25%. Must run after
-        /// MalfunctioningPodReplacer. Sets the private fuel field directly (via
-        /// RefuelableReflection), avoiding the difficulty multiplier baked into Refuel(float).
-        /// </summary>
+        // Sets pod launcher fuel levels. Launchers with a malfunctioning pod get 45%
+        // (heavy use led to the malfunction), others get 25%. Must run after
+        // MalfunctioningPodReplacer. Sets the private fuel field directly (via
+        // RefuelableReflection), avoiding the difficulty multiplier baked into Refuel(float).
         private void FillPodLauncherFuel(Map map, CellRect roomRect)
         {
             foreach (Building launcher in RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.PodLauncher))
@@ -57,9 +53,7 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
             }
         }
 
-        /// <summary>
-        /// Finds all 2-cell wide shelves in the room and fills them with pod supplies.
-        /// </summary>
+        // Finds all 2-cell wide shelves in the room and fills them with pod supplies.
         private void FillSupplyShelves(Map map, CellRect roomRect)
         {
             List<Building_Storage> supplyShelves = RoomShelfHelper.GetShelvesInRoom(map, roomRect, Things.Shelf, 2);
