@@ -16,7 +16,6 @@ TODOs
 - AI defense lords
   - Mod setting to revert ai to vanilla defense lord?
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
-  - New lord for paramedic to tend defender wounds
   - Also drop reinforcements on resupply meal drops
   - Test mech ai doesn't load without biotech
 

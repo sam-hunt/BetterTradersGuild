@@ -13,23 +13,12 @@ namespace BetterTradersGuild.AI
     // FindBestMedicine does), or tends medicine-free if the room holds none. Mechs
     // are skipped: they have no tendable wounds.
     //
-    // Listed twice in the BTG_MechMedic duty: once with a high minBleedRate (above
-    // the rescue node, so a heavily bleeding casualty is stabilised in place BEFORE
-    // anyone is hauled to a bed) and once at minBleedRate 0 (below rescue, routine).
+    // Top priority in the BTG_MechMedic duty: the medic patches every wounded defender
+    // in the medbay (worst first) before the rescue node sends it out to fetch more.
     // endAfterTendedOnce re-runs the duty tree after each tend action, so the medic
     // continually re-triages to whoever is currently worst - "one at a time".
     public class JobGiver_BTGMechMedicTend : ThinkNode_JobGiver
     {
-        // Emergency gate: when > 0, only fires for patients bleeding at least this fast.
-        public float minBleedRate = 0f;
-
-        public override ThinkNode DeepCopy(bool resolve = true)
-        {
-            var copy = (JobGiver_BTGMechMedicTend)base.DeepCopy(resolve);
-            copy.minBleedRate = minBleedRate;
-            return copy;
-        }
-
         protected override Job TryGiveJob(Pawn pawn)
         {
             List<CellRect> rects = MedicRoomBounds.GetRects(pawn);
@@ -78,8 +67,6 @@ namespace BetterTradersGuild.AI
                     continue;
 
                 float bleed = p.health.hediffSet.BleedRateTotal;
-                if (bleed < minBleedRate)
-                    continue;
                 if (!medic.CanReserveAndReach(p, PathEndMode.Touch, Danger.Deadly))
                     continue;
 
