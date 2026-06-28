@@ -73,6 +73,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             Thing item = ThingMaker.MakeThing(itemDef);
             item.stackCount = count;
             GenSpawn.Spawn(item, pos, map);
+            item.SetForbidden(true, false);
         }
 
         // Spawns a random book on a table.

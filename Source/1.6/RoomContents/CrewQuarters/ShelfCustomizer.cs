@@ -574,6 +574,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 Thing babyFood = ThingMaker.MakeThing(Things.BabyFood);
                 babyFood.stackCount = Rand.RangeInclusive(25, 45);
                 GenSpawn.Spawn(babyFood, nearestTable.Position, map);
+                babyFood.SetForbidden(true, false);
             }
         }
 
