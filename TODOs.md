@@ -1,7 +1,5 @@
 TODOs
 
-- thinknode not found warning on TG custom map entry?
-- Landing pad pipe extenders can fail to connect if they hit NarrowHalls
 - Review mod settings page layout
 - Enable shuttle attacks once hostiles cleared?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
@@ -9,8 +7,6 @@ TODOs
   - patch only the caravan-formation/world-pathfinding methods that consult canFormCaravans for friendly TG space tiles instead
 - Rare Subroom placement small room off-by-one?
 - Investigate threat scaling of settlement defender group generation, seems a little low?
-- Set BTG Mech age from 60-140 years on spawn
-- Food spawned as part of crew subroom customization should always set forbidden
 - Bind band nodes?
 
 - AI defense lords
