@@ -98,7 +98,7 @@
         <countRange>1~3</countRange>
       </BTG_PlantPot_Corner>
       <!-- Cleaning mech - keeps commander's quarters pristine -->
-      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.6</BTG_Mech_Cleansweeper>
     </parts>
 
   </LayoutRoomDef>

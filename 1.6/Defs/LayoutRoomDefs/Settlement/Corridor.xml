@@ -14,6 +14,19 @@
     <!-- Custom worker with pre/post-fill hooks for blast door logging and airlock placement -->
     <roomContentsWorkerType>BetterTradersGuild.RoomContents.Corridor.RoomContents_Corridor</roomContentsWorkerType>
 
+    <scatter>
+      <!-- Occasional litter dropped by foot traffic passing through -->
+      <Filth_Trash>
+        <groupsPerHundredCells>0~1</groupsPerHundredCells>
+        <itemsPerGroup>1~2</itemsPerGroup>
+        <minGroups>0</minGroups>
+      </Filth_Trash>
+    </scatter>
+
+    <parts>
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">1.0</BTG_Mech_Cleansweeper>
+    </parts>
+
   </LayoutRoomDef>
 
   <!-- Defensive corridor variant with barricades -->

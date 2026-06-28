@@ -11,9 +11,9 @@ TODOs
 - Investigate threat scaling of settlement defender group generation, seems a little low?
 - Set BTG Mech age from 60-140 years on spawn
 - Food spawned as part of crew subroom customization should always set forbidden
+- Bind band nodes?
 
 - AI defense lords
-  - Rebalance cleansweeper spawn rooms, frequencies, room filth
   - Mod setting to revert ai to vanilla defense lord?
   - Tune Agrihand to haul before harvest so it's more active
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?

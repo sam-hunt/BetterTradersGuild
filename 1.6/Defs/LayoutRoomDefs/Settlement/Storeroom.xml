@@ -26,7 +26,7 @@
 
       <!-- Packaged survival meals for food storage -->
       <SurvivalMealPallet>
-        <countPerHundredCells>0.5</countPerHundredCells>
+        <countPerHundredCells>0.35</countPerHundredCells>
         <countRange>0~1</countRange>
       </SurvivalMealPallet>
 
@@ -107,8 +107,6 @@
       <WaspDrone>0.15</WaspDrone>
       <CornerArmoredTurret>0.2</CornerArmoredTurret>
       <AncientBarricades>0.25</AncientBarricades>
-      <!-- Cleaning mech - keeps storage areas tidy -->
-      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
       <!-- Hauling mech - moves heavy cargo -->
       <BTG_Mech_Lifter MayRequire="Ludeon.RimWorld.Biotech">
         <countRange>0~1</countRange>

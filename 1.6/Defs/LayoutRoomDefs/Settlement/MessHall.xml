@@ -74,7 +74,7 @@
         <countRange>2~4</countRange>
       </BTG_PlantPot_Corner>
       <!-- Cleaning mech - thematic for food prep area -->
-      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.7</BTG_Mech_Cleansweeper>
     </parts>
 
     <scatter>

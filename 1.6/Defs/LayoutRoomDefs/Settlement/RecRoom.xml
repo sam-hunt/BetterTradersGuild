@@ -72,7 +72,7 @@
       <!-- Corner heater to hold interior temperature -->
       <BTG_Heater_Corner>1.0</BTG_Heater_Corner>
       <!-- Cleaning mech - maintains rec room cleanliness -->
-      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.5</BTG_Mech_Cleansweeper>
+      <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.4</BTG_Mech_Cleansweeper>
     </parts>
   </LayoutRoomDef>
 </Defs>
