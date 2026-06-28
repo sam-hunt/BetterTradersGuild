@@ -7,19 +7,19 @@ using Verse.AI;
 namespace BetterTradersGuild.AI
 {
     // Agrihand-mech harvesting: cut every mature food plant growing in a hydroponics
-    // basin within the mech's farm area (moderate radius around its anchor AND inside
-    // the settlement structure footprint - see FarmArea).
+    // basin inside the mech's room (the greenhouse - see FarmArea, which confines to the
+    // room's rects).
     //
     // Builds a single vanilla JobDefOf.Harvest job whose TargetA queue is the nearest
-    // in-range reachable plant plus the cluster around it (capped, nearest-first) - the
+    // in-room reachable plant plus the cluster around it (capped, nearest-first) - the
     // same shape JobDriver_PlantHarvest consumes, so one job clears a batch before the
     // duty tree re-evaluates. The vanilla harvest toil drops the yield Near the mech and
     // - because the mech is not the player faction - forbids it on drop automatically
     // (JobDriver_PlantWork), so the haul giver can shelve it without any extra forbid step.
     //
     // Only food plants are harvested (harvestedThingDef is a nutrition-giving ingestible),
-    // so a decorative pot plant or a medical-bay healroot basin that happens to sit inside
-    // the radius is left alone. When no qualifying plant remains this returns null and the
+    // so a decorative pot plant or a medical-bay healroot basin that happens to share the
+    // room is left alone. When no qualifying plant remains this returns null and the
     // haul / sow / standby nodes take over.
     public class JobGiver_BTGAgrihandHarvest : ThinkNode_JobGiver
     {
@@ -33,16 +33,16 @@ namespace BetterTradersGuild.AI
             if (map == null)
                 return null;
 
-            IntVec3 anchor = FarmArea.GetAnchor(pawn);
-            if (!anchor.IsValid)
+            List<CellRect> rects = FarmArea.GetRects(pawn);
+            if (rects == null)
                 return null;
 
             List<Thing> basins = map.listerThings.ThingsOfDef(Things.HydroponicsBasin);
             if (basins.Count == 0)
                 return null;
 
-            // Cheap first pass: gather mature, harvestable food plants whose cell is in
-            // range. No reservation/reachability cost yet. Basin counts are small (a
+            // Cheap first pass: gather mature, harvestable food plants whose cell is in the
+            // room. No reservation/reachability cost yet. Basin counts are small (a
             // handful of clusters), and each basin holds at most a few plant cells.
             List<Plant> candidates = null;
             for (int i = 0; i < basins.Count; i++)
@@ -57,7 +57,7 @@ namespace BetterTradersGuild.AI
                     ThingDef yield = plant.def.plant.harvestedThingDef;
                     if (yield == null || !yield.IsNutritionGivingIngestible)
                         continue;
-                    if (!FarmArea.Contains(map, anchor, plant.Position))
+                    if (!FarmArea.Contains(rects, plant.Position))
                         continue;
                     (candidates ?? (candidates = new List<Plant>())).Add(plant);
                 }

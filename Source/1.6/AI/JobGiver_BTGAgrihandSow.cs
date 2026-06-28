@@ -6,19 +6,19 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    // Agrihand-mech sowing: replant empty hydroponics cells in range once their crop has
+    // Agrihand-mech sowing: replant empty hydroponics cells in its room once their crop has
     // been harvested. Runs below harvest and haul, so the mech only sows after it has
     // cleared and shelved the mature crop.
     //
     // Emits a plain vanilla JobDefOf.Sow job (one empty cell at a time - vanilla sowing
-    // has no target queue) for the nearest reachable empty cell of an in-range basin. The
+    // has no target queue) for the nearest reachable empty cell of an in-room basin. The
     // sown species is whatever the basin is configured to grow (GetPlantDefToGrow); the
     // BTG greenhouse sets every basin to rice, whose 3-day grow cycle keeps the
     // harvest/sow loop visibly busy. Pre-filters with the exact gates JobDriver_PlantSow
     // fails on (CanNowPlantAt, no adjacent sow blocker, cell empty of plants) so the job
     // can never spawn only to instantly abort.
     //
-    // Returns null when no in-range basin has an empty, plantable, reservable cell, letting
+    // Returns null when no in-room basin has an empty, plantable, reservable cell, letting
     // the standby node send the mech home to dormant self-charge.
     public class JobGiver_BTGAgrihandSow : ThinkNode_JobGiver
     {
@@ -28,8 +28,8 @@ namespace BetterTradersGuild.AI
             if (map == null)
                 return null;
 
-            IntVec3 anchor = FarmArea.GetAnchor(pawn);
-            if (!anchor.IsValid)
+            List<CellRect> rects = FarmArea.GetRects(pawn);
+            if (rects == null)
                 return null;
 
             List<Thing> basins = map.listerThings.ThingsOfDef(Things.HydroponicsBasin);
@@ -51,7 +51,7 @@ namespace BetterTradersGuild.AI
 
                 foreach (IntVec3 c in grower.OccupiedRect())
                 {
-                    if (!FarmArea.Contains(map, anchor, c))
+                    if (!FarmArea.Contains(rects, c))
                         continue;
                     if (c.GetPlant(map) != null)
                         continue; // cell already has a (growing) plant

@@ -5,9 +5,10 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    // Lowest-priority idle state for the paramedic mech: enter the dormant
-    // self-charge pose (JobDefOf.SelfShutdown, the same job vanilla mechs use when
-    // they wind down) at a tidy spot inside the MedicalBay.
+    // Lowest-priority idle state for the paramedic mech: park against a nearby wall of the
+    // MedicalBay and enter the dormant self-charge pose (JobDefOf.SelfShutdown, the same job
+    // vanilla mechs use when they wind down), tucking itself out of the way instead of
+    // shutting down mid-room.
     //
     // Wake mechanism (verified against the decompiled tick path): the SelfShutdown
     // toil itself has NO tickAction and completeMode Never (Toils_LayDown.SelfShutdown),
@@ -47,9 +48,10 @@ namespace BetterTradersGuild.AI
             }
 
             List<CellRect> rects = MedicRoomBounds.GetRects(pawn);
+            IntVec3 root = MechIdlePark.RootFor(pawn, rects, pawn.Position);
 
             IntVec3 spot;
-            if (!RCellFinder.TryFindNearbyMechSelfShutdownSpot(pawn.Position, pawn, pawn.Map, out spot, false)
+            if (!RCellFinder.TryFindNearbyMechSelfShutdownSpot(root, pawn, pawn.Map, out spot, false)
                 || (rects != null && !MedicRoomBounds.Contains(rects, spot)))
             {
                 spot = pawn.Position;

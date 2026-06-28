@@ -1,14 +1,16 @@
+using System.Collections.Generic;
 using RimWorld;
 using Verse;
 using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    // Lowest-priority idle state for the agrihand mech: walk back to near its anchor
-    // point and enter the dormant self-charge pose (JobDefOf.SelfShutdown). The shutdown
-    // spot is rooted at the anchor point (not the mech's current cell), so once there is
-    // nothing to harvest, haul, or sow the mech returns home before winding down, and it
-    // is validated to lie inside the structure bounds.
+    // Lowest-priority idle state for the agrihand mech: park against a nearby wall and
+    // enter the dormant self-charge pose (JobDefOf.SelfShutdown). The shutdown spot is
+    // rooted at a wall-adjacent cell near the mech (see MechIdlePark), not the room centre
+    // it is pinned to, so once there is nothing to harvest, haul, or sow the mech tucks
+    // itself out of the way before winding down; it is validated to lie inside the
+    // greenhouse rects.
     //
     // Wake mechanism is identical to the cleansweeper/paramedic standby and verified
     // against the decompiled tick path (see JobGiver_BTGMechMedicStandby for the full
@@ -37,12 +39,12 @@ namespace BetterTradersGuild.AI
             }
 
             Map map = pawn.Map;
-            IntVec3 anchor = FarmArea.GetAnchor(pawn);
-            IntVec3 root = anchor.IsValid ? anchor : pawn.Position;
+            List<CellRect> rects = FarmArea.GetRects(pawn);
+            IntVec3 root = MechIdlePark.RootFor(pawn, rects, pawn.Position);
 
             IntVec3 spot;
             if (!RCellFinder.TryFindNearbyMechSelfShutdownSpot(root, pawn, map, out spot, false)
-                || !StructureBoundsCache.Contains(map, spot))
+                || (rects != null && !FarmArea.Contains(rects, spot)))
             {
                 spot = pawn.Position;
             }

@@ -1,48 +1,32 @@
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    // Shared confinement model for the agrihand mech's greenhouse behaviour.
+    // Confinement model for the agrihand mech's greenhouse behaviour: the mech works
+    // strictly inside the one layout room it was spawned into (the greenhouse), treating
+    // that room as its work area. It never scans, reserves, or paths to anything in another
+    // room or outside the walls - the same model the cleansweeper (CleanArea) and paramedic
+    // (MedicRoomBounds) use.
     //
-    // The working area is defined two ways at once, and a cell must satisfy BOTH to be
-    // considered -
+    // Confinement is rect membership (CellRect.Contains), never a radius, so a room composed
+    // of several rects is handled exactly and a large greenhouse is covered to its corners.
+    // The room is matched def-agnostically: whichever layout room contains the mech's anchor
+    // (StructureRoomLocator.RoomContaining). The agrihand is only ever spawned in the
+    // Greenhouse, and only the greenhouse grows food in hydroponics, so this keeps it
+    // tending its own crops; the harvest/haul givers additionally filter to food plants, so
+    // a medical-bay healroot basin is never touched even if it shared the room.
     //
-    //   * a moderate Radius around the mech's anchor point - so it only
-    //     ever harvests/sows/hauls "nearby" and stays near home rather than crossing the
-    //     whole settlement; and
-    //   * the settlement structure footprint (StructureBoundsCache) - so it never scans,
-    //     paths to, or considers any cell outside the walls.
-    //
-    // (The cleansweeper's CleanArea instead confines to exact room rects; the agrihand
-    // keeps a radius because the greenhouse is a single known room and the radius cheaply
-    // covers its hydroponics clusters from the centre.)
-    //
-    // The anchor is the mech's duty focus point (the greenhouse centre the lord pinned it
-    // to), which is stable as the mech roams; it falls back to the mech's own cell.
-    //
-    // The agrihand is only ever spawned in the Greenhouse, and only the greenhouse grows
-    // food in hydroponics, so radius + structure-bounds keeps it tending its own crops;
-    // the harvest giver additionally filters to food plants, so a medical-bay healroot
-    // basin that happened to fall inside the radius is never touched.
+    // The rects are re-found on demand from the persisted layout sketch (LayoutRoom.rects
+    // survives save/load), so no extra scribe state is needed. The anchor is the mech's duty
+    // focus point (the room centre the lord pinned it to), which is stable as the mech roams;
+    // it falls back to the mech's own cell.
     internal static class FarmArea
     {
-        // Moderate search radius around the anchor point, sized to cover a typical
-        // greenhouse (its hydroponics clusters and edge shelves) from the room centre
-        // while still keeping the mech bounded near home.
-        public const float Radius = 16f;
-
-        // Much tighter radius used for the post-harvest produce pickup, centred on the
-        // mech itself rather than the anchor. The harvest toil drops yield onto the
-        // mech's own cell (ThingPlaceMode.Near), so the mech is always standing on its
-        // fresh produce; a small radius is enough to collect it and keeps the haul both
-        // local (it never treks across the room for a stray stack) and cheap (few
-        // candidates ever reach the reservation/reachability check).
-        public const float HaulPickupRadius = 8f;
-
-        // The point the agrihand is anchored to (its lord's greenhouse centre). Used as
-        // the centre of the search radius and the "return home" target for dormancy.
-        // Returns IntVec3.Invalid only if the mech has no duty/position.
+        // The point the agrihand is anchored to (its lord's greenhouse centre). Used to
+        // resolve the room and as the "return home" target for dormancy. Returns
+        // IntVec3.Invalid only if the mech has no duty/position.
         public static IntVec3 GetAnchor(Pawn mech)
         {
             PawnDuty duty = mech?.mindState?.duty;
@@ -51,21 +35,29 @@ namespace BetterTradersGuild.AI
             return mech != null ? mech.Position : IntVec3.Invalid;
         }
 
-        // True when pos is both within Radius of
-        // anchor and inside the settlement structure footprint.
-        public static bool Contains(Map map, IntVec3 anchor, IntVec3 pos)
+        // The rect list of the layout room (the greenhouse) this mech is anchored in, or
+        // null when no layout room can be matched (caller should then do nothing).
+        public static List<CellRect> GetRects(Pawn mech)
         {
-            return WithinRadius(map, anchor, pos, Radius);
+            Map map = mech?.Map;
+            if (map == null)
+                return null;
+
+            return StructureRoomLocator.RoomContaining(map, GetAnchor(mech))?.rects
+                ?? StructureRoomLocator.RoomContaining(map, mech.Position)?.rects;
         }
 
-        // True when pos is both within radius of
-        // center and inside the settlement structure footprint. Lets
-        // the haul giver re-centre on the mech with a tighter HaulPickupRadius.
-        public static bool WithinRadius(Map map, IntVec3 center, IntVec3 pos, float radius)
+        // True when cell lies in any of the mech's room rects.
+        public static bool Contains(List<CellRect> rects, IntVec3 cell)
         {
-            if ((pos - center).LengthHorizontalSquared > radius * radius)
+            if (rects == null)
                 return false;
-            return StructureBoundsCache.Contains(map, pos);
+            for (int i = 0; i < rects.Count; i++)
+            {
+                if (rects[i].Contains(cell))
+                    return true;
+            }
+            return false;
         }
     }
 }

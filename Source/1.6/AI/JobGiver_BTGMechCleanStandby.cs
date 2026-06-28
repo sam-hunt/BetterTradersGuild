@@ -5,11 +5,11 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    // Lowest-priority idle state for the cleansweeper mech: walk back to near its
-    // anchor point and enter the dormant self-charge pose (JobDefOf.SelfShutdown).
-    // The shutdown spot is rooted at the anchor point (not the mech's current cell),
-    // so when the last filth is gone the mech returns home before winding down, and it
-    // is validated to lie inside the mech's own room (see CleanArea).
+    // Lowest-priority idle state for the cleansweeper mech: park against a nearby wall and
+    // enter the dormant self-charge pose (JobDefOf.SelfShutdown). The shutdown spot is
+    // rooted at a wall-adjacent cell near the mech (see MechIdlePark), not the room centre
+    // it is pinned to, so when the last filth is gone the mech tucks itself out of the way
+    // before winding down; it is validated to lie inside the mech's own room (see CleanArea).
     //
     // Wake mechanism is identical to the paramedic standby and verified against the
     // decompiled tick path (see JobGiver_BTGMechMedicStandby for the full trace): the
@@ -39,8 +39,7 @@ namespace BetterTradersGuild.AI
 
             Map map = pawn.Map;
             List<CellRect> rects = CleanArea.GetRects(pawn);
-            IntVec3 anchor = CleanArea.GetAnchor(pawn);
-            IntVec3 root = anchor.IsValid ? anchor : pawn.Position;
+            IntVec3 root = MechIdlePark.RootFor(pawn, rects, pawn.Position);
 
             IntVec3 spot;
             if (!RCellFinder.TryFindNearbyMechSelfShutdownSpot(root, pawn, map, out spot, false)

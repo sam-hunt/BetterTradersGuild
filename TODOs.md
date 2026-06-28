@@ -15,7 +15,6 @@ TODOs
 
 - AI defense lords
   - Mod setting to revert ai to vanilla defense lord?
-  - Tune Agrihand to haul before harvest so it's more active
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
   - New lord for paramedic to tend defender wounds/restore manipulation via surgery?
   - Also drop reinforcements on resupply meal drops
