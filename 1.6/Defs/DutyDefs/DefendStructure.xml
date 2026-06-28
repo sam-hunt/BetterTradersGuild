@@ -18,9 +18,21 @@
        structure (target acquisition filtered by JobGiver_BTGDefendStructure).
        Combat outranks ordinary needs, so a defender never breaks off to eat (or
        to tend non-critical wounds) while a valid in-structure target remains.
-    3. Self-tend wounds when not in combat. JobGiver_SelfTend tends in place (no
+    3. Seek treatment in the medbay when wounded but unable to self-tend, via
+       JobGiver_BTGSeekTreatmentInMedbay. A defender that has tendable wounds but
+       lacks Manipulation (e.g. both arms shot off) is invisible to the vanilla
+       self-tend node below - which also needs Manipulation - so without this it would
+       just stand and bleed. It walks to a free medical bed inside a medbay room and
+       lies down for the paramedic mech to tend. Bounded to medbay beds specifically
+       (not just the structure), because medical beds exist only there and the
+       medbay-confined medic can reach nowhere else; no-op when none is free. Downed
+       pawns are excluded - those are the medic's rescue job. Gates on Manipulation
+       alone, the exact complement of self-tend (whose Doctor-disabled guard is
+       colonist-only, skipped for these faction pawns), so the two partition the
+       wounded with no overlap. No-op for mechs (Humanlike-gated).
+    4. Self-tend wounds when not in combat. JobGiver_SelfTend tends in place (no
        pathing), so it needs no containment. No-op for mechs (Humanlike-gated).
-    4. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
+    5. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
        then the best food item that lies inside the structure footprint (never a
        corpse - eating the dead is beneath the guild). Once
        urgently hungry with no item food left, two in-structure "last resort"
@@ -32,7 +44,7 @@
        bait a hungry defender out by dropping food past the walls. (Replaces
        vanilla JobGiver_GetFood, whose unbounded map search has no location
        filter.)
-    5. Call a resupply when starving, via JobGiver_BTGCallResupply: only once every
+    6. Call a resupply when starving, via JobGiver_BTGCallResupply: only once every
        in-structure food source above is exhausted (gated to Starving, one rung past
        the forager's UrgentlyHungry), a defender walks to a powered in-structure comms
        console and calls in a survival-meal cargo-pod drop. The drop lands in an
@@ -40,7 +52,7 @@
        A per-map cooldown keeps the garrison from all calling at once; with several
        consoles it is enforced at call completion, so only the first defender to finish
        triggers a drop and starts the cooldown - the rest abort. No-op for mechs.
-    6. Break out to eat when starving and walled in, via JobGiver_BTGHackDoorForFood:
+    7. Break out to eat when starving and walled in, via JobGiver_BTGHackDoorForFood:
        a pawn that spawned trapped behind a locked AncientBlastDoor can reach none of
        the food above (nor a comms console), so as a last resort it hacks the nearest
        reachable, still-locked blast door open, then re-evaluates - the forage/resupply
@@ -48,7 +60,7 @@
        fires when a pawn truly is sealed off. Stays in-bounds: BTG's perimeter is sealed
        by VacBarriers (not blast doors), so every hackable door is interior. All hack
        eligibility is delegated to vanilla CompHackable.CanHackNow. No-op for mechs.
-    7. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
+    8. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
        above wants the pawn (no combat target, wounds, or hunger), so the ordering
        itself is the "no immediate threat" gate. Reuses vanilla bed/ground-spot
        selection but rejects any spot outside the structure footprint, so a defender
@@ -56,7 +68,7 @@
        toil re-runs this tree every 211 ticks (combat is above this node, so a
        hostile re-entering the perimeter pulls the defender back into the fight
        within ~3.5s), and taking damage wakes it the same tick. No-op for mechs.
-    8. Fall back to wandering near the focus point (radius 12) when idle.
+    9. Fall back to wandering near the focus point (radius 12) when idle.
 
     Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
@@ -68,6 +80,7 @@
       * break-out hacking only targets interior blast doors (the perimeter is sealed
         by VacBarriers), so unlocking one never opens a path to vacuum, and
       * rest beds / sleep spots are constrained to the same rect union, and
+      * the seek-treatment node only targets a medical bed inside a medbay room, and
       * self-tend and idle wander are in-place / focus-local.
 
     Used by: LordJob_BTGDefendStructure, assigned to the mapgen settlement
@@ -88,20 +101,26 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGWithdrawAndTend" />
         <!-- 2. Combat: engage in-structure targets before any ordinary need. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGDefendStructure" />
-        <!-- 3. Self-tend when not in combat (in place; no containment needed). -->
+        <!-- 3. Wounded but can't self-tend (no Manipulation - e.g. both arms shot off):
+             walk to a free medical bed inside the medbay and lie down for the paramedic
+             mech to tend. Complements the self-tend node below (which also needs
+             Manipulation), so the two never overlap; downed pawns are excluded (the medic
+             rescues those). No-op for mechs and when no in-medbay bed is free. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGSeekTreatmentInMedbay" />
+        <!-- 4. Self-tend when not in combat (in place; no containment needed). -->
         <li Class="JobGiver_SelfTend" />
-        <!-- 4. Eat, restricted to food inside the structure footprint. -->
+        <!-- 5. Eat, restricted to food inside the structure footprint. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
-        <!-- 5. Starving with no in-structure food left: use an in-structure comms console
+        <!-- 6. Starving with no in-structure food left: use an in-structure comms console
              to call in a survival-meal cargo-pod resupply. Below the forager, so real food
              is always tried first; gated one rung past it (Starving vs UrgentlyHungry). The
              pod lands inside the structure, so this stays in-bounds like everything else. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGCallResupply">
           <minCategory>Starving</minCategory>
         </li>
-        <!-- 6. Starving and sealed off: a pawn that spawned trapped behind a locked
+        <!-- 7. Starving and sealed off: a pawn that spawned trapped behind a locked
              AncientBlastDoor can reach no food or comms console above, so it hacks the
              nearest reachable blast door open as a last resort, then re-evaluates. Below
              resupply, gated to Starving. Only interior doors exist to hack (perimeter is
@@ -110,7 +129,7 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGHackDoorForFood">
           <minCategory>Starving</minCategory>
         </li>
-        <!-- 7. Rest when tired, but only once nothing above wants the pawn (no combat
+        <!-- 8. Rest when tired, but only once nothing above wants the pawn (no combat
              target, wounds, or hunger). Reuses vanilla bed/spot selection, constrained
              to the structure footprint. Defenders wake natively: the LayDown toil
              re-checks this tree every 211 ticks (combat sits above), and damage wakes
@@ -118,7 +137,7 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
           <minRestCategory>Tired</minRestCategory>
         </li>
-        <!-- 8. Idle: wander near the focus point. -->
+        <!-- 9. Idle: wander near the focus point. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>12</wanderRadius>
         </li>
