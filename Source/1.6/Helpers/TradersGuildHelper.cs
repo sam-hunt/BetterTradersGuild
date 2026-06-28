@@ -154,18 +154,33 @@ namespace BetterTradersGuild
             return settlement.Faction.def == Factions.TradersGuild;
         }
 
+        // Returns true only if `faction` has an established relation entry with the player faction.
+        //
+        // Two cases make this false:
+        //  - The player faction doesn't exist yet. During world generation it is created in
+        //    ScenPart_PlayerFaction.PostWorldGenerate (after FinalizeInit), but our
+        //    PlanetTile.LayerDef patch can fire during path-cost recalculation before that point.
+        //  - The faction-relation matrix is incomplete. Other mods or unusual world states can
+        //    leave a faction with no relation entry for the player even though both exist.
+        //
+        // Vanilla PlayerRelationKind / PlayerGoodwill resolve via RelationWith(allowNull: false),
+        // which Log.Errors "<faction> has null relation with <player>. Returning dummy relation."
+        // on every miss and returns a throwaway dummy that is never cached - so reading them on an
+        // unrelated faction spams the log (e.g. once per friendly-tile cache rebuild). Callers gate
+        // on this first and treat "no relation" as a safe negative.
+        public static bool HasPlayerRelation(Faction faction)
+        {
+            Faction player = Faction.OfPlayerSilentFail;
+            return faction != null
+                && player != null
+                && faction.RelationWith(player, allowNull: true) != null;
+        }
+
         // Checks if the player can peacefully visit a faction's settlement
         // Requires non-hostile relations (neutral or better)
         public static bool CanPeacefullyVisit(Faction faction)
         {
-            if (faction == null)
-                return false;
-
-            // During world generation, the player faction doesn't exist yet
-            // (created in ScenPart_PlayerFaction.PostWorldGenerate, after FinalizeInit).
-            // Our PlanetTile.LayerDef patch can fire during path cost recalculation
-            // before that point, so bail out early.
-            if (Faction.OfPlayerSilentFail == null)
+            if (!HasPlayerRelation(faction))
                 return false;
 
             return faction.PlayerRelationKind != FactionRelationKind.Hostile;

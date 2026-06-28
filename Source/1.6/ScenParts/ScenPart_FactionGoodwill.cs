@@ -59,12 +59,25 @@ namespace BetterTradersGuild.ScenParts
                 return;
             }
 
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null)
+            {
+                return;
+            }
+
+            // Ensure a relation entry exists before reading/affecting goodwill. This is a no-op
+            // when the factions are already related (the normal case), but if the relation matrix
+            // is incomplete it both avoids the vanilla "null relation" error and lets the
+            // scenario's intended starting goodwill actually apply - otherwise TryAffectGoodwillWith
+            // would mutate a throwaway dummy relation and silently have no effect.
+            target.TryMakeInitialRelationsWith(player);
+
             int current = target.PlayerGoodwill;
             int delta = goodwill - current;
             if (delta != 0)
             {
                 target.TryAffectGoodwillWith(
-                    Faction.OfPlayer,
+                    player,
                     delta,
                     canSendMessage: false,
                     canSendHostilityLetter: false);

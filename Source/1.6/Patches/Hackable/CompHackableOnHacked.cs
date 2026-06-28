@@ -41,6 +41,16 @@ namespace BetterTradersGuild.Patches.Hackable
 
             Faction faction = settlement.Faction;
 
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null)
+                return;
+
+            // Ensure a relation entry exists before reading/affecting goodwill. No-op when already
+            // related, but if the relation matrix is incomplete this avoids the vanilla "null
+            // relation" error and ensures the penalty below actually applies (TryAffectGoodwillWith
+            // would otherwise mutate a throwaway dummy and fail to turn the faction hostile).
+            faction.TryMakeInitialRelationsWith(player);
+
             // If already hostile, no penalty needed
             if (faction.PlayerRelationKind == FactionRelationKind.Hostile)
                 return;
@@ -48,7 +58,7 @@ namespace BetterTradersGuild.Patches.Hackable
             // Apply severe goodwill penalty to ensure hostility
             // -200 guarantees hostility regardless of current goodwill level
             faction.TryAffectGoodwillWith(
-                Faction.OfPlayer,
+                player,
                 -200,
                 canSendMessage: true,
                 canSendHostilityLetter: true,

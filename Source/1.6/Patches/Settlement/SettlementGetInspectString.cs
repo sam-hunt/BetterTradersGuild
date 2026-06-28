@@ -54,7 +54,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // - Allied players get extra information as a reward for good relations
             // - Don't show departure time when player is on the map, as rotation is paused
             //   (our patches block stock regeneration while settlement map is loaded)
-            bool showDepartureTime = __instance.Faction.PlayerRelationKind == FactionRelationKind.Ally
+            // HasPlayerRelation guards against an incomplete relation matrix: reading
+            // PlayerRelationKind on a faction with no player relation entry would spam the vanilla
+            // "null relation" error every frame this settlement is selected.
+            bool showDepartureTime = TradersGuildHelper.HasPlayerRelation(__instance.Faction)
+                && __instance.Faction.PlayerRelationKind == FactionRelationKind.Ally
                 && __instance.Map == null;
 
             if (showDepartureTime)
