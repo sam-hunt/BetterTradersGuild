@@ -26,9 +26,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // Paramedic mech.
         Medic,
 
-        // Clean - janitor. Cleans filth within a moderate radius of its anchor point
-        // (never outside the settlement structure bounds) and goes dormant (self-charge)
-        // near the point when none remains. Uses LordJob_MechClean with the BTG_MechClean
+        // Clean - janitor. Cleans filth strictly within the one room it was spawned into
+        // (never any other room or outside the walls) and goes dormant (self-charge) near
+        // the room centre when none remains. Uses LordJob_MechClean with the BTG_MechClean
         // duty. Suitable for the Cleansweeper mech.
         Clean,
 
@@ -51,7 +51,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
     // - Defend: Active defense using LordJob_DefendPoint (for Militors)
     // - Passive: Wander only using LordJob_StayInArea (for utility mechs)
     // - Medic: Room-bound triage using LordJob_MechMedic (for Paramedics)
-    // - Clean: Radius-bound filth cleaning using LordJob_MechClean (for Cleansweepers)
+    // - Clean: Room-bound filth cleaning using LordJob_MechClean (for Cleansweepers)
     // - Farm: Radius-bound greenhouse tending using LordJob_MechFarm (for Agrihands)
     //
     // TECHNICAL APPROACH:

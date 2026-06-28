@@ -1,20 +1,22 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
-    // Cleansweeper-mech filth cleaning, confined to a moderate radius around the
-    // mech's anchor point AND to the settlement structure footprint (see CleanArea):
-    // it never scans, reserves, or paths to a filth outside the walls or beyond its
-    // home radius.
+    // Cleansweeper-mech filth cleaning, confined strictly to the one layout room the mech
+    // was spawned into (see CleanArea): it never scans, reserves, or paths to filth in any
+    // other room or outside the walls. That room is the mech's "work area" - the role the
+    // player's painted Home area plays for a player cleansweeper.
     //
-    // Builds a single vanilla JobDefOf.Clean job whose TargetA queue is the nearest
-    // in-range reachable filth plus the cluster around it (capped, nearest-first) -
-    // exactly the shape JobDriver_CleanFilth consumes, so one job sweeps a whole mess
-    // before the duty tree re-evaluates. When no qualifying filth remains this returns
-    // null and the standby node sends the mech home to dormant self-charge.
+    // Builds a single BTG_Clean job (vanilla Clean minus the player Home-area gate; see
+    // JobDriver_BTGCleanFilth) whose TargetA queue is the nearest in-room reachable filth
+    // plus the cluster around it (capped, nearest-first) - exactly the shape vanilla
+    // WorkGiver_CleanFilth hands its driver, so one job sweeps a whole mess before the duty
+    // tree re-evaluates. When no qualifying filth remains this returns null and the standby
+    // node sends the mech home to dormant self-charge.
     public class JobGiver_BTGMechCleanFilth : ThinkNode_JobGiver
     {
         // Matches vanilla WorkGiver_CleanFilth's per-job cap: clean a cluster, then
@@ -33,18 +35,16 @@ namespace BetterTradersGuild.AI
             if (map == null)
                 return null;
 
-            IntVec3 anchor = CleanArea.GetAnchor(pawn);
-            if (!anchor.IsValid)
+            List<CellRect> rects = CleanArea.GetRects(pawn);
+            if (rects == null)
                 return null;
-
-            float radiusSq = CleanArea.Radius * CleanArea.Radius;
 
             List<Thing> allFilth = map.listerThings.ThingsInGroup(ThingRequestGroup.Filth);
             if (allFilth.Count == 0)
                 return null;
 
-            // Cheap first pass: keep only visible filth inside the home radius and the
-            // structure bounds. No reservation/reachability cost yet.
+            // Cheap first pass: keep only visible filth inside the mech's room. No
+            // reservation/reachability cost yet.
             List<Thing> candidates = new List<Thing>();
             for (int i = 0; i < allFilth.Count; i++)
             {
@@ -53,9 +53,7 @@ namespace BetterTradersGuild.AI
                     continue;
                 if (f.Fogged())
                     continue;
-                if ((f.Position - anchor).LengthHorizontalSquared > radiusSq)
-                    continue;
-                if (!StructureBoundsCache.Contains(map, f.Position))
+                if (!CleanArea.Contains(rects, f.Position))
                     continue;
                 candidates.Add(f);
             }
@@ -75,7 +73,7 @@ namespace BetterTradersGuild.AI
                     continue;
 
                 if (job == null)
-                    job = JobMaker.MakeJob(JobDefOf.Clean);
+                    job = JobMaker.MakeJob(Jobs.BTG_Clean);
                 job.AddQueuedTarget(TargetIndex.A, f);
 
                 if (job.GetTargetQueue(TargetIndex.A).Count >= MaxQueuedFilth)

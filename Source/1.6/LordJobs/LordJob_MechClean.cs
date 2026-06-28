@@ -4,8 +4,8 @@ using Verse.AI.Group;
 namespace BetterTradersGuild.LordJobs
 {
     // LordJob for cleansweeper mechs: anchors the mech to its spawn room and drives the
-    // janitor behaviour tree (BTG_MechClean duty) - clean nearby filth within a moderate
-    // radius (never outside the structure bounds), then dormant self-charge near the
+    // janitor behaviour tree (BTG_MechClean duty) - clean filth strictly within that room
+    // (never any other room or outside the walls), then dormant self-charge near the
     // anchor point when none remains.
     //
     // A distinct LordJob (rather than reusing LordJob_StayInArea) because a LordToil

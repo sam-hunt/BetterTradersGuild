@@ -26,11 +26,11 @@ namespace BetterTradersGuild.DefRefs
         // MedicalBay (see MedicRoomBounds). Used by LordJob_MechMedic.
         public static DutyDef BTG_MechMedic;
 
-        // Cleansweeper-mech janitor duty - radius-bound, structure-confined. Priority
-        // order: clean the nearest in-range filth and its cluster in one vanilla Clean
-        // job, then dormant self-charge near the anchor point when none remains. Filth
-        // is searched only within a moderate radius of the anchor and never outside the
-        // settlement structure footprint (see CleanArea). Used by LordJob_MechClean.
+        // Cleansweeper-mech janitor duty - room-bound. Priority order: clean the nearest
+        // in-room filth and its cluster in one BTG_Clean job, then dormant self-charge near
+        // the anchor point when none remains. Filth is searched only inside the one layout
+        // room the mech was spawned into, matched by rect membership so a multi-rect room
+        // works exactly (see CleanArea). Used by LordJob_MechClean.
         public static DutyDef BTG_MechClean;
 
         // Agrihand-mech farming duty - radius-bound, structure-confined greenhouse

@@ -5,14 +5,18 @@ namespace BetterTradersGuild.AI
 {
     // Shared confinement model for the agrihand mech's greenhouse behaviour.
     //
-    // Identical in shape to CleanArea: the working area is defined two
-    // ways at once, and a cell must satisfy BOTH to be considered -
+    // The working area is defined two ways at once, and a cell must satisfy BOTH to be
+    // considered -
     //
     //   * a moderate Radius around the mech's anchor point - so it only
     //     ever harvests/sows/hauls "nearby" and stays near home rather than crossing the
     //     whole settlement; and
     //   * the settlement structure footprint (StructureBoundsCache) - so it never scans,
     //     paths to, or considers any cell outside the walls.
+    //
+    // (The cleansweeper's CleanArea instead confines to exact room rects; the agrihand
+    // keeps a radius because the greenhouse is a single known room and the radius cheaply
+    // covers its hydroponics clusters from the centre.)
     //
     // The anchor is the mech's duty focus point (the greenhouse centre the lord pinned it
     // to), which is stable as the mech roams; it falls back to the mech's own cell.

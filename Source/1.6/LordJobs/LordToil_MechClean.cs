@@ -5,11 +5,11 @@ using Verse.AI.Group;
 
 namespace BetterTradersGuild.LordJobs
 {
-    // LordToil that assigns the BTG_MechClean duty (radius-bound, structure-confined
-    // filth cleaning) to every pawn in the lord, focused on the room centre. The focus
-    // point is what CleanArea uses as the centre of the filth radius and the "return
-    // home" dormancy target, and what RoomMechLordHelper matches on so multiple
-    // cleansweepers in one room share a single lord.
+    // LordToil that assigns the BTG_MechClean duty (room-bound filth cleaning) to every
+    // pawn in the lord, focused on the room centre. The focus point is what CleanArea uses
+    // to resolve the mech's room (and as the "return home" dormancy target), and what
+    // RoomMechLordHelper matches on so multiple cleansweepers in one room share a single
+    // lord.
     public class LordToil_MechClean : LordToil
     {
         private IntVec3 point;

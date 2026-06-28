@@ -9,12 +9,17 @@ TODOs
   - patch only the caravan-formation/world-pathfinding methods that consult canFormCaravans for friendly TG space tiles instead
 - Rare Subroom placement small room off-by-one?
 - Investigate threat scaling of settlement defender group generation, seems a little low?
-- Test mech ai doesn't load without biotech
+- Set BTG Mech age from 60-140 years on spawn
+- Food spawned as part of crew subroom customization should always set forbidden
 
 - AI defense lords
+  - Rebalance cleansweeper spawn rooms, frequencies, room filth
+  - Mod setting to revert ai to vanilla defense lord?
+  - Tune Agrihand to haul before harvest so it's more active
   - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
   - New lord for paramedic to tend defender wounds/restore manipulation via surgery?
   - Also drop reinforcements on resupply meal drops
+  - Test mech ai doesn't load without biotech
 
 - Smuggler nest elimination quest with TG settlement mapgen
   `/resume "smuggler-den-quest-btg"`

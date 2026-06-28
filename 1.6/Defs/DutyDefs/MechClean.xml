@@ -4,16 +4,17 @@
   <!--
     Better Traders Guild - Cleansweeper Mech Clean Duty
 
-    BTG_MechClean: radius-bound janitor behaviour for the Cleansweeper mech. Cleaning
-    is confined two ways at once (see CleanArea):
-      * a moderate radius around the mech's anchor point (its lord's room centre), so it
-        only works "nearby" filth and stays near home; and
-      * the settlement structure footprint (StructureBoundsCache), so it never scans,
-        reserves, or paths to any cell outside the walls.
+    BTG_MechClean: room-bound janitor behaviour for the Cleansweeper mech. Cleaning is
+    confined strictly to the one layout room the mech was spawned into (see CleanArea) -
+    its lord's room, matched def-agnostically and by rect membership, so a room composed
+    of several rects works exactly. The mech never scans, reserves, or paths to filth in
+    any other room or outside the walls; that room is its private "home area".
 
     Priority order:
     1. Clean - sweep the nearest in-range reachable filth and the cluster around it in a
-       single vanilla Clean job (nearest-first queue), then re-evaluate.
+       single BTG_Clean job (vanilla Clean minus the player Home-area gate, which a TG
+       settlement never satisfies; see JobDriver_BTGCleanFilth), nearest-first queue,
+       then re-evaluate.
     2. Idle - when no qualifying filth remains, walk back to near the anchor point and go
        dormant (SelfShutdown, forceSleep off so the job's expiry re-checks for filth and
        wakes it within ~250 ticks).
