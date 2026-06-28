@@ -71,10 +71,11 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
                 // 5. Spawn civilians sheltering in the nursery (behind blast door)
                 // These represent non-combatants who have locked themselves in for safety
-                ShelteringCivilianSpawner.SpawnShelteringCivilians(map, faction, this.cribSubroomRect.ContractedBy(1));
+                List<Pawn> occupants = ShelteringCivilianSpawner.SpawnShelteringCivilians(map, faction, this.cribSubroomRect.ContractedBy(1));
 
-                // 6. Populate nursery shelf with baby food and survival meals
-                NurseryShelfPopulator.PopulateNurseryShelf(map, this.cribSubroomRect);
+                // 6. Populate nursery shelf, dividing its slots between baby food and meals
+                //    in the ratio that keeps these specific occupants fed the longest
+                NurseryShelfPopulator.PopulateNurseryShelf(map, this.cribSubroomRect, occupants);
             }
 
             // 7. Call base to process XML (prefabs, scatter, parts)

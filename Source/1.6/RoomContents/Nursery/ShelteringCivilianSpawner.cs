@@ -19,7 +19,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
         private static readonly List<(DevelopmentalStage stage, float weight, FloatRange ageRange)> YoungStageWeights =
             new List<(DevelopmentalStage, float, FloatRange)>
         {
-            (DevelopmentalStage.Newborn, 1f, new FloatRange(0.01f, 0.9f)),    // 3-36 days old
+            (DevelopmentalStage.Newborn, 1f, new FloatRange(0.1f, 0.9f)),    // 3-36 days old
             (DevelopmentalStage.Baby, 2f, new FloatRange(1f, 2.8f)),     // 1-3 years
             (DevelopmentalStage.Child, 3f, new FloatRange(3f, 12.8f)),        // 3-13 years
         };
@@ -36,8 +36,13 @@ namespace BetterTradersGuild.RoomContents.Nursery
         // - Caretaker is spawned at a standable cell
         //
         // Each young pawn is assigned the caretaker as their parent for realism.
-        public static void SpawnShelteringCivilians(Map map, Faction faction, CellRect subroomRect)
+        //
+        // Returns every pawn spawned (caretaker + young pawns) so callers can tailor
+        // the room to its occupants (e.g. stocking food to match who lives here).
+        public static List<Pawn> SpawnShelteringCivilians(Map map, Faction faction, CellRect subroomRect)
         {
+            List<Pawn> spawnedPawns = new List<Pawn>();
+
             // Get standable cells inside the subroom (avoid walls, doors, furniture)
             List<IntVec3> standableCells = subroomRect.Cells
                 .Where(c => c.InBounds(map) && c.Standable(map))
@@ -46,7 +51,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             if (standableCells.Count == 0)
             {
                 Log.Warning("[Better Traders Guild] No standable cells in nursery subroom for civilians.");
-                return;
+                return spawnedPawns;
             }
 
             // Find available cribs in the subroom (beds sized for babies)
@@ -65,7 +70,6 @@ namespace BetterTradersGuild.RoomContents.Nursery
             PawnKindDef citizenKind = PawnKinds.TradersGuild_Citizen;
             PawnKindDef childKind = PawnKinds.TradersGuild_Child;
 
-            int spawned = 0;
             Pawn caretaker = null;
 
             // Spawn caretaker (parent of the children)
@@ -77,7 +81,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     IntVec3 cell = standableCells.RandomElement();
                     GenSpawn.Spawn(caretaker, cell, map);
                     standableCells.Remove(cell);
-                    spawned++;
+                    spawnedPawns.Add(caretaker);
                 }
             }
 
@@ -106,7 +110,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                         // Place in crib
                         if (TrySpawnPawnInCrib(youngPawn, availableCribs, map))
                         {
-                            spawned++;
+                            spawnedPawns.Add(youngPawn);
                             continue;
                         }
                         // If crib placement failed, fall through to standable cell
@@ -118,7 +122,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                         IntVec3 cell = standableCells.RandomElement();
                         GenSpawn.Spawn(youngPawn, cell, map);
                         standableCells.Remove(cell);
-                        spawned++;
+                        spawnedPawns.Add(youngPawn);
                     }
                     else
                     {
@@ -127,6 +131,8 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     }
                 }
             }
+
+            return spawnedPawns;
         }
 
         // Attempts to spawn a pawn in an available crib with a LayDown job.
