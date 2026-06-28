@@ -20,6 +20,12 @@ namespace BetterTradersGuild.DefRefs
         // in a cargo-pod food resupply drop (last-resort hunger escalation).
         public static JobDef BTG_CallResupply;
 
+        // Job for a starving defender to re-open a nutrient-paste valve that BTG mapgen
+        // (PipeValveHandler) closed to lock the settlement down, reconnecting a vat to
+        // the paste net so a tap can dispense. Flicks CompFlickable on without a player
+        // Flick designation.
+        public static JobDef BTG_OpenPasteValve;
+
         // Cleansweeper-mech filth cleaning. Mirrors vanilla Clean but uses a driver
         // without the player Home-area gate (which a TG settlement never satisfies); the
         // work area is defined by the giver instead. See JobDriver_BTGCleanFilth.

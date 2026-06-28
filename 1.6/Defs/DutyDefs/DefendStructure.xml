@@ -35,9 +35,11 @@
     5. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
        then the best food item that lies inside the structure footprint (never a
        corpse - eating the dead is beneath the guild). Once
-       urgently hungry with no item food left, two in-structure "last resort"
-       sources, in order: crack open survival-meal pallets, then dispense from
-       nutrient-paste dispensers / VNPE taps. Raw crops from the hydroponics are
+       urgently hungry with no item food left, three in-structure "last resort"
+       sources, in order: re-open a locked-down VNPE paste valve (PipeValveHandler
+       closes them all at mapgen) to bring the renewable tap supply online while the
+       one-shot pallets still last, crack open survival-meal pallets, then dispense
+       from nutrient-paste dispensers / VNPE taps. Raw crops from the hydroponics are
        deliberately NOT foraged - wealthy guild traders escalate hunger with a
        packaged-meal resupply drop (the comms-console path), not unprepared
        produce. It never targets food outside the structure, so a player cannot
