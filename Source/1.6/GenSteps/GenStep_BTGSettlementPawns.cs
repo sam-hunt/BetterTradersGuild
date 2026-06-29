@@ -26,6 +26,16 @@ namespace BetterTradersGuild.MapGeneration
     {
         public override void Generate(Map map, GenStepParams parms)
         {
+            // Opt-out: when entrenched defenders are disabled, defer entirely to
+            // vanilla GenStep_SettlementPawnsLoot, which attaches the garrison to
+            // LordJob_DefendBase. base.Generate IS the vanilla path this override
+            // otherwise mirrors, so pawn/loot output is byte-for-byte identical.
+            if (!BetterTradersGuildMod.Settings.useEntrenchedDefenders)
+            {
+                base.Generate(map, parms);
+                return;
+            }
+
             if (!MapGenerator.TryGetVar("SpawnRect", out CellRect spawnRect))
             {
                 Log.Error("[Better Traders Guild] GenStep_BTGSettlementPawns tried to execute but no SpawnRect was found in the map generator. This CellRect must be set.");
@@ -37,8 +47,9 @@ namespace BetterTradersGuild.MapGeneration
             if (generatePawns)
             {
                 // The bounded defender lord: never assaults, never paths outside the
-                // structure footprint to chase intruders.
-                Lord lord = LordMaker.MakeNewLord(faction, new LordJob_BTGDefendStructure(faction, spawnRect.CenterCell), map);
+                // structure footprint to chase intruders. Routed through the shared
+                // factory so this and the gestator-reinforcement site can't drift.
+                Lord lord = LordMaker.MakeNewLord(faction, DefenderLords.MakeDefenderLordJob(faction, spawnRect.CenterCell), map);
                 MapGenUtility.GeneratePawns(map, spawnRect, faction, lord, PawnGroupKindDefOf.Settlement, requiresRoof: requiresRoof);
             }
 

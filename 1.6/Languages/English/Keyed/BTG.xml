@@ -41,6 +41,10 @@
   <BTG_Settings_SentryDronePresence>Additional sentry drone presence: {0}%</BTG_Settings_SentryDronePresence>
   <BTG_Settings_SentryDroneDesc>Factor of threat points used for additional patrolling sentry drones.</BTG_Settings_SentryDroneDesc>
 
+  <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
+  <BTG_Settings_EntrenchedDefenders>Entrenched defender AI</BTG_Settings_EntrenchedDefenders>
+  <BTG_Settings_EntrenchedDefendersDesc>Defenders hold the settlement structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nDecided when a settlement is entered; only affects settlements entered afterwards.</BTG_Settings_EntrenchedDefendersDesc>
+
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- {0} = multiplier (e.g., "1.5") -->
   <BTG_Settings_ThreatMultiplier>Defender threat points multiplier: {0}x</BTG_Settings_ThreatMultiplier>

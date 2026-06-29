@@ -122,18 +122,19 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             // Stun the mech briefly (180 ticks = 3 seconds)
             mech.stances?.stunner?.StunFor(180, null, false, true, false);
 
-            // Find or create a bounded defender lord. LordJob_BTGDefendStructure
-            // holds the defenders inside the settlement structure footprint
-            // permanently — no assault transition, no chasing intruders out
-            // into vacuum.
+            // This mech is a reinforcement to a garrison whose AI style was fixed
+            // when the map was generated. Join the existing defender lord of either
+            // style (entrenched or vanilla DefendBase) so a mid-visit settings
+            // flip can't produce a split-brain garrison. Only when no garrison lord
+            // remains (e.g. all defenders died and the lord was cleaned up) do we
+            // create a fresh one — and then per the current setting, since there is
+            // nothing left to stay consistent with.
             Lord lord = map.lordManager.lords.FirstOrDefault(l =>
-                l.faction == faction &&
-                l.LordJob is LordJob_BTGDefendStructure);
+                l.faction == faction && DefenderLords.IsDefenderLord(l));
 
             if (lord == null)
             {
-                IntVec3 baseCenter = parent.Position;
-                var lordJob = new LordJob_BTGDefendStructure(faction, baseCenter);
+                LordJob lordJob = DefenderLords.MakeDefenderLordJob(faction, parent.Position);
                 lord = LordMaker.MakeNewLord(faction, lordJob, map, new List<Pawn> { mech });
             }
             else

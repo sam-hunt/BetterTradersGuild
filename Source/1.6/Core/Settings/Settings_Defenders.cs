@@ -10,6 +10,15 @@ namespace BetterTradersGuild
     // None of these affect subsequent raid incidents, only initial defenders.
     public partial class BetterTradersGuildSettings
     {
+        // Defender AI style ("Entrenched defender AI" in the settings UI). When
+        // true (default), settlement defenders use BTG's bounded lord
+        // (LordJob_BTGDefendStructure): they hold the structure, never assault or
+        // chase intruders into vacuum, and forage/rest/tend/resupply in-bounds.
+        // When false, they revert to vanilla LordJob_DefendBase (defends the base,
+        // then assaults). Decided at map generation; changing it only affects
+        // settlements entered afterwards. Requires useCustomLayouts.
+        public bool useEntrenchedDefenders = true;
+
         // Threat points multiplier for initial defender generation.
         // Range: 0.5-3.0. Default: 1.0 (no modification). Applied after the minimum
         // threat points cap. Requires useCustomLayouts.
@@ -28,6 +37,7 @@ namespace BetterTradersGuild
 
         private void ExposeDefenderSettings()
         {
+            Scribe_Values.Look(ref useEntrenchedDefenders, "useEntrenchedDefenders", true);
             Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 0f);
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
@@ -35,6 +45,7 @@ namespace BetterTradersGuild
 
         private void ResetDefenderSettings()
         {
+            useEntrenchedDefenders = true;
             threatPointsMultiplier = 1.0f;
             minimumThreatPoints = 0f;
             sentryDronePresence = 0.25f;
@@ -46,6 +57,19 @@ namespace BetterTradersGuild
 
             // Whole section depends on custom layouts.
             GUI.enabled = useCustomLayouts;
+
+            // Defender AI style: BTG's bounded entrenched lord vs vanilla
+            // DefendBase. The headline choice for the section; the strength/
+            // composition knobs below tune the garrison this AI then drives.
+            string defenderAiLabel = Annotate(
+                "BTG_Settings_EntrenchedDefenders".Translate(),
+                vanilla: !useEntrenchedDefenders);
+            listing.CheckboxLabeled(defenderAiLabel, ref useEntrenchedDefenders);
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_EntrenchedDefendersDesc".Translate());
+
+            listing.Gap(16f);
 
             // Threat points multiplier
             string multiplierLabel = Annotate(
