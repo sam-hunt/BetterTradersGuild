@@ -13,11 +13,9 @@ TODOs
 - AI defense lords
   - Also drop reinforcements on resupply meal drops (or land in shuttle if pad is free)
   - Test mech ai doesn't load without biotech
-  - Test paramedic rescue AI
+  - Test paramedic rescue AI, civilian ai
   - Paramedic rescue jump support
   - Investigate given up mental state when sheltering civvies find no launchables or adult/pilot becomes downed.
-  - Masterwork shield belt for sheltering adult
-  - Ensure sheltering civvies eat/rest jobgivers (and others) are structure-bounds constrained
 
 - Smuggler nest elimination quest with TG settlement mapgen
   `/resume "smuggler-den-quest-btg"`

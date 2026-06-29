@@ -35,7 +35,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
         //
         // Composition:
         // - 1 TradersGuild_Citizen caretaker (the carrier/pilot/guard), armed with a super-
-        //   quality plasteel knife.
+        //   quality plasteel knife and wearing a masterwork shield belt.
         // - 1-3 TradersGuild_Child walking children.
         // - 0..(carriers) infants (Newborn/Baby), each tucked into a crib. Carriers = the lone
         //   caretaker + the children, so infants NEVER outnumber the carriers: during an escape
@@ -91,6 +91,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     standableCells.Remove(cell);
                     GenSpawn.Spawn(caretaker, cell, map);
                     EquipSuperPlasteelKnife(caretaker);
+                    EquipMasterworkShieldBelt(caretaker);
                     spawnedPawns.Add(caretaker);
                     walkers.Add(caretaker);
                 }
@@ -206,6 +207,23 @@ namespace BetterTradersGuild.RoomContents.Nursery
             if (pawn.equipment.Primary != null)
                 pawn.equipment.DestroyAllEquipment();
             pawn.equipment.AddEquipment(knife);
+        }
+
+        // Equips the caretaker with a masterwork shield belt so the lone guardian can absorb
+        // incoming fire while sheltering the children.
+        private static void EquipMasterworkShieldBelt(Pawn pawn)
+        {
+            if (pawn?.apparel == null)
+                return;
+
+            ThingDef shieldBeltDef = Things.Apparel_ShieldBelt;
+            if (shieldBeltDef == null)
+                return;
+
+            Apparel shieldBelt = (Apparel)ThingMaker.MakeThing(shieldBeltDef);
+            shieldBelt.TryGetComp<CompQuality>()?.SetQuality(QualityCategory.Masterwork, ArtGenerationContext.Outsider);
+
+            pawn.apparel.Wear(shieldBelt, dropReplacedApparel: false);
         }
 
         // Generates a single adult civilian pawn for the TradersGuild faction.
