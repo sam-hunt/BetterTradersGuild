@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Better Traders Guild - Paramedic Mech Medic Duty
+
+    BTG_MechMedic: medbay-anchored medical triage for the Paramedic mech. Tending is
+    confined to the mech's MedicalBay (resolved by rect membership in MedicRoomBounds,
+    never a radius - so an arbitrarily large or multi-rect medbay works exactly); rescue
+    reaches out across the rest of the settlement structure to bring casualties in.
+
+    Priority order:
+    1. Tend - patch the worst wounded same-faction defender IN the medbay (worst bleed,
+       then lowest health), in a bed or on the floor, using the highest-potency medicine
+       in the room. endAfterTendedOnce keeps re-triaging one casualty at a time, and the
+       medbay is cleared before the medic walks out to fetch anyone else.
+    2. Rescue - carry a downed defender lying OUTSIDE the medbay but inside the structure
+       footprint to an unreserved medical bed in the medbay (worst-bleed first). No-op
+       when no in-medbay bed is free; the casualty waits where they are.
+    3. Idle - dormant self-charge (SelfShutdown, forceSleep off so the LayDown re-check
+       wakes it for the next casualty within ~211 ticks).
+
+    Used by: LordJob_MechMedic, assigned via RoomMechLordHelper to the Paramedic mech
+    (RoomPart Mech_Paramedic, behavior=Medic).
+  -->
+
+  <DutyDef>
+    <defName>BTG_MechMedic</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- 1. Stabilize and Tend defenders in the medbay, worst-first (bed or floor), best medicine first. -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicTend" />
+        <!-- 2. Rescue downed defenders from outside the medbay, prioritizing free hospital-beds. -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicRescue" />
+        <!-- 3. Idle: dormant self-charge; re-checks ~every 211 ticks to wake for casualties. -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicStandby" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

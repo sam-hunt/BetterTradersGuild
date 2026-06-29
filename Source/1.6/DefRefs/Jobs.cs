@@ -31,6 +31,15 @@ namespace BetterTradersGuild.DefRefs
         // work area is defined by the giver instead. See JobDriver_BTGCleanFilth.
         public static JobDef BTG_Clean;
 
+        // Escape job: a sheltering-civilian walker carries one infant/baby and loads it
+        // into a launchable (shuttle / transport pod). TargetA = baby, TargetB = launchable.
+        // See JobDriver_BTGCarryBabyToLaunchable.
+        public static JobDef BTG_CarryBabyToLaunchable;
+
+        // Escape job: a sheltering-civilian walker boards a launchable themselves, entering
+        // its transporter container. TargetA = launchable. See JobDriver_BTGBoardLaunchable.
+        public static JobDef BTG_BoardLaunchable;
+
         static Jobs() => DefOfHelper.EnsureInitializedInCtor(typeof(Jobs));
     }
 }

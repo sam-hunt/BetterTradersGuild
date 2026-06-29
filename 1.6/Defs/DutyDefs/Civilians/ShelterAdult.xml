@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Sheltering-civilian caretaker, shelter phase (locked crib subroom).
+    Assigned by LordToil_BTGShelter. Fights intruders who breach the subroom, tends the
+    autonomous babies, and eats/sleeps/wanders in-room. Reused defender givers (forage/rest)
+    live in BetterTradersGuild.AI; the shelter-specific givers in BetterTradersGuild.AI.Civilians.
+  -->
+  <DutyDef>
+    <defName>BTG_ShelterAdult</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- 1. Engage hostiles that have breached the crib subroom. Bounded to the
+             subroom by duty focus+radius (the locked door does the real containment;
+             a melee caretaker can only reach intruders who are already inside). -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGShelterDefend" />
+        <!-- 2. Put any loose/downed baby back into the nearest free crib. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+        <!-- 3. Bottle-feed a hungry baby with the subroom's baby food. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <!-- 4. Eat when hungry. Subroom-confined forager: self-gates on hunger (vanilla
+             JobGiver_GetFood's gate lives in GetPriority, which a ThinkNode_Priority tree
+             ignores) and bounds candidates to the crib subroom (focus+radius), so the
+             caretaker eats the subroom shelf and won't roam if the door is breached. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGForageInSubroom">
+          <minCategory>Hungry</minCategory>
+        </li>
+        <!-- 5. Sleep when tired. Subroom-confined rest giver (self-gates on the rest need;
+             the locked door is the primary confinement, the subroom radius the backstop). -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGRestInSubroom">
+          <minRestCategory>Tired</minRestCategory>
+        </li>
+        <!-- 6. Idle: wander the subroom. -->
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>4</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

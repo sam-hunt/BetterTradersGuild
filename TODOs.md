@@ -8,12 +8,16 @@ TODOs
 - Rare Subroom placement small room off-by-one?
 - Investigate threat scaling of settlement defender group generation, seems a little low?
 - Bind band nodes?
+- Crew bedroom animals should have names
 
 - AI defense lords
-  - Mod setting to revert ai to vanilla defense lord?
-  - New lord for sheltering civilians, e.g. feed infants? flee on nursery hack?
-  - Also drop reinforcements on resupply meal drops
+  - Also drop reinforcements on resupply meal drops (or land in shuttle if pad is free)
   - Test mech ai doesn't load without biotech
+  - Test paramedic rescue AI
+  - Paramedic rescue jump support
+  - Investigate given up mental state when sheltering civvies find no launchables or adult/pilot becomes downed.
+  - Masterwork shield belt for sheltering adult
+  - Ensure sheltering civvies eat/rest jobgivers (and others) are structure-bounds constrained
 
 - Smuggler nest elimination quest with TG settlement mapgen
   `/resume "smuggler-den-quest-btg"`

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Sheltering-civilian walker (caretaker + children), escape phase. Assigned by
+    LordToil_BTGEscape, which also drives the lift-off. Hack the subroom door open, carry
+    infants into the best launchable (shuttle preferred, then pods), then board.
+  -->
+  <DutyDef>
+    <defName>BTG_EscapeWalker</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- 1. Open the way out: hack the locked subroom blast door (capability gated by
+             vanilla CompHackable.CanHackNow, so typically the caretaker does this). -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
+        <!-- 2. Carry the nearest infant into the best reachable launchable and load it. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGCarryBabyToLaunchable" />
+        <!-- 3. No infant left to ferry: board the launchable yourself. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGBoardLaunchable" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

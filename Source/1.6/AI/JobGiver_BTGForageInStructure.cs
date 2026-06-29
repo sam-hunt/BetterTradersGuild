@@ -78,6 +78,15 @@ namespace BetterTradersGuild.AI
             return copy;
         }
 
+        // Position filter applied to every food candidate. Base = inside the structure
+        // footprint; JobGiver_BTGForageInSubroom overrides it to additionally confine to the
+        // duty's focus+radius, so a sheltering caretaker forages only the crib subroom and
+        // can't wander the wider structure if its door is breached mid-shelter.
+        protected virtual bool WithinBounds(Pawn pawn, IntVec3 pos)
+        {
+            return StructureBoundsCache.Contains(pawn.Map, pos);
+        }
+
         protected override Job TryGiveJob(Pawn pawn)
         {
             Need_Food need = pawn.needs?.food;
@@ -154,7 +163,7 @@ namespace BetterTradersGuild.AI
                 // separately as a lower-priority fallback (TryDispenseFromTap).
                 if (food is Building)
                     continue;
-                if (!StructureBoundsCache.Contains(map, food.Position))
+                if (!WithinBounds(pawn, food.Position))
                     continue;
                 // Corpses carry nutrition and ride along in FoodSourceNotPlantOrTree, and
                 // vanilla WillEat does not reject them - but eating the dead is beneath the
@@ -196,7 +205,7 @@ namespace BetterTradersGuild.AI
                     // CanOpen implies the casket still has contents and isn't locked.
                     if (!(thing is IOpenable openable) || !openable.CanOpen)
                         continue;
-                    if (!StructureBoundsCache.Contains(map, thing.Position))
+                    if (!WithinBounds(pawn, thing.Position))
                         continue;
                     if (thing.IsForbidden(pawn))
                         continue;
@@ -230,7 +239,7 @@ namespace BetterTradersGuild.AI
             {
                 if (!(candidates[i] is Building_NutrientPasteDispenser dispenser))
                     continue;
-                if (!StructureBoundsCache.Contains(map, dispenser.Position))
+                if (!WithinBounds(pawn, dispenser.Position))
                     continue;
                 // CanDispenseNow = powered AND has feedstock (VNPE tap: paste in the net).
                 if (!dispenser.CanDispenseNow)
@@ -239,7 +248,7 @@ namespace BetterTradersGuild.AI
                 if (meal == null || !pawn.WillEat(meal, pawn))
                     continue;
                 IntVec3 cell = dispenser.InteractionCell;
-                if (!cell.Standable(map) || !StructureBoundsCache.Contains(map, cell))
+                if (!cell.Standable(map) || !WithinBounds(pawn, cell))
                     continue;
                 if (!pawn.CanReach(dispenser, PathEndMode.InteractionCell, maxDanger))
                     continue;
@@ -278,7 +287,7 @@ namespace BetterTradersGuild.AI
                 // Only closed valves are worth a trip; an open one already feeds the net.
                 if (flickable == null || flickable.SwitchIsOn)
                     continue;
-                if (!StructureBoundsCache.Contains(map, valve.Position))
+                if (!WithinBounds(pawn, valve.Position))
                     continue;
                 if (!pawn.CanReserveAndReach(valve, PathEndMode.Touch, maxDanger))
                     continue;

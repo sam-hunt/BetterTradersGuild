@@ -13,6 +13,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Steel;
         public static ThingDef Gold;
         public static ThingDef Silver;
+        public static ThingDef Plasteel;
+        public static ThingDef MeleeWeapon_Knife;
         public static ThingDef ComponentIndustrial;
         public static ThingDef ComponentSpacer;
         public static ThingDef MedicineIndustrial;

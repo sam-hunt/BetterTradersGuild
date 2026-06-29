@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BetterTradersGuild.LordJobs;
+using BetterTradersGuild.LordJobs.Mechs;
 using RimWorld;
 using Verse;
 using Verse.AI.Group;
@@ -17,7 +17,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // Passive - wanders in room but does not seek enemies.
         // Uses LordJob_StayInArea with BTG_WanderInArea duty.
         // Self-defense only via ThinkTree fallback if directly threatened.
-        // Suitable for expensive/specialized mechs (Fabricor, Agrihand).
+        // Placeholder for expensive/specialized mechs without narrower behavior
+        // added yet, e.g. fabricor
         Passive,
 
         // Medic - room-bound triage. Tends and rescues wounded same-faction

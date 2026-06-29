@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Sheltering-civilian walking child, stranded ("given up") phase. Assigned by
+    LordToil_BTGStranded. Forages the wider structure, eats/sleeps, and wanders the wider nursery.
+  -->
+  <DutyDef>
+    <defName>BTG_StrandedChild</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
+          <minCategory>Hungry</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
+          <minRestCategory>Tired</minRestCategory>
+        </li>
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>12</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

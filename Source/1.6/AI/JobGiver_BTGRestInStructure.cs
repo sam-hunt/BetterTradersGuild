@@ -44,6 +44,14 @@ namespace BetterTradersGuild.AI
             return copy;
         }
 
+        // Position filter for the chosen bed/sleep spot. Base = inside the structure
+        // footprint; JobGiver_BTGRestInSubroom overrides it to additionally confine to the
+        // duty's focus+radius, so a sheltering caretaker only sleeps in the crib subroom.
+        protected virtual bool WithinBounds(Pawn pawn, IntVec3 pos)
+        {
+            return StructureBoundsCache.Contains(pawn.Map, pos);
+        }
+
         protected override Job TryGiveJob(Pawn pawn)
         {
             // Re-apply the gates vanilla keeps in GetPriority (bypassed by ThinkNode_Priority):
@@ -63,20 +71,18 @@ namespace BetterTradersGuild.AI
             if (job == null)
                 return null;
 
-            // Containment: never path to a bed or ground spot outside the structure
-            // footprint. FindBedFor runs an unbounded whole-map search and the ground
-            // fallback picks a cell near the pawn; in practice every settlement bed is
-            // inside the rect union, but a result outside it would be a straying vector.
-            // If the chosen spot is outside, hold post instead - tiredness is an accepted
-            // debuff, the same stance as the duty's other nodes. (Permissive when no
-            // layout is known, matching the forager.)
-            if (StructureBoundsCache.GetRoomRects(pawn.Map) != null)
-            {
-                LocalTargetInfo target = job.targetA;
-                IntVec3 spot = target.HasThing ? target.Thing.Position : target.Cell;
-                if (!StructureBoundsCache.Contains(pawn.Map, spot))
-                    return null;
-            }
+            // Containment: never path to a bed or ground spot outside the allowed bounds.
+            // FindBedFor runs an unbounded whole-map search and the ground fallback picks a
+            // cell near the pawn; in practice every settlement bed is inside the rect union,
+            // but a result outside it would be a straying vector. If the chosen spot is out
+            // of bounds, hold post instead - tiredness is an accepted debuff, the same stance
+            // as the duty's other nodes. WithinBounds defaults to the structure footprint
+            // (permissive when no layout is known, matching the forager) and is narrowed to
+            // the crib subroom by the sheltering variant.
+            LocalTargetInfo target = job.targetA;
+            IntVec3 spot = target.HasThing ? target.Thing.Position : target.Cell;
+            if (!WithinBounds(pawn, spot))
+                return null;
             return job;
         }
     }

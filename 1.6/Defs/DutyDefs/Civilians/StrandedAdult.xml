@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Sheltering-civilian caretaker, stranded ("given up") phase - no launchable to escape on.
+    Assigned by LordToil_BTGStranded. Still tends babies, then forages the wider structure and
+    calls a resupply when starving (reusing the entrenched-defender hunger chain), and wanders
+    the now-unlocked wider nursery.
+  -->
+  <DutyDef>
+    <defName>BTG_StrandedAdult</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Still a caretaker: keep babies tucked and fed first. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <!-- Forage the wider structure (the door is now open), then radio a resupply when
+             starving - reuses the entrenched-defender hunger chain. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
+          <minCategory>Hungry</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGCallResupply">
+          <minCategory>Starving</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
+          <minRestCategory>Tired</minRestCategory>
+        </li>
+        <!-- Idle: wander the wider nursery (no longer the locked subroom). -->
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>12</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

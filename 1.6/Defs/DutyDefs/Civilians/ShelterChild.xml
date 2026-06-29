@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Sheltering-civilian walking child, shelter phase. Assigned by LordToil_BTGShelter.
+    No combat: eats/sleeps (reusing the defender forage/rest givers, which the locked door
+    confines to the subroom) and wanders a tight area near the caretaker.
+  -->
+  <DutyDef>
+    <defName>BTG_ShelterChild</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGForageInSubroom">
+          <minCategory>Hungry</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGRestInSubroom">
+          <minRestCategory>Tired</minRestCategory>
+        </li>
+        <!-- Wander a tight area near the caretaker / subroom centre. -->
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>3</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>
