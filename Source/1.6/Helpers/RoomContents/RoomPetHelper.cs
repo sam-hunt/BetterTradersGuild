@@ -32,7 +32,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
         }
 
         // Spawns a random pet (cat or dog) at the specified position.
-        // Pet is spawned factionless.
+        // Pet is spawned factionless and given a vanilla animal name.
         // map: The map to spawn on.
         // position: The position to spawn the pet.
         // Returns: The spawned pet, or null if no valid pet kinds available.
@@ -49,6 +49,11 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 context: PawnGenerationContext.NonPlayer,
                 tile: map.Tile));
 
+            // Give the pet a name from the vanilla animal namer. PawnGenerator leaves
+            // factionless animals unnamed, and Pawn.GenerateNecessaryName() only names
+            // player-faction pawns, so call the generator directly.
+            pet.Name = PawnBioAndNameGenerator.GeneratePawnName(pet, NameStyle.Full);
+
             GenSpawn.Spawn(pet, position, map);
             return pet;
         }
@@ -56,7 +61,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // Adds kibble to the nearest reachable small shelf within range.
         // map: The map to search.
         // position: The position to search from.
-        // amount: Amount of kibble to add. If null, uses random 45-75.
+        // amount: Amount of kibble to add. If null, uses a full stack (Kibble.stackLimit).
         // maxDistance: Maximum search distance (default 10).
         public static void AddKibbleToNearestShelf(Map map, IntVec3 position, int? amount = null, float maxDistance = 10f)
         {
@@ -73,7 +78,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             if (nearestShelf is Building_Storage shelf)
             {
-                int kibbleAmount = amount ?? Rand.RangeInclusive(45, 75);
+                int kibbleAmount = amount ?? Things.Kibble.stackLimit;
                 RoomShelfHelper.AddItemsToShelf(map, shelf, Things.Kibble, kibbleAmount);
             }
         }
