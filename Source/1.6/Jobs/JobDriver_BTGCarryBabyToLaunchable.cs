@@ -41,7 +41,11 @@ namespace BetterTradersGuild.JobDrivers
             pickUp.initAction = () =>
             {
                 Pawn baby = Baby;
-                if (baby == null || !baby.Spawned || !pawn.carryTracker.TryStartCarry(baby))
+                // Multi-arg TryStartCarry SplitOffs (despawns) the baby before adding it to the
+                // carry tracker. The single-arg overload does a raw innerContainer.TryAdd, which
+                // fails for a still-spawned pawn ("already in another container") and ends the job
+                // instantly - re-issued every tick as job spam, so the baby never actually loads.
+                if (baby == null || !baby.Spawned || pawn.carryTracker.TryStartCarry(baby, 1) <= 0)
                     EndJobWith(JobCondition.Incompletable);
             };
             pickUp.defaultCompleteMode = ToilCompleteMode.Instant;
