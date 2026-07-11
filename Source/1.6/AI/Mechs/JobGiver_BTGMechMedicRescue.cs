@@ -49,6 +49,11 @@ namespace BetterTradersGuild.AI.Mechs
                 Pawn p = defenders[i];
                 if (p == medic || p.Dead || !p.RaceProps.Humanlike)
                     continue;
+                // Babies and newborns can't be tucked into the medbay's adult medical beds; a
+                // Rescue job targeting one fails on arrival and is re-issued every tick (job
+                // spam). Leave infants to the caretaker AI (tuck-in-crib / carry-to-launchable).
+                if (p.DevelopmentalStage.Baby() || p.DevelopmentalStage.Newborn())
+                    continue;
                 if (!p.Downed || p.InBed())
                     continue;
                 // Outside the medbay but still inside the settlement structure: the tend
