@@ -13,7 +13,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //
     // Three-phase state graph (see the LordToils and DutyDefs/ShelterCivilians.xml):
     //
-    //   Shelter ──[anyone urgently hungry: the locked shelter's food is gone]──▶ Escape
+    //   Shelter ──[anyone starving: the locked shelter's food is gone]────────▶ Escape
     //   Escape  ──[no launchable exists anywhere in the structure]────────────▶ Stranded
     //
     //   * Shelter: caretaker holds the locked subroom (fights intruders, tends babies),
@@ -25,7 +25,9 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //     resupply / wander the wider nursery.
     //
     // The escape trigger counts the autonomous babies too, matching the design that the family
-    // bolts the moment ANY of them (including the infants) goes urgently hungry.
+    // bolts the moment ANY of them (including the infants) starves - late enough that the
+    // caretaker's feed loop (which kicks in at Hungry) reliably feeds them first, so escape
+    // fires only when the food is genuinely gone rather than on routine baby hunger.
     public class LordJob_BTGShelterCivilians : LordJob
     {
         private Faction faction;
@@ -62,7 +64,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
 
             Transition toEscape = new Transition(shelter, escape);
             toEscape.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck() && AnyUrgentlyHungry()));
+                signal.type == TriggerSignalType.Tick && DueForCheck() && AnyStarving()));
             graph.AddTransition(toEscape);
 
             Transition toStranded = new Transition(escape, stranded);
@@ -79,9 +81,13 @@ namespace BetterTradersGuild.LordJobs.Civilians
             return Find.TickManager.TicksGame % TransitionCheckIntervalTicks == 0;
         }
 
-        // True if any lord walker, or any sheltered (autonomous) infant of the family, is at
-        // least urgently hungry - the cue that the locked shelter's food is exhausted.
-        private bool AnyUrgentlyHungry()
+        // True if any lord walker, or any sheltered (autonomous) infant of the family, is
+        // starving - the cue that the locked shelter's food is genuinely exhausted. Starving
+        // (not merely urgently hungry) is the threshold on purpose: the caretaker's feed/tend
+        // loop activates as soon as a baby is Hungry, so the two-category buffer (Hungry ->
+        // UrgentlyHungry -> Starving) lets feeding reliably win, and only a real care breakdown
+        // (no baby food, or the caretaker down/overwhelmed) lets a pawn reach Starving.
+        private bool AnyStarving()
         {
             Map map = Map;
             if (map == null)
@@ -90,7 +96,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             List<Pawn> owned = lord.ownedPawns;
             for (int i = 0; i < owned.Count; i++)
             {
-                if (IsUrgentlyHungry(owned[i]))
+                if (IsStarving(owned[i]))
                     return true;
             }
 
@@ -98,16 +104,16 @@ namespace BetterTradersGuild.LordJobs.Civilians
             for (int i = 0; i < facPawns.Count; i++)
             {
                 Pawn p = facPawns[i];
-                if ((p.DevelopmentalStage.Baby() || p.DevelopmentalStage.Newborn()) && IsUrgentlyHungry(p))
+                if ((p.DevelopmentalStage.Baby() || p.DevelopmentalStage.Newborn()) && IsStarving(p))
                     return true;
             }
             return false;
         }
 
-        private static bool IsUrgentlyHungry(Pawn p)
+        private static bool IsStarving(Pawn p)
         {
             Need_Food food = p?.needs?.food;
-            return food != null && (int)food.CurCategory >= (int)HungerCategory.UrgentlyHungry;
+            return food != null && (int)food.CurCategory >= (int)HungerCategory.Starving;
         }
 
         public override void ExposeData()

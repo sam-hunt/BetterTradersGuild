@@ -156,6 +156,17 @@ namespace BetterTradersGuild.RoomContents.Nursery
                 }
             }
 
+            // Start everyone on a full stomach so a fast-draining newborn can't cross the escape
+            // threshold in the first moments after map load, before the caretaker's feed loop is
+            // established. Map-gen only, so no runtime cost. (allowFood in the generation request
+            // governs inventory food, not the food-need level, which vanilla otherwise randomises.)
+            for (int i = 0; i < spawnedPawns.Count; i++)
+            {
+                Need_Food food = spawnedPawns[i]?.needs?.food;
+                if (food != null)
+                    food.CurLevel = food.MaxLevel;
+            }
+
             // Attach the caretaker + children to the sheltering lord (gated on the entrenched-
             // defender setting). Infants stay autonomous in their cribs.
             CivilianLords.MakeShelterLordIfEnabled(map, faction, subroomRect.CenterCell, walkers);
