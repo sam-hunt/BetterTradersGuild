@@ -8,20 +8,22 @@ using Verse.AI;
 namespace BetterTradersGuild.JobDrivers
 {
     // Drives a starving defender to a powered in-structure comms console and, on
-    // completion, calls in a survival-meal cargo-pod drop (ResupplyDropUtility).
+    // completion, calls in a survival-meal cargo-pod drop (ResupplyDropUtility) and,
+    // optionally, a drop-pod reinforcement raid (ResupplyRaidUtility).
     //
     // Mirrors JobDriver_BTGOpenContainer's designation-free goto -> wait -> effect shape.
     // We can't reuse vanilla JobDriver_UseCommsConsole: its toil opens the player comms
     // dialog (and its float-menu entry needs comm targets + the Talking capacity), none of
     // which an NPC defender has. Here the console is purely a powered waypoint - the real
-    // work is spawning the drop.
+    // work is spawning the drop and calling in reinforcements.
     //
     // Concurrency: several consoles can exist (the ControlCenter alone often spawns more
     // than one; Armory/CrewQuarters can too), so multiple starving defenders may call in
     // parallel on different consoles. That's fine and first-come-first-served by COMPLETION,
     // not initiation: only the first caller to finish the call re-checks the cooldown, finds
-    // it clear, spawns the drop, and records the cooldown. Later finishers (possibly closer
-    // pawns that started later) re-check, find the cooldown now active, and abort silently.
+    // it clear, delivers the drop and/or raid, and records the cooldown if either fired.
+    // Later finishers (possibly closer pawns that started later) re-check, find the cooldown
+    // now active, and abort silently.
     // The check-then-record is safe without locking because toil initActions never run
     // concurrently (single-threaded tick loop) - the first to execute claims the slot.
     //
@@ -65,21 +67,36 @@ namespace BetterTradersGuild.JobDrivers
                 if (tracker == null || !tracker.CanResupplyNow)
                     return;
 
-                int mealCount = ResupplyDropUtility.MealCountForDefenders(pawn);
-                if (mealCount <= 0)
-                    return;
+                // The meal drop and the reinforcement raid are independent outcomes of the
+                // one call: neither failing to land skips the other, and the shared cooldown
+                // is burned only if at least one of them actually happened.
+                bool mealsDropped = TryDropMeals(map);
+                bool raidFired = ResupplyRaidUtility.TryTriggerReinforcementRaid(map, pawn.Faction);
 
-                IntVec3 cell = job.GetTarget(DropCellIndex).Cell;
-                if (!ResupplyDropUtility.IsCellStillLandable(cell, map)
-                    && !ResupplyDropUtility.TryFindDropCell(map, out cell))
-                    return; // nowhere to land it now - don't burn the cooldown
-
-                ResupplyDropUtility.SpawnResupplyDrop(map, cell, mealCount, pawn.Faction);
-                tracker.RecordResupply();
-                Messages.Message("BTG_ResupplyDropArrived".Translate(), new TargetInfo(cell, map), MessageTypeDefOf.NeutralEvent);
+                if (mealsDropped || raidFired)
+                    tracker.RecordResupply();
             };
             drop.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return drop;
+        }
+
+        // Drops the survival-meal cargo pod for the current garrison. Returns false (with no
+        // side effects) when there are no meals to send or nowhere left to land them, so the
+        // caller can still record the cooldown off the reinforcement raid alone.
+        private bool TryDropMeals(Map map)
+        {
+            int mealCount = ResupplyDropUtility.MealCountForDefenders(pawn);
+            if (mealCount <= 0)
+                return false;
+
+            IntVec3 cell = job.GetTarget(DropCellIndex).Cell;
+            if (!ResupplyDropUtility.IsCellStillLandable(cell, map)
+                && !ResupplyDropUtility.TryFindDropCell(map, out cell))
+                return false; // nowhere to land it now
+
+            ResupplyDropUtility.SpawnResupplyDrop(map, cell, mealCount, pawn.Faction);
+            Messages.Message("BTG_ResupplyDropArrived".Translate(), new TargetInfo(cell, map), MessageTypeDefOf.NeutralEvent);
+            return true;
         }
     }
 }

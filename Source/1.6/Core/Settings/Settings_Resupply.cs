@@ -24,11 +24,17 @@ namespace BetterTradersGuild
         // Range: 1-120 hours. Default: 12 hours.
         public int resupplyCooldownHours = 12;
 
+        // When on, a successful resupply call also summons a drop-pod reinforcement raid of
+        // the settlement's own troops (ResupplyRaidUtility). Default: true. Only fires while
+        // the settlement faction is hostile, so it never triggers on a peaceful visit.
+        public bool resupplyTriggersRaid = true;
+
         private void ExposeResupplySettings()
         {
             Scribe_Values.Look(ref enableResupply, "enableResupply", true);
             Scribe_Values.Look(ref resupplyMealsPerDefender, "resupplyMealsPerDefender", 2);
             Scribe_Values.Look(ref resupplyCooldownHours, "resupplyCooldownHours", 12);
+            Scribe_Values.Look(ref resupplyTriggersRaid, "resupplyTriggersRaid", true);
         }
 
         private void ResetResupplySettings()
@@ -36,6 +42,7 @@ namespace BetterTradersGuild
             enableResupply = true;
             resupplyMealsPerDefender = 2;
             resupplyCooldownHours = 12;
+            resupplyTriggersRaid = true;
         }
 
         private void DrawResupplySection(Listing_Standard listing)
@@ -47,7 +54,8 @@ namespace BetterTradersGuild
             listing.CheckboxLabeled("BTG_Settings_EnableResupply".Translate(), ref enableResupply,
                 "BTG_Settings_EnableResupplyDesc".Translate());
 
-            // The two sliders sit indented under the toggle and gray out with it.
+            // The sliders and the reinforcement-raid toggle sit indented under the master
+            // toggle and gray out with it.
             listing.Indent(12f);
             listing.ColumnWidth -= 12f;
             GUI.enabled = useCustomLayouts && enableResupply;
@@ -71,6 +79,14 @@ namespace BetterTradersGuild
 
             listing.Gap(2f);
             Description(listing, "BTG_Settings_ResupplyCooldownDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Reinforcement raid on a successful resupply call.
+            listing.CheckboxLabeled("BTG_Settings_ResupplyTriggersRaid".Translate(), ref resupplyTriggersRaid,
+                "BTG_Settings_ResupplyTriggersRaidDesc".Translate());
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_ResupplyTriggersRaidDesc".Translate());
 
             listing.ColumnWidth += 12f;
             listing.Outdent(12f);

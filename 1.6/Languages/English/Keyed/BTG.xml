@@ -78,6 +78,8 @@
   <!-- {0} = hours -->
   <BTG_Settings_ResupplyCooldown>Resupply cooldown: {0}h</BTG_Settings_ResupplyCooldown>
   <BTG_Settings_ResupplyCooldownDesc>Minimum time between resupply drops at a single settlement.</BTG_Settings_ResupplyCooldownDesc>
+  <BTG_Settings_ResupplyTriggersRaid>Call in reinforcements</BTG_Settings_ResupplyTriggersRaid>
+  <BTG_Settings_ResupplyTriggersRaidDesc>When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <BTG_CargoVaultHatch_RelockLabel>Relock cargo vault</BTG_CargoVaultHatch_RelockLabel>

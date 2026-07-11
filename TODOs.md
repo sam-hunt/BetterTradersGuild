@@ -8,12 +8,13 @@ TODOs
 - Rare Subroom placement small room off-by-one?
 - Investigate threat scaling of settlement defender group generation, seems a little low?
 - Bind band nodes?
-- Crew bedroom animals should have names
 
 - AI defense lords
-  - Also drop reinforcements on resupply meal drops (or land in shuttle if pad is free)
+  - Also drop reinforcements on resupply meal drops (or land in shuttle if pad is free?)
+  - Disable reinforcements (at least defenders) if last TG base in the world
+  - Reinforcement raid should fire even if meals can't land
   - Test mech ai doesn't load without biotech
-  - Test paramedic rescue AI, civilian ai
+  - Test paramedic rescue AI, civilian ai, entrenched defender combat ai
   - Paramedic rescue jump support
   - Investigate given up mental state when sheltering civvies find no launchables or adult/pilot becomes downed.
 
