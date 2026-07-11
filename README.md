@@ -60,10 +60,7 @@ Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedet
 ## Compatibility
 
 - **Safe to add** to existing saves.
-- **Not recommended to remove** from saves, especially if:
-  - You have shuttle caravans in the world orbit layer
-  - You've got the cargo vault pocket map open
-  - You're playing a custom scenario from this mod
+- **Not safe to remove** from saves.
 - Not tested with Combat Extended.
 
 ## Contributing
