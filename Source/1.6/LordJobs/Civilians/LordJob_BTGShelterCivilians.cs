@@ -13,16 +13,20 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //
     // Three-phase state graph (see the LordToils and DutyDefs/ShelterCivilians.xml):
     //
-    //   Shelter ──[anyone starving: the locked shelter's food is gone]────────▶ Escape
-    //   Escape  ──[no launchable exists anywhere in the structure]────────────▶ Stranded
+    //   Shelter  ──[anyone starving: the locked shelter's food is gone]───────▶ Escape
+    //   Escape   ──[no walker can reach any launchable]────────────────────────▶ Stranded
+    //   Stranded ──[a walker can reach a launchable again]─────────────────────▶ Escape
     //
     //   * Shelter: caretaker holds the locked subroom (fights intruders, tends babies),
     //     everyone eats/sleeps/wanders in-room.
     //   * Escape: walkers hack the door, carry infants into the best launchable (shuttle
     //     preferred, then pods), and board; LordToil_BTGEscape flies each loaded craft off.
     //     When the last walker boards, the lord empties and is cleaned up automatically.
-    //   * Stranded ("given up"): no escape route, so forage the wider structure / call a
-    //     resupply / wander the wider nursery.
+    //   * Stranded ("given up"): no walker can currently reach a launchable, so forage the
+    //     wider structure / call a resupply / wander the wider nursery. Re-checks reachability
+    //     on the same interval, so a transient blockage (fire, hostiles, a sealed corridor)
+    //     re-promotes back to Escape the moment a walker can reach a launchable again, instead
+    //     of permanently giving up on a rescuable family.
     //
     // The escape trigger counts the autonomous babies too, matching the design that the family
     // bolts the moment ANY of them (including the infants) starves - late enough that the
@@ -69,8 +73,18 @@ namespace BetterTradersGuild.LordJobs.Civilians
 
             Transition toStranded = new Transition(escape, stranded);
             toStranded.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck() && !LaunchableEscapeHelper.AnyLaunchable(Map)));
+                signal.type == TriggerSignalType.Tick && DueForCheck() && !AnyWalkerCanReachLaunchable()));
             graph.AddTransition(toStranded);
+
+            // Reachability can come back (fire burns out, a blocking hostile dies or leaves, a
+            // corridor gets cleared) - re-promote rather than leaving a rescuable family stuck
+            // foraging forever. Stranded's duties are just reassigned by Escape's
+            // UpdateAllDuties, so re-entering Escape from Stranded is as safe as entering it the
+            // first time.
+            Transition toEscapeAgain = new Transition(stranded, escape);
+            toEscapeAgain.AddTrigger(new Trigger_Custom(signal =>
+                signal.type == TriggerSignalType.Tick && DueForCheck() && AnyWalkerCanReachLaunchable()));
+            graph.AddTransition(toEscapeAgain);
 
             return graph;
         }
@@ -79,6 +93,17 @@ namespace BetterTradersGuild.LordJobs.Civilians
         private static bool DueForCheck()
         {
             return Find.TickManager.TicksGame % TransitionCheckIntervalTicks == 0;
+        }
+
+        // True if any living, un-downed lord walker (caretaker or child - the pawns who
+        // actually board/carry) can currently reach a launchable. Gates both the escape ->
+        // stranded demotion and the stranded -> escape re-promotion, so the lord only gives up
+        // when nobody can physically get to a launchable, and tries again the moment someone
+        // can - matching the per-pawn reachability LordToil_BTGEscape already uses to pick a
+        // walker's target.
+        private bool AnyWalkerCanReachLaunchable()
+        {
+            return LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map);
         }
 
         // True if any lord walker, or any sheltered (autonomous) infant of the family, is

@@ -51,54 +51,65 @@ namespace BetterTradersGuild.AI.Civilians
             return 2;
         }
 
-        // Cheap existence check - no list build or sort (called every tick by the escape ->
-        // stranded transition trigger).
-        public static bool AnyLaunchable(Map map)
-        {
-            if (map == null)
-                return false;
-
-            List<Thing> things = map.listerThings.ThingsInGroup(ThingRequestGroup.Transporter);
-            for (int i = 0; i < things.Count; i++)
-            {
-                if (things[i].Spawned && things[i].TryGetComp<CompTransporter>() != null)
-                    return true;
-            }
-            return false;
-        }
-
-        // The launchable a walker should head for: the nearest reachable shuttle if any
-        // shuttle exists, otherwise the nearest reachable launchable of any kind. Null when
-        // none is reachable - the lord then falls through to the stranded phase (which is
-        // gated on no launchable EXISTING, so a merely-unreachable one keeps them trying).
+        // The launchable a walker should head for: the nearest REACHABLE shuttle if one is
+        // reachable, otherwise the nearest reachable launchable of any kind. Null when nothing
+        // is reachable. A shuttle that merely EXISTS but is blocked (fire, hostiles, a sealed
+        // corridor) must not suppress a reachable pod - that used to leave every walker
+        // targeting an unreachable shuttle forever, idling instead of boarding a pod.
         public static Thing PreferredLaunchable(Pawn pawn)
         {
             List<Thing> all = AllLaunchables(pawn.Map);
             if (all.Count == 0)
                 return null;
 
-            // If any shuttle exists, the whole family aims for it (it seats everyone);
-            // pods are only used when no shuttle remains.
-            bool anyShuttle = all.Exists(t => t.TryGetComp<CompShuttle>() != null);
+            Thing bestShuttle = null;
+            float bestShuttleDistSq = float.MaxValue;
+            Thing bestAny = null;
+            float bestAnyDistSq = float.MaxValue;
 
-            Thing best = null;
-            float bestDistSq = float.MaxValue;
             for (int i = 0; i < all.Count; i++)
             {
                 Thing t = all[i];
-                if (anyShuttle && t.TryGetComp<CompShuttle>() == null)
-                    continue;
                 if (!pawn.CanReach(t, PathEndMode.Touch, Danger.Deadly))
                     continue;
 
                 float distSq = (pawn.Position - t.Position).LengthHorizontalSquared;
-                if (distSq < bestDistSq)
+                if (distSq < bestAnyDistSq)
                 {
-                    bestDistSq = distSq;
-                    best = t;
+                    bestAnyDistSq = distSq;
+                    bestAny = t;
+                }
+
+                if (t.TryGetComp<CompShuttle>() != null && distSq < bestShuttleDistSq)
+                {
+                    bestShuttleDistSq = distSq;
+                    bestShuttle = t;
                 }
             }
-            return best;
+
+            // A reachable shuttle always wins (it seats everyone); otherwise fall back to
+            // whatever reachable launchable is nearest, matching the old any-kind fallback.
+            return bestShuttle ?? bestAny;
+        }
+
+        // True if any living, un-downed pawn in the list can currently reach some launchable on
+        // the map - used by the lord's escape/stranded transition so it demotes only when
+        // nobody can actually get to a launchable, not merely when the nearest one exists but is
+        // blocked. Mirrors the walker-skip idiom in LordToil_BTGEscape.AnyWalkerStillBoundFor.
+        public static bool AnyLaunchableReachable(List<Pawn> pawns, Map map)
+        {
+            if (map == null || pawns == null)
+                return false;
+
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p == null || p.Dead || p.Downed)
+                    continue;
+                if (PreferredLaunchable(p) != null)
+                    return true;
+            }
+            return false;
         }
 
         // True if the pawn is currently held inside any launchable on the map (already boarded).
