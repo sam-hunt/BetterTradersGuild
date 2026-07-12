@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BetterTradersGuild.LordJobs;
+using BetterTradersGuild.LordJobs.Mechs;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -38,11 +39,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     //     scope an always-asleep newborn would make the settlement impossible to defeat.
     //
     //   - Mechs: any non-humanlike pawn still an active threat by vanilla's own test
-    //     (GenHostility.IsActiveThreatToPlayer) holds the base, regardless of which lord it
-    //     belongs to - sentries roam under their own AI and the room-part mechs each have
-    //     their own lord, so a lord scope would miss them. Reusing the vanilla test keeps the
-    //     mech semantics identical to everywhere else: downed, dormant, and deactivated mechs
-    //     correctly do NOT block defeat, so the base can always be finished.
+    //     (GenHostility.IsActiveThreatToPlayer) holds the base, unless its lord job is one of
+    //     the BTG worker jobs (clean, farm, medic, stay-in-area) - those mechs are awake and
+    //     "active" by vanilla's test but are never combatants, so an awake cleansweeper or
+    //     paramedic must not keep the base undefeated once every real threat is gone. Sentries
+    //     roam lordless and room-part defenders use other lords, so both still block as before.
     [HarmonyPatch(typeof(SettlementDefeatUtility), nameof(SettlementDefeatUtility.IsDefeated))]
     public static class SettlementDefeatUtilityIsDefeated
     {
@@ -72,13 +73,25 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         return;
                     }
                 }
-                else if (GenHostility.IsActiveThreatToPlayer(p))
+                else if (GenHostility.IsActiveThreatToPlayer(p) && !IsWorkerMech(p))
                 {
-                    // Live hostile mechanoid still hunting.
+                    // Live hostile mechanoid still hunting - excludes worker mechs, which
+                    // register as an "active threat" while awake despite never fighting.
                     __result = false;
                     return;
                 }
             }
+        }
+
+        // Worker mechs (cleaner, farmer, medic, area-stay) are non-combat labor. They pass
+        // GenHostility.IsActiveThreatToPlayer whenever awake, but must not block defeat.
+        private static bool IsWorkerMech(Pawn p)
+        {
+            LordJob job = p.GetLord()?.LordJob;
+            return job is LordJob_MechClean
+                || job is LordJob_MechFarm
+                || job is LordJob_MechMedic
+                || job is LordJob_StayInArea;
         }
     }
 }
