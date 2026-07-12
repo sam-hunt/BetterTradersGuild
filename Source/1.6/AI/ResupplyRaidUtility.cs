@@ -43,10 +43,13 @@ namespace BetterTradersGuild.AI
         // landing on top of the player instead of the standard edge-drop reinforcements.
         private const float OnTopOfYouChance = 0.15f;
 
-        // Fires the reinforcement raid if enabled and the settlement is currently hostile.
-        // Returns true only when the raid was actually initiated (so the caller can share
-        // one resupply cooldown between this and the meal drop).
-        public static bool TryTriggerReinforcementRaid(Map map, Faction faction)
+        // True if calling in the reinforcement raid is currently possible: the setting is
+        // enabled, the map/faction resolve, and the faction is presently hostile to the
+        // player. Checks only the up-front guards - does not execute the incident - so a
+        // caller (e.g. the JobGiver deciding whether the call is worth making at all) can
+        // ask without side effects. TryTriggerReinforcementRaid reuses this for its own
+        // guards so the two can't drift apart.
+        public static bool CanTriggerNow(Map map, Faction faction)
         {
             if (!BetterTradersGuildMod.Settings.resupplyTriggersRaid)
                 return false;
@@ -56,7 +59,15 @@ namespace BetterTradersGuild.AI
             // Only the settlement's own, currently-hostile faction reinforces (see class
             // remarks): a non-hostile faction would be swapped out by the raid worker, and a
             // peaceful visit should never spawn a raid.
-            if (!faction.HostileTo(Faction.OfPlayer))
+            return faction.HostileTo(Faction.OfPlayer);
+        }
+
+        // Fires the reinforcement raid if enabled and the settlement is currently hostile.
+        // Returns true only when the raid was actually initiated. The resupply cooldown no
+        // longer keys off this - the JobDriver records it on call completion regardless.
+        public static bool TryTriggerReinforcementRaid(Map map, Faction faction)
+        {
+            if (!CanTriggerNow(map, faction))
                 return false;
 
             IncidentParms parms = new IncidentParms

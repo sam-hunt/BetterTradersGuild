@@ -8,7 +8,8 @@ using Verse.AI;
 namespace BetterTradersGuild.AI
 {
     // Last-resort hunger escalation for bounded defenders: a starving defender walks to a
-    // powered in-structure comms console and calls in a survival-meal cargo-pod drop.
+    // powered in-structure comms console and calls in resupply - a survival-meal cargo-pod
+    // drop and, optionally, a reinforcement raid (ResupplyRaidUtility).
     //
     // Sits BELOW the forager (JobGiver_BTGForageInStructure) in the duty think tree, so it
     // only fires once every in-structure food source - carried rations, floor items, meal
@@ -17,12 +18,16 @@ namespace BetterTradersGuild.AI
     //
     // Everything stays inside the structure: the console is found within the rect union and
     // the drop (ResupplyDropUtility) lands in an in-structure room, so a player can't bait a
-    // defender out by sieging. The per-map cooldown (ResupplyDropTracker) is the real rate
-    // limit, and it is enforced authoritatively at job COMPLETION (in the JobDriver), not
-    // here - several consoles can exist, so multiple defenders may call in parallel, and only
-    // the first to finish records the cooldown while the rest abort. The CanResupplyNow check
-    // below is just a coarse filter so pawns don't path to a console while clearly on cooldown.
-    // Mechs never reach this node (no food need).
+    // defender out by sieging. The two call outcomes are independent, so the job is only
+    // worth giving when at least one is currently possible: a landable drop cell, OR a raid
+    // that can actually fire (ResupplyRaidUtility.CanTriggerNow) - the raid uses vanilla
+    // EdgeDrop and needs no in-structure cell of its own. The per-map cooldown
+    // (ResupplyDropTracker) is the real rate limit, and it is enforced authoritatively at job
+    // COMPLETION (in the JobDriver), not here - several consoles can exist, so multiple
+    // defenders may call in parallel, and only the first to finish records the cooldown
+    // while the rest abort. The CanResupplyNow check below is just a coarse filter so pawns
+    // don't path to a console while clearly on cooldown. Mechs never reach this node (no
+    // food need).
     public class JobGiver_BTGCallResupply : ThinkNode_JobGiver
     {
         public HungerCategory minCategory = HungerCategory.Starving;
@@ -53,8 +58,13 @@ namespace BetterTradersGuild.AI
             if (tracker == null || !tracker.CanResupplyNow)
                 return null;
 
-            // No point walking to a console if there's nowhere inside to land a pod.
-            if (!ResupplyDropUtility.TryFindDropCell(pawn.Map, out IntVec3 dropCell))
+            // The two call outcomes are independent (see class remarks), so the call is
+            // only worth making if at least one of them can actually happen: somewhere to
+            // land the meal pod, or a raid that can currently fire. dropCell may come back
+            // IntVec3.Invalid here - that's fine, the JobDriver re-finds it at drop time.
+            bool dropCellExists = ResupplyDropUtility.TryFindDropCell(pawn.Map, out IntVec3 dropCell);
+            bool raidCurrentlyPossible = ResupplyRaidUtility.CanTriggerNow(pawn.Map, pawn.Faction);
+            if (!dropCellExists && !raidCurrentlyPossible)
                 return null;
 
             Building_CommsConsole console = FindUsableConsole(pawn);
