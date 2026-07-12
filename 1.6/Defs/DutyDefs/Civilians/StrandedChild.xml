@@ -3,12 +3,19 @@
 
   <!--
     Sheltering-civilian walking child, stranded ("given up") phase. Assigned by
-    LordToil_BTGStranded. Forages the wider structure, eats/sleeps, and wanders the wider nursery.
+    LordToil_BTGStranded. Keeps babies tucked and fed as backup caretaker (matters when the
+    adult dies - the givers gate through vanilla ChildcareUtility, so a child vanilla deems
+    too young simply no-ops), then forages the wider structure, eats/sleeps, and wanders the
+    wider nursery.
   -->
   <DutyDef>
     <defName>BTG_StrandedChild</defName>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
+        <!-- Backup baby care: normally the caretaker claims these first (reservations
+             prevent double-claiming); with no adult left, a capable child takes over. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
