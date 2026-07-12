@@ -19,9 +19,19 @@ namespace BetterTradersGuild
         // settlements entered afterwards. Requires useCustomLayouts.
         public bool useEntrenchedDefenders = true;
 
-        // Threat points multiplier for initial defender generation.
-        // Range: 0.5-3.0. Default: 1.0 (no modification). Applied after the minimum
-        // threat points cap. Requires useCustomLayouts.
+        // Scale initial defender generation to the world's current threat points
+        // (colony wealth + difficulty) instead of vanilla's flat 1150-1600 roll.
+        // The flat roll is intentional vanilla design for all settlements, so this
+        // ships default OFF to avoid surprising existing players; the world value
+        // is a floor-raise only (never below the vanilla roll). Requires
+        // useCustomLayouts.
+        public bool scaleDefendersToThreatLevel = false;
+
+        // Threat points multiplier for initial defender generation. Applied to the
+        // base points (flat vanilla roll, or threat-scaled when
+        // scaleDefendersToThreatLevel is on), before the minimum threat points
+        // floor. Range: 0.5-3.0. Default: 1.0 (no modification). Requires
+        // useCustomLayouts.
         public float threatPointsMultiplier = 1.0f;
 
         // Minimum threat points for initial defender generation.
@@ -38,6 +48,7 @@ namespace BetterTradersGuild
         private void ExposeDefenderSettings()
         {
             Scribe_Values.Look(ref useEntrenchedDefenders, "useEntrenchedDefenders", true);
+            Scribe_Values.Look(ref scaleDefendersToThreatLevel, "scaleDefendersToThreatLevel", false);
             Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
             Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 0f);
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
@@ -46,6 +57,7 @@ namespace BetterTradersGuild
         private void ResetDefenderSettings()
         {
             useEntrenchedDefenders = true;
+            scaleDefendersToThreatLevel = false;
             threatPointsMultiplier = 1.0f;
             minimumThreatPoints = 0f;
             sentryDronePresence = 0.25f;
@@ -68,6 +80,18 @@ namespace BetterTradersGuild
 
             listing.Gap(2f);
             Description(listing, "BTG_Settings_EntrenchedDefendersDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Scale defenders to the world's threat level (default off = vanilla's
+            // flat points roll). The multiplier and floor below apply either way.
+            string scaleLabel = Annotate(
+                "BTG_Settings_ScaleDefenders".Translate(),
+                vanilla: !scaleDefendersToThreatLevel);
+            listing.CheckboxLabeled(scaleLabel, ref scaleDefendersToThreatLevel);
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_ScaleDefendersDesc".Translate());
 
             listing.Gap(16f);
 
