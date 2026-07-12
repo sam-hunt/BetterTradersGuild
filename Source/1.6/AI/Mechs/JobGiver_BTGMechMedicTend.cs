@@ -31,16 +31,20 @@ namespace BetterTradersGuild.AI.Mechs
 
             Thing medicine = FindBestRoomMedicine(pawn, rects);
 
+            // Mirror vanilla WorkGiver_Tend.JobOnThing exactly: TargetB is the
+            // medicine; TargetC is the MEDICINE's holder and only present when the
+            // medicine is nested inside a container or another pawn's inventory
+            // (JobDriver_TendPatient treats a TargetC pawn as the thing to fetch
+            // the medicine from). Shelf medicine is spawned loose, so that is
+            // normally the two-target form. No medicine tends bare-handed with the
+            // single-target form - anything in TargetB is assumed to be medicine.
             Job job;
-            if (medicine != null)
-            {
-                job = JobMaker.MakeJob(JobDefOf.TendPatient, patient, medicine, patient.SpawnedParentOrMe);
-                job.count = Medicine.GetMedicineCountToFullyHeal(patient);
-            }
+            if (medicine != null && medicine.SpawnedParentOrMe != medicine)
+                job = JobMaker.MakeJob(JobDefOf.TendPatient, patient, medicine, medicine.SpawnedParentOrMe);
+            else if (medicine != null)
+                job = JobMaker.MakeJob(JobDefOf.TendPatient, patient, medicine);
             else
-            {
-                job = JobMaker.MakeJob(JobDefOf.TendPatient, patient, patient.SpawnedParentOrMe);
-            }
+                job = JobMaker.MakeJob(JobDefOf.TendPatient, patient);
 
             // Re-evaluate after each individual tend so the medic always works the
             // current worst-off defender rather than finishing one before noticing
@@ -55,10 +59,10 @@ namespace BetterTradersGuild.AI.Mechs
             float bestBleed = -1f;
             float bestSeverity = -1f;
 
-            List<Pawn> defenders = medic.Map.mapPawns.SpawnedPawnsInFaction(medic.Faction);
-            for (int i = 0; i < defenders.Count; i++)
+            List<Pawn> factionPawns = medic.Map.mapPawns.SpawnedPawnsInFaction(medic.Faction);
+            for (int i = 0; i < factionPawns.Count; i++)
             {
-                Pawn p = defenders[i];
+                Pawn p = factionPawns[i];
                 if (p == medic || p.Dead || !p.RaceProps.Humanlike)
                     continue;
                 if (!MedicRoomBounds.Contains(rects, p.Position))

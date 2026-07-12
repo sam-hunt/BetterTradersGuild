@@ -43,10 +43,10 @@ namespace BetterTradersGuild.AI.Mechs
             float bestBleed = -1f;
 
             Map map = medic.Map;
-            List<Pawn> defenders = map.mapPawns.SpawnedPawnsInFaction(medic.Faction);
-            for (int i = 0; i < defenders.Count; i++)
+            List<Pawn> factionPawns = map.mapPawns.SpawnedPawnsInFaction(medic.Faction);
+            for (int i = 0; i < factionPawns.Count; i++)
             {
-                Pawn p = defenders[i];
+                Pawn p = factionPawns[i];
                 if (p == medic || p.Dead || !p.RaceProps.Humanlike)
                     continue;
                 // Babies and newborns can't be tucked into the medbay's adult medical beds; a
