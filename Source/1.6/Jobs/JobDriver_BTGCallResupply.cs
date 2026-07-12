@@ -69,6 +69,12 @@ namespace BetterTradersGuild.JobDrivers
                 if (tracker == null || !tracker.CanResupplyNow)
                     return;
 
+                // The guild network may have been wiped out while the defender walked over:
+                // the last settlement standing has no one left to answer, so nothing fires
+                // and no cooldown is burned (the JobGiver stops re-issuing the call anyway).
+                if (!TradersGuildHelper.AnyOtherTradersGuildSettlement(map))
+                    return;
+
                 // The meal drop and the reinforcement raid are independent outcomes of the
                 // one call: neither failing (or being unavailable) skips the other. The
                 // cooldown is recorded unconditionally once the call completes - the fiction

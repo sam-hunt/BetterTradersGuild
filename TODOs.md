@@ -1,7 +1,7 @@
 TODOs
 
 - Review mod settings page layout
-- Enable shuttle attacks once hostiles cleared?
+- Can players land shuttles on the destroyed settlement once defenders cleared?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Narrow PlanetTile.LayerDef patch: the getter is extremely hot, so patching it taxes every access
   - patch only the caravan-formation/world-pathfinding methods that consult canFormCaravans for friendly TG space tiles instead
@@ -10,16 +10,17 @@ TODOs
 - Bind band nodes?
 
 - AI defense lords
-  - Also drop reinforcements on resupply meal drops (or land in shuttle if pad is free?)
-  - Disable reinforcements (at least defenders) if last TG base in the world
-  - Reinforcement raid should fire even if meals can't land
-  - Test mech ai doesn't load without biotech
+  - Test mech ai doesn't error on load without biotech
   - Test paramedic rescue AI, civilian ai, entrenched defender combat ai
-  - Paramedic rescue jump support
-  - Investigate given up mental state when sheltering civvies find no launchables or adult/pilot becomes downed.
+  - Paramedics rescue jump support
+  - Investigate given up mental state for when sheltering civvies find no launchables or adult/pilot becomes downed.
+
+- If shuttle pad is free, reinforcements land in shuttle?
 
 - Smuggler nest elimination quest with TG settlement mapgen
   `/resume "smuggler-den-quest-btg"`
+
+- Layered Atmosphere and Orbit incompatibility: player reported TG bases didn't spawn
 
 - Way more backstories?!
 

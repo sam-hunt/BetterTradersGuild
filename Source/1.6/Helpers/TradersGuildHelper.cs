@@ -196,5 +196,22 @@ namespace BetterTradersGuild
             Settlement settlement = map.Parent as Settlement;
             return IsTradersGuildSettlement(settlement);
         }
+
+        // True if at least one other Traders Guild settlement still stands in the world
+        // besides the one this map belongs to. The wider guild network is what answers a
+        // resupply call (meal drops, reinforcement raids), so the last base standing has
+        // no one left to call - callers use this to disable those escalations.
+        public static bool AnyOtherTradersGuildSettlement(Verse.Map map)
+        {
+            Settlement own = map?.Parent as Settlement;
+            List<Settlement> settlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                if (s != own && !s.Destroyed && IsTradersGuildSettlement(s))
+                    return true;
+            }
+            return false;
+        }
     }
 }

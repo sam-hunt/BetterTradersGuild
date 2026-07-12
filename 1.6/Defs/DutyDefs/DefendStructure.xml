@@ -63,7 +63,9 @@
        list), so this stays in-bounds; the raid needs no in-structure cell of its own.
        A per-map cooldown keeps the garrison from all calling at once; with several
        consoles it is enforced at call completion, so only the first defender to finish
-       burns it, regardless of which outcome(s) fired - the rest abort. No-op for mechs.
+       burns it, regardless of which outcome(s) fired - the rest abort. No-op for mechs,
+       and for the last guild settlement left in the world - with the rest of the guild
+       network gone, no one remains to answer the call.
     8. Break out to eat when starving and walled in, via JobGiver_BTGHackDoorForFood:
        a pawn that spawned trapped behind a locked AncientBlastDoor can reach none of
        the food above (nor a comms console), so as a last resort it hacks the nearest
