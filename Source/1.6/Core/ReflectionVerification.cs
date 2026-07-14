@@ -37,6 +37,7 @@ namespace BetterTradersGuild
             // it resolve now and self-report drift (silent unless the mod is present but shifted).
             _ = HARIntegration.Available;
             _ = VEPipesIntegration.Available;
+            _ = CWTLIntegration.Available;
         }
     }
 }

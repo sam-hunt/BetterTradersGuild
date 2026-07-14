@@ -154,6 +154,21 @@ namespace BetterTradersGuild
             return settlement.Faction.def == Factions.TradersGuild;
         }
 
+        // Identifies a float-menu option as a signal-jammer-blocked attack option.
+        //
+        // Detection keys on our OWN injected reason string (BTG_RequiresSignalJammerReason) rather
+        // than the English word "attack": our CanAttack postfixes (vanilla caravan/transporter plus
+        // the CWTL integration) reject with that reason, and vanilla's float-menu builders append it
+        // to the option label. Because both the injection and this match resolve the same key, the
+        // check stays correct in every locale - unlike matching the literal "attack", which broke on
+        // translated labels. It also means we only grey out attacks we actually blocked, never an
+        // unrelated (or already-live) option.
+        public static bool IsSignalJammerBlockedAttackOption(FloatMenuOption option)
+        {
+            return option?.Label != null
+                && option.Label.Contains("BTG_RequiresSignalJammerReason".Translate());
+        }
+
         // Returns true only if `faction` has an established relation entry with the player faction.
         //
         // Two cases make this false:

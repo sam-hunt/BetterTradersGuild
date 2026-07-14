@@ -41,33 +41,23 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                     continue;
                 }
 
-                // Check option label to determine type
-                string label = option.Label.ToLower();
-
-                // ATTACK OPTIONS: Disable and show the signal jammer requirement.
-                // Vanilla's own shuttle attack options already arrive inert and tagged with the
-                // paren-free reason (TransportersArrivalActionAttackSettlementCanAttack rejects
-                // CanAttack), so only append the tag when missing (other mods' options).
-                if (label.Contains("attack"))
+                // ATTACK OPTIONS: Grey out the signal-jammer-blocked ones. Detection keys on our
+                // own injected reason string, not the English word "attack", so it survives
+                // translation and covers CWTL's attack option (its CanAttack is gated by
+                // CWTLAttackSettlementCanAttack) as well as vanilla's. Priority.Last on this postfix
+                // ensures CWTL's appended option is already present when we filter.
+                if (TradersGuildHelper.IsSignalJammerBlockedAttackOption(option))
                 {
-                    string jammerReason = "BTG_RequiresSignalJammerReason".Translate();
-                    string newLabel = option.Label.Contains(jammerReason)
-                        ? option.Label
-                        : option.Label + " " + "BTG_RequiresSignalJammer".Translate();
-
-                    yield return new FloatMenuOption(newLabel, null); // Disable the action
+                    yield return new FloatMenuOption(option.Label, null); // null action keeps it disabled
+                    continue;
                 }
-                // TRADE OPTIONS: Check if trade option exists
-                else if (label.Contains("trade"))
-                {
+
+                // TRADE OPTIONS: note vanilla already generated one so we don't add a duplicate.
+                if (option.Label.ToLower().Contains("trade"))
                     hasTradeOption = true;
-                    yield return option;  // Return as-is
-                }
-                // OTHER OPTIONS: Return unchanged
-                else
-                {
-                    yield return option;
-                }
+
+                // TRADE and everything else pass through unchanged.
+                yield return option;
             }
 
             // If this is a friendly Traders Guild settlement and no trade option was generated, add one
