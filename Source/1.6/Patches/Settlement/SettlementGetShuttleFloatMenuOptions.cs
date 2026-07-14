@@ -29,9 +29,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(__instance);
             bool canPeacefullyVisit = isTradersGuild && TradersGuildHelper.CanPeacefullyVisit(__instance.Faction);
 
-            // Track which option types we've seen
-            bool hasTradeOption = false;
-
             foreach (FloatMenuOption option in __result)
             {
                 // For non-TradersGuild settlements, return options unchanged
@@ -52,16 +49,16 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                     continue;
                 }
 
-                // TRADE OPTIONS: note vanilla already generated one so we don't add a duplicate.
-                if (option.Label.ToLower().Contains("trade"))
-                    hasTradeOption = true;
-
-                // TRADE and everything else pass through unchanged.
+                // Trade and everything else pass through unchanged.
                 yield return option;
             }
 
-            // If this is a friendly Traders Guild settlement and no trade option was generated, add one
-            if (isTradersGuild && canPeacefullyVisit && !hasTradeOption)
+            // Add BTG's own trade option only when vanilla won't already offer one. CanTradeWith is
+            // vanilla's exact trade gate (the trade equivalent of CanAttack) and returns a binary
+            // report, so .Accepted tells us whether a vanilla trade option is present - no label
+            // scanning, so it stays correct in every locale.
+            if (isTradersGuild && canPeacefullyVisit
+                && !TransportersArrivalAction_Trade.CanTradeWith(pods, __instance).Accepted)
             {
                 string tradeLabel = "TradeWithSettlement".Translate(__instance.Label);
                 string blockedReason = TradersGuildHelper.GetTradeBlockedReasonFromPods(pods, __instance);
