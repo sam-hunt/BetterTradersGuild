@@ -158,8 +158,8 @@ namespace BetterTradersGuild
         //
         // Two cases make this false:
         //  - The player faction doesn't exist yet. During world generation it is created in
-        //    ScenPart_PlayerFaction.PostWorldGenerate (after FinalizeInit), but our
-        //    PlanetTile.LayerDef patch can fire during path-cost recalculation before that point.
+        //    ScenPart_PlayerFaction.PostWorldGenerate (after FinalizeInit), so any caller that can
+        //    run during world generation must tolerate its absence.
         //  - The faction-relation matrix is incomplete. Other mods or unusual world states can
         //    leave a faction with no relation entry for the player even though both exist.
         //

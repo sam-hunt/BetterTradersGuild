@@ -3,6 +3,8 @@
 
   <!-- ========== FLOAT MENU OPTIONS ========== -->
   <BTG_RequiresSignalJammer>(requires signal jammer)</BTG_RequiresSignalJammer>
+  <!-- Paren-free variant for FloatMenuAcceptanceReport fail reasons; vanilla wraps these in parens itself -->
+  <BTG_RequiresSignalJammerReason>requires signal jammer</BTG_RequiresSignalJammerReason>
   <BTG_NoNegotiator>No capable negotiator</BTG_NoNegotiator>
   <!-- {0} = faction name (e.g., "The Empire") -->
   <BTG_TraderFactionHostile>Hostile relations with {0}</BTG_TraderFactionHostile>

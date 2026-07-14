@@ -84,8 +84,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             {
                 // Create a trade gizmo
                 Command_Action tradeGizmo = new Command_Action();
-                tradeGizmo.defaultLabel = "Trade with " + __instance.Label;
-                tradeGizmo.defaultDesc = "Trade with this settlement";
+                tradeGizmo.defaultLabel = "CommandTrade".Translate();
+                tradeGizmo.defaultDesc = "CommandTradeDesc".Translate();
                 tradeGizmo.icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/Trade", true);
                 tradeGizmo.action = delegate
                 {

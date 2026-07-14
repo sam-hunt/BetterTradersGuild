@@ -44,16 +44,18 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 // Check option label to determine type
                 string label = option.Label.ToLower();
 
-                // ATTACK OPTIONS: Modify to show signal jammer requirement
+                // ATTACK OPTIONS: Disable and show the signal jammer requirement.
+                // Vanilla's own shuttle attack options already arrive inert and tagged with the
+                // paren-free reason (TransportersArrivalActionAttackSettlementCanAttack rejects
+                // CanAttack), so only append the tag when missing (other mods' options).
                 if (label.Contains("attack"))
                 {
-                    // For Traders Guild, always add signal jammer message and disable
-                    FloatMenuOption modifiedOption = new FloatMenuOption(
-                        option.Label + " " + "BTG_RequiresSignalJammer".Translate(),
-                        null  // Disable the action
-                    );
+                    string jammerReason = "BTG_RequiresSignalJammerReason".Translate();
+                    string newLabel = option.Label.Contains(jammerReason)
+                        ? option.Label
+                        : option.Label + " " + "BTG_RequiresSignalJammer".Translate();
 
-                    yield return modifiedOption;
+                    yield return new FloatMenuOption(newLabel, null); // Disable the action
                 }
                 // TRADE OPTIONS: Check if trade option exists
                 else if (label.Contains("trade"))

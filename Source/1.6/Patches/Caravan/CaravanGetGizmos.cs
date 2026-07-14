@@ -65,8 +65,8 @@ namespace BetterTradersGuild.Patches.CaravanPatches
         {
             Command_Action tradeCommand = new Command_Action();
 
-            tradeCommand.defaultLabel = "Trade";
-            tradeCommand.defaultDesc = "Trade with " + settlement.Label;
+            tradeCommand.defaultLabel = "CommandTrade".Translate();
+            tradeCommand.defaultDesc = "CommandTradeDesc".Translate();
             tradeCommand.icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/Trade", true);
 
             // Check for a valid negotiator (e.g., Imperial traders require Baron+ title)
