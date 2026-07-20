@@ -32,6 +32,11 @@ namespace BetterTradersGuild.AI.Civilians
                     continue;
                 if (!ChildcareUtility.CanFeedBaby(pawn, baby, out _))
                     continue;
+                // Skip babies already claimed by another caretaker. CanFeedBaby doesn't check
+                // reservations, and JobDriver_FeedBaby reserves the baby (maxPawns 1) - without
+                // this gate every duty holder issues the job and all but the first fail it.
+                if (!pawn.CanReserve(baby))
+                    continue;
                 if (!pawn.CanReach(baby, PathEndMode.Touch, Danger.Deadly))
                     continue;
 
