@@ -45,7 +45,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                     placement.Position, placement.Rotation, BEDROOM_PREFAB_SIZE);
 
                 // 3. Spawn bedroom prefab using PrefabUtility API
-                SpawnBedroomPrefab(map, placement);
+                SpawnBedroomPrefab(map, placement, faction);
 
                 // 4. Spawn unique weapon on shelf in bedroom
                 CommandersWeaponSpawner.SpawnUniqueWeaponOnShelf(map, room, this.bedroomRect);
@@ -111,14 +111,16 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
         // The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
         // For a 6×6 prefab, the center is at (localX=3, localZ=3), and the prefab extends
         // ±3 cells in each direction from that center point.
-        private void SpawnBedroomPrefab(Map map, SubroomPlacementResult placement)
+        private void SpawnBedroomPrefab(Map map, SubroomPlacementResult placement, Faction faction)
         {
             PrefabDef prefab = Prefabs.BTG_CommandersBedroom;
             if (prefab == null) return;
 
             // Spawn the prefab at the specified CENTER position with rotation
             // IMPORTANT: placement.Position is the CENTER of the 6×6 prefab, not the min corner!
-            PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
+            // Beds get the faction so FindBedFor accepts them; the blast door stays
+            // factionless so hacking it grants entry.
+            SubroomPrefabSpawner.SpawnWithFactionBeds(prefab, map, placement.Position, placement.Rotation, faction);
         }
 
         // Spawns a random pet (cat or dog) at the animal bed location in the bedroom.

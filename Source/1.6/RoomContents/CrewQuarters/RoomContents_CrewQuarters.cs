@@ -103,7 +103,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // 2. Spawn each subroom prefab and track their areas
             foreach (var subroom in result.Subrooms)
             {
-                SpawnSubroomPrefab(map, subroom);
+                SpawnSubroomPrefab(map, subroom, faction);
 
                 // Calculate world-space bounds for the subroom
                 var (worldWidth, worldHeight) = GetRotatedDimensions(subroom.Width, subroom.Depth, subroom.Rotation);
@@ -187,7 +187,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         // Spawns a subroom prefab at the calculated position with appropriate rotation.
         // Uses SubroomPlacement.CenterX/CenterZ which have rotation-dependent formulas
         // to account for RimWorld's center adjustments on even-sized dimensions.
-        private void SpawnSubroomPrefab(Map map, SubroomPlacement subroom)
+        private void SpawnSubroomPrefab(Map map, SubroomPlacement subroom, Faction faction)
         {
             PrefabDef prefab = DefDatabase<PrefabDef>.GetNamed(subroom.PrefabDefName, false);
 
@@ -200,7 +200,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             Rot4 rotation = subroom.Rotation.AsRot4();
             IntVec3 spawnPos = new IntVec3(subroom.CenterX, 0, subroom.CenterZ);
 
-            PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
+            // Beds get the faction so FindBedFor accepts them; the blast door stays
+            // factionless so hacking it grants entry.
+            SubroomPrefabSpawner.SpawnWithFactionBeds(prefab, map, spawnPos, rotation, faction);
         }
 
         // Randomly unlocks ~50% of subroom blast doors to reduce tedium.

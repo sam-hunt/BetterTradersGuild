@@ -63,8 +63,9 @@ namespace BetterTradersGuild.RoomContents.Nursery
                 this.cribSubroomRect = SubroomPlacementHelper.GetBlockingRect(
                     placement.Position, placement.Rotation, CRIB_SUBROOM_SIZE);
 
-                // 3. Spawn crib subroom prefab using PrefabUtility API
-                PrefabUtility.SpawnPrefab(Prefabs.BTG_CribSubroom, map, placement.Position, placement.Rotation, null);
+                // 3. Spawn crib subroom prefab (cribs get the faction so FindBedFor accepts
+                //    them; the blast door stays factionless so hacking it grants entry)
+                SubroomPrefabSpawner.SpawnWithFactionBeds(Prefabs.BTG_CribSubroom, map, placement.Position, placement.Rotation, faction);
 
                 // 4. Spawn required walls from PlacementCalculator
                 SubroomPlacementHelper.SpawnWalls(map, placement.RequiredWalls);
