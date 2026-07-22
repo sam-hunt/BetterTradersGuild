@@ -141,16 +141,21 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             TryReplaceNearestPlantPot(pos, map);
         }
 
-        // Finds the nearest PlantPot building and replaces it with an AncientPlantPot.
+        // Finds the nearest decorative pot building and replaces it with an AncientPlantPot.
+        // When Vanilla Gravship Expanded is active the room's decorative pots are faux plants
+        // (see the PrefabDef_FauxPlant_VGE patch), so degrade whichever variant this game spawns.
         private static void TryReplaceNearestPlantPot(IntVec3 searchOrigin, Map map)
         {
-            if (Things.PlantPot == null || Things.AncientPlantPot == null) return;
+            if (Things.AncientPlantPot == null) return;
 
-            // Search for nearest PlantPot using expanding radius
+            ThingDef potDef = Things.VGE_FauxPlant ?? Things.PlantPot;
+            if (potDef == null) return;
+
+            // Search for nearest decorative pot
             Thing nearestPot = null;
             float nearestDistSq = float.MaxValue;
 
-            foreach (Thing thing in map.listerThings.ThingsOfDef(Things.PlantPot))
+            foreach (Thing thing in map.listerThings.ThingsOfDef(potDef))
             {
                 float distSq = thing.Position.DistanceToSquared(searchOrigin);
                 if (distSq < nearestDistSq)

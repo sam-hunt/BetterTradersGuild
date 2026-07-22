@@ -196,6 +196,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef VGE_AstrofuelValve;
         [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_SmallOxygenTank;
+        [MayRequire("vanillaexpanded.gravship")]
+        public static ThingDef VGE_FauxPlant;
 
         // === VRE GENIE ===
         [MayRequire("vanillaracesexpanded.genie")]
