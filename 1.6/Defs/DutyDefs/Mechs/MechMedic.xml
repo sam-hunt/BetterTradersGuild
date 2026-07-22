@@ -17,7 +17,12 @@
     2. Rescue - carry a downed defender lying OUTSIDE the medbay but inside the structure
        footprint to an unreserved medical bed in the medbay (worst-bleed first). No-op
        when no in-medbay bed is free; the casualty waits where they are.
-    3. Idle - dormant self-charge (SelfShutdown, forceSleep off so the LayDown re-check
+    3. Feed - hand-feed the hungriest DOWNED patient in the medbay (bed or floor), who
+       cannot job and would otherwise starve; walking wounded feed themselves via their
+       own duty's forage node. Food: the patient's carried rations first, then the best
+       in-structure food item, then (urgently hungry) a paste dispenser/VNPE tap. Below
+       tend and rescue so bleeders and retrievals always come first.
+    4. Idle - dormant self-charge (SelfShutdown, forceSleep off so the LayDown re-check
        wakes it for the next casualty within ~211 ticks).
 
     Used by: LordJob_MechMedic, assigned via RoomMechLordHelper to the Paramedic mech
@@ -32,7 +37,9 @@
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicTend" />
         <!-- 2. Rescue downed defenders from outside the medbay, prioritizing free hospital-beds. -->
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicRescue" />
-        <!-- 3. Idle: dormant self-charge; re-checks ~every 211 ticks to wake for casualties. -->
+        <!-- 3. Feed hungry downed patients in the medbay (they cannot feed themselves). -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicFeed" />
+        <!-- 4. Idle: dormant self-charge; re-checks ~every 211 ticks to wake for casualties. -->
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicStandby" />
       </subNodes>
     </thinkNode>
