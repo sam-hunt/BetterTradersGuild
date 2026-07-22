@@ -69,6 +69,20 @@ namespace BetterTradersGuild.RoomParts
 
             GenSpawn.Spawn(mech, cell, map, WipeMode.Vanish);
 
+            // Def-declared starting inventory (e.g. the paramedic's medicine kit).
+            if (Def.startingInventory != null)
+            {
+                for (int i = 0; i < Def.startingInventory.Count; i++)
+                {
+                    ThingDefCountClass entry = Def.startingInventory[i];
+                    if (entry.thingDef == null || entry.count <= 0)
+                        continue;
+                    Thing thing = ThingMaker.MakeThing(entry.thingDef);
+                    thing.stackCount = entry.count;
+                    mech.inventory.innerContainer.TryAdd(thing, canMergeWithExistingStacks: true);
+                }
+            }
+
             // Add to room's Lord with configured behavior
             RoomMechLordHelper.AddMechToRoomLord(mech, map, room, faction, Def.behavior);
         }

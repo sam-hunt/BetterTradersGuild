@@ -12,6 +12,12 @@
     <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
     <pawnKindDef>Mech_Paramedic</pawnKindDef>
     <behavior>Medic</behavior>
+    <!-- Medicine kit: the tend giver uses inventory medicine before searching the
+         room's shelves, so the medic arrives stocked instead of depending on what
+         mapgen happened to shelve. Drops as loot if the mech is killed. -->
+    <startingInventory>
+      <MedicineUltratech>6</MedicineUltratech>
+    </startingInventory>
   </BetterTradersGuild.RoomParts.RoomPart_MechDef>
 
 </Defs>
