@@ -44,6 +44,13 @@ namespace BetterTradersGuild.DefRefs
         // See JobDriver_BTGFeedPatient.
         public static JobDef BTG_FeedPatient;
 
+        // Paramedic-mech tending. Mirrors vanilla TendPatient but stashes leftover
+        // medicine into the mech's inventory at job end instead of dropping it (the
+        // giver's endAfterTendedOnce re-triage ends the job after every tend, so
+        // vanilla cleanup littered the floor and forced a shelf trip per tend).
+        // See JobDriver_BTGTendPatient.
+        public static JobDef BTG_TendPatient;
+
         // NPC hacking (civilians opening shelter doors, defenders opening food-room
         // doors). Mirrors vanilla Hack but suppresses CompHackable's player-facing
         // hacked-message (AncientBlastDoor defines one, so vanilla notified the player
