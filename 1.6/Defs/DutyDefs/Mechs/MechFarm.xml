@@ -10,10 +10,16 @@
       2. Haul that produce to the nearest in-range shelf (stays forbidden); if no
          shelf has room it is left on the floor, already forbidden.
       3. Sow the basin's crop (rice in the BTG greenhouse) into emptied basin cells.
-      4. Return near the anchor point and dormant self-charge until a crop matures.
+      4. Plant a random decorative flower in any empty plant pot anywhere in the
+         settlement (structure-wide, not just the greenhouse - see JobGiver_BTGAgrihandPlantPots).
+      5. Once the pot round is done, walk back to the home room / anchor point.
+      6. Return near the anchor point and dormant self-charge until a crop matures.
 
-    Everything is confined to a moderate radius around the anchor AND the settlement
-    structure footprint (see FarmArea). Used by LordJob_MechFarm.
+    The farm work (1-3) is confined to the mech's greenhouse room (see FarmArea); the
+    pot planting (4) ranges across the whole settlement structure footprint
+    (StructureBoundsCache), so the mech paths pot-to-pot between rooms but always returns
+    home (5) to sleep where its primary rice-farming duty re-triggers. Used by
+    LordJob_MechFarm.
   -->
 
   <DutyDef>
@@ -23,6 +29,8 @@
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandHarvest" />
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandHaul" />
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandSow" />
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandPlantPots" />
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandReturnHome" />
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandStandby" />
       </subNodes>
     </thinkNode>
