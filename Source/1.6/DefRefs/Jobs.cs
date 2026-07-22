@@ -31,6 +31,12 @@ namespace BetterTradersGuild.DefRefs
         // work area is defined by the giver instead. See JobDriver_BTGCleanFilth.
         public static JobDef BTG_Clean;
 
+        // Paramedic-mech rescue: carry a downed defender to an in-medbay medical bed.
+        // Mirrors vanilla Rescue but uses a driver without the guest-of-player logic
+        // (vanilla CheckMakeTakeeGuest hardcodes Faction.OfPlayer, which red-errors or
+        // corrupts HostFaction when the rescuer is an NPC). See JobDriver_BTGRescue.
+        public static JobDef BTG_Rescue;
+
         // Escape job: a sheltering-civilian walker carries one infant/baby and loads it
         // into a launchable (shuttle / transport pod). TargetA = baby, TargetB = launchable.
         // See JobDriver_BTGCarryBabyToLaunchable.

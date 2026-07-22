@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Paramedic Rescue Job Definition
+
+    BTG_Rescue: the paramedic mech's carry-casualty-to-medbay job. Mirrors vanilla Rescue
+    but uses JobDriver_BTGRescue - vanilla JobDriver_TakeToBed reduced to the rescue path
+    with the guest/prisoner/arrest machinery removed. Vanilla's driver assumes the rescuer
+    is a player pawn: CheckMakeTakeeGuest hardcodes Faction.OfPlayer as the host when it
+    makes the rescued pawn a guest. Run from an NPC medic that either red-errors (rescued
+    pawn's faction hostile to the player - the settlement-assault case) or silently marks
+    the settlement's own defender as a guest of the player faction, which then exempts the
+    pawn from hostility checks (GenHostility.HostileTo returns false whenever HostFaction
+    matches), corrupting player targeting and settlement defeat detection. A separate
+    JobDef is used rather than retargeting vanilla Rescue so player/colony rescues are
+    untouched.
+
+    Used by: JobGiver_BTGMechMedicRescue (BTG_MechMedic duty).
+  -->
+
+  <JobDef>
+    <defName>BTG_Rescue</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGRescue</driverClass>
+    <reportString>rescuing TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <carryThingAfterJob>true</carryThingAfterJob>
+    <dropThingBeforeJob>false</dropThingBeforeJob>
+  </JobDef>
+
+</Defs>

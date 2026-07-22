@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -32,7 +33,10 @@ namespace BetterTradersGuild.AI.Mechs
             if (bed == null)
                 return null;
 
-            Job job = JobMaker.MakeJob(JobDefOf.Rescue, patient, bed);
+            // BTG_Rescue, not vanilla Rescue: vanilla's TakeToBed driver hardcodes
+            // Faction.OfPlayer when making the rescued pawn a guest, which red-errors
+            // (hostile case) or corrupts HostFaction (friendly case) for an NPC rescuer.
+            Job job = JobMaker.MakeJob(Jobs.BTG_Rescue, patient, bed);
             job.count = 1;
             return job;
         }
