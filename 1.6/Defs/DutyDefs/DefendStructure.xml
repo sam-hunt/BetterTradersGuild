@@ -23,9 +23,10 @@
        acquisition semantics), so without this node an intruder looting an
        out-of-sight room is ignored entirely. While any live hostile stands
        inside the structure footprint, the defender walks toward the nearest
-       reachable one; the Goto re-checks the tree as it expires, so the combat
-       node takes over the moment sight opens. Bounded to the same rect union
-       as combat, so defenders sweep their halls but never pursue outside.
+       one reachable through the interior; the Goto re-checks the tree as it
+       expires, so the combat node takes over the moment sight opens. Bounded
+       to the same rect union as combat, so defenders sweep their halls but
+       never pursue outside.
     4. Seek treatment in the medbay when wounded but unable to self-tend, via
        JobGiver_BTGSeekTreatmentInMedbay. A defender that has tendable wounds but
        lacks Manipulation (e.g. both arms shot off) is invisible to the vanilla
@@ -87,9 +88,19 @@
     Containment summary - defenders never leave the structure because:
       * combat targets are filtered to the union of room rects, and
         JobGiver_AIDefendPoint (chaseTarget=false) holds firing positions within
-        the duty radius of baseCenter rather than pursuing, and
+        the duty radius of baseCenter rather than pursuing, and shooting
+        positions themselves are pinned to the rect union via a cast-position
+        validator (vanilla would accept any cell within the duty radius,
+        including vacuum outside an open perimeter door), and
       * the hunt node only walks toward hostiles standing inside that same rect
-        union, so a sweep never leads out of the structure, and
+        union AND reachable without leaving it (interior-only region BFS - a
+        target whose only route crosses vacuum is left alone), so a sweep never
+        leads out of the structure, and
+      * every route any garrison job paths is biased hard toward the interior:
+        LordJob_BTGDefendStructure exposes the rect union as its lord walk grid,
+        so the pathfinder charges +70 per out-of-structure cell. Soft (a cost,
+        not a wall) by design - a defender that ends up outside can always path
+        back in, and
       * foraging is restricted to food inside the same rect union, and
       * resupply drops land in an in-structure room and the calling defender only
         paths to an in-structure comms console, and

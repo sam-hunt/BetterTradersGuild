@@ -65,6 +65,9 @@
     <Reference Include="UnityEngine.TextRenderingModule" Private="false">
       <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Collections" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Unity.Collections.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <!-- Fall back to NuGet package for CI builds without local RimWorld -->
