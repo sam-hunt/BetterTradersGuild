@@ -32,7 +32,7 @@ namespace BetterTradersGuild.RoomContents.Greenhouse
             //    3-day grow cycle (vs potato 5.5 / corn 14) means crops mature often, so
             //    the agrihand mech's harvest/haul/replant loop is on display regularly.
             ThingDef hydroPlant = Things.Plant_Rice;
-            float hydroGrowth = Rand.Range(0.7f, 1.0f);
+            float hydroGrowth = Rand.Range(0.1f, 0.9f);
 
             // 3. Spawn daylilies in decorative plant pots
             //    Lower growth for young/budding appearance
