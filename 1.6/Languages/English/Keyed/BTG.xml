@@ -71,7 +71,7 @@
   <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName>
 
   <!-- ========== DEFENDER RESUPPLY ========== -->
-  <BTG_ResupplyDropArrived>The settlement defenders have called in an emergency ration drop.</BTG_ResupplyDropArrived>
+  <BTG_ResupplyDropArrived>The garrison's distress call has drawn a response.</BTG_ResupplyDropArrived>
 
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <BTG_Settings_EnableResupply>Enable resupply meals</BTG_Settings_EnableResupply>

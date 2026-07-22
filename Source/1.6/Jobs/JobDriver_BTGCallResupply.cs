@@ -82,8 +82,17 @@ namespace BetterTradersGuild.JobDrivers
                 // own schedule, so even a double no-op (blocked cell, raid disabled) still
                 // burns the cooldown rather than leaving the still-starving defender to
                 // re-acquire this same job forever.
-                TryDropMeals(map);
-                ResupplyRaidUtility.TryTriggerReinforcementRaid(map, pawn.Faction);
+                bool mealsDropped = TryDropMeals(map, out IntVec3 dropCell);
+                bool raidTriggered = ResupplyRaidUtility.TryTriggerReinforcementRaid(map, pawn.Faction);
+
+                // One notification for whichever effect(s) actually fired, anchored on the
+                // drop pod if there is one, or the console the call was made from otherwise.
+                if (mealsDropped || raidTriggered)
+                {
+                    TargetInfo target = mealsDropped ? new TargetInfo(dropCell, map) : new TargetInfo(Console.Position, map);
+                    Messages.Message("BTG_ResupplyDropArrived".Translate(), target, MessageTypeDefOf.NeutralEvent);
+                }
+
                 tracker.RecordResupply();
             };
             drop.defaultCompleteMode = ToilCompleteMode.Instant;
@@ -91,21 +100,25 @@ namespace BetterTradersGuild.JobDrivers
         }
 
         // Drops the survival-meal cargo pod for the current garrison, if there are meals to
-        // send and somewhere left to land them. No-ops silently otherwise - the raid outcome
-        // and the cooldown (recorded by the caller regardless) don't depend on this succeeding.
-        private void TryDropMeals(Map map)
+        // send and somewhere left to land them. Returns false (and leaves dropCell invalid)
+        // otherwise - the raid outcome and the cooldown (recorded by the caller regardless)
+        // don't depend on this succeeding.
+        private bool TryDropMeals(Map map, out IntVec3 dropCell)
         {
+            dropCell = IntVec3.Invalid;
+
             int mealCount = ResupplyDropUtility.MealCountForDefenders(pawn);
             if (mealCount <= 0)
-                return;
+                return false;
 
             IntVec3 cell = job.GetTarget(DropCellIndex).Cell;
             if (!ResupplyDropUtility.IsCellStillLandable(cell, map)
                 && !ResupplyDropUtility.TryFindDropCell(map, out cell))
-                return; // nowhere to land it now
+                return false; // nowhere to land it now
 
             ResupplyDropUtility.SpawnResupplyDrop(map, cell, mealCount, pawn.Faction);
-            Messages.Message("BTG_ResupplyDropArrived".Translate(), new TargetInfo(cell, map), MessageTypeDefOf.NeutralEvent);
+            dropCell = cell;
+            return true;
         }
     }
 }

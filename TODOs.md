@@ -4,16 +4,13 @@ TODOs
   - Mech AI
     - Agrihand duty for plant pots?
     - Fake plants if VGE active
-    - Test paramedic jump and feeding
   - Civilian AI
     - Abandoned baby warning for cared TG babies
     - No caretaker for crew quarters babies
     - LordJob: no hack/escape on starving (but saw a too-early escape once)
     - Investigate given up mental state for when sheltering civvies find no launchables or adult/pilot becomes downed.
   - Defender AI
-    - entrenched defenders hunt within bounding box not structure bounds **(test this next)**
     - If shuttle pad is free, reinforcements land in shuttle?
-    - Split BTG_ResupplyDropArrived key message by aid type
 
 - Review mod settings page layout
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
