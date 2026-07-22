@@ -15,11 +15,14 @@ namespace BetterTradersGuild.AI.Mechs
     // Picks the hungriest downed same-faction humanlike inside the medbay rects (bed
     // or floor, matching the tend node's scope; babies are the caretakers' job,
     // mirroring vanilla WorkGiver_FeedPatient's baby exclusion) and feeds it via
-    // vanilla JobDefOf.FeedPatient. That driver is safe to reuse directly - unlike
-    // TakeToBed it has no player-faction assumptions - and it natively fetches food
-    // from another pawn's inventory (CheckItemCarriedByOtherPawn fills TargetC and
-    // detours to the holder), which makes source 1 below a single walk: the holder
-    // IS the patient.
+    // BTG_FeedPatient. Vanilla FeedPatient's driver is NOT safe here: its global
+    // FailOn(!FoodUtility.ShouldBeFedBySomeone) requires a player-faction/hosted (or
+    // colony-prisoner) patient in a bed, so for a TG defender it ends the job on tick
+    // one and this giver re-issues it forever (job loop). JobDriver_BTGFeedPatient is
+    // that driver with the fail condition made faction-neutral; it keeps vanilla's
+    // native fetch of food from another pawn's inventory (CheckItemCarriedByOtherPawn
+    // fills TargetC and detours to the holder), which makes source 1 below a single
+    // walk: the holder IS the patient.
     //
     // Food resolution mirrors JobGiver_BTGForageInStructure's escalation, scored for
     // the PATIENT but reached/reserved by the medic:
@@ -54,7 +57,7 @@ namespace BetterTradersGuild.AI.Mechs
             // as the food source).
             ThingDef foodDef = FoodUtility.GetFinalIngestibleDef(food);
             float nutrition = FoodUtility.GetNutrition(patient, food, foodDef);
-            Job job = JobMaker.MakeJob(JobDefOf.FeedPatient);
+            Job job = JobMaker.MakeJob(DefRefs.Jobs.BTG_FeedPatient);
             job.targetA = food;
             job.targetB = patient;
             job.count = FoodUtility.WillIngestStackCountOf(patient, foodDef, nutrition);
@@ -96,9 +99,11 @@ namespace BetterTradersGuild.AI.Mechs
 
         private static Thing FindFoodFor(Pawn medic, Pawn patient)
         {
-            // 1. The patient's own carried rations.
+            // 1. The patient's own carried rations. CanReserve mirrors the driver's food
+            // reservation (same guard the caretaker baby-feed giver needed); if another
+            // pawn somehow holds it, fall through to the in-structure sources.
             Thing carried = FoodUtility.BestFoodInInventory(patient, patient);
-            if (carried != null)
+            if (carried != null && medic.CanReserve(carried))
                 return carried;
 
             // No layout bounds known: skip the map-wide searches rather than run them

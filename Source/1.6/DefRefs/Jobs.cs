@@ -37,6 +37,13 @@ namespace BetterTradersGuild.DefRefs
         // corrupts HostFaction when the rescuer is an NPC). See JobDriver_BTGRescue.
         public static JobDef BTG_Rescue;
 
+        // Paramedic-mech patient feeding: hand-feed a downed defender in the medbay.
+        // Mirrors vanilla FeedPatient but uses a driver whose fail condition doesn't
+        // require a player-faction/player-hosted patient (vanilla's ShouldBeFedBySomeone
+        // gate kills the job on tick one for NPC patients, job-looping the medic).
+        // See JobDriver_BTGFeedPatient.
+        public static JobDef BTG_FeedPatient;
+
         // Escape job: a sheltering-civilian walker carries one infant/baby and loads it
         // into a launchable (shuttle / transport pod). TargetA = baby, TargetB = launchable.
         // See JobDriver_BTGCarryBabyToLaunchable.
