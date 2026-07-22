@@ -82,7 +82,7 @@ namespace BetterTradersGuild.AI.Civilians
                 }
             }
 
-            return best != null ? JobMaker.MakeJob(JobDefOf.Hack, best) : null;
+            return best != null ? JobMaker.MakeJob(DefRefs.Jobs.BTG_Hack, best) : null;
         }
 
         // A door's own cell resolves to its portal region's "doorway" room, never the interior

@@ -44,6 +44,12 @@ namespace BetterTradersGuild.DefRefs
         // See JobDriver_BTGFeedPatient.
         public static JobDef BTG_FeedPatient;
 
+        // NPC hacking (civilians opening shelter doors, defenders opening food-room
+        // doors). Mirrors vanilla Hack but suppresses CompHackable's player-facing
+        // hacked-message (AncientBlastDoor defines one, so vanilla notified the player
+        // every time a TG pawn hacked its own settlement's door). See JobDriver_BTGHack.
+        public static JobDef BTG_Hack;
+
         // Escape job: a sheltering-civilian walker carries one infant/baby and loads it
         // into a launchable (shuttle / transport pod). TargetA = baby, TargetB = launchable.
         // See JobDriver_BTGCarryBabyToLaunchable.

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - NPC Hack Job Definition
+
+    BTG_Hack: hacking as done by the settlement's own pawns (civilians opening shelter
+    doors, starving defenders opening food-room doors). Mirrors vanilla Hack but uses
+    JobDriver_BTGHack, which suppresses CompHackable's player-facing completion message -
+    AncientBlastDoor defines a hackedMessage, so vanilla notified the player every time a
+    TG pawn hacked open one of the settlement's own doors. A separate JobDef is used
+    rather than retargeting vanilla Hack so player-ordered hacking is untouched.
+
+    Used by: JobGiver_BTGHackShelterDoor, JobGiver_BTGHackDoorForFood.
+  -->
+
+  <JobDef>
+    <defName>BTG_Hack</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGHack</driverClass>
+    <reportString>hacking TargetA.</reportString>
+  </JobDef>
+
+</Defs>

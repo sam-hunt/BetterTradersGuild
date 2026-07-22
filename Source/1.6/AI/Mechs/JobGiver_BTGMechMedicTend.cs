@@ -49,6 +49,13 @@ namespace BetterTradersGuild.AI.Mechs
             // Re-evaluate after each individual tend so the medic always works the
             // current worst-off defender rather than finishing one before noticing
             // another has started bleeding harder.
+            //
+            // endAfterTendedOnce is also load-bearing for medicine: it ends the job in
+            // FinalizeTend, before the driver's FindMoreMedicineToil - whose
+            // HealthAIUtility.FindBestMedicine treats a playerSettings-less NPC patient
+            // as MedicalCareCategory.NoMeds and so can never re-source medicine. This
+            // giver supplying the medicine itself (TargetB) is what keeps NPC tends
+            // medicated; don't lean on the driver's refresh path.
             job.endAfterTendedOnce = true;
             return job;
         }

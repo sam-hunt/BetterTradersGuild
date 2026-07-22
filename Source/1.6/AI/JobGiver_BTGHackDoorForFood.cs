@@ -95,7 +95,7 @@ namespace BetterTradersGuild.AI
                 }
             }
 
-            return best != null ? JobMaker.MakeJob(JobDefOf.Hack, best) : null;
+            return best != null ? JobMaker.MakeJob(DefRefs.Jobs.BTG_Hack, best) : null;
         }
 
         // Lenient containment check: the door cell itself, or one of its cardinal neighbours,

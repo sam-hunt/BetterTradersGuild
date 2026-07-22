@@ -353,7 +353,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 {
                     GenSpawn.Spawn(newborn, sleepPos, map);
 
-                    // Assign crib ownership
+                    // Assign crib ownership BEFORE starting the job: the LayDownResting
+                    // driver's FailOnBedNoLongerUsable passes for an NPC newborn via the
+                    // bed-owner branch (BedOwnerWillShare would fail a non-owner), so this
+                    // ordering is load-bearing.
                     var compAssignable = crib.TryGetComp<CompAssignableToPawn>();
                     compAssignable?.TryAssignPawn(newborn);
 
