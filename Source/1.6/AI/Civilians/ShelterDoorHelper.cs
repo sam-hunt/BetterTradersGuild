@@ -65,11 +65,14 @@ namespace BetterTradersGuild.AI.Civilians
         }
 
         // True while a still-locked shelter door seals the subroom AND some living, un-downed
-        // walker could hack it open right now (CompHackable.CanHackNow: not locked out, pawn
-        // capable, door reachable, skill prerequisite met). Used by the lord's escape/stranded
-        // transition: a locked hackable door blocks CanReach even for its own faction, so
-        // launchable reachability is ALWAYS false during the door-hack prelude of an escape -
-        // while this returns true the escape is still opening the way out, not failed.
+        // ADULT walker could hack it open right now (CompHackable.CanHackNow: not locked out,
+        // pawn capable, door reachable, skill prerequisite met). Children never hack by design,
+        // so the adult gate here mirrors JobGiver_BTGHackShelterDoor - the two must agree or
+        // the lord would hold the escape open waiting for a hack no walker will perform. Used
+        // by the lord's escape/stranded transition: a locked hackable door blocks CanReach even
+        // for its own faction, so launchable reachability is ALWAYS false during the door-hack
+        // prelude of an escape - while this returns true the escape is still opening the way
+        // out, not failed.
         public static bool AnyWalkerCanOpenShelterDoor(List<Pawn> walkers, IntVec3 focus, Map map)
         {
             if (walkers == null)
@@ -88,6 +91,8 @@ namespace BetterTradersGuild.AI.Civilians
                 {
                     Pawn pawn = walkers[j];
                     if (pawn == null || pawn.Dead || pawn.Downed)
+                        continue;
+                    if (!pawn.DevelopmentalStage.Adult())
                         continue;
                     if (door.Hackable.CanHackNow(pawn).Accepted)
                         return true;

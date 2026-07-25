@@ -12,15 +12,21 @@ namespace BetterTradersGuild.AI.Civilians
     //
     // Candidate discovery (radius + focus-room membership, so this never opens an unrelated
     // subroom or the perimeter airlock) lives in ShelterDoorHelper, shared with the lord's
-    // escape/stranded transition. All hack eligibility - not already hacked, not in lockout,
-    // pawn capable (manipulation + intellectual prerequisite), door reachable - is delegated
-    // to vanilla CompHackable.CanHackNow, exactly like JobGiver_BTGHackDoorForFood. So a child
-    // who can't hack simply gets no job here and the caretaker does it; once the door is open
+    // escape/stranded transition. Hacking is the caretaker's job by design: children never
+    // hack (vanilla CanHackNow only gates on capability + intellectual skill, so a skilled
+    // child would otherwise qualify) - the adult gate here is mirrored by
+    // ShelterDoorHelper.AnyWalkerCanOpenShelterDoor so the lord never holds the escape open
+    // waiting for a hack no walker is allowed to perform. Remaining eligibility - not already
+    // hacked, not in lockout, pawn capable, door reachable - is delegated to vanilla
+    // CompHackable.CanHackNow, exactly like JobGiver_BTGHackDoorForFood. Once the door is open
     // this returns null and the walker falls through to the rest of its duty.
     public class JobGiver_BTGHackShelterDoor : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)
         {
+            if (!pawn.DevelopmentalStage.Adult())
+                return null;
+
             PawnDuty duty = pawn.mindState?.duty;
             IntVec3 focus = (duty != null && duty.focus.IsValid) ? duty.focus.Cell : pawn.Position;
 
