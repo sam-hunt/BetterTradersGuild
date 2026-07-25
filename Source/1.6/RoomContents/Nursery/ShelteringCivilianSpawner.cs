@@ -201,7 +201,8 @@ namespace BetterTradersGuild.RoomContents.Nursery
         }
 
         // Equips the caretaker with a super-quality plasteel knife, replacing any weapon the
-        // pawnkind generated, so the lone guardian is the one who wields it.
+        // pawnkind generated. Only ever drawn in reactive self-defense (LordToil_BTGDefend,
+        // when the family is directly attacked) - the caretaker never initiates combat.
         private static void EquipSuperPlasteelKnife(Pawn pawn)
         {
             if (pawn?.equipment == null)
@@ -220,8 +221,8 @@ namespace BetterTradersGuild.RoomContents.Nursery
             pawn.equipment.AddEquipment(knife);
         }
 
-        // Equips the caretaker with a masterwork shield belt so the lone guardian can absorb
-        // incoming fire while sheltering the children.
+        // Equips the caretaker with a masterwork shield belt so the caretaker can absorb
+        // incoming fire while covering the children's retreat.
         private static void EquipMasterworkShieldBelt(Pawn pawn)
         {
             if (pawn?.apparel == null)

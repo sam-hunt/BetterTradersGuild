@@ -43,11 +43,12 @@ namespace BetterTradersGuild.DefRefs
         public static DutyDef BTG_MechFarm;
 
         // === SHELTERING CIVILIANS (Biotech nursery) ===
-        // See LordJob_BTGShelterCivilians and DutyDefs/ShelterCivilians.xml.
+        // See LordJob_BTGShelterCivilians and DutyDefs/Civilians/*.xml.
 
-        // Shelter phase, caretaker. Engages intruders that breach the crib subroom,
-        // tucks loose/downed babies into cribs, bottle-feeds hungry babies, eats/sleeps,
-        // and wanders the subroom when idle. Bounded to the subroom via duty focus+radius.
+        // Shelter phase, caretaker. Tucks loose/downed babies into cribs, bottle-feeds
+        // hungry babies, eats/sleeps, and wanders the subroom when idle. No combat nodes
+        // (see BTG_DefendWalker for the only, strictly reactive, fighting the family does).
+        // Bounded to the subroom via duty focus+radius.
         public static DutyDef BTG_ShelterAdult;
 
         // Shelter phase, walking child. Eats/sleeps and wanders a tight area near the
@@ -58,6 +59,12 @@ namespace BetterTradersGuild.DefRefs
         // door open, carries infants into the best launchable, then boards. Launch is
         // driven by LordToil_BTGEscape, not the duty.
         public static DutyDef BTG_EscapeWalker;
+
+        // Defend posture, adult walker (caretaker). Reactive self-defense while the family is
+        // directly attacked: melee the nearest pawn actively targeting a family member, falling
+        // through to the normal escape chain when none is reachable. Children keep
+        // BTG_EscapeWalker. Assigned by LordToil_BTGDefend.
+        public static DutyDef BTG_DefendWalker;
 
         // Stranded ("given up") phase, caretaker. Still tends babies, then forages the wider
         // structure, calls a resupply when starving, eats/sleeps, and wanders the wider nursery.

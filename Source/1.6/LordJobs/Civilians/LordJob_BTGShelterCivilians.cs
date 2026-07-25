@@ -18,12 +18,17 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //   Escape   ──[no walker can reach any launchable, and the shelter's own
     //               door is no longer what seals them in]─────────────────────▶ Stranded
     //   Stranded ──[a walker can reach a launchable again]─────────────────────▶ Escape
+    //   Escape/Stranded ──[family member actively attacked AND a child walker
+    //               still needs covering AND an adult can fight]──────────────▶ Defend
+    //   Defend   ──[nobody targets the family anymore, or no child walker is
+    //               left to cover: bolt for the craft, even under fire]───────▶ Escape
     //
     //   * Shelter: caretaker holds the locked subroom (tends babies), everyone
-    //     eats/sleeps/wanders in-room. NOBODY fights - these are non-combatants, and the
-    //     design goal is that the player reads as the clear aggressor: when the shelter is
-    //     compromised the family runs for the launchables, leaving intervening (or not) as
-    //     the attacker's choice rather than handing them a self-defence justification.
+    //     eats/sleeps/wanders in-room. Nobody INITIATES combat - these are non-combatants,
+    //     and the design goal is that the player reads as the clear aggressor: when the
+    //     shelter is compromised the family runs for the launchables, leaving intervening
+    //     (or not) as the attacker's choice rather than handing them a self-defence
+    //     justification. The one exception is Defend below: strictly reactive cover fire.
     //   * Escape: walkers hack the door, carry infants into the best launchable (shuttle
     //     preferred, then pods), and board; LordToil_BTGEscape flies each loaded craft off.
     //     When the last walker boards, the lord empties and is cleaned up automatically.
@@ -32,6 +37,15 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //     on the same interval, so a transient blockage (fire, hostiles, a sealed corridor)
     //     re-promotes back to Escape the moment a walker can reach a launchable again, instead
     //     of permanently giving up on a rescuable family.
+    //   * Defend: reactive self-defense while covering the retreat. Only the adult's duty
+    //     changes (melee the nearest pawn actively attacking a family member - see
+    //     PartyThreatHelper for the strict involvement rules); children keep escaping and
+    //     boarding, and the lift-off tick keeps running. Exits back to Escape the moment
+    //     nobody targets the family (attacker neutralized or aggression aborted) or every
+    //     child walker is aboard/lost - the caretaker then runs for the craft himself,
+    //     collecting any infant he dropped when the fight interrupted a ferry (the carry
+    //     giver's map-wide infant scan re-finds it automatically). Defend always exits to
+    //     Escape; if the launchables are gone the normal demotion re-sorts to Stranded.
     //
     // The escape trigger counts the WALKERS only, not the autonomous infants. Walkers self-feed
     // at Hungry (forage giver) and can't sleep from Fed to Starving in a single rest cycle, so
@@ -72,14 +86,21 @@ namespace BetterTradersGuild.LordJobs.Civilians
             LordToil_BTGStranded stranded = new LordToil_BTGStranded(subroomCenter);
             graph.AddToil(stranded);
 
+            LordToil_BTGDefend defend = new LordToil_BTGDefend(subroomCenter);
+            graph.AddToil(defend);
+
             // Every transition ends the walkers' in-progress jobs (and wakes sleepers) once the
             // new toil's duties are assigned - think trees only re-evaluate when the current job
             // ends, so without this a pawn mid-sleep or mid-meal carries its old phase's job deep
             // into the new phase (vanilla pairs its lord transitions with these same actions).
+            // Harm signals bypass the periodic gate: a walker taking external violence IS the
+            // shelter failing, whatever the compromise scan thinks - covers e.g. being shot
+            // through an open doorway by an attacker who never sets foot in the room.
             Transition toEscape = new Transition(shelter, escape);
             toEscape.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck()
-                && (AnyStarving() || ShelterCompromised())));
+                Trigger_PawnHarmed.SignalIsHarm(signal)
+                || (signal.type == TriggerSignalType.Tick && DueForCheck()
+                    && (AnyStarving() || ShelterCompromised()))));
             toEscape.AddPostAction(new TransitionAction_WakeAll());
             toEscape.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscape);
@@ -109,6 +130,33 @@ namespace BetterTradersGuild.LordJobs.Civilians
             toEscapeAgain.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscapeAgain);
 
+            // Reactive self-defense. Fires on the periodic scan AND instantly on any harm
+            // signal (a lord walker damaged/killed/arrested - SignalIsHarm is vanilla's own
+            // harm filter), so the caretaker reacts to the first shot, not up to a second
+            // later. ShouldDefend gates both signal paths on the same predicate, and its
+            // mirror below is the exit condition, so the posture can't ping-pong: each check
+            // interval has exactly one truth.
+            Transition toDefend = new Transition(escape, defend);
+            toDefend.AddSource(stranded);
+            toDefend.AddTrigger(new Trigger_Custom(signal =>
+                (Trigger_PawnHarmed.SignalIsHarm(signal)
+                    || (signal.type == TriggerSignalType.Tick && DueForCheck()))
+                && ShouldDefend()));
+            toDefend.AddPostAction(new TransitionAction_WakeAll());
+            toDefend.AddPostAction(new TransitionAction_EndAllJobs());
+            graph.AddTransition(toDefend);
+
+            // Disengage the moment defense stops making sense: nobody targets the family
+            // anymore (neutralized or aborted), no child walker is left to cover (everyone
+            // else aboard or lost - bolt for the craft, even under fire), or no adult can
+            // fight. Always exits to Escape; if the launchables are gone the normal
+            // escape -> stranded demotion re-sorts from there.
+            Transition fromDefend = new Transition(defend, escape);
+            fromDefend.AddTrigger(new Trigger_Custom(signal =>
+                signal.type == TriggerSignalType.Tick && DueForCheck() && !ShouldDefend()));
+            fromDefend.AddPostAction(new TransitionAction_EndAllJobs());
+            graph.AddTransition(fromDefend);
+
             return graph;
         }
 
@@ -129,6 +177,44 @@ namespace BetterTradersGuild.LordJobs.Civilians
             return LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map);
         }
 
+        // True while fighting back is both warranted and useful: someone is actively attacking
+        // a family member, a child walker still needs covering, and an adult walker is up to
+        // do the covering. Shared (with its negation) by the enter- and exit-defend
+        // transitions so the two can never disagree.
+        private bool ShouldDefend()
+        {
+            return AnyActiveAdultWalker() && AnyChildWalkerStillEvacuating()
+                && PartyThreatHelper.AnyPartyMemberTargeted(lord);
+        }
+
+        private bool AnyActiveAdultWalker()
+        {
+            List<Pawn> owned = lord.ownedPawns;
+            for (int i = 0; i < owned.Count; i++)
+            {
+                Pawn p = owned[i];
+                if (p != null && !p.Dead && !p.Downed && p.Spawned && p.DevelopmentalStage.Adult())
+                    return true;
+            }
+            return false;
+        }
+
+        // True while some child walker is alive, un-downed, and still on the map (a walker
+        // aboard a launchable is despawned into its container, so Spawned doubles as the
+        // not-yet-boarded test). Downed children deliberately don't count - craft never wait
+        // for downed walkers, so the caretaker shouldn't hold a defense for one either.
+        private bool AnyChildWalkerStillEvacuating()
+        {
+            List<Pawn> owned = lord.ownedPawns;
+            for (int i = 0; i < owned.Count; i++)
+            {
+                Pawn p = owned[i];
+                if (p != null && !p.Dead && !p.Downed && p.Spawned && !p.DevelopmentalStage.Adult())
+                    return true;
+            }
+            return false;
+        }
+
         // True while the subroom's own locked blast door still seals the walkers in and one of
         // them could hack it open - i.e. the escape's mandatory first step is still in progress
         // (queued, pathing, or mid-hack), so unreachable launchables are expected, not a failure.
@@ -138,13 +224,19 @@ namespace BetterTradersGuild.LordJobs.Civilians
         }
 
         // True when the locked shelter no longer protects the family: a live hostile stands
-        // inside the crib subroom itself, or the subroom has been breached open (its room
+        // inside the crib subroom itself, the subroom has been breached open (its room
         // fused into something bigger than any real subroom - a wall hole or a destroyed
-        // door). Hostiles merely prowling the wider nursery do NOT count: bolting then would
-        // mean opening the family's own blast door into them. Escape cue alongside
-        // starvation - the family runs rather than fights (see the class comment).
+        // door), or someone is actively drawing a bead on a family member (catches an
+        // attacker aiming in through an open doorway before the first shot lands; the
+        // harm-signal trigger covers anything this scan misses). Hostiles merely prowling
+        // the wider nursery do NOT count: bolting then would mean opening the family's own
+        // blast door into them. Escape cue alongside starvation - the family runs rather
+        // than fights (see the class comment).
         private bool ShelterCompromised()
         {
+            if (PartyThreatHelper.AnyPartyMemberTargeted(lord))
+                return true;
+
             Map map = Map;
             Faction faction = lord.faction;
             if (map == null || faction == null)

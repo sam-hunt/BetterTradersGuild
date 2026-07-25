@@ -25,7 +25,9 @@ namespace BetterTradersGuild.LordJobs.Civilians
     {
         private const int LiftOffCheckInterval = 30;
 
-        private IntVec3 focus;
+        // Protected so LordToil_BTGDefend (which keeps this toil's lift-off tick and swaps
+        // only the adult duty) can reuse the same focus.
+        protected IntVec3 focus;
 
         public override IntVec3 FlagLoc => focus;
 
