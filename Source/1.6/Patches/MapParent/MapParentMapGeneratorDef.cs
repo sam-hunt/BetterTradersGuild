@@ -46,7 +46,15 @@ namespace BetterTradersGuild.Patches.MapParentPatches
         // 1. Check if custom layouts feature enabled in mod settings
         // 2. Check if this is a TradersGuild settlement
         // 3. If yes: Override result with BTG_SettlementMapGenerator
+        //
+        // WHY Priority.Last:
+        // Other mods postfix this same getter to swap in their own generator, and at least one
+        // (World Domination 1.x, TSA.WorldDomination) does so for every non-player settlement
+        // without excluding orbital ones - it would replace our generator with a ground-town
+        // layout on a Traders Guild platform. Harmony runs postfixes in descending priority, so
+        // the lowest priority runs last and its write to __result is the one that survives.
         [HarmonyPostfix]
+        [HarmonyPriority(Priority.Last)]
         public static void Postfix(Settlement __instance, ref MapGeneratorDef __result)
         {
             // Check if custom layouts feature enabled
