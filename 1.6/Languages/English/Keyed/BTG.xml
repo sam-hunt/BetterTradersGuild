@@ -9,6 +9,11 @@
   <!-- {0} = faction name (e.g., "The Empire") -->
   <BTG_TraderFactionHostile>Hostile relations with {0}</BTG_TraderFactionHostile>
 
+  <!-- ========== ADOPT DESIGNATOR ========== -->
+  <!-- Disabled-reason shown on the Adopt gizmo for a sheltering family's infant while a
+       guardian (the caretaker or a walking child) is still active on the map -->
+  <BTG_AdoptBlockedByGuardians>Their family is still protecting them.</BTG_AdoptBlockedByGuardians>
+
   <!-- ========== INSPECT STRINGS ========== -->
   <BTG_DockedVessel>Docked vessel</BTG_DockedVessel>
   <!-- {0} = trader label, {1} = days remaining (e.g., "3.2") -->
