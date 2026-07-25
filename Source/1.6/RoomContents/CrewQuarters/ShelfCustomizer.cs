@@ -298,7 +298,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         }
 
         // Replaces a shelf with a crib and spawns a newborn.
-        // Also places baby food on the nearest table if available.
+        // Also places baby food on the nearest table if available, and unseals the
+        // bedroom's blast door so the garrison can reach the crib.
         // Requires Biotech DLC (Crib def won't exist otherwise).
         private static void ReplaceShelfWithCrib(Building_Storage shelf, Map map, Faction faction)
         {
@@ -319,6 +320,27 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Place baby food on nearest empty table
             SpawnBabyFoodOnNearestTable(pos, map);
+
+            UnsealSubroomDoors(pos, map);
+        }
+
+        // Pre-hacks (unlocks) the crib bedroom's own blast door(s) so the garrison's
+        // childcare nodes (DefendStructure duty) can actually reach the newborn: a locked
+        // AncientBlastDoor blocks CanReach even for its own faction, which would leave the
+        // baby sealed in with food nobody can administer - it starved through every long
+        // siege. Fiction: the parents left the nursery bedroom keyed open for the crew.
+        // ShelterDoorHelper scopes strictly to doors bordering this subroom's own room, so
+        // this never unlocks a neighbouring bedroom or the perimeter airlock. Null hacker +
+        // suppressed messages keep mapgen silent and leave the door's faction unchanged.
+        private static void UnsealSubroomDoors(IntVec3 focus, Map map)
+        {
+            List<Building_HackableDoor> doors = AI.Civilians.ShelterDoorHelper.ShelterDoors(focus, map);
+            for (int i = 0; i < doors.Count; i++)
+            {
+                CompHackable hackable = doors[i].Hackable;
+                if (hackable != null && !hackable.IsHacked)
+                    hackable.Hack(hackable.defence, null, suppressMessages: true);
+            }
         }
 
         // Spawns a newborn pawn in a crib (similar to Nursery pattern).
@@ -574,8 +596,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             if (tableEmpty)
             {
+                // A full stack (75): the initial supply must carry the newborn through the
+                // early weeks of a siege, before the garrison's starvation-triggered
+                // resupply drops (which include baby food while a faction baby lives)
+                // become the steady state.
                 Thing babyFood = ThingMaker.MakeThing(Things.BabyFood);
-                babyFood.stackCount = Rand.RangeInclusive(25, 45);
+                babyFood.stackCount = Things.BabyFood.stackLimit;
                 GenSpawn.Spawn(babyFood, nearestTable.Position, map);
                 babyFood.SetForbidden(true, false);
             }

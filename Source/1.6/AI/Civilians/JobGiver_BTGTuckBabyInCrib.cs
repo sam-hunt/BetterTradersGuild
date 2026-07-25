@@ -13,7 +13,8 @@ namespace BetterTradersGuild.AI.Civilians
     //
     // Only acts when a crib is free, so it never hauls a baby to a random floor spot; no-op
     // when the caretaker can't manipulate or can't haul the baby. Used by the shelter and
-    // stranded caretaker duties.
+    // stranded caretaker duties, and by the entrenched-defender duty so the garrison keeps
+    // the base's babies tended through a siege.
     public class JobGiver_BTGTuckBabyInCrib : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)

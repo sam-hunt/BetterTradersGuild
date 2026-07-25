@@ -10,7 +10,9 @@ namespace BetterTradersGuild.AI.Civilians
     // (ChildcareUtility.WantsSuckle = can suckle AND is hungry), picks the nearest one the
     // caretaker can feed and reach, finds a suitable food source, and issues the vanilla
     // bottle-feed job. No-op when the caretaker can't manipulate, no baby is hungry, or no
-    // baby food is available. Used by the shelter and stranded caretaker duties.
+    // baby food is available (and for mechs, via ChildcareUtility's Humanlike gate). Used by
+    // the shelter and stranded caretaker duties, and by the entrenched-defender duty so the
+    // garrison keeps the base's babies fed through a siege.
     public class JobGiver_BTGFeedBaby : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)

@@ -72,28 +72,60 @@ namespace BetterTradersGuild.AI
             return c.IsValid && IsValidPodCell(c, map, requireOpenSky: false);
         }
 
-        // Spawns a survival-meal cargo pod at cell. The incoming
-        // skyfaller punches a thin roof on landing if the cell is roofed.
+        // Baby food per living faction baby added to each resupply drop. ~25 units is a few
+        // days of feeds; the resupply cadence (defenders re-call as their own supplies run
+        // out) keeps it topped up across a long siege.
+        private const int BabyFoodPerBaby = 25;
+
+        // Spawns a survival-meal cargo pod at cell, plus baby food while any faction baby
+        // lives on the map (the garrison's childcare duty bottle-feeds it - the guild
+        // resupplies its dependents along with its defenders). The incoming skyfaller
+        // punches a thin roof on landing if the cell is roofed.
         public static void SpawnResupplyDrop(Map map, IntVec3 cell, int mealCount, Faction faction)
         {
             if (map == null || !cell.IsValid || mealCount <= 0)
                 return;
 
             var info = new ActiveTransporterInfo();
-            int remaining = mealCount;
-            int stackLimit = Mathf.Max(1, ThingDefOf.MealSurvivalPack.stackLimit);
-            while (remaining > 0)
-            {
-                int n = Mathf.Min(remaining, stackLimit);
-                Thing meals = ThingMaker.MakeThing(ThingDefOf.MealSurvivalPack);
-                meals.stackCount = n;
-                info.innerContainer.TryAdd(meals);
-                remaining -= n;
-            }
+            AddStacks(info, ThingDefOf.MealSurvivalPack, mealCount);
+            AddStacks(info, Things.BabyFood, BabyFoodCountForFactionBabies(map, faction));
 
             // faction's pod defs are used if it has any, else MakeDropPodAt falls back to
             // the vanilla drop pod - safe even when TradersGuild defines no custom pod.
             DropPodUtility.MakeDropPodAt(cell, map, info, faction);
+        }
+
+        private static void AddStacks(ActiveTransporterInfo info, ThingDef def, int count)
+        {
+            if (def == null || count <= 0)
+                return;
+
+            int remaining = count;
+            int stackLimit = Mathf.Max(1, def.stackLimit);
+            while (remaining > 0)
+            {
+                int n = Mathf.Min(remaining, stackLimit);
+                Thing stack = ThingMaker.MakeThing(def);
+                stack.stackCount = n;
+                info.innerContainer.TryAdd(stack);
+                remaining -= n;
+            }
+        }
+
+        private static int BabyFoodCountForFactionBabies(Map map, Faction faction)
+        {
+            if (faction == null)
+                return 0;
+
+            int babies = 0;
+            List<Pawn> facPawns = map.mapPawns.SpawnedPawnsInFaction(faction);
+            for (int i = 0; i < facPawns.Count; i++)
+            {
+                Pawn p = facPawns[i];
+                if (!p.Dead && (p.DevelopmentalStage.Baby() || p.DevelopmentalStage.Newborn()))
+                    babies++;
+            }
+            return babies * BabyFoodPerBaby;
         }
 
         // Drop size = ModSettings.resupplyMealsPerDefender x living humanlike defenders on
