@@ -22,9 +22,10 @@ namespace BetterTradersGuild.AI.Civilians
 
         // The largest known subroom prefab is 6x6 = 36 footprint cells (CommandersBedroom,
         // ServerRacks_Subroom, CribSubroom); this leaves comfortable slack above that without
-        // approaching corridor/perimeter scale, so it's used below to detect a room that's been
-        // fused into something bigger than any real subroom (e.g. by a breach).
-        private const int MaxPlausibleSubroomCells = 64;
+        // approaching corridor/perimeter scale, so it's used to detect a room that's been
+        // fused into something bigger than any real subroom (e.g. by a breach) - both below
+        // and by LordJob_BTGShelterCivilians.ShelterCompromised.
+        public const int MaxPlausibleSubroomCells = 64;
 
         // All blast doors belonging to the subroom around the focus cell. Empty when the focus
         // room has been breached into something too big to trust (the breach itself is the way

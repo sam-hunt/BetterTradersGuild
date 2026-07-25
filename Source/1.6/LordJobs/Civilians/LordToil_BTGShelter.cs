@@ -15,8 +15,8 @@ namespace BetterTradersGuild.LordJobs.Civilians
     // the caretaker and children are iterated here.
     public class LordToil_BTGShelter : LordToil
     {
-        // Doubles as the caretaker's combat flag radius (subroom-local: a melee guard pinned
-        // by the locked door can only reach intruders who are already inside anyway).
+        // Bounds the subroom-confined forage/rest givers (the locked door is the primary
+        // confinement; the radius is the backstop if it's breached).
         private const float AdultRadius = 6f;
         private const float ChildRadius = 3f;
 

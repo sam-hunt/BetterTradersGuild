@@ -3,35 +3,34 @@
 
   <!--
     Sheltering-civilian caretaker, shelter phase (locked crib subroom).
-    Assigned by LordToil_BTGShelter. Fights intruders who breach the subroom, tends the
-    autonomous babies, and eats/sleeps/wanders in-room. Reused defender givers (forage/rest)
-    live in BetterTradersGuild.AI; the shelter-specific givers in BetterTradersGuild.AI.Civilians.
+    Assigned by LordToil_BTGShelter. Tends the autonomous babies and eats/sleeps/wanders
+    in-room. Deliberately NO combat nodes: these are non-combatants, and the design goal is
+    that the player reads as the clear aggressor - when the shelter is compromised the lord
+    bolts the family to the launchables (LordJob_BTGShelterCivilians.ShelterCompromised)
+    instead of fighting back. Reused defender givers (forage/rest) live in
+    BetterTradersGuild.AI; the shelter-specific givers in BetterTradersGuild.AI.Civilians.
   -->
   <DutyDef>
     <defName>BTG_ShelterAdult</defName>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <!-- 1. Engage hostiles that have breached the crib subroom. Bounded to the
-             subroom by duty focus+radius (the locked door does the real containment;
-             a melee caretaker can only reach intruders who are already inside). -->
-        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGShelterDefend" />
-        <!-- 2. Put any loose/downed baby back into the nearest free crib. -->
+        <!-- 1. Put any loose/downed baby back into the nearest free crib. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
-        <!-- 3. Bottle-feed a hungry baby with the subroom's baby food. -->
+        <!-- 2. Bottle-feed a hungry baby with the subroom's baby food. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
-        <!-- 4. Eat when hungry. Subroom-confined forager: self-gates on hunger (vanilla
+        <!-- 3. Eat when hungry. Subroom-confined forager: self-gates on hunger (vanilla
              JobGiver_GetFood's gate lives in GetPriority, which a ThinkNode_Priority tree
              ignores) and bounds candidates to the crib subroom (focus+radius), so the
              caretaker eats the subroom shelf and won't roam if the door is breached. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGForageInSubroom">
           <minCategory>Hungry</minCategory>
         </li>
-        <!-- 5. Sleep when tired. Subroom-confined rest giver (self-gates on the rest need;
+        <!-- 4. Sleep when tired. Subroom-confined rest giver (self-gates on the rest need;
              the locked door is the primary confinement, the subroom radius the backstop). -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGRestInSubroom">
           <minRestCategory>Tired</minRestCategory>
         </li>
-        <!-- 6. Idle: wander the subroom. -->
+        <!-- 5. Idle: wander the subroom. -->
         <li Class="JobGiver_WanderNearDutyLocation">
           <wanderRadius>4</wanderRadius>
         </li>

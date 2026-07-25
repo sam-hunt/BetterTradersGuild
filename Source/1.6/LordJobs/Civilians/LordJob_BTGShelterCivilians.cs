@@ -13,13 +13,17 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //
     // Three-phase state graph (see the LordToils and DutyDefs/Civilians/*.xml):
     //
-    //   Shelter  ──[a walker starving: the locked shelter's food is gone]──────▶ Escape
+    //   Shelter  ──[a walker starving (the locked shelter's food is gone) OR
+    //               the shelter is compromised (hostile inside / breached)]───▶ Escape
     //   Escape   ──[no walker can reach any launchable, and the shelter's own
     //               door is no longer what seals them in]─────────────────────▶ Stranded
     //   Stranded ──[a walker can reach a launchable again]─────────────────────▶ Escape
     //
-    //   * Shelter: caretaker holds the locked subroom (fights intruders, tends babies),
-    //     everyone eats/sleeps/wanders in-room.
+    //   * Shelter: caretaker holds the locked subroom (tends babies), everyone
+    //     eats/sleeps/wanders in-room. NOBODY fights - these are non-combatants, and the
+    //     design goal is that the player reads as the clear aggressor: when the shelter is
+    //     compromised the family runs for the launchables, leaving intervening (or not) as
+    //     the attacker's choice rather than handing them a self-defence justification.
     //   * Escape: walkers hack the door, carry infants into the best launchable (shuttle
     //     preferred, then pods), and board; LordToil_BTGEscape flies each loaded craft off.
     //     When the last walker boards, the lord empties and is cleaned up automatically.
@@ -74,7 +78,8 @@ namespace BetterTradersGuild.LordJobs.Civilians
             // into the new phase (vanilla pairs its lord transitions with these same actions).
             Transition toEscape = new Transition(shelter, escape);
             toEscape.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck() && AnyStarving()));
+                signal.type == TriggerSignalType.Tick && DueForCheck()
+                && (AnyStarving() || ShelterCompromised())));
             toEscape.AddPostAction(new TransitionAction_WakeAll());
             toEscape.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscape);
@@ -130,6 +135,40 @@ namespace BetterTradersGuild.LordJobs.Civilians
         private bool StillOpeningShelterDoor()
         {
             return ShelterDoorHelper.AnyWalkerCanOpenShelterDoor(lord.ownedPawns, subroomCenter, Map);
+        }
+
+        // True when the locked shelter no longer protects the family: a live hostile stands
+        // inside the crib subroom itself, or the subroom has been breached open (its room
+        // fused into something bigger than any real subroom - a wall hole or a destroyed
+        // door). Hostiles merely prowling the wider nursery do NOT count: bolting then would
+        // mean opening the family's own blast door into them. Escape cue alongside
+        // starvation - the family runs rather than fights (see the class comment).
+        private bool ShelterCompromised()
+        {
+            Map map = Map;
+            Faction faction = lord.faction;
+            if (map == null || faction == null)
+                return false;
+
+            Room room = subroomCenter.GetRoom(map);
+            if (room == null)
+                return false;
+
+            if (room.CellCount > ShelterDoorHelper.MaxPlausibleSubroomCells)
+                return true;
+
+            IReadOnlyList<Pawn> pawns = map.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                Pawn p = pawns[i];
+                if (p == null || p.Downed)
+                    continue;
+                if (!p.HostileTo(faction))
+                    continue;
+                if (p.Position.GetRoom(map) == room)
+                    return true;
+            }
+            return false;
         }
 
         // True if any lord walker is starving - the cue that the locked shelter's food is
