@@ -24,7 +24,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             if (faction == null || walkers == null || walkers.Count == 0)
                 return null;
 
-            Lord lord = LordMaker.MakeNewLord(faction, new LordJob_BTGShelterCivilians(faction, subroomCenter), map);
+            Lord lord = LordMaker.MakeNewLord(faction, new LordJob_BTGShelterCivilians(subroomCenter), map);
             for (int i = 0; i < walkers.Count; i++)
             {
                 if (walkers[i] != null)

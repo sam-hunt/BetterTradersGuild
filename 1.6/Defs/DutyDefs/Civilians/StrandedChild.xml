@@ -16,6 +16,8 @@
              prevent double-claiming); with no adult left, a capable child takes over. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <!-- Sealed-in safety net (see StrandedAdult): a child who can't hack simply no-ops. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>

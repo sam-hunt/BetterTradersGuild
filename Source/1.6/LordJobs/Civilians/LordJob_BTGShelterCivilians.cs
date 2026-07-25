@@ -11,10 +11,11 @@ namespace BetterTradersGuild.LordJobs.Civilians
     // are the caretaker and walking children only; infants/babies stay autonomous in their
     // cribs and are tended/carried via faction + developmental-stage scans.
     //
-    // Three-phase state graph (see the LordToils and DutyDefs/ShelterCivilians.xml):
+    // Three-phase state graph (see the LordToils and DutyDefs/Civilians/*.xml):
     //
-    //   Shelter  ──[anyone starving: the locked shelter's food is gone]───────▶ Escape
-    //   Escape   ──[no walker can reach any launchable]────────────────────────▶ Stranded
+    //   Shelter  ──[a walker starving: the locked shelter's food is gone]──────▶ Escape
+    //   Escape   ──[no walker can reach any launchable, and the shelter's own
+    //               door is no longer what seals them in]─────────────────────▶ Stranded
     //   Stranded ──[a walker can reach a launchable again]─────────────────────▶ Escape
     //
     //   * Shelter: caretaker holds the locked subroom (fights intruders, tends babies),
@@ -28,22 +29,23 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //     re-promotes back to Escape the moment a walker can reach a launchable again, instead
     //     of permanently giving up on a rescuable family.
     //
-    // The escape trigger counts the autonomous babies too, matching the design that the family
-    // bolts the moment ANY of them (including the infants) starves - late enough that the
-    // caretaker's feed loop (which kicks in at Hungry) reliably feeds them first, so escape
-    // fires only when the food is genuinely gone rather than on routine baby hunger.
+    // The escape trigger counts the WALKERS only, not the autonomous infants. Walkers self-feed
+    // at Hungry (forage giver) and can't sleep from Fed to Starving in a single rest cycle, so
+    // a starving walker reliably means the subroom's food is genuinely gone. A starving infant
+    // does NOT mean that: the nursery stocks baby food in proportion to the family (so the two
+    // supplies exhaust together and walker hunger tracks baby hunger), and an infant can hit
+    // Starving from a mere care hiccup - the caretaker asleep through its hungry window, downed,
+    // or mid-job - which used to bolt the family while the shelves were still stocked.
     public class LordJob_BTGShelterCivilians : LordJob
     {
-        private Faction faction;
         private IntVec3 subroomCenter;
 
         public LordJob_BTGShelterCivilians()
         {
         }
 
-        public LordJob_BTGShelterCivilians(Faction faction, IntVec3 subroomCenter)
+        public LordJob_BTGShelterCivilians(IntVec3 subroomCenter)
         {
-            this.faction = faction;
             this.subroomCenter = subroomCenter;
         }
 
@@ -66,24 +68,40 @@ namespace BetterTradersGuild.LordJobs.Civilians
             LordToil_BTGStranded stranded = new LordToil_BTGStranded(subroomCenter);
             graph.AddToil(stranded);
 
+            // Every transition ends the walkers' in-progress jobs (and wakes sleepers) once the
+            // new toil's duties are assigned - think trees only re-evaluate when the current job
+            // ends, so without this a pawn mid-sleep or mid-meal carries its old phase's job deep
+            // into the new phase (vanilla pairs its lord transitions with these same actions).
             Transition toEscape = new Transition(shelter, escape);
             toEscape.AddTrigger(new Trigger_Custom(signal =>
                 signal.type == TriggerSignalType.Tick && DueForCheck() && AnyStarving()));
+            toEscape.AddPostAction(new TransitionAction_WakeAll());
+            toEscape.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscape);
 
+            // Demote only when the escape has actually failed, not while it is still opening the
+            // way out: every escape begins sealed behind the subroom's own locked blast door, and
+            // a locked hackable door blocks CanReach even for its own faction, so launchable
+            // reachability is ALWAYS false during the door-hack prelude. Without the door guard
+            // this demoted the family within one check interval of deciding to escape, into a
+            // stranded phase it could never leave - it starved in the locked subroom.
             Transition toStranded = new Transition(escape, stranded);
             toStranded.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck() && !AnyWalkerCanReachLaunchable()));
+                signal.type == TriggerSignalType.Tick && DueForCheck()
+                && !AnyWalkerCanReachLaunchable() && !StillOpeningShelterDoor()));
+            toStranded.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toStranded);
 
             // Reachability can come back (fire burns out, a blocking hostile dies or leaves, a
-            // corridor gets cleared) - re-promote rather than leaving a rescuable family stuck
-            // foraging forever. Stranded's duties are just reassigned by Escape's
-            // UpdateAllDuties, so re-entering Escape from Stranded is as safe as entering it the
-            // first time.
+            // corridor gets cleared, the stranded duties' own hack giver opens the door) -
+            // re-promote rather than leaving a rescuable family stuck foraging forever.
+            // Stranded's duties are just reassigned by Escape's UpdateAllDuties, so re-entering
+            // Escape from Stranded is as safe as entering it the first time.
             Transition toEscapeAgain = new Transition(stranded, escape);
             toEscapeAgain.AddTrigger(new Trigger_Custom(signal =>
                 signal.type == TriggerSignalType.Tick && DueForCheck() && AnyWalkerCanReachLaunchable()));
+            toEscapeAgain.AddPostAction(new TransitionAction_WakeAll());
+            toEscapeAgain.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscapeAgain);
 
             return graph;
@@ -106,45 +124,35 @@ namespace BetterTradersGuild.LordJobs.Civilians
             return LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map);
         }
 
-        // True if any lord walker, or any sheltered (autonomous) infant of the family, is
-        // starving - the cue that the locked shelter's food is genuinely exhausted. Starving
-        // (not merely urgently hungry) is the threshold on purpose: the caretaker's feed/tend
-        // loop activates as soon as a baby is Hungry, so the two-category buffer (Hungry ->
-        // UrgentlyHungry -> Starving) lets feeding reliably win, and only a real care breakdown
-        // (no baby food, or the caretaker down/overwhelmed) lets a pawn reach Starving.
+        // True while the subroom's own locked blast door still seals the walkers in and one of
+        // them could hack it open - i.e. the escape's mandatory first step is still in progress
+        // (queued, pathing, or mid-hack), so unreachable launchables are expected, not a failure.
+        private bool StillOpeningShelterDoor()
+        {
+            return ShelterDoorHelper.AnyWalkerCanOpenShelterDoor(lord.ownedPawns, subroomCenter, Map);
+        }
+
+        // True if any lord walker is starving - the cue that the locked shelter's food is
+        // genuinely exhausted. Starving (not merely urgently hungry) is the threshold on
+        // purpose: walkers forage the subroom as soon as they are Hungry, and no single job
+        // (even a full sleep) spans the Hungry -> Starving window, so a walker only reaches
+        // Starving when there is truly nothing left to eat. The autonomous infants are
+        // deliberately not counted here - see the class comment.
         private bool AnyStarving()
         {
-            Map map = Map;
-            if (map == null)
-                return false;
-
             List<Pawn> owned = lord.ownedPawns;
             for (int i = 0; i < owned.Count; i++)
             {
-                if (IsStarving(owned[i]))
-                    return true;
-            }
-
-            List<Pawn> facPawns = map.mapPawns.SpawnedPawnsInFaction(faction);
-            for (int i = 0; i < facPawns.Count; i++)
-            {
-                Pawn p = facPawns[i];
-                if ((p.DevelopmentalStage.Baby() || p.DevelopmentalStage.Newborn()) && IsStarving(p))
+                Need_Food food = owned[i]?.needs?.food;
+                if (food != null && (int)food.CurCategory >= (int)HungerCategory.Starving)
                     return true;
             }
             return false;
         }
 
-        private static bool IsStarving(Pawn p)
-        {
-            Need_Food food = p?.needs?.food;
-            return food != null && (int)food.CurCategory >= (int)HungerCategory.Starving;
-        }
-
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look(ref faction, "faction");
             Scribe_Values.Look(ref subroomCenter, "subroomCenter");
         }
     }

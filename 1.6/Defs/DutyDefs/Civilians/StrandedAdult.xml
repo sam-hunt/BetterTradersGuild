@@ -14,8 +14,12 @@
         <!-- Still a caretaker: keep babies tucked and fed first. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
-        <!-- Forage the wider structure (the door is now open), then radio a resupply when
-             starving - reuses the entrenched-defender hunger chain. -->
+        <!-- Sealed-in safety net: stranding can fire while the subroom door is still locked
+             (e.g. no launchable exists at all); without this the structure-wide forage below
+             can't path out and the family starves boxed in. No-op once the door is open. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
+        <!-- Forage the wider structure, then radio a resupply when starving - reuses the
+             entrenched-defender hunger chain. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
