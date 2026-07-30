@@ -26,7 +26,7 @@ namespace BetterTradersGuild.Patches.CaravanPatches
     public static class CaravanPathFollowerStartPath
     {
         [HarmonyPrefix]
-        public static bool Prefix(Caravan ___caravan, PlanetTile destTile, ref bool __result)
+        public static bool Prefix(Caravan ___caravan, PlanetTile destTile)
         {
             if (___caravan == null)
                 return true; // Let vanilla handle null
@@ -40,7 +40,6 @@ namespace BetterTradersGuild.Patches.CaravanPatches
                 return true; // Same-tile arrivals allowed (e.g., trading)
 
             // Block cross-tile pathing from space - only shuttle launch can move the caravan
-            __result = false;
             return false;
         }
     }
