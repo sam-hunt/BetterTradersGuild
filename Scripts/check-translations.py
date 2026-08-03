@@ -86,8 +86,21 @@ PARITY_EXEMPT_FIELDS = set()
 REQUIRED_DLCS = {"Odyssey"}
 
 
+# Def XML may declare a def via a subclass the game rolls into a base-type
+# database — the probe's walker (the game's own) then dumps those defs under
+# the base type, and DefInjected translations legally target that base-type
+# folder. Map each subclass element tag seen in this repo's Defs/ to the def
+# type the dump actually uses. Empty here today; ArchotechAndroidHardware's
+# copy carries the first real entry (VREA's AndroidGeneDef -> GeneDef).
+DEF_TYPE_ALIASES = {}
+
+
 def norm(text):
-    return re.sub(r"\s+", " ", (text or "").strip())
+    # The game decodes literal "\n" escapes in def XML text at load, so the
+    # sidecar (dumped game-side) holds real newlines where the XML holds two
+    # characters; decode before collapsing whitespace or every multi-paragraph
+    # description reads as drifted.
+    return re.sub(r"\s+", " ", (text or "").replace("\\n", "\n").strip())
 
 
 def placeholders(text):
@@ -207,7 +220,8 @@ def collect_defs(defs_dirs, active_packages):
                     continue
                 def_name = elem.findtext("defName")
                 if def_name and def_is_active(elem, active_packages):
-                    defs.setdefault(elem.tag, {})[def_name] = elem
+                    def_type = DEF_TYPE_ALIASES.get(elem.tag, elem.tag)
+                    defs.setdefault(def_type, {})[def_name] = elem
     return defs
 
 
@@ -310,9 +324,7 @@ def check_sidecar_freshness(defs, sidecar, report):
                                         f"sidecar entries; {stale}")
             continue
         # English drift: a label/description added or edited in XML without a
-        # regen. The def XML side is compared post-unescape — RimWorld's
-        # parser turns a literal \n in def text into a real newline at load,
-        # and the sidecar records the loaded form.
+        # regen. (Literal-\n unescaping lives in norm().)
         for def_name, elem in sorted(by_name.items()):
             for field in ("label", "description"):
                 node = elem.find(field)
@@ -323,8 +335,7 @@ def check_sidecar_freshness(defs, sidecar, report):
                     report.error(label, f"{def_type} {def_name}.{field} is in "
                                         f"the def XML but not the sidecar; "
                                         f"{stale}")
-                elif norm(entry["english"]) != \
-                        norm((node.text or "").replace("\\n", "\n")):
+                elif norm(entry["english"]) != norm(node.text):
                     report.error(label, f"{def_type} {def_name}.{field} "
                                         f"English differs between def XML and "
                                         f"sidecar; {stale}")
