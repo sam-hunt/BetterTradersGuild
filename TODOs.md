@@ -1,11 +1,10 @@
 TODOs
 
-> **Infra modernization: implemented 2026-08-03** (spec: `Docs/Specs/Infra-Modernization.md`).
-> Remaining: (1) USER runs `python3 Scripts/refresh-translation-expectations.py` (game closed)
-> to generate the sidecar, then check it in — L10nProbe config already registered;
-> (2) optional RCS1146 conditional-access sweep (~83 sites) — pinned at `suggestion` in
-> .editorconfig until someone authorizes the sweep, then raise to `warning` and register
-> the commit in .git-blame-ignore-revs.
+> **Infra modernization: complete 2026-08-03** (spec: `Docs/Specs/Infra-Modernization.md`;
+> sidecar generated and checked in). Remaining follow-up: optional RCS1146
+> conditional-access sweep (~83 sites) — pinned at `suggestion` in .editorconfig until
+> someone authorizes the sweep, then raise to `warning` and register the commit in
+> .git-blame-ignore-revs.
 
 - AI defense lords
   - Mech AI
