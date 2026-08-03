@@ -1,0 +1,467 @@
+{
+  "meta": {
+    "gameBuild": "1.6.4871 rev591",
+    "activeDlcs": [
+      "Core",
+      "Odyssey"
+    ],
+    "modPackageId": "shunter.bettertradersguild",
+    "modName": "Better Traders Guild",
+    "activeMods": [
+      "brrainz.harmony",
+      "ludeon.rimworld",
+      "ludeon.rimworld.odyssey",
+      "shunter.bettertradersguild",
+      "shunter.l10nprobe"
+    ]
+  },
+  "defInjections": {
+    "ColorDef": {
+      "BTG_OrbitalSteel.label": {
+        "english": "orbital steel",
+        "required": true
+      },
+      "BTG_Rust.label": {
+        "english": "rust",
+        "required": true
+      },
+      "BTG_UniqueWeapon_Silver.label": {
+        "english": "silver",
+        "required": true
+      }
+    },
+    "DutyDef": {
+      "BTG_DefendStructure.thinkNode.subNodes.7.mealContainerDefNames": {
+        "english": [
+          "Pallet_SurvivalMeals"
+        ],
+        "isCollection": true
+      },
+      "BTG_ShelterAdult.thinkNode.subNodes.2.mealContainerDefNames": {
+        "english": [
+          "Pallet_SurvivalMeals"
+        ],
+        "isCollection": true
+      },
+      "BTG_ShelterChild.thinkNode.subNodes.2.mealContainerDefNames": {
+        "english": [
+          "Pallet_SurvivalMeals"
+        ],
+        "isCollection": true
+      },
+      "BTG_StrandedAdult.thinkNode.subNodes.3.mealContainerDefNames": {
+        "english": [
+          "Pallet_SurvivalMeals"
+        ],
+        "isCollection": true
+      },
+      "BTG_StrandedChild.thinkNode.subNodes.2.mealContainerDefNames": {
+        "english": [
+          "Pallet_SurvivalMeals"
+        ],
+        "isCollection": true
+      }
+    },
+    "FactionDef": {
+      "BTG_IndependentTraders.description": {
+        "english": "A small crew of former Traders Guild members, now operating independently.",
+        "required": true
+      },
+      "BTG_IndependentTraders.label": {
+        "english": "independent traders",
+        "required": true
+      },
+      "BTG_IndependentTraders.leaderTitle": {
+        "english": "leader",
+        "required": true
+      },
+      "BTG_IndependentTraders.messageDefendersAttacking": {
+        "english": "{0} from {1} are attacking your {2}.",
+        "required": true
+      },
+      "BTG_IndependentTraders.pawnSingular": {
+        "english": "trader",
+        "required": true
+      },
+      "BTG_IndependentTraders.pawnsPlural": {
+        "english": "traders",
+        "required": true
+      }
+    },
+    "JobDef": {
+      "BTG_BoardLaunchable.reportString": {
+        "english": "boarding TargetA.",
+        "required": true
+      },
+      "BTG_CallResupply.reportString": {
+        "english": "calling for resupply.",
+        "required": true
+      },
+      "BTG_CarryBabyToLaunchable.reportString": {
+        "english": "carrying TargetA to safety.",
+        "required": true
+      },
+      "BTG_Clean.reportString": {
+        "english": "cleaning TargetA.",
+        "required": true
+      },
+      "BTG_FeedPatient.reportString": {
+        "english": "feeding TargetA to TargetB.",
+        "required": true
+      },
+      "BTG_Hack.reportString": {
+        "english": "hacking TargetA.",
+        "required": true
+      },
+      "BTG_OpenContainer.reportString": {
+        "english": "opening TargetA.",
+        "required": true
+      },
+      "BTG_OpenPasteValve.reportString": {
+        "english": "reopening TargetA.",
+        "required": true
+      },
+      "BTG_Relock.reportString": {
+        "english": "relocking cargo vault hatch.",
+        "required": true
+      },
+      "BTG_Rescue.reportString": {
+        "english": "rescuing TargetA.",
+        "required": true
+      },
+      "BTG_TendPatient.reportString": {
+        "english": "tending to TargetA.",
+        "required": true
+      }
+    },
+    "MapGeneratorDef": {
+      "BTG_CargoVaultMapGenerator.label": {
+        "english": "cargo vault",
+        "required": true
+      },
+      "BTG_SettlementMapGenerator.label": {
+        "english": "settlement platform",
+        "required": true
+      }
+    },
+    "PawnKindDef": {
+      "BTG_IndependentTrader.label": {
+        "english": "independent trader",
+        "required": true
+      },
+      "BTG_IndependentTrader.specificApparelRequirements.0.requiredTag": {
+        "english": "Vacsuit"
+      }
+    },
+    "QuestScriptDef": {
+      "BTG_TradeRequest.questDescriptionRules.rulesStrings": {
+        "english": [
+          "questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:\n\n [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])\n\nIf you want to make the trade, send a shuttle with the requested items.",
+          "qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality ",
+          "qualityInfo->"
+        ],
+        "isCollection": true,
+        "fullListAllowed": true,
+        "required": true
+      },
+      "BTG_TradeRequest.questNameRules.rulesStrings": {
+        "english": [
+          "questName->Shuttle Run to [settlement_label]",
+          "questName->Orbital Trade with [settlement_label]",
+          "questName->Shipment for [settlement_label]",
+          "questName->Delivery to [settlement_label]"
+        ],
+        "isCollection": true,
+        "fullListAllowed": true,
+        "required": true
+      },
+      "BTG_TradeRequest.root.nodes.BTG_TradeRequest_Initiate.duration.slateRef": {
+        "english": "$timeout",
+        "normalized": "BTG_TradeRequest.root.nodes.7.duration.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.BTG_TradeRequest_Initiate.requestedThingCount.slateRef": {
+        "english": "$requestedThingCount",
+        "normalized": "BTG_TradeRequest.root.nodes.7.requestedThingCount.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.BTG_TradeRequest_Initiate.requestedThingDef.slateRef": {
+        "english": "$requestedThing",
+        "normalized": "BTG_TradeRequest.root.nodes.7.requestedThingDef.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.BTG_TradeRequest_Initiate.settlement.slateRef": {
+        "english": "$settlement",
+        "normalized": "BTG_TradeRequest.root.nodes.7.settlement.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Delay.delayTicks.slateRef": {
+        "english": "$timeout",
+        "normalized": "BTG_TradeRequest.root.nodes.13.delayTicks.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Delay.isQuestTimeout.slateRef": {
+        "english": "true",
+        "normalized": "BTG_TradeRequest.root.nodes.13.isQuestTimeout.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.End-0.outcome.slateRef": {
+        "english": "Fail",
+        "normalized": "BTG_TradeRequest.root.nodes.4.outcome.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.End-1.outcome.slateRef": {
+        "english": "Success",
+        "normalized": "BTG_TradeRequest.root.nodes.14.outcome.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.End-1.sendStandardLetter.slateRef": {
+        "english": "true",
+        "normalized": "BTG_TradeRequest.root.nodes.14.sendStandardLetter.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.End-2.outcome.slateRef": {
+        "english": "Fail",
+        "normalized": "BTG_TradeRequest.root.nodes.15.outcome.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Equal.node.value1.slateRef": {
+        "english": "$rewardValue",
+        "normalized": "BTG_TradeRequest.root.nodes.11.node.value1.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Equal.node.value2.slateRef": {
+        "english": "1.7",
+        "normalized": "BTG_TradeRequest.root.nodes.11.node.value2.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.EvaluateSimpleCurve.curve.slateRef": {
+        "english": "<points><li>0, 1.15</li><li>50000, 1</li><li>300000, 0.85</li></points>",
+        "normalized": "BTG_TradeRequest.root.nodes.9.curve.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.EvaluateSimpleCurve.value.slateRef": {
+        "english": "$mapWealth",
+        "normalized": "BTG_TradeRequest.root.nodes.9.value.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GetMap.canBeSpace.slateRef": {
+        "english": "true",
+        "normalized": "BTG_TradeRequest.root.nodes.1.canBeSpace.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GetMapWealth.map.slateRef": {
+        "english": "$map",
+        "normalized": "BTG_TradeRequest.root.nodes.8.map.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GetNearestTGSettlement.allowActiveTradeRequest.slateRef": {
+        "english": "False",
+        "normalized": "BTG_TradeRequest.root.nodes.2.allowActiveTradeRequest.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GetNearestTGSettlement.maxTileDistance.slateRef": {
+        "english": "64",
+        "normalized": "BTG_TradeRequest.root.nodes.2.maxTileDistance.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef": {
+        "english": "[asker_faction_royalFavorLabel]",
+        "required": true,
+        "normalized": "BTG_TradeRequest.root.nodes.12.nodeIfChosenPawnSignalUsed.label.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.letterDef.slateRef": {
+        "english": "ChoosePawn",
+        "normalized": "BTG_TradeRequest.root.nodes.12.nodeIfChosenPawnSignalUsed.letterDef.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef": {
+        "english": "Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request?",
+        "required": true,
+        "normalized": "BTG_TradeRequest.root.nodes.12.nodeIfChosenPawnSignalUsed.text.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.useColonistsFromCaravanArg.slateRef": {
+        "english": "true",
+        "normalized": "BTG_TradeRequest.root.nodes.12.nodeIfChosenPawnSignalUsed.useColonistsFromCaravanArg.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GiveRewards.parms.slateRef": {
+        "english": "<allowGoodwill>true</allowGoodwill><allowRoyalFavor>true</allowRoyalFavor><chosenPawnSignal>ChosenPawnForReward</chosenPawnSignal><giveToCaravan>true</giveToCaravan><disallowedThingDefs><li>$requestedThing</li></disallowedThingDefs>",
+        "normalized": "BTG_TradeRequest.root.nodes.12.parms.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GiveRewards.useDifficultyFactor.slateRef": {
+        "english": "false",
+        "normalized": "BTG_TradeRequest.root.nodes.12.useDifficultyFactor.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Letter.label.slateRef": {
+        "english": "Quest failed: [resolvedQuestName]",
+        "required": true,
+        "normalized": "BTG_TradeRequest.root.nodes.3.label.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Letter.text.slateRef": {
+        "english": "[faction_name] became hostile to you.",
+        "required": true,
+        "normalized": "BTG_TradeRequest.root.nodes.3.text.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.RequirementsToAcceptResearch.reserach.slateRef": {
+        "english": "Shuttles",
+        "normalized": "BTG_TradeRequest.root.nodes.0.reserach.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Set-0.value.slateRef": {
+        "english": "$(randInt(4,8)*60000)",
+        "normalized": "BTG_TradeRequest.root.nodes.6.value.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.Set-1.value.slateRef": {
+        "english": "$($requestedThingMarketValue * $wealthRewardValueFactor * randFloat(1.5, 2.1))",
+        "normalized": "BTG_TradeRequest.root.nodes.10.value.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.TradeRequest_GetRequestedThing.dontRequest.slateRef": {
+        "english": "<li>Leather_Patch</li><li>Gravcore</li>",
+        "normalized": "BTG_TradeRequest.root.nodes.5.dontRequest.slateRef"
+      }
+    },
+    "ScenPartDef": {
+      "BTG_FactionGoodwill.label": {
+        "english": "faction goodwill",
+        "required": true
+      },
+      "BTG_PlayerPawnsArriveShuttle.label": {
+        "english": "arrive in shuttle",
+        "required": true
+      },
+      "BTG_StartingApparelColor.label": {
+        "english": "starting apparel color",
+        "required": true
+      },
+      "BTG_StartingUniqueWeapon.label": {
+        "english": "starting unique weapon",
+        "required": true
+      }
+    },
+    "ScenarioDef": {
+      "BTG_ExiledTraders.description": {
+        "english": "A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.\n\nNote: This is a difficult scenario and is not recommended for new players.",
+        "required": true
+      },
+      "BTG_ExiledTraders.label": {
+        "english": "Exiled Traders",
+        "required": true
+      },
+      "BTG_ExiledTraders.scenario.description": {
+        "english": "A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.\n\nNote: This is a difficult scenario and is not recommended for new players.",
+        "required": true
+      },
+      "BTG_ExiledTraders.scenario.name": {
+        "english": "Exiled Traders",
+        "required": true
+      },
+      "BTG_ExiledTraders.scenario.parts.GameStartDialog.textKey": {
+        "english": "BTG_GameStartDialog_ExiledTraders",
+        "normalized": "BTG_ExiledTraders.scenario.parts.3.textKey"
+      },
+      "BTG_ExiledTraders.scenario.parts.PlanetLayerFixed.connections.0.tag": {
+        "english": "Surface",
+        "normalized": "BTG_ExiledTraders.scenario.parts.1.connections.0.tag"
+      },
+      "BTG_ExiledTraders.scenario.parts.PlanetLayerFixed.tag": {
+        "english": "Orbit",
+        "normalized": "BTG_ExiledTraders.scenario.parts.1.tag"
+      },
+      "BTG_ExiledTraders.scenario.summary": {
+        "english": "Three exiled traders hunted by mechanoids.",
+        "required": true
+      },
+      "BTG_ExiledTraders.scenario.surfaceLayer.connections.0.tag": {
+        "english": "Orbit"
+      },
+      "BTG_ExiledTraders.scenario.surfaceLayer.tag": {
+        "english": "Surface"
+      },
+      "BTG_IndependentTraders.description": {
+        "english": "After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.",
+        "required": true
+      },
+      "BTG_IndependentTraders.label": {
+        "english": "Independent Traders",
+        "required": true
+      },
+      "BTG_IndependentTraders.scenario.description": {
+        "english": "After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.",
+        "required": true
+      },
+      "BTG_IndependentTraders.scenario.name": {
+        "english": "Independent Traders",
+        "required": true
+      },
+      "BTG_IndependentTraders.scenario.parts.GameStartDialog.textKey": {
+        "english": "BTG_GameStartDialog_IndependentTraders",
+        "normalized": "BTG_IndependentTraders.scenario.parts.2.textKey"
+      },
+      "BTG_IndependentTraders.scenario.parts.PlanetLayer.connections.0.tag": {
+        "english": "Surface",
+        "normalized": "BTG_IndependentTraders.scenario.parts.0.connections.0.tag"
+      },
+      "BTG_IndependentTraders.scenario.parts.PlanetLayer.tag": {
+        "english": "Orbit",
+        "normalized": "BTG_IndependentTraders.scenario.parts.0.tag"
+      },
+      "BTG_IndependentTraders.scenario.summary": {
+        "english": "Three ex-guild traders and a shuttle.",
+        "required": true
+      },
+      "BTG_IndependentTraders.scenario.surfaceLayer.connections.0.tag": {
+        "english": "Orbit"
+      },
+      "BTG_IndependentTraders.scenario.surfaceLayer.tag": {
+        "english": "Surface"
+      }
+    },
+    "ThingDef": {
+      "BTG_CargoVaultExit.description": {
+        "english": "A secure ladder and hatch providing access back to the station's shuttle bay above.",
+        "required": true
+      },
+      "BTG_CargoVaultExit.label": {
+        "english": "cargo vault exit",
+        "required": true
+      },
+      "BTG_CargoVaultHatch.comps.CompHackable.hackedMessage": {
+        "english": "{HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}.",
+        "required": true,
+        "normalized": "BTG_CargoVaultHatch.comps.0.hackedMessage"
+      },
+      "BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString": {
+        "english": "Hack to override security lock.",
+        "required": true,
+        "normalized": "BTG_CargoVaultHatch.comps.0.notHackedInspectString"
+      },
+      "BTG_CargoVaultHatch.comps.CompRelockable.relockTexPath": {
+        "english": "UI/Commands/SealHatch",
+        "normalized": "BTG_CargoVaultHatch.comps.1.relockTexPath"
+      },
+      "BTG_CargoVaultHatch.description": {
+        "english": "A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock.",
+        "required": true
+      },
+      "BTG_CargoVaultHatch.label": {
+        "english": "secure cargo vault hatch",
+        "required": true
+      },
+      "BTG_CargoVaultHatch_Sealed.description": {
+        "english": "A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders.",
+        "required": true
+      },
+      "BTG_CargoVaultHatch_Sealed.label": {
+        "english": "sealed cargo vault hatch",
+        "required": true
+      }
+    },
+    "WeaponTraitDef": {
+      "SilverInlay.description": {
+        "english": "This weapon is inlaid with silver. Traders will pay more for it.",
+        "required": true
+      },
+      "SilverInlay.exclusionTags": {
+        "english": [
+          "Color"
+        ],
+        "isCollection": true
+      },
+      "SilverInlay.label": {
+        "english": "silver inlay",
+        "required": true
+      },
+      "SilverInlay.traitAdjectives": {
+        "english": [
+          "silver",
+          "silvered",
+          "gleaming",
+          "argent",
+          "fine"
+        ],
+        "isCollection": true,
+        "required": true
+      }
+    }
+  }
+}
