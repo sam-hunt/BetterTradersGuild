@@ -335,6 +335,17 @@ XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, 
 
 **Excluded Test Files:** `Tests/Tools/RegenerateDiagrams.cs` (utility), `Tests/Helpers/DiagramGeneratorTests.cs` - excluded via `<Compile Remove="..." />`.
 
+Run tests natively from WSL — do NOT port TSX's `test-windows.sh` here: building from the Windows toolchain corrupts the WSL-side incremental state (shared `obj/` seen under different path roots) and overwrites the Release DLL in `1.6/Assemblies` with a Debug one.
+
+### Localization
+
+English is the source of truth: `1.6/Languages/English/Keyed/BTG.xml` (`BTG_` prefix) plus a real DefInjected surface under `1.6/Languages/English/DefInjected/<DefType>/`. Layout, conventions, and per-language guidance live in the `translate` skill; the contributor-facing rules and the language roster live in `CONTRIBUTING.md`.
+
+- **Checker:** `python3 Scripts/check-translations.py --strict` validates key parity, placeholders, DefInjected legality, staleness (EN comments), and file hygiene. CI's release gate runs it non-strict.
+- **Sidecar:** `Scripts/expected-injections.json` is the authority for legal DefInjected keys. Regenerate with `python3 Scripts/refresh-translation-expectations.py` — it boots RimWorld (game must be closed) with a pinned mod list via the L10nProbe dev mod, then restores `ModsConfig.xml`.
+- **Known exclusion:** `BTG_ConfigureStartingPawnsXenotypes` (ScenPartDef, MayRequire Biotech) has a label but is deliberately outside the l10n surface — its English DefInjected entry is commented out and the probe boots without Biotech. The upgrade path is documented in the refresh script.
+- **Policy:** translation generation passes run only on explicit request (they are token-expensive). Infra/tooling changes are always fine.
+
 ## Debugging
 
 1. **Enable RimWorld Dev Mode:** Settings → Dev Mode → Logging
