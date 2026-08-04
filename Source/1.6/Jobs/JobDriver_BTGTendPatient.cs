@@ -27,7 +27,7 @@ namespace BetterTradersGuild.JobDrivers
             AddFinishAction(jobCondition =>
             {
                 Thing carried = pawn.carryTracker.CarriedThing;
-                if (carried != null && carried.def.IsMedicine)
+                if (carried?.def.IsMedicine == true)
                     pawn.carryTracker.innerContainer.TryTransferToContainer(carried, pawn.inventory.innerContainer);
             });
             foreach (Toil toil in base.MakeNewToils())

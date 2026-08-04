@@ -47,7 +47,7 @@ namespace BetterTradersGuild.JobDrivers
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDespawnedOrNull(ConsoleIndex);
-            this.FailOn(() => Console == null || !Console.CanUseCommsNow);
+            this.FailOn(() => Console?.CanUseCommsNow != true);
 
             yield return Toils_Goto.GotoThing(ConsoleIndex, PathEndMode.InteractionCell)
                 .FailOnDespawnedOrNull(ConsoleIndex);
@@ -56,7 +56,7 @@ namespace BetterTradersGuild.JobDrivers
                 .WithProgressBarToilDelay(ConsoleIndex)
                 .FailOnDespawnedOrNull(ConsoleIndex)
                 .FailOnCannotTouch(ConsoleIndex, PathEndMode.InteractionCell)
-                .FailOn(() => Console == null || !Console.CanUseCommsNow);
+                .FailOn(() => Console?.CanUseCommsNow != true);
 
             Toil drop = ToilMaker.MakeToil();
             drop.initAction = () =>
@@ -66,7 +66,7 @@ namespace BetterTradersGuild.JobDrivers
                 // Authoritative first-to-complete gate: a parallel caller that finished first
                 // will already have recorded the cooldown, so this later finisher aborts here.
                 ResupplyDropTracker tracker = map.GetComponent<ResupplyDropTracker>();
-                if (tracker == null || !tracker.CanResupplyNow)
+                if (tracker?.CanResupplyNow != true)
                     return;
 
                 // The guild network may have been wiped out while the defender walked over:

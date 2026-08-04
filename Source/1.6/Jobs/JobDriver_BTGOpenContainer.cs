@@ -80,7 +80,7 @@ namespace BetterTradersGuild.JobDrivers
                 if (Container is IThingHolder holder)
                 {
                     ThingOwner owner = holder.GetDirectlyHeldThings();
-                    if (owner != null && owner.Count > 0)
+                    if (owner?.Count > 0)
                         ejected = new List<Thing>(owner);
                 }
 
@@ -91,7 +91,7 @@ namespace BetterTradersGuild.JobDrivers
                     for (int i = 0; i < ejected.Count; i++)
                     {
                         Thing thing = ejected[i];
-                        if (thing != null && thing.Spawned)
+                        if (thing?.Spawned == true)
                             thing.SetForbidden(true, warnOnFail: false);
                     }
                 }

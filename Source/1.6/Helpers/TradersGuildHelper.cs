@@ -126,7 +126,7 @@ namespace BetterTradersGuild
                 foreach (Thing thing in thingsOwner)
                 {
                     Pawn pawn = thing as Pawn;
-                    if (pawn == null || !pawn.RaceProps.Humanlike)
+                    if (pawn?.RaceProps.Humanlike != true)
                         continue;
 
                     AcceptanceReport report = FactionUtility.CanTradeWith(

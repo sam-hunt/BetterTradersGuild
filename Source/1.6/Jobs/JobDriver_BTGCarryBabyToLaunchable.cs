@@ -31,7 +31,7 @@ namespace BetterTradersGuild.JobDrivers
         {
             // Launchable must stay valid the whole job; the baby is only checked until pickup
             // (after pickup it is carried/despawned, so a global despawn-fail would misfire).
-            this.FailOn(() => Launchable == null || Launchable.Destroyed
+            this.FailOn(() => Launchable?.Destroyed != false
                 || Launchable.TryGetComp<CompTransporter>() == null);
 
             yield return Toils_Goto.GotoThing(BabyIndex, PathEndMode.ClosestTouch)
@@ -45,7 +45,7 @@ namespace BetterTradersGuild.JobDrivers
                 // carry tracker. The single-arg overload does a raw innerContainer.TryAdd, which
                 // fails for a still-spawned pawn ("already in another container") and ends the job
                 // instantly - re-issued every tick as job spam, so the baby never actually loads.
-                if (baby == null || !baby.Spawned || pawn.carryTracker.TryStartCarry(baby, 1) <= 0)
+                if (baby?.Spawned != true || pawn.carryTracker.TryStartCarry(baby, 1) <= 0)
                     EndJobWith(JobCondition.Incompletable);
             };
             pickUp.defaultCompleteMode = ToilCompleteMode.Instant;

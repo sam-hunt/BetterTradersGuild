@@ -67,9 +67,9 @@ namespace BetterTradersGuild.PawnPatches
             for (int i = 0; i < facPawns.Count; i++)
             {
                 Pawn p = facPawns[i];
-                if (p == null || p.Dead || p.Downed)
+                if (p?.Dead != false || p.Downed)
                     continue;
-                if (p.RaceProps == null || !p.RaceProps.Humanlike)
+                if (p.RaceProps?.Humanlike != true)
                     continue;
                 if (p.DevelopmentalStage.Baby() || p.DevelopmentalStage.Newborn())
                     continue;

@@ -54,7 +54,7 @@ namespace BetterTradersGuild.ScenParts
         public override void PostGameStart()
         {
             Faction target = Find.FactionManager.FirstFactionOfDef(factionDef);
-            if (target == null || target.IsPlayer)
+            if (target?.IsPlayer != false)
             {
                 return;
             }

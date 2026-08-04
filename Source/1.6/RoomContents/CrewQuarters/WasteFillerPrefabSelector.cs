@@ -132,7 +132,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             // Scan all PrefabDefs that match our naming convention
             foreach (var prefab in DefDatabase<PrefabDef>.AllDefsListForReading)
             {
-                if (prefab.defName == null || !prefab.defName.StartsWith(PREFAB_PREFIX))
+                if (prefab.defName?.StartsWith(PREFAB_PREFIX) != true)
                     continue;
 
                 // Skip the subroom prefabs (they have different naming)

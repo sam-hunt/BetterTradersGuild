@@ -181,7 +181,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 if (book != null)
                 {
                     var container = bookcase.GetDirectlyHeldThings();
-                    if (container != null && container.CanAcceptAnyOf(book, true))
+                    if (container?.CanAcceptAnyOf(book, true) == true)
                     {
                         container.TryAdd(book, true);
                     }
@@ -338,7 +338,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             for (int i = 0; i < doors.Count; i++)
             {
                 CompHackable hackable = doors[i].Hackable;
-                if (hackable != null && !hackable.IsHacked)
+                if (hackable?.IsHacked == false)
                     hackable.Hack(hackable.defence, null, suppressMessages: true);
             }
         }

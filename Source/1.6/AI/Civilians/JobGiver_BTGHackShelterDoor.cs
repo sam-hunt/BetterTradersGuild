@@ -28,7 +28,7 @@ namespace BetterTradersGuild.AI.Civilians
                 return null;
 
             PawnDuty duty = pawn.mindState?.duty;
-            IntVec3 focus = (duty != null && duty.focus.IsValid) ? duty.focus.Cell : pawn.Position;
+            IntVec3 focus = (duty?.focus.IsValid == true) ? duty.focus.Cell : pawn.Position;
 
             List<Building_HackableDoor> doors = ShelterDoorHelper.ShelterDoors(focus, pawn.Map);
 
@@ -38,7 +38,7 @@ namespace BetterTradersGuild.AI.Civilians
             {
                 Building_HackableDoor door = doors[i];
                 CompHackable hackable = door.Hackable;
-                if (hackable == null || !hackable.CanHackNow(pawn).Accepted)
+                if (hackable?.CanHackNow(pawn).Accepted != true)
                     continue;
                 if (!pawn.CanReserve(door))
                     continue;

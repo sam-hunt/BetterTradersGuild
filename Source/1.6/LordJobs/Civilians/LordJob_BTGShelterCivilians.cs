@@ -193,7 +193,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             for (int i = 0; i < owned.Count; i++)
             {
                 Pawn p = owned[i];
-                if (p != null && !p.Dead && !p.Downed && p.Spawned && p.DevelopmentalStage.Adult())
+                if (p?.Dead == false && !p.Downed && p.Spawned && p.DevelopmentalStage.Adult())
                     return true;
             }
             return false;
@@ -209,7 +209,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             for (int i = 0; i < owned.Count; i++)
             {
                 Pawn p = owned[i];
-                if (p != null && !p.Dead && !p.Downed && p.Spawned && !p.DevelopmentalStage.Adult())
+                if (p?.Dead == false && !p.Downed && p.Spawned && !p.DevelopmentalStage.Adult())
                     return true;
             }
             return false;
@@ -253,7 +253,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             for (int i = 0; i < pawns.Count; i++)
             {
                 Pawn p = pawns[i];
-                if (p == null || p.Downed)
+                if (p?.Downed != false)
                     continue;
                 if (!p.HostileTo(faction))
                     continue;

@@ -96,13 +96,13 @@ namespace BetterTradersGuild.ScenParts
         private IEnumerable<ThingDef> PossibleShuttleDefs()
         {
             return DefDatabase<ThingDef>.AllDefs
-                .Where(d => d.comps != null && d.comps.Any(c => c is CompProperties_Shuttle)
+                .Where(d => d.comps?.Any(c => c is CompProperties_Shuttle) == true
                     && FindTransportShipDef(d) != null);
         }
 
         private static bool IsLaunchable(ThingDef d)
         {
-            return d.comps != null && d.comps.Any(c => c is CompProperties_Launchable);
+            return d.comps?.Any(c => c is CompProperties_Launchable) == true;
         }
 
         private static bool IsPaintable(ThingDef d)

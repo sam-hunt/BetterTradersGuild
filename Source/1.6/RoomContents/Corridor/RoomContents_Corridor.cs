@@ -93,7 +93,7 @@ namespace BetterTradersGuild.RoomContents.Corridor
 
         private CellRect GetStructureBounds(Map map)
         {
-            if (map.layoutStructureSketches != null && map.layoutStructureSketches.Count > 0)
+            if (map.layoutStructureSketches?.Count > 0)
                 return map.layoutStructureSketches[0].structureLayout.container;
 
             return CellRect.Empty;

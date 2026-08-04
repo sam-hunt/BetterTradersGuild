@@ -100,7 +100,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Find a faction pawn on the map to use as creator (UnfinishedThing.Creator cannot be null)
             Pawn creator = map.mapPawns.AllPawns
-                .FirstOrDefault(p => p.Faction != null && !p.Faction.IsPlayer && p.RaceProps.Humanlike);
+                .FirstOrDefault(p => p.Faction?.IsPlayer == false && p.RaceProps.Humanlike);
 
             if (creator == null) return;
 

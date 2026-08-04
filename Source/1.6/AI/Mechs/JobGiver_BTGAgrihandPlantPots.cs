@@ -115,7 +115,7 @@ namespace BetterTradersGuild.AI.Mechs
                     for (int i = 0; i < all.Count; i++)
                     {
                         ThingDef def = all[i];
-                        if (def.plant != null && def.plant.Sowable)
+                        if (def.plant?.Sowable == true)
                             sowablePlants.Add(def);
                     }
                 }

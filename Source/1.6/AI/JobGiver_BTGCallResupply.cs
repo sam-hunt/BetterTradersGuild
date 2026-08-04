@@ -57,7 +57,7 @@ namespace BetterTradersGuild.AI
             // on cooldown. The authoritative gate is re-checked at completion (JobDriver), so
             // parallel callers on different consoles resolve first-to-complete-wins there.
             ResupplyDropTracker tracker = pawn.Map.GetComponent<ResupplyDropTracker>();
-            if (tracker == null || !tracker.CanResupplyNow)
+            if (tracker?.CanResupplyNow != true)
                 return null;
 
             // The wider guild network is what answers the call: if this is the last guild

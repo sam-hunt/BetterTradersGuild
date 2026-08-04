@@ -40,7 +40,7 @@ namespace BetterTradersGuild.JobDrivers
             Toil goToNutrientDispenser = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnForbidden(TargetIndex.A);
             Toil goToFoodHolder = Toils_Goto.GotoThing(TargetIndex.C, PathEndMode.Touch).FailOn(() => FoodHolder != FoodHolderInventory?.pawn || FoodHolder.IsForbidden(pawn));
             Toil carryFoodToPatient = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
-            yield return Toils_Jump.JumpIf(carryFoodFromInventory, () => pawn.inventory != null && pawn.inventory.Contains(TargetThingA));
+            yield return Toils_Jump.JumpIf(carryFoodFromInventory, () => pawn.inventory?.Contains(TargetThingA) == true);
             yield return Toils_Haul.CheckItemCarriedByOtherPawn(Food, TargetIndex.C, goToFoodHolder);
             yield return Toils_Jump.JumpIf(goToNutrientDispenser, () => TargetThingA is Building_NutrientPasteDispenser);
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);

@@ -502,7 +502,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 
                 // Check for blocking buildings (but allow shelves, storage)
                 Building building = cell.GetEdifice(map);
-                if (building != null && !building.def.passability.HasFlag(Traversability.Standable))
+                if (building?.def.passability.HasFlag(Traversability.Standable) == false)
                 {
                     // Skip cells with impassable buildings
                     if (building.def.passability == Traversability.Impassable)

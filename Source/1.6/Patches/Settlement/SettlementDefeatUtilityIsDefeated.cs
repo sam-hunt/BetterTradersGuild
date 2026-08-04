@@ -61,7 +61,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             for (int i = 0; i < pawns.Count; i++)
             {
                 Pawn p = pawns[i];
-                if (p == null || p.Downed)
+                if (p?.Downed != false)
                     continue;
 
                 if (p.RaceProps.Humanlike)

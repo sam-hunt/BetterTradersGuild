@@ -104,7 +104,7 @@ namespace BetterTradersGuild.AI.Civilians
             for (int i = 0; i < pawns.Count; i++)
             {
                 Pawn p = pawns[i];
-                if (p == null || p.Dead || p.Downed)
+                if (p?.Dead != false || p.Downed)
                     continue;
                 if (PreferredLaunchable(p) != null)
                     return true;
@@ -140,7 +140,7 @@ namespace BetterTradersGuild.AI.Civilians
         // play out. Idempotent-safe per launchable (a destroyed launchable is ignored).
         public static void LiftOff(Thing launchable)
         {
-            if (launchable == null || launchable.Destroyed)
+            if (launchable?.Destroyed != false)
                 return;
 
             CompTransporter transporter = launchable.TryGetComp<CompTransporter>();

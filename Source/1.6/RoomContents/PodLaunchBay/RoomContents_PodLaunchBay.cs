@@ -18,7 +18,7 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
             base.FillRoom(map, room, faction, threatPoints);
 
             // 2. Post-process spawned prefabs (all rects)
-            if (room.rects != null && room.rects.Count > 0)
+            if (room.rects?.Count > 0)
             {
                 foreach (CellRect roomRect in room.rects)
                 {

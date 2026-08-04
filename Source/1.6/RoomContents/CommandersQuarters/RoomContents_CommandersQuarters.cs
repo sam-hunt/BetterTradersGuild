@@ -73,7 +73,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             //    CRITICAL: This must happen AFTER base.FillRoom() since lounge
             //    bookshelves are spawned by base.FillRoom()
             //    ALWAYS runs - fixes books even if bedroom placement failed
-            if (room.rects != null && room.rects.Count > 0)
+            if (room.rects?.Count > 0)
             {
                 foreach (CellRect roomRect in room.rects)
                 {

@@ -105,10 +105,7 @@ namespace BetterTradersGuild.RoomContents.Armory
             item.stackCount = count;
 
             CompQuality compQuality = item.TryGetComp<CompQuality>();
-            if (compQuality != null)
-            {
-                compQuality.SetQuality(GetRandomQuality(), ArtGenerationContext.Outsider);
-            }
+            compQuality?.SetQuality(GetRandomQuality(), ArtGenerationContext.Outsider);
 
             return item;
         }
@@ -166,7 +163,7 @@ namespace BetterTradersGuild.RoomContents.Armory
             {
                 foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
                 {
-                    if (def.thingCategories != null && def.thingCategories.Contains(ThingCategories.MortarShells))
+                    if (def.thingCategories?.Contains(ThingCategories.MortarShells) == true)
                         shells.Add(def);
                 }
             }
@@ -204,7 +201,7 @@ namespace BetterTradersGuild.RoomContents.Armory
                 if (def.comps == null) continue;
 
                 var drugProps = def.comps.OfType<CompProperties_Drug>().FirstOrDefault();
-                if (drugProps != null && drugProps.isCombatEnhancingDrug)
+                if (drugProps?.isCombatEnhancingDrug == true)
                     drugs.Add(def);
             }
 

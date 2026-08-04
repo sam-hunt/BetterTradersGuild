@@ -33,7 +33,7 @@ namespace BetterTradersGuild.MapGeneration
         public override bool IsEnterable(out string reason)
         {
             CompHackable hackable = this.GetComp<CompHackable>();
-            if (hackable != null && !hackable.IsHacked)
+            if (hackable?.IsHacked == false)
             {
                 reason = "Locked".Translate();
                 return false;
@@ -47,7 +47,7 @@ namespace BetterTradersGuild.MapGeneration
         public override IEnumerable<Gizmo> GetGizmos()
         {
             CompHackable hackable = this.GetComp<CompHackable>();
-            bool isLocked = hackable != null && !hackable.IsHacked;
+            bool isLocked = hackable?.IsHacked == false;
 
             foreach (Gizmo gizmo in base.GetGizmos())
             {

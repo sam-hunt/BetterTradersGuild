@@ -55,7 +55,7 @@ namespace BetterTradersGuild.AI.Mechs
                     if (plant.LifeStage != PlantLifeStage.Mature || !plant.HarvestableNow || !plant.CanYieldNow())
                         continue;
                     ThingDef yield = plant.def.plant.harvestedThingDef;
-                    if (yield == null || !yield.IsNutritionGivingIngestible)
+                    if (yield?.IsNutritionGivingIngestible != true)
                         continue;
                     if (!FarmArea.Contains(rects, plant.Position))
                         continue;

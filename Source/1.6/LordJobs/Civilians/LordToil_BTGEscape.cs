@@ -82,7 +82,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
         {
             foreach (Pawn pawn in lord.ownedPawns)
             {
-                if (pawn == null || pawn.Dead || pawn.Downed)
+                if (pawn?.Dead != false || pawn.Downed)
                     continue;
                 if (LaunchableEscapeHelper.IsAboardAnyLaunchable(pawn, map))
                     continue;

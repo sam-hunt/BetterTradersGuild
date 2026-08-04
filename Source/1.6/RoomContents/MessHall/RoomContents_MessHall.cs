@@ -67,17 +67,16 @@ namespace BetterTradersGuild.RoomContents.MessHall
         {
             // Try to get the FoodMeals category first
             var foodMealsCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("FoodMeals");
-            if (foodMealsCategory != null && foodMealsCategory.childThingDefs != null)
+            if (foodMealsCategory?.childThingDefs != null)
             {
                 return foodMealsCategory.childThingDefs.ToList();
             }
 
             // Fallback: find all ThingDefs that are in a meal-related category
             return DefDatabase<ThingDef>.AllDefsListForReading
-                .Where(def => def.thingCategories != null &&
-                              def.thingCategories.Any(cat =>
+                .Where(def => def.thingCategories?.Any(cat =>
                                   cat.defName.Contains("Meals") ||
-                                  cat.defName == "FoodMeals"))
+                                  cat.defName == "FoodMeals") == true)
                 .ToList();
         }
     }

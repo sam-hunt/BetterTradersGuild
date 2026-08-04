@@ -20,7 +20,7 @@ namespace BetterTradersGuild.Patches.MechChargerPatches
         [HarmonyPostfix]
         public static void Postfix(Building_MechCharger __instance, Pawn pawn, ref bool __result)
         {
-            if (__result && __instance.Faction != null && __instance.Faction.HostileTo(pawn.Faction))
+            if (__result && __instance.Faction?.HostileTo(pawn.Faction) == true)
                 __result = false;
         }
     }

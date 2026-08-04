@@ -95,7 +95,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
 
             // 1. Spawn walls first (shared walls between subrooms, enclosing walls)
-            if (result.Walls != null && result.Walls.Count > 0)
+            if (result.Walls?.Count > 0)
             {
                 SpawnWallsFromSegments(map, result.Walls);
             }

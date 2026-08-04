@@ -70,7 +70,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 foreach (Thing thing in existingThings)
                 {
                     CompPower compPower = thing.TryGetComp<CompPower>();
-                    if (compPower != null && compPower.Props.transmitsPower)
+                    if (compPower?.Props.transmitsPower == true)
                     {
                         hasPowerTransmitter = true;
                         break;

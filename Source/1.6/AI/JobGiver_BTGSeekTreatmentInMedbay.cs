@@ -51,7 +51,7 @@ namespace BetterTradersGuild.AI
 
             // Already resting in a medbay bed: nothing to do - the medic tends in place.
             Building_Bed current = RestUtility.CurrentBed(pawn);
-            if (current != null && current.Medical && MedicRoomBounds.Contains(medbayRects, current.Position))
+            if (current?.Medical == true && MedicRoomBounds.Contains(medbayRects, current.Position))
                 return null;
 
             Building_Bed bed = FindMedbayBed(pawn, medbayRects);

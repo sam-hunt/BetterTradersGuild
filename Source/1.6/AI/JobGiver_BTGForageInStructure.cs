@@ -285,7 +285,7 @@ namespace BetterTradersGuild.AI
                 Thing valve = valves[i];
                 CompFlickable flickable = valve.TryGetComp<CompFlickable>();
                 // Only closed valves are worth a trip; an open one already feeds the net.
-                if (flickable == null || flickable.SwitchIsOn)
+                if (flickable?.SwitchIsOn != false)
                     continue;
                 if (!WithinBounds(pawn, valve.Position))
                     continue;

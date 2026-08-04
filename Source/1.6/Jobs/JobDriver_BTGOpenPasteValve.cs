@@ -45,7 +45,7 @@ namespace BetterTradersGuild.JobDrivers
             this.FailOn(() =>
             {
                 CompFlickable f = Valve?.TryGetComp<CompFlickable>();
-                return f == null || f.SwitchIsOn;
+                return f?.SwitchIsOn != false;
             });
 
             yield return Toils_Goto.GotoThing(ValveIndex, PathEndMode.Touch)
@@ -68,7 +68,7 @@ namespace BetterTradersGuild.JobDrivers
             toil.initAction = () =>
             {
                 CompFlickable flickable = Valve?.TryGetComp<CompFlickable>();
-                if (flickable == null || flickable.SwitchIsOn)
+                if (flickable?.SwitchIsOn != false)
                     return;
 
                 flickable.SwitchIsOn = true;

@@ -40,7 +40,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
             // 0. Apply checkered floor pattern using pastel carpets
             //    Must happen BEFORE base.FillRoom() which may apply uniform flooring
-            if (room.rects != null && room.rects.Count > 0)
+            if (room.rects?.Count > 0)
             {
                 List<TerrainDef> floorTypes = new List<TerrainDef>
                 {
@@ -89,7 +89,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             // 9. Post-processing: Spawn daylilies in plant pots
             //    CRITICAL: This must happen AFTER base.FillRoom() since plant pots
             //    are spawned by XML prefabs in base.FillRoom()
-            if (room.rects != null && room.rects.Count > 0)
+            if (room.rects?.Count > 0)
             {
                 foreach (CellRect roomRect in room.rects)
                 {

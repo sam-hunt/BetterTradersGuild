@@ -25,7 +25,7 @@ namespace BetterTradersGuild.JobDrivers
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOn(() => Launchable == null || Launchable.Destroyed
+            this.FailOn(() => Launchable?.Destroyed != false
                 || Launchable.TryGetComp<CompTransporter>() == null);
 
             yield return Toils_Goto.GotoThing(LaunchableIndex, PathEndMode.Touch)

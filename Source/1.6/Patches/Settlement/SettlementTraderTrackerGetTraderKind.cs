@@ -223,10 +223,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
             // Cache to WorldComponent with expiration for ALL settlements after recalculation
             // This ensures both visited and unvisited settlements get re-cached after expiration
-            if (worldComponent != null)
-            {
-                worldComponent.CacheTraderKind(settlementID, traderKind);
-            }
+            worldComponent?.CacheTraderKind(settlementID, traderKind);
 
             __result = traderKind;
         }

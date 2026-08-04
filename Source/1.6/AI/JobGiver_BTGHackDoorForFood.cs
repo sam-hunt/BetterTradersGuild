@@ -82,7 +82,7 @@ namespace BetterTradersGuild.AI
                 // intellectual-skill prerequisite. Mirror it, then add reservation like the
                 // WorkGiver does so two trapped pawns don't both claim the same door.
                 CompHackable hackable = door.Hackable;
-                if (hackable == null || !hackable.CanHackNow(pawn).Accepted)
+                if (hackable?.CanHackNow(pawn).Accepted != true)
                     continue;
                 if (!pawn.CanReserve(door))
                     continue;

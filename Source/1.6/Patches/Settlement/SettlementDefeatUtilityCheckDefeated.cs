@@ -83,7 +83,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             }
 
             // No state means not a TradersGuild settlement or no map was loaded
-            if (__state == null || !__state.IsTradersGuild)
+            if (__state?.IsTradersGuild != true)
                 return;
 
             // CRITICAL: Only transfer if defeat actually happened

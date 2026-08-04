@@ -147,7 +147,7 @@ namespace BetterTradersGuild.AI
             for (int i = 0; i < owned.Count; i++)
             {
                 Pawn p = owned[i];
-                if (p != null && !p.Dead && p.RaceProps != null && p.RaceProps.Humanlike)
+                if (p?.Dead == false && p.RaceProps?.Humanlike == true)
                     defenders++;
             }
             return perDefender * defenders;

@@ -67,7 +67,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 growth = Mathf.Clamp01(growth);
             }
 
-            bool hasPlantOptions = plantDefs != null && plantDefs.Count > 0;
+            bool hasPlantOptions = plantDefs?.Count > 0;
 
             // Find all plant pots and spawn plants in them
             foreach (IntVec3 cell in searchArea.Cells)

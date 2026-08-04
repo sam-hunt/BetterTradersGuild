@@ -68,7 +68,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     foreach (Thing thing in cell.GetThingList(map))
                     {
                         CompPower compPower = thing.TryGetComp<CompPower>();
-                        if (compPower != null && compPower.Props.transmitsPower)
+                        if (compPower?.Props.transmitsPower == true)
                         {
                             hasPowerTransmitter = true;
                             break;

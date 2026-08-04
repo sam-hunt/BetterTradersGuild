@@ -60,7 +60,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 Building edifice = cell.GetEdifice(map);
 
                 // Always block on doors
-                if (edifice != null && edifice.def.IsDoor)
+                if (edifice?.def.IsDoor == true)
                 {
                     blockers.Add(new DoorPosition { X = cell.x, Z = cell.z });
                     continue;
@@ -71,8 +71,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 if (!wallsOnly)
                 {
                     bool isWall = edifice != null &&
-                                  edifice.def.building != null &&
-                                  edifice.def.building.isPlaceOverableWall;
+                                  edifice.def.building?.isPlaceOverableWall == true;
 
                     // Also treat as wall if it's a wall-like impassable building
                     if (!isWall && edifice != null)

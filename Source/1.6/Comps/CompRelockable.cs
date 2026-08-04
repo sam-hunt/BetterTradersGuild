@@ -28,11 +28,11 @@ namespace BetterTradersGuild.Comps
         {
             // Only show relock button when hatch is unlocked (hacked)
             CompHackable hackable = parent.GetComp<CompHackable>();
-            if (hackable == null || !hackable.IsHacked)
+            if (hackable?.IsHacked != true)
                 yield break;
 
             // Only show when not on player's home map
-            if (parent.Map != null && parent.Map.IsPlayerHome)
+            if (parent.Map?.IsPlayerHome == true)
                 yield break;
 
             yield return new Command_Action
@@ -52,11 +52,11 @@ namespace BetterTradersGuild.Comps
         {
             // Only show relock option when hatch is unlocked (hacked)
             CompHackable hackable = parent.GetComp<CompHackable>();
-            if (hackable == null || !hackable.IsHacked)
+            if (hackable?.IsHacked != true)
                 yield break;
 
             // Only show when not on player's home map
-            if (parent.Map != null && parent.Map.IsPlayerHome)
+            if (parent.Map?.IsPlayerHome == true)
                 yield break;
 
             // Check if pawn can do the job

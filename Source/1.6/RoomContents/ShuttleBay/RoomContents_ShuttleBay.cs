@@ -86,7 +86,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // - Corner: empty list (room walls provide everything)
                 // - Edge: one wall segment (left side)
                 // - Center: two wall segments (back + left)
-                if (placement.RequiredWalls != null && placement.RequiredWalls.Count > 0)
+                if (placement.RequiredWalls?.Count > 0)
                 {
                     VacWallSegmentSpawner.SpawnWallsWithBarriers(map, placement.RequiredWalls);
                 }

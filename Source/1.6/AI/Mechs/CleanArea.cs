@@ -30,7 +30,7 @@ namespace BetterTradersGuild.AI.Mechs
         public static IntVec3 GetAnchor(Pawn mech)
         {
             PawnDuty duty = mech?.mindState?.duty;
-            if (duty != null && duty.focus.IsValid)
+            if (duty?.focus.IsValid == true)
                 return duty.focus.Cell;
             return mech != null ? mech.Position : IntVec3.Invalid;
         }

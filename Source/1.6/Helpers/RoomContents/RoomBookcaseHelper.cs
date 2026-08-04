@@ -89,7 +89,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     Verse.ThingOwner container = bookcase.GetDirectlyHeldThings();
 
                     // Check if bookcase can accept this book
-                    if (container != null && container.CanAcceptAnyOf(book, true))
+                    if (container?.CanAcceptAnyOf(book, true) == true)
                     {
                         // Remove from map
                         book.DeSpawn(DestroyMode.Vanish);

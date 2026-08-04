@@ -48,7 +48,7 @@ namespace BetterTradersGuild.AI.Civilians
             for (int i = 0; i < pawns.Count; i++)
             {
                 Pawn p = pawns[i];
-                if (p == null || p.Downed)
+                if (p?.Downed != false)
                     continue;
                 if (!p.HostileTo(faction))
                     continue;
@@ -75,7 +75,7 @@ namespace BetterTradersGuild.AI.Civilians
             List<Pawn> walkers = lord.ownedPawns;
             for (int i = 0; i < walkers.Count; i++)
             {
-                if (walkers[i] != null && !walkers[i].Dead)
+                if (walkers[i]?.Dead == false)
                     party.Add(walkers[i]);
             }
 

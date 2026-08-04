@@ -15,7 +15,7 @@ namespace BetterTradersGuild.AI.Civilians
                 return false;
 
             PawnDuty duty = pawn.mindState?.duty;
-            if (duty == null || !duty.focus.IsValid || duty.radius <= 0f)
+            if (duty?.focus.IsValid != true || duty.radius <= 0f)
                 return true;
 
             return (pos - duty.focus.Cell).LengthHorizontalSquared <= duty.radius * duty.radius;

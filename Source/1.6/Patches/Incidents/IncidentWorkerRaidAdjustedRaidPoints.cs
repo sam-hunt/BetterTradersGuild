@@ -20,7 +20,7 @@ namespace BetterTradersGuild.Patches.Incidents
         [HarmonyPostfix]
         public static void Postfix(ref float __result, IIncidentTarget target)
         {
-            if (target == null || !target.Tile.Valid)
+            if (target?.Tile.Valid != true)
                 return;
 
             PlanetTile tile = target.Tile;

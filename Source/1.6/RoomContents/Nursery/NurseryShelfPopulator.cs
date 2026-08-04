@@ -47,7 +47,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
             {
                 foreach (Pawn pawn in occupants)
                 {
-                    if (pawn == null || pawn.Destroyed)
+                    if (pawn?.Destroyed != false)
                         continue;
 
                     if (EatsBabyFood(pawn))

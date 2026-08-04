@@ -32,7 +32,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             Building_Storage shelf = null;
 
             // Search all room rects (bedroom + lounge, supports multi-rect rooms)
-            if (room.rects != null && room.rects.Count > 0)
+            if (room.rects?.Count > 0)
             {
                 foreach (CellRect roomRect in room.rects)
                 {

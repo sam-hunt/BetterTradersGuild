@@ -48,7 +48,7 @@ namespace BetterTradersGuild.AI.Civilians
             // mode this filter closes. Rather than risk it, no candidate qualifies; the breach
             // itself already gives the civilian a physical way out, so this doesn't strand
             // anyone.
-            if (focusRoom != null && focusRoom.CellCount > MaxPlausibleSubroomCells)
+            if (focusRoom?.CellCount > MaxPlausibleSubroomCells)
                 return result;
 
             List<Thing> doors = map.listerThings.ThingsOfDef(doorDef);
@@ -91,7 +91,7 @@ namespace BetterTradersGuild.AI.Civilians
                 for (int j = 0; j < walkers.Count; j++)
                 {
                     Pawn pawn = walkers[j];
-                    if (pawn == null || pawn.Dead || pawn.Downed)
+                    if (pawn?.Dead != false || pawn.Downed)
                         continue;
                     if (!pawn.DevelopmentalStage.Adult())
                         continue;

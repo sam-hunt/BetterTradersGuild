@@ -47,7 +47,7 @@ namespace BetterTradersGuild.RoomContents.ControlCenter
             base.FillRoom(map, room, faction, threatPoints);
 
             // 6. Connect Ship_ComputerCore to room edge (power)
-            if (room.rects != null && room.rects.Count > 0)
+            if (room.rects?.Count > 0)
             {
                 foreach (var computer in RoomEdgeConnector.FindBuildingsInRoom(map, this.serverRoomRect, Things.Ship_ComputerCore))
                 {
