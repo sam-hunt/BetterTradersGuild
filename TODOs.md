@@ -1,10 +1,9 @@
 TODOs
 
 > **Infra modernization: complete 2026-08-03** (spec: `Docs/Specs/Infra-Modernization.md`;
-> sidecar generated and checked in). Remaining follow-up: optional RCS1146
-> conditional-access sweep (~83 sites) — pinned at `suggestion` in .editorconfig until
-> someone authorizes the sweep, then raise to `warning` and register the commit in
-> .git-blame-ignore-revs.
+> sidecar generated and checked in). RCS1146 follow-up done 2026-08-04: sweep applied,
+> severity raised to `warning`, commit registered in .git-blame-ignore-revs, Unity
+> null-check footgun guarded via Microsoft.Unity.Analyzers (UNT0007/UNT0008).
 
 - AI defense lords
   - Mech AI

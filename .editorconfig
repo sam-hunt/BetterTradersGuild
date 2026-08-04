@@ -53,9 +53,7 @@ dotnet_code_quality_unused_parameters = all:suggestion
 # while `?.` does a raw reference check and bypasses it. Verse.Thing/Pawn/ThingComp
 # are plain classes and safe. Never bulk-apply RCS1146 to Unity-typed receivers;
 # UNT0008/UNT0007 below exist to catch it mechanically if it happens anyway.
-# RCS1146 is warning in sibling repos; kept at suggestion here because ~83 legacy
-# sites predate the analyzer — raise to warning after a dedicated sweep.
-dotnet_diagnostic.RCS1146.severity = suggestion   # Use conditional access
+dotnet_diagnostic.RCS1146.severity = warning      # Use conditional access
 dotnet_diagnostic.RCS1139.severity = none         # Add summary element to doc comment
 dotnet_diagnostic.RCS1226.severity = none         # Add paragraph to doc comment
 

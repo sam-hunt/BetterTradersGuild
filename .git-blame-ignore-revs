@@ -10,3 +10,6 @@ c0fcdeca72f26fa7cb57871a6c1e52dd7a539020
 
 # chore: Standardize code formatting to Microsoft C# conventions
 260691ca88e19c888a46d814c52fffc4cd55bf30
+
+# style: Apply RCS1146 conditional-access fixes via roslynator
+4a4f2660b197eb2de16fa350ed8e22cd9c3754c2
