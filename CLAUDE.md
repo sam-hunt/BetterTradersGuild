@@ -337,7 +337,7 @@ XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, 
 
 **Excluded Test Files:** `Tests/Tools/RegenerateDiagrams.cs` (utility), `Tests/Helpers/DiagramGeneratorTests.cs` - excluded via `<Compile Remove="..." />`.
 
-Run tests natively from WSL — do NOT port TSX's `test-windows.sh` here: building from the Windows toolchain corrupts the WSL-side incremental state (shared `obj/` seen under different path roots) and overwrites the Release DLL in `1.6/Assemblies` with a Debug one.
+Run tests natively from WSL — never build from the Windows toolchain: it corrupts the WSL-side incremental state (shared `obj/` seen under different path roots). The test csproj copies the live install's runtime DLLs beside the test DLL so tests may load Verse types (see the Assembly-CSharp-firstpass comment there — mono resolves field types eagerly where the Windows CLR is lazy); `OutputPath` is Release-gated so Debug `dotnet test` builds can't overwrite the shipped DLL in `1.6/Assemblies`.
 
 ### Localization
 
