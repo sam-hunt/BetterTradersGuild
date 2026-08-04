@@ -94,6 +94,8 @@ Source/1.6/
 
 **Comments:** In `Source/`, use plain `//` comments only — do **not** write XML doc comments (`///`, `<summary>`, `<param>`, etc.); nothing consumes them there, so they add ceremony without benefit. `Tests/` is exempt: XML doc comments are fine there (they read cleanly on the test helpers and are the most likely place to adopt a tool that parses them).
 
+**No `?.`/`??` on Unity objects:** Never use null propagation or null coalescing on receivers deriving from `UnityEngine.Object` (`Material`, `Texture`, `RenderTexture`, `GameObject`, ...). Unity overloads `==` so destroyed objects compare equal to null; `?.` bypasses the overload with a raw reference check and then throws `MissingReferenceException` on the member access. Use explicit `== null`/`!= null` guards for those types. Verse types (`Thing`, `Pawn`, `ThingComp`, defs) are plain classes where `?.` is fine. Enforced at build time by UNT0007/UNT0008 (Microsoft.Unity.Analyzers). Corollary: never bulk-apply Roslynator's RCS1146 (use conditional access) fixer to Unity-typed receivers; see the note in `.editorconfig`.
+
 ### Reflection Verification
 
 BTG reaches private RimWorld members and optional-mod APIs by string-named reflection. To catch API drift at startup instead of as a silent runtime failure (the `lifeSupportUnitPowerOutput` bug), every reflection dependency is self-checked when the game loads. Pattern ported from the sister mod `UniqueWeaponsUnbound`.
