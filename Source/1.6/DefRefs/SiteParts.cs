@@ -1,11 +1,8 @@
 using RimWorld;
-using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized SitePartDef references.
-    /// </summary>
+    // Centralized SitePartDef references.
     [DefOf]
     public static class SiteParts
     {

@@ -5,18 +5,16 @@ using Verse;
 
 namespace BetterTradersGuild.QuestParts
 {
-    /// <summary>
-    /// QuestPart that writes the chosen TraderKindDef to the quest site's
-    /// WorldObjectComp_QuestVault when it receives a signal.
-    ///
-    /// Added to both the quest's parts list (for serialization) and a
-    /// QuestPart_Choice.Choice.questParts list (for choice association).
-    /// When the choice is selected and the quest accepted, the initiate signal
-    /// fires and this part writes the trader defName to the site comp.
-    ///
-    /// For the goodwill reward option, traderKindDefName is null, which means
-    /// the vault will be sealed (no cargo generated).
-    /// </summary>
+    // QuestPart that writes the chosen TraderKindDef to the quest site's
+    // WorldObjectComp_QuestVault when it receives a signal.
+    //
+    // Added to both the quest's parts list (for serialization) and a
+    // QuestPart_Choice.Choice.questParts list (for choice association).
+    // When the choice is selected and the quest accepted, the initiate signal
+    // fires and this part writes the trader defName to the site comp.
+    //
+    // For the goodwill reward option, traderKindDefName is null, which means
+    // the vault will be sealed (no cargo generated).
     public class QuestPart_SetVaultTraderKind : QuestPart
     {
         public string inSignal;

@@ -4,10 +4,8 @@ using Verse;
 
 namespace BetterTradersGuild.Comps
 {
-    /// <summary>
-    /// CompProperties for WorldObjectComp_QuestVault.
-    /// Allows the comp to be attached via XML WorldObjectDef.
-    /// </summary>
+    // CompProperties for WorldObjectComp_QuestVault.
+    // Allows the comp to be attached via XML WorldObjectDef.
     public class WorldObjectCompProperties_QuestVault : WorldObjectCompProperties
     {
         public WorldObjectCompProperties_QuestVault()
@@ -16,27 +14,21 @@ namespace BetterTradersGuild.Comps
         }
     }
 
-    /// <summary>
-    /// WorldObjectComp attached to smuggler's den quest Sites.
-    /// Stores the player's chosen trader type from the quest reward selection.
-    ///
-    /// This comp bridges the quest reward system and map generation:
-    /// - QuestPart_SetVaultTraderKind writes the chosen trader defName on quest acceptance
-    /// - GenStep_GenerateQuestVaultStock reads it during map generation to populate the vault
-    /// - CargoHatchSpawner reads it to decide hackable vs sealed hatch
-    /// </summary>
+    // WorldObjectComp attached to smuggler's den quest Sites.
+    // Stores the player's chosen trader type from the quest reward selection.
+    //
+    // This comp bridges the quest reward system and map generation:
+    // - QuestPart_SetVaultTraderKind writes the chosen trader defName on quest acceptance
+    // - GenStep_GenerateQuestVaultStock reads it during map generation to populate the vault
+    // - CargoHatchSpawner reads it to decide hackable vs sealed hatch
     public class WorldObjectComp_QuestVault : WorldObjectComp
     {
-        /// <summary>
-        /// DefName of the chosen TraderKindDef.
-        /// null = goodwill was chosen (vault will be sealed).
-        /// </summary>
+        // DefName of the chosen TraderKindDef.
+        // null = goodwill was chosen (vault will be sealed).
         public string chosenTraderKindDefName;
 
-        /// <summary>
-        /// Resolves the stored defName to a TraderKindDef.
-        /// Returns null if no trader was chosen or if the def no longer exists.
-        /// </summary>
+        // Resolves the stored defName to a TraderKindDef.
+        // Returns null if no trader was chosen or if the def no longer exists.
         public TraderKindDef ChosenTraderKind
         {
             get
@@ -47,10 +39,8 @@ namespace BetterTradersGuild.Comps
             }
         }
 
-        /// <summary>
-        /// Whether the cargo vault should be hackable (true) or sealed (false).
-        /// True when a trader type was chosen; false when goodwill was chosen.
-        /// </summary>
+        // Whether the cargo vault should be hackable (true) or sealed (false).
+        // True when a trader type was chosen; false when goodwill was chosen.
         public bool HasCargoVault => !string.IsNullOrEmpty(chosenTraderKindDefName);
 
         public override void PostExposeData()

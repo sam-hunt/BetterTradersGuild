@@ -1,12 +1,8 @@
 using RimWorld;
-using RimWorld.Planet;
-using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized WorldObjectDef references.
-    /// </summary>
+    // Centralized WorldObjectDef references.
     [DefOf]
     public static class WorldObjects
     {

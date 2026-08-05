@@ -10,21 +10,23 @@ using Verse.Grammar;
 
 namespace BetterTradersGuild.QuestNodes
 {
-    /// <summary>
-    /// QuestNode that creates the reward choices for the smuggler's den quest.
-    ///
-    /// Creates a QuestPart_Choice with 3 options:
-    /// - Option 1: Cargo vault stocked with Trader Type A + standard quest loot
-    /// - Option 2: Cargo vault stocked with Trader Type B + standard quest loot
-    /// - Option 3: Goodwill with TG (standard vanilla pattern, vault sealed)
-    ///
-    /// The 2 trader types are selected randomly with removal, weighted by commonality,
-    /// from the available orbital traders in the current world.
-    ///
-    /// Each cargo option includes a QuestPart_SetVaultTraderKind that writes the
-    /// trader defName to the site's WorldObjectComp_QuestVault on quest acceptance.
-    /// The goodwill option includes QuestPart_SetVaultTraderKind with null (vault sealed).
-    /// </summary>
+    // QuestNode that creates the reward choices for the smuggler's den quest.
+    //
+    // Creates a QuestPart_Choice with 3 options:
+    // - Option 1: Cargo vault stocked with Trader Type A + standard quest loot
+    // - Option 2: Cargo vault stocked with Trader Type B + standard quest loot
+    // - Option 3: Goodwill with TG (standard vanilla pattern, vault sealed)
+    //
+    // The 2 trader types are selected randomly with removal, weighted by commonality,
+    // from the available orbital traders in the current world.
+    //
+    // Each cargo option includes a QuestPart_SetVaultTraderKind that writes the
+    // trader defName to the site's WorldObjectComp_QuestVault on quest acceptance.
+    // The goodwill option includes QuestPart_SetVaultTraderKind with null (vault sealed).
+    //
+    // NOTE: adding every option's QuestPart_SetVaultTraderKind to the quest is safe:
+    // QuestPart_Choice.Choose() removes the unchosen options' parts from the quest
+    // before the Initiate signal fires, so only the chosen part ever receives it.
     public class QuestNode_BTG_SmugglersDen_Rewards : QuestNode
     {
         public SlateRef<Site> site;
@@ -63,9 +65,6 @@ namespace BetterTradersGuild.QuestNodes
             // Select distinct trader types using weighted random with removal
             List<TraderKindDef> available = OrbitalTraderHelper.GetAvailableOrbitalTraders(factionVal);
             List<TraderKindDef> selectedTraders = SelectDistinctTraders(available, cargoCount, quest.id);
-
-
-
 
             // Create the reward choice
             string initiateSignal = QuestGenUtility.HardcodedSignalWithQuestID("Initiate");
@@ -123,10 +122,8 @@ namespace BetterTradersGuild.QuestNodes
             quest.AddPart(choicePart);
         }
 
-        /// <summary>
-        /// Selects distinct trader types using weighted random with removal.
-        /// Deterministic based on quest ID.
-        /// </summary>
+        // Selects distinct trader types using weighted random with removal.
+        // Deterministic based on quest ID.
         private List<TraderKindDef> SelectDistinctTraders(
             List<TraderKindDef> available,
             int count,
@@ -154,18 +151,24 @@ namespace BetterTradersGuild.QuestNodes
         }
     }
 
-    /// <summary>
-    /// Custom Reward display for cargo vault claim in quest reward UI.
-    /// Modeled after vanilla Reward_CampLoot - shows a text label with icon
-    /// describing the trader type whose cargo will stock the vault.
-    /// </summary>
+    // Custom Reward display for cargo vault claim in quest reward UI.
+    // Modeled after vanilla Reward_CampLoot - shows a text label with icon
+    // describing the trader type whose cargo will stock the vault.
     [StaticConstructorOnStartup]
     public class Reward_CargoClaim : Reward
     {
         public TraderKindDef traderKindDef;
 
-        private static readonly Texture2D Icon = ContentFinder<Texture2D>.Get("Things/Building/AncientHatch/AncientHatch_Closed", false)
-            ?? BaseContent.BadTex;
+        // Explicit null check instead of ?? - Texture2D is a UnityEngine.Object (see CLAUDE.md)
+        private static readonly Texture2D Icon = ResolveIcon();
+
+        private static Texture2D ResolveIcon()
+        {
+            Texture2D tex = ContentFinder<Texture2D>.Get("Things/Building/AncientHatch/AncientHatch_Closed", false);
+            if (tex == null)
+                return BaseContent.BadTex;
+            return tex;
+        }
 
         public override IEnumerable<GenUI.AnonymousStackElement> StackElements
         {
