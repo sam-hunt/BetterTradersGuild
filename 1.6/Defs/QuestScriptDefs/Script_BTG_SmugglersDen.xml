@@ -100,6 +100,19 @@
           <sendStandardLetter>true</sendStandardLetter>
         </li>
 
+        <!-- Failure: player entered and left without clearing the site.
+             The site (and its map) is removed when the player leaves, so the
+             quest can no longer be completed. Same pattern as Script_BanditCamp. -->
+        <li Class="QuestNode_Letter">
+          <inSignal>site.Destroyed</inSignal>
+          <label TKey="BTG_LetterLabel_SmugglersDenAbandoned">Quest failed: [resolvedQuestName]</label>
+          <text TKey="BTG_LetterText_SmugglersDenAbandoned">Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended.</text>
+        </li>
+        <li Class="QuestNode_End">
+          <inSignal>site.Destroyed</inSignal>
+          <outcome>Fail</outcome>
+        </li>
+
         <!-- Failure: timeout -->
         <li Class="QuestNode_End">
           <inSignal>SmugglersDenTimeout</inSignal>
