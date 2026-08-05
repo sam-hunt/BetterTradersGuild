@@ -51,6 +51,12 @@ namespace BetterTradersGuild.DefRefs
         // See JobDriver_BTGTendPatient.
         public static JobDef BTG_TendPatient;
 
+        // Paramedic-mech overflow rescue: carry a downed defender to a clear
+        // wall-adjacent medbay floor cell when no medical bed is free, so tending,
+        // feeding and eventual bed promotion happen in the medbay instead of the
+        // casualty bleeding out where they fell. See JobDriver_BTGCarryToMedbayFloor.
+        public static JobDef BTG_CarryToMedbayFloor;
+
         // NPC hacking (civilians opening shelter doors, defenders opening food-room
         // doors). Mirrors vanilla Hack but suppresses CompHackable's player-facing
         // hacked-message (AncientBlastDoor defines one, so vanilla notified the player

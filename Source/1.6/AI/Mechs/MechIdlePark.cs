@@ -57,8 +57,10 @@ namespace BetterTradersGuild.AI.Mechs
         // A cell worth parking on: standable, not already taken by a building, sat against a
         // wall (or the map edge) on at least one side, and not flanking a door. Reachability
         // and reservation are deliberately left to the vanilla shutdown-spot finder this
-        // feeds, so the per-cell test stays cheap.
-        private static bool IsWallParkSpot(IntVec3 c, Map map)
+        // feeds, so the per-cell test stays cheap. Also the base test for the floor-rescue
+        // casualty drop cell (JobGiver_BTGMechMedicFloorRescue adds its own occupancy and
+        // reservation checks on top).
+        internal static bool IsWallParkSpot(IntVec3 c, Map map)
         {
             if (!c.Standable(map) || c.GetFirstBuilding(map) != null)
                 return false;

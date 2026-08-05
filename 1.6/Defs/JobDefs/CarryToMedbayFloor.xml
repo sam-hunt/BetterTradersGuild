@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Paramedic Floor-Rescue Job Definition
+
+    BTG_CarryToMedbayFloor: the paramedic mech's overflow rescue - carry a downed
+    casualty to a clear wall-adjacent medbay floor cell when every medical bed is
+    taken, so tending/feeding (and eventual bed promotion by BTG_Rescue) happen in
+    the medbay instead of the casualty bleeding out where they fell. BTG_Rescue's
+    driver with the bed leg replaced by a cell leg (TargetB is a cell, not a bed);
+    the same NPC-safety rationale applies - see Rescue.xml.
+
+    carryThingAfterJob keeps the casualty in the carry tracker across job restarts,
+    which is what lets a re-issued job resume mid-carry instead of dropping them.
+
+    Used by: JobGiver_BTGMechMedicFloorRescue (BTG_MechMedic duty).
+  -->
+
+  <JobDef>
+    <defName>BTG_CarryToMedbayFloor</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGCarryToMedbayFloor</driverClass>
+    <reportString>carrying TargetA to the medbay.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <carryThingAfterJob>true</carryThingAfterJob>
+    <dropThingBeforeJob>false</dropThingBeforeJob>
+  </JobDef>
+
+</Defs>

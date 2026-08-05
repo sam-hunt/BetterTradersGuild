@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
   <!--
-    Paramedic longjump during BTG_Rescue.
+    Paramedic longjump during BTG_Rescue and BTG_CarryToMedbayFloor.
 
     Vanilla's MechConstant think tree already contains jump-during-rescue AI for the
     paramedic's LongjumpMechLauncher ability (jump toward the downed pawn, then toward
@@ -13,8 +13,13 @@
     like a player-controlled one (2 jumps, then a shared 8h cooldown; 6-15 cell range;
     line of sight required - all self-gated by the job givers via Ability.CanCast).
 
-    Inert for every other mech: nothing but the BTG medic ever runs BTG_Rescue, so the
-    branch costs one job-def compare per constant-tree walk.
+    The floor-rescue carry (BTG_CarryToMedbayFloor) gets the same treatment, except
+    its drop leg targets a cell rather than a bed, which the vanilla rescue-target
+    giver rejects - JobGiver_BTGJumpToCarryDropCell is the cell-accepting subclass
+    (still gated on actually carrying the casualty).
+
+    Inert for every other mech: nothing but the BTG medic ever runs these jobs, so the
+    branch costs two job-def compares per constant-tree walk.
 
     Conditional on Biotech (MechConstant and the ability only exist there); the medic
     itself is only spawned when Biotech is active.
@@ -38,6 +43,20 @@
                 </li>
                 <!-- Jump toward the medbay bed while carrying the casualty -->
                 <li Class="JobGiver_AIJumpToJobRescueTarget">
+                  <ability>LongjumpMechLauncher</ability>
+                  <targetIndex>B</targetIndex>
+                </li>
+              </subNodes>
+            </li>
+            <li Class="ThinkNode_ConditionalDoingJob">
+              <jobDef>BTG_CarryToMedbayFloor</jobDef>
+              <subNodes>
+                <!-- Jump toward the downed casualty -->
+                <li Class="JobGiver_AIJumpToJobRescueTarget">
+                  <ability>LongjumpMechLauncher</ability>
+                </li>
+                <!-- Jump toward the medbay drop cell while carrying the casualty -->
+                <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGJumpToCarryDropCell">
                   <ability>LongjumpMechLauncher</ability>
                   <targetIndex>B</targetIndex>
                 </li>

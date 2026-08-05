@@ -12,9 +12,10 @@ namespace BetterTradersGuild.AI.Mechs
     // or on the medbay floor itself (downed in place, or dropped by an interrupted
     // carry) - and an unreserved medical bed with a free slot exists in the medbay
     // (MedicRoomBounds), the medic carries them to it (worst-bleed casualty first).
-    // When no in-medbay bed is free this returns null - the casualty waits where
-    // they lie (the tend node above still treats anyone inside the medbay on the
-    // floor) and is promoted into a bed once one frees up.
+    // When no in-medbay bed is free this returns null and the floor-rescue node
+    // below (JobGiver_BTGMechMedicFloorRescue) takes over, ferrying the casualty
+    // onto the medbay floor; anyone already lying in the medbay keeps being tended
+    // by the tend node above and is promoted into a bed here once one frees up.
     //
     // Sits below the tend node, so the medic clears every wounded defender already in
     // the medbay before carrying anyone. The medic's duty focus stays pinned to the
@@ -44,7 +45,11 @@ namespace BetterTradersGuild.AI.Mechs
             return job;
         }
 
-        private static Pawn FindDownedNeedingBed(Pawn medic)
+        // excludeRects: when non-null, pawns inside these rects are skipped. The
+        // floor-rescue node passes the medbay rects so it never floor-to-floor
+        // shuffles someone already lying in the medbay; this node passes null so
+        // medbay floor patients are eligible for bed promotion.
+        internal static Pawn FindDownedNeedingBed(Pawn medic, List<CellRect> excludeRects = null)
         {
             Pawn best = null;
             float bestBleed = -1f;
@@ -68,6 +73,8 @@ namespace BetterTradersGuild.AI.Mechs
                 // patients are re-rescued (promoted) once a bed frees up.
                 if (!StructureBoundsCache.Contains(map, p.Position))
                     continue;
+                if (excludeRects != null && MedicRoomBounds.Contains(excludeRects, p.Position))
+                    continue;
                 if (!medic.CanReserveAndReach(p, PathEndMode.Touch, Danger.Deadly))
                     continue;
 
@@ -81,7 +88,7 @@ namespace BetterTradersGuild.AI.Mechs
             return best;
         }
 
-        private static Building_Bed FindRoomMedicalBed(Pawn medic, List<CellRect> rects)
+        internal static Building_Bed FindRoomMedicalBed(Pawn medic, List<CellRect> rects)
         {
             List<Thing> beds = medic.Map.listerThings.ThingsInGroup(ThingRequestGroup.Bed);
             for (int i = 0; i < beds.Count; i++)
