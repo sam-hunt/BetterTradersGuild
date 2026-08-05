@@ -61,11 +61,20 @@ namespace BetterTradersGuild.QuestNodes
             site.Tile = tile;
             site.SetFaction(salvagers);
 
-            // Add the SitePart with threat points
+            // Add the SitePart with threat points. SitePartParams has two points fields
+            // and vanilla readers split between them: classic site code (GenStep_Outpost,
+            // Site.ActualThreatPoints) reads threatPoints, while the Odyssey-era orbital
+            // code (GenStep_OrbitalPlatform, BaseGenUtility.ScatterSentryDronesInMap)
+            // reads points. Vanilla's Gravcore quest nodes set both to the same value;
+            // mirror that so every reader sees the quest's budget.
             float threatPoints = slate.Get<float>("siteThreatPoints",
                 StorytellerUtility.DefaultThreatPointsNow(Find.World));
 
-            SitePartParams partParams = new SitePartParams { threatPoints = threatPoints };
+            SitePartParams partParams = new SitePartParams
+            {
+                threatPoints = threatPoints,
+                points = threatPoints,
+            };
             site.AddPart(new SitePart(site, SiteParts.BTG_SmugglersDen, partParams));
 
             // Store in slate for other quest nodes
