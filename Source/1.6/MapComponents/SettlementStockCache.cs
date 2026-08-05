@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
@@ -32,6 +31,9 @@ namespace BetterTradersGuild.MapComponents
         // Used for deterministic seeding in cargo vault generation.
         public int originalSettlementId;
 
+        // Scratch list for save-safe pawn handling; see ExposeData.
+        private List<Pawn> tmpSavedPawns = new List<Pawn>();
+
         public SettlementStockCache(Map map) : base(map)
         {
             preservedStock = new ThingOwner<Thing>(this);
@@ -57,16 +59,47 @@ namespace BetterTradersGuild.MapComponents
         #endregion
 
         // Saves and loads the preserved stock and original settlement ID.
+        // Pawns in stock are registered world pawns, which WorldPawns already deep-saves.
+        // Deep-saving them here too would scribe each pawn twice and duplicate it on load,
+        // so mirror Settlement_TraderTracker.ExposeData: strip pawns before the deep scribe,
+        // save them by reference, and re-add them afterwards (on save AND after load).
         public override void ExposeData()
         {
             base.ExposeData();
+
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                tmpSavedPawns.Clear();
+                if (preservedStock != null)
+                {
+                    for (int i = preservedStock.Count - 1; i >= 0; i--)
+                    {
+                        if (preservedStock[i] is Pawn pawn)
+                        {
+                            preservedStock.Remove(pawn);
+                            tmpSavedPawns.Add(pawn);
+                        }
+                    }
+                }
+            }
+
+            Scribe_Collections.Look(ref tmpSavedPawns, "tmpSavedPawns", LookMode.Reference);
             Scribe_Deep.Look(ref preservedStock, "preservedStock");
             Scribe_Values.Look(ref originalSettlementId, "originalSettlementId");
 
-            // Reinitialize ThingOwner if null after loading
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && preservedStock == null)
+            if (Scribe.mode == LoadSaveMode.PostLoadInit || Scribe.mode == LoadSaveMode.Saving)
             {
-                preservedStock = new ThingOwner<Thing>(this);
+                // Reinitialize after loading old saves that predate this component's data
+                if (preservedStock == null)
+                    preservedStock = new ThingOwner<Thing>(this);
+                if (tmpSavedPawns == null)
+                    tmpSavedPawns = new List<Pawn>();
+
+                for (int i = 0; i < tmpSavedPawns.Count; i++)
+                {
+                    preservedStock.TryAdd(tmpSavedPawns[i], canMergeWithExistingStacks: false);
+                }
+                tmpSavedPawns.Clear();
             }
         }
 
