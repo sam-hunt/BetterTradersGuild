@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Open Paste Valve Job Definition
+
+    BTG_OpenPasteValve: Lets a non-colonist settlement defender flick a VNPE nutrient-
+    paste valve back ON without a player Flick designation. BTG mapgen (PipeValveHandler)
+    closes every paste valve to lock the settlement down, isolating the vats from the pipe
+    net so taps have nothing to dispense (and so the player can't tap the net from
+    outside). Vanilla's Flick job is designation-gated to the colonist work path, which
+    NPC defenders can never satisfy. Driven by JobDriver_BTGOpenPasteValve; issued by
+    JobGiver_BTGForageInStructure as a last-resort hunger gamble - reconnecting a vat lets
+    a tap dispense on a later forage tick.
+  -->
+
+  <JobDef>
+    <defName>BTG_OpenPasteValve</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGOpenPasteValve</driverClass>
+    <reportString>reopening TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

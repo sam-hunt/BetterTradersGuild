@@ -6,190 +6,164 @@ using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Pure placement calculation logic for packing multiple subrooms into a larger room.
-    /// Contains no RimWorld dependencies - all methods work with primitives for easy unit testing.
-    ///
-    /// Algorithm overview:
-    /// 1. Divide room into horizontal strips based on prefab depths
-    /// 2. Cut strips into regions based on door exclusion zones
-    /// 3. Fit subrooms into regions, maximizing count then filling waste
-    /// 4. Calculate wall segments for shared walls and enclosures
-    /// </summary>
+    // Pure placement calculation logic for packing multiple subrooms into a larger room.
+    // Contains no RimWorld dependencies - all methods work with primitives for easy unit testing.
+    //
+    // Algorithm overview:
+    // 1. Divide room into horizontal strips based on prefab depths
+    // 2. Cut strips into regions based on door exclusion zones
+    // 3. Fit subrooms into regions, maximizing count then filling waste
+    // 4. Calculate wall segments for shared walls and enclosures
     public static class SubroomPackingCalculator
     {
         #region Data Structures
 
-        /// <summary>
-        /// Input parameters for subroom packing calculation.
-        /// </summary>
+        // Input parameters for subroom packing calculation.
         public struct SubroomPackingInput
         {
-            /// <summary>Room bounds including walls (e.g., 0,0 to 19,16 for 20x17 room).</summary>
+            // Room bounds including walls (e.g., 0,0 to 19,16 for 20x17 room).
             public SimpleRect Room;
 
-            /// <summary>Door positions on the room perimeter.</summary>
+            // Door positions on the room perimeter.
             public List<DoorPosition> Doors;
 
-            /// <summary>Available prefab widths (e.g., [3, 4]).</summary>
+            // Available prefab widths (e.g., [3, 4]).
             public List<int> AvailableWidths;
 
-            /// <summary>Available prefab depths (e.g., [4, 5]).</summary>
+            // Available prefab depths (e.g., [4, 5]).
             public List<int> AvailableDepths;
         }
 
-        /// <summary>
-        /// Result of subroom packing calculation.
-        /// </summary>
+        // Result of subroom packing calculation.
         public struct SubroomPackingResult
         {
-            /// <summary>The strip divisions (subroom strips and corridors).</summary>
+            // The strip divisions (subroom strips and corridors).
             public List<Strip> Strips;
 
-            /// <summary>Final subroom placements with positions, sizes, and rotations.</summary>
+            // Final subroom placements with positions, sizes, and rotations.
             public List<SubroomPlacement> Subrooms;
 
-            /// <summary>Wall segments to spawn (shared walls and enclosing walls).</summary>
+            // Wall segments to spawn (shared walls and enclosing walls).
             public List<WallSegment> Walls;
 
-            /// <summary>Waste filler areas that can be filled with decorative prefabs.</summary>
+            // Waste filler areas that can be filled with decorative prefabs.
             public List<WasteFillerPlacement> WasteFillers;
         }
 
-        /// <summary>
-        /// A waste filler area between subrooms and exclusion zones.
-        /// These are 1-2 cell wide strips that can't fit another subroom but can hold decorative prefabs.
-        /// </summary>
+        // A waste filler area between subrooms and exclusion zones.
+        // These are 1-2 cell wide strips that can't fit another subroom but can hold decorative prefabs.
         public struct WasteFillerPlacement
         {
-            /// <summary>X coordinate of the waste filler's leftmost cell.</summary>
+            // X coordinate of the waste filler's leftmost cell.
             public int MinX;
 
-            /// <summary>Z coordinate of the waste filler's bottom cell.</summary>
+            // Z coordinate of the waste filler's bottom cell.
             public int MinZ;
 
-            /// <summary>Width of the waste filler area (1 or 2 cells).</summary>
+            // Width of the waste filler area (1 or 2 cells).
             public int Width;
 
-            /// <summary>Depth of the waste filler area (matches strip depth, 4 or 5 cells).</summary>
+            // Depth of the waste filler area (matches strip depth, 4 or 5 cells).
             public int Depth;
 
-            /// <summary>
-            /// Rotation for the waste filler prefab.
-            /// Prefabs are designed facing East (content toward right).
-            /// Use North (no rotation) when exclusion is on right, South (180°) when on left.
-            /// </summary>
+            // Rotation for the waste filler prefab.
+            // Prefabs are designed facing East (content toward right).
+            // Use North (no rotation) when exclusion is on right, South (180°) when on left.
             public PlacementRotation Rotation;
 
-            /// <summary>
-            /// X coordinate for spawning. Delegates to SpawnPositionHelper.CalculateSpawnPosition
-            /// for rotation-aware center calculation.
-            /// </summary>
+            // X coordinate for spawning. Delegates to SpawnPositionHelper.CalculateSpawnPosition
+            // for rotation-aware center calculation.
             public int CenterX => SpawnPositionHelper.CalculateSpawnPosition(
                 MinX, MinZ, Width, Depth, (int)Rotation).centerX;
 
-            /// <summary>
-            /// Z coordinate for spawning. Delegates to SpawnPositionHelper.CalculateSpawnPosition
-            /// for rotation-aware center calculation.
-            /// </summary>
+            // Z coordinate for spawning. Delegates to SpawnPositionHelper.CalculateSpawnPosition
+            // for rotation-aware center calculation.
             public int CenterZ => SpawnPositionHelper.CalculateSpawnPosition(
                 MinX, MinZ, Width, Depth, (int)Rotation).centerZ;
         }
 
-        /// <summary>
-        /// Type of strip in the room layout.
-        /// </summary>
+        // Type of strip in the room layout.
         public enum StripType
         {
-            /// <summary>Strip containing subrooms.</summary>
+            // Strip containing subrooms.
             Subroom,
 
-            /// <summary>Corridor strip between subroom strips.</summary>
+            // Corridor strip between subroom strips.
             Corridor
         }
 
-        /// <summary>
-        /// A horizontal strip spanning the room width.
-        /// </summary>
+        // A horizontal strip spanning the room width.
         public struct Strip
         {
-            /// <summary>Minimum Z coordinate of the strip (inclusive).</summary>
+            // Minimum Z coordinate of the strip (inclusive).
             public int MinZ;
 
-            /// <summary>Maximum Z coordinate of the strip (inclusive).</summary>
+            // Maximum Z coordinate of the strip (inclusive).
             public int MaxZ;
 
-            /// <summary>Depth of the strip (MaxZ - MinZ + 1).</summary>
+            // Depth of the strip (MaxZ - MinZ + 1).
             public int Depth => MaxZ - MinZ + 1;
 
-            /// <summary>Type of strip (Subroom or Corridor).</summary>
+            // Type of strip (Subroom or Corridor).
             public StripType Type;
 
-            /// <summary>Direction subrooms face (only valid for Subroom type).</summary>
+            // Direction subrooms face (only valid for Subroom type).
             public PlacementRotation Facing;
 
-            /// <summary>Regions within the strip (usable areas and exclusion zones).</summary>
+            // Regions within the strip (usable areas and exclusion zones).
             public List<Region> Regions;
         }
 
-        /// <summary>
-        /// A region within a strip (either usable for subrooms or an exclusion zone).
-        /// </summary>
+        // A region within a strip (either usable for subrooms or an exclusion zone).
         public struct Region
         {
-            /// <summary>Minimum X coordinate of the region (inclusive).</summary>
+            // Minimum X coordinate of the region (inclusive).
             public int MinX;
 
-            /// <summary>Maximum X coordinate of the region (inclusive).</summary>
+            // Maximum X coordinate of the region (inclusive).
             public int MaxX;
 
-            /// <summary>Width of the region (MaxX - MinX + 1).</summary>
+            // Width of the region (MaxX - MinX + 1).
             public int Width => MaxX - MinX + 1;
 
-            /// <summary>True if this is an exclusion zone (no subrooms can be placed).</summary>
+            // True if this is an exclusion zone (no subrooms can be placed).
             public bool IsExclusionZone;
         }
 
-        /// <summary>
-        /// A placed subroom with position, size, and rotation.
-        /// Use CenterX/CenterZ properties to get the spawn position for PrefabUtility.SpawnPrefab.
-        /// </summary>
+        // A placed subroom with position, size, and rotation.
+        // Use CenterX/CenterZ properties to get the spawn position for PrefabUtility.SpawnPrefab.
         public struct SubroomPlacement
         {
-            /// <summary>X coordinate of the subroom's leftmost cell.</summary>
+            // X coordinate of the subroom's leftmost cell.
             public int MinX;
 
-            /// <summary>Z coordinate of the subroom's bottom cell.</summary>
+            // Z coordinate of the subroom's bottom cell.
             public int MinZ;
 
-            /// <summary>Width of the subroom in cells (local X dimension before rotation).</summary>
+            // Width of the subroom in cells (local X dimension before rotation).
             public int Width;
 
-            /// <summary>Depth of the subroom in cells (local Z dimension before rotation).</summary>
+            // Depth of the subroom in cells (local Z dimension before rotation).
             public int Depth;
 
-            /// <summary>Rotation/facing direction of the subroom.</summary>
+            // Rotation/facing direction of the subroom.
             public PlacementRotation Rotation;
 
-            /// <summary>DefName of the prefab to spawn (e.g., "BTG_CrewBedSubroom3x4").</summary>
+            // DefName of the prefab to spawn (e.g., "BTG_CrewBedSubroom3x4").
             public string PrefabDefName;
 
-            /// <summary>
-            /// X coordinate for spawning. Uses rotation-dependent formula to account for
-            /// RimWorld's center adjustment on even-sized dimensions.
-            /// North: MinX + (Width - 1) / 2
-            /// South: MinX + Width / 2
-            /// </summary>
+            // X coordinate for spawning. Uses rotation-dependent formula to account for
+            // RimWorld's center adjustment on even-sized dimensions.
+            // North: MinX + (Width - 1) / 2
+            // South: MinX + Width / 2
             public int CenterX => Rotation == PlacementRotation.South
                 ? MinX + Width / 2
                 : MinX + (Width - 1) / 2;
 
-            /// <summary>
-            /// Z coordinate for spawning. Uses rotation-dependent formula to account for
-            /// RimWorld's center adjustment on even-sized dimensions.
-            /// North: MinZ + (Depth - 1) / 2
-            /// South: MinZ + Depth / 2
-            /// </summary>
+            // Z coordinate for spawning. Uses rotation-dependent formula to account for
+            // RimWorld's center adjustment on even-sized dimensions.
+            // North: MinZ + (Depth - 1) / 2
+            // South: MinZ + Depth / 2
             public int CenterZ => Rotation == PlacementRotation.South
                 ? MinZ + Depth / 2
                 : MinZ + (Depth - 1) / 2;
@@ -199,37 +173,27 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Constants
 
-        /// <summary>
-        /// Exclusion zone width for north/south wall doors.
-        /// Door cell + 1 cell on each side = 3 cells total.
-        /// </summary>
+        // Exclusion zone width for north/south wall doors.
+        // Door cell + 1 cell on each side = 3 cells total.
         private const int NS_DOOR_EXCLUSION_WIDTH = 3;
 
-        /// <summary>
-        /// Exclusion zone width for east/west wall doors.
-        /// 1 cell for corridor access + 1 cell for subroom wall = 2 cells total.
-        /// </summary>
+        // Exclusion zone width for east/west wall doors.
+        // 1 cell for corridor access + 1 cell for subroom wall = 2 cells total.
         private const int EW_DOOR_EXCLUSION_WIDTH = 2;
 
-        /// <summary>
-        /// Minimum corridor width when adjacent strips face each other (door ↔ door).
-        /// </summary>
+        // Minimum corridor width when adjacent strips face each other (door ↔ door).
         private const int MIN_CORRIDOR_FACING = 1;
 
-        /// <summary>
-        /// Minimum corridor width when one strip's door faces another's back (door ↔ back).
-        /// </summary>
+        // Minimum corridor width when one strip's door faces another's back (door ↔ back).
         private const int MIN_CORRIDOR_BACK = 2;
 
         #endregion
 
         #region Main Entry Point
 
-        /// <summary>
-        /// Calculates optimal subroom packing for a room.
-        /// </summary>
-        /// <param name="input">Room bounds, doors, and available prefab sizes.</param>
-        /// <returns>Strip layout, subroom placements, and wall segments.</returns>
+        // Calculates optimal subroom packing for a room.
+        // input: Room bounds, doors, and available prefab sizes.
+        // Returns: Strip layout, subroom placements, and wall segments.
         public static SubroomPackingResult Calculate(SubroomPackingInput input)
         {
             // Step 1: Calculate optimal strip layout
@@ -355,10 +319,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Step 1: Strip Calculation
 
-        /// <summary>
-        /// Calculates the optimal strip layout for a room.
-        /// Maximizes number of strips while respecting corridor minimums.
-        /// </summary>
+        // Calculates the optimal strip layout for a room.
+        // Maximizes number of strips while respecting corridor minimums.
         public static List<Strip> CalculateStrips(SubroomPackingInput input)
         {
             var strips = new List<Strip>();
@@ -447,9 +409,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return strips;
         }
 
-        /// <summary>
-        /// Layout item for strip planning.
-        /// </summary>
+        // Layout item for strip planning.
         private struct LayoutItem
         {
             public bool IsSubroom;
@@ -457,9 +417,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             public PlacementRotation Facing;
         }
 
-        /// <summary>
-        /// Finds the best strip layout that maximizes subroom strips.
-        /// </summary>
+        // Finds the best strip layout that maximizes subroom strips.
         private static List<LayoutItem> FindBestStripLayout(int availableHeight, int minDepth, int maxDepth)
         {
             // Try different numbers of strips, from max possible down to 1
@@ -477,9 +435,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return null;
         }
 
-        /// <summary>
-        /// Tries to build a layout with the specified number of subroom strips.
-        /// </summary>
+        // Tries to build a layout with the specified number of subroom strips.
         private static List<LayoutItem> TryBuildLayout(int numSubroomStrips, int availableHeight, int minDepth, int maxDepth)
         {
             // Calculate minimum space needed for corridors
@@ -621,22 +577,20 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return layout;
         }
 
-        /// <summary>
-        /// Calculates facing directions for subroom strips.
-        /// Pattern: top strips have doors facing south (toward corridor below),
-        ///          bottom strip has doors facing north (toward corridor above).
-        ///
-        /// IMPORTANT: PlacementRotation values map to Rot4 for spawning:
-        /// - PlacementRotation.North (0) = Rot4.North = prefab NOT rotated = door at z=0 = doors face SOUTH
-        /// - PlacementRotation.South (2) = Rot4.South = prefab rotated 180° = door at z=max = doors face NORTH
-        ///
-        /// Layout is built bottom-to-top, so:
-        /// - Strip 0 (bottom): doors face north → PlacementRotation.South
-        /// - Other strips: doors face south → PlacementRotation.North
-        ///
-        /// With 3 strips built bottom-to-top: [South, North, North]
-        /// After reversal (top-to-bottom): [North, North, South]
-        /// </summary>
+        // Calculates facing directions for subroom strips.
+        // Pattern: top strips have doors facing south (toward corridor below),
+        //          bottom strip has doors facing north (toward corridor above).
+        //
+        // IMPORTANT: PlacementRotation values map to Rot4 for spawning:
+        // - PlacementRotation.North (0) = Rot4.North = prefab NOT rotated = door at z=0 = doors face SOUTH
+        // - PlacementRotation.South (2) = Rot4.South = prefab rotated 180° = door at z=max = doors face NORTH
+        //
+        // Layout is built bottom-to-top, so:
+        // - Strip 0 (bottom): doors face north → PlacementRotation.South
+        // - Other strips: doors face south → PlacementRotation.North
+        //
+        // With 3 strips built bottom-to-top: [South, North, North]
+        // After reversal (top-to-bottom): [North, North, South]
         private static List<PlacementRotation> CalculateFacings(int numStrips)
         {
             var facings = new List<PlacementRotation>();
@@ -664,9 +618,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Step 2: Region Calculation
 
-        /// <summary>
-        /// Calculates regions within a strip based on door positions.
-        /// </summary>
+        // Calculates regions within a strip based on door positions.
         public static List<Region> CalculateRegions(Strip strip, SimpleRect room, List<DoorPosition> doors)
         {
             var regions = new List<Region>();
@@ -833,9 +785,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return regions;
         }
 
-        /// <summary>
-        /// Merges overlapping ranges into non-overlapping ranges.
-        /// </summary>
+        // Merges overlapping ranges into non-overlapping ranges.
         private static List<(int minX, int maxX)> MergeOverlappingRanges(List<(int minX, int maxX)> ranges)
         {
             if (ranges.Count == 0) return ranges;
@@ -866,37 +816,33 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Step 3: Subroom Fitting
 
-        /// <summary>
-        /// Internal result from FitSubrooms including waste area info.
-        /// </summary>
+        // Internal result from FitSubrooms including waste area info.
         private struct FitSubroomsResult
         {
             public List<SubroomPlacement> Subrooms;
 
-            /// <summary>True if there's leftover space after fitting subrooms.</summary>
+            // True if there's leftover space after fitting subrooms.
             public bool HasWaste;
 
-            /// <summary>X coordinate where waste area starts (MinX for left waste, or end of last subroom for right waste).</summary>
+            // X coordinate where waste area starts (MinX for left waste, or end of last subroom for right waste).
             public int WasteMinX;
 
-            /// <summary>Width of the waste area in cells.</summary>
+            // Width of the waste area in cells.
             public int WasteWidth;
 
-            /// <summary>True if waste is on the left (MinX) side of the region, false if on right (MaxX) side.</summary>
+            // True if waste is on the left (MinX) side of the region, false if on right (MaxX) side.
             public bool WasteOnLeft;
         }
 
-        /// <summary>
-        /// Fits subrooms into a region, maximizing count then filling waste.
-        ///
-        /// IMPORTANT: Subrooms do NOT overlap. Walls between adjacent subrooms are spawned
-        /// separately and occupy 1 cell each. This prevents prefab conflicts.
-        ///
-        /// Formula: N subrooms of width W + (N-1) walls = regionWidth
-        ///          N*W + N - 1 = regionWidth
-        ///          N*(W+1) = regionWidth + 1
-        ///          N = (regionWidth + 1) / (W + 1)
-        /// </summary>
+        // Fits subrooms into a region, maximizing count then filling waste.
+        //
+        // IMPORTANT: Subrooms do NOT overlap. Walls between adjacent subrooms are spawned
+        // separately and occupy 1 cell each. This prevents prefab conflicts.
+        //
+        // Formula: N subrooms of width W + (N-1) walls = regionWidth
+        //          N*W + N - 1 = regionWidth
+        //          N*(W+1) = regionWidth + 1
+        //          N = (regionWidth + 1) / (W + 1)
         public static List<SubroomPlacement> FitSubrooms(
             Region region,
             int stripMinZ,
@@ -1014,17 +960,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return subrooms;
         }
 
-        /// <summary>
-        /// Gets the prefab def name for a given width and depth.
-        /// </summary>
+        // Gets the prefab def name for a given width and depth.
         private static string GetPrefabDefName(int width, int depth)
         {
             return $"BTG_CrewBedSubroom{width}x{depth}";
         }
 
-        /// <summary>
-        /// Internal version of FitSubrooms that also returns waste area info.
-        /// </summary>
+        // Internal version of FitSubrooms that also returns waste area info.
         private static FitSubroomsResult FitSubroomsWithWaste(
             Region region,
             int stripMinZ,
@@ -1182,17 +1124,15 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         #region Step 4: Wall Calculation
 
-        /// <summary>
-        /// Calculates wall segments for subroom enclosures.
-        ///
-        /// Wall types:
-        /// 1. Walls between adjacent subrooms (in the 1-cell gap)
-        /// 2. Enclosing walls at region edges (separating subrooms from exclusion zones)
-        /// 3. Enclosing walls at room edges (only if subroom not against room wall)
-        ///
-        /// NOTE: Exclusion zones do NOT get corridor-side walls - they need to remain
-        /// open for door access from the corridor.
-        /// </summary>
+        // Calculates wall segments for subroom enclosures.
+        //
+        // Wall types:
+        // 1. Walls between adjacent subrooms (in the 1-cell gap)
+        // 2. Enclosing walls at region edges (separating subrooms from exclusion zones)
+        // 3. Enclosing walls at room edges (only if subroom not against room wall)
+        //
+        // NOTE: Exclusion zones do NOT get corridor-side walls - they need to remain
+        // open for door access from the corridor.
         public static List<WallSegment> CalculateWalls(
             List<SubroomPlacement> subrooms,
             List<Strip> strips,

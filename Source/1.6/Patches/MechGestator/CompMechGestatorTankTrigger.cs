@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.LordJobs;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -9,25 +11,34 @@ using Verse.Sound;
 
 namespace BetterTradersGuild.Patches.MechGestatorPatches
 {
-    /// <summary>
-    /// Harmony patch: Makes mechs from gestator tanks in TradersGuild settlements
-    /// spawn belonging to the TradersGuild faction instead of hostile mechanoids.
-    ///
-    /// Without this patch, Ancient gestator tanks always spawn mechs belonging to
-    /// Faction.OfMechanoids, which is hostile to everyone. This creates a confusing
-    /// experience where the TradersGuild's own security mechs attack their owners.
-    ///
-    /// This patch intercepts the Trigger method and substitutes the TradersGuild
-    /// faction when the gestator is located in a TradersGuild settlement map.
-    /// </summary>
+    // Harmony patch: Makes mechs from gestator tanks in TradersGuild settlements
+    // spawn belonging to the TradersGuild faction instead of hostile mechanoids.
+    //
+    // Without this patch, Ancient gestator tanks always spawn mechs belonging to
+    // Faction.OfMechanoids, which is hostile to everyone. This creates a confusing
+    // experience where the TradersGuild's own security mechs attack their owners.
+    //
+    // This patch intercepts the Trigger method and substitutes the TradersGuild
+    // faction when the gestator is located in a TradersGuild settlement map.
     [HarmonyPatch(typeof(CompMechGestatorTank), "Trigger")]
     public static class CompMechGestatorTankTrigger
     {
-        /// <summary>
-        /// Prefix that intercepts gestator triggering in TradersGuild settlements.
-        /// If the gestator is in a TradersGuild settlement, we run our modified
-        /// version and skip the original. Otherwise, vanilla behavior proceeds.
-        /// </summary>
+        // Cached reflection access to CompMechGestatorTank's private 'state' field
+        // (only a setter is public; reading the current state needs reflection).
+        private static readonly FieldInfo StateField = AccessTools.Field(typeof(CompMechGestatorTank), "state");
+
+        // Logs a targeted error if the field failed to resolve. Called once at startup
+        // from ReflectionVerification.VerifyAll.
+        public static void VerifyReflection()
+        {
+            if (StateField == null)
+                Log.Error("[Better Traders Guild] CompMechGestatorTank.state field not found via reflection; "
+                    + "Traders Guild gestator mechs will fall back to vanilla hostile-faction spawning. RimWorld API may have changed.");
+        }
+
+        // Prefix that intercepts gestator triggering in TradersGuild settlements.
+        // If the gestator is in a TradersGuild settlement, we run our modified
+        // version and skip the original. Otherwise, vanilla behavior proceeds.
         [HarmonyPrefix]
         public static bool Prefix(CompMechGestatorTank __instance, Map map)
         {
@@ -44,6 +55,11 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             if (tradersGuild == null)
                 return true;
 
+            // If the gestator state can't be read via reflection (verified at startup), let
+            // vanilla handle it rather than silently doing nothing.
+            if (StateField == null)
+                return true;
+
             // Run our modified trigger logic with TradersGuild faction
             TriggerWithFaction(__instance, map, tradersGuild);
 
@@ -51,19 +67,13 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             return false;
         }
 
-        /// <summary>
-        /// Modified trigger logic that uses the specified faction instead of Faction.OfMechanoids.
-        /// This is essentially a copy of the vanilla CompMechGestatorTank.Trigger method
-        /// with faction substitutions.
-        /// </summary>
+        // Modified trigger logic that uses the specified faction instead of Faction.OfMechanoids.
+        // This is essentially a copy of the vanilla CompMechGestatorTank.Trigger method
+        // with faction substitutions.
         private static void TriggerWithFaction(CompMechGestatorTank comp, Map map, Faction faction)
         {
-            // Access private fields via reflection
-            var stateField = AccessTools.Field(typeof(CompMechGestatorTank), "state");
-            var triggerRadiusField = AccessTools.Field(typeof(CompMechGestatorTank), "triggerRadius");
-
             // Get current state - if Empty (0), return early
-            int currentState = (int)stateField.GetValue(comp);
+            int currentState = (int)StateField.GetValue(comp);
             if (currentState == 0) // TankState.Empty
                 return;
 
@@ -112,25 +122,23 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             // Stun the mech briefly (180 ticks = 3 seconds)
             mech.stances?.stunner?.StunFor(180, null, false, true, false);
 
-            // Find or create a lord for this faction's defense
-            // LordJob_DefendBase is what vanilla uses for settlement defenders
-            // Mechs will patrol the base and attack hostiles who intrude
+            // This mech is a reinforcement to a garrison whose AI style was fixed
+            // when the map was generated. Join the existing defender lord of either
+            // style (entrenched or vanilla DefendBase) so a mid-visit settings
+            // flip can't produce a split-brain garrison. Only when no garrison lord
+            // remains (e.g. all defenders died and the lord was cleaned up) do we
+            // create a fresh one — and then per the current setting, since there is
+            // nothing left to stay consistent with.
             Lord lord = map.lordManager.lords.FirstOrDefault(l =>
-                l.faction == faction &&
-                l.LordJob is LordJob_DefendBase);
+                l.faction == faction && DefenderLords.IsDefenderLord(l));
 
             if (lord == null)
             {
-                // Create new defense lord centered on the gestator tank
-                // delayBeforeAssault: 25000 ticks (~7 hours) before they go fully aggressive
-                // attackWhenPlayerBecameEnemy: true - attack if player becomes hostile
-                IntVec3 baseCenter = parent.Position;
-                var lordJob = new LordJob_DefendBase(faction, baseCenter, 25000, true);
+                LordJob lordJob = DefenderLords.MakeDefenderLordJob(faction, parent.Position);
                 lord = LordMaker.MakeNewLord(faction, lordJob, map, new List<Pawn> { mech });
             }
             else
             {
-                // Add to existing lord
                 lord.AddPawn(mech);
             }
 

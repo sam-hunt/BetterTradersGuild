@@ -68,6 +68,8 @@
       <BTG_PlantPot_Corner>
         <countRange>3~4</countRange>
       </BTG_PlantPot_Corner>
+      <!-- Corner heater to hold interior temperature -->
+      <BTG_Heater_Corner>1.0</BTG_Heater_Corner>
     </parts>
 
   </LayoutRoomDef>

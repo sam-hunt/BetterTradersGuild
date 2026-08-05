@@ -3,7 +3,8 @@
   <!--
     Better Traders Guild - Agrihand Mech Room Part
 
-    Spawns agricultural mechs in Greenhouse rooms.
+    Spawns agricultural mechs in Greenhouse rooms. The Farm behavior makes them
+    harvest mature crops, shelve the produce, and replant the basins.
     Requires Biotech DLC.
   -->
 
@@ -11,7 +12,7 @@
     <defName>BTG_Mech_Agrihand</defName>
     <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
     <pawnKindDef>Mech_Agrihand</pawnKindDef>
-    <behavior>Passive</behavior>
+    <behavior>Farm</behavior>
   </BetterTradersGuild.RoomParts.RoomPart_MechDef>
 
 </Defs>

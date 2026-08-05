@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <OutputPath>../../1.6/Assemblies/</OutputPath>
+    <!-- Release-only: 1.6/Assemblies/ holds the shipped DLL that StageMod globs.
+         Debug builds (e.g. the ProjectReference build under `dotnet test`) stay in
+         the default bin/ so they can't swap a Debug DLL into the mod layout. -->
+    <OutputPath Condition="'$(Configuration)' == 'Release'">../../1.6/Assemblies/</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -65,6 +68,9 @@
     <Reference Include="UnityEngine.TextRenderingModule" Private="false">
       <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Collections" Private="false">
+      <HintPath>$(RimWorldPath)/$(RimWorldDataFolder)/Managed/Unity.Collections.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <!-- Fall back to NuGet package for CI builds without local RimWorld -->
@@ -75,6 +81,30 @@
   <ItemGroup>
     <PackageReference Include="Lib.Harmony" Version="2.3.*">
       <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- Build-time code analysis (warnings only; never ships). Roslynator's analyzers run
+       on every build and surface in the IDE + build log; PrivateAssets="all" keeps them
+       out of the compiled DLL and out of any downstream reference. The global
+       `roslynator` CLI (installed separately) handles bulk fixes and CI gating.
+       Invoke the CLI against this csproj, never the .sln: roslynator 0.12's workspace
+       assemblies clash with current SDKs' Microsoft.Build in the solution-file parser
+       (MissingFieldException: MSBuildConstants.InvalidPathChars); loading a csproj
+       directly bypasses SolutionFile.Parse and works fine. -->
+  <ItemGroup>
+    <PackageReference Include="Roslynator.Analyzers" Version="4.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <!-- Guards against Roslynator's RCS1146 fixer (and anyone else) rewriting
+         null checks into ?. on UnityEngine.Object-derived receivers, where the
+         overloaded == (destroyed => "null") makes the rewrite change behavior.
+         UNT0008 flags null propagation on Unity objects; UNT0007 the same for
+         null coalescing. See the RCS1146 note in .editorconfig. -->
+    <PackageReference Include="Microsoft.Unity.Analyzers" Version="1.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
@@ -139,8 +169,12 @@
     <Message Text="Staged @(_ModFiles->Count()) mod files -> $(StageDir)" Importance="high" />
   </Target>
 
-  <!-- After every local build, atomically redeploy into the RimWorld Mods folder. -->
-  <Target Name="DeployToModFolder" AfterTargets="Build" Condition="'$(UseLocalRimWorld)' == 'true'">
+  <!-- After every local Release build, atomically redeploy into the RimWorld Mods
+       folder. Release-only: `dotnet test` builds Debug by default via a Tests
+       project's ProjectReference, and an ungated deploy would silently swap the
+       played mod's DLL for a Debug build on every test run. -->
+  <Target Name="DeployToModFolder" AfterTargets="Build"
+          Condition="'$(UseLocalRimWorld)' == 'true' And '$(Configuration)' == 'Release'">
     <CallTarget Targets="StageMod" />
   </Target>
 </Project>

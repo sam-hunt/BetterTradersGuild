@@ -6,12 +6,10 @@ using Verse;
 
 namespace BetterTradersGuild.ScenParts
 {
-    /// <summary>
-    /// ScenPart that configures starting pawns with explicit xenotype assignments per
-    /// slot position. Each slot's xenotype is defined via <slotXenotypes> list items,
-    /// giving full control over the ordering and distribution of xenotypes among both
-    /// starting and optional pawns. Slots beyond the list length are padded with Baseliner.
-    /// </summary>
+    // ScenPart that configures starting pawns with explicit xenotype assignments per
+    // slot position. Each slot's xenotype is defined via <slotXenotypes> list items,
+    // giving full control over the ordering and distribution of xenotypes among both
+    // starting and optional pawns. Slots beyond the list length are padded with Baseliner.
     public class ScenPart_ConfigureStartingPawnsXenotypes : ScenPart_ConfigPage_ConfigureStartingPawnsBase
     {
         public int pawnCount = 3;

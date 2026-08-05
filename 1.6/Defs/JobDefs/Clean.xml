@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Cleansweeper Clean Job Definition
+
+    BTG_Clean: the cleansweeper mech's filth-cleaning job. Mirrors vanilla Clean but uses
+    JobDriver_BTGCleanFilth - a copy of vanilla JobDriver_CleanFilth with the player
+    Home-area gate (JumpIfOutsideHomeArea) removed, since a TradersGuild orbital settlement
+    has no painted Home area and the work area is instead defined by the giver (radius +
+    structure bounds). A separate JobDef is used rather than retargeting vanilla Clean so
+    only the BTG mech is affected; player/colony cleaning is untouched.
+
+    Used by: JobGiver_BTGMechCleanFilth (BTG_MechClean duty).
+  -->
+
+  <JobDef>
+    <defName>BTG_Clean</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGCleanFilth</driverClass>
+    <reportString>cleaning TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

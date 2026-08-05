@@ -6,16 +6,12 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CargoVault
 {
-    /// <summary>
-    /// Helper class for clustered cargo placement in the cargo vault.
-    /// Groups items by type and places them adjacently on shelves, with each
-    /// item type starting at a random shelf to spread cargo across the room.
-    /// </summary>
+    // Helper class for clustered cargo placement in the cargo vault.
+    // Groups items by type and places them adjacently on shelves, with each
+    // item type starting at a random shelf to spread cargo across the room.
     public static class CargoPlacementHelper
     {
-        /// <summary>
-        /// Tracks a single storage cell with its capacity.
-        /// </summary>
+        // Tracks a single storage cell with its capacity.
         private class CellState
         {
             public IntVec3 Cell;
@@ -26,9 +22,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             public bool IsEmpty => CurrentItems == 0;
         }
 
-        /// <summary>
-        /// Tracks a shelf and all its cells.
-        /// </summary>
+        // Tracks a shelf and all its cells.
         private class ShelfState
         {
             public Building_Storage Shelf;
@@ -39,11 +33,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             public bool HasEmptyCell => Cells.Any(c => c.IsEmpty);
         }
 
-        /// <summary>
-        /// Checks if an item can be stored on any shelf.
-        /// Uses the shelf's storage settings to check filters.
-        /// Falls back to def's fixed storage settings if runtime settings aren't initialized.
-        /// </summary>
+        // Checks if an item can be stored on any shelf.
+        // Uses the shelf's storage settings to check filters.
+        // Falls back to def's fixed storage settings if runtime settings aren't initialized.
         public static bool CanBeStoredOnShelf(Thing item, List<Building_Storage> shelves)
         {
             if (shelves == null || shelves.Count == 0 || item == null)
@@ -73,9 +65,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return item.def.EverStorable(true);
         }
 
-        /// <summary>
-        /// Categorizes items into shelf-compatible and floor-only.
-        /// </summary>
+        // Categorizes items into shelf-compatible and floor-only.
         public static void CategorizeForPlacement(
             List<Thing> items,
             List<Building_Storage> shelves,
@@ -94,16 +84,14 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             }
         }
 
-        /// <summary>
-        /// Places items on shelves using clustered placement with deterministic ordering.
-        /// Items of the same type are placed adjacently, with each type
-        /// assigned to a specific shelf based on settlement ID for consistency.
-        /// </summary>
-        /// <param name="map">The map to spawn on</param>
-        /// <param name="items">Items to place (should be pre-filtered for shelf compatibility)</param>
-        /// <param name="shelves">Available storage buildings</param>
-        /// <param name="settlementID">Settlement ID for deterministic shelf assignment</param>
-        /// <returns>Items that couldn't fit (overflow)</returns>
+        // Places items on shelves using clustered placement with deterministic ordering.
+        // Items of the same type are placed adjacently, with each type
+        // assigned to a specific shelf based on settlement ID for consistency.
+        // map: The map to spawn on
+        // items: Items to place (should be pre-filtered for shelf compatibility)
+        // shelves: Available storage buildings
+        // settlementID: Settlement ID for deterministic shelf assignment
+        // Returns: Items that couldn't fit (overflow)
         public static List<Thing> PlaceItemsClustered(
             Map map,
             List<Thing> items,
@@ -195,9 +183,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return overflow;
         }
 
-        /// <summary>
-        /// Builds state tracking for all shelves and their cells.
-        /// </summary>
+        // Builds state tracking for all shelves and their cells.
         private static List<ShelfState> BuildShelfStates(Map map, List<Building_Storage> shelves)
         {
             var states = new List<ShelfState>();
@@ -231,10 +217,8 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return states;
         }
 
-        /// <summary>
-        /// Finds a suitable cell on the shelf for the item.
-        /// For non-stackable items (stackLimit=1), prefers empty cells if available.
-        /// </summary>
+        // Finds a suitable cell on the shelf for the item.
+        // For non-stackable items (stackLimit=1), prefers empty cells if available.
         private static CellState FindCellOnShelf(Map map, ShelfState shelf, Thing item, bool preferEmptyCell)
         {
             // For non-stackable items, try to find an empty cell first
@@ -252,9 +236,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                 c.HasSpace && StoreUtility.IsValidStorageFor(c.Cell, map, item));
         }
 
-        /// <summary>
-        /// Finds the closest shelf with available space.
-        /// </summary>
+        // Finds the closest shelf with available space.
         private static ShelfState FindClosestShelfWithSpace(
             IntVec3 fromPosition,
             List<ShelfState> allShelves,
@@ -279,9 +261,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return closest;
         }
 
-        /// <summary>
-        /// Places an item in a cell and updates tracking.
-        /// </summary>
+        // Places an item in a cell and updates tracking.
         private static void PlaceItem(Map map, Thing item, CellState cell)
         {
             GenSpawn.Spawn(item, cell.Cell, map);
@@ -289,11 +269,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             cell.CurrentItems++;
         }
 
-        /// <summary>
-        /// Gets a deterministic shelf index based on item type and settlement ID.
-        /// Same item type + settlement always maps to the same shelf.
-        /// Uses prime-based bit mixing to avoid clustering from similar defName prefixes.
-        /// </summary>
+        // Gets a deterministic shelf index based on item type and settlement ID.
+        // Same item type + settlement always maps to the same shelf.
+        // Uses prime-based bit mixing to avoid clustering from similar defName prefixes.
         private static int GetDeterministicShelfIndex(string defName, int settlementID, int shelfCount)
         {
             int hash = Gen.HashCombineInt(defName.GetHashCode(), settlementID);
@@ -301,12 +279,10 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return Mathf.Abs(hash) % shelfCount;
         }
 
-        /// <summary>
-        /// Scrambles a hash value using prime multiplication and bit mixing.
-        /// This ensures better distribution when the source hash has clustering
-        /// (e.g., similar string prefixes producing similar hash codes).
-        /// Uses MurmurHash3 finalizer constants for good avalanche properties.
-        /// </summary>
+        // Scrambles a hash value using prime multiplication and bit mixing.
+        // This ensures better distribution when the source hash has clustering
+        // (e.g., similar string prefixes producing similar hash codes).
+        // Uses MurmurHash3 finalizer constants for good avalanche properties.
         private static int ScrambleHash(int hash)
         {
             unchecked

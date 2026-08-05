@@ -4,16 +4,14 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.MechSecurityPost
 {
-    /// <summary>
-    /// Custom room contents worker for the Mech Security Post.
-    ///
-    /// Post-processes spawned gestator tanks to change their glow color from
-    /// hostile orange to friendly green ("systems operational"). This visually
-    /// differentiates TradersGuild security gestators from hostile ancient sites.
-    ///
-    /// The glow color is persisted via CompGlower.glowColorOverride which is
-    /// saved in PostExposeData, so this only needs to run once during generation.
-    /// </summary>
+    // Custom room contents worker for the Mech Security Post.
+    //
+    // Post-processes spawned gestator tanks to change their glow color from
+    // hostile orange to friendly green ("systems operational"). This visually
+    // differentiates TradersGuild security gestators from hostile ancient sites.
+    //
+    // The glow color is persisted via CompGlower.glowColorOverride which is
+    // saved in PostExposeData, so this only needs to run once during generation.
     public class RoomContents_MechSecurityPost : RoomContentsWorker
     {
         // "Systems operational" green - same as AncientMachineTerminal
@@ -31,9 +29,7 @@ namespace BetterTradersGuild.RoomContents.MechSecurityPost
 
         }
 
-        /// <summary>
-        /// Finds all gestator tanks in the room and sets their glow color to friendly green.
-        /// </summary>
+        // Finds all gestator tanks in the room and sets their glow color to friendly green.
         private void SetGestatorGlowColors(Map map, CellRect roomRect)
         {
             foreach (IntVec3 cell in roomRect)

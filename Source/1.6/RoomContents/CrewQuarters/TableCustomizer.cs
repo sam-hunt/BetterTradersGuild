@@ -8,16 +8,12 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Handles customization of small tables (Table1x2c) in CrewQuarters subrooms.
-    /// Adds random items like meals, books, beer, berries, and unfinished crafting projects.
-    /// </summary>
+    // Handles customization of small tables (Table1x2c) in CrewQuarters subrooms.
+    // Adds random items like meals, books, beer, berries, and unfinished crafting projects.
     internal static class TableCustomizer
     {
-        /// <summary>
-        /// Weighted outcomes for table customization.
-        /// All vanilla items - no DLC gating needed. Lazy pattern for consistency.
-        /// </summary>
+        // Weighted outcomes for table customization.
+        // All vanilla items - no DLC gating needed. Lazy pattern for consistency.
         private static List<(float weight, Action<Map, IntVec3> action)> _outcomes;
         private static List<(float weight, Action<Map, IntVec3> action)> Outcomes => _outcomes ?? (_outcomes = BuildOutcomes());
 
@@ -40,9 +36,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return outcomes;
         }
 
-        /// <summary>
-        /// Adds items to small tables (Table1x2c) in subrooms.
-        /// </summary>
+        // Adds items to small tables (Table1x2c) in subrooms.
         internal static void Customize(Map map, List<CellRect> subroomRects)
         {
             if (Things.Table1x2c == null) return;
@@ -71,9 +65,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        /// <summary>
-        /// Spawns a simple item on a table.
-        /// </summary>
+        // Spawns a simple item on a table.
         private static void SpawnItemOnTable(Map map, IntVec3 pos, ThingDef itemDef, int count)
         {
             if (itemDef == null) return;
@@ -81,11 +73,10 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             Thing item = ThingMaker.MakeThing(itemDef);
             item.stackCount = count;
             GenSpawn.Spawn(item, pos, map);
+            item.SetForbidden(true, false);
         }
 
-        /// <summary>
-        /// Spawns a random book on a table.
-        /// </summary>
+        // Spawns a random book on a table.
         private static void SpawnRandomBookOnTable(Map map, IntVec3 pos)
         {
             Thing book = BookGenerationHelper.GenerateRandomBook();
@@ -93,11 +84,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             GenSpawn.Spawn(book, pos, map);
         }
 
-        /// <summary>
-        /// Spawns an UnfinishedThing for a recipe that produces the target item.
-        /// Uses a faction pawn on the map as the creator. Falls back to raw materials
-        /// if no valid recipe/pawn is found.
-        /// </summary>
+        // Spawns an UnfinishedThing for a recipe that produces the target item.
+        // Uses a faction pawn on the map as the creator. Falls back to raw materials
+        // if no valid recipe/pawn is found.
         private static void SpawnUnfinishedItem(Map map, IntVec3 pos, ThingDef targetDef, ThingDef stuffDef)
         {
             if (targetDef == null) return;
@@ -111,7 +100,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             // Find a faction pawn on the map to use as creator (UnfinishedThing.Creator cannot be null)
             Pawn creator = map.mapPawns.AllPawns
-                .FirstOrDefault(p => p.Faction != null && !p.Faction.IsPlayer && p.RaceProps.Humanlike);
+                .FirstOrDefault(p => p.Faction?.IsPlayer == false && p.RaceProps.Humanlike);
 
             if (creator == null) return;
 

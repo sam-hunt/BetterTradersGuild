@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
-using HarmonyLib;
+using BetterTradersGuild.Helpers.Reflection;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -96,13 +96,13 @@ namespace BetterTradersGuild.ScenParts
         private IEnumerable<ThingDef> PossibleShuttleDefs()
         {
             return DefDatabase<ThingDef>.AllDefs
-                .Where(d => d.comps != null && d.comps.Any(c => c is CompProperties_Shuttle)
+                .Where(d => d.comps?.Any(c => c is CompProperties_Shuttle) == true
                     && FindTransportShipDef(d) != null);
         }
 
         private static bool IsLaunchable(ThingDef d)
         {
-            return d.comps != null && d.comps.Any(c => c is CompProperties_Launchable);
+            return d.comps?.Any(c => c is CompProperties_Launchable) == true;
         }
 
         private static bool IsPaintable(ThingDef d)
@@ -223,15 +223,15 @@ namespace BetterTradersGuild.ScenParts
 
             // Set fuel level on the shuttle Thing before it lands.
             // CompRefuelable.Initialize sets fuel = fuelCapacity * Props.initialFuelPercent,
-            // which defaults to 0. We set the private field directly via Traverse to avoid
-            // the difficulty multiplier baked into Refuel(float).
+            // which defaults to 0. We set the private field directly (via RefuelableReflection)
+            // to avoid the difficulty multiplier baked into Refuel(float).
             if (initialFuelPct > 0f)
             {
                 CompRefuelable fuelComp = shipThing.TryGetComp<CompRefuelable>();
                 if (fuelComp != null)
                 {
                     float targetFuel = fuelComp.Props.fuelCapacity * initialFuelPct;
-                    Traverse.Create(fuelComp).Field("fuel").SetValue(targetFuel);
+                    RefuelableReflection.TrySetFuel(fuelComp, targetFuel);
                 }
             }
 

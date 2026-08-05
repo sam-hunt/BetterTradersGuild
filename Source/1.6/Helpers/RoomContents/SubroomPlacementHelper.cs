@@ -9,13 +9,11 @@ using static BetterTradersGuild.Helpers.RoomContents.PlacementCalculator;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Shared result type for subroom placement in RoomContentsWorkers.
-    /// Adapts PlacementCalculator's pure types to RimWorld-specific types (IntVec3, Rot4).
-    ///
-    /// This struct is the RimWorld-specific counterpart to PlacementCalculator.PlacementResult,
-    /// providing the same data using game engine types for direct use in spawn methods.
-    /// </summary>
+    // Shared result type for subroom placement in RoomContentsWorkers.
+    // Adapts PlacementCalculator's pure types to RimWorld-specific types (IntVec3, Rot4).
+    //
+    // This struct is the RimWorld-specific counterpart to PlacementCalculator.PlacementResult,
+    // providing the same data using game engine types for direct use in spawn methods.
     public struct SubroomPlacementResult
     {
         public IntVec3 Position;
@@ -28,9 +26,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
         public static SubroomPlacementResult Invalid =>
             new SubroomPlacementResult { Type = PlacementType.Invalid };
 
-        /// <summary>
-        /// Converts a PlacementCalculator result to the RimWorld-specific type.
-        /// </summary>
+        // Converts a PlacementCalculator result to the RimWorld-specific type.
         public static SubroomPlacementResult FromCalculatorResult(PlacementCalculator.PlacementResult calcResult)
         {
             if (calcResult.Type == PlacementType.Invalid)
@@ -46,38 +42,34 @@ namespace BetterTradersGuild.Helpers.RoomContents
         }
     }
 
-    /// <summary>
-    /// Helper class providing RimWorld-specific adapters for subroom placement operations.
-    ///
-    /// This class bridges the gap between PlacementCalculator (pure, testable logic)
-    /// and RoomContentsWorker implementations (RimWorld-dependent). It consolidates
-    /// common patterns used across multiple room types (Commander's Quarters, Nursery,
-    /// Computer Room, etc.) without modifying PlacementCalculator's interface.
-    ///
-    /// Design rationale:
-    /// - PlacementCalculator remains pure and fully unit-tested
-    /// - RimWorld-specific conversions are centralized here
-    /// - RoomContentsWorkers become simpler, focusing on room-specific logic
-    /// </summary>
+    // Helper class providing RimWorld-specific adapters for subroom placement operations.
+    //
+    // This class bridges the gap between PlacementCalculator (pure, testable logic)
+    // and RoomContentsWorker implementations (RimWorld-dependent). It consolidates
+    // common patterns used across multiple room types (Commander's Quarters, Nursery,
+    // Computer Room, etc.) without modifying PlacementCalculator's interface.
+    //
+    // Design rationale:
+    // - PlacementCalculator remains pure and fully unit-tested
+    // - RimWorld-specific conversions are centralized here
+    // - RoomContentsWorkers become simpler, focusing on room-specific logic
     public static class SubroomPlacementHelper
     {
-        /// <summary>
-        /// Finds the best placement for a subroom prefab within a LayoutRoom.
-        ///
-        /// Consolidates the common pattern of:
-        /// 1. Getting edge blockers (doors) from the room
-        /// 2. Converting RimWorld CellRect to PlacementCalculator's SimpleRect
-        /// 3. Calling PlacementCalculator.CalculateBestPlacement
-        /// 4. Converting the result back to RimWorld types
-        ///
-        /// LIMITATION: This method uses only the first rect of the room. The subroom packing
-        /// algorithm requires a single contiguous rectangular area. Multi-rect rooms (L-shaped, etc.)
-        /// will only have subrooms placed in their first rect.
-        /// </summary>
-        /// <param name="room">The LayoutRoom to place the subroom in</param>
-        /// <param name="map">The map being generated</param>
-        /// <param name="prefabSize">Size of the subroom prefab (e.g., 6 for 6×6)</param>
-        /// <returns>Placement result with RimWorld-specific types, or Invalid if no placement found</returns>
+        // Finds the best placement for a subroom prefab within a LayoutRoom.
+        //
+        // Consolidates the common pattern of:
+        // 1. Getting edge blockers (doors) from the room
+        // 2. Converting RimWorld CellRect to PlacementCalculator's SimpleRect
+        // 3. Calling PlacementCalculator.CalculateBestPlacement
+        // 4. Converting the result back to RimWorld types
+        //
+        // LIMITATION: This method uses only the first rect of the room. The subroom packing
+        // algorithm requires a single contiguous rectangular area. Multi-rect rooms (L-shaped, etc.)
+        // will only have subrooms placed in their first rect.
+        // room: The LayoutRoom to place the subroom in
+        // map: The map being generated
+        // prefabSize: Size of the subroom prefab (e.g., 6 for 6×6)
+        // Returns: Placement result with RimWorld-specific types, or Invalid if no placement found
         public static SubroomPlacementResult FindBestPlacement(LayoutRoom room, Map map, int prefabSize)
         {
             if (room.rects == null || room.rects.Count == 0)
@@ -105,16 +97,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return SubroomPlacementResult.FromCalculatorResult(calcResult);
         }
 
-        /// <summary>
-        /// Calculates the blocking rectangle for a subroom placement.
-        ///
-        /// Returns the area that should be reserved to prevent other prefabs from
-        /// overlapping with the subroom. Used in IsValidCellBase overrides.
-        /// </summary>
-        /// <param name="center">Center position of the subroom</param>
-        /// <param name="rotation">Rotation of the subroom</param>
-        /// <param name="prefabSize">Size of the subroom prefab</param>
-        /// <returns>CellRect representing the blocked area</returns>
+        // Calculates the blocking rectangle for a subroom placement.
+        //
+        // Returns the area that should be reserved to prevent other prefabs from
+        // overlapping with the subroom. Used in IsValidCellBase overrides.
+        // center: Center position of the subroom
+        // rotation: Rotation of the subroom
+        // prefabSize: Size of the subroom prefab
+        // Returns: CellRect representing the blocked area
         public static CellRect GetBlockingRect(IntVec3 center, Rot4 rotation, int prefabSize)
         {
             var intRotation = (PlacementRotation)rotation.AsInt;
@@ -124,16 +114,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return new CellRect(prefabBounds.MinX, prefabBounds.MinZ, prefabBounds.Width, prefabBounds.Height);
         }
 
-        /// <summary>
-        /// Spawns walls from PlacementCalculator wall segments.
-        ///
-        /// Handles both vertical and horizontal wall segments by iterating through
-        /// the segment coordinates and spawning individual wall cells. Skips cells
-        /// that already have an edifice (wall, door, etc.) to avoid overwriting.
-        /// </summary>
-        /// <param name="map">Map to spawn walls on</param>
-        /// <param name="walls">List of wall segments from PlacementCalculator</param>
-        /// <param name="wallDef">ThingDef for the wall type (defaults to OrbitalAncientFortifiedWall)</param>
+        // Spawns walls from PlacementCalculator wall segments.
+        //
+        // Handles both vertical and horizontal wall segments by iterating through
+        // the segment coordinates and spawning individual wall cells. Skips cells
+        // that already have an edifice (wall, door, etc.) to avoid overwriting.
+        // map: Map to spawn walls on
+        // walls: List of wall segments from PlacementCalculator
+        // wallDef: ThingDef for the wall type (defaults to OrbitalAncientFortifiedWall)
         public static void SpawnWalls(Map map, List<WallSegment> walls, ThingDef wallDef = null)
         {
             if (walls == null || walls.Count == 0)
@@ -160,9 +148,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Spawns a single wall cell if the position is valid and empty.
-        /// </summary>
+        // Spawns a single wall cell if the position is valid and empty.
         private static void SpawnWallCell(Map map, IntVec3 cell, ThingDef wallDef)
         {
             if (cell.InBounds(map) && cell.GetEdifice(map) == null)

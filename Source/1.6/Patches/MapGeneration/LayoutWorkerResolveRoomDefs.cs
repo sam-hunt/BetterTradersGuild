@@ -6,24 +6,22 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.MapGenerationPatches
 {
-    /// <summary>
-    /// Downgrades the "Layout failed to spawn all required rooms" error to a warning
-    /// during BTG settlement generation.
-    ///
-    /// WHY:
-    /// The vanilla LayoutWorker.ResolveRoomDefs() fires Log.ErrorOnce when it can't
-    /// place all required rooms (e.g., a third BTG_CrewQuarters). This pops the dev
-    /// console in dev mode. The settlement still generates fine with fewer rooms,
-    /// so a warning is the appropriate severity.
-    ///
-    /// HOW:
-    /// Two coordinating patches:
-    /// 1. GenerateStructureSketch Prefix/Finalizer sets LayoutWorker_Settlement.IsGenerating
-    ///    flag when the instance is our subclass (ResolveRoomDefs runs inside this method,
-    ///    BEFORE Spawn is called).
-    /// 2. ResolveRoomDefs Transpiler swaps Log.ErrorOnce for a helper that checks the flag
-    ///    and downgrades to Log.Warning during BTG generation.
-    /// </summary>
+    // Downgrades the "Layout failed to spawn all required rooms" error to a warning
+    // during BTG settlement generation.
+    //
+    // WHY:
+    // The vanilla LayoutWorker.ResolveRoomDefs() fires Log.ErrorOnce when it can't
+    // place all required rooms (e.g., a third BTG_CrewQuarters). This pops the dev
+    // console in dev mode. The settlement still generates fine with fewer rooms,
+    // so a warning is the appropriate severity.
+    //
+    // HOW:
+    // Two coordinating patches:
+    // 1. GenerateStructureSketch Prefix/Finalizer sets LayoutWorker_Settlement.IsGenerating
+    //    flag when the instance is our subclass (ResolveRoomDefs runs inside this method,
+    //    BEFORE Spawn is called).
+    // 2. ResolveRoomDefs Transpiler swaps Log.ErrorOnce for a helper that checks the flag
+    //    and downgrades to Log.Warning during BTG generation.
     [HarmonyPatch(typeof(LayoutWorker), "GenerateStructureSketch")]
     public static class LayoutWorkerGenerateStructureSketch
     {
@@ -44,10 +42,8 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     [HarmonyPatch(typeof(LayoutWorker), "ResolveRoomDefs")]
     public static class LayoutWorkerResolveRoomDefs
     {
-        /// <summary>
-        /// Replacement for Log.ErrorOnce inside ResolveRoomDefs.
-        /// During BTG generation, downgrades to Log.Warning. Otherwise calls original.
-        /// </summary>
+        // Replacement for Log.ErrorOnce inside ResolveRoomDefs.
+        // During BTG generation, downgrades to Log.Warning. Otherwise calls original.
         public static void LogRoomPlacementResult(string text, int hash)
         {
             if (LayoutWorker_Settlement.IsGenerating)

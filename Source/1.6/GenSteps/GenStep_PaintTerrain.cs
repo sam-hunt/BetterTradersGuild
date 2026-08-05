@@ -3,47 +3,35 @@ using Verse;
 
 namespace BetterTradersGuild.MapGeneration
 {
-    /// <summary>
-    /// GenStep that paints all instances of a terrain type with a custom color.
-    ///
-    /// XML-configurable parameters:
-    /// - terrain: TerrainDef to paint
-    /// - color: ColorDef to apply
-    ///
-    /// Example usage in GenStepDef:
-    /// <![CDATA[
-    /// <genStep Class="BetterTradersGuild.MapGeneration.GenStep_PaintTerrain">
-    ///   <terrain>MetalTile</terrain>
-    ///   <color>BTG_OrbitalSteel</color>
-    /// </genStep>
-    /// ]]>
-    ///
-    /// SAFETY: Checks terrain.isPaintable before applying color.
-    /// Non-paintable terrain types are skipped with a warning.
-    ///
-    /// RENDERING: Calls map.mapDrawer.RegenerateEverythingNow() after painting
-    /// to flush cached terrain materials and show updated colors.
-    /// </summary>
+    // GenStep that paints all instances of a terrain type with a custom color.
+    //
+    // XML-configurable parameters:
+    // - terrain: TerrainDef to paint
+    // - color: ColorDef to apply
+    //
+    // Example usage in GenStepDef:
+    // <genStep Class="BetterTradersGuild.MapGeneration.GenStep_PaintTerrain">
+    //   <terrain>MetalTile</terrain>
+    //   <color>BTG_OrbitalSteel</color>
+    // </genStep>
+    //
+    // SAFETY: Checks terrain.isPaintable before applying color.
+    // Non-paintable terrain types are skipped with a warning.
+    //
+    // RENDERING: Calls map.mapDrawer.RegenerateEverythingNow() after painting
+    // to flush cached terrain materials and show updated colors.
     public class GenStep_PaintTerrain : GenStep
     {
-        /// <summary>
-        /// Terrain type to paint. Set via XML.
-        /// </summary>
+        // Terrain type to paint. Set via XML.
         public TerrainDef terrain;
 
-        /// <summary>
-        /// Color to apply. Set via XML.
-        /// </summary>
+        // Color to apply. Set via XML.
         public ColorDef color;
 
-        /// <summary>
-        /// Deterministic seed for this GenStep.
-        /// </summary>
+        // Deterministic seed for this GenStep.
         public override int SeedPart => 847291002;
 
-        /// <summary>
-        /// Paints all instances of the specified terrain with the specified color.
-        /// </summary>
+        // Paints all instances of the specified terrain with the specified color.
         public override void Generate(Map map, GenStepParams parms)
         {
             if (map == null || terrain == null || color == null)

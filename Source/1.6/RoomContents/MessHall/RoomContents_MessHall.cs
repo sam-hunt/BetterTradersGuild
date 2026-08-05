@@ -27,11 +27,9 @@ namespace BetterTradersGuild.RoomContents.MessHall
 
         }
 
-        /// <summary>
-        /// Fills all shelves in the room with random meal types.
-        /// Each cell gets a randomly selected meal type for visual variety.
-        /// Only fills one slot per cell with a partial stack (6-8 meals) for balance.
-        /// </summary>
+        // Fills all shelves in the room with random meal types.
+        // Each cell gets a randomly selected meal type for visual variety.
+        // Only fills one slot per cell with a partial stack (6-8 meals) for balance.
         private void FillShelvesWithMeals(Map map, CellRect roomRect)
         {
             // Get all shelves in the room (any size)
@@ -63,25 +61,22 @@ namespace BetterTradersGuild.RoomContents.MessHall
             }
         }
 
-        /// <summary>
-        /// Gets all meal ThingDefs from the FoodMeals category.
-        /// Falls back to checking thingCategories if FoodMeals category not found.
-        /// </summary>
+        // Gets all meal ThingDefs from the FoodMeals category.
+        // Falls back to checking thingCategories if FoodMeals category not found.
         private List<ThingDef> GetAllMealDefs()
         {
             // Try to get the FoodMeals category first
             var foodMealsCategory = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("FoodMeals");
-            if (foodMealsCategory != null && foodMealsCategory.childThingDefs != null)
+            if (foodMealsCategory?.childThingDefs != null)
             {
                 return foodMealsCategory.childThingDefs.ToList();
             }
 
             // Fallback: find all ThingDefs that are in a meal-related category
             return DefDatabase<ThingDef>.AllDefsListForReading
-                .Where(def => def.thingCategories != null &&
-                              def.thingCategories.Any(cat =>
+                .Where(def => def.thingCategories?.Any(cat =>
                                   cat.defName.Contains("Meals") ||
-                                  cat.defName == "FoodMeals"))
+                                  cat.defName == "FoodMeals") == true)
                 .ToList();
         }
     }

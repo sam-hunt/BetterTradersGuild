@@ -3,28 +3,22 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers
 {
-    /// <summary>
-    /// Helper class for managing TradersGuild trader rotation timing
-    /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: This centralizes all logic for trader rotation timing,
-    /// ensuring consistent behavior between visited and unvisited settlements.
-    ///
-    /// Key Concepts:
-    /// - Virtual Schedule: Each settlement has a deterministic rotation schedule
-    ///   based on its ID, independent of whether it's been visited
-    /// - Settlement Offset: Uses settlement ID to desynchronize rotation times
-    /// - Configurable Interval: Player can adjust rotation frequency via mod settings
-    /// </remarks>
+    // Helper class for managing TradersGuild trader rotation timing
+    // LEARNING NOTE: This centralizes all logic for trader rotation timing,
+    // ensuring consistent behavior between visited and unvisited settlements.
+    //
+    // Key Concepts:
+    // - Virtual Schedule: Each settlement has a deterministic rotation schedule
+    //   based on its ID, independent of whether it's been visited
+    // - Settlement Offset: Uses settlement ID to desynchronize rotation times
+    // - Configurable Interval: Player can adjust rotation frequency via mod settings
     public static class TradersGuildTraderRotation
     {
         // Prime number for settlement offset calculation (reduces pattern artifacts)
         private const int OffsetMultiplier = 123457;
 
-        /// <summary>
-        /// Gets the trader rotation interval in ticks from mod settings
-        /// </summary>
-        /// <returns>Rotation interval in game ticks (days × 60000)</returns>
+        // Gets the trader rotation interval in ticks from mod settings
+        // Returns: Rotation interval in game ticks (days × 60000)
         public static int GetRotationIntervalTicks()
         {
             // LEARNING NOTE: One in-game day = 60,000 ticks
@@ -32,20 +26,16 @@ namespace BetterTradersGuild.Helpers
             return BetterTradersGuildMod.Settings.traderRotationIntervalDays * 60000;
         }
 
-        /// <summary>
-        /// Calculates the virtual lastStockGenerationTicks for a settlement
-        /// </summary>
-        /// <param name="settlementID">The settlement's unique ID</param>
-        /// <returns>Virtual lastStockGenerationTicks value (may be negative in early game)</returns>
-        /// <remarks>
-        /// This creates a stable, settlement-specific rotation schedule.
-        /// The same settlement ID always returns the same schedule pattern,
-        /// but different settlements have different schedules (desynchronized).
-        ///
-        /// The returned value represents the most recent rotation boundary at or before
-        /// the current tick. In early game, this may be negative (conceptually before
-        /// game start), which is valid for seed calculation and timing purposes.
-        /// </remarks>
+        // Calculates the virtual lastStockGenerationTicks for a settlement
+        // settlementID: The settlement's unique ID
+        // Returns: Virtual lastStockGenerationTicks value (may be negative in early game)
+        // This creates a stable, settlement-specific rotation schedule.
+        // The same settlement ID always returns the same schedule pattern,
+        // but different settlements have different schedules (desynchronized).
+        //
+        // The returned value represents the most recent rotation boundary at or before
+        // the current tick. In early game, this may be negative (conceptually before
+        // game start), which is valid for seed calculation and timing purposes.
         public static int GetVirtualLastStockTicks(int settlementID)
         {
             int interval = GetRotationIntervalTicks();
@@ -85,11 +75,9 @@ namespace BetterTradersGuild.Helpers
             return virtualTicks;
         }
 
-        /// <summary>
-        /// Calculates the next restock tick for a settlement based on virtual schedule
-        /// </summary>
-        /// <param name="settlementID">The settlement's unique ID</param>
-        /// <returns>Tick when the settlement should next regenerate stock</returns>
+        // Calculates the next restock tick for a settlement based on virtual schedule
+        // settlementID: The settlement's unique ID
+        // Returns: Tick when the settlement should next regenerate stock
         public static int GetNextRestockTick(int settlementID)
         {
             int virtualLastStock = GetVirtualLastStockTicks(settlementID);
@@ -97,22 +85,18 @@ namespace BetterTradersGuild.Helpers
             return virtualLastStock + interval;
         }
 
-        /// <summary>
-        /// Determines the correct lastStockTicks to use for trader selection.
-        /// This is the unified logic for both preview and stock generation flows.
-        /// </summary>
-        /// <param name="settlementID">The settlement's unique ID</param>
-        /// <param name="storedLastStockTicks">The value stored in Settlement_TraderTracker.lastStockGenerationTicks</param>
-        /// <returns>The effective lastStockTicks to use for deterministic trader selection</returns>
-        /// <remarks>
-        /// This method handles three cases:
-        /// 1. Unvisited settlement (storedLastStockTicks == -1): Use virtual schedule
-        /// 2. Visited settlement, rotation occurred: Use NEW virtual schedule for current rotation cycle
-        /// 3. Visited settlement, no rotation: Use stored value (preserves consistency within rotation period)
-        ///
-        /// By using this helper in both GetTraderKind (preview) and RegenerateStockAlignment (generation),
-        /// we ensure both paths produce the same trader type for the same rotation cycle.
-        /// </remarks>
+        // Determines the correct lastStockTicks to use for trader selection.
+        // This is the unified logic for both preview and stock generation flows.
+        // settlementID: The settlement's unique ID
+        // storedLastStockTicks: The value stored in Settlement_TraderTracker.lastStockGenerationTicks
+        // Returns: The effective lastStockTicks to use for deterministic trader selection
+        // This method handles three cases:
+        // 1. Unvisited settlement (storedLastStockTicks == -1): Use virtual schedule
+        // 2. Visited settlement, rotation occurred: Use NEW virtual schedule for current rotation cycle
+        // 3. Visited settlement, no rotation: Use stored value (preserves consistency within rotation period)
+        //
+        // By using this helper in both GetTraderKind (preview) and RegenerateStockAlignment (generation),
+        // we ensure both paths produce the same trader type for the same rotation cycle.
         public static int GetEffectiveLastStockTicks(int settlementID, int storedLastStockTicks)
         {
             int interval = GetRotationIntervalTicks();
@@ -138,12 +122,10 @@ namespace BetterTradersGuild.Helpers
             return storedLastStockTicks;
         }
 
-        /// <summary>
-        /// Checks if a settlement should regenerate stock right now
-        /// </summary>
-        /// <param name="settlement">The settlement to check</param>
-        /// <param name="currentLastStockTicks">Current lastStockGenerationTicks value</param>
-        /// <returns>True if stock should regenerate</returns>
+        // Checks if a settlement should regenerate stock right now
+        // settlement: The settlement to check
+        // currentLastStockTicks: Current lastStockGenerationTicks value
+        // Returns: True if stock should regenerate
         public static bool ShouldRegenerateNow(Settlement settlement, int currentLastStockTicks)
         {
             if (currentLastStockTicks == -1)

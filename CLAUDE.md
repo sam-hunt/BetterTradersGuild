@@ -92,6 +92,19 @@ Source/1.6/
 
 **Room Contents Workers:** Each room type has a `RoomContents_[RoomName].cs` file that handles specialized furniture and pawn spawning using `Prefab` definitions.
 
+**Comments:** In `Source/`, use plain `//` comments only — do **not** write XML doc comments (`///`, `<summary>`, `<param>`, etc.); nothing consumes them there, so they add ceremony without benefit. `Tests/` is exempt: XML doc comments are fine there (they read cleanly on the test helpers and are the most likely place to adopt a tool that parses them).
+
+**No `?.`/`??` on Unity objects:** Never use null propagation or null coalescing on receivers deriving from `UnityEngine.Object` (`Material`, `Texture`, `RenderTexture`, `GameObject`, ...). Unity overloads `==` so destroyed objects compare equal to null; `?.` bypasses the overload with a raw reference check and then throws `MissingReferenceException` on the member access. Use explicit `== null`/`!= null` guards for those types. Verse types (`Thing`, `Pawn`, `ThingComp`, defs) are plain classes where `?.` is fine. Enforced at build time by UNT0007/UNT0008 (Microsoft.Unity.Analyzers). Corollary: never bulk-apply Roslynator's RCS1146 (use conditional access) fixer to Unity-typed receivers; see the note in `.editorconfig`.
+
+### Reflection Verification
+
+BTG reaches private RimWorld members and optional-mod APIs by string-named reflection. To catch API drift at startup instead of as a silent runtime failure (the `lifeSupportUnitPowerOutput` bug), every reflection dependency is self-checked when the game loads. Pattern ported from the sister mod `UniqueWeaponsUnbound`.
+
+- **Single trigger, not a registry:** `ReflectionVerification.VerifyAll()` (`Core/`) runs once from `BetterTradersGuildMod`'s static ctor, right after `Harmony.PatchAll()`. Each looked-up member name still lives in exactly **one** owner — `VerifyAll()` only triggers the checks, so nothing is declared twice or can drift apart.
+- **Base-game lookups (Pattern A):** the owning class caches its `FieldInfo`/`MethodInfo` in `static readonly` fields and exposes `public static void VerifyReflection()`, which `Log.Error`s a message naming the member, the user-visible consequence, and "RimWorld API may have changed." Shared base-game members live in single owners under `Helpers/Reflection/` (`TraderTrackerReflection`, `CompHackableReflection`, `RefuelableReflection`); single-consumer ones verify in-place. Every runtime caller still null-guards, so a missing member degrades to a no-op rather than throwing.
+- **Optional-mod integrations (Pattern B):** dedicated classes under `Integrations/` (`HARIntegration`, `VEPipesIntegration`) resolve their type/members in a `try/catch` static ctor, expose `static bool Available`, and `Log.Warning` **only when the mod is detected present but a member failed to resolve** (silent when the mod isn't installed). `VerifyAll()` forces each static ctor via `_ = X.Available;`.
+- **Adding a new reflection site:** put the lookup in the relevant owner (or a new `Helpers/Reflection/` / `Integrations/` class), add its `VerifyReflection()`/`Available`, and call it from `VerifyAll()`. Note: checks must run against the real game DLL — the `Krafs.Rimworld.Ref` package strips private members, so they can't be unit-tested.
+
 ### Map Generation Architecture
 
 BTG uses a declarative, XML-driven approach for custom map generation:
@@ -323,6 +336,17 @@ The context flag pattern is required because `RaidCommonalityFromPoints` has no 
 XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, subroom packing). Tests use ASCII diagram visualization for room layouts. Run with `dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj`.
 
 **Excluded Test Files:** `Tests/Tools/RegenerateDiagrams.cs` (utility), `Tests/Helpers/DiagramGeneratorTests.cs` - excluded via `<Compile Remove="..." />`.
+
+Run tests natively from WSL — never build from the Windows toolchain: it corrupts the WSL-side incremental state (shared `obj/` seen under different path roots). The test csproj copies the live install's runtime DLLs beside the test DLL so tests may load Verse types (see the Assembly-CSharp-firstpass comment there — mono resolves field types eagerly where the Windows CLR is lazy); `OutputPath` is Release-gated so Debug `dotnet test` builds can't overwrite the shipped DLL in `1.6/Assemblies`.
+
+### Localization
+
+English is the source of truth: `1.6/Languages/English/Keyed/BTG.xml` (`BTG_` prefix) plus a real DefInjected surface under `1.6/Languages/English/DefInjected/<DefType>/`. Layout, conventions, and per-language guidance live in the `translate` skill; the contributor-facing rules and the language roster live in `CONTRIBUTING.md`.
+
+- **Checker:** `python3 Scripts/check-translations.py --strict` validates key parity, placeholders, DefInjected legality, staleness (EN comments), and file hygiene. CI's release gate runs it non-strict.
+- **Sidecar:** `Scripts/expected-injections.json` is the authority for legal DefInjected keys. Regenerate with `python3 Scripts/refresh-translation-expectations.py` — it boots RimWorld (game must be closed) with a pinned mod list via the L10nProbe dev mod, then restores `ModsConfig.xml`.
+- **Known exclusion:** `BTG_ConfigureStartingPawnsXenotypes` (ScenPartDef, MayRequire Biotech) has a label but is deliberately outside the l10n surface — its English DefInjected entry is commented out and the probe boots without Biotech. The upgrade path is documented in the refresh script.
+- **Policy:** translation generation passes run only on explicit request (they are token-expensive). Infra/tooling changes are always fine.
 
 ## Debugging
 

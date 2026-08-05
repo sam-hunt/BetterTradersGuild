@@ -8,46 +8,42 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.ShuttleBay
 {
-    /// <summary>
-    /// Custom RoomContentsWorker for Shuttle Bay.
-    ///
-    /// Spawns an L-shaped landing pad subroom with walls on front + right side only,
-    /// similar to RoomContents_CommandersQuarters. The subroom can be placed in corners
-    /// (preferred) or along edges (with procedural wall completion).
-    ///
-    /// Generation sequence:
-    /// 1. Find best placement for landing pad (prefer corners, avoid walls with doors)
-    /// 2. Calculate and store landing pad area for validation (prevents other prefab overlap)
-    /// 3. Spawn landing pad prefab (VGE-enhanced or vanilla version)
-    /// 4. Spawn required walls from PlacementCalculator (for edge/center placements)
-    /// 5. Calculate cargo hatch position (center of largest free area)
-    /// 6. Call base.FillRoom() for XML-defined prefabs (forklift, edge furniture)
-    /// 7. Connect AncientSealedCrate markers to room edge with conduits
-    /// 8. Apply partial roofing (roof all cells except landing pad area)
-    /// 9. Spawn cargo vault hatch (secured entrance)
-    ///
-    /// LEARNING NOTE (Placement Timing):
-    /// The landingPadRect and cargoHatchRect MUST be set BEFORE calling base.FillRoom()
-    /// so that IsValidCellBase() can block XML-defined prefabs from spawning on them.
-    /// This is the same pattern used in RoomContents_CommandersQuarters.
-    /// </summary>
+    // Custom RoomContentsWorker for Shuttle Bay.
+    //
+    // Spawns an L-shaped landing pad subroom with walls on front + right side only,
+    // similar to RoomContents_CommandersQuarters. The subroom can be placed in corners
+    // (preferred) or along edges (with procedural wall completion).
+    //
+    // Generation sequence:
+    // 1. Find best placement for landing pad (prefer corners, avoid walls with doors)
+    // 2. Calculate and store landing pad area for validation (prevents other prefab overlap)
+    // 3. Spawn landing pad prefab (VGE-enhanced or vanilla version)
+    // 4. Spawn required walls from PlacementCalculator (for edge/center placements)
+    // 5. Calculate cargo hatch position (center of largest free area)
+    // 6. Call base.FillRoom() for XML-defined prefabs (forklift, edge furniture)
+    // 7. Connect AncientSealedCrate markers to room edge with conduits
+    // 8. Apply partial roofing (roof all cells except landing pad area)
+    // 9. Spawn cargo vault hatch (secured entrance)
+    //
+    // LEARNING NOTE (Placement Timing):
+    // The landingPadRect and cargoHatchRect MUST be set BEFORE calling base.FillRoom()
+    // so that IsValidCellBase() can block XML-defined prefabs from spawning on them.
+    // This is the same pattern used in RoomContents_CommandersQuarters.
     public class RoomContents_ShuttleBay : RoomContentsWorker
     {
-        /// <summary>
-        /// Size of the landing pad prefab (10x10).
-        /// </summary>
+        // Size of the landing pad prefab (10x10).
         private const int LANDING_PAD_PREFAB_SIZE = 10;
 
-        /// <summary>
-        /// Stores the landing pad rect to prevent XML-defined prefabs from spawning on it.
-        /// Set BEFORE base.FillRoom() is called.
-        /// </summary>
+        // Number of LifeSupportUnits to keep in the pressurized area (outside the landing pad).
+        // Several are kept so the large bay holds temperature and can repressurize quickly.
+        private const int LIFE_SUPPORT_UNITS_TO_KEEP = 3;
+
+        // Stores the landing pad rect to prevent XML-defined prefabs from spawning on it.
+        // Set BEFORE base.FillRoom() is called.
         private CellRect landingPadRect;
 
-        /// <summary>
-        /// Stores the cargo hatch rect to prevent XML-defined prefabs from spawning on it.
-        /// Set BEFORE base.FillRoom() is called.
-        /// </summary>
+        // Stores the cargo hatch rect to prevent XML-defined prefabs from spawning on it.
+        // Set BEFORE base.FillRoom() is called.
         private CellRect cargoHatchRect;
 
         public override void FillRoom(Map map, LayoutRoom room, Faction faction, float? threatPoints)
@@ -90,7 +86,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // - Corner: empty list (room walls provide everything)
                 // - Edge: one wall segment (left side)
                 // - Center: two wall segments (back + left)
-                if (placement.RequiredWalls != null && placement.RequiredWalls.Count > 0)
+                if (placement.RequiredWalls?.Count > 0)
                 {
                     VacWallSegmentSpawner.SpawnWallsWithBarriers(map, placement.RequiredWalls);
                 }
@@ -112,13 +108,10 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             //    Other prefabs will avoid landing pad and cargo hatch areas (hatch is now a physical building)
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 6b. Prune LifeSupportUnits to keep only one outside the landing pad subroom
-            //     XML spawns 4 to ensure at least one lands in the pressurized area
-            //     Search all rects to find all units
-            foreach (CellRect roomRect in room.rects)
-            {
-                PruneLifeSupportUnits(map, roomRect);
-            }
+            // 6b. Prune LifeSupportUnits: the XML over-spawns (6) so enough land in the
+            //     pressurized area. Remove any inside the unroofed landing pad (vacuum -
+            //     they heat nothing) and cap the pressurized-area count at a few units.
+            PruneLifeSupportUnits(map, room);
 
             // 7. Connect AncientSealedCrate marker to room edge with conduits (search all rects)
             if (Things.HiddenConduit != null)
@@ -140,15 +133,13 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
         }
 
-        /// <summary>
-        /// Override to prevent XML-defined prefabs from spawning on the landing pad or cargo hatch.
-        ///
-        /// CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
-        /// doesn't work because other prefabs overwrite landing pad furniture at the same cells,
-        /// and removing them afterward leaves the landing pad furniture already destroyed.
-        ///
-        /// Called by base.FillRoom() during prefab placement validation.
-        /// </summary>
+        // Override to prevent XML-defined prefabs from spawning on the landing pad or cargo hatch.
+        //
+        // CRITICAL: This MUST block placement before spawning occurs. Post-spawn removal
+        // doesn't work because other prefabs overwrite landing pad furniture at the same cells,
+        // and removing them afterward leaves the landing pad furniture already destroyed.
+        //
+        // Called by base.FillRoom() during prefab placement validation.
         protected override bool IsValidCellBase(ThingDef thingDef, ThingDef stuffDef, IntVec3 c, LayoutRoom room, Map map)
         {
             // Block prefab placement in landing pad area (prevent furniture overwriting)
@@ -162,14 +153,12 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             return base.IsValidCellBase(thingDef, stuffDef, c, room, map);
         }
 
-        /// <summary>
-        /// Spawns the landing pad prefab using PrefabUtility API.
-        /// The prefab is modified by XML patches when VGE is active (5x1 vac barriers instead of 1x1)
-        /// or when Orca Shuttle mod is active (larger shuttle with repositioned coordinates).
-        ///
-        /// LEARNING NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning!
-        /// The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
-        /// </summary>
+        // Spawns the landing pad prefab using PrefabUtility API.
+        // The prefab is modified by XML patches when VGE is active (5x1 vac barriers instead of 1x1)
+        // or when Orca Shuttle mod is active (larger shuttle with repositioned coordinates).
+        //
+        // LEARNING NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning!
+        // The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
         private void SpawnLandingPadPrefab(Map map, SubroomPlacementResult placement)
         {
             PrefabDef prefab = Prefabs.BTG_ShuttleLandingPad_Subroom;
@@ -180,11 +169,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }
 
-        /// <summary>
-        /// Paints the shuttle in the landing pad area with BTG_Rust.
-        /// Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
-        /// Called immediately after prefab spawn so the shuttle exists on the map.
-        /// </summary>
+        // Paints the shuttle in the landing pad area with BTG_Rust.
+        // Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
+        // Called immediately after prefab spawn so the shuttle exists on the map.
         private void PaintShuttleInLandingPad(Map map)
         {
             if (this.landingPadRect.Width == 0) return;
@@ -201,10 +188,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             PaintableFurnitureHelper.TryPaint(shuttle, Colors.BTG_Rust);
         }
 
-        /// <summary>
-        /// Connects the shuttle in the landing pad area to the room edge via chemfuel pipes.
-        /// Does nothing if VE Chemfuel Expanded is not installed (VCHE_UndergroundChemfuelPipe will be null).
-        /// </summary>
+        // Connects the shuttle in the landing pad area to the room edge via chemfuel pipes.
+        // Does nothing if VE Chemfuel Expanded is not installed (VCHE_UndergroundChemfuelPipe will be null).
         private void ConnectShuttleToPipeNetwork(Map map, CellRect roomRect)
         {
             if (this.landingPadRect.Width == 0) return;
@@ -222,34 +207,45 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             RoomEdgeConnector.ConnectToNearestEdge(map, shuttle.Position, roomRect, Things.VCHE_UndergroundChemfuelPipe);
         }
 
-        /// <summary>
-        /// Prunes LifeSupportUnits to keep only one that is outside the landing pad subroom.
-        /// The subroom is unroofed/exposed to space, so LifeSupportUnits shouldn't be there.
-        /// XML spawns 4 units to ensure at least one lands in the pressurized area.
-        /// </summary>
-        private void PruneLifeSupportUnits(Map map, CellRect roomRect)
+        // Prunes LifeSupportUnits down to a few in the pressurized area (outside the landing
+        // pad subroom). The XML over-spawns (6) so enough land outside the pad; this removes
+        // the surplus. The landing pad is unroofed/exposed to space, so any unit inside it is
+        // always removed (it heats nothing in vacuum). Up to LIFE_SUPPORT_UNITS_TO_KEEP units
+        // are retained outside the pad so the large bay holds temperature and can repressurize
+        // quickly if the vac barriers are breached.
+        private void PruneLifeSupportUnits(Map map, LayoutRoom room)
         {
             if (Things.LifeSupportUnit == null) return;
 
-            // Find all LifeSupportUnits in the room (uses cell iteration, works for any faction)
-            var units = RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.LifeSupportUnit);
-
-            if (units.Count <= 1) return;
-
-            // Find first unit outside the landing pad subroom (preferred)
-            Building keepUnit = units.FirstOrDefault(b =>
-                this.landingPadRect.Width == 0 || !this.landingPadRect.Contains(b.Position));
-
-            // Fallback: keep the last one if all are in the subroom
-            if (keepUnit == null)
-                keepUnit = units.Last();
-
-            // Despawn all others
-            foreach (var unit in units)
+            // Collect every LifeSupportUnit across all room rects (dedup in case rects overlap)
+            var units = new List<Building>();
+            foreach (CellRect roomRect in room.rects)
             {
-                if (unit != keepUnit)
-                    unit.Destroy(DestroyMode.Vanish);
+                foreach (Building unit in RoomEdgeConnector.FindBuildingsInRoom(map, roomRect, Things.LifeSupportUnit))
+                {
+                    if (!units.Contains(unit))
+                        units.Add(unit);
+                }
             }
+
+            // Partition into pressurized-area units and those inside the unroofed landing pad
+            var outside = new List<Building>();
+            var insidePad = new List<Building>();
+            foreach (Building unit in units)
+            {
+                if (this.landingPadRect.Width > 0 && this.landingPadRect.Contains(unit.Position))
+                    insidePad.Add(unit);
+                else
+                    outside.Add(unit);
+            }
+
+            // Always remove units inside the unroofed pad (vacuum - they heat nothing)
+            foreach (Building unit in insidePad)
+                unit.Destroy(DestroyMode.Vanish);
+
+            // Cap the pressurized-area units, removing any beyond the keep count
+            for (int i = LIFE_SUPPORT_UNITS_TO_KEEP; i < outside.Count; i++)
+                outside[i].Destroy(DestroyMode.Vanish);
         }
 
     }

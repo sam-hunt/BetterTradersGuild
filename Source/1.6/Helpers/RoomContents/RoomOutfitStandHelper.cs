@@ -4,32 +4,28 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Helper class for spawning apparel into outfit stands during room generation.
-    /// Provides methods for populating outfit stands with armor, clothing, and weapons.
-    ///
-    /// LEARNING NOTE: Building_OutfitStand has a dedicated AddApparel(Apparel) method
-    /// that handles storage settings and display cache updates internally. This is
-    /// cleaner than the ThingOwner.TryAdd() pattern used for bookcases.
-    ///
-    /// USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
-    /// to populate outfit stands placed by XML prefabs.
-    /// </summary>
+    // Helper class for spawning apparel into outfit stands during room generation.
+    // Provides methods for populating outfit stands with armor, clothing, and weapons.
+    //
+    // LEARNING NOTE: Building_OutfitStand has a dedicated AddApparel(Apparel) method
+    // that handles storage settings and display cache updates internally. This is
+    // cleaner than the ThingOwner.TryAdd() pattern used for bookcases.
+    //
+    // USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
+    // to populate outfit stands placed by XML prefabs.
     public static class RoomOutfitStandHelper
     {
-        /// <summary>
-        /// Spawns apparel items into all outfit stands within the search area.
-        /// Each outfit stand receives the full set of apparel items specified.
-        ///
-        /// Quality is randomized within the specified range for each item.
-        /// Items that require stuff (like flak vest) will use default stuff.
-        /// </summary>
-        /// <param name="map">The map to search for outfit stands</param>
-        /// <param name="searchArea">Area to search (typically the full room rect)</param>
-        /// <param name="apparelDefs">List of apparel ThingDefs to spawn in each stand</param>
-        /// <param name="minQuality">Minimum quality for randomization (default: Normal)</param>
-        /// <param name="maxQuality">Maximum quality for randomization (default: Excellent)</param>
-        /// <param name="faction">Optional faction for VEF faction color tinting</param>
+        // Spawns apparel items into all outfit stands within the search area.
+        // Each outfit stand receives the full set of apparel items specified.
+        //
+        // Quality is randomized within the specified range for each item.
+        // Items that require stuff (like flak vest) will use default stuff.
+        // map: The map to search for outfit stands
+        // searchArea: Area to search (typically the full room rect)
+        // apparelDefs: List of apparel ThingDefs to spawn in each stand
+        // minQuality: Minimum quality for randomization (default: Normal)
+        // maxQuality: Maximum quality for randomization (default: Excellent)
+        // faction: Optional faction for VEF faction color tinting
         public static void SpawnApparelInOutfitStands(
             Map map,
             CellRect searchArea,
@@ -105,17 +101,15 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Creates an apparel item with randomized quality within the specified range.
-        ///
-        /// LEARNING NOTE: Apparel items with CompQuality have their quality set via
-        /// CompQuality.SetQuality(). The QualityGenerator parameter affects logging
-        /// but doesn't change the actual quality value.
-        /// </summary>
-        /// <param name="apparelDef">The apparel ThingDef to create</param>
-        /// <param name="minQuality">Minimum quality (inclusive)</param>
-        /// <param name="maxQuality">Maximum quality (inclusive)</param>
-        /// <returns>Created Apparel with random quality, or null if creation failed</returns>
+        // Creates an apparel item with randomized quality within the specified range.
+        //
+        // LEARNING NOTE: Apparel items with CompQuality have their quality set via
+        // CompQuality.SetQuality(). The QualityGenerator parameter affects logging
+        // but doesn't change the actual quality value.
+        // apparelDef: The apparel ThingDef to create
+        // minQuality: Minimum quality (inclusive)
+        // maxQuality: Maximum quality (inclusive)
+        // Returns: Created Apparel with random quality, or null if creation failed
         private static Apparel CreateApparelWithQuality(
             ThingDef apparelDef,
             QualityCategory minQuality,
@@ -152,9 +146,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return apparel;
         }
 
-        /// <summary>
-        /// Returns a random QualityCategory between min and max (inclusive).
-        /// </summary>
+        // Returns a random QualityCategory between min and max (inclusive).
         private static QualityCategory RandomQualityInRange(
             QualityCategory min,
             QualityCategory max)

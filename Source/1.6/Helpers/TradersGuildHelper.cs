@@ -6,18 +6,14 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// Helper class for checking Traders Guild faction status and relations
-    /// </summary>
+    // Helper class for checking Traders Guild faction status and relations
     public static class TradersGuildHelper
     {
-        /// <summary>
-        /// Returns the faction to use for trade permission checks (royal title requirements).
-        /// Only resolves the TraderKind's own faction when it has a permitRequiredForTrading,
-        /// so that royal title checks look up the correct faction (e.g., Empire for Imperial
-        /// traders). For traders without title requirements (pirates, generic, modded), always
-        /// returns the settlement faction to avoid false hostility rejections.
-        /// </summary>
+        // Returns the faction to use for trade permission checks (royal title requirements).
+        // Only resolves the TraderKind's own faction when it has a permitRequiredForTrading,
+        // so that royal title checks look up the correct faction (e.g., Empire for Imperial
+        // traders). For traders without title requirements (pirates, generic, modded), always
+        // returns the settlement faction to avoid false hostility rejections.
         public static Faction GetFactionForTradeCheck(Settlement settlement)
         {
             TraderKindDef traderKind = settlement.TraderKind;
@@ -30,10 +26,8 @@ namespace BetterTradersGuild
             return settlement.Faction;
         }
 
-        /// <summary>
-        /// Finds a valid negotiator pawn in the caravan for trading with the given settlement.
-        /// Returns null if no pawn qualifies (e.g., missing required royal title for Imperial traders).
-        /// </summary>
+        // Finds a valid negotiator pawn in the caravan for trading with the given settlement.
+        // Returns null if no pawn qualifies (e.g., missing required royal title for Imperial traders).
         public static Pawn FindNegotiator(Caravan caravan, Settlement settlement)
         {
             if (caravan == null || settlement == null)
@@ -43,10 +37,8 @@ namespace BetterTradersGuild
                 caravan, GetFactionForTradeCheck(settlement), settlement.TraderKind);
         }
 
-        /// <summary>
-        /// Finds a negotiator, jumps the camera, and opens the trade dialog.
-        /// Shared by all BTG trade initiation paths (gizmos, float menus, shuttle arrival).
-        /// </summary>
+        // Finds a negotiator, jumps the camera, and opens the trade dialog.
+        // Shared by all BTG trade initiation paths (gizmos, float menus, shuttle arrival).
         public static void OpenTradeDialog(Caravan caravan, Settlement settlement)
         {
             Pawn negotiator = FindNegotiator(caravan, settlement);
@@ -59,18 +51,14 @@ namespace BetterTradersGuild
             }
         }
 
-        /// <summary>
-        /// Checks whether any pawn in the shuttle pods can negotiate with the settlement.
-        /// </summary>
+        // Checks whether any pawn in the shuttle pods can negotiate with the settlement.
         public static bool HasNegotiatorInPods(IEnumerable<IThingHolder> pods, Settlement settlement)
         {
             return GetTradeBlockedReasonFromPods(pods, settlement) == null;
         }
 
-        /// <summary>
-        /// Gets a human-readable reason why trading is blocked, or null if trading is allowed.
-        /// Checks each pawn in the caravan against FactionUtility.CanTradeWith to find the rejection reason.
-        /// </summary>
+        // Gets a human-readable reason why trading is blocked, or null if trading is allowed.
+        // Checks each pawn in the caravan against FactionUtility.CanTradeWith to find the rejection reason.
         public static string GetTradeBlockedReason(Caravan caravan, Settlement settlement)
         {
             if (caravan == null || settlement == null)
@@ -109,10 +97,8 @@ namespace BetterTradersGuild
             return reason ?? "BTG_NoNegotiator".Translate();
         }
 
-        /// <summary>
-        /// Gets a human-readable reason why trading is blocked for shuttle pods, or null if trading is allowed.
-        /// Extracts pawns from shuttle pods and checks each against FactionUtility.CanTradeWith.
-        /// </summary>
+        // Gets a human-readable reason why trading is blocked for shuttle pods, or null if trading is allowed.
+        // Extracts pawns from shuttle pods and checks each against FactionUtility.CanTradeWith.
         public static string GetTradeBlockedReasonFromPods(IEnumerable<IThingHolder> pods, Settlement settlement)
         {
             if (pods == null || settlement == null)
@@ -140,7 +126,7 @@ namespace BetterTradersGuild
                 foreach (Thing thing in thingsOwner)
                 {
                     Pawn pawn = thing as Pawn;
-                    if (pawn == null || !pawn.RaceProps.Humanlike)
+                    if (pawn?.RaceProps.Humanlike != true)
                         continue;
 
                     AcceptanceReport report = FactionUtility.CanTradeWith(
@@ -157,9 +143,7 @@ namespace BetterTradersGuild
             return reason ?? "BTG_NoNegotiator".Translate();
         }
 
-        /// <summary>
-        /// Checks if a settlement belongs to the Traders Guild faction.
-        /// </summary>
+        // Checks if a settlement belongs to the Traders Guild faction.
         public static bool IsTradersGuildSettlement(Settlement settlement)
         {
             // Null check - make sure the settlement and its faction exist
@@ -170,29 +154,55 @@ namespace BetterTradersGuild
             return settlement.Faction.def == Factions.TradersGuild;
         }
 
-        /// <summary>
-        /// Checks if the player can peacefully visit a faction's settlement
-        /// Requires non-hostile relations (neutral or better)
-        /// </summary>
+        // Identifies a float-menu option as a signal-jammer-blocked attack option.
+        //
+        // Detection keys on our OWN injected reason string (BTG_RequiresSignalJammerReason) rather
+        // than the English word "attack": our CanAttack postfixes (vanilla caravan/transporter plus
+        // the CWTL integration) reject with that reason, and vanilla's float-menu builders append it
+        // to the option label. Because both the injection and this match resolve the same key, the
+        // check stays correct in every locale - unlike matching the literal "attack", which broke on
+        // translated labels. It also means we only grey out attacks we actually blocked, never an
+        // unrelated (or already-live) option.
+        public static bool IsSignalJammerBlockedAttackOption(FloatMenuOption option)
+        {
+            return option?.Label != null
+                && option.Label.Contains("BTG_RequiresSignalJammerReason".Translate());
+        }
+
+        // Returns true only if `faction` has an established relation entry with the player faction.
+        //
+        // Two cases make this false:
+        //  - The player faction doesn't exist yet. During world generation it is created in
+        //    ScenPart_PlayerFaction.PostWorldGenerate (after FinalizeInit), so any caller that can
+        //    run during world generation must tolerate its absence.
+        //  - The faction-relation matrix is incomplete. Other mods or unusual world states can
+        //    leave a faction with no relation entry for the player even though both exist.
+        //
+        // Vanilla PlayerRelationKind / PlayerGoodwill resolve via RelationWith(allowNull: false),
+        // which Log.Errors "<faction> has null relation with <player>. Returning dummy relation."
+        // on every miss and returns a throwaway dummy that is never cached - so reading them on an
+        // unrelated faction spams the log (e.g. once per friendly-tile cache rebuild). Callers gate
+        // on this first and treat "no relation" as a safe negative.
+        public static bool HasPlayerRelation(Faction faction)
+        {
+            Faction player = Faction.OfPlayerSilentFail;
+            return faction != null
+                && player != null
+                && faction.RelationWith(player, allowNull: true) != null;
+        }
+
+        // Checks if the player can peacefully visit a faction's settlement
+        // Requires non-hostile relations (neutral or better)
         public static bool CanPeacefullyVisit(Faction faction)
         {
-            if (faction == null)
-                return false;
-
-            // During world generation, the player faction doesn't exist yet
-            // (created in ScenPart_PlayerFaction.PostWorldGenerate, after FinalizeInit).
-            // Our PlanetTile.LayerDef patch can fire during path cost recalculation
-            // before that point, so bail out early.
-            if (Faction.OfPlayerSilentFail == null)
+            if (!HasPlayerRelation(faction))
                 return false;
 
             return faction.PlayerRelationKind != FactionRelationKind.Hostile;
         }
 
-        /// <summary>
-        /// Checks if a map belongs to a TradersGuild settlement.
-        /// Used by patches that need to determine context during map events.
-        /// </summary>
+        // Checks if a map belongs to a TradersGuild settlement.
+        // Used by patches that need to determine context during map events.
         public static bool IsMapInTradersGuildSettlement(Verse.Map map)
         {
             if (map == null)
@@ -200,6 +210,23 @@ namespace BetterTradersGuild
 
             Settlement settlement = map.Parent as Settlement;
             return IsTradersGuildSettlement(settlement);
+        }
+
+        // True if at least one other Traders Guild settlement still stands in the world
+        // besides the one this map belongs to. The wider guild network is what answers a
+        // resupply call (meal drops, reinforcement raids), so the last base standing has
+        // no one left to call - callers use this to disable those escalations.
+        public static bool AnyOtherTradersGuildSettlement(Verse.Map map)
+        {
+            Settlement own = map?.Parent as Settlement;
+            List<Settlement> settlements = Find.WorldObjects.Settlements;
+            for (int i = 0; i < settlements.Count; i++)
+            {
+                Settlement s = settlements[i];
+                if (s != own && !s.Destroyed && IsTradersGuildSettlement(s))
+                    return true;
+            }
+            return false;
         }
     }
 }

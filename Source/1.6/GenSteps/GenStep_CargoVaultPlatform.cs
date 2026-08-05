@@ -7,60 +7,44 @@ using Verse;
 
 namespace BetterTradersGuild.MapGeneration
 {
-    /// <summary>
-    /// GenStep for generating the cargo vault pocket map.
-    ///
-    /// This GenStep uses the proper RimWorld layout system:
-    /// 1. Creates StructureGenParams with vault dimensions
-    /// 2. Gets the LayoutDef's Worker (LayoutWorker_CargoVault)
-    /// 3. Calls GenerateStructureSketch() to create the layout
-    /// 4. Calls Spawn() to place walls, floors, rooms, prefabs, and parts
-    /// 5. Places sniper turret arrays on external platforms connected by bridges
-    /// 6. Places Gauss cannons at vault corners
-    ///
-    /// The pocket map is 75x75 with the 25x25 vault structure centered,
-    /// and 4 sniper turret arrays on 15x15 platforms connected by 3-wide bridges.
-    /// </summary>
+    // GenStep for generating the cargo vault pocket map.
+    //
+    // This GenStep uses the proper RimWorld layout system:
+    // 1. Creates StructureGenParams with vault dimensions
+    // 2. Gets the LayoutDef's Worker (LayoutWorker_CargoVault)
+    // 3. Calls GenerateStructureSketch() to create the layout
+    // 4. Calls Spawn() to place walls, floors, rooms, prefabs, and parts
+    // 5. Places sniper turret arrays on external platforms connected by bridges
+    // 6. Places Gauss cannons at vault corners
+    //
+    // The pocket map is 75x75 with the 25x25 vault structure centered,
+    // and 4 sniper turret arrays on 15x15 platforms connected by 3-wide bridges.
     public class GenStep_CargoVaultPlatform : GenStep
     {
-        /// <summary>
-        /// Vault structure size (walls + interior).
-        /// The structure is centered on the larger pocket map.
-        /// </summary>
+        // Vault structure size (walls + interior).
+        // The structure is centered on the larger pocket map.
         private const int VAULT_SIZE = 25;
 
-        /// <summary>
-        /// Turret array platform size (terrain area for each sniper turret array).
-        /// </summary>
+        // Turret array platform size (terrain area for each sniper turret array).
         private const int TURRET_ARRAY_PLATFORM_SIZE = 15;
 
-        /// <summary>
-        /// Bridge width connecting vault to turret array platforms.
-        /// </summary>
+        // Bridge width connecting vault to turret array platforms.
         private const int BRIDGE_WIDTH = 3;
 
-        /// <summary>
-        /// Gap between vault edge and turret array platform edge (bridge length).
-        /// </summary>
+        // Gap between vault edge and turret array platform edge (bridge length).
         private const int TURRET_ARRAY_GAP = 5;
 
-        /// <summary>
-        /// Temperature for roofed rooms in degrees Celsius.
-        /// Defaults to 20°C (comfortable room temperature).
-        /// Required for Orbit biome maps where outdoor temp is -75°C.
-        /// </summary>
+        // Temperature for roofed rooms in degrees Celsius.
+        // Defaults to 20°C (comfortable room temperature).
+        // Required for Orbit biome maps where outdoor temp is -75°C.
         public float temperature = 20f;
 
-        /// <summary>
-        /// Seed for deterministic generation.
-        /// </summary>
+        // Seed for deterministic generation.
         public override int SeedPart => 738491625;
 
-        /// <summary>
-        /// Main generation method called during pocket map creation.
-        /// Uses the layout system to generate the vault structure and contents.
-        /// Uses deterministic seeding based on settlement ID for consistent layout.
-        /// </summary>
+        // Main generation method called during pocket map creation.
+        // Uses the layout system to generate the vault structure and contents.
+        // Uses deterministic seeding based on settlement ID for consistent layout.
         public override void Generate(Map map, GenStepParams parms)
         {
             // Get settlement ID for deterministic seeding
@@ -79,9 +63,7 @@ namespace BetterTradersGuild.MapGeneration
             }
         }
 
-        /// <summary>
-        /// Internal generation logic, called within deterministic random state.
-        /// </summary>
+        // Internal generation logic, called within deterministic random state.
         private void GenerateInternal(Map map, GenStepParams parms)
         {
             // Define the vault area - centered on the map
@@ -149,10 +131,8 @@ namespace BetterTradersGuild.MapGeneration
             MapGenerator.PlayerStartSpot = vaultRect.CenterCell;
         }
 
-        /// <summary>
-        /// Spawns 4 sniper turret arrays at cardinal directions from the vault,
-        /// each on its own platform connected by a 3-wide bridge.
-        /// </summary>
+        // Spawns 4 sniper turret arrays at cardinal directions from the vault,
+        // each on its own platform connected by a 3-wide bridge.
         private void SpawnTurretArrays(Map map, CellRect vaultRect, Faction faction)
         {
             PrefabDef turretArrayPrefab = Prefabs.BTG_PoweredSniperTurretArray;
@@ -192,10 +172,8 @@ namespace BetterTradersGuild.MapGeneration
 
         }
 
-        /// <summary>
-        /// Spawns a sniper turret array on its own platform at the given center position,
-        /// and draws a bridge connecting it to the vault.
-        /// </summary>
+        // Spawns a sniper turret array on its own platform at the given center position,
+        // and draws a bridge connecting it to the vault.
         private void SpawnTurretArrayWithBridge(
             Map map,
             PrefabDef turretArrayPrefab,
@@ -244,10 +222,8 @@ namespace BetterTradersGuild.MapGeneration
             DrawBridge(map, bridgeTerrain, vaultRect, platformRect, direction);
         }
 
-        /// <summary>
-        /// Spawns Gauss cannons at the corners of the vault, similar to orbital platform settlements.
-        /// Each cannon gets a circular platform pad (OrbitalPlatform outer, MetalTile inner).
-        /// </summary>
+        // Spawns Gauss cannons at the corners of the vault, similar to orbital platform settlements.
+        // Each cannon gets a circular platform pad (OrbitalPlatform outer, MetalTile inner).
         private void SpawnCornerCannons(Map map, CellRect vaultRect, Faction faction)
         {
             ThingDef cannonDef = ThingDefOf.GaussCannon;
@@ -315,11 +291,9 @@ namespace BetterTradersGuild.MapGeneration
 
         }
 
-        /// <summary>
-        /// Called after map generation completes.
-        /// Sets room temperature and clears vacuum for the enclosed vault.
-        /// Without this, roofed rooms on Orbit biome start at -75°C in vacuum.
-        /// </summary>
+        // Called after map generation completes.
+        // Sets room temperature and clears vacuum for the enclosed vault.
+        // Without this, roofed rooms on Orbit biome start at -75°C in vacuum.
         public override void PostMapInitialized(Map map, GenStepParams parms)
         {
             LayoutDef layoutDef = Layouts.BTG_OrbitalCargoVault;
@@ -329,9 +303,7 @@ namespace BetterTradersGuild.MapGeneration
             }
         }
 
-        /// <summary>
-        /// Draws a 3-wide bridge of terrain connecting the vault to a turret array platform.
-        /// </summary>
+        // Draws a 3-wide bridge of terrain connecting the vault to a turret array platform.
         private void DrawBridge(
             Map map,
             TerrainDef terrain,

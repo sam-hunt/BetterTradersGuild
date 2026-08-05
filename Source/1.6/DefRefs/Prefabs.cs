@@ -3,16 +3,14 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized PrefabDef references. ALL prefabs used by BTG go here.
-    /// Auto-populated by RimWorld's [DefOf] system at startup.
-    ///
-    /// This ensures compile-time validation of prefab names - if a prefab def
-    /// is missing or misspelled, an error will be logged at game startup.
-    ///
-    /// For waste filler prefabs specifically, see WasteFillerPrefabSelector which
-    /// handles dynamic selection with DLC checking at runtime.
-    /// </summary>
+    // Centralized PrefabDef references. ALL prefabs used by BTG go here.
+    // Auto-populated by RimWorld's [DefOf] system at startup.
+    //
+    // This ensures compile-time validation of prefab names - if a prefab def
+    // is missing or misspelled, an error will be logged at game startup.
+    //
+    // For waste filler prefabs specifically, see WasteFillerPrefabSelector which
+    // handles dynamic selection with DLC checking at runtime.
     [DefOf]
     public static class Prefabs
     {

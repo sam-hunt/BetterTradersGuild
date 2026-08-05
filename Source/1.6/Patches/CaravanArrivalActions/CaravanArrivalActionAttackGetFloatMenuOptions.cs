@@ -5,9 +5,7 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.CaravanArrivalActions
 {
-    /// <summary>
-    /// Harmony patch: Modifies attack float menu options to show "(requires signal jammer)" for Traders Guild
-    /// </summary>
+    // Harmony patch: Modifies attack float menu options to show "(requires signal jammer)" for Traders Guild
     [HarmonyPatch(typeof(CaravanArrivalAction_AttackSettlement), nameof(CaravanArrivalAction_AttackSettlement.GetFloatMenuOptions))]
     public static class CaravanArrivalActionAttackGetFloatMenuOptions
     {
@@ -26,18 +24,17 @@ namespace BetterTradersGuild.Patches.CaravanArrivalActions
                     continue;
                 }
 
-                // For Traders Guild, we always want to add signal jammer message to attack options
-                // The attack option might be disabled through various mechanisms (null action, Disabled flag, etc.)
-                // So we'll modify ALL attack options for Traders Guild to show the signal jammer requirement
+                // For Traders Guild, all attack options become disabled with the signal jammer
+                // requirement shown. CanAttack is already rejected by
+                // CaravanArrivalActionAttackSettlementCanAttack, which appends the paren-free
+                // reason to vanilla's label - only append here when the tag is missing
+                // (e.g. options added by other mods' postfixes).
+                string jammerReason = "BTG_RequiresSignalJammerReason".Translate();
+                string label = option.Label.Contains(jammerReason)
+                    ? option.Label
+                    : option.Label + " " + "BTG_RequiresSignalJammer".Translate();
 
-                // Modify the label to include signal jammer requirement
-                // Create a new disabled option with modified label
-                FloatMenuOption modifiedOption = new FloatMenuOption(
-                    option.Label + " " + "BTG_RequiresSignalJammer".Translate(),
-                    null  // null action keeps it disabled
-                );
-
-                yield return modifiedOption;
+                yield return new FloatMenuOption(label, null); // null action keeps it disabled
             }
         }
     }

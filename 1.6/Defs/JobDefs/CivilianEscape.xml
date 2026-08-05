@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Sheltering-civilian escape jobs (Biotech nursery)
+
+    Issued by the escape-phase duty (BTG_EscapeWalker) of LordJob_BTGShelterCivilians.
+    Both are NPC-only jobs with no player work/designation path - they mirror vanilla
+    transporter loading/entering but drop the colonist gating and the world-launch
+    machinery (lift-off is a custom "fly away and vanish" driven by LordToil_BTGEscape).
+  -->
+
+  <!-- A walker carries one infant/baby and loads it into a launchable's transporter
+       container. TargetA = baby (carried), TargetB = launchable. -->
+  <JobDef>
+    <defName>BTG_CarryBabyToLaunchable</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGCarryBabyToLaunchable</driverClass>
+    <reportString>carrying TargetA to safety.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <!-- A walker boards a launchable, entering its transporter container.
+       TargetA = launchable. -->
+  <JobDef>
+    <defName>BTG_BoardLaunchable</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGBoardLaunchable</driverClass>
+    <reportString>boarding TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

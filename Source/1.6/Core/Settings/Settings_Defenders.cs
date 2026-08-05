@@ -1,0 +1,146 @@
+using UnityEngine;
+using Verse;
+
+namespace BetterTradersGuild
+{
+    // "Defenders" settings section — strength and composition of the garrison that
+    // spawns when the player enters a settlement. All three knobs only affect
+    // BTG's custom generation, so the whole section gates on
+    // useCustomLayouts (greyed out, values preserved, when off).
+    // None of these affect subsequent raid incidents, only initial defenders.
+    public partial class BetterTradersGuildSettings
+    {
+        // Defender AI style ("Entrenched defender AI" in the settings UI). When
+        // true (default), settlement defenders use BTG's bounded lord
+        // (LordJob_BTGDefendStructure): they hold the structure, never assault or
+        // chase intruders into vacuum, and forage/rest/tend/resupply in-bounds.
+        // When false, they revert to vanilla LordJob_DefendBase (defends the base,
+        // then assaults). Decided at map generation; changing it only affects
+        // settlements entered afterwards. Requires useCustomLayouts.
+        public bool useEntrenchedDefenders = true;
+
+        // Scale initial defender generation to the world's current threat points
+        // (colony wealth + difficulty) instead of vanilla's flat 1150-1600 roll.
+        // The flat roll is intentional vanilla design for all settlements, so this
+        // ships default OFF to avoid surprising existing players; the world value
+        // is a floor-raise only (never below the vanilla roll). Requires
+        // useCustomLayouts.
+        public bool scaleDefendersToThreatLevel = false;
+
+        // Threat points multiplier for initial defender generation. Applied to the
+        // base points (flat vanilla roll, or threat-scaled when
+        // scaleDefendersToThreatLevel is on), before the minimum threat points
+        // floor. Range: 0.5-3.0. Default: 1.0 (no modification). Requires
+        // useCustomLayouts.
+        public float threatPointsMultiplier = 1.0f;
+
+        // Minimum threat points for initial defender generation.
+        // Range: 0-5000. 0 = vanilla (no floor). Default: 0. BTG Recommended: 2400
+        // (ensures elite pawn types can spawn at low wealth). Requires
+        // useCustomLayouts.
+        public float minimumThreatPoints = 0f;
+
+        // Additional sentry drone presence as a factor of threat points.
+        // Range: 0.0-2.0 (0-200% of threat points). 0 = vanilla. Default: 0.25.
+        // Requires useCustomLayouts.
+        public float sentryDronePresence = 0.25f;
+
+        private void ExposeDefenderSettings()
+        {
+            Scribe_Values.Look(ref useEntrenchedDefenders, "useEntrenchedDefenders", true);
+            Scribe_Values.Look(ref scaleDefendersToThreatLevel, "scaleDefendersToThreatLevel", false);
+            Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
+            Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 0f);
+            Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
+        }
+
+        private void ResetDefenderSettings()
+        {
+            useEntrenchedDefenders = true;
+            scaleDefendersToThreatLevel = false;
+            threatPointsMultiplier = 1.0f;
+            minimumThreatPoints = 0f;
+            sentryDronePresence = 0.25f;
+        }
+
+        private void DrawDefendersSection(Listing_Standard listing)
+        {
+            SectionHeader(listing, "BTG_Settings_Defenders".Translate());
+
+            // Whole section depends on custom layouts.
+            GUI.enabled = useCustomLayouts;
+
+            // Defender AI style: BTG's bounded entrenched lord vs vanilla
+            // DefendBase. The headline choice for the section; the strength/
+            // composition knobs below tune the garrison this AI then drives.
+            string defenderAiLabel = Annotate(
+                "BTG_Settings_EntrenchedDefenders".Translate(),
+                vanilla: !useEntrenchedDefenders);
+            listing.CheckboxLabeled(defenderAiLabel, ref useEntrenchedDefenders);
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_EntrenchedDefendersDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Scale defenders to the world's threat level (default off = vanilla's
+            // flat points roll). The multiplier and floor below apply either way.
+            string scaleLabel = Annotate(
+                "BTG_Settings_ScaleDefenders".Translate(),
+                vanilla: !scaleDefendersToThreatLevel);
+            listing.CheckboxLabeled(scaleLabel, ref scaleDefendersToThreatLevel);
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_ScaleDefendersDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Threat points multiplier
+            string multiplierLabel = Annotate(
+                "BTG_Settings_ThreatMultiplier".Translate(threatPointsMultiplier.ToString("F1")),
+                vanilla: threatPointsMultiplier == 1.0f);
+            listing.Label(multiplierLabel);
+
+            float multiplierSliderValue = listing.Slider(threatPointsMultiplier, 0.5f, 3.0f);
+            threatPointsMultiplier = (float)(System.Math.Round(multiplierSliderValue / 0.25) * 0.25);
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_ThreatMultiplierDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Minimum threat points
+            int threatPointsDisplay = (int)minimumThreatPoints;
+            string threatLabel = Annotate(
+                "BTG_Settings_MinThreatPoints".Translate(threatPointsDisplay),
+                vanilla: threatPointsDisplay == 0,
+                recommended: threatPointsDisplay == 2400);
+            listing.Label(threatLabel);
+
+            float threatSliderValue = listing.Slider(minimumThreatPoints, 0f, 5000f);
+            minimumThreatPoints = (int)(System.Math.Round(threatSliderValue / 100f) * 100f);
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_MinThreatPointsDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Additional sentry drone presence
+            int dronePercentageDisplay = (int)(sentryDronePresence * 100f);
+            string droneLabel = Annotate(
+                "BTG_Settings_SentryDronePresence".Translate(dronePercentageDisplay),
+                vanilla: dronePercentageDisplay == 0,
+                recommended: dronePercentageDisplay == 25);
+            listing.Label(droneLabel);
+
+            float droneSliderValue = listing.Slider(sentryDronePresence * 100f, 0f, 200f);
+            sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 5f) * 5f) / 100f;
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_SentryDroneDesc".Translate());
+
+            GUI.enabled = true;
+            listing.Gap(24f);
+        }
+    }
+}

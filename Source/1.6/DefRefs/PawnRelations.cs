@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized PawnRelationDef references.
-    /// </summary>
+    // Centralized PawnRelationDef references.
     [DefOf]
     public static class PawnRelations
     {

@@ -3,30 +3,26 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.Nursery
 {
-    /// <summary>
-    /// Helper class for applying checkered floor patterns during nursery room generation.
-    ///
-    /// Creates a diagonal stripe pattern by cycling through terrain types based on
-    /// (row + column) % terrainCount. With 3 terrain types, this produces visually
-    /// interesting diagonal bands rather than a simple 2-color checkerboard.
-    ///
-    /// USAGE: Call ApplyCheckeredFloor() at the start of RoomContentsWorker.FillRoom()
-    /// BEFORE calling base.FillRoom(), as base class may apply a single floor type.
-    /// </summary>
+    // Helper class for applying checkered floor patterns during nursery room generation.
+    //
+    // Creates a diagonal stripe pattern by cycling through terrain types based on
+    // (row + column) % terrainCount. With 3 terrain types, this produces visually
+    // interesting diagonal bands rather than a simple 2-color checkerboard.
+    //
+    // USAGE: Call ApplyCheckeredFloor() at the start of RoomContentsWorker.FillRoom()
+    // BEFORE calling base.FillRoom(), as base class may apply a single floor type.
     public static class CheckeredFloorHelper
     {
-        /// <summary>
-        /// Applies a checkered floor pattern to the specified rect using the provided terrain defs.
-        ///
-        /// Pattern algorithm: terrain[(row + col) % terrainCount]
-        /// This creates diagonal stripes when using 3+ terrain types.
-        ///
-        /// SAFETY: Skips null terrain defs and cells outside map bounds.
-        /// </summary>
-        /// <param name="map">The map to modify terrain on</param>
-        /// <param name="rect">The rectangular area to apply the pattern to</param>
-        /// <param name="terrainDefs">List of TerrainDef to cycle through (minimum 2 non-null)</param>
-        /// <returns>Number of tiles modified</returns>
+        // Applies a checkered floor pattern to the specified rect using the provided terrain defs.
+        //
+        // Pattern algorithm: terrain[(row + col) % terrainCount]
+        // This creates diagonal stripes when using 3+ terrain types.
+        //
+        // SAFETY: Skips null terrain defs and cells outside map bounds.
+        // map: The map to modify terrain on
+        // rect: The rectangular area to apply the pattern to
+        // terrainDefs: List of TerrainDef to cycle through (minimum 2 non-null)
+        // Returns: Number of tiles modified
         public static int ApplyCheckeredFloor(Map map, CellRect rect, List<TerrainDef> terrainDefs)
         {
             if (map == null || terrainDefs == null)

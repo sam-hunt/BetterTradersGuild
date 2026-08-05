@@ -3,19 +3,15 @@ using RimWorld.Planet;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Allows peaceful visits to Traders Guild settlements even with signal jammers
-    /// Signal jammers should only block hostile actions (attacks), not peaceful trading
-    /// This is a Postfix patch that overrides the result if it's a Traders Guild settlement
-    /// </summary>
+    // Harmony patch: Allows peaceful visits to Traders Guild settlements even with signal jammers
+    // Signal jammers should only block hostile actions (attacks), not peaceful trading
+    // This is a Postfix patch that overrides the result if it's a Traders Guild settlement
     [HarmonyPatch(typeof(RimWorld.Planet.Settlement), nameof(RimWorld.Planet.Settlement.Visitable), MethodType.Getter)]
     public static class SettlementVisitable
     {
-        /// <summary>
-        /// Postfix for Settlement.Visitable property
-        /// __instance = the Settlement being checked
-        /// __result = the original return value (can be modified)
-        /// </summary>
+        // Postfix for Settlement.Visitable property
+        // __instance = the Settlement being checked
+        // __result = the original return value (can be modified)
         [HarmonyPostfix]
         public static void Postfix(RimWorld.Planet.Settlement __instance, ref bool __result)
         {

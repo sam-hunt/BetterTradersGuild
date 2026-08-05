@@ -5,19 +5,15 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.PodLaunchBay
 {
-    /// <summary>
-    /// Helper for replacing transport pods with malfunctioning variants.
-    /// Malfunctioning pods can contain random loot, corpses, or even a hostile pawn when opened.
-    /// </summary>
+    // Helper for replacing transport pods with malfunctioning variants.
+    // Malfunctioning pods can contain random loot, corpses, or even a hostile pawn when opened.
     public static class MalfunctioningPodReplacer
     {
         private const float MALFUNCTION_CHANCE = 0.20f;
         private const int MAX_MALFUNCTIONING = 2;
 
-        /// <summary>
-        /// Finds all TransportPods in the room and randomly replaces some with MalfunctioningTransportPods.
-        /// Uses 20% chance per pod, capped at 2 max, with at least 1 guaranteed.
-        /// </summary>
+        // Finds all TransportPods in the room and randomly replaces some with MalfunctioningTransportPods.
+        // Uses 20% chance per pod, capped at 2 max, with at least 1 guaranteed.
         public static void ReplaceSomePodsWithMalfunctioning(Map map, CellRect roomRect)
         {
             // Find all TransportPod buildings in the room

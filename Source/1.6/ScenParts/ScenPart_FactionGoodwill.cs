@@ -6,10 +6,8 @@ using Verse;
 
 namespace BetterTradersGuild.ScenParts
 {
-    /// <summary>
-    /// ScenPart that sets a target faction's goodwill toward the player faction
-    /// to a specific value at game start.
-    /// </summary>
+    // ScenPart that sets a target faction's goodwill toward the player faction
+    // to a specific value at game start.
     public class ScenPart_FactionGoodwill : ScenPart
     {
         private const string SummaryTag = "FactionGoodwill";
@@ -56,17 +54,30 @@ namespace BetterTradersGuild.ScenParts
         public override void PostGameStart()
         {
             Faction target = Find.FactionManager.FirstFactionOfDef(factionDef);
-            if (target == null || target.IsPlayer)
+            if (target?.IsPlayer != false)
             {
                 return;
             }
+
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null)
+            {
+                return;
+            }
+
+            // Ensure a relation entry exists before reading/affecting goodwill. This is a no-op
+            // when the factions are already related (the normal case), but if the relation matrix
+            // is incomplete it both avoids the vanilla "null relation" error and lets the
+            // scenario's intended starting goodwill actually apply - otherwise TryAffectGoodwillWith
+            // would mutate a throwaway dummy relation and silently have no effect.
+            target.TryMakeInitialRelationsWith(player);
 
             int current = target.PlayerGoodwill;
             int delta = goodwill - current;
             if (delta != 0)
             {
                 target.TryAffectGoodwillWith(
-                    Faction.OfPlayer,
+                    player,
                     delta,
                     canSendMessage: false,
                     canSendHostilityLetter: false);

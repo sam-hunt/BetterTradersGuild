@@ -6,27 +6,21 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.Hackable
 {
-    /// <summary>
-    /// Harmony patch: CompHackable.OnHacked method
-    /// Applies a severe goodwill penalty when a player hacks the cargo vault hatch
-    /// on a TradersGuild settlement while not already hostile.
-    /// </summary>
-    /// <remarks>
-    /// This handles the edge case where a player:
-    /// 1. Raids a TradersGuild settlement (becoming hostile)
-    /// 2. Restores goodwill through gifts or other means while still on the map
-    /// 3. Attempts to hack the cargo vault
-    ///
-    /// Hacking the vault is a hostile action that should always result in hostility,
-    /// regardless of the player's current standing with the faction.
-    /// </remarks>
+    // Harmony patch: CompHackable.OnHacked method
+    // Applies a severe goodwill penalty when a player hacks the cargo vault hatch
+    // on a TradersGuild settlement while not already hostile.
+    // This handles the edge case where a player:
+    // 1. Raids a TradersGuild settlement (becoming hostile)
+    // 2. Restores goodwill through gifts or other means while still on the map
+    // 3. Attempts to hack the cargo vault
+    //
+    // Hacking the vault is a hostile action that should always result in hostility,
+    // regardless of the player's current standing with the faction.
     [HarmonyPatch(typeof(CompHackable), "OnHacked")]
     public static class CompHackableOnHacked
     {
-        /// <summary>
-        /// Postfix: After hacking completes, check if this is a TradersGuild cargo vault
-        /// and apply goodwill penalty if the player is not already hostile.
-        /// </summary>
+        // Postfix: After hacking completes, check if this is a TradersGuild cargo vault
+        // and apply goodwill penalty if the player is not already hostile.
         [HarmonyPostfix]
         public static void Postfix(CompHackable __instance)
         {
@@ -47,6 +41,16 @@ namespace BetterTradersGuild.Patches.Hackable
 
             Faction faction = settlement.Faction;
 
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null)
+                return;
+
+            // Ensure a relation entry exists before reading/affecting goodwill. No-op when already
+            // related, but if the relation matrix is incomplete this avoids the vanilla "null
+            // relation" error and ensures the penalty below actually applies (TryAffectGoodwillWith
+            // would otherwise mutate a throwaway dummy and fail to turn the faction hostile).
+            faction.TryMakeInitialRelationsWith(player);
+
             // If already hostile, no penalty needed
             if (faction.PlayerRelationKind == FactionRelationKind.Hostile)
                 return;
@@ -54,7 +58,7 @@ namespace BetterTradersGuild.Patches.Hackable
             // Apply severe goodwill penalty to ensure hostility
             // -200 guarantees hostility regardless of current goodwill level
             faction.TryAffectGoodwillWith(
-                Faction.OfPlayer,
+                player,
                 -200,
                 canSendMessage: true,
                 canSendHostilityLetter: true,

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    When Vanilla Gravship Expanded is active, replace the decorative plant pots in
+    the Commander's Bedroom and the crew subrooms with VGE's faux plant, which needs
+    no light, water, or air and so reads as intentional orbital-station furnishing.
+
+    Deliberately bundled into a single operation despite the usual one-patch-per-file
+    convention: every replacement is identical in purpose, and splitting them would
+    invite the targets drifting out of sync as prefabs are added or edited.
+
+    Out of scope (intentionally left as real pots):
+    - Greenhouse HydroponicsCluster pots (functional growing pots)
+    - ArmchairsWithPlantpot_Edge (marble decor pot, per design)
+    - BTG_PlantPot_Corner
+
+    VGE_FauxPlant is a stuffless, non-rotatable 1x1 building, so only positions carry
+    over from the PlantPot nodes; stuff/quality are dropped.
+  -->
+  <Operation Class="PatchOperationConditional" MayRequire="vanillaexpanded.gravship">
+    <xpath>/Defs/ThingDef[defName="VGE_FauxPlant"]</xpath>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CommandersBedroom"]/things/PlantPot</xpath>
+          <value>
+            <VGE_FauxPlant MayRequire="vanillaexpanded.gravship">
+              <position>(0, 0, 2)</position>
+            </VGE_FauxPlant>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewBedSubroom3x5"]/things/PlantPot</xpath>
+          <value>
+            <VGE_FauxPlant MayRequire="vanillaexpanded.gravship">
+              <position>(1, 0, 1)</position>
+            </VGE_FauxPlant>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewBedSubroom4x4"]/things/PlantPot</xpath>
+          <value>
+            <VGE_FauxPlant MayRequire="vanillaexpanded.gravship">
+              <position>(3, 0, 1)</position>
+            </VGE_FauxPlant>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewBedSubroom4x5"]/things/PlantPot</xpath>
+          <value>
+            <VGE_FauxPlant MayRequire="vanillaexpanded.gravship">
+              <position>(3, 0, 1)</position>
+            </VGE_FauxPlant>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+</Patch>

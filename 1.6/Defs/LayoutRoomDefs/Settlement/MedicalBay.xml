@@ -27,6 +27,16 @@
     </floorTypes>
     <edgeTerrain>SterileTile</edgeTerrain>
 
+    <!--
+      Extra LifeSupportUnit on top of the structure-level one (room-level and
+      structure-level wallAttachments are additive), to keep this larger room warm.
+    -->
+    <wallAttachments>
+      <LifeSupportUnit>
+        <countRange>1~1</countRange>
+      </LifeSupportUnit>
+    </wallAttachments>
+
     <prefabs>
       <!-- Modern hospital beds with vitals monitors (edge) -->
       <BTG_HospitalBeds_Edge>
@@ -90,8 +100,11 @@
         <countRange>1~4</countRange>
       </BTG_PlantPot_Corner>
 
-      <!-- Medical mech - thematic for healthcare facility -->
-      <BTG_Mech_Paramedic MayRequire="Ludeon.RimWorld.Biotech">0.85</BTG_Mech_Paramedic>
+      <!-- Medical mechs - thematic for healthcare facility. countRange (not a chance)
+           so a medbay is always staffed; 1~2 share one medic lord and the same room. -->
+      <BTG_Mech_Paramedic MayRequire="Ludeon.RimWorld.Biotech">
+        <countRange>1~2</countRange>
+      </BTG_Mech_Paramedic>
     </parts>
 
   </LayoutRoomDef>

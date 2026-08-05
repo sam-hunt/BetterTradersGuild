@@ -6,22 +6,18 @@ using Verse;
 
 namespace BetterTradersGuild.RoomContents.Corridor
 {
-    /// <summary>
-    /// Replaces decorative AncientSecurityTurret buildings with functional Turret_MiniTurret.
-    ///
-    /// Vanilla orbital corridors spawn AncientSecurityTurret which are non-functional
-    /// decorative turrets. This class finds and replaces them with working mini turrets
-    /// assigned to the station's faction.
-    /// </summary>
+    // Replaces decorative AncientSecurityTurret buildings with functional Turret_MiniTurret.
+    //
+    // Vanilla orbital corridors spawn AncientSecurityTurret which are non-functional
+    // decorative turrets. This class finds and replaces them with working mini turrets
+    // assigned to the station's faction.
     public static class CorridorTurretReplacer
     {
-        /// <summary>
-        /// Finds all AncientSecurityTurret (broken decorative turrets) in the room
-        /// and replaces them with functional Turret_MiniTurret assigned to the faction.
-        /// </summary>
-        /// <param name="map">The map containing the room.</param>
-        /// <param name="room">The corridor LayoutRoom to scan for turrets.</param>
-        /// <param name="faction">The faction to assign the new turrets to.</param>
+        // Finds all AncientSecurityTurret (broken decorative turrets) in the room
+        // and replaces them with functional Turret_MiniTurret assigned to the faction.
+        // map: The map containing the room.
+        // room: The corridor LayoutRoom to scan for turrets.
+        // faction: The faction to assign the new turrets to.
         public static void ReplaceAncientTurrets(Map map, LayoutRoom room, Faction faction)
         {
             // Collect turrets to replace (can't modify collection while iterating)

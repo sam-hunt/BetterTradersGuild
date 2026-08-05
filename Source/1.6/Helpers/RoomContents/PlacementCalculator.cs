@@ -4,34 +4,26 @@ using System.Linq;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Pure placement calculation logic for prefabs (e.g., bedroom subrooms).
-    /// Contains no RimWorld dependencies - all methods work with primitives for easy unit testing.
-    ///
-    /// Supports both even-sized (6×6) and odd-sized (5×5) square prefabs, as well as
-    /// non-square prefabs (4×5, 5×4) via GetPrefabSpawnBoundsNonSquare.
-    /// Even-sized dimensions require a center offset adjustment due to RimWorld's
-    /// center-based spawning asymmetry.
-    /// </summary>
+    // Pure placement calculation logic for prefabs (e.g., bedroom subrooms).
+    // Contains no RimWorld dependencies - all methods work with primitives for easy unit testing.
+    //
+    // Supports both even-sized (6×6) and odd-sized (5×5) square prefabs, as well as
+    // non-square prefabs (4×5, 5×4) via GetPrefabSpawnBoundsNonSquare.
+    // Even-sized dimensions require a center offset adjustment due to RimWorld's
+    // center-based spawning asymmetry.
     public static class PlacementCalculator
     {
-        /// <summary>
-        /// Offset to account for RimWorld's center-based prefab spawning with even-sized prefabs.
-        /// Even-sized prefabs (6×6) cannot center symmetrically, so RimWorld's spawn API rounds
-        /// the position. This offset ensures the prefab aligns flush with room walls/corners.
-        /// Odd-sized prefabs (5×5) center symmetrically and don't need this offset.
-        /// </summary>
+        // Offset to account for RimWorld's center-based prefab spawning with even-sized prefabs.
+        // Even-sized prefabs (6×6) cannot center symmetrically, so RimWorld's spawn API rounds
+        // the position. This offset ensures the prefab aligns flush with room walls/corners.
+        // Odd-sized prefabs (5×5) center symmetrically and don't need this offset.
         private const int EVEN_SIZE_CENTER_OFFSET = 1;
 
-        /// <summary>
-        /// Returns the center offset for a given prefab size.
-        /// Even-sized prefabs need an offset of 1; odd-sized prefabs need no offset.
-        /// </summary>
+        // Returns the center offset for a given prefab size.
+        // Even-sized prefabs need an offset of 1; odd-sized prefabs need no offset.
         private static int GetCenterOffset(int prefabSize) => (prefabSize % 2 == 0) ? EVEN_SIZE_CENTER_OFFSET : 0;
 
-        /// <summary>
-        /// Type of placement for the prefab within the room.
-        /// </summary>
+        // Type of placement for the prefab within the room.
         public enum PlacementType
         {
             Invalid,   // No valid placement found
@@ -40,11 +32,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             Center   // Placed in room center (uses 0 room walls)
         }
 
-        /// <summary>
-        /// Rotation direction for prefab placement.
-        /// Values match RimWorld's Rot4.AsInt: 0=North, 1=East, 2=South, 3=West.
-        /// The rotation indicates which direction the prefab "faces" (where its door is).
-        /// </summary>
+        // Rotation direction for prefab placement.
+        // Values match RimWorld's Rot4.AsInt: 0=North, 1=East, 2=South, 3=West.
+        // The rotation indicates which direction the prefab "faces" (where its door is).
         public enum PlacementRotation
         {
             North = 0,  // Door faces South ↓
@@ -53,9 +43,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             West = 3    // Door faces East →
         }
 
-        /// <summary>
-        /// Result of a placement calculation containing position, rotation, placement type, and required walls.
-        /// </summary>
+        // Result of a placement calculation containing position, rotation, placement type, and required walls.
         public struct PlacementResult
         {
             public int CenterX;
@@ -65,9 +53,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             public List<WallSegment> RequiredWalls;  // Walls that must be spawned for non-corner placements
         }
 
-        /// <summary>
-        /// Simple rectangle representation for testing without RimWorld dependencies.
-        /// </summary>
+        // Simple rectangle representation for testing without RimWorld dependencies.
         public struct SimpleRect
         {
             public int MinX;
@@ -79,21 +65,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
             public int MaxZ => MinZ + Height - 1;
         }
 
-        /// <summary>
-        /// Represents a door position in a room.
-        /// </summary>
+        // Represents a door position in a room.
         public struct DoorPosition
         {
             public int X;
             public int Z;
         }
 
-        /// <summary>
-        /// Represents a wall segment that needs to be spawned for non-corner placements.
-        /// Walls are described by start and end coordinates in absolute room space.
-        /// For vertical walls: StartX == EndX, iterate Z from StartZ to EndZ.
-        /// For horizontal walls: StartZ == EndZ, iterate X from StartX to EndX.
-        /// </summary>
+        // Represents a wall segment that needs to be spawned for non-corner placements.
+        // Walls are described by start and end coordinates in absolute room space.
+        // For vertical walls: StartX == EndX, iterate Z from StartZ to EndZ.
+        // For horizontal walls: StartZ == EndZ, iterate X from StartX to EndX.
         public struct WallSegment
         {
             public int StartX;
@@ -102,14 +84,12 @@ namespace BetterTradersGuild.Helpers.RoomContents
             public int EndZ;
         }
 
-        /// <summary>
-        /// Calculates the best placement for a prefab within a room, accounting for door positions.
-        /// Uses priority-based fallback: corners (all 4) → edges (North only) → invalid.
-        /// </summary>
-        /// <param name="room">Room dimensions</param>
-        /// <param name="prefabSize">Size of the prefab (assumed square)</param>
-        /// <param name="doors">List of door positions in the room</param>
-        /// <returns>Placement result with position, rotation, and type</returns>
+        // Calculates the best placement for a prefab within a room, accounting for door positions.
+        // Uses priority-based fallback: corners (all 4) → edges (North only) → invalid.
+        // room: Room dimensions
+        // prefabSize: Size of the prefab (assumed square)
+        // doors: List of door positions in the room
+        // Returns: Placement result with position, rotation, and type
         public static PlacementResult CalculateBestPlacement(
             SimpleRect room,
             int prefabSize,
@@ -158,11 +138,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Checks if a placement would conflict with doors in the room's walls.
-        /// For corner placements, checks if doors exist on the two walls the prefab uses.
-        /// For edge placements, checks if doors exist within the prefab's wall segment.
-        /// </summary>
+        // Checks if a placement would conflict with doors in the room's walls.
+        // For corner placements, checks if doors exist on the two walls the prefab uses.
+        // For edge placements, checks if doors exist within the prefab's wall segment.
         private static bool HasDoorConflict(PlacementResult placement, SimpleRect room, List<DoorPosition> doors, int prefabSize = 6)
         {
             if (placement.Type == PlacementType.Corner)
@@ -180,10 +158,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return false;
         }
 
-        /// <summary>
-        /// Checks if corner placement has doors on walls adjacent to the prefab's footprint.
-        /// Calculates actual prefab bounds, then checks for doors adjacent to those bounds.
-        /// </summary>
+        // Checks if corner placement has doors on walls adjacent to the prefab's footprint.
+        // Calculates actual prefab bounds, then checks for doors adjacent to those bounds.
         private static bool CheckCornerDoorConflict(PlacementRotation rotation, SimpleRect room, List<DoorPosition> doors, int prefabSize)
         {
             // Calculate the actual placement position for this corner
@@ -226,15 +202,13 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Checks if any door exists on a specific wall segment.
-        /// This is more precise than checking the entire wall - only checks within a range.
-        /// </summary>
-        /// <param name="doors">List of door positions</param>
-        /// <param name="room">Room rectangle</param>
-        /// <param name="wallDirection">0=North, 1=East, 2=South, 3=West</param>
-        /// <param name="rangeStart">Start of range to check (X for horizontal walls, Z for vertical walls)</param>
-        /// <param name="rangeEnd">End of range to check (inclusive)</param>
+        // Checks if any door exists on a specific wall segment.
+        // This is more precise than checking the entire wall - only checks within a range.
+        // doors: List of door positions
+        // room: Room rectangle
+        // wallDirection: 0=North, 1=East, 2=South, 3=West
+        // rangeStart: Start of range to check (X for horizontal walls, Z for vertical walls)
+        // rangeEnd: End of range to check (inclusive)
         private static bool HasDoorsOnWallSegment(List<DoorPosition> doors, SimpleRect room, int wallDirection, int rangeStart, int rangeEnd)
         {
             foreach (var door in doors)
@@ -262,10 +236,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return false;
         }
 
-        /// <summary>
-        /// Attempts to find a valid edge placement along a specific wall.
-        /// Searches for a contiguous segment without doors.
-        /// </summary>
+        // Attempts to find a valid edge placement along a specific wall.
+        // Searches for a contiguous segment without doors.
         private static PlacementResult TryEdgePlacement(SimpleRect room, int wallDirection, int prefabSize, List<DoorPosition> doors)
         {
             // Calculate required segment length (prefab size + 1 for safety margin)
@@ -315,9 +287,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Gets all cells along a specific wall.
-        /// </summary>
+        // Gets all cells along a specific wall.
         private static List<(int x, int z)> GetWallCells(SimpleRect room, int wallDirection)
         {
             var cells = new List<(int x, int z)>();
@@ -345,11 +315,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return cells;
         }
 
-        /// <summary>
-        /// Calculates bedroom placement for NW (top-left) corner.
-        /// Door faces South, missing walls on North+West (align with room corner).
-        /// Uses center-based positioning.
-        /// </summary>
+        // Calculates bedroom placement for NW (top-left) corner.
+        // Door faces South, missing walls on North+West (align with room corner).
+        // Uses center-based positioning.
         private static PlacementResult CalculateNWCornerPlacement(SimpleRect room, int prefabSize = 6)
         {
             int offset = GetCenterOffset(prefabSize);
@@ -368,10 +336,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates bedroom placement for NE (top-right) corner.
-        /// Door faces West, missing walls on North+East (align with room corner).
-        /// </summary>
+        // Calculates bedroom placement for NE (top-right) corner.
+        // Door faces West, missing walls on North+East (align with room corner).
         private static PlacementResult CalculateNECornerPlacement(SimpleRect room, int prefabSize = 6)
         {
             int offset = GetCenterOffset(prefabSize);
@@ -390,10 +356,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates bedroom placement for SE (bottom-right) corner.
-        /// Door faces North, missing walls on South+East (align with room corner).
-        /// </summary>
+        // Calculates bedroom placement for SE (bottom-right) corner.
+        // Door faces North, missing walls on South+East (align with room corner).
         private static PlacementResult CalculateSECornerPlacement(SimpleRect room, int prefabSize = 6)
         {
             int halfSize = prefabSize / 2;
@@ -411,10 +375,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates bedroom placement for SW (bottom-left) corner.
-        /// Door faces East, missing walls on South+West (align with room corner).
-        /// </summary>
+        // Calculates bedroom placement for SW (bottom-left) corner.
+        // Door faces East, missing walls on South+West (align with room corner).
         private static PlacementResult CalculateSWCornerPlacement(SimpleRect room, int prefabSize = 6)
         {
             int offset = GetCenterOffset(prefabSize);
@@ -433,11 +395,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates center (floating) placement in the middle of the room.
-        /// Used as final fallback when all corners and edges are blocked.
-        /// The prefab floats in the center with spawned walls creating an enclosed subroom.
-        /// </summary>
+        // Calculates center (floating) placement in the middle of the room.
+        // Used as final fallback when all corners and edges are blocked.
+        // The prefab floats in the center with spawned walls creating an enclosed subroom.
         private static PlacementResult CalculateCenterPlacement(SimpleRect room, int prefabSize = 6)
         {
             // Calculate center position, slightly biased for even-sized rooms
@@ -454,16 +414,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates the wall segments that must be spawned for a center placement.
-        /// Center placements have no room walls, so both back wall and left side wall must be spawned.
-        /// Returns a list of two wall segments: back wall and left wall.
-        /// </summary>
-        /// <param name="centerX">X coordinate of prefab center</param>
-        /// <param name="centerZ">Z coordinate of prefab center</param>
-        /// <param name="rotation">Rotation value (0=North, 1=East, 2=South, 3=West)</param>
-        /// <param name="prefabSize">Size of the prefab (default 6)</param>
-        /// <returns>List of two wall segments in absolute room coordinates</returns>
+        // Calculates the wall segments that must be spawned for a center placement.
+        // Center placements have no room walls, so both back wall and left side wall must be spawned.
+        // Returns a list of two wall segments: back wall and left wall.
+        // centerX: X coordinate of prefab center
+        // centerZ: Z coordinate of prefab center
+        // rotation: Rotation value (0=North, 1=East, 2=South, 3=West)
+        // prefabSize: Size of the prefab (default 6)
+        // Returns: List of two wall segments in absolute room coordinates
         private static List<WallSegment> CalculateCenterWalls(int centerX, int centerZ, PlacementRotation rotation, int prefabSize = 6)
         {
             var bounds = GetPrefabSpawnBounds(centerX, centerZ, rotation, prefabSize);
@@ -491,16 +449,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates the wall segment that must be spawned for an edge placement.
-        /// Edge placements have one wall provided by the room edge (back wall), and need
-        /// one spawned wall (left side wall in prefab's local coordinate system).
-        /// </summary>
-        /// <param name="centerX">X coordinate of prefab center</param>
-        /// <param name="centerZ">Z coordinate of prefab center</param>
-        /// <param name="rotation">Rotation value (0=North, 1=East, 2=South, 3=West)</param>
-        /// <param name="prefabSize">Size of the prefab (default 6)</param>
-        /// <returns>Wall segment in absolute room coordinates</returns>
+        // Calculates the wall segment that must be spawned for an edge placement.
+        // Edge placements have one wall provided by the room edge (back wall), and need
+        // one spawned wall (left side wall in prefab's local coordinate system).
+        // centerX: X coordinate of prefab center
+        // centerZ: Z coordinate of prefab center
+        // rotation: Rotation value (0=North, 1=East, 2=South, 3=West)
+        // prefabSize: Size of the prefab (default 6)
+        // Returns: Wall segment in absolute room coordinates
         private static WallSegment CalculateEdgeWall(int centerX, int centerZ, PlacementRotation rotation, int prefabSize = 6)
         {
             var bounds = GetPrefabSpawnBounds(centerX, centerZ, rotation, prefabSize);
@@ -549,14 +505,12 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Calculates bedroom placement along an edge, centered at the specified wall cell.
-        /// The bedroom's back wall aligns with the room's edge wall.
-        /// </summary>
-        /// <param name="wallCenterX">X coordinate of the wall center cell</param>
-        /// <param name="wallCenterZ">Z coordinate of the wall center cell</param>
-        /// <param name="wallDirection">0=North, 1=East, 2=South, 3=West</param>
-        /// <param name="prefabSize">Size of the prefab (default 6)</param>
+        // Calculates bedroom placement along an edge, centered at the specified wall cell.
+        // The bedroom's back wall aligns with the room's edge wall.
+        // wallCenterX: X coordinate of the wall center cell
+        // wallCenterZ: Z coordinate of the wall center cell
+        // wallDirection: 0=North, 1=East, 2=South, 3=West
+        // prefabSize: Size of the prefab (default 6)
         private static PlacementResult CalculateEdgePlacement(
             int wallCenterX,
             int wallCenterZ,
@@ -611,26 +565,24 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates the actual prefab spawn bounds from center position.
-        /// Returns the exact cell area that RimWorld will spawn the prefab into, accounting for
-        /// EVEN_SIZE_CENTER_OFFSET asymmetry. This is used for diagram generation and validation.
-        ///
-        /// IMPORTANT: RimWorld's spawning behavior for even-sized prefabs has inherent asymmetry
-        /// that does NOT rotate with the prefab. The prefab always extends [-3, +2] from center
-        /// in both axes (for 6×6), regardless of rotation. The placement calculator functions
-        /// pre-offset the center position to achieve desired wall alignment, but additional
-        /// per-rotation corrections are needed here to match RimWorld's actual spawn behavior.
-        ///
-        /// Why rotation matrices don't work: RimWorld doesn't geometrically rotate the bounds.
-        /// The asymmetric offset is always applied in the same direction (relative to world axes,
-        /// not prefab axes), so each rotation requires a different Min coordinate adjustment.
-        /// </summary>
-        /// <param name="centerX">X coordinate of prefab center</param>
-        /// <param name="centerZ">Z coordinate of prefab center</param>
-        /// <param name="rotation">Rotation value</param>
-        /// <param name="prefabSize">Size of the prefab (default 6)</param>
-        /// <returns>Rectangle representing the actual prefab spawn bounds</returns>
+        // Calculates the actual prefab spawn bounds from center position.
+        // Returns the exact cell area that RimWorld will spawn the prefab into, accounting for
+        // EVEN_SIZE_CENTER_OFFSET asymmetry. This is used for diagram generation and validation.
+        //
+        // IMPORTANT: RimWorld's spawning behavior for even-sized prefabs has inherent asymmetry
+        // that does NOT rotate with the prefab. The prefab always extends [-3, +2] from center
+        // in both axes (for 6×6), regardless of rotation. The placement calculator functions
+        // pre-offset the center position to achieve desired wall alignment, but additional
+        // per-rotation corrections are needed here to match RimWorld's actual spawn behavior.
+        //
+        // Why rotation matrices don't work: RimWorld doesn't geometrically rotate the bounds.
+        // The asymmetric offset is always applied in the same direction (relative to world axes,
+        // not prefab axes), so each rotation requires a different Min coordinate adjustment.
+        // centerX: X coordinate of prefab center
+        // centerZ: Z coordinate of prefab center
+        // rotation: Rotation value
+        // prefabSize: Size of the prefab (default 6)
+        // Returns: Rectangle representing the actual prefab spawn bounds
         public static SimpleRect GetPrefabSpawnBounds(
             int centerX,
             int centerZ,
@@ -706,9 +658,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Checks if a cell is contained within a rectangle.
-        /// </summary>
+        // Checks if a cell is contained within a rectangle.
         public static bool ContainsCell(SimpleRect rect, int x, int z)
         {
             return x >= rect.MinX && x <= rect.MaxX && z >= rect.MinZ && z <= rect.MaxZ;
@@ -716,24 +666,22 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
         #region Non-Square Prefab Support
 
-        /// <summary>
-        /// Calculates the actual prefab spawn bounds for non-square prefabs.
-        /// Handles prefabs where width ≠ height (e.g., 3×4, 4×5).
-        ///
-        /// IMPORTANT: Width and Height refer to the prefab's LOCAL dimensions:
-        /// - Width: X dimension in prefab's local space (perpendicular to door direction)
-        /// - Height: Z dimension in prefab's local space (parallel to door direction, depth)
-        ///
-        /// When rotated, these local dimensions map to world axes:
-        /// - North/South rotation: localWidth → worldX, localHeight → worldZ
-        /// - East/West rotation: localWidth → worldZ, localHeight → worldX
-        /// </summary>
-        /// <param name="minX">X coordinate of the prefab's minimum corner (not center)</param>
-        /// <param name="minZ">Z coordinate of the prefab's minimum corner (not center)</param>
-        /// <param name="width">Width of the prefab in local X (perpendicular to door)</param>
-        /// <param name="height">Height/depth of the prefab in local Z (parallel to door)</param>
-        /// <param name="rotation">Rotation of the prefab</param>
-        /// <returns>Rectangle representing the actual prefab spawn bounds in world space</returns>
+        // Calculates the actual prefab spawn bounds for non-square prefabs.
+        // Handles prefabs where width ≠ height (e.g., 3×4, 4×5).
+        //
+        // IMPORTANT: Width and Height refer to the prefab's LOCAL dimensions:
+        // - Width: X dimension in prefab's local space (perpendicular to door direction)
+        // - Height: Z dimension in prefab's local space (parallel to door direction, depth)
+        //
+        // When rotated, these local dimensions map to world axes:
+        // - North/South rotation: localWidth → worldX, localHeight → worldZ
+        // - East/West rotation: localWidth → worldZ, localHeight → worldX
+        // minX: X coordinate of the prefab's minimum corner (not center)
+        // minZ: Z coordinate of the prefab's minimum corner (not center)
+        // width: Width of the prefab in local X (perpendicular to door)
+        // height: Height/depth of the prefab in local Z (parallel to door)
+        // rotation: Rotation of the prefab
+        // Returns: Rectangle representing the actual prefab spawn bounds in world space
         public static SimpleRect GetPrefabSpawnBoundsNonSquare(
             int minX,
             int minZ,
@@ -775,16 +723,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
             };
         }
 
-        /// <summary>
-        /// Calculates the center position for a non-square prefab given its corner position.
-        /// Used when converting from corner-based placement to center-based spawning.
-        /// </summary>
-        /// <param name="minX">X coordinate of the prefab's minimum corner</param>
-        /// <param name="minZ">Z coordinate of the prefab's minimum corner</param>
-        /// <param name="width">Width of the prefab in local X</param>
-        /// <param name="height">Height/depth of the prefab in local Z</param>
-        /// <param name="rotation">Rotation of the prefab</param>
-        /// <returns>Tuple of (centerX, centerZ) for spawning</returns>
+        // Calculates the center position for a non-square prefab given its corner position.
+        // Used when converting from corner-based placement to center-based spawning.
+        // minX: X coordinate of the prefab's minimum corner
+        // minZ: Z coordinate of the prefab's minimum corner
+        // width: Width of the prefab in local X
+        // height: Height/depth of the prefab in local Z
+        // rotation: Rotation of the prefab
+        // Returns: Tuple of (centerX, centerZ) for spawning
         public static (int centerX, int centerZ) GetCenterFromCorner(
             int minX,
             int minZ,
@@ -802,16 +748,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return (centerX, centerZ);
         }
 
-        /// <summary>
-        /// Calculates the corner position from center for a non-square prefab.
-        /// Used when converting from center-based spawning to corner-based calculations.
-        /// </summary>
-        /// <param name="centerX">X coordinate of the prefab center</param>
-        /// <param name="centerZ">Z coordinate of the prefab center</param>
-        /// <param name="width">Width of the prefab in local X</param>
-        /// <param name="height">Height/depth of the prefab in local Z</param>
-        /// <param name="rotation">Rotation of the prefab</param>
-        /// <returns>Tuple of (minX, minZ) corner position</returns>
+        // Calculates the corner position from center for a non-square prefab.
+        // Used when converting from center-based spawning to corner-based calculations.
+        // centerX: X coordinate of the prefab center
+        // centerZ: Z coordinate of the prefab center
+        // width: Width of the prefab in local X
+        // height: Height/depth of the prefab in local Z
+        // rotation: Rotation of the prefab
+        // Returns: Tuple of (minX, minZ) corner position
         public static (int minX, int minZ) GetCornerFromCenter(
             int centerX,
             int centerZ,
@@ -850,13 +794,11 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return (minX, minZ);
         }
 
-        /// <summary>
-        /// Gets the world-space dimensions of a prefab after rotation.
-        /// </summary>
-        /// <param name="width">Local width (X dimension)</param>
-        /// <param name="height">Local height (Z dimension)</param>
-        /// <param name="rotation">Rotation to apply</param>
-        /// <returns>Tuple of (worldWidth, worldHeight)</returns>
+        // Gets the world-space dimensions of a prefab after rotation.
+        // width: Local width (X dimension)
+        // height: Local height (Z dimension)
+        // rotation: Rotation to apply
+        // Returns: Tuple of (worldWidth, worldHeight)
         public static (int worldWidth, int worldHeight) GetRotatedDimensions(
             int width,
             int height,
@@ -880,14 +822,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
         #endregion
     }
 
-    /// <summary>
-    /// Extension methods for PlacementRotation enum.
-    /// </summary>
+    // Extension methods for PlacementRotation enum.
     public static class PlacementRotationExtensions
     {
-        /// <summary>
-        /// Converts PlacementRotation to RimWorld's Rot4 for interop with game API.
-        /// </summary>
+        // Converts PlacementRotation to RimWorld's Rot4 for interop with game API.
         public static Verse.Rot4 AsRot4(this PlacementCalculator.PlacementRotation rotation)
         {
             return new Verse.Rot4((int)rotation);

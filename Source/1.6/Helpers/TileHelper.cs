@@ -1,36 +1,33 @@
-using BetterTradersGuild.WorldComponents;
 using RimWorld.Planet;
+using Verse;
 
 namespace BetterTradersGuild
 {
-    /// <summary>
-    /// Helper to check tile properties for caravan-related patches
-    /// </summary>
+    // Helper to check tile properties for caravan-related patches
     public static class TileHelper
     {
-        /// <summary>
-        /// Checks if a tile is in space (orbital layer).
-        /// Used by patches that need to protect against SurfaceTile cast exceptions.
-        /// Space tiles are NOT SurfaceTiles, so vanilla code that assumes SurfaceTile will crash.
-        /// </summary>
+        // Checks if a tile is in space (orbital layer).
+        // Used by patches that need to protect against SurfaceTile cast exceptions.
+        // Space tiles are NOT SurfaceTiles, so vanilla code that assumes SurfaceTile will crash.
         public static bool IsSpaceTile(PlanetTile tile)
         {
             return tile.LayerDef?.isSpace == true;
         }
 
-        /// <summary>
-        /// Checks if a tile has a friendly Traders Guild settlement.
-        /// Used to determine if we should allow caravan operations at this tile.
-        /// </summary>
-        /// <remarks>
-        /// Delegates to <see cref="TradersGuildWorldComponent"/>, which maintains a
-        /// periodically-rebuilt cache, so this is an O(1) lookup on the hot
-        /// <see cref="PlanetTile.LayerDef"/> path. Returns false when no world is loaded.
-        /// </remarks>
+        // Checks if a tile hosts a peacefully-visitable Traders Guild settlement.
+        // Used to decide whether caravan operations are allowed at this tile.
+        // Direct lookup (linear scan over settlements): every caller sits on a cold,
+        // main-thread path (shuttle arrival, raid point calculation, float menus), so no
+        // caching is needed. Returns false when no world is loaded.
         public static bool IsFriendlyTradersGuildTile(PlanetTile tile)
         {
-            TradersGuildWorldComponent component = TradersGuildWorldComponent.GetComponent();
-            return component != null && component.IsFriendlyTradersGuildTile(tile);
+            if (!tile.Valid)
+                return false;
+
+            Settlement settlement = Find.WorldObjects?.SettlementAt(tile);
+            return settlement != null
+                && TradersGuildHelper.IsTradersGuildSettlement(settlement)
+                && TradersGuildHelper.CanPeacefullyVisit(settlement.Faction);
         }
     }
 }

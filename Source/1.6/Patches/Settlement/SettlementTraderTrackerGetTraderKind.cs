@@ -1,53 +1,47 @@
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement_TraderTracker.TraderKind property getter
-    /// Returns a weighted, deterministic orbital trader type for TradersGuild settlements
-    /// </summary>
-    /// <remarks>
-    /// Uses Rand.PushState/PopState for deterministic weighted selection.
-    /// The seed is based on settlement ID + effective lastStockTicks, ensuring:
-    /// - Deterministic (same settlement + same rotation cycle = same trader)
-    /// - Weighted by static commonality (not population-dependent CalculatedCommonality)
-    /// - Rotation (changes when rotation interval expires)
-    /// - Save/load stable (uses persisted field when within rotation period)
-    ///
-    /// KEY ARCHITECTURE: Uses TradersGuildTraderRotation.GetEffectiveLastStockTicks() to
-    /// determine the correct tick value for trader selection. This unified helper ensures
-    /// preview and stock generation use the same seed for the same rotation cycle.
-    /// During mid-regeneration, defers to the alignment patch's pending value.
-    /// </remarks>
+    // Harmony patch: Settlement_TraderTracker.TraderKind property getter
+    // Returns a weighted, deterministic orbital trader type for TradersGuild settlements
+    // Uses Rand.PushState/PopState for deterministic weighted selection.
+    // The seed is based on settlement ID + effective lastStockTicks, ensuring:
+    // - Deterministic (same settlement + same rotation cycle = same trader)
+    // - Weighted by static commonality (not population-dependent CalculatedCommonality)
+    // - Rotation (changes when rotation interval expires)
+    // - Save/load stable (uses persisted field when within rotation period)
+    //
+    // KEY ARCHITECTURE: Uses TradersGuildTraderRotation.GetEffectiveLastStockTicks() to
+    // determine the correct tick value for trader selection. This unified helper ensures
+    // preview and stock generation use the same seed for the same rotation cycle.
+    // During mid-regeneration, defers to the alignment patch's pending value.
     [HarmonyPatch(typeof(Settlement_TraderTracker), nameof(Settlement_TraderTracker.TraderKind), MethodType.Getter)]
     public static class SettlementTraderTrackerGetTraderKind
     {
-        /// <summary>
-        /// Cached trader information to avoid recalculating every frame
-        /// </summary>
+        // Cached trader information to avoid recalculating every frame
         private class CachedTraderInfo
         {
             public TraderKindDef traderKind;
             public int lastStockTicks;
         }
 
-        // Cache the FieldInfo for accessing private lastStockGenerationTicks field
-        private static FieldInfo lastStockGenerationTicksField;
+        // Aliases the shared Settlement_TraderTracker.lastStockGenerationTicks lookup,
+        // resolved and verified once in TraderTrackerReflection.
+        private static readonly FieldInfo lastStockGenerationTicksField =
+            TraderTrackerReflection.LastStockGenerationTicksField;
 
         // Cache trader assignments to avoid recalculating on every property access
         // Key: Settlement ID, Value: Cached trader info
         private static Dictionary<int, CachedTraderInfo> traderCache = new Dictionary<int, CachedTraderInfo>();
 
-        /// <summary>
-        /// Clears the local trader cache. Called when rotation interval setting changes.
-        /// </summary>
+        // Clears the local trader cache. Called when rotation interval setting changes.
         public static void ClearLocalCache()
         {
             traderCache.Clear();
@@ -55,25 +49,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
         // Slavery and stock generator checks are in OrbitalTraderHelper (shared with quest reward system)
 
-        /// <summary>
-        /// Static constructor to initialize reflection
-        /// </summary>
-        static SettlementTraderTrackerGetTraderKind()
-        {
-            lastStockGenerationTicksField = typeof(Settlement_TraderTracker).GetField("lastStockGenerationTicks",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-
-            if (lastStockGenerationTicksField == null)
-            {
-                Log.Error("[Better Traders Guild] Failed to find 'lastStockGenerationTicks' field via reflection!");
-            }
-        }
-
-        /// <summary>
-        /// Postfix method - provides weighted orbital trader types for TradersGuild settlements
-        /// </summary>
-        /// <param name="__instance">The Settlement_TraderTracker instance</param>
-        /// <param name="__result">The TraderKindDef result (can be modified)</param>
+        // Postfix method - provides weighted orbital trader types for TradersGuild settlements
+        // __instance: The Settlement_TraderTracker instance
+        // __result: The TraderKindDef result (can be modified)
         [HarmonyPostfix]
         public static void Postfix(Settlement_TraderTracker __instance, ref TraderKindDef __result)
         {
@@ -199,10 +177,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
             // Cache to WorldComponent with expiration for ALL settlements after recalculation
             // This ensures both visited and unvisited settlements get re-cached after expiration
-            if (worldComponent != null)
-            {
-                worldComponent.CacheTraderKind(settlementID, traderKind);
-            }
+            worldComponent?.CacheTraderKind(settlementID, traderKind);
 
             __result = traderKind;
         }

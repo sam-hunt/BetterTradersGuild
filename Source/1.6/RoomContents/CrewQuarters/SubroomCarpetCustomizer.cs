@@ -4,20 +4,16 @@ using BetterTradersGuild.DefRefs;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
 {
-    /// <summary>
-    /// Handles carpet color customization for CrewQuarters subrooms.
-    /// Each subroom gets a random carpet color from a curated neutral/muted palette.
-    ///
-    /// USAGE: Call Customize() after subroom prefabs are spawned and their rects are stored.
-    /// This paints the entire interior of each subroom with a randomly selected carpet.
-    /// </summary>
+    // Handles carpet color customization for CrewQuarters subrooms.
+    // Each subroom gets a random carpet color from a curated neutral/muted palette.
+    //
+    // USAGE: Call Customize() after subroom prefabs are spawned and their rects are stored.
+    // This paints the entire interior of each subroom with a randomly selected carpet.
     internal static class SubroomCarpetCustomizer
     {
-        /// <summary>
-        /// Curated subset of carpet colors for crew quarters subrooms.
-        /// These are neutral and muted tones that work well in residential spaces.
-        /// Lazily built to ensure DefOf initialization has completed.
-        /// </summary>
+        // Curated subset of carpet colors for crew quarters subrooms.
+        // These are neutral and muted tones that work well in residential spaces.
+        // Lazily built to ensure DefOf initialization has completed.
         private static List<TerrainDef> _carpetOptions;
         private static List<TerrainDef> CarpetOptions => _carpetOptions ?? (_carpetOptions = BuildCarpetOptions());
 
@@ -44,15 +40,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return options;
         }
 
-        /// <summary>
-        /// Applies a random carpet color to each subroom.
-        /// Each subroom gets its own independently chosen color from the curated palette.
-        ///
-        /// SAFETY: Skips cells outside map bounds and handles empty carpet options gracefully.
-        /// </summary>
-        /// <param name="map">The map to modify terrain on</param>
-        /// <param name="subroomRects">List of subroom bounds (as CellRect) to paint</param>
-        /// <returns>Total number of tiles modified across all subrooms</returns>
+        // Applies a random carpet color to each subroom.
+        // Each subroom gets its own independently chosen color from the curated palette.
+        //
+        // SAFETY: Skips cells outside map bounds and handles empty carpet options gracefully.
+        // map: The map to modify terrain on
+        // subroomRects: List of subroom bounds (as CellRect) to paint
+        // Returns: Total number of tiles modified across all subrooms
         internal static int Customize(Map map, List<CellRect> subroomRects)
         {
             if (map == null || subroomRects == null || subroomRects.Count == 0)
@@ -75,9 +69,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return totalTilesModified;
         }
 
-        /// <summary>
-        /// Paints all cells in a rect with the specified terrain.
-        /// </summary>
+        // Paints all cells in a rect with the specified terrain.
         private static int PaintRect(Map map, CellRect rect, TerrainDef terrain)
         {
             int tilesModified = 0;

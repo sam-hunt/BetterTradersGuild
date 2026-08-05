@@ -3,11 +3,9 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized ThingDef references. ALL defs used by BTG go here - vanilla, DLC, mod, and custom.
-    /// Auto-populated by RimWorld's [DefOf] system at startup.
-    /// Unified syntax: always use Things.* regardless of def source.
-    /// </summary>
+    // Centralized ThingDef references. ALL defs used by BTG go here - vanilla, DLC, mod, and custom.
+    // Auto-populated by RimWorld's [DefOf] system at startup.
+    // Unified syntax: always use Things.* regardless of def source.
     [DefOf]
     public static class Things
     {
@@ -15,6 +13,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Steel;
         public static ThingDef Gold;
         public static ThingDef Silver;
+        public static ThingDef Plasteel;
+        public static ThingDef MeleeWeapon_Knife;
         public static ThingDef ComponentIndustrial;
         public static ThingDef ComponentSpacer;
         public static ThingDef MedicineIndustrial;
@@ -45,6 +45,7 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Chemfuel;
         public static ThingDef ChemfuelTank;
         public static ThingDef RawCorn;
+        public static ThingDef RawRice;
         public static ThingDef Cloth;
         public static ThingDef Building_OutfitStand;
         public static ThingDef GameOfUrBoard;
@@ -195,6 +196,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef VGE_AstrofuelValve;
         [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_SmallOxygenTank;
+        [MayRequire("vanillaexpanded.gravship")]
+        public static ThingDef VGE_FauxPlant;
 
         // === VRE GENIE ===
         [MayRequire("vanillaracesexpanded.genie")]

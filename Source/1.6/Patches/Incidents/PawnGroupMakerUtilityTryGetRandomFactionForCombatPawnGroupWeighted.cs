@@ -4,33 +4,26 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.Incidents
 {
-    /// <summary>
-    /// Static context holder for raid faction selection.
-    /// Set by PawnGroupMakerUtility patch, read by FactionDef patch.
-    /// </summary>
+    // Static context holder for raid faction selection.
+    // Set by PawnGroupMakerUtility patch, read by FactionDef patch.
     public static class RaidFactionSelectionContext
     {
         public static bool IsOnTradersGuildMap = false;
     }
 
-    /// <summary>
-    /// Harmony patch: PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted
-    /// Sets context flag when raid faction selection occurs on a Traders Guild map.
-    /// </summary>
-    /// <remarks>
-    /// This patch establishes context for the FactionDef.RaidCommonalityFromPoints patch
-    /// to know when to boost Salvagers raid weight. The context flag is set in Prefix
-    /// and cleared in Finalizer to ensure cleanup even on exceptions.
-    /// </remarks>
+    // Harmony patch: PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted
+    // Sets context flag when raid faction selection occurs on a Traders Guild map.
+    // This patch establishes context for the FactionDef.RaidCommonalityFromPoints patch
+    // to know when to boost Salvagers raid weight. The context flag is set in Prefix
+    // and cleared in Finalizer to ensure cleanup even on exceptions.
     [HarmonyPatch(typeof(PawnGroupMakerUtility), nameof(PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroupWeighted))]
     public static class PawnGroupMakerUtilityTryGetRandomFactionForCombatPawnGroupWeighted
     {
         [HarmonyPrefix]
         public static void Prefix(IncidentParms parms)
         {
-            if (!BetterTradersGuildMod.Settings.useCustomLayouts)
-                return;
-
+            // Salvagers weighting keys off the TradersGuild faction map, not the map
+            // generator, so it applies whether or not custom layouts are enabled.
             if (parms?.target is Map map && TradersGuildHelper.IsMapInTradersGuildSettlement(map))
             {
                 RaidFactionSelectionContext.IsOnTradersGuildMap = true;

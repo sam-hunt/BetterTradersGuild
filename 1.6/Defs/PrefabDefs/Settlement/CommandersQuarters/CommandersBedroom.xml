@@ -105,6 +105,11 @@
         <relativeRotation>Clockwise</relativeRotation>
       </AncientEmergencyLight_Blue>
 
+      <LifeSupportUnit>
+        <position>(4, 0, 2)</position>
+        <relativeRotation>Clockwise</relativeRotation>
+      </LifeSupportUnit>
+
       <AncientBlastDoor>
         <position>(1, 0, 0)</position>
       </AncientBlastDoor>

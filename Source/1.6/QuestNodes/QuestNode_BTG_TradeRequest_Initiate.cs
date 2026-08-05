@@ -5,11 +5,9 @@ using Verse;
 
 namespace BetterTradersGuild.QuestNodes
 {
-    /// <summary>
-    /// Quest node that initiates a trade request on a BTG settlement.
-    /// Uses vanilla's QuestPart_InitiateTradeRequest for save compatibility.
-    /// Validation is delegated to upstream QuestNode_GetNearestTGSettlement.
-    /// </summary>
+    // Quest node that initiates a trade request on a BTG settlement.
+    // Uses vanilla's QuestPart_InitiateTradeRequest for save compatibility.
+    // Validation is delegated to upstream QuestNode_GetNearestTGSettlement.
     public class QuestNode_BTG_TradeRequest_Initiate : QuestNode
     {
         public SlateRef<Settlement> settlement;

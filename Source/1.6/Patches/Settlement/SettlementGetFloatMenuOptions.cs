@@ -6,17 +6,13 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement.GetFloatMenuOptions for regular caravan interactions
-    /// This is called when right-clicking on settlements or during caravan pathing
-    /// </summary>
+    // Harmony patch: Settlement.GetFloatMenuOptions for regular caravan interactions
+    // This is called when right-clicking on settlements or during caravan pathing
     [HarmonyPatch(typeof(RimWorld.Planet.Settlement), nameof(RimWorld.Planet.Settlement.GetFloatMenuOptions))]
     public static class SettlementGetFloatMenuOptions
     {
-        /// <summary>
-        /// Priority.Last ensures we wrap ALL other postfixes so attack variants
-        /// added by other mods pass through our filter too.
-        /// </summary>
+        // Priority.Last ensures we wrap ALL other postfixes so attack variants
+        // added by other mods pass through our filter too.
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
         public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> __result, RimWorld.Planet.Settlement __instance, Caravan caravan)
@@ -24,9 +20,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Check if this is a Traders Guild settlement
             bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(__instance);
             bool canPeacefullyVisit = isTradersGuild && TradersGuildHelper.CanPeacefullyVisit(__instance.Faction);
-
-            // Track which option types we've seen
-            bool hasTradeOption = false;
 
             foreach (FloatMenuOption option in __result)
             {
@@ -58,21 +51,19 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                         yield return modifiedOption;
                     }
                 }
-                // TRADE OPTIONS: Check if trade option exists
-                else if (label.Contains("trade"))
-                {
-                    hasTradeOption = true;
-                    yield return option;  // Return as-is
-                }
-                // OTHER OPTIONS: Return unchanged
+                // TRADE and everything else pass through unchanged.
                 else
                 {
                     yield return option;
                 }
             }
 
-            // If this is a friendly Traders Guild settlement and no trade option was generated, add one
-            if (isTradersGuild && canPeacefullyVisit && !hasTradeOption)
+            // Add BTG's own trade option only when vanilla won't already offer one. CanTradeWith is
+            // vanilla's exact trade gate (the trade equivalent of CanAttack) and returns a binary
+            // report, so .Accepted tells us whether a vanilla trade option is present - no label
+            // scanning, so it stays correct in every locale.
+            if (isTradersGuild && canPeacefullyVisit
+                && !CaravanArrivalAction_Trade.CanTradeWith(caravan, __instance).Accepted)
             {
                 string tradeLabel = "TradeWithSettlement".Translate(__instance.Label);
                 string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, __instance);

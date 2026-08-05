@@ -1,34 +1,29 @@
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Integrations;
 using Verse;
 
 namespace BetterTradersGuild.LayoutWorkers.Settlement
 {
-    /// <summary>
-    /// Fills VE Pipes network storage tanks to random levels on generated maps.
-    ///
-    /// PURPOSE:
-    /// After map generation, tanks in VE pipe networks are empty. This helper fills
-    /// them to appropriate levels to make the station feel operational:
-    /// - Standard tanks: 20-50% (reasonable stockpile)
-    /// - Oxygen tanks: 30-60% (life support critical, should be well-stocked)
-    ///
-    /// TECHNICAL APPROACH:
-    /// Uses reflection to access PipeSystem.CompResourceStorage since VE Framework
-    /// is an optional dependency. Gracefully handles cases where the mod isn't installed.
-    ///
-    /// LEARNING NOTE (Optional Mod Integration):
-    /// Since VE Framework is not a hard dependency, we can't reference its types directly.
-    /// Reflection allows graceful handling when the mod isn't installed - the method
-    /// simply returns 0 tanks filled.
-    /// </summary>
+    // Fills VE Pipes network storage tanks to random levels on generated maps.
+    //
+    // PURPOSE:
+    // After map generation, tanks in VE pipe networks are empty. This helper fills
+    // them to appropriate levels to make the station feel operational:
+    // - Standard tanks: 20-50% (reasonable stockpile)
+    // - Oxygen tanks: 30-60% (life support critical, should be well-stocked)
+    //
+    // TECHNICAL APPROACH:
+    // Uses reflection to access PipeSystem.CompResourceStorage since VE Framework
+    // is an optional dependency. Gracefully handles cases where the mod isn't installed.
+    //
+    // LEARNING NOTE (Optional Mod Integration):
+    // Since VE Framework is not a hard dependency, we can't reference its types directly.
+    // Reflection allows graceful handling when the mod isn't installed - the method
+    // simply returns 0 tanks filled.
     public static class PipeNetworkTankFiller
     {
-        /// <summary>
-        /// Fill percentage range for a tank type.
-        /// </summary>
+        // Fill percentage range for a tank type.
         private struct TankFillRange
         {
             public float MinPct;
@@ -41,41 +36,18 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             }
         }
 
-        /// <summary>
-        /// Standard fill range for most tanks (20-50%).
-        /// </summary>
+        // Standard fill range for most tanks (20-50%).
         private static readonly TankFillRange StandardFillRange = new TankFillRange(0.20f, 0.50f);
 
-        /// <summary>
-        /// Life support fill range for oxygen tanks (30-60% - critical systems).
-        /// </summary>
+        // Life support fill range for oxygen tanks (30-60% - critical systems).
         private static readonly TankFillRange LifeSupportFillRange = new TankFillRange(0.30f, 0.60f);
 
-        /// <summary>
-        /// Cached Type reference for PipeSystem.CompResourceStorage.
-        /// Null if VE Framework not installed.
-        /// </summary>
-        private static Type compResourceStorageType = null;
-
-        /// <summary>
-        /// Flag indicating whether CompResourceStorage type lookup has been attempted.
-        /// </summary>
-        private static bool compResourceStorageTypeInitialized = false;
-
-        /// <summary>
-        /// Fills VE pipe network tanks on the map to random levels.
-        /// Uses reflection to access PipeSystem.CompResourceStorage (optional mod).
-        /// </summary>
+        // Fills VE pipe network tanks on the map to random levels.
+        // Uses VEPipesIntegration to access PipeSystem.CompResourceStorage (optional mod).
         public static void FillTanksOnMap(Map map)
         {
-            // Initialize CompResourceStorage type reference (lazy, once)
-            if (!compResourceStorageTypeInitialized)
-            {
-                compResourceStorageType = GenTypes.GetTypeInAnyAssembly("PipeSystem.CompResourceStorage");
-                compResourceStorageTypeInitialized = true;
-            }
-
-            if (compResourceStorageType == null) return;
+            // No-op when VE Pipes isn't installed (or its API drifted — reported at startup).
+            if (!VEPipesIntegration.Available) return;
 
             // VE Chemfuel tanks (standard fill)
             FillTanksOfDef(map, Things.PS_ChemfuelTank, StandardFillRange);
@@ -91,9 +63,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             FillTanksOfDef(map, Things.ChemfuelTank, StandardFillRange);
         }
 
-        /// <summary>
-        /// Fills all tanks of a specific ThingDef on the map.
-        /// </summary>
+        // Fills all tanks of a specific ThingDef on the map.
         private static void FillTanksOfDef(Map map, ThingDef tankDef, TankFillRange fillRange)
         {
             if (tankDef == null) return;
@@ -104,12 +74,10 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             }
         }
 
-        /// <summary>
-        /// Fills a single tank to a random level within the specified range.
-        /// </summary>
-        /// <param name="thing">The tank Thing</param>
-        /// <param name="fillRange">The fill percentage range</param>
-        /// <returns>True if tank was filled successfully</returns>
+        // Fills a single tank to a random level within the specified range.
+        // thing: The tank Thing
+        // fillRange: The fill percentage range
+        // Returns: True if tank was filled successfully
         private static bool FillTank(Thing thing, TankFillRange fillRange)
         {
             // Must be a ThingWithComps to have comps
@@ -117,11 +85,11 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             if (thingWithComps == null)
                 return false;
 
-            // Get the CompResourceStorage comp via reflection
+            // Find the CompResourceStorage comp on this tank (type resolved + verified at startup)
             ThingComp storageComp = null;
             foreach (ThingComp comp in thingWithComps.AllComps)
             {
-                if (compResourceStorageType.IsInstanceOfType(comp))
+                if (VEPipesIntegration.CompType.IsInstanceOfType(comp))
                 {
                     storageComp = comp;
                     break;
@@ -131,29 +99,12 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             if (storageComp == null)
                 return false;
 
-            // Get Props.storageCapacity via reflection
-            // NOTE: Use DeclaredOnly to avoid AmbiguousMatchException - CompResourceStorage
-            // declares its own Props property that hides the base ThingComp.Props
-            PropertyInfo propsProperty = compResourceStorageType.GetProperty("Props",
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            if (propsProperty == null)
-            {
-                // Fallback: walk up the type hierarchy to find Props
-                Type currentType = compResourceStorageType.BaseType;
-                while (currentType != null && propsProperty == null)
-                {
-                    propsProperty = currentType.GetProperty("Props",
-                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-                    currentType = currentType.BaseType;
-                }
-            }
-            if (propsProperty == null)
-                return false;
-
-            object props = propsProperty.GetValue(storageComp);
+            object props = VEPipesIntegration.PropsProperty.GetValue(storageComp);
             if (props == null)
                 return false;
 
+            // storageCapacity lives on the runtime type of the Props object, so it can only be
+            // resolved per-instance (it stays a runtime-guarded lookup, not verified at startup).
             FieldInfo capacityField = props.GetType().GetField("storageCapacity",
                 BindingFlags.Public | BindingFlags.Instance);
             if (capacityField == null)
@@ -165,20 +116,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             float fillPct = Rand.Range(fillRange.MinPct, fillRange.MaxPct);
             float fillAmount = storageCapacity * fillPct;
 
-            // Call AddResource method via reflection
-            MethodInfo addResourceMethod = compResourceStorageType.GetMethod("AddResource",
-                BindingFlags.Public | BindingFlags.Instance,
-                null,
-                new Type[] { typeof(float) },
-                null);
-
-            if (addResourceMethod != null)
-            {
-                addResourceMethod.Invoke(storageComp, new object[] { fillAmount });
-                return true;
-            }
-
-            return false;
+            VEPipesIntegration.AddResourceMethod.Invoke(storageComp, new object[] { fillAmount });
+            return true;
         }
     }
 }

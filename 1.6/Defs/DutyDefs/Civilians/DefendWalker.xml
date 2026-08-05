@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Sheltering-civilian adult (caretaker), reactive self-defense posture. Assigned by
+    LordToil_BTGDefend while someone is actively attacking the family and a child walker
+    still needs covering; children keep BTG_EscapeWalker throughout. Strictly reactive:
+    the defend giver only ever targets a pawn currently attacking a family member (see
+    PartyThreatHelper), preserving the design goal that the player reads as the clear
+    aggressor. When no involved attacker is reachable the duty falls through to the normal
+    escape chain, so the evacuation can never stall on an unreachable shooter.
+  -->
+  <DutyDef>
+    <defName>BTG_DefendWalker</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- 1. Melee the nearest pawn actively targeting a family member (adults only;
+             the giver self-gates). -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGDefendParty" />
+        <!-- 2-4. No reachable involved attacker: continue the escape (same chain as
+             BTG_EscapeWalker). A carried infant dropped when the defense interrupted a
+             ferry is re-found by the carry giver's map-wide infant scan. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGCarryBabyToLaunchable" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGBoardLaunchable" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

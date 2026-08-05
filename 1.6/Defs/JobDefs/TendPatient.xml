@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Paramedic Tend Job Definition
+
+    BTG_TendPatient: the paramedic mech's tend job. Mirrors vanilla TendPatient but uses
+    JobDriver_BTGTendPatient, which stashes leftover medicine into the mech's inventory
+    at job end instead of dropping it - the tend giver ends the job after every single
+    tend (endAfterTendedOnce re-triage), so vanilla cleanup dropped the part-used stack
+    on the floor and the medic fetched a fresh one from the shelf each time. A separate
+    JobDef is used rather than retargeting vanilla TendPatient so player/colony tending
+    is untouched.
+
+    Used by: JobGiver_BTGMechMedicTend (BTG_MechMedic duty).
+  -->
+
+  <JobDef>
+    <defName>BTG_TendPatient</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGTendPatient</driverClass>
+    <reportString>tending to TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <suspendable>false</suspendable>
+  </JobDef>
+
+</Defs>

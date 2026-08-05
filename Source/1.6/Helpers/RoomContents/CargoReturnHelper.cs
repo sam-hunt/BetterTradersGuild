@@ -8,16 +8,12 @@ using PawnKinds = BetterTradersGuild.DefRefs.PawnKinds;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    /// <summary>
-    /// Helper class for returning cargo vault items to settlement trade inventory.
-    /// Extracted from CompSealableSeal patch for reuse by CompRelockable and CargoVaultHatch.DeSpawn.
-    /// </summary>
+    // Helper class for returning cargo vault items to settlement trade inventory.
+    // Extracted from CompSealableSeal patch for reuse by CompRelockable and CargoVaultHatch.DeSpawn.
     public static class CargoReturnHelper
     {
-        /// <summary>
-        /// Returns all eligible items and pawns from a pocket map to the parent settlement's trade stock.
-        /// </summary>
-        /// <param name="pocketMap">The cargo vault pocket map</param>
+        // Returns all eligible items and pawns from a pocket map to the parent settlement's trade stock.
+        // pocketMap: The cargo vault pocket map
         public static void ReturnItemsToStock(Map pocketMap)
         {
             if (pocketMap == null)
@@ -38,10 +34,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             ReturnPawnsToStock(pawnsToReturn, stock);
         }
 
-        /// <summary>
-        /// Collects all haulable items from the pocket map.
-        /// Excludes unminified buildings.
-        /// </summary>
+        // Collects all haulable items from the pocket map.
+        // Excludes unminified buildings.
         private static List<Thing> CollectEligibleItems(Map map)
         {
             var items = new List<Thing>();
@@ -62,12 +56,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return items;
         }
 
-        /// <summary>
-        /// Collects all pawns from the pocket map that should be captured.
-        /// Only excludes wasp drones (vault defense units that remain with the vault).
-        /// All other pawns (TradersGuild staff, player colonists, animals, slaves, other factions)
-        /// are captured and transferred to the settlement's trade inventory.
-        /// </summary>
+        // Collects all pawns from the pocket map that should be captured.
+        // Only excludes wasp drones (vault defense units that remain with the vault).
+        // All other pawns (TradersGuild staff, player colonists, animals, slaves, other factions)
+        // are captured and transferred to the settlement's trade inventory.
         private static List<Pawn> CollectEligiblePawns(Map map)
         {
             var pawns = new List<Pawn>();
@@ -86,10 +78,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
             return pawns;
         }
 
-        /// <summary>
-        /// Returns items to the settlement's trade stock.
-        /// If stock is null, items are destroyed (lost, but this is a safety fallback).
-        /// </summary>
+        // Returns items to the settlement's trade stock.
+        // If stock is null, items are destroyed (lost, but this is a safety fallback).
         private static void ReturnItemsToStock(List<Thing> items, ThingOwner<Thing> stock)
         {
             foreach (Thing item in items)
@@ -114,17 +104,13 @@ namespace BetterTradersGuild.Helpers.RoomContents
             }
         }
 
-        /// <summary>
-        /// Returns pawns to the settlement's trade stock.
-        /// If stock is null, pawns are passed to world (never destroyed).
-        /// </summary>
-        /// <remarks>
-        /// IMPORTANT: Pawns must be registered as world pawns BEFORE being added to stock.
-        /// Settlement_TraderTracker.TraderTrackerTick() validates that all pawns in stock
-        /// are world pawns (via WorldPawnsUtility.IsWorldPawn), removing any that aren't.
-        /// Without this registration, pawns would be removed on the next tick with the error:
-        /// "Faction base has non-world-pawns in its stock. Removing..."
-        /// </remarks>
+        // Returns pawns to the settlement's trade stock.
+        // If stock is null, pawns are passed to world (never destroyed).
+        // IMPORTANT: Pawns must be registered as world pawns BEFORE being added to stock.
+        // Settlement_TraderTracker.TraderTrackerTick() validates that all pawns in stock
+        // are world pawns (via WorldPawnsUtility.IsWorldPawn), removing any that aren't.
+        // Without this registration, pawns would be removed on the next tick with the error:
+        // "Faction base has non-world-pawns in its stock. Removing..."
         private static void ReturnPawnsToStock(List<Pawn> pawns, ThingOwner<Thing> stock)
         {
             foreach (Pawn pawn in pawns)

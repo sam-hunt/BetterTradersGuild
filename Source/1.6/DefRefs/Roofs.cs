@@ -3,9 +3,7 @@ using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
-    /// <summary>
-    /// Centralized RoofDef references.
-    /// </summary>
+    // Centralized RoofDef references.
     [DefOf]
     public static class Roofs
     {

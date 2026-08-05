@@ -5,49 +5,48 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.MapGenerationPatches
 {
-    /// <summary>
-    /// Harmony prefix patch for PawnGroupMakerUtility.GeneratePawns() to apply
-    /// threat point multiplier and enforce minimum points for TradersGuild settlements.
-    ///
-    /// PURPOSE:
-    /// Vanilla calculates settlement defender points based on player colony wealth,
-    /// which can result in very low points for early-game colonies. This causes
-    /// MaxPawnCost filtering to exclude expensive pawns (Elite, Heavy, Slasher, Magister).
-    ///
-    /// SOLUTION:
-    /// 1. Apply configurable multiplier (0.5x-3.0x) to scale threat points
-    /// 2. Enforce configurable minimum points floor for TradersGuild settlements
-    ///
-    /// This ensures:
-    /// - MaxPawnCost allows all pawn types to spawn (at default 2400, MaxPawnCost ~288)
-    /// - Wealthy colonies still get scaled-up defenders (uses max of calculated vs minimum)
-    /// - TradersGuild stations feel like a significant challenge matching their loot value
-    /// - Players can adjust difficulty via multiplier
-    ///
-    /// EXAMPLE (with 1.5x multiplier, 2400 minimum):
-    /// - Early colony (1000 points) -> 1500 after multiplier -> capped to 2400 minimum
-    /// - Late colony (3000 points) -> 4500 after multiplier -> keeps 4500 (above minimum)
-    ///
-    /// REQUIREMENTS:
-    /// - Only applies when custom layouts are enabled (to match increased loot value)
-    /// - Multiplier configurable via mod settings (0.5x-3.0x, default 1.0x)
-    /// - Minimum points configurable via mod settings (0-5000, default 2400)
-    /// - Set minimum to 0 to disable floor and use multiplied value only
-    ///
-    /// LEARNING NOTE:
-    /// PawnGroupMakerParms.points determines both total pawn budget AND MaxPawnCost
-    /// (which filters expensive pawns). By boosting points, we increase both the
-    /// number of pawns AND allow expensive pawn types to spawn.
-    /// </summary>
+    // Harmony prefix patch for PawnGroupMakerUtility.GeneratePawns() that optionally scales
+    // the TradersGuild settlement garrison to the player's actual threat level, then applies
+    // the configurable multiplier and minimum-points floor from mod settings.
+    //
+    // WHY VANILLA NEVER SCALES SETTLEMENT DEFENDERS:
+    // GenStep_SettlementPawnsLoot passes no points to MapGenUtility.GeneratePawns, which
+    // then rolls the flat MapGenUtility.DefaultPawnsPoints range (1150-1600) - storyteller,
+    // difficulty and colony wealth are never consulted. (Classic ground settlements do the
+    // same via SymbolResolver_Settlement.DefaultPawnsPoints; only quest-site outposts get
+    // real threat points, from GenStepParams.sitePart.) So a late-game colony assaults the
+    // same ~1400-point garrison a young colony would. That flat roll is intentional vanilla
+    // design, not a bug - which is why the threat-level scaling here is opt-in
+    // (scaleDefendersToThreatLevel, default off), preserving long-shipped BTG behaviour for
+    // existing players. The multiplier and floor apply whether or not scaling is opted into.
+    //
+    // THE SCALING BASE MUST COME FROM THE WORLD, NOT THE MAP:
+    // Same trap as the sentry drone fix (GenStep_SpawnSentryDrones): at generation time the
+    // settlement map has no player pawns on it, so DefaultThreatPointsNow(map) floors to the
+    // storyteller minimum. DefaultThreatPointsNow(Find.World) sums player wealth across all
+    // maps and caravans, giving the storyteller's real threat level (difficulty-scaled and
+    // capped by the storyteller's own curve).
+    //
+    // ORDER OF OPERATIONS:
+    // 1. If scaleDefendersToThreatLevel: raise the flat vanilla roll to the world's threat
+    //    points (max, so an early-game garrison never drops below the vanilla 1150-1600
+    //    baseline)
+    // 2. Apply the configurable multiplier (0.5x-3.0x, default 1.0x)
+    // 3. Enforce the configurable minimum floor (0-5000, default 0 = disabled; 2400
+    //    recommended so MaxPawnCost admits elite pawn types at low wealth)
+    //
+    // parms.points determines both the total pawn budget AND MaxPawnCost (which filters
+    // expensive pawn kinds), so raising points increases count and unlocks stronger kinds.
+    //
+    // This is the single choke point for the garrison group: both GenStep_BTGSettlementPawns
+    // and the vanilla GenStep_SettlementPawnsLoot opt-out path funnel through
+    // PawnGroupMakerUtility.GeneratePawns with the Settlement group kind, so scaling applies
+    // regardless of the entrenched-defenders setting. Only applies when custom layouts are
+    // enabled (to match their increased loot value).
     [HarmonyPatch(typeof(PawnGroupMakerUtility))]
     [HarmonyPatch("GeneratePawns")]
-    [HarmonyPriority(Priority.High)] // Run before our logging patch
     public static class PawnGroupMakerUtilityMinimumPoints
     {
-        /// <summary>
-        /// Prefix that applies threat multiplier and enforces minimum points for TradersGuild settlements.
-        /// Only applies when custom layouts are enabled (to match increased loot value).
-        /// </summary>
         [HarmonyPrefix]
         public static void Prefix(PawnGroupMakerParms parms)
         {
@@ -57,17 +56,27 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
             // Only affect TradersGuild faction
             if (parms?.faction?.def != Factions.TradersGuild) return;
 
-            // Only affect Settlement group kind (not traders, caravans, etc.)
-            if (parms.groupKind?.defName != "Settlement") return;
+            // Only affect the Settlement group kind (the garrison), not traders/caravans/raids
+            if (parms.groupKind != PawnGroupKindDefOf.Settlement) return;
 
-            // Step 1: Apply threat points multiplier (before minimum cap)
+            // Step 1 (opt-in): Scale the flat vanilla roll up to the world's real threat points
+            if (BetterTradersGuildMod.Settings.scaleDefendersToThreatLevel)
+            {
+                float worldPoints = StorytellerUtility.DefaultThreatPointsNow(Find.World);
+                if (worldPoints > parms.points)
+                {
+                    parms.points = worldPoints;
+                }
+            }
+
+            // Step 2: Apply threat points multiplier
             float multiplier = BetterTradersGuildMod.Settings.threatPointsMultiplier;
             if (multiplier != 1.0f)
             {
                 parms.points *= multiplier;
             }
 
-            // Step 2: Enforce minimum points floor (after multiplier)
+            // Step 3: Enforce minimum points floor (after multiplier)
             float minimumPoints = BetterTradersGuildMod.Settings.minimumThreatPoints;
             if (minimumPoints > 0f && parms.points < minimumPoints)
             {

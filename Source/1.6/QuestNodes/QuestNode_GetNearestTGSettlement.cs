@@ -6,11 +6,9 @@ using Verse;
 
 namespace BetterTradersGuild.QuestNodes
 {
-    /// <summary>
-    /// Quest node that finds the nearest Traders Guild settlement for trade request quests.
-    /// Filters settlements by faction, relations, and active trade request status.
-    /// Uses 3D spherical distance for orbital settlements.
-    /// </summary>
+    // Quest node that finds the nearest Traders Guild settlement for trade request quests.
+    // Filters settlements by faction, relations, and active trade request status.
+    // Uses 3D spherical distance for orbital settlements.
     public class QuestNode_GetNearestTGSettlement : QuestNode
     {
         // Output slot names (matching vanilla QuestNode_GetNearbySettlement pattern)
@@ -85,7 +83,7 @@ namespace BetterTradersGuild.QuestNodes
 
         private Settlement FindNearestTGSettlement(Map playerMap, Slate slate)
         {
-            int playerTile = playerMap.Tile;
+            PlanetTile playerTile = playerMap.Tile;
             int maxDist = maxTileDistance.GetValue(slate);
             bool allowActive = allowActiveTradeRequest.GetValue(slate);
 
@@ -113,14 +111,6 @@ namespace BetterTradersGuild.QuestNodes
                 // Calculate 3D spherical distance
                 float dist = GetSphericalDistance(playerTile, settlement.Tile);
 
-                // Check max distance (use spherical distance for comparison)
-                // Note: maxTileDistance is approximate - spherical distances may differ from tile counts
-                if (dist > maxDist && dist < nearestDist)
-                {
-                    // Still consider if it's the closest, even if beyond maxDist
-                    // This handles cases where all TG settlements are orbital (far in 3D)
-                }
-
                 if (dist < nearestDist)
                 {
                     nearest = settlement;
@@ -137,12 +127,12 @@ namespace BetterTradersGuild.QuestNodes
             return nearest;
         }
 
-        /// <summary>
-        /// Calculate 3D spherical distance between two world tiles.
-        /// Uses WorldGrid.GetTileCenter for accurate planet surface positions.
-        /// Works correctly for both surface and orbital tiles.
-        /// </summary>
-        private float GetSphericalDistance(int tile1, int tile2)
+        // Calculate 3D spherical distance between two world tiles.
+        // Uses WorldGrid.GetTileCenter for accurate planet surface positions.
+        // Takes PlanetTile (not int) so the layer survives: truncating to a tile id would
+        // resolve the id on the surface layer and measure to the wrong point for orbital
+        // settlements, especially with mods that add extra planet layers.
+        private float GetSphericalDistance(PlanetTile tile1, PlanetTile tile2)
         {
             Vector3 pos1 = Find.WorldGrid.GetTileCenter(tile1);
             Vector3 pos2 = Find.WorldGrid.GetTileCenter(tile2);

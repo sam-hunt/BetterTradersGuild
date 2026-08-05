@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Paramedic longjump during BTG_Rescue.
+
+    Vanilla's MechConstant think tree already contains jump-during-rescue AI for the
+    paramedic's LongjumpMechLauncher ability (jump toward the downed pawn, then toward
+    the bed while carrying - the launcher flies with its carried casualty), but the
+    whole branch sits under ThinkNode_ConditionalPlayerMech (pawn.IsColonyMech) and is
+    keyed to the vanilla Rescue job, so NPC mechs never use it. This inserts a sibling
+    branch outside the player gate, keyed to BTG_Rescue instead, reusing the vanilla
+    job givers verbatim: the TG settlement paramedic now jumps during rescues exactly
+    like a player-controlled one (2 jumps, then a shared 8h cooldown; 6-15 cell range;
+    line of sight required - all self-gated by the job givers via Ability.CanCast).
+
+    Inert for every other mech: nothing but the BTG medic ever runs BTG_Rescue, so the
+    branch costs one job-def compare per constant-tree walk.
+
+    Conditional on Biotech (MechConstant and the ability only exist there); the medic
+    itself is only spawned when Biotech is active.
+  -->
+
+  <Operation Class="PatchOperationConditional" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/ThinkTreeDef[defName="MechConstant"]</xpath>
+    <match Class="PatchOperationInsert">
+      <xpath>/Defs/ThinkTreeDef[defName="MechConstant"]/thinkRoot/subNodes/li[@Class="ThinkNode_ConditionalPlayerMech"][1]</xpath>
+      <order>Prepend</order>
+      <value>
+        <li Class="ThinkNode_ConditionalHasAbility">
+          <ability>LongjumpMechLauncher</ability>
+          <subNodes>
+            <li Class="ThinkNode_ConditionalDoingJob">
+              <jobDef>BTG_Rescue</jobDef>
+              <subNodes>
+                <!-- Jump toward the downed casualty -->
+                <li Class="JobGiver_AIJumpToJobRescueTarget">
+                  <ability>LongjumpMechLauncher</ability>
+                </li>
+                <!-- Jump toward the medbay bed while carrying the casualty -->
+                <li Class="JobGiver_AIJumpToJobRescueTarget">
+                  <ability>LongjumpMechLauncher</ability>
+                  <targetIndex>B</targetIndex>
+                </li>
+              </subNodes>
+            </li>
+          </subNodes>
+        </li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

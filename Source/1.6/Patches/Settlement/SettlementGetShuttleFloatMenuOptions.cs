@@ -6,21 +6,17 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: THE KEY PATCH for shuttle destination targeting!
-    /// Settlement.GetShuttleFloatMenuOptions is called when clicking on settlements during shuttle launch targeting
-    /// This handles the float menu that appears when targeting a settlement with shuttles
-    /// </summary>
+    // Harmony patch: THE KEY PATCH for shuttle destination targeting!
+    // Settlement.GetShuttleFloatMenuOptions is called when clicking on settlements during shuttle launch targeting
+    // This handles the float menu that appears when targeting a settlement with shuttles
     [HarmonyPatch(typeof(RimWorld.Planet.Settlement), nameof(RimWorld.Planet.Settlement.GetShuttleFloatMenuOptions))]
     public static class SettlementGetShuttleFloatMenuOptions
     {
-        /// <summary>
-        /// Postfix method - modifies shuttle destination menu options for Traders Guild settlements
-        /// pods = the shuttle contents (IThingHolder)
-        /// launchAction = the action to execute when launching (used to create TransportersArrivalAction)
-        /// Priority.Last ensures we wrap ALL other postfixes (e.g., "Choose where to land" mod)
-        /// so their added attack variants pass through our filter too.
-        /// </summary>
+        // Postfix method - modifies shuttle destination menu options for Traders Guild settlements
+        // pods = the shuttle contents (IThingHolder)
+        // launchAction = the action to execute when launching (used to create TransportersArrivalAction)
+        // Priority.Last ensures we wrap ALL other postfixes (e.g., "Choose where to land" mod)
+        // so their added attack variants pass through our filter too.
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Last)]
         public static IEnumerable<FloatMenuOption> Postfix(
@@ -33,9 +29,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             bool isTradersGuild = TradersGuildHelper.IsTradersGuildSettlement(__instance);
             bool canPeacefullyVisit = isTradersGuild && TradersGuildHelper.CanPeacefullyVisit(__instance.Faction);
 
-            // Track which option types we've seen
-            bool hasTradeOption = false;
-
             foreach (FloatMenuOption option in __result)
             {
                 // For non-TradersGuild settlements, return options unchanged
@@ -45,35 +38,27 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                     continue;
                 }
 
-                // Check option label to determine type
-                string label = option.Label.ToLower();
+                // ATTACK OPTIONS: Grey out the signal-jammer-blocked ones. Detection keys on our
+                // own injected reason string, not the English word "attack", so it survives
+                // translation and covers CWTL's attack option (its CanAttack is gated by
+                // CWTLAttackSettlementCanAttack) as well as vanilla's. Priority.Last on this postfix
+                // ensures CWTL's appended option is already present when we filter.
+                if (TradersGuildHelper.IsSignalJammerBlockedAttackOption(option))
+                {
+                    yield return new FloatMenuOption(option.Label, null); // null action keeps it disabled
+                    continue;
+                }
 
-                // ATTACK OPTIONS: Modify to show signal jammer requirement
-                if (label.Contains("attack"))
-                {
-                    // For Traders Guild, always add signal jammer message and disable
-                    FloatMenuOption modifiedOption = new FloatMenuOption(
-                        option.Label + " " + "BTG_RequiresSignalJammer".Translate(),
-                        null  // Disable the action
-                    );
-
-                    yield return modifiedOption;
-                }
-                // TRADE OPTIONS: Check if trade option exists
-                else if (label.Contains("trade"))
-                {
-                    hasTradeOption = true;
-                    yield return option;  // Return as-is
-                }
-                // OTHER OPTIONS: Return unchanged
-                else
-                {
-                    yield return option;
-                }
+                // Trade and everything else pass through unchanged.
+                yield return option;
             }
 
-            // If this is a friendly Traders Guild settlement and no trade option was generated, add one
-            if (isTradersGuild && canPeacefullyVisit && !hasTradeOption)
+            // Add BTG's own trade option only when vanilla won't already offer one. CanTradeWith is
+            // vanilla's exact trade gate (the trade equivalent of CanAttack) and returns a binary
+            // report, so .Accepted tells us whether a vanilla trade option is present - no label
+            // scanning, so it stays correct in every locale.
+            if (isTradersGuild && canPeacefullyVisit
+                && !TransportersArrivalAction_Trade.CanTradeWith(pods, __instance).Accepted)
             {
                 string tradeLabel = "TradeWithSettlement".Translate(__instance.Label);
                 string blockedReason = TradersGuildHelper.GetTradeBlockedReasonFromPods(pods, __instance);

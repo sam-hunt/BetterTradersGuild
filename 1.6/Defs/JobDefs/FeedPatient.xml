@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Paramedic Feed-Patient Job Definition
+
+    BTG_FeedPatient: the paramedic mech's hand-feed-a-downed-patient job. Mirrors vanilla
+    FeedPatient but uses JobDriver_BTGFeedPatient - vanilla JobDriver_FoodFeedPatient with
+    its global fail condition replaced. Vanilla's FailOn(!FoodUtility.ShouldBeFedBySomeone)
+    requires the patient to be player-faction/player-hosted and in bed (or a colony
+    prisoner), so for a TG defender the vanilla job dies Incompletable on its first tick
+    and the medic duty re-issues it forever (the started-10-jobs-in-one-tick red error). A
+    separate JobDef is used rather than retargeting vanilla FeedPatient so player/colony
+    feeding is untouched.
+
+    Used by: JobGiver_BTGMechMedicFeed (BTG_MechMedic duty).
+  -->
+
+  <JobDef>
+    <defName>BTG_FeedPatient</defName>
+    <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGFeedPatient</driverClass>
+    <reportString>feeding TargetA to TargetB.</reportString>
+  </JobDef>
+
+</Defs>

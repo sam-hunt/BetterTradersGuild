@@ -7,26 +7,20 @@ using BetterTradersGuild.WorldComponents;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: Settlement.GetInspectString method
-    /// Appends the current docked orbital trader type to the inspection string for TradersGuild settlements
-    /// </summary>
-    /// <remarks>
-    /// LEARNING NOTE: GetInspectString() returns the text displayed in the world map inspection panel
-    /// when a settlement is selected. This is shown in the bottom-left corner of the screen.
-    ///
-    /// This patch enhances the player experience by showing which orbital trader is currently
-    /// docked at each TradersGuild settlement, allowing players to plan trading expeditions
-    /// across the world map instead of always using the comms console.
-    /// </remarks>
+    // Harmony patch: Settlement.GetInspectString method
+    // Appends the current docked orbital trader type to the inspection string for TradersGuild settlements
+    // LEARNING NOTE: GetInspectString() returns the text displayed in the world map inspection panel
+    // when a settlement is selected. This is shown in the bottom-left corner of the screen.
+    //
+    // This patch enhances the player experience by showing which orbital trader is currently
+    // docked at each TradersGuild settlement, allowing players to plan trading expeditions
+    // across the world map instead of always using the comms console.
     [HarmonyPatch(typeof(Settlement), nameof(Settlement.GetInspectString))]
     public static class SettlementGetInspectString
     {
-        /// <summary>
-        /// Postfix method - appends orbital trader information for TradersGuild settlements
-        /// </summary>
-        /// <param name="__instance">The Settlement instance</param>
-        /// <param name="__result">The inspection string result (can be modified)</param>
+        // Postfix method - appends orbital trader information for TradersGuild settlements
+        // __instance: The Settlement instance
+        // __result: The inspection string result (can be modified)
         [HarmonyPostfix]
         public static void Postfix(Settlement __instance, ref string __result)
         {
@@ -60,7 +54,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // - Allied players get extra information as a reward for good relations
             // - Don't show departure time when player is on the map, as rotation is paused
             //   (our patches block stock regeneration while settlement map is loaded)
-            bool showDepartureTime = __instance.Faction.PlayerRelationKind == FactionRelationKind.Ally
+            // HasPlayerRelation guards against an incomplete relation matrix: reading
+            // PlayerRelationKind on a faction with no player relation entry would spam the vanilla
+            // "null relation" error every frame this settlement is selected.
+            bool showDepartureTime = TradersGuildHelper.HasPlayerRelation(__instance.Faction)
+                && __instance.Faction.PlayerRelationKind == FactionRelationKind.Ally
                 && __instance.Map == null;
 
             if (showDepartureTime)

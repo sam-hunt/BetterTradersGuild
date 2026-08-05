@@ -1,3 +1,4 @@
+using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -5,18 +6,27 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.WorldObjectPatches
 {
-    /// <summary>
-    /// Harmony patch: Override RequiresSignalJammerToReach for Traders Guild settlements
-    /// Allows transport pods (e.g., gifts) and shuttles to reach TradersGuild regardless of hostility
-    /// Context-aware: Preserves vanilla gravship signal jammer requirement for attacks
-    /// </summary>
+    // Harmony patch: Override RequiresSignalJammerToReach for Traders Guild settlements
+    // Allows transport pods (e.g., gifts) and shuttles to reach TradersGuild regardless of hostility
+    // Context-aware: Preserves vanilla gravship signal jammer requirement for attacks
     [HarmonyPatch(typeof(RimWorld.Planet.WorldObject), nameof(RimWorld.Planet.WorldObject.RequiresSignalJammerToReach), MethodType.Getter)]
     public static class WorldObjectRequiresSignalJammer
     {
-        /// <summary>
-        /// Postfix for WorldObject.RequiresSignalJammerToReach property
-        /// Context-aware: Preserves signal jammer requirement for gravship targeting
-        /// </summary>
+        // Cached reflection access to TilePicker's private gravship-targeting state.
+        private static readonly FieldInfo TilePickerActiveField = AccessTools.Field(typeof(TilePicker), "active");
+        private static readonly FieldInfo TilePickerForGravshipField = AccessTools.Field(typeof(TilePicker), "forGravship");
+
+        // Logs a targeted error if a field failed to resolve. Called once at startup
+        // from ReflectionVerification.VerifyAll.
+        public static void VerifyReflection()
+        {
+            if (TilePickerActiveField == null || TilePickerForGravshipField == null)
+                Log.Error("[Better Traders Guild] TilePicker.active/forGravship fields not found via reflection; "
+                    + "gravship targeting of Traders Guild settlements may incorrectly bypass the signal-jammer requirement. RimWorld API may have changed.");
+        }
+
+        // Postfix for WorldObject.RequiresSignalJammerToReach property
+        // Context-aware: Preserves signal jammer requirement for gravship targeting
         [HarmonyPostfix]
         public static void Postfix(RimWorld.Planet.WorldObject __instance, ref bool __result)
         {
@@ -38,11 +48,11 @@ namespace BetterTradersGuild.Patches.WorldObjectPatches
             // If gravship targeting is active, DON'T override the signal jammer requirement
             // This preserves vanilla behavior where gravships check engine.HasSignalJammer
             TilePicker tilePicker = Find.TilePicker;
-            if (tilePicker != null)
+            if (tilePicker != null && TilePickerActiveField != null && TilePickerForGravshipField != null)
             {
-                // Access private fields using Harmony's Traverse
-                bool isActive = HarmonyLib.Traverse.Create(tilePicker).Field("active").GetValue<bool>();
-                bool isForGravship = HarmonyLib.Traverse.Create(tilePicker).Field("forGravship").GetValue<bool>();
+                // Read the picker's private gravship-targeting state (verified at startup).
+                bool isActive = (bool)TilePickerActiveField.GetValue(tilePicker);
+                bool isForGravship = (bool)TilePickerForGravshipField.GetValue(tilePicker);
 
                 if (isActive && isForGravship)
                 {

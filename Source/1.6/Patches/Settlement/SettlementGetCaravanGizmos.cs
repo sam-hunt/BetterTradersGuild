@@ -6,17 +6,13 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.SettlementPatches
 {
-    /// <summary>
-    /// Harmony patch: ACTUAL MAIN PATCH for shuttle Launch destination menu!
-    /// Settlement.GetCaravanGizmos generates the action buttons when clicking on a settlement during targeting
-    /// This is the method that's actually called for shuttle caravans!
-    /// </summary>
+    // Harmony patch: ACTUAL MAIN PATCH for shuttle Launch destination menu!
+    // Settlement.GetCaravanGizmos generates the action buttons when clicking on a settlement during targeting
+    // This is the method that's actually called for shuttle caravans!
     [HarmonyPatch(typeof(RimWorld.Planet.Settlement), nameof(RimWorld.Planet.Settlement.GetCaravanGizmos))]
     public static class SettlementGetCaravanGizmos
     {
-        /// <summary>
-        /// Postfix method - modifies caravan action gizmos for Traders Guild settlements
-        /// </summary>
+        // Postfix method - modifies caravan action gizmos for Traders Guild settlements
         [HarmonyPostfix]
         public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> __result, RimWorld.Planet.Settlement __instance, Caravan caravan)
         {
@@ -88,8 +84,8 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             {
                 // Create a trade gizmo
                 Command_Action tradeGizmo = new Command_Action();
-                tradeGizmo.defaultLabel = "Trade with " + __instance.Label;
-                tradeGizmo.defaultDesc = "Trade with this settlement";
+                tradeGizmo.defaultLabel = "CommandTrade".Translate();
+                tradeGizmo.defaultDesc = "CommandTradeDesc".Translate();
                 tradeGizmo.icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/Trade", true);
                 tradeGizmo.action = delegate
                 {

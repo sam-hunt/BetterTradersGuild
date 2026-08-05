@@ -6,11 +6,9 @@ using Verse;
 
 namespace BetterTradersGuild.ScenParts
 {
-    /// <summary>
-    /// ScenPart that recolors starting pawns' shell and overhead apparel to a
-    /// specific color. Runs at pawn generation time so the color is visible on
-    /// the pawn selection/preview screen.
-    /// </summary>
+    // ScenPart that recolors starting pawns' shell and overhead apparel to a
+    // specific color. Runs at pawn generation time so the color is visible on
+    // the pawn selection/preview screen.
     public class ScenPart_StartingApparelColor : ScenPart
     {
         public Color color;

@@ -6,10 +6,8 @@ using Verse;
 
 namespace BetterTradersGuild.Patches.CaravanArrivalActions
 {
-    /// <summary>
-    /// Harmony patch: Ensures "Trade" option appears for friendly Traders Guild settlements
-    /// Postfix patches run AFTER CaravanArrivalAction_Trade.GetFloatMenuOptions generates options
-    /// </summary>
+    // Harmony patch: Ensures "Trade" option appears for friendly Traders Guild settlements
+    // Postfix patches run AFTER CaravanArrivalAction_Trade.GetFloatMenuOptions generates options
     [HarmonyPatch(typeof(CaravanArrivalAction_Trade), nameof(CaravanArrivalAction_Trade.GetFloatMenuOptions))]
     public static class CaravanArrivalActionTradeGetFloatMenuOptions
     {
