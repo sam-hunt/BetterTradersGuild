@@ -3,20 +3,33 @@
   Better Traders Guild - TradersGuild_Citizen Patches
 
   Fixes vacuum protection for adult citizens.
+
+  Field sets use remove-then-add pairs: the Remove (success Always) clears the node whether or
+  not vanilla defines it on the concrete def, so the Add can never create a duplicate node
+  (duplicates are error-logged then silently key-merged by XmlInheritance) and the patch keeps
+  working if a game update moves a field between the concrete def and its abstract parents.
 -->
 <Patch>
 
   <!-- Replace gear health: 0.2~2.0 → 1~1 (100% health) -->
-  <Operation Class="PatchOperationReplace">
+  <Operation Class="PatchOperationRemove">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]/gearHealthRange</xpath>
+    <success>Always</success>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]</xpath>
     <value>
       <gearHealthRange>1~1</gearHealthRange>
     </value>
   </Operation>
 
   <!-- Fix Citizen apparelRequired: Replace children's vacsuit with adult vacsuit -->
-  <Operation Class="PatchOperationReplace">
+  <Operation Class="PatchOperationRemove">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]/apparelRequired</xpath>
+    <success>Always</success>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]</xpath>
     <value>
       <apparelRequired Inherit="False">
         <li>Apparel_Vacsuit</li>
@@ -26,6 +39,10 @@
   </Operation>
 
   <!-- Biotech: Override xenotype chances (5% Hussar, 40% Genie, 30% Starjack, [10% Android]) -->
+  <Operation Class="PatchOperationRemove" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]/xenotypeSet</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Citizen"]</xpath>
     <value>

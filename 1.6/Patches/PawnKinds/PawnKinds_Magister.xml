@@ -8,10 +8,19 @@
   - 85% implant chance, up to 4 implants, 50% weapon biocoding
   - Excellent quality gear
   - Vacskin gland (Royalty) for 100% vacuum immunity
+
+  Field sets use remove-then-add pairs: the Remove (success Always) clears the node whether or
+  not vanilla defines it on the concrete def, so the Add can never create a duplicate node
+  (duplicates are error-logged then silently key-merged by XmlInheritance) and the patch keeps
+  working if a game update moves a field between the concrete def and its abstract parents.
 -->
 <Patch>
 
   <!-- Increase combat power: 130 → 200 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/combatPower</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -20,6 +29,10 @@
   </Operation>
 
   <!-- Add item quality: Excellent -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/itemQuality</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -28,6 +41,10 @@
   </Operation>
 
   <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelTags</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -39,6 +56,10 @@
   </Operation>
 
   <!-- Increase apparel budget: 2500~3500 → 8000~12000 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -47,6 +68,10 @@
   </Operation>
 
   <!-- Replace weapon tags: IndustrialGunAdvanced → SpacerGun + GunHeavy -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/weaponTags</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -61,6 +86,10 @@
        at ~1355 (charge lance), so with the floor above that every candidate is always affordable
        and the ceiling has no vanilla effect - it is headroom for modded weapons carrying these
        tags. Weapon quality is independent of this budget (itemQuality above governs it). -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/weaponMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -69,6 +98,10 @@
   </Operation>
 
   <!-- Override implant chance for Magister: 85% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/techHediffsChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -81,6 +114,10 @@
        subtracted from it first). That residual sits between vanilla's Cataphract and Stellarch
        tiers - elite, but not out-budgeting the Empire's own ruler. Without Royalty NOTHING is
        required (both required glands below are Royalty-gated), so the base pool IS the residual. -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/techHediffsMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -99,6 +136,10 @@
   </Operation>
 
   <!-- Add implant max amount: 4 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/techHediffsMaxAmount</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -107,6 +148,10 @@
   </Operation>
 
   <!-- Increase weapon biocoding: 30% → 50% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/biocodeWeaponChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -114,11 +159,18 @@
     </value>
   </Operation>
 
+  <!-- Clear apparelRequired: vanilla defines an empty Inherit="False" one on the concrete def,
+       so the conditional's Add below can never duplicate it. -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelRequired</xpath>
+    <success>Always</success>
+  </Operation>
+
   <!-- Upgrade Magister armor to Prestige Cataphract if Royalty, else PowerArmor -->
   <Operation Class="PatchOperationConditional">
     <xpath>/Defs/ThingDef[defName="Apparel_ArmorCataphractPrestige"]</xpath>
-    <match Class="PatchOperationReplace">
-      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelRequired</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
       <value>
         <apparelRequired Inherit="False">
           <li>Apparel_ArmorCataphractPrestige</li>
@@ -126,8 +178,8 @@
         </apparelRequired>
       </value>
     </match>
-    <nomatch Class="PatchOperationReplace">
-      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/apparelRequired</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
       <value>
         <apparelRequired Inherit="False">
           <li>Apparel_PowerArmor</li>
@@ -138,6 +190,10 @@
   </Operation>
 
   <!-- Biotech: Override xenotype chances (5% Hussar, 55% Genie, 30% Starjack, [10% Android]) -->
+  <Operation Class="PatchOperationRemove" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/xenotypeSet</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
@@ -159,6 +215,10 @@
        installs. Neurocalculator is plain Royalty content. Without Royalty the list is empty and
        the Magister falls back on marine armor's 97% vacuum resistance (see armor conditional
        above). -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/techHediffsRequired</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>

@@ -7,10 +7,19 @@
   - Cataphract armor (Royalty) or Power armor (fallback)
   - 65% implant chance, up to 4 implants, 50% weapon biocoding
   - Excellent quality gear, 90% combat drug usage
+
+  Field sets use remove-then-add pairs: the Remove (success Always) clears the node whether or
+  not vanilla defines it on the concrete def, so the Add can never create a duplicate node
+  (duplicates are error-logged then silently key-merged by XmlInheritance) and the patch keeps
+  working if a game update moves a field between the concrete def and its abstract parents.
 -->
 <Patch>
 
   <!-- Increase combat power: 130 → 180 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/combatPower</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -19,6 +28,10 @@
   </Operation>
 
   <!-- Add item quality: Excellent -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/itemQuality</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -27,6 +40,10 @@
   </Operation>
 
   <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/apparelTags</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -38,6 +55,10 @@
   </Operation>
 
   <!-- Increase apparel budget: 2500~3500 → 6000~9000 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/apparelMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -46,6 +67,10 @@
   </Operation>
 
   <!-- Replace weapon tags: IndustrialGunAdvanced → SpacerGun + GunHeavy -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/weaponTags</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -60,6 +85,10 @@
        at ~1355 (charge lance), so with the floor above that every candidate is always affordable
        and the ceiling has no vanilla effect - it is headroom for modded weapons carrying these
        tags. Weapon quality is independent of this budget (itemQuality above governs it). -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/weaponMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -68,6 +97,10 @@
   </Operation>
 
   <!-- Increase implant chance: 35% → 65% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/techHediffsChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -76,6 +109,10 @@
   </Operation>
 
   <!-- Increase implant budget: 1000~1200 → 2000~4000 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/techHediffsMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -84,6 +121,10 @@
   </Operation>
 
   <!-- Add implant max amount: 4 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/techHediffsMaxAmount</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
@@ -92,11 +133,23 @@
   </Operation>
 
   <!-- Increase weapon biocoding: 30% → 50% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/biocodeWeaponChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>
       <biocodeWeaponChance>0.50</biocodeWeaponChance>
     </value>
+  </Operation>
+
+  <!-- Clear any concrete-def apparelRequired node so the conditional's Add below can never
+       duplicate it (the inherited PowerArmor set on the abstract parent is unaffected by this
+       xpath). -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/apparelRequired</xpath>
+    <success>Always</success>
   </Operation>
 
   <!-- Upgrade Elite armor to Cataphract if Royalty, else keep PowerArmor -->
@@ -115,6 +168,10 @@
   </Operation>
 
   <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack, [10% Android]) -->
+  <Operation Class="PatchOperationRemove" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]/xenotypeSet</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Elite"]</xpath>
     <value>

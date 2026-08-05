@@ -7,10 +7,19 @@
   - Shield belt + Marine armor + Marine helmet (97% vacuum resistance)
   - 40% implant chance, 50% weapon biocoding
   - Good quality gear in better condition
+
+  Field sets use remove-then-add pairs: the Remove (success Always) clears the node whether or
+  not vanilla defines it on the concrete def, so the Add can never create a duplicate node
+  (duplicates are error-logged then silently key-merged by XmlInheritance) and the patch keeps
+  working if a game update moves a field between the concrete def and its abstract parents.
 -->
 <Patch>
 
   <!-- Increase combat power: 140 → 160 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/combatPower</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -19,6 +28,10 @@
   </Operation>
 
   <!-- Override gear health: inherit 0.7~3.2 from SlasherBase → 1~1 (100% health) -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/gearHealthRange</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -27,6 +40,10 @@
   </Operation>
 
   <!-- Add item quality: Good -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/itemQuality</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -35,6 +52,10 @@
   </Operation>
 
   <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelTags</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -46,6 +67,10 @@
   </Operation>
 
   <!-- Increase apparel budget: 300~1400 → 2000~3500 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -54,6 +79,10 @@
   </Operation>
 
   <!-- Replace weapon tags: remove MedievalMeleeDecent, keep only Advanced -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponTags</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -75,6 +104,10 @@
   </Operation>
 
   <!-- Increase weapon budget: 200~500 → 2500~3500 (for ultratech weapons) -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -83,6 +116,10 @@
   </Operation>
 
   <!-- Override apparelRequired: ShieldBelt + Marine armor + Marine helmet (97% vacuum resistance) -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelRequired</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -95,6 +132,10 @@
   </Operation>
 
   <!-- Increase implant chance: 15% → 40% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -103,6 +144,10 @@
   </Operation>
 
   <!-- Increase implant budget: 700~1200 → 1000~2000 -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsMoney</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -112,6 +157,10 @@
 
   <!-- Add implant max amount: 2 (default 1). The priciest single implant in the tag pool is
        ~1300, so without a second slot the budget above ~1300 is unspendable. -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsMaxAmount</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -120,6 +169,10 @@
   </Operation>
 
   <!-- Increase weapon biocoding: 20% → 80% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/biocodeWeaponChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -128,6 +181,10 @@
   </Operation>
 
   <!-- Add combat drugs chance: 35% -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/combatEnhancingDrugsChance</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
@@ -136,6 +193,10 @@
   </Operation>
 
   <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack, [10% Android]) -->
+  <Operation Class="PatchOperationRemove" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/xenotypeSet</xpath>
+    <success>Always</success>
+  </Operation>
   <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
     <value>
