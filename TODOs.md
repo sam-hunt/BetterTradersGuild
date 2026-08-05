@@ -1,21 +1,18 @@
 TODOs
 
-> **Infra modernization: complete 2026-08-03** (spec: `Docs/Specs/Infra-Modernization.md`;
-> sidecar generated and checked in). RCS1146 follow-up done 2026-08-04: sweep applied,
-> severity raised to `warning`, commit registered in .git-blame-ignore-revs, Unity
-> null-check footgun guarded via Microsoft.Unity.Analyzers (UNT0007/UNT0008).
-
 - AI defense lords
   - Mech AI
-    - Test agrihand decorative planting
     - Test paramedic feeding and multi-tend
+    - players can use hostile paramedic's abilities via gizmo
+    - Paramedic should tuck downed pawns into bed in the hospital if there are spare beds
+    - Lifters and fabricors should dormant recharge on room edge, similar to other mechs
   - Civilian AI
     - Test
   - Defender AI
     - If shuttle pad is free and at least one outer door hacked, reinforcements land in shuttle?
+    - Infant caretakers tuck infants into double beds after feeding rather than back into cribs they were taken from
 
 - VGE2 integration
-  - Smuggler nest elimination quest with degraded TG settlement mapgen
   - Investigate/Activate VGE Gauss cannon code/other VGE TG mechanics
   - Surface one-time mapgen options if VGE2 and BTG mapgen are both enabled:
     - Use BTG every time
