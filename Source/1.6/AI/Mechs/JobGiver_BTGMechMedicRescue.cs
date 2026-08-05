@@ -6,17 +6,20 @@ using Verse.AI;
 
 namespace BetterTradersGuild.AI.Mechs
 {
-    // Paramedic-mech rescue: fetches casualties from the rest of the settlement into
-    // the medbay. If a same-faction (Traders Guild) defender is downed and not already
-    // in a bed, lying OUTSIDE the medbay but still within the structure footprint
-    // (StructureBoundsCache), and an unreserved medical bed with a free slot exists in
-    // the medbay (MedicRoomBounds), the medic carries them to it (worst-bleed casualty
-    // first). When no in-medbay bed is free this returns null - the casualty waits.
+    // Paramedic-mech rescue: gets casualties into medbay beds. If a same-faction
+    // (Traders Guild) defender is downed and not already in a bed, lying anywhere
+    // within the structure footprint (StructureBoundsCache) - elsewhere in the base,
+    // or on the medbay floor itself (downed in place, or dropped by an interrupted
+    // carry) - and an unreserved medical bed with a free slot exists in the medbay
+    // (MedicRoomBounds), the medic carries them to it (worst-bleed casualty first).
+    // When no in-medbay bed is free this returns null - the casualty waits where
+    // they lie (the tend node above still treats anyone inside the medbay on the
+    // floor) and is promoted into a bed once one frees up.
     //
     // Sits below the tend node, so the medic clears every wounded defender already in
-    // the medbay before walking out to retrieve another. The medic's duty focus stays
-    // pinned to the medbay centre while it is out, so MedicRoomBounds still resolves
-    // its room (and the destination bed) correctly.
+    // the medbay before carrying anyone. The medic's duty focus stays pinned to the
+    // medbay centre while it is out, so MedicRoomBounds still resolves its room (and
+    // the destination bed) correctly.
     public class JobGiver_BTGMechMedicRescue : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)
@@ -25,7 +28,7 @@ namespace BetterTradersGuild.AI.Mechs
             if (rects == null)
                 return null;
 
-            Pawn patient = FindDownedNeedingBed(pawn, rects);
+            Pawn patient = FindDownedNeedingBed(pawn);
             if (patient == null)
                 return null;
 
@@ -41,7 +44,7 @@ namespace BetterTradersGuild.AI.Mechs
             return job;
         }
 
-        private static Pawn FindDownedNeedingBed(Pawn medic, List<CellRect> medbayRects)
+        private static Pawn FindDownedNeedingBed(Pawn medic)
         {
             Pawn best = null;
             float bestBleed = -1f;
@@ -60,11 +63,9 @@ namespace BetterTradersGuild.AI.Mechs
                     continue;
                 if (!p.Downed || p.InBed())
                     continue;
-                // Outside the medbay but still inside the settlement structure: the tend
-                // node already handles anyone downed within the medbay, so this node only
-                // fetches casualties lying elsewhere in the base.
-                if (MedicRoomBounds.Contains(medbayRects, p.Position))
-                    continue;
+                // Anywhere inside the settlement structure, including the medbay floor:
+                // a casualty tended where they fell still belongs in a bed, so floor
+                // patients are re-rescued (promoted) once a bed frees up.
                 if (!StructureBoundsCache.Contains(map, p.Position))
                     continue;
                 if (!medic.CanReserveAndReach(p, PathEndMode.Touch, Danger.Deadly))
