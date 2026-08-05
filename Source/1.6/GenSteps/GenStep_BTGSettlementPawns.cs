@@ -20,17 +20,29 @@ namespace BetterTradersGuild.MapGeneration
     // consumes Rand before GeneratePawns runs, so the generated pawns are identical
     // to what vanilla would produce for the same seed.
     //
-    // This GenStep only runs inside the BTG settlement pipeline
-    // (BTG_SettlementMapGenerator), so no TradersGuild-map guard is needed.
+    // This GenStep runs in two pipelines: the BTG settlement pipeline
+    // (BTG_SettlementMapGenerator) and, via a linkWithSite GenStepDef, on the
+    // smuggler's den quest site. Neither needs a TradersGuild-map guard.
     public class GenStep_BTGSettlementPawns : GenStep_SettlementPawnsLoot
     {
         public override void Generate(Map map, GenStepParams parms)
         {
+            // Quest sites deliver their difficulty budget here: a GenStepDef linked to
+            // a SitePartDef (linkWithSite) receives that part in parms, carrying the
+            // threatPoints the quest computed. Steps listed in a MapGeneratorDef's own
+            // genSteps always get a null sitePart, so this stays null for settlements
+            // and the flat vanilla points roll applies as before.
+            float? sitePoints = parms.sitePart?.parms?.threatPoints;
+            if (sitePoints.HasValue && sitePoints.Value <= 0f)
+                sitePoints = null;
+
             // Opt-out: when entrenched defenders are disabled, defer entirely to
             // vanilla GenStep_SettlementPawnsLoot, which attaches the garrison to
             // LordJob_DefendBase. base.Generate IS the vanilla path this override
             // otherwise mirrors, so pawn/loot output is byte-for-byte identical.
-            if (!BetterTradersGuildMod.Settings.useEntrenchedDefenders)
+            // Quest sites can't take this path (vanilla would drop sitePoints); they
+            // keep the local body and only swap the lord back to LordJob_DefendBase.
+            if (!BetterTradersGuildMod.Settings.useEntrenchedDefenders && !sitePoints.HasValue)
             {
                 base.Generate(map, parms);
                 return;
@@ -49,8 +61,12 @@ namespace BetterTradersGuild.MapGeneration
                 // The bounded defender lord: never assaults, never paths outside the
                 // structure footprint to chase intruders. Routed through the shared
                 // factory so this and the gestator-reinforcement site can't drift.
-                Lord lord = LordMaker.MakeNewLord(faction, DefenderLords.MakeDefenderLordJob(faction, spawnRect.CenterCell), map);
-                MapGenUtility.GeneratePawns(map, spawnRect, faction, lord, PawnGroupKindDefOf.Settlement, requiresRoof: requiresRoof);
+                // With entrenched defenders off, mirror vanilla's lord exactly.
+                LordJob lordJob = BetterTradersGuildMod.Settings.useEntrenchedDefenders
+                    ? DefenderLords.MakeDefenderLordJob(faction, spawnRect.CenterCell)
+                    : new LordJob_DefendBase(faction, spawnRect.CenterCell, 25000);
+                Lord lord = LordMaker.MakeNewLord(faction, lordJob, map);
+                MapGenUtility.GeneratePawns(map, spawnRect, faction, lord, PawnGroupKindDefOf.Settlement, points: sitePoints, requiresRoof: requiresRoof);
             }
 
             // Mirror vanilla loot gating: a zero-width lootMarketValue (the BTG default)

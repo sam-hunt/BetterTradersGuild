@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.BaseGen;
-using RimWorld.Planet;
 using Verse;
 
 namespace BetterTradersGuild.MapGeneration
@@ -68,9 +67,10 @@ namespace BetterTradersGuild.MapGeneration
             if (faction == null)
                 return;
 
-            // Real threat points from the world (falls back to the site's own value if this
-            // is ever generated as a quest site). NOT DefaultThreatPointsNow(map) - see the
-            // class comment for why the map's value is zero at generation time.
+            // Threat points: the quest-computed site budget when running as a
+            // linkWithSite quest-site step (smuggler's den), otherwise the world's real
+            // points. NOT DefaultThreatPointsNow(map) - see the class comment for why
+            // the map's value is zero at generation time.
             float actualPoints = parms.sitePart?.parms?.threatPoints
                 ?? StorytellerUtility.DefaultThreatPointsNow(Find.World);
             float minimumPoints = BetterTradersGuildMod.Settings.minimumThreatPoints;

@@ -43,6 +43,11 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     // PawnGroupMakerUtility.GeneratePawns with the Settlement group kind, so scaling applies
     // regardless of the entrenched-defenders setting. Only applies when custom layouts are
     // enabled (to match their increased loot value).
+    //
+    // The smuggler's den garrison (Salvagers faction) is deliberately outside the faction
+    // gate below: its budget is quest-driven via SitePartParams.threatPoints (wealth curve
+    // in Script_BTG_SmugglersDen), delivered through the linkWithSite GenStepDefs, so the
+    // settlement-defender settings here never touch it.
     [HarmonyPatch(typeof(PawnGroupMakerUtility))]
     [HarmonyPatch("GeneratePawns")]
     public static class PawnGroupMakerUtilityMinimumPoints

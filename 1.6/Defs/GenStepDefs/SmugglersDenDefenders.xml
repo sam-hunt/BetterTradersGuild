@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Smuggler's Den defender GenSteps
+
+    Same workers and parameters as the settlement pipeline's BTG_SettlementPawnsLoot
+    and BTG_SpawnSentryDrones, but linked to the BTG_SmugglersDen SitePartDef via
+    linkWithSite instead of being listed in the MapGeneratorDef. That linkage is the
+    only channel through which vanilla populates GenStepParams.sitePart - and with it
+    the quest-computed SitePartParams.threatPoints that size the den's garrison and
+    sentry drone count. Steps listed in a MapGeneratorDef's own genSteps always run
+    with a null sitePart, which would silently fall back to the flat vanilla points
+    roll (the bug this wiring fixes).
+
+    Ordering is unaffected: linked steps merge with the map generator's list and sort
+    by order, so these still run after BTG_GenerateQuestVaultStock (698).
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SmugglersDenPawnsLoot</defName>
+    <linkWithSite>BTG_SmugglersDen</linkWithSite>
+    <order>700</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_BTGSettlementPawns">
+      <!-- Zero range disables loot generation while keeping pawn spawning -->
+      <lootMarketValue>0~0</lootMarketValue>
+      <requiresRoof>true</requiresRoof>
+    </genStep>
+  </GenStepDef>
+
+  <GenStepDef>
+    <defName>BTG_SmugglersDenSentryDrones</defName>
+    <linkWithSite>BTG_SmugglersDen</linkWithSite>
+    <order>705</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnSentryDrones" />
+  </GenStepDef>
+</Defs>

@@ -7,7 +7,9 @@
     Reuses most GenSteps from BTG_SettlementMapGenerator with these differences:
     - BTG_SmugglersDenPlatform: Forked layout (no nursery/classroom, required armory)
     - BTG_GenerateQuestVaultStock: Pre-populates vault stock from quest reward choice
-    - Reuses BTG_SettlementPawnsLoot and BTG_SpawnSentryDrones as-is
+    - Defenders (pawns + sentry drones) are NOT listed here: they run via the
+      linkWithSite GenStepDefs in GenStepDefs/SmugglersDenDefenders.xml so they
+      receive GenStepParams.sitePart and its quest-computed threatPoints
   -->
 
   <MapGeneratorDef ParentName="SpaceMapGenerator">
@@ -30,9 +32,8 @@
       <!-- Pre-populate vault stock from quest reward choice -->
       <li>BTG_GenerateQuestVaultStock</li>   <!-- order 698 -->
 
-      <!-- Spawn defenders -->
-      <li>BTG_SettlementPawnsLoot</li>       <!-- order 700 -->
-      <li>BTG_SpawnSentryDrones</li>         <!-- order 705 -->
+      <!-- Defenders spawn via linkWithSite GenStepDefs (orders 700/705), not here:
+           see GenStepDefs/SmugglersDenDefenders.xml -->
     </genSteps>
 
   </MapGeneratorDef>
