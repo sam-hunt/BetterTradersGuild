@@ -311,6 +311,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
             Thing crib = ThingMaker.MakeThing(Things.Crib, Things.Steel);
             GenSpawn.Spawn(crib, pos, map, rot);
+            // The crib must carry the faction: RestUtility.IsValidBedFor rejects beds whose
+            // faction differs from the traveler's, so a factionless crib is invisible to
+            // FindBedFor and caretakers tuck the baby into the nearest faction-owned adult
+            // bed instead (same fix as SubroomPrefabSpawner.SpawnWithFactionBeds).
+            if (faction != null)
+                crib.SetFaction(faction);
 
             // Spawn newborn in crib
             if (crib is Building_Bed bed)

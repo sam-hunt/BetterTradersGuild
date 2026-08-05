@@ -38,8 +38,11 @@ namespace BetterTradersGuild.AI.Civilians
                 if (!ChildcareUtility.CanHaulBabyNow(pawn, baby, ignoreOtherReservations: false, out _))
                     continue;
                 // Only tuck when an actual crib is free; otherwise don't haul it nowhere useful.
+                // ForHumanBabies is required because vanilla FindBedFor falls back to adult
+                // beds when no crib is valid - without it the giver would happily tuck the
+                // baby into a nearby double bed.
                 LocalTargetInfo safe = ChildcareUtility.SafePlaceForBaby(baby, pawn);
-                if (!safe.HasThing || !(safe.Thing is Building_Bed))
+                if (!safe.HasThing || !(safe.Thing is Building_Bed bed) || !bed.ForHumanBabies)
                     continue;
 
                 float distSq = (pawn.Position - baby.Position).LengthHorizontalSquared;
