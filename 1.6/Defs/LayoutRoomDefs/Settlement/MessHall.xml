@@ -32,21 +32,21 @@
     </wallAttachments>
 
     <prefabs>
-      <!-- Kitchen area -->
-      <Subroom_ElectricStove>
-        <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
-      </Subroom_ElectricStove>
-
       <!-- VNPE nutrient paste tap for dispensing meals -->
       <BTG_NutrientPasteTap_Edge MayRequire="VanillaExpanded.VNutrientE">
         <countRange>1~1</countRange>
       </BTG_NutrientPasteTap_Edge>
 
+      <!-- Kitchen area -->
+      <Subroom_ElectricStove>
+        <countPerTenEdgeCells>1</countPerTenEdgeCells>
+        <minMaxRange>1~1</minMaxRange>
+      </Subroom_ElectricStove>
+
       <!-- VFE Production kitchen sink cabinet (stove linkable) -->
       <BTG_KitchenSinkCabinet_Edge MayRequire="VanillaExpanded.VFEProduction">
         <countPerTenEdgeCells>1</countPerTenEdgeCells>
-        <minMaxRange>1~2</minMaxRange>
+        <minMaxRange>0~2</minMaxRange>
       </BTG_KitchenSinkCabinet_Edge>
 
       <!-- Dining tables -->
@@ -56,7 +56,7 @@
 
       <!-- Food storage -->
       <BTG_SteelShelf_Edge>
-        <countRange>2~6</countRange>
+        <countRange>2~4</countRange>
       </BTG_SteelShelf_Edge>
 
       <!-- Decoration -->

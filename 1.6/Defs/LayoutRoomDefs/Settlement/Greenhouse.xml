@@ -79,12 +79,6 @@
         <countPerHundredCells>1</countPerHundredCells>
         <minMaxRange>0~1</minMaxRange>
       </WoodenCratesWithSomeLoot>
-
-      <!-- Packaged survival meals for food storage -->
-      <SurvivalMealPallet>
-        <countPerHundredCells>1</countPerHundredCells>
-        <countRange>0~1</countRange>
-      </SurvivalMealPallet>
     </prefabs>
 
     <parts>
