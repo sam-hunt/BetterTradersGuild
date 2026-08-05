@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild.Helpers
@@ -59,6 +60,36 @@ namespace BetterTradersGuild.Helpers
             }
 
             return false;
+        }
+
+        // Finds the paintable structure ColorDef nearest to the given color (squared RGB
+        // distance). Lets generated furniture match a faction's color even when no ColorDef
+        // exists for it exactly - e.g. Salvagers (0.75, 0.5, 0.5) resolves to the vanilla
+        // Structure_RedPastel, while TradersGuild resolves to its exact match BTG_Rust.
+        // Returns null if no Structure ColorDefs are loaded.
+        public static ColorDef NearestStructureColor(Color color)
+        {
+            ColorDef best = null;
+            float bestDistance = float.MaxValue;
+
+            foreach (ColorDef def in DefDatabase<ColorDef>.AllDefsListForReading)
+            {
+                if (def.colorType != ColorType.Structure)
+                    continue;
+
+                Color c = def.color;
+                float distance = ((c.r - color.r) * (c.r - color.r))
+                    + ((c.g - color.g) * (c.g - color.g))
+                    + ((c.b - color.b) * (c.b - color.b));
+
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    best = def;
+                }
+            }
+
+            return best;
         }
     }
 }

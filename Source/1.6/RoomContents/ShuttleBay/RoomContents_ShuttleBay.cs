@@ -74,8 +74,8 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3. Spawn landing pad prefab using PrefabUtility API
                 SpawnLandingPadPrefab(map, placement);
 
-                // 3b. Paint the PassengerShuttle with BTG_Rust
-                PaintShuttleInLandingPad(map);
+                // 3b. Paint the PassengerShuttle to match the owning faction's color
+                PaintShuttleInLandingPad(map, faction);
 
                 // 3c. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
                 // Landing pad is placed in the first rect, so use that for edge connection
@@ -169,12 +169,16 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }
 
-        // Paints the shuttle in the landing pad area with BTG_Rust.
+        // Paints the shuttle in the landing pad area to match the owning faction's color:
+        // the nearest paintable structure ColorDef to faction.Color (exact BTG_Rust for
+        // TradersGuild, Structure_RedPastel for the smugglers den's Salvagers). Skips
+        // painting on faction-less maps, leaving the vanilla shuttle look.
         // Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
         // Called immediately after prefab spawn so the shuttle exists on the map.
-        private void PaintShuttleInLandingPad(Map map)
+        private void PaintShuttleInLandingPad(Map map, Faction faction)
         {
             if (this.landingPadRect.Width == 0) return;
+            if (faction == null) return;
 
             // Find the shuttle in the landing pad area (PassengerShuttle or OrcaShuttle)
             var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
@@ -184,8 +188,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
 
             if (shuttle == null) return;
 
-            // Paint with BTG_Rust (matches TradersGuild faction color)
-            PaintableFurnitureHelper.TryPaint(shuttle, Colors.BTG_Rust);
+            PaintableFurnitureHelper.TryPaint(shuttle, PaintableFurnitureHelper.NearestStructureColor(faction.Color));
         }
 
         // Connects the shuttle in the landing pad area to the room edge via chemfuel pipes.
