@@ -4,12 +4,21 @@ using Verse;
 
 namespace BetterTradersGuild.MapGeneration
 {
-    // GenStep that spawns patrolling sentry drones in TradersGuild settlements.
+    // GenStep that spawns patrolling sentry drones on BTG maps (TradersGuild
+    // settlements and the smuggler's den quest site).
     //
     // No XML parameters - reads configuration from ModSettings:
-    // - useCustomLayouts: Master toggle for BTG settlement features
     // - sentryDronePresence: Scale factor (0-200%) for drone count
-    // - minimumThreatPoints: Minimum threat points for difficulty scaling
+    // - minimumThreatPoints: Floors the points the count curve is evaluated at
+    //
+    // There is deliberately no useCustomLayouts check here: on settlements this
+    // GenStep only runs inside the BTG pipeline (itself gated on useCustomLayouts),
+    // and on the den quest site the drones should spawn regardless of that setting.
+    //
+    // Vanilla baseline is ZERO drones on settlements: GenStep_OrbitalPlatform's
+    // spawnSentryDrones flag defaults off and vanilla only enables it on quest-site
+    // gensteps, so everything this GenStep spawns is a BTG addition (hence
+    // "Additional sentry drone presence" / "0% = vanilla" in the settings UI).
     //
     // Example usage in GenStepDef:
     // <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnSentryDrones" />

@@ -5,9 +5,10 @@
 
     Spawns patrolling sentry drones in TradersGuild settlements.
     No XML parameters - reads configuration from ModSettings:
-    - useCustomLayouts: Master toggle for BTG settlement features
     - sentryDronePresence: Scale factor (0-200%) for drone count
-    - minimumThreatPoints: Minimum threat points for difficulty scaling
+    - minimumThreatPoints: Floors the points the count curve is evaluated at
+    (No useCustomLayouts gate: the settlement pipeline referencing this def is
+    itself gated on that setting; the den's linkWithSite twin runs regardless.)
 
     SENTRY DRONE BEHAVIOR:
     - Patrol Mode: Wander around the map using JobGiver_SentryPatrol

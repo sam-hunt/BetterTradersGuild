@@ -34,7 +34,9 @@ namespace BetterTradersGuild
         // useCustomLayouts.
         public float threatPointsMultiplier = 1.0f;
 
-        // Minimum threat points for initial defender generation.
+        // Minimum threat points for initial defender generation. Also floors the
+        // threat level GenStep_SpawnSentryDrones sizes the drone patrol from, so the
+        // whole settlement acts at least this dangerous.
         // Range: 0-5000. 0 = vanilla (no floor). Default: 0. BTG Recommended: 2400
         // (ensures elite pawn types can spawn at low wealth). Requires
         // useCustomLayouts.

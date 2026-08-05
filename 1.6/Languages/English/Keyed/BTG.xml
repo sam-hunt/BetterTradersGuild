@@ -60,7 +60,7 @@
   <BTG_Settings_ThreatMultiplierDesc>Higher values = more/stronger initial defenders when entering settlements.</BTG_Settings_ThreatMultiplierDesc>
   <!-- {0} = points -->
   <BTG_Settings_MinThreatPoints>Minimum defender threat points: {0}</BTG_Settings_MinThreatPoints>
-  <BTG_Settings_MinThreatPointsDesc>Prevents initial defender strength from scaling below this value at low wealth.</BTG_Settings_MinThreatPointsDesc>
+  <BTG_Settings_MinThreatPointsDesc>Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- {0} = watts -->
