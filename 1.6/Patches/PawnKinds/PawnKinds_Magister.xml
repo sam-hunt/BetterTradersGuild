@@ -76,17 +76,18 @@
   <!-- Implant budget, sized so the budget LEFT for random implants after the required ones are
        installed lands around 1500~2500 (techHediffsMoney is the total pool; required implants are
        subtracted from it first). That residual sits between vanilla's Cataphract and Stellarch
-       tiers - elite, but not out-budgeting the Empire's own ruler. The base value below assumes
-       only VacskinGland (~1200, Odyssey) is required. -->
+       tiers - elite, but not out-budgeting the Empire's own ruler. Without Royalty NOTHING is
+       required (both required glands below are Royalty-gated), so the base pool IS the residual. -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
-      <techHediffsMoney>2700~3700</techHediffsMoney>
+      <techHediffsMoney>1500~2500</techHediffsMoney>
     </value>
   </Operation>
 
-  <!-- With Royalty, Neurocalculator (~1000) is also required, so raise the pool by that much to
-       keep the same ~1500~2500 residual. (Replace runs after the Add above, so the node exists.) -->
+  <!-- With Royalty, VacskinGland (~1230) and Neurocalculator (~1030) are required, so raise the
+       pool by that much to keep the same ~1500~2500 residual. (Replace runs after the Add above,
+       so the node exists.) -->
   <Operation Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]/techHediffsMoney</xpath>
     <value>
@@ -148,16 +149,18 @@
     </value>
   </Operation>
 
-  <!-- Required implants. Gate each by its OWN source DLC: VacskinGland is from Odyssey (a hard
-       dependency, so always present and ungated) and gives 100% vacuum immunity; Neurocalculator
-       is from Royalty and is added only when that DLC is present. Gating per-li this way means an
-       Odyssey-only player still gets vacuum immunity, and a li can never reference a missing def
-       (which would null the list and throw during leader/pawn generation). -->
+  <!-- Required implants, each gated by the DLC that actually defines it. VacskinGland (100%
+       vacuum immunity) SHIPS in Odyssey's files but its def is itself
+       MayRequire="Ludeon.RimWorld.Royalty" (its parent def lives in Royalty), so it only exists
+       when Royalty is present - an ungated li here logs a cross-reference error on Royalty-less
+       installs. Neurocalculator is plain Royalty content. Without Royalty the list is empty and
+       the Magister falls back on marine armor's 97% vacuum resistance (see armor conditional
+       above). -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
       <techHediffsRequired>
-        <li>VacskinGland</li>
+        <li MayRequire="Ludeon.RimWorld.Royalty">VacskinGland</li>
         <li MayRequire="Ludeon.RimWorld.Royalty">Neurocalculator</li>
       </techHediffsRequired>
     </value>

@@ -112,9 +112,12 @@
     </value>
   </Operation>
 
-  <!-- Biotech: Override xenotype chances (30% Hussar, 10% Genie, 30% Starjack, [10% Android]) -->
-  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Heavy"]</xpath>
+  <!-- Biotech: Override xenotype chances (30% Hussar, 10% Genie, 30% Starjack, [10% Android]).
+       Replace, not Add: unlike the other TG kinds, vanilla defines xenotypeSet directly on the
+       concrete TradersGuild_Heavy def (Hussar 0.6), so adding a second node triggers RimWorld's
+       "defines the same field twice" load error. -->
+  <Operation Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Biotech">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Heavy"]/xenotypeSet</xpath>
     <value>
       <xenotypeSet>
         <xenotypeChances>
