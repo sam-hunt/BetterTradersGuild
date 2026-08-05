@@ -5,10 +5,10 @@
   Overrides selection weights for TradersGuild settlements.
 
   This is largely for semantic correctness though: weights determine selection probability;
-  however combatPower determines point cost per pawn, and PawnGroupMakerUtilityMinimumPoints.cs
-  sets a lower bound for points on our defence force. This results in a skew towards higher
-  combatPower pawnkinds which we balance by spawning sheltering civilians separately in some
-  rooms.
+  however combatPower determines point cost per pawn, and GenStep_BTGSettlementPawns' minimum
+  threat points setting sets a lower bound for points on our defence force. This results in a
+  skew towards higher combatPower pawnkinds which we balance by spawning sheltering civilians
+  separately in some rooms.
 -->
 <Patch>
 
