@@ -10,11 +10,13 @@
 -->
 <Patch>
 
-  <!-- Increase combat power: 85 → 110 -->
+  <!-- Increase combat power: 85 → 130. Anchor: vanilla Salvager_Elite costs 130 for the same
+       required marine armor with weaker weapons and quality, so anything below that underprices
+       this loadout. -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
     <value>
-      <combatPower>110</combatPower>
+      <combatPower>130</combatPower>
     </value>
   </Operation>
 
@@ -63,11 +65,13 @@
     </value>
   </Operation>
 
-  <!-- Increase weapon budget: 330~650 → 1010~1500 (SpacerGun minimum is 1010) -->
+  <!-- Increase weapon budget: 330~650 → 1100~1500. The cheapest SpacerGun weapon (charge rifle)
+       is exactly 1010; a pawn whose roll lands below every candidate spawns UNARMED, so the floor
+       keeps a margin above 1010 rather than sitting exactly on it. -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
     <value>
-      <weaponMoney>1010~1500</weaponMoney>
+      <weaponMoney>1100~1500</weaponMoney>
     </value>
   </Operation>
 
@@ -95,6 +99,15 @@
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
     <value>
       <techHediffsMoney>1000~2000</techHediffsMoney>
+    </value>
+  </Operation>
+
+  <!-- Add implant max amount: 2 (default 1). The priciest single implant in the tag pool is
+       ~1300, so without a second slot the budget above ~1300 is unspendable. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Gunner"]</xpath>
+    <value>
+      <techHediffsMaxAmount>2</techHediffsMaxAmount>
     </value>
   </Operation>
 

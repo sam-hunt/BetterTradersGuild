@@ -110,6 +110,15 @@
     </value>
   </Operation>
 
+  <!-- Add implant max amount: 2 (default 1). The priciest single implant in the tag pool is
+       ~1300, so without a second slot the budget above ~1300 is unspendable. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+    <value>
+      <techHediffsMaxAmount>2</techHediffsMaxAmount>
+    </value>
+  </Operation>
+
   <!-- Increase weapon biocoding: 20% → 80% -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>

@@ -57,7 +57,10 @@
     </value>
   </Operation>
 
-  <!-- Increase weapon budget: 500~1400 → 2000~4000 -->
+  <!-- Increase weapon budget: 500~1400 → 2000~4000. The vanilla SpacerGun+GunHeavy pool tops out
+       at ~1355 (charge lance), so with the floor above that every candidate is always affordable
+       and the ceiling has no vanilla effect - it is headroom for modded weapons carrying these
+       tags. Weapon quality is independent of this budget (itemQuality above governs it). -->
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/PawnKindDef[defName="TradersGuild_Magister"]</xpath>
     <value>
