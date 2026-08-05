@@ -6,7 +6,10 @@
 
     <rootSelectionWeight>1</rootSelectionWeight>
     <rootMinProgressScore>0</rootMinProgressScore>
-    <defaultChallengeRating>2</defaultChallengeRating>
+    <!-- Stars are pure UI (quest log display) - vanilla never feeds challengeRating
+         back into points. The siteThreatPoints curve below is what actually delivers
+         the advertised difficulty, so the two must be kept in tune together. -->
+    <defaultChallengeRating>3</defaultChallengeRating>
     <expireDaysRange>8~15</expireDaysRange>
     <everAcceptableInSpace>true</everAcceptableInSpace>
 
@@ -45,7 +48,11 @@
           <storeFactionLeaderAs>asker</storeFactionLeaderAs>
         </li>
 
-        <!-- Threat/reward scaling -->
+        <!-- Threat scaling: wealth -> site threat points, delivered to the garrison
+             and sentry drones through SitePartParams.threatPoints (see
+             GenStepDefs/SmugglersDenDefenders.xml). Tuned for the 3-star rating:
+             vanilla's Util_RandomizePointsChallengeRating prices 3 stars at ~1.5x
+             the 2-star budget, so this is the old 2-star curve scaled by 1.5. -->
         <li Class="QuestNode_GetMapWealth">
           <map>$map</map>
           <storeAs>mapWealth</storeAs>
@@ -55,9 +62,9 @@
           <storeAs>siteThreatPoints</storeAs>
           <curve>
             <points>
-              <li>0, 800</li>
-              <li>100000, 1600</li>
-              <li>300000, 3200</li>
+              <li>0, 1200</li>
+              <li>100000, 2400</li>
+              <li>300000, 4800</li>
             </points>
           </curve>
         </li>
