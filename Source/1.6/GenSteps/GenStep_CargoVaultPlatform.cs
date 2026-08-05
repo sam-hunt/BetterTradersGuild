@@ -95,12 +95,11 @@ namespace BetterTradersGuild.MapGeneration
             // Store sketch for later reference (used by various systems)
             map.layoutStructureSketches.Add(sketch);
 
-            // Get threat points from site part if available (for scaling threats)
+            // No threat points budget: this GenStep runs from the pocket map's own
+            // MapGeneratorDef, so parms.sitePart is always null (only linkWithSite
+            // GenStepDefs on a SitePartDef ever receive one), and the vault's fixed
+            // defenses below (turret arrays, corner cannons) don't scale anyway.
             float? threatPoints = null;
-            if (parms.sitePart?.parms != null)
-            {
-                threatPoints = parms.sitePart.parms.points;
-            }
 
             // The vault's defenses belong to whoever owns the settlement/site the vault
             // hatch sits on (the pocket map's source map): TradersGuild at guild
