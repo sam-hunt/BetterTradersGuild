@@ -13,7 +13,6 @@ TODOs
     - Infant caretakers tuck infants into double beds after feeding rather than back into cribs they were taken from
 
 - Smuggler's Den
-  - Den garrison misses the threat-points settings: PawnGroupMakerUtilityMinimumPoints gates on the TradersGuild faction, so the den's Salvager garrison always gets the flat vanilla 1150-1600 roll (no scaling/multiplier/floor). PawnGroupMakerParms has no map, so scoping needs another route - or the quest should drive den difficulty via site threat points instead
   - Resupply flavor mismatch: starving den defenders can call "guild network" resupply because AnyOtherTradersGuildSettlement finds any TG settlement in the world. Mechanically fine (drop/raid use the pawn's own faction), but decide whether Salvager defenders should resupply at all and what their "network" gate should be
 
 - VGE2 integration
