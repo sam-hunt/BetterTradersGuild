@@ -102,8 +102,17 @@ namespace BetterTradersGuild.MapGeneration
                 threatPoints = parms.sitePart.parms.points;
             }
 
-            // Get the faction for ownership
-            Faction tradersGuild = Find.FactionManager.FirstFactionOfDef(Factions.TradersGuild);
+            // The vault's defenses belong to whoever owns the settlement/site the vault
+            // hatch sits on (the pocket map's source map): TradersGuild at guild
+            // settlements, Salvagers at the smugglers den - a TG-owned den vault would
+            // leave its turrets neutral to the player mid-quest. Fall back to
+            // TradersGuild when the owner can't be resolved (e.g. vault opened after
+            // the settlement was defeated and the source map reparented).
+            Faction owner = null;
+            if (map.Parent is PocketMapParent pocket)
+                owner = TradersGuildHelper.GetBTGMapFaction(pocket.sourceMap);
+            if (owner == null)
+                owner = Find.FactionManager.FirstFactionOfDef(Factions.TradersGuild);
 
             // Spawn the structure on the map
             // The sketch uses coordinates from (0,0) to (size-1, size-1)
@@ -118,14 +127,14 @@ namespace BetterTradersGuild.MapGeneration
                 spawnedThings,
                 false,  // clearRooms - don't clear existing things
                 false,  // unfog - FogSpace GenStep will handle this
-                tradersGuild
+                owner
             );
 
             // Spawn sniper turret arrays on external platforms connected by bridges
-            SpawnTurretArrays(map, vaultRect, tradersGuild);
+            SpawnTurretArrays(map, vaultRect, owner);
 
             // Spawn Gauss cannons at vault corners
-            SpawnCornerCannons(map, vaultRect, tradersGuild);
+            SpawnCornerCannons(map, vaultRect, owner);
 
             // Set player start spot in the center of the vault
             MapGenerator.PlayerStartSpot = vaultRect.CenterCell;
