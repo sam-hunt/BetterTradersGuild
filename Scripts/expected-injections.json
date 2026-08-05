@@ -142,6 +142,10 @@
       "BTG_SettlementMapGenerator.label": {
         "english": "settlement platform",
         "required": true
+      },
+      "BTG_SmugglersDenMapGenerator.label": {
+        "english": "smuggler's den platform",
+        "required": true
       }
     },
     "PawnKindDef": {
@@ -154,6 +158,117 @@
       }
     },
     "QuestScriptDef": {
+      "BTG_SmugglersDen.questDescriptionRules.rulesStrings": {
+        "english": [
+          "questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal."
+        ],
+        "isCollection": true,
+        "fullListAllowed": true,
+        "required": true
+      },
+      "BTG_SmugglersDen.questNameRules.rulesStrings": {
+        "english": [
+          "questName->Smuggler's Den Near [settlement_label]",
+          "questName->Orbital Pirate Haven",
+          "questName->Salvager Outpost Near [settlement_label]",
+          "questName->Black Market Station"
+        ],
+        "isCollection": true,
+        "fullListAllowed": true,
+        "required": true
+      },
+      "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_CreateSite.nearSettlement.slateRef": {
+        "english": "$settlement",
+        "normalized": "BTG_SmugglersDen.root.nodes.5.nearSettlement.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.faction.slateRef": {
+        "english": "$faction",
+        "normalized": "BTG_SmugglersDen.root.nodes.6.faction.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.site.slateRef": {
+        "english": "$site",
+        "normalized": "BTG_SmugglersDen.root.nodes.6.site.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.traderTypeCount.slateRef": {
+        "english": "2",
+        "normalized": "BTG_SmugglersDen.root.nodes.6.traderTypeCount.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Delay.delayTicks.slateRef": {
+        "english": "$(randInt(8,15)*60000)",
+        "normalized": "BTG_SmugglersDen.root.nodes.9.delayTicks.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Delay.isQuestTimeout.slateRef": {
+        "english": "true",
+        "normalized": "BTG_SmugglersDen.root.nodes.9.isQuestTimeout.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.End-0.outcome.slateRef": {
+        "english": "Fail",
+        "normalized": "BTG_SmugglersDen.root.nodes.8.outcome.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.End-1.outcome.slateRef": {
+        "english": "Success",
+        "normalized": "BTG_SmugglersDen.root.nodes.10.outcome.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.End-1.sendStandardLetter.slateRef": {
+        "english": "true",
+        "normalized": "BTG_SmugglersDen.root.nodes.10.sendStandardLetter.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.End-2.outcome.slateRef": {
+        "english": "Fail",
+        "normalized": "BTG_SmugglersDen.root.nodes.12.outcome.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.End-3.outcome.slateRef": {
+        "english": "Fail",
+        "normalized": "BTG_SmugglersDen.root.nodes.13.outcome.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.EvaluateSimpleCurve.curve.slateRef": {
+        "english": "<points><li>0, 800</li><li>100000, 1600</li><li>300000, 3200</li></points>",
+        "normalized": "BTG_SmugglersDen.root.nodes.4.curve.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.EvaluateSimpleCurve.value.slateRef": {
+        "english": "$mapWealth",
+        "normalized": "BTG_SmugglersDen.root.nodes.4.value.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.GetMap.canBeSpace.slateRef": {
+        "english": "true",
+        "normalized": "BTG_SmugglersDen.root.nodes.1.canBeSpace.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.GetMapWealth.map.slateRef": {
+        "english": "$map",
+        "normalized": "BTG_SmugglersDen.root.nodes.3.map.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.GetNearestTGSettlement.allowActiveTradeRequest.slateRef": {
+        "english": "False",
+        "normalized": "BTG_SmugglersDen.root.nodes.2.allowActiveTradeRequest.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.GetNearestTGSettlement.maxTileDistance.slateRef": {
+        "english": "64",
+        "normalized": "BTG_SmugglersDen.root.nodes.2.maxTileDistance.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef": {
+        "english": "Quest failed: [resolvedQuestName]",
+        "required": true,
+        "normalized": "BTG_SmugglersDen.root.nodes.7.label.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef": {
+        "english": "[faction_name] became hostile to you.",
+        "required": true,
+        "normalized": "BTG_SmugglersDen.root.nodes.7.text.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef": {
+        "english": "Quest failed: [resolvedQuestName]",
+        "required": true,
+        "normalized": "BTG_SmugglersDen.root.nodes.11.label.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef": {
+        "english": "Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended.",
+        "required": true,
+        "normalized": "BTG_SmugglersDen.root.nodes.11.text.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.RequirementsToAcceptResearch.reserach.slateRef": {
+        "english": "AdvancedGravtech",
+        "normalized": "BTG_SmugglersDen.root.nodes.0.reserach.slateRef"
+      },
       "BTG_TradeRequest.questDescriptionRules.rulesStrings": {
         "english": [
           "questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:\n\n [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])\n\nIf you want to make the trade, send a shuttle with the requested items.",
@@ -396,6 +511,24 @@
         "english": "Surface"
       }
     },
+    "SitePartDef": {
+      "BTG_SmugglersDen.approachOrderString": {
+        "english": "Attack {0}",
+        "required": true
+      },
+      "BTG_SmugglersDen.approachingReportString": {
+        "english": "Attacking {0}.",
+        "required": true
+      },
+      "BTG_SmugglersDen.description": {
+        "english": "An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.\n\nThese platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer.",
+        "required": true
+      },
+      "BTG_SmugglersDen.label": {
+        "english": "smuggler's den",
+        "required": true
+      }
+    },
     "ThingDef": {
       "BTG_CargoVaultExit.description": {
         "english": "A secure ladder and hatch providing access back to the station's shuttle bay above.",
@@ -460,6 +593,12 @@
           "fine"
         ],
         "isCollection": true,
+        "required": true
+      }
+    },
+    "WorldObjectDef": {
+      "BTG_SmugglersDenSite.label": {
+        "english": "smuggler's den",
         "required": true
       }
     }
