@@ -11,15 +11,16 @@ using Verse.Sound;
 
 namespace BetterTradersGuild.Patches.MechGestatorPatches
 {
-    // Harmony patch: Makes mechs from gestator tanks in TradersGuild settlements
-    // spawn belonging to the TradersGuild faction instead of hostile mechanoids.
+    // Harmony patch: Makes mechs from gestator tanks on BTG-managed maps spawn
+    // belonging to the map's owning faction instead of hostile mechanoids.
     //
     // Without this patch, Ancient gestator tanks always spawn mechs belonging to
     // Faction.OfMechanoids, which is hostile to everyone. This creates a confusing
-    // experience where the TradersGuild's own security mechs attack their owners.
+    // experience where a base's own security mechs attack their owners - both in
+    // TradersGuild settlements and in the Salvagers-held smugglers den site.
     //
-    // This patch intercepts the Trigger method and substitutes the TradersGuild
-    // faction when the gestator is located in a TradersGuild settlement map.
+    // This patch intercepts the Trigger method and substitutes the owning faction
+    // when the gestator sits on a map BTG generated for a specific owner.
     [HarmonyPatch(typeof(CompMechGestatorTank), "Trigger")]
     public static class CompMechGestatorTankTrigger
     {
@@ -33,26 +34,19 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
         {
             if (StateField == null)
                 Log.Error("[Better Traders Guild] CompMechGestatorTank.state field not found via reflection; "
-                    + "Traders Guild gestator mechs will fall back to vanilla hostile-faction spawning. RimWorld API may have changed.");
+                    + "gestator mechs on BTG maps will fall back to vanilla hostile-faction spawning. RimWorld API may have changed.");
         }
 
-        // Prefix that intercepts gestator triggering in TradersGuild settlements.
-        // If the gestator is in a TradersGuild settlement, we run our modified
-        // version and skip the original. Otherwise, vanilla behavior proceeds.
+        // Prefix that intercepts gestator triggering on BTG-managed maps. If the map
+        // has a BTG owner faction (TradersGuild settlement or the smugglers den site),
+        // we run our modified version and skip the original. Otherwise, vanilla
+        // behavior proceeds.
         [HarmonyPrefix]
         public static bool Prefix(CompMechGestatorTank __instance, Map map)
         {
-            // Check if this gestator is in a TradersGuild settlement
-            if (!TradersGuildHelper.IsMapInTradersGuildSettlement(map))
-            {
-                // Not in TradersGuild settlement - let vanilla handle it
-                return true;
-            }
-
-            // Get TradersGuild faction
-            Faction tradersGuild = Find.FactionManager.FirstFactionOfDef(Factions.TradersGuild);
-
-            if (tradersGuild == null)
+            // Resolve the owning faction; null means this isn't a BTG-managed map
+            Faction owner = TradersGuildHelper.GetBTGMapFaction(map);
+            if (owner == null)
                 return true;
 
             // If the gestator state can't be read via reflection (verified at startup), let
@@ -60,8 +54,8 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
             if (StateField == null)
                 return true;
 
-            // Run our modified trigger logic with TradersGuild faction
-            TriggerWithFaction(__instance, map, tradersGuild);
+            // Run our modified trigger logic with the owning faction
+            TriggerWithFaction(__instance, map, owner);
 
             // Skip the original method
             return false;
@@ -113,7 +107,7 @@ namespace BetterTradersGuild.Patches.MechGestatorPatches
                 .RandomElementByWeight(x => x.weight)
                 .kindDef;
 
-            // Generate pawn with TradersGuild faction instead of OfMechanoids
+            // Generate pawn with the owning faction instead of OfMechanoids
             Pawn mech = PawnGenerator.GeneratePawn(mechKind, faction);
 
             // Spawn the mech

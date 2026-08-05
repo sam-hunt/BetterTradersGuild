@@ -212,6 +212,24 @@ namespace BetterTradersGuild
             return IsTradersGuildSettlement(settlement);
         }
 
+        // Resolves the owning faction of a map whose garrison BTG generates and manages:
+        // TradersGuild settlements and the smugglers den quest site (a Site, not a
+        // Settlement, so the settlement check above never matches it). Returns null for
+        // any other map so callers can fall back to vanilla behavior.
+        public static Faction GetBTGMapFaction(Verse.Map map)
+        {
+            if (map?.Parent == null)
+                return null;
+
+            if (map.Parent is Settlement settlement)
+                return IsTradersGuildSettlement(settlement) ? settlement.Faction : null;
+
+            if (map.Parent.def == WorldObjects.BTG_SmugglersDenSite)
+                return map.Parent.Faction;
+
+            return null;
+        }
+
         // True if at least one other Traders Guild settlement still stands in the world
         // besides the one this map belongs to. The wider guild network is what answers a
         // resupply call (meal drops, reinforcement raids), so the last base standing has
