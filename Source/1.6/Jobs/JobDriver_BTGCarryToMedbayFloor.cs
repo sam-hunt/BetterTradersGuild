@@ -23,9 +23,22 @@ namespace BetterTradersGuild.JobDrivers
 
         private const TargetIndex CellIndex = TargetIndex.B;
 
+        // Same dropped-weapon stash/restore as JobDriver_BTGRescue: Pawn.DeSpawn wipes
+        // the casualty's mindState.droppedWeapon when the carry starts, stranding the
+        // recovered defender unarmed; restored on every exit path once it is spawned
+        // again. Scribed for save/load mid-carry; a restarted job loses it and the
+        // re-arm node's nearest-weapon fallback covers that.
+        private Thing droppedWeapon;
+
         protected Pawn Takee => (Pawn)job.GetTarget(TakeeIndex).Thing;
 
         protected IntVec3 DropCell => job.GetTarget(CellIndex).Cell;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_References.Look(ref droppedWeapon, "droppedWeapon");
+        }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -45,6 +58,13 @@ namespace BetterTradersGuild.JobDrivers
                 if (jobCondition != JobCondition.Ongoing && pawn.carryTracker.CarriedThing != null)
                     pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Direct, out _);
             });
+            AddFinishAction(_ =>
+            {
+                // Runs after the drop action above, so the casualty is spawned again on
+                // every exit path - give it back the dropped-weapon memory the carry
+                // despawn wiped.
+                RestoreDroppedWeaponMemory();
+            });
 
             Toil goToTakee = Toils_Goto.GotoThing(TakeeIndex, PathEndMode.ClosestTouch)
                 .FailOnDespawnedNullOrForbidden(TakeeIndex)
@@ -59,6 +79,7 @@ namespace BetterTradersGuild.JobDrivers
             // the casualty is already in the medic's arms.
             yield return Toils_Jump.JumpIf(goToCell, () => pawn.IsCarryingPawn(Takee));
             yield return goToTakee;
+            yield return Toils_General.Do(() => droppedWeapon = Takee.mindState?.droppedWeapon);
             yield return startCarrying;
             yield return goToCell;
             yield return Toils_General.Do(() =>
@@ -69,6 +90,17 @@ namespace BetterTradersGuild.JobDrivers
                 if (!pawn.carryTracker.TryDropCarriedThing(DropCell, ThingPlaceMode.Direct, out _))
                     pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Near, out _);
             });
+        }
+
+        private void RestoreDroppedWeaponMemory()
+        {
+            Pawn takee = Takee;
+            Pawn_MindState mind = takee?.mindState;
+            if (mind == null || mind.droppedWeapon != null || droppedWeapon?.Spawned != true)
+                return;
+            if (takee.Dead || !takee.Spawned || takee.Map != droppedWeapon.Map)
+                return;
+            mind.droppedWeapon = droppedWeapon;
         }
     }
 }

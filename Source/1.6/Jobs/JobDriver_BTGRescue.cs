@@ -31,9 +31,24 @@ namespace BetterTradersGuild.JobDrivers
 
         private const TargetIndex BedIndex = TargetIndex.B;
 
+        // The weapon the casualty dropped when it went down. Pawn.DeSpawn wipes
+        // mindState.droppedWeapon the instant StartCarryThing picks the casualty up,
+        // which is what used to strand recovered defenders unarmed: the memory their
+        // re-arm node (JobGiver_BTGRecoverWeapon) reads was gone. Stashed here before
+        // the carry and restored once the casualty is spawned again. Scribed so a
+        // save/load mid-carry keeps it; a job restarted mid-carry (new driver) loses
+        // it, and the re-arm node's nearest-weapon fallback covers that.
+        private Thing droppedWeapon;
+
         protected Pawn Takee => (Pawn)job.GetTarget(TakeeIndex).Thing;
 
         protected Building_Bed DropBed => (Building_Bed)job.GetTarget(BedIndex).Thing;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_References.Look(ref droppedWeapon, "droppedWeapon");
+        }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -55,6 +70,13 @@ namespace BetterTradersGuild.JobDrivers
                 if (jobCondition != JobCondition.Ongoing && pawn.carryTracker.CarriedThing != null)
                     pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Direct, out _);
             });
+            AddFinishAction(_ =>
+            {
+                // Runs after the drop action above, so the casualty is spawned again on
+                // every exit path (tucked into bed or put down early) - give it back the
+                // dropped-weapon memory the carry despawn wiped.
+                RestoreDroppedWeaponMemory();
+            });
 
             Toil goToTakee = Toils_Goto.GotoThing(TakeeIndex, PathEndMode.ClosestTouch)
                 .FailOnDespawnedNullOrForbidden(TakeeIndex)
@@ -72,6 +94,7 @@ namespace BetterTradersGuild.JobDrivers
             // the casualty is already in the medic's arms.
             yield return Toils_Jump.JumpIf(goToBed, () => pawn.IsCarryingPawn(Takee));
             yield return goToTakee;
+            yield return Toils_General.Do(() => droppedWeapon = Takee.mindState?.droppedWeapon);
             yield return startCarrying;
             yield return goToBed;
             yield return Toils_General.Do(() =>
@@ -83,6 +106,17 @@ namespace BetterTradersGuild.JobDrivers
             // rescued: false - the flag only feeds Notify_RescuedBy, which is gated on a
             // humanlike rescuer and would be inert for the mech anyway.
             yield return Toils_Bed.TuckIntoBed(DropBed, pawn, Takee, rescued: false);
+        }
+
+        private void RestoreDroppedWeaponMemory()
+        {
+            Pawn takee = Takee;
+            Pawn_MindState mind = takee?.mindState;
+            if (mind == null || mind.droppedWeapon != null || droppedWeapon?.Spawned != true)
+                return;
+            if (takee.Dead || !takee.Spawned || takee.Map != droppedWeapon.Map)
+                return;
+            mind.droppedWeapon = droppedWeapon;
         }
     }
 }

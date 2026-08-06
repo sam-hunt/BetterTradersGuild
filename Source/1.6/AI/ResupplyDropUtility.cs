@@ -129,8 +129,10 @@ namespace BetterTradersGuild.AI
         }
 
         // Drop size = ModSettings.resupplyMealsPerDefender x living humanlike defenders on
-        // the pawn's lord. Mechs aren't counted (they don't eat), and dead/removed pawns
-        // have already left the lord, so the count shrinks as the garrison is neutralized.
+        // the pawn's lord. Mechs aren't counted (they don't eat), and dead pawns have
+        // already left the lord, so the count shrinks as the garrison is killed. Downed
+        // pawns stay in the lord (LordJob_BTGDefendStructure.ShouldRemovePawn) and still
+        // count - the medic feeds them, so they still consume meals.
         // Returns 0 when the behavior is disabled or the pawn has no lord.
         public static int MealCountForDefenders(Pawn pawn)
         {

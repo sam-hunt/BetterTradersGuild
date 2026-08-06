@@ -59,6 +59,22 @@ namespace BetterTradersGuild.LordJobs
             return graph;
         }
 
+        // Keep downed defenders in the lord (vanilla default evicts them, permanently:
+        // Lord.RemovePawn nulls the duty and MakeUndowned's lord notification then finds
+        // no lord, so a recovered defender degrades into a lordless wanderer that never
+        // re-arms or fights). Kept, recovery flows natively: MakeUndowned ->
+        // Lord.Notify_PawnUndowned -> base LordJob re-runs UpdateAllDuties, which
+        // re-issues BTG_DefendStructure. Same pattern as vanilla
+        // LordJob_DefendAndExpandHive. Downed pawns can't hold the base open: the
+        // defeat/threat patches (SettlementDefeatUtilityIsDefeated,
+        // GenHostilityAnyHostileActiveThreatTo) both filter Downed explicitly.
+        public override bool ShouldRemovePawn(Pawn p, PawnLostCondition reason)
+        {
+            if (reason == PawnLostCondition.Incapped)
+                return false;
+            return base.ShouldRemovePawn(p, reason);
+        }
+
         public override NativeBitArray GetWalkGrid(Pawn pawn)
         {
             if (!walkGridBuilt)

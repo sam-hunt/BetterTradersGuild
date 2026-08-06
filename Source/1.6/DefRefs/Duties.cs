@@ -21,8 +21,9 @@ namespace BetterTradersGuild.DefRefs
         // Bounded defender duty - combat-engaged but constrained to the
         // settlement structure footprint. Target acquisition is filtered
         // by JobGiver_BTGDefendStructure so defenders never path outside the
-        // structure to pursue intruders. Includes self-tend and forage
-        // fallbacks for human defenders.
+        // structure to pursue intruders. Includes re-arm (own downed-drop or
+        // nearest in-structure weapon), self-tend, and forage fallbacks for
+        // human defenders.
         public static DutyDef BTG_DefendStructure;
 
         // Paramedic-mech medic duty - room-bound triage. Priority order: emergency
