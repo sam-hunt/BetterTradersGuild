@@ -2,212 +2,79 @@
 <Defs>
 
   <!--
-    Better Traders Guild - Bounded Defender Duty
+    BTG_DefendStructure - the entrenched-garrison duty assigned by
+    LordJob_BTGDefendStructure to the settlement defenders (human guards +
+    gestator mechs; humanlike-only nodes gate themselves and no-op for mechs).
 
-    BTG_DefendStructure: Combat-engaged defensive posture that never assaults.
-    Pawns with this duty, in priority order:
-    1. Withdraw-and-tend when critically wounded, via JobGiver_BTGWithdrawAndTend.
-       This sits ABOVE combat: a defender too badly hurt to fight without risking
-       immediate death (bleeding heavily OR low overall health) breaks off, ducks
-       out of enemy line of sight inside the structure, tends its worst wounds,
-       then returns to the fight. The withdraw cell is constrained to the
-       structure footprint, so it never flees into vacuum. No-op for mechs
-       (Humanlike-gated). Distinct from node 5 below, which only tends when no
-       target remains; this one fires even with hostiles in line of sight.
-    2. Re-arm when unarmed, via JobGiver_BTGRecoverWeapon: walk back to the
-       primary the pawn dropped when it was downed (vanilla remembers it in
-       mindState.droppedWeapon but only ever lets colonists act on it; the
-       paramedic rescue drivers preserve the memory across the carry, whose
-       despawn would otherwise wipe it), or - when that weapon is gone - to the
-       nearest decent unreserved weapon inside the structure footprint, armory
-       shelves included. Above combat because an unarmed defender's best combat
-       move IS fetching a gun (it would otherwise fist-charge intruders); below
-       withdraw-and-tend so the critically wounded still peel off first. Armed
-       pawns skip in O(1) (Primary != null); no-op for mechs (built-in weapons).
-    3. Acquire and engage hostile targets, but only inside the settlement
-       structure (target acquisition filtered by JobGiver_BTGDefendStructure).
-       Combat outranks ordinary needs, so a defender never breaks off to eat (or
-       to tend non-critical wounds) while a valid in-structure target remains.
-    4. Hunt unseen intruders, via JobGiver_BTGHuntIntrudersInStructure. The
-       combat node above only engages targets in line of sight (vanilla
-       acquisition semantics), so without this node an intruder looting an
-       out-of-sight room is ignored entirely. While any live hostile stands
-       inside the structure footprint, the defender walks toward the nearest
-       one reachable through the interior; the Goto re-checks the tree as it
-       expires, so the combat node takes over the moment sight opens. Bounded
-       to the same rect union as combat, so defenders sweep their halls but
-       never pursue outside.
-    5. Seek treatment in the medbay when wounded but unable to self-tend, via
-       JobGiver_BTGSeekTreatmentInMedbay. A defender that has tendable wounds but
-       lacks Manipulation (e.g. both arms shot off) is invisible to the vanilla
-       self-tend node below - which also needs Manipulation - so without this it would
-       just stand and bleed. It walks to a free medical bed inside a medbay room and
-       lies down for the paramedic mech to tend. Bounded to medbay beds specifically
-       (not just the structure), because medical beds exist only there and the
-       medbay-confined medic can reach nowhere else; no-op when none is free. Downed
-       pawns are excluded - those are the medic's rescue job. Gates on Manipulation
-       alone, the exact complement of self-tend (whose Doctor-disabled guard is
-       colonist-only, skipped for these faction pawns), so the two partition the
-       wounded with no overlap. No-op for mechs (Humanlike-gated).
-    6. Self-tend wounds when not in combat. JobGiver_SelfTend tends in place (no
-       pathing), so it needs no containment. No-op for mechs (Humanlike-gated).
-    7. Tend the base's babies during lulls, via JobGiver_BTGTuckBabyInCrib +
-       JobGiver_BTGFeedBaby (the same reachability/reservation-gated givers the
-       sheltering family uses). The crew-quarters crib branch and the nursery both
-       spawn faction infants; without this the garrison would let them starve to
-       death over a long siege. Below combat and the defender's own medical needs,
-       above its own meals - caretaker priority, same as the nursery family. No-op
-       for mechs (ChildcareUtility's Humanlike gate) and for babies sealed behind
-       still-locked doors (reachability-gated; crib bedrooms spawn unsealed).
-    8. Eat when hungry, via JobGiver_BTGForageInStructure: carried rations first,
-       then the best food item that lies inside the structure footprint (never a
-       corpse - eating the dead is beneath the guild). Once
-       urgently hungry with no item food left, three in-structure "last resort"
-       sources, in order: re-open a locked-down VNPE paste valve (PipeValveHandler
-       closes them all at mapgen) to bring the renewable tap supply online while the
-       one-shot pallets still last, crack open survival-meal pallets, then dispense
-       from nutrient-paste dispensers / VNPE taps. Raw crops from the hydroponics are
-       deliberately NOT foraged - wealthy guild traders escalate hunger with a
-       packaged-meal resupply drop (the comms-console path), not unprepared
-       produce. It never targets food outside the structure, so a player cannot
-       bait a hungry defender out by dropping food past the walls. (Replaces
-       vanilla JobGiver_GetFood, whose unbounded map search has no location
-       filter.)
-    9. Call a resupply when starving, via JobGiver_BTGCallResupply: only once every
-       in-structure food source above is exhausted (gated to Starving, one rung past
-       the forager's UrgentlyHungry), a defender walks to a powered in-structure comms
-       console and calls in resupply - a survival-meal cargo-pod drop and, optionally,
-       a reinforcement raid (ResupplyRaidUtility) when the settlement is hostile to the
-       player. The drop lands in an in-structure room (ResupplyDropUtility's priority
-       list), so this stays in-bounds; the raid needs no in-structure cell of its own.
-       A per-map cooldown keeps the garrison from all calling at once; with several
-       consoles it is enforced at call completion, so only the first defender to finish
-       burns it, regardless of which outcome(s) fired - the rest abort. No-op for mechs,
-       and for the last guild settlement left in the world - with the rest of the guild
-       network gone, no one remains to answer the call.
-    10. Break out to eat when starving and walled in, via JobGiver_BTGHackDoorForFood:
-       a pawn that spawned trapped behind a locked AncientBlastDoor can reach none of
-       the food above (nor a comms console), so as a last resort it hacks the nearest
-       reachable, still-locked blast door open, then re-evaluates - the forage/resupply
-       nodes can finally path to food. Below resupply and gated to Starving, so it only
-       fires when a pawn truly is sealed off. Stays in-bounds: BTG's perimeter is sealed
-       by VacBarriers (not blast doors), so every hackable door is interior. All hack
-       eligibility is delegated to vanilla CompHackable.CanHackNow. No-op for mechs.
-    11. Rest when tired, via JobGiver_BTGRestInStructure: only reached once nothing
-       above wants the pawn (no combat target, wounds, or hunger), so the ordering
-       itself is the "no immediate threat" gate. Reuses vanilla bed/ground-spot
-       selection but rejects any spot outside the structure footprint, so a defender
-       never paths out to sleep. Waking is fully native: while asleep the LayDown
-       toil re-runs this tree every 211 ticks (combat is above this node, so a
-       hostile re-entering the perimeter pulls the defender back into the fight
-       within ~3.5s), and taking damage wakes it the same tick. No-op for mechs.
-    12. Fall back to wandering near the focus point (radius 12) when idle.
+    Design intent: a "reverse siege". Defenders fight, sweep their own halls,
+    and satisfy every need without ever leaving the structure footprint - there
+    is no assault behavior, and nothing (combat, food, rest) can bait them
+    outside. Node order IS the behavior spec: ThinkNode_Priority takes the
+    first non-null job, so combat sits above ordinary needs and each need sits
+    above its own last resort.
 
-    Containment summary - defenders never leave the structure because:
-      * combat targets are filtered to the union of room rects, and
-        JobGiver_AIDefendPoint (chaseTarget=false) holds firing positions within
-        the duty radius of baseCenter rather than pursuing, and shooting
-        positions themselves are pinned to the rect union via a cast-position
-        validator (vanilla would accept any cell within the duty radius,
-        including vacuum outside an open perimeter door), and
-      * the hunt node only walks toward hostiles standing inside that same rect
-        union AND reachable without leaving it (interior-only region BFS - a
-        target whose only route crosses vacuum is left alone), so a sweep never
-        leads out of the structure, and
-      * re-arming stays in-bounds: the fallback weapon search is filtered to the
-        same rect union, and the own-weapon leg walks to a drop that lies where
-        the pawn fell - inside the halls, since defenders are contained - with
-        the walk-grid bias shaping the route either way, and
-      * every route any garrison job paths is biased hard toward the interior:
-        LordJob_BTGDefendStructure exposes the rect union as its lord walk grid,
-        so the pathfinder charges +70 per out-of-structure cell. Soft (a cost,
-        not a wall) by design - a defender that ends up outside can always path
-        back in, and
-      * foraging is restricted to food inside the same rect union, and
-      * baby-food search (childcare node) is vanilla-unbounded, accepted because baby
-        food only exists inside the structure (crib-table spawn + resupply pod) and
-        the sealed perimeter plus the walk-grid bias keep any route interior, and
-      * resupply drops land in an in-structure room and the calling defender only
-        paths to an in-structure comms console, and
-      * break-out hacking only targets interior blast doors (the perimeter is sealed
-        by VacBarriers), so unlocking one never opens a path to vacuum, and
-      * rest beds / sleep spots are constrained to the same rect union, and
-      * the seek-treatment node only targets a medical bed inside a medbay room, and
-      * self-tend and idle wander are in-place / focus-local.
+    Containment, in brief: every giver that picks a destination bounds it to
+    the structure room-rect union (StructureBoundsCache) or to something that
+    only exists inside it (medbay bed, comms console, interior blast door),
+    and the lord walk grid biases every route interior (+70/cell outside; see
+    LordJob_BTGDefendStructure). The one vanilla-unbounded search left is baby
+    food, which only spawns inside. Per-giver mechanics and edge cases are
+    documented on the giver classes.
 
-    Used by: LordJob_BTGDefendStructure, assigned to the mapgen settlement
-    defender group (human guards + gestator-spawned mechs). The forager is inert
-    for mechs (no food need) but live for human guards.
-
-    Design intent: model a "reverse siege" where defenders hold an entrenched,
-    terrain-advantaged position and never path out of the structure to chase
-    intruders or forage - but actively sweep their own interior: while any
-    hostile remains alive inside the structure, defenders hunt it down rather
-    than returning to routine needs.
+    On settlement defeat the lord leaves this duty for the abandon-ship chain
+    (BTG_EscapeWalker / BTG_StrandedDefender) - recovered survivors evacuate
+    or go peaceful instead of resuming the fight.
   -->
 
   <DutyDef>
     <defName>BTG_DefendStructure</defName>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <!-- 1. Critically wounded: withdraw out of LoS (inside the structure) and
-             tend before resuming the fight. Preempts combat by design. -->
+        <!-- 1. Critically wounded: withdraw out of LoS inside the structure, tend,
+             then rejoin. Above combat, and unlike the tend nodes below it fires
+             even with hostiles in sight. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGWithdrawAndTend" />
-        <!-- 2. Re-arm when unarmed: own downed-drop first (wherever it lies), else the
-             nearest decent unreserved weapon inside the structure footprint. Above
-             combat - an unarmed defender's best combat move is fetching a gun; armed
-             pawns skip in O(1). No-op for mechs. -->
+        <!-- 2. Re-arm when unarmed: own downed-drop first (wherever it lies), else
+             the nearest decent unreserved weapon in-structure. Above combat -
+             fetching a gun is the unarmed defender's combat move. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGRecoverWeapon" />
         <!-- 3. Combat: engage in-structure targets before any ordinary need. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGDefendStructure" />
-        <!-- 4. Hunt: no visible target, but a live hostile remains inside the
-             structure. Walk toward the nearest reachable one; the Goto's
-             override-on-expire re-runs the tree as the pawn closes in, so the
-             combat node above engages the moment line of sight opens. Bounded
-             to the structure rect union, so a sweep never leaves the halls. -->
+        <!-- 4. Hunt: no target in sight but a live hostile stands in-structure -
+             walk toward the nearest interior-reachable one; the expiring Goto
+             hands over to combat the moment sight opens. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGHuntIntrudersInStructure" />
-        <!-- 5. Wounded but can't self-tend (no Manipulation - e.g. both arms shot off):
-             walk to a free medical bed inside the medbay and lie down for the paramedic
-             mech to tend. Complements the self-tend node below (which also needs
-             Manipulation), so the two never overlap; downed pawns are excluded (the medic
-             rescues those). No-op for mechs and when no in-medbay bed is free. -->
+        <!-- 5. Tendable wounds but no Manipulation (self-tend needs it too, so the
+             two partition the wounded): lie in a medbay bed for the paramedic.
+             Downed pawns are the medic's rescue job, not this node's. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGSeekTreatmentInMedbay" />
         <!-- 6. Self-tend when not in combat (in place; no containment needed). -->
         <li Class="JobGiver_SelfTend" />
-        <!-- 7. Childcare during lulls: re-crib any loose/downed faction baby, then
-             bottle-feed hungry ones - the crew-quarters crib branch and the nursery both
-             spawn faction infants the garrison must not neglect through a siege. Same
-             gated givers the sheltering family uses; no-op for mechs (ChildcareUtility's
-             Humanlike gate) and for babies behind still-locked doors (reachability). -->
+        <!-- 7. Childcare during lulls: re-crib, then bottle-feed faction infants
+             (same givers the sheltering family uses) - caretaker priority, above
+             the defender's own meals. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
-        <!-- 8. Eat, restricted to food inside the structure footprint. -->
+        <!-- 8. Eat: in-structure food only - carried rations, item food, then the
+             last-resort sources (paste valve, meal pallets, dispensers). Never
+             corpses, never raw hydroponics produce. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>
-        <!-- 9. Starving with no in-structure food left: use an in-structure comms console
-             to call in resupply - a survival-meal cargo-pod drop and, optionally, a
-             reinforcement raid. Below the forager, so real food is always tried first;
-             gated one rung past it (Starving vs UrgentlyHungry). The pod lands inside the
-             structure, so this stays in-bounds like everything else; the raid needs no
-             in-structure cell of its own. -->
+        <!-- 9. Starving with nothing left in-structure: call resupply from a comms
+             console (meal pod + optional reinforcement raid). Gated one rung past
+             the forager so real food is always tried first. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGCallResupply">
           <minCategory>Starving</minCategory>
         </li>
-        <!-- 10. Starving and sealed off: a pawn that spawned trapped behind a locked
-             AncientBlastDoor can reach no food or comms console above, so it hacks the
-             nearest reachable blast door open as a last resort, then re-evaluates. Below
-             resupply, gated to Starving. Only interior doors exist to hack (perimeter is
-             VacBarriers), so this stays in-bounds. Eligibility = vanilla CompHackable.
-             CanHackNow. No-op for mechs. -->
+        <!-- 10. Starving and sealed behind a locked blast door: hack the nearest
+             one open, then re-evaluate so the food nodes can path. Only interior
+             doors exist to hack (the perimeter is VacBarriers). -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGHackDoorForFood">
           <minCategory>Starving</minCategory>
         </li>
-        <!-- 11. Rest when tired, but only once nothing above wants the pawn (no combat
-             target, wounds, or hunger). Reuses vanilla bed/spot selection, constrained
-             to the structure footprint. Defenders wake natively: the LayDown toil
-             re-checks this tree every 211 ticks (combat sits above), and damage wakes
-             them the same tick. No-op for mechs (no rest need). -->
+        <!-- 11. Rest in-structure. Sleepers rejoin a fight natively: LayDown
+             re-checks this tree every 211 ticks and damage wakes the same tick. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
           <minRestCategory>Tired</minRestCategory>
         </li>
