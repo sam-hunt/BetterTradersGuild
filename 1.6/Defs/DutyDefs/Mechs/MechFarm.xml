@@ -15,11 +15,12 @@
       5. Once the pot round is done, walk back to the home room / anchor point.
       6. Return near the anchor point and dormant self-charge until a crop matures.
 
-    The farm work (1-3) is confined to the mech's greenhouse room (see FarmArea); the
-    pot planting (4) ranges across the whole settlement structure footprint
-    (StructureBoundsCache), so the mech paths pot-to-pot between rooms but always returns
-    home (5) to sleep where its primary rice-farming duty re-triggers. Used by
-    LordJob_MechFarm.
+    The crop work (1-3) picks up and tends only inside the mech's greenhouse room (see
+    FarmArea), though the haul delivery leg (2) may carry produce to a shelf anywhere in
+    the settlement structure; the pot planting (4) likewise ranges across the whole
+    structure footprint (StructureBoundsCache). Either trip can end with the mech out of
+    its room, so it always returns home (5) to sleep where its primary rice-farming duty
+    re-triggers. Used by LordJob_MechFarm.
   -->
 
   <DutyDef>
