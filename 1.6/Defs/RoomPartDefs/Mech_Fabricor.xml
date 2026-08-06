@@ -3,7 +3,8 @@
   <!--
     Better Traders Guild - Fabricor Mech Room Part
 
-    Spawns fabrication mechs in Workshop rooms.
+    Spawns fabrication mechs in Workshop rooms. Dorm behavior: parks against a
+    room wall and dormant self-charges (no work duties yet).
     Requires Biotech DLC.
   -->
 
@@ -11,7 +12,7 @@
     <defName>BTG_Mech_Fabricor</defName>
     <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
     <pawnKindDef>Mech_Fabricor</pawnKindDef>
-    <behavior>Passive</behavior>
+    <behavior>Dorm</behavior>
   </BetterTradersGuild.RoomParts.RoomPart_MechDef>
 
 </Defs>

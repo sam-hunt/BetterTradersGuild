@@ -3,7 +3,8 @@
   <!--
     Better Traders Guild - Lifter Mech Room Part
 
-    Spawns hauling mechs in Storeroom, ShuttleBay rooms.
+    Spawns hauling mechs in Storeroom, ShuttleBay rooms. Dorm behavior: parks
+    against a room wall and dormant self-charges (no work duties yet).
     Requires Biotech DLC.
   -->
 
@@ -11,7 +12,7 @@
     <defName>BTG_Mech_Lifter</defName>
     <workerClass>BetterTradersGuild.RoomParts.RoomPart_Mech</workerClass>
     <pawnKindDef>Mech_Lifter</pawnKindDef>
-    <behavior>Passive</behavior>
+    <behavior>Dorm</behavior>
   </BetterTradersGuild.RoomParts.RoomPart_MechDef>
 
 </Defs>

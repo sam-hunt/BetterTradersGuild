@@ -11,7 +11,7 @@ namespace BetterTradersGuild.AI
     //
     // Used by the comms-console resupply (JobGiver_BTGCallResupply) to resolve the
     // drop room from a priority list of LayoutRoomDefs, and by the cleansweeper
-    // (CleanArea) to resolve whichever room it was spawned into.
+    // (HomeRoomArea) to resolve whichever room it was spawned into.
     internal static class StructureRoomLocator
     {
         // Yields every LayoutRoom on map that satisfies
@@ -41,7 +41,7 @@ namespace BetterTradersGuild.AI
         // The layout room whose rects contain cell, regardless of its def, or null when
         // the cell is in no layout room (or the map has no sketch). Def-agnostic counterpart
         // to RoomsOfDef, used by the cleansweeper to resolve whichever room (MessHall,
-        // RecRoom, Storeroom, CommandersQuarters, ...) it was spawned into - see CleanArea.
+        // RecRoom, Storeroom, CommandersQuarters, ...) it was spawned into - see HomeRoomArea.
         public static LayoutRoom RoomContaining(Map map, IntVec3 cell)
         {
             if (map?.layoutStructureSketches == null)

@@ -8,9 +8,15 @@ namespace BetterTradersGuild.DefRefs
     public static class Duties
     {
         // Passive wander duty - mechs wander within 7 tiles of focus point
-        // without actively seeking enemies. Used for expensive/specialized
-        // mechs (Fabricor, Lifter).
+        // without actively seeking enemies. Currently unused (the Lifter and
+        // Fabricor moved to BTG_MechDorm); kept as the Passive behavior fallback.
         public static DutyDef BTG_WanderInArea;
+
+        // Utility-mech dorm duty - room-bound rest for mechs with no work behaviour
+        // yet (Lifter, Fabricor). Walks home if displaced, then parks against a wall
+        // of the spawn room and dormant self-charges (see HomeRoomArea, MechIdlePark).
+        // Used by LordJob_MechDorm.
+        public static DutyDef BTG_MechDorm;
 
         // Bounded defender duty - combat-engaged but constrained to the
         // settlement structure footprint. Target acquisition is filtered
@@ -30,7 +36,7 @@ namespace BetterTradersGuild.DefRefs
         // in-room filth and its cluster in one BTG_Clean job, then dormant self-charge near
         // the anchor point when none remains. Filth is searched only inside the one layout
         // room the mech was spawned into, matched by rect membership so a multi-rect room
-        // works exactly (see CleanArea). Used by LordJob_MechClean.
+        // works exactly (see HomeRoomArea). Used by LordJob_MechClean.
         public static DutyDef BTG_MechClean;
 
         // Agrihand-mech farming duty - radius-bound, structure-confined greenhouse

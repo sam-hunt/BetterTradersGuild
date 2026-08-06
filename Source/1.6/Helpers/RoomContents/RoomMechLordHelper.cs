@@ -17,9 +17,15 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // Passive - wanders in room but does not seek enemies.
         // Uses LordJob_StayInArea with BTG_WanderInArea duty.
         // Self-defense only via ThinkTree fallback if directly threatened.
-        // Placeholder for expensive/specialized mechs without narrower behavior
-        // added yet, e.g. fabricor
+        // Currently unused (utility mechs moved to Dorm); kept for any future
+        // mech that should visibly roam instead of sleeping.
         Passive,
+
+        // Dorm - room-bound rest. Walks home if displaced, then parks against a
+        // wall of its spawn room and dormant self-charges. Uses LordJob_MechDorm
+        // with the BTG_MechDorm duty. Suitable for utility mechs without work
+        // behavior added yet (Lifter, Fabricor).
+        Dorm,
 
         // Medic - room-bound triage. Tends and rescues wounded same-faction
         // defenders inside its room, and goes dormant (self-charge) when idle.
@@ -50,7 +56,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
     //
     // BEHAVIOR MODES:
     // - Defend: Active defense using LordJob_DefendPoint (for Militors)
-    // - Passive: Wander only using LordJob_StayInArea (for utility mechs)
+    // - Passive: Wander only using LordJob_StayInArea (currently unused)
+    // - Dorm: Wall-park dormant self-charge using LordJob_MechDorm (for Lifters, Fabricors)
     // - Medic: Room-bound triage using LordJob_MechMedic (for Paramedics)
     // - Clean: Room-bound filth cleaning using LordJob_MechClean (for Cleansweepers)
     // - Farm: Radius-bound greenhouse tending using LordJob_MechFarm (for Agrihands)
@@ -85,7 +92,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // map: The map
         // room: The LayoutRoom (used to calculate center point)
         // faction: The faction for the Lord (typically TradersGuild)
-        // behavior: The behavior mode (Defend or Passive)
+        // behavior: The behavior mode (see MechRoomBehavior)
         public static void AddMechToRoomLord(
             Pawn mech,
             Map map,
@@ -177,6 +184,17 @@ namespace BetterTradersGuild.Helpers.RoomContents
                             return lord;
                     }
                 }
+                else if (behavior == MechRoomBehavior.Dorm)
+                {
+                    if (!(lord.LordJob is LordJob_MechDorm))
+                        continue;
+
+                    if (lord.CurLordToil is LordToil_MechDorm dormToil)
+                    {
+                        if (dormToil.Point.DistanceTo(point) <= PointMatchTolerance)
+                            return lord;
+                    }
+                }
                 else // Passive
                 {
                     if (!(lord.LordJob is LordJob_StayInArea))
@@ -219,6 +237,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
             else if (behavior == MechRoomBehavior.Farm)
             {
                 lordJob = new LordJob_MechFarm(roomCenter);
+            }
+            else if (behavior == MechRoomBehavior.Dorm)
+            {
+                lordJob = new LordJob_MechDorm(roomCenter);
             }
             else // Passive
             {

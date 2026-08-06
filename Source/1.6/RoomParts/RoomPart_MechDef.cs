@@ -9,7 +9,7 @@ namespace BetterTradersGuild.RoomParts
     //
     // FIELDS:
     // - pawnKindDef: The PawnKindDef of the mech to spawn (e.g., Mech_Cleansweeper)
-    // - behavior: The MechRoomBehavior (Defend or Passive)
+    // - behavior: The MechRoomBehavior (Defend, Passive, Dorm, Medic, Clean, Farm)
     // - startingInventory: Things placed in the spawned mech's inventory
     //
     // USAGE IN XML:
@@ -29,7 +29,7 @@ namespace BetterTradersGuild.RoomParts
         // The PawnKindDef of the mech to spawn.
         public PawnKindDef pawnKindDef;
 
-        // The behavior mode for the spawned mech (Defend or Passive).
+        // The behavior mode for the spawned mech (see MechRoomBehavior).
         // Defaults to Passive for safety.
         public MechRoomBehavior behavior = MechRoomBehavior.Passive;
 

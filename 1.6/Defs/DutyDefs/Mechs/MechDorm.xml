@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Better Traders Guild - Utility Mech Dorm Duty
+
+    BTG_MechDorm: the resting duty for utility mechs that have no work behaviour yet
+    (Lifter, Fabricor). Instead of pacing their room forever (the old BTG_WanderInArea
+    wander), they park against a wall of the room they were spawned into and dormant
+    self-charge, reading as docked equipment. The room is resolved def-agnostically by
+    rect membership (HomeRoomArea), the same model the cleansweeper uses.
+
+    Priority order:
+    1. Return home - walk back into the home room if combat self-defense or player
+       interference displaced the mech, so the node below always parks it in its own
+       room.
+    2. Dorm - park on a wall-adjacent, non-door-flanking cell (MechIdlePark) and
+       dormant self-charge (SelfShutdown, forceSleep off; the job expiry re-walks this
+       tree ~every 250 ticks, so future work nodes added above will wake it).
+
+    If lifters/fabricors grow real duties later (hauling, crafting), their job-giver
+    nodes slot in above the return-home node, exactly like the cleansweeper and
+    agrihand trees.
+
+    Used by: LordJob_MechDorm, assigned via RoomMechLordHelper (behavior=Dorm) to the
+    Lifter (RoomPart Mech_Lifter) and Fabricor (RoomPart Mech_Fabricor).
+  -->
+
+  <DutyDef>
+    <defName>BTG_MechDorm</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- 1. Displaced (combat, player interference): walk back into the home room. -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechDormReturnHome" />
+        <!-- 2. Park against a room wall and dormant self-charge. -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechDormStandby" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>

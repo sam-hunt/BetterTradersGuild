@@ -40,7 +40,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     //
     //   - Mechs: any non-humanlike pawn still an active threat by vanilla's own test
     //     (GenHostility.IsActiveThreatToPlayer) holds the base, unless its lord job is one of
-    //     the BTG worker jobs (clean, farm, medic, stay-in-area) - those mechs are awake and
+    //     the BTG worker jobs (clean, farm, medic, dorm, stay-in-area) - those mechs are awake and
     //     "active" by vanilla's test but are never combatants, so an awake cleansweeper or
     //     paramedic must not keep the base undefeated once every real threat is gone. Sentries
     //     roam lordless and room-part defenders use other lords, so both still block as before.
@@ -83,14 +83,16 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             }
         }
 
-        // Worker mechs (cleaner, farmer, medic, area-stay) are non-combat labor. They pass
-        // GenHostility.IsActiveThreatToPlayer whenever awake, but must not block defeat.
+        // Worker mechs (cleaner, farmer, medic, dorm-resting, area-stay) are non-combat
+        // labor. They pass GenHostility.IsActiveThreatToPlayer whenever awake, but must
+        // not block defeat.
         private static bool IsWorkerMech(Pawn p)
         {
             LordJob job = p.GetLord()?.LordJob;
             return job is LordJob_MechClean
                 || job is LordJob_MechFarm
                 || job is LordJob_MechMedic
+                || job is LordJob_MechDorm
                 || job is LordJob_StayInArea;
         }
     }

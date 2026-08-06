@@ -5,7 +5,7 @@
     Better Traders Guild - Cleansweeper Mech Clean Duty
 
     BTG_MechClean: room-bound janitor behaviour for the Cleansweeper mech. Cleaning is
-    confined strictly to the one layout room the mech was spawned into (see CleanArea) -
+    confined strictly to the one layout room the mech was spawned into (see HomeRoomArea) -
     its lord's room, matched def-agnostically and by rect membership, so a room composed
     of several rects works exactly. The mech never scans, reserves, or paths to filth in
     any other room or outside the walls; that room is its private "home area".

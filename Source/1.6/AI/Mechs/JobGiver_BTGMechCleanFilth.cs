@@ -7,7 +7,7 @@ using Verse.AI;
 namespace BetterTradersGuild.AI.Mechs
 {
     // Cleansweeper-mech filth cleaning, confined strictly to the one layout room the mech
-    // was spawned into (see CleanArea): it never scans, reserves, or paths to filth in any
+    // was spawned into (see HomeRoomArea): it never scans, reserves, or paths to filth in any
     // other room or outside the walls. That room is the mech's "work area" - the role the
     // player's painted Home area plays for a player cleansweeper.
     //
@@ -35,7 +35,7 @@ namespace BetterTradersGuild.AI.Mechs
             if (map == null)
                 return null;
 
-            List<CellRect> rects = CleanArea.GetRects(pawn);
+            List<CellRect> rects = HomeRoomArea.GetRects(pawn);
             if (rects == null)
                 return null;
 
@@ -53,7 +53,7 @@ namespace BetterTradersGuild.AI.Mechs
                     continue;
                 if (f.Fogged())
                     continue;
-                if (!CleanArea.Contains(rects, f.Position))
+                if (!HomeRoomArea.Contains(rects, f.Position))
                     continue;
                 candidates.Add(f);
             }

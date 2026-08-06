@@ -7,7 +7,7 @@ namespace BetterTradersGuild.AI.Mechs
     // Confinement model for the agrihand mech's greenhouse behaviour: the mech works
     // strictly inside the one layout room it was spawned into (the greenhouse), treating
     // that room as its work area. It never scans, reserves, or paths to anything in another
-    // room or outside the walls - the same model the cleansweeper (CleanArea) and paramedic
+    // room or outside the walls - the same model the cleansweeper (HomeRoomArea) and paramedic
     // (MedicRoomBounds) use.
     //
     // Confinement is rect membership (CellRect.Contains), never a radius, so a room composed
