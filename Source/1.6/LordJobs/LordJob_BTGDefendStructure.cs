@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using BetterTradersGuild.AI;
+using BetterTradersGuild.AI.Civilians;
+using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
+using RimWorld.Planet;
 using Unity.Collections;
 using Verse;
 using Verse.AI.Group;
@@ -19,9 +22,11 @@ namespace BetterTradersGuild.LordJobs
     // pursue the player into vacuum, losing the terrain advantage their base
     // was designed to provide.
     //
-    // The single LordToil_BTGDefendStructure assigns Duties.BTG_DefendStructure.
-    // Combat containment, hunger handling, self-tending, and idle wandering
-    // all come from the duty's think tree; the state graph has no transitions.
+    // While the settlement stands, the single LordToil_BTGDefendStructure
+    // assigns Duties.BTG_DefendStructure; combat containment, hunger handling,
+    // self-tending, and idle wandering all come from the duty's think tree.
+    // There is no assault state — the only transitions are the post-defeat
+    // abandon-ship chain (see CreateGraph).
     //
     // The lord also exposes the structure rect union as its walk grid. The 1.6
     // pathfinder adds costOffLordWalkGrid (+70) to every cell outside a lord's
@@ -52,11 +57,77 @@ namespace BetterTradersGuild.LordJobs
             this.baseCenter = baseCenter;
         }
 
+        // Transition triggers are evaluated on every Tick signal; none of the
+        // conditions below needs sub-second latency, so the real checks only run
+        // every N ticks (same idiom as LordJob_BTGShelterCivilians).
+        private const int TransitionCheckIntervalTicks = 60;
+
         public override StateGraph CreateGraph()
         {
             StateGraph graph = new StateGraph();
-            graph.AddToil(new LordToil_BTGDefendStructure(baseCenter));
+
+            LordToil_BTGDefendStructure defend = new LordToil_BTGDefendStructure(baseCenter);
+            graph.AddToil(defend);
+            graph.StartingToil = defend;
+
+            // Post-defeat abandon-ship chain. Defeat only fires while every garrison
+            // human is dead or downed (SettlementDefeatUtilityIsDefeated), but downed
+            // defenders stay in the lord (ShouldRemovePawn below) and the medic mech
+            // keeps caring for them, so late recoveries are expected. They must not
+            // resume the fight after the defeated letter promised the player safety:
+            // instead they ferry reachable faction infants to a launchable and fly
+            // off (reusing the civilian escape toil, whose LordToilTick drives the
+            // actual lift-off), or settle into a peaceful stranded routine when no
+            // launchable is reachable. Both threat patches that key on this LordJob
+            // disarm themselves at the moment of defeat (their map-parent checks fail
+            // once vanilla reparents the map to DestroyedSettlement), so abandon-phase
+            // pawns never read as garrison.
+            LordToil_BTGEscape escape = new LordToil_BTGEscape(baseCenter);
+            graph.AddToil(escape);
+
+            LordToil_BTGStrandedDefender stranded = new LordToil_BTGStrandedDefender(baseCenter);
+            graph.AddToil(stranded);
+
+            // Defeat detection is the map reparent itself: vanilla CheckDefeated sets
+            // map.info.parent to a DestroyedSettlement in the same call that destroys
+            // the Settlement, so polling the parent needs no defeat-time hook and
+            // survives a save made after the defeat.
+            Transition abandon = new Transition(defend, escape);
+            abandon.AddTrigger(new Trigger_Custom(signal =>
+                signal.type == TriggerSignalType.Tick && DueForCheck() && SettlementDefeated()));
+            abandon.AddPostAction(new TransitionAction_WakeAll());
+            abandon.AddPostAction(new TransitionAction_EndAllJobs());
+            graph.AddTransition(abandon);
+
+            // Escape <-> stranded on launchable reachability, mirroring the civilian
+            // lord (reachability can return: a door gets hacked open, a blocking fire
+            // burns out), minus its shelter-door special cases - defenders start free.
+            Transition toStranded = new Transition(escape, stranded);
+            toStranded.AddTrigger(new Trigger_Custom(signal =>
+                signal.type == TriggerSignalType.Tick && DueForCheck()
+                && !LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map)));
+            toStranded.AddPostAction(new TransitionAction_EndAllJobs());
+            graph.AddTransition(toStranded);
+
+            Transition toEscapeAgain = new Transition(stranded, escape);
+            toEscapeAgain.AddTrigger(new Trigger_Custom(signal =>
+                signal.type == TriggerSignalType.Tick && DueForCheck()
+                && LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map)));
+            toEscapeAgain.AddPostAction(new TransitionAction_WakeAll());
+            toEscapeAgain.AddPostAction(new TransitionAction_EndAllJobs());
+            graph.AddTransition(toEscapeAgain);
+
             return graph;
+        }
+
+        private static bool DueForCheck()
+        {
+            return Find.TickManager.TicksGame % TransitionCheckIntervalTicks == 0;
+        }
+
+        private bool SettlementDefeated()
+        {
+            return lord?.Map?.Parent is DestroyedSettlement;
         }
 
         // Keep downed defenders in the lord (vanilla default evicts them, permanently:

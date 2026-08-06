@@ -26,6 +26,12 @@ namespace BetterTradersGuild.DefRefs
         // human defenders.
         public static DutyDef BTG_DefendStructure;
 
+        // Post-defeat survivor duty - peaceful routine (tend infants, forage, rest,
+        // wander; no combat/re-arm/resupply) for defenders that recover after the
+        // settlement is defeated and no launchable escape is reachable. Assigned by
+        // LordToil_BTGStrandedDefender.
+        public static DutyDef BTG_StrandedDefender;
+
         // Paramedic-mech medic duty - room-bound triage. Priority order: emergency
         // tend the worst-bleeding defender in place, rescue downed defenders to an
         // in-room medical bed, routine tend (bed or floor, best in-room medicine),

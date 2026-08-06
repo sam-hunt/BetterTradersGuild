@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    BTG_StrandedDefender: peaceful post-defeat survivor routine. Assigned by
+    LordToil_BTGStrandedDefender once the settlement is defeated and no launchable
+    is reachable. Deliberately contains NO combat, re-arm, or resupply nodes: the
+    defeat letter promised the player safety, so survivors must neither fight nor
+    call in a reinforcement raid. All nodes are reused from the defender/civilian
+    trees and self-bound to the structure footprint; every one is a no-op for
+    mechs. The hack node is the sealed-in safety net (a survivor trapped behind a
+    locked blast door can otherwise reach no food).
+  -->
+
+  <DutyDef>
+    <defName>BTG_StrandedDefender</defName>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Infants first: re-crib, then bottle-feed. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <!-- Own needs: in-structure food, then hack out if starving and sealed in. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
+          <minCategory>Hungry</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGHackDoorForFood">
+          <minCategory>Starving</minCategory>
+        </li>
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
+          <minRestCategory>Tired</minRestCategory>
+        </li>
+        <!-- Idle: wander near the focus point. -->
+        <li Class="JobGiver_WanderNearDutyLocation">
+          <wanderRadius>12</wanderRadius>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
+</Defs>
