@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace BetterTradersGuild.AI
 {
@@ -22,6 +23,17 @@ namespace BetterTradersGuild.AI
     // traversal is never on a hot path.
     internal static class MedicRoomBounds
     {
+        // The point the medic is anchored to (its lord's medbay centre). Used to
+        // resolve the room and as the "return home" target before dormancy. Returns
+        // IntVec3.Invalid only if the mech has no duty/position.
+        public static IntVec3 GetAnchor(Pawn mech)
+        {
+            PawnDuty duty = mech?.mindState?.duty;
+            if (duty?.focus.IsValid == true)
+                return duty.focus.Cell;
+            return mech != null ? mech.Position : IntVec3.Invalid;
+        }
+
         // The rect list of the medbay this mech is anchored in, or null when no
         // MedicalBay layout room can be matched (caller should then do nothing).
         public static List<CellRect> GetRects(Pawn mech)
@@ -30,11 +42,7 @@ namespace BetterTradersGuild.AI
             if (map == null)
                 return null;
 
-            IntVec3 anchor = mech.mindState?.duty != null && mech.mindState.duty.focus.IsValid
-                ? mech.mindState.duty.focus.Cell
-                : mech.Position;
-
-            return RectsContaining(map, anchor) ?? RectsContaining(map, mech.Position);
+            return RectsContaining(map, GetAnchor(mech)) ?? RectsContaining(map, mech.Position);
         }
 
         public static bool Contains(List<CellRect> rects, IntVec3 cell)

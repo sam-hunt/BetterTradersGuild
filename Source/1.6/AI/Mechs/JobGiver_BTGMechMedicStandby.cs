@@ -28,9 +28,10 @@ namespace BetterTradersGuild.AI.Mechs
     // sets it true, which is why it cannot simply be reused as an idle here.)
     //
     // The shutdown spot is constrained to the medbay rects; if none is found there
-    // the mech shuts down on its current cell (it is always standing in the medbay
-    // when idle). Non-mech / no-Biotech pawns fall back to a short maintain-posture
-    // wait, which re-checks the tree on the same expiry.
+    // the mech shuts down on its current cell (the return-home node above walks it
+    // back into the medbay before this runs, so that cell is in-room). Non-mech /
+    // no-Biotech pawns fall back to a short maintain-posture wait, which re-checks
+    // the tree on the same expiry.
     public class JobGiver_BTGMechMedicStandby : ThinkNode_JobGiver
     {
         // Re-evaluate the duty tree at least this often while idle, so the medic

@@ -27,7 +27,10 @@
        own duty's forage node. Food: the patient's carried rations first, then the best
        in-structure food item, then (urgently hungry) a paste dispenser/VNPE tap. Below
        tend and the rescues so bleeders and retrievals always come first.
-    5. Idle - dormant self-charge (SelfShutdown, forceSleep off so the LayDown re-check
+    5. Return home - once no medical work remains, walk back into the medbay if an
+       out-of-room trip (aborted rescue fetch, longjump) left the mech elsewhere, so
+       the idle node below always parks it in its own room.
+    6. Idle - dormant self-charge (SelfShutdown, forceSleep off so the LayDown re-check
        wakes it for the next casualty within ~211 ticks).
 
     Used by: LordJob_MechMedic, assigned via RoomMechLordHelper to the Paramedic mech
@@ -46,7 +49,9 @@
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicFloorRescue" />
         <!-- 4. Feed hungry downed patients in the medbay (they cannot feed themselves). -->
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicFeed" />
-        <!-- 5. Idle: dormant self-charge; re-checks ~every 211 ticks to wake for casualties. -->
+        <!-- 5. No work left: walk back into the medbay before winding down. -->
+        <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicReturnHome" />
+        <!-- 6. Idle: dormant self-charge; re-checks ~every 211 ticks to wake for casualties. -->
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGMechMedicStandby" />
       </subNodes>
     </thinkNode>

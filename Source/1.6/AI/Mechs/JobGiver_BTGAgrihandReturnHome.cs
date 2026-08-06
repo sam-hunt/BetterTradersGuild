@@ -36,49 +36,13 @@ namespace BetterTradersGuild.AI.Mechs
             if (rects == null || FarmArea.Contains(rects, pawn.Position))
                 return null; // no home known, or already home - let standby park it
 
-            if (!TryFindHomeCell(pawn, rects, out IntVec3 dest))
+            if (!MechReturnHome.TryFindHomeCell(pawn, FarmArea.GetAnchor(pawn), rects, out IntVec3 dest))
                 return null;
 
             Job job = JobMaker.MakeJob(JobDefOf.Goto, dest);
             job.expiryInterval = WalkRecheckTicks;
             job.checkOverrideOnExpire = true;
             return job;
-        }
-
-        // Prefer the anchor (the lord's greenhouse centre); if it is unstandable or
-        // unreachable, fall back to the nearest standable, reachable cell in the home rects.
-        private static bool TryFindHomeCell(Pawn pawn, List<CellRect> rects, out IntVec3 dest)
-        {
-            Map map = pawn.Map;
-            IntVec3 anchor = FarmArea.GetAnchor(pawn);
-            if (anchor.IsValid && anchor.Standable(map)
-                && pawn.CanReach(anchor, PathEndMode.OnCell, Danger.Deadly))
-            {
-                dest = anchor;
-                return true;
-            }
-
-            IntVec3 from = anchor.IsValid ? anchor : pawn.Position;
-            IntVec3 best = IntVec3.Invalid;
-            int bestDistSq = int.MaxValue;
-            for (int i = 0; i < rects.Count; i++)
-            {
-                foreach (IntVec3 c in rects[i])
-                {
-                    if (!c.Standable(map))
-                        continue;
-                    int distSq = (c - from).LengthHorizontalSquared;
-                    if (distSq >= bestDistSq)
-                        continue;
-                    if (!pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly))
-                        continue;
-                    bestDistSq = distSq;
-                    best = c;
-                }
-            }
-
-            dest = best;
-            return best.IsValid;
         }
     }
 }
