@@ -29,6 +29,7 @@ namespace BetterTradersGuild
             RefuelableReflection.VerifyReflection();
             MapGenUtilityReflection.VerifyReflection();
             UniqueWeaponNameColorRegenerator.VerifyReflection();
+            UniqueWeaponAbilityResetter.VerifyReflection();
             CompMechGestatorTankTrigger.VerifyReflection();
             WorldObjectRequiresSignalJammer.VerifyReflection();
             TransportersArrivalActionTradeArrived.VerifyReflection();

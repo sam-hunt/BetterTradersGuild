@@ -142,6 +142,10 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                 uniqueComp.AddTrait(randomTrait);
             }
 
+            // Rewire the ability comp: the discarded roll may have wired one up (EMPPulser rolls
+            // on PulseCharge weapons), and the traits added above may include one that needs it.
+            UniqueWeaponAbilityResetter.ResetAndRewire(weapon, uniqueComp);
+
             // CRITICAL: Regenerate weapon name and color based on new traits
             // PostPostMake() cannot be used here because it has an early return guard
             // in InitializeTraits() that prevents regeneration when traits already exist.

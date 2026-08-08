@@ -455,7 +455,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                         uniqueComp.AddTrait(compatible.RandomElement());
                 }
 
-                // Regenerate name and color
+                // Rewire the ability comp (the discarded roll may have wired one up, and a
+                // trait added above may need one), then regenerate name and color.
+                UniqueWeaponAbilityResetter.ResetAndRewire(weapon, uniqueComp);
                 UniqueWeaponNameColorRegenerator.RegenerateNameAndColor(weapon, uniqueComp);
             }
 
