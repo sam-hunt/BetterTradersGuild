@@ -11,6 +11,7 @@
       "brrainz.harmony",
       "ludeon.rimworld",
       "ludeon.rimworld.odyssey",
+      "shunter.uniquemeleeweapons",
       "shunter.bettertradersguild",
       "shunter.l10nprobe"
     ]
@@ -31,7 +32,7 @@
       }
     },
     "DutyDef": {
-      "BTG_DefendStructure.thinkNode.subNodes.7.mealContainerDefNames": {
+      "BTG_DefendStructure.thinkNode.subNodes.8.mealContainerDefNames": {
         "english": [
           "Pallet_SurvivalMeals"
         ],
@@ -56,6 +57,12 @@
         "isCollection": true
       },
       "BTG_StrandedChild.thinkNode.subNodes.2.mealContainerDefNames": {
+        "english": [
+          "Pallet_SurvivalMeals"
+        ],
+        "isCollection": true
+      },
+      "BTG_StrandedDefender.thinkNode.subNodes.2.mealContainerDefNames": {
         "english": [
           "Pallet_SurvivalMeals"
         ],
@@ -99,6 +106,10 @@
       },
       "BTG_CarryBabyToLaunchable.reportString": {
         "english": "carrying TargetA to safety.",
+        "required": true
+      },
+      "BTG_CarryToMedbayFloor.reportString": {
+        "english": "carrying TargetA to the medbay.",
         "required": true
       },
       "BTG_Clean.reportString": {
@@ -222,7 +233,7 @@
         "normalized": "BTG_SmugglersDen.root.nodes.13.outcome.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.EvaluateSimpleCurve.curve.slateRef": {
-        "english": "<points><li>0, 800</li><li>100000, 1600</li><li>300000, 3200</li></points>",
+        "english": "<points><li>0, 1200</li><li>100000, 2400</li><li>300000, 4800</li></points>",
         "normalized": "BTG_SmugglersDen.root.nodes.4.curve.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.EvaluateSimpleCurve.value.slateRef": {
@@ -570,6 +581,31 @@
       }
     },
     "WeaponTraitDef": {
+      "BTG_SilverInlayMelee.description": {
+        "english": "This weapon is inlaid with silver. Traders will pay more for it.",
+        "required": true
+      },
+      "BTG_SilverInlayMelee.exclusionTags": {
+        "english": [
+          "Color"
+        ],
+        "isCollection": true
+      },
+      "BTG_SilverInlayMelee.label": {
+        "english": "silver inlay",
+        "required": true
+      },
+      "BTG_SilverInlayMelee.traitAdjectives": {
+        "english": [
+          "silver",
+          "silvered",
+          "gleaming",
+          "argent",
+          "fine"
+        ],
+        "isCollection": true,
+        "required": true
+      },
       "SilverInlay.description": {
         "english": "This weapon is inlaid with silver. Traders will pay more for it.",
         "required": true
