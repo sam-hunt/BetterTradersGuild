@@ -48,5 +48,6 @@
     <li>VanillaExpanded.VFESpacer</li>
     <li>vanillaexpanded.gravship</li>
     <li>smallmine.HeavyShuttle</li>
+    <li>shunter.uniquemeleeweapons</li>
   </loadAfter>
 </ModMetaData>
