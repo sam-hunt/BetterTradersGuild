@@ -79,7 +79,11 @@ SIDECAR = ROOT / "Scripts" / "expected-injections.json"
 #   * a third-party mod ONLY if this mod's content MayRequires it AND that
 #     content carries a label/description. This mod's MayRequire-gated
 #     Vanilla Expanded prefabs are PrefabDefs (not a def type with
-#     translatable text), so none are needed today.
+#     translatable text). Unique Melee Weapons is the one qualifying case:
+#     BTG_SilverInlayMelee (WeaponTraitDef, MayRequire
+#     shunter.uniquemeleeweapons) carries a label/description/
+#     traitAdjectives, so that packageId is in the list and the mod must be
+#     deployed under the probe install's Mods folder.
 # Nothing else. The probe filters each dump by packageId, so an extra mod
 # adds no keys of its own — but its patches to OUR defs leak straight into
 # the expectations (see header).
@@ -90,6 +94,7 @@ CANONICAL_ACTIVE_MODS = [
     "brrainz.harmony",
     "ludeon.rimworld",
     "ludeon.rimworld.odyssey",
+    "shunter.uniquemeleeweapons",
     "shunter.bettertradersguild",
     "shunter.l10nprobe",
 ]

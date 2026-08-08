@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.RoomContents;
+using BetterTradersGuild.Integrations;
 using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
 using Verse;
@@ -35,7 +37,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
         //
         // Composition:
         // - 1 TradersGuild_Citizen caretaker (the carrier/pilot/guard), armed with a super-
-        //   quality plasteel knife and wearing a masterwork shield belt.
+        //   quality knife (see EquipCaretakerKnife) and wearing a masterwork shield belt.
         // - 1-3 TradersGuild_Child walking children.
         // - 0..(carriers) infants (Newborn/Baby), each tucked into a crib. Carriers = the lone
         //   caretaker + the children, so infants NEVER outnumber the carriers: during an escape
@@ -90,7 +92,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     IntVec3 cell = standableCells.RandomElement();
                     standableCells.Remove(cell);
                     GenSpawn.Spawn(caretaker, cell, map);
-                    EquipSuperPlasteelKnife(caretaker);
+                    EquipCaretakerKnife(caretaker);
                     EquipMasterworkShieldBelt(caretaker);
                     spawnedPawns.Add(caretaker);
                     walkers.Add(caretaker);
@@ -200,14 +202,88 @@ namespace BetterTradersGuild.RoomContents.Nursery
             return true;
         }
 
-        // Equips the caretaker with a super-quality plasteel knife, replacing any weapon the
-        // pawnkind generated. Only ever drawn in reactive self-defense (LordToil_BTGDefend,
-        // when the family is directly attacked) - the caretaker never initiates combat.
-        private static void EquipSuperPlasteelKnife(Pawn pawn)
+        // Equips the caretaker's knife, replacing any weapon the pawnkind generated: a silvered
+        // unique knife when Unique Melee Weapons is active, otherwise a plain super-quality
+        // plasteel knife. Only ever drawn in reactive self-defense (LordToil_BTGDefend, when the
+        // family is directly attacked) - the caretaker never initiates combat.
+        private static void EquipCaretakerKnife(Pawn pawn)
         {
             if (pawn?.equipment == null)
                 return;
 
+            if (!TryEquipUniqueSilveredKnife(pawn))
+                EquipSuperPlasteelKnife(pawn);
+        }
+
+        // Upgrades the caretaker's knife to UMW's unique variant: a silver-inlaid plasteel
+        // knife with a monomolecular or plasma-cored edge when Royalty allows those traits,
+        // otherwise an opiated point plus a coin-flip chance of one more compatible trait.
+        // CanAddTrait carries the compatibility rules (weapon category, exclusion tags, and -
+        // via UMW's own postfix - its allowUltratechTraits setting, whose veto drops us into
+        // the opiated branch just like a missing Royalty).
+        private static bool TryEquipUniqueSilveredKnife(Pawn pawn)
+        {
+            if (!UMWIntegration.Available || Things.Plasteel == null)
+                return false;
+
+            ThingWithComps knife = (ThingWithComps)ThingMaker.MakeThing(UMWIntegration.KnifeUnique, Things.Plasteel);
+            CompUniqueWeapon uniqueComp = knife.TryGetComp<CompUniqueWeapon>();
+            if (uniqueComp == null)
+            {
+                knife.Destroy();
+                return false;
+            }
+
+            knife.TryGetComp<CompQuality>()?.SetQuality(QualityUtility.GenerateQualitySuper(), ArtGenerationContext.Outsider);
+
+            // Discard the random roll from MakeThing and compose our own set.
+            uniqueComp.TraitsListForReading.Clear();
+
+            // Trait 1: silver inlay (canGenerateAlone=false, so it is placed directly rather
+            // than past a CanAddTrait check that would reject a lone add-on trait).
+            uniqueComp.AddTrait(WeaponTraits.BTG_SilverInlayMelee);
+
+            // Trait 2: one of the Royalty-gated ultratech blade traits when available...
+            List<WeaponTraitDef> ultratech = new List<WeaponTraitDef>();
+            if (UMWIntegration.Monomolecular != null && uniqueComp.CanAddTrait(UMWIntegration.Monomolecular))
+                ultratech.Add(UMWIntegration.Monomolecular);
+            if (UMWIntegration.PlasmaCored != null && uniqueComp.CanAddTrait(UMWIntegration.PlasmaCored))
+                ultratech.Add(UMWIntegration.PlasmaCored);
+
+            if (ultratech.Count > 0)
+            {
+                uniqueComp.AddTrait(ultratech.RandomElement());
+            }
+            else
+            {
+                // ...otherwise the opiated coating, plus a 50% chance of a third trait drawn
+                // from whatever remains compatible with the first two.
+                if (UMWIntegration.Opiated != null && uniqueComp.CanAddTrait(UMWIntegration.Opiated))
+                    uniqueComp.AddTrait(UMWIntegration.Opiated);
+
+                if (Rand.Bool)
+                {
+                    List<WeaponTraitDef> compatible = DefDatabase<WeaponTraitDef>.AllDefs
+                        .Where(uniqueComp.CanAddTrait)
+                        .ToList();
+                    if (compatible.Count > 0)
+                        uniqueComp.AddTrait(compatible.RandomElement());
+                }
+            }
+
+            UniqueWeaponAbilityResetter.ResetAndRewire(knife, uniqueComp);
+            UniqueWeaponNameColorRegenerator.RegenerateNameAndColor(knife, uniqueComp);
+
+            if (pawn.equipment.Primary != null)
+                pawn.equipment.DestroyAllEquipment();
+            pawn.equipment.AddEquipment(knife);
+            return true;
+        }
+
+        // Equips the caretaker with a super-quality plasteel knife - the fallback when Unique
+        // Melee Weapons isn't active.
+        private static void EquipSuperPlasteelKnife(Pawn pawn)
+        {
             ThingDef knifeDef = Things.MeleeWeapon_Knife;
             ThingDef plasteel = Things.Plasteel;
             if (knifeDef == null || plasteel == null)

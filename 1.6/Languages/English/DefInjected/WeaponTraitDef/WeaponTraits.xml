@@ -10,4 +10,14 @@
   <SilverInlay.traitAdjectives.3>argent</SilverInlay.traitAdjectives.3>
   <SilverInlay.traitAdjectives.4>fine</SilverInlay.traitAdjectives.4>
 
+  <!-- BTG_SilverInlayMelee — MayRequire mirrors the def's own gate on Unique Melee Weapons,
+       so the injection only applies (and the game only looks the def up) when UMW is active. -->
+  <BTG_SilverInlayMelee.label MayRequire="shunter.uniquemeleeweapons">silver inlay</BTG_SilverInlayMelee.label>
+  <BTG_SilverInlayMelee.description MayRequire="shunter.uniquemeleeweapons">This weapon is inlaid with silver. Traders will pay more for it.</BTG_SilverInlayMelee.description>
+  <BTG_SilverInlayMelee.traitAdjectives.0 MayRequire="shunter.uniquemeleeweapons">silver</BTG_SilverInlayMelee.traitAdjectives.0>
+  <BTG_SilverInlayMelee.traitAdjectives.1 MayRequire="shunter.uniquemeleeweapons">silvered</BTG_SilverInlayMelee.traitAdjectives.1>
+  <BTG_SilverInlayMelee.traitAdjectives.2 MayRequire="shunter.uniquemeleeweapons">gleaming</BTG_SilverInlayMelee.traitAdjectives.2>
+  <BTG_SilverInlayMelee.traitAdjectives.3 MayRequire="shunter.uniquemeleeweapons">argent</BTG_SilverInlayMelee.traitAdjectives.3>
+  <BTG_SilverInlayMelee.traitAdjectives.4 MayRequire="shunter.uniquemeleeweapons">fine</BTG_SilverInlayMelee.traitAdjectives.4>
+
 </LanguageData>

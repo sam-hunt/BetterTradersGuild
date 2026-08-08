@@ -15,6 +15,11 @@ namespace BetterTradersGuild.DefRefs
         public static WeaponTraitDef GoldInlay;
         public static WeaponTraitDef SilverInlay;
 
+        // Melee counterpart of SilverInlay; its def is MayRequire-gated on Unique Melee Weapons
+        // (its weaponCategory references UMW's WeaponCategoryDef), so null when UMW is inactive.
+        [MayRequire(Integrations.UMWIntegration.PackageId)]
+        public static WeaponTraitDef BTG_SilverInlayMelee;
+
         static WeaponTraits() => DefOfHelper.EnsureInitializedInCtor(typeof(WeaponTraits));
     }
 }

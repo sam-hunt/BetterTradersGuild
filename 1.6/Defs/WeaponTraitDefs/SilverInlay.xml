@@ -2,6 +2,8 @@
 <Defs>
 
   <WeaponTraitDef>
+    <!-- Unfortunately we didn't name this more idiomatically "BTG_SilverInlay",
+      though it's too late to change since it's already shipped -->
     <defName>SilverInlay</defName>
     <label>silver inlay</label>
     <description>This weapon is inlaid with silver. Traders will pay more for it.</description>

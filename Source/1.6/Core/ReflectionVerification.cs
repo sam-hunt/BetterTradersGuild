@@ -40,6 +40,7 @@ namespace BetterTradersGuild
             _ = HARIntegration.Available;
             _ = VEPipesIntegration.Available;
             _ = CWTLIntegration.Available;
+            _ = UMWIntegration.Available;
         }
     }
 }
