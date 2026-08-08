@@ -31,10 +31,6 @@ namespace BetterTradersGuild.Comps
             if (hackable?.IsHacked != true)
                 yield break;
 
-            // Only show when not on player's home map
-            if (parent.Map?.IsPlayerHome == true)
-                yield break;
-
             yield return new Command_Action
             {
                 defaultLabel = Props.relockCommandLabel ?? "BTG_CargoVaultHatch_RelockLabel".Translate(),
@@ -53,10 +49,6 @@ namespace BetterTradersGuild.Comps
             // Only show relock option when hatch is unlocked (hacked)
             CompHackable hackable = parent.GetComp<CompHackable>();
             if (hackable?.IsHacked != true)
-                yield break;
-
-            // Only show when not on player's home map
-            if (parent.Map?.IsPlayerHome == true)
                 yield break;
 
             // Check if pawn can do the job
