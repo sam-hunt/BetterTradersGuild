@@ -13,8 +13,8 @@ follow.
 | Language             | Status           | Credit |
 | -------------------- | ---------------- | ------ |
 | English              | Source           | —      |
-| Simplified Chinese   | Machine-assisted | —      |
-| Russian              | Planned          | —      |
+| Simplified Chinese   | Machine-assisted | Opus 5 |
+| Russian              | Machine-assisted | Opus 5 |
 | Korean               | Planned          | —      |
 | German               | Planned          | —      |
 | Spanish              | Planned          | —      |

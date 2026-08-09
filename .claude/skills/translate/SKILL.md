@@ -24,8 +24,8 @@ the source of truth; every other language derives from it.
   (Planned / Machine-assisted / Native, plus credit) must be updated in the
   same commit whenever a language is added or a native review lands. The
   target roster lives there — consult it before proposing new languages.
-  Today it lists English (Source) and Simplified Chinese (Machine-assisted);
-  every other target is still Planned.
+  Today it lists English (Source) plus Simplified Chinese and Russian
+  (both Machine-assisted); every other target is still Planned.
 
 ## File map and conventions
 
@@ -144,12 +144,13 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **Only Simplified Chinese has been grounded in this
-repo so far** (2026-08-09) — its table below carries real BTG
-trader/settlement vocabulary and is safe to build on. Every other language's
-table is still **style/mechanics reference only**, inherited from the
-weapon-mod siblings; ground that language's own trader/settlement terms
-against the Core + Odyssey tars and record them here before relying on them.
+market value, silver). **Simplified Chinese and Russian have been grounded in
+this repo** (2026-08-09 / 2026-08-10) — their tables
+below carry real BTG trader/settlement vocabulary and are safe to build on.
+Every other language's table is still **style/mechanics reference only**,
+inherited from the weapon-mod siblings; ground that language's own
+trader/settlement terms against the Core + Odyssey tars and record them here
+before relying on them.
 
 ### Glossary — shared across the mod family
 
@@ -175,18 +176,116 @@ direction too: if generating this mod's languages surfaces a fix to a truly
 *shared* row (a button label, a punctuation rule), propagate it back into
 the siblings.
 
-#### Russian (from UWU PR #6 native review)
+#### Russian (grounded in this repo's 2026-08-10 generation pass, plus UWU PR #6 native review)
+
+RimWorld's language folder is `Russian` (tar: `Russian (Русский).tar`).
+
+**`LanguageWorker_Russian` overrides no `PostProcessed`** (decompile-verified) —
+no elision, no contraction, no `'s` rewriting, and `WithDefiniteArticle` /
+`WithIndefiniteArticle` fall through to the base (Core `Keyed/Grammar.xml`
+sets `DefiniteArticle`/`IndefiniteArticle` empty and `DefiniteForm`/
+`IndefiniteForm` to `{0}`), so `[X_definite]` is a pure passthrough and every
+contraction lesson from de/es/fr/pt-BR is inapplicable. **Russian's difficulty
+is case and numeral agreement, and the worker exposes a mechanism for each.**
+
+- **`{N_numCase ? formOne : formSeveral : formMany}` — numeral agreement, and
+  the one construct that *replaces* its placeholder.** `TotalNumCaseCount` is
+  3, and `LanguageWorker.ResolveNumCase` returns `number + " " + form`, i.e.
+  it **prints the number itself**. So Core ru renders an English `"{0} days"`
+  as `{0_numCase ? день : дня : дней}` with **no separate `{0}`** — writing
+  both would print the number twice. `GetFormForNumber` picks formOne for
+  n%10==1, formSeveral for n%10 in 2–4, formMany otherwise, with the teens
+  (n/10%10==1) forced to formMany. Use it wherever a slider or count is
+  followed by a noun. Two caveats: it reaches the *string* branch too, where
+  a non-integer yields `number + " " + formSeveral` — so an already-formatted
+  decimal like `"3.2"` is better written plainly as `{2} дня` (decimals always
+  take genitive singular in Russian anyway), which also sidesteps
+  `float.TryParse` returning `""` on a culture mismatch. And a bare Latin unit
+  never needs it: vanilla writes `{0} ч`, `{0} с`, `{0} Вт`.
+  `Scripts/check-translations.py` understands this construct (see
+  `NUM_CASE_RE`) and still fails a translation that drops the argument.
+- **`{lookup: {N}; Case; I}` — case declension, and it works in plain Keyed
+  strings.** `GrammarResolverSimple` parses a `{name: args}` span as a
+  *function* call and hands it to `LanguageWorker.ResolveFunction`, which
+  implements `lookup` and `replace` (decompile-verified — this contradicts
+  the note in the German section below, which is wrong for 1.6). Russian
+  overrides `TryLookUp` to read `WordInfo/Case.txt`, whose rows are
+  `ном; род; дат; вин; твор; предл`, so **index 3 is accusative** and 1 is
+  genitive. Core ships ~1575 rows and Odyssey 12 more. Vanilla uses it in
+  DefInjected as well as Keyed: every `messageDefendersAttacking` is
+  `{0} из фракции {1} атакуют ваших {lookup: {2}; Case; 3}.` and every
+  SitePartDef approach string is `Напасть на {lookup: {0}; Case; 3}`.
+  **A miss degrades gracefully** — `TryLookUp` returns the (lowercased) key
+  unchanged — so a mod-coined label just stays nominative rather than erroring.
+  Two limits worth knowing: the checker's placeholder comparison only sees a
+  *nested* `{N}` (`{lookup: {2}; Case; 3}` is fine, `{lookup: [some_symbol];
+  Case; 1}` reads as one spurious placeholder and fails), and a mod-coined
+  label is never in `Case.txt` anyway — so when the argument is a `[symbol]`,
+  restructure the sentence instead of reaching for `lookup`.
+
+Style rules from the vanilla ru data (mandatory):
+
+- **Guillemets `«…»`** for cited names and UI commands — vanilla writes
+  `Задание провалено: «[resolvedQuestName]»` and `выберите «Просмотр планеты»`.
+  Never `"` or `„…"`.
+- **Em dash `—`** is used freely in prose (unlike es/fr/pt-BR, which have
+  none); ellipsis is ASCII `...`. Descriptions end `.`; labels, buttons and
+  stat fragments take none, and labels are lowercase noun phrases.
+- **`ё` is written**, not folded to `е` (паёк, всё, ещё, налёт).
+- **`reportString`s take no trailing period** and are 3rd-person present
+  verbs — `убирает TargetA`, not a noun phrase and not `убирает TargetA.`
+  (this refines the UWU PR #6 row below, which was about *inspect* strings).
+- Units attach with a space and stay Cyrillic where vanilla has one:
+  `{0} ч`, `{0} Вт`. Some vanilla ru files carry a BOM; ours never do.
+- Formality is `вы`/`ваш` throughout.
 
 | English | Use | Never | Why |
 |---|---|---|---|
 | Cancel (button) | Отменить | Отмена | vanilla `Cancel`; buttons use infinitive verbs |
-| report/inspect strings | noun phrases | finite verbs | matches inspect-pane convention |
+| inspect strings | noun phrases | finite verbs | matches inspect-pane convention (but see reportStrings above) |
+| Reset to defaults / Default / None / Reset | Восстановить по умолчанию / По умолчанию / Нет / Сбросить | | Core `RestoreToDefaultSettings`, `Default`, `None`, `Reset` |
+| quality tiers | ужасно/плохо/нормально/хорошо/отлично/шедевр/легенда | | Core `QualityCategory_*` |
+| traders guild | гильдия торговцев | торговая гильдия | Odyssey `TradersGuild.label` |
+| salvagers | сталкеры | мародёры | Odyssey `Salvagers.label` (its *pawns* are пираты) |
+| trader / orbital trader | торговец / орбитальный торговец | | Core; Odyssey orbital TraderKinds are **plural** (оптовые торговцы, торговцы экзотикой) |
+| Traders will pay more/less for it. | Торговцы заплатят за него больше. / Торговцы дадут за него меньше. | | Odyssey `GoldInlay`/`Ugly` — verbatim |
+| gold/silver inlay | золотая/серебряная инкрустация | | Odyssey `GoldInlay.label` |
+| leader (`leaderTitle`) | глава | | Odyssey: TradersGuild=магистр торговли, Salvagers=главарь; глава is the neutral slot |
+| {0} from {1} are attacking your {2}. | {0} из фракции {1} атакуют ваших {lookup: {2}; Case; 3}. | | every Odyssey `FactionDef` — verbatim |
+| Attack {0} / Attacking {0}. | Напасть на {lookup: {0}; Case; 3} / Нападает на {lookup: {0}; Case; 3} | | Core SitePartDef approach strings — verbatim, no trailing period |
+| goodwill / caravan | репутация / караван | доброжелательность | Core `GoodwillTip` |
+| shuttle | челнок | шаттл | Core `Shuttle.label` |
+| gravship / gravlite panel / pilot console | гравикорабль / панель из гравлита / пульт пилота | | Odyssey |
+| mechhive / orbital relay | мехрой / орбитальный ретранслятор | | Odyssey `TheGravship.description` |
+| signal jammer / sentry drone / life support unit | глушитель сигналов / дрон-дозорный / блок жизнеобеспечения | | Odyssey |
+| orbital platform / settlement platform | орбитальная платформа / платформа поселения | | Odyssey `OrbitalPlatform.label`, `SettlementPlatform.label` |
+| orbital settlement / settlement | орбитальное поселение / поселение фракции | | Odyssey `SpaceSettlement.label`, Core `Settlement.label` |
+| drop/transport pod | транспортная капсула | | Core `DropPodIncoming` |
+| silver / market value / comms console / packaged survival meal | серебро / рыночная стоимость / консоль связи / сухой паёк | | Core |
+| "of normal+ quality" / "(worth [X])" | качеством от нормального и выше / (стоимостью [X]) | | Core `TradeRequest` — verbatim |
+| Quest failed: [resolvedQuestName] | Задание провалено: «[resolvedQuestName]» | | Core `TradeRequest` — verbatim |
+| [faction_name] became hostile to you. | Фракция [faction_name] теперь враждебна к вам. | | Core `TradeRequest` — verbatim |
+| "Note: This is a difficult scenario…" | Примечание: это сложный сценарий, не рекомендуется новичкам. | | Odyssey `TheGravship` — verbatim |
+| "To launch the gravship, select the pilot console…" / "select 'view planet'" | Чтобы запустить гравикорабль, выберите пульт пилота, а затем команду запуска. / выберите «Просмотр планеты» | | Odyssey `TheGravship` GameStartDialog — verbatim |
+| starting people (ScenPart) | людей в начале | | Core `ConfigPage_ConfigureStartingPawns.label` — identical English source, reuse verbatim |
+| reportStrings (clean/rescue/tend/feed/hack/open) | убирает TargetA / спасает TargetA / лечит TargetA / скармливает TargetA TargetB / взламывает TargetA / открывает TargetA | | Core `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1. Odyssey's `Open`/`EnterTransporter` wrap TargetA in `{lookup: {TargetA}; Case; 3}` — **don't copy that**, the bare English `TargetA` has no braces so the checker reads the wrapper as an invented placeholder |
 
-The dropped rows (weapon `trait`, gun `charge`) and the mod-decided
-WeaponCategoryDef labels are weapon-domain vocabulary with no equivalent in
-this mod — see `../UniqueMeleeWeapons`'s skill if that ever changes. This
-repo has not yet run a Russian generation pass; add xenogerm/xenotype rows
-here once one lands.
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** грузовое хранилище (hatch variants защищённый люк грузового
+хранилища / запечатанный люк… / выход из…), **shuttle bay** ангар челноков,
+**smuggler's den** логово контрабандистов, **threat points** очки угрозы,
+**orbital steel / rust** орбитальная сталь / ржавый, **independent traders**
+независимые торговцы, **Exiled Traders** Торговцы-изгнанники, **cargo claim**
+право на груз, **medbay** медотсек, **docked vessel** пришвартованное судно,
+**(Vanilla)** (как в оригинале). `BTG_Settings_ModName` is deliberately left
+as the Latin brand `Better Traders Guild`.
+
+`traitAdjectives` are **masculine nominative singular adjectives** in vanilla
+ru (Odyssey `GoldInlay`: золотой, золоченый) — Russian cannot agree with an
+unknown weapon noun's gender through `GrammarResolverSimple`, and vanilla
+simply does not try. The dropped weapon-domain rows (`trait`, gun `charge`)
+and the mod-decided WeaponCategoryDef labels live in `../UniqueMeleeWeapons`'s
+skill if that vocabulary is ever needed here.
 
 #### Japanese (from the weapon-mod siblings' 2026-07 generation)
 
@@ -402,12 +501,18 @@ mod's settings window uses — reaches `GrammarResolverSimple`. Its `obj is
 string` branch supports `{0_gender ? m : f : n}`, `{0_definite}`,
 `{0_indefinite}`, `{0_plural}` on a plain string, resolving gender from the
 word itself via `WordInfo/Gender/{Male,Female,Neuter,Other}.txt` (~2450
-nouns in Core). But it implements **no `lookup` function**, so `{lookup:
-{0}; decline; N}` — the only route to the 2457-row `decline.txt` case forms
-— is unavailable there, and de's article helpers are nominative-only.
-Gender is solvable, case is not: restructure any oblique slot (a sentence
-needing a dative/accusative/genitive form of an injected label) rather than
-guessing an article. A gender lookup that misses **defaults to masculine**
+nouns in Core). **Correction (2026-08-10, re-verified against the 1.6
+assembly): it DOES implement `lookup`** — a `{name: args}` span parses as a
+*function* call and reaches `LanguageWorker.ResolveFunction`, which handles
+`lookup` and `replace`, so `{lookup: {0}; decline; N}` and the 2457-row
+`decline.txt` case forms are available in a plain Keyed string after all.
+(The Russian section above uses the same mechanism against `Case.txt`.) An
+earlier sibling-repo note claimed otherwise; a German pass should test the
+`decline` table rather than assume case is unreachable. What remains true is
+that de's article helpers are nominative-only and a `decline` miss falls back
+to the key unchanged, so restructuring an oblique slot is still the safer
+default when the injected label is mod-coined and absent from the table. A
+gender lookup that misses **defaults to masculine**
 (`ResolveGender`'s `defaultGender`) — safe only for vanilla nouns in
 nominative slots, never for a mod-coined label absent from the Gender
 tables.
@@ -734,12 +839,17 @@ add xenogerm/xenotype rows here once one lands.
   `GrammarResolverSimple` gives you `{N_gender ? … : … : …}`,
   `{N_definite}`, `{N_indefinite}`, `{N_plural}` and the pronoun family —
   gender is looked up from the word itself via `LanguageWordInfo`, so no
-  `NamedArgument` metadata is needed. It implements **no `lookup` function
-  at all**, so `{lookup: {0}; decline; N}` and every case form it would
-  produce are unavailable there. For inflecting languages that means
-  gender is usually solvable and **case is not**: restructure so nothing
-  has to agree with the injected label. See the German section above for
-  worked rewrites.
+  `NamedArgument` metadata is needed. **It also implements the `lookup` and
+  `replace` *functions*** — a `{name: args}` span (note the colon) is parsed
+  as a function call and dispatched to `LanguageWorker.ResolveFunction`, so
+  `{lookup: {0}; Case; 3}` / `{lookup: {0}; decline; N}` reach the target
+  language's `TryLookUp` and its `WordInfo` tables from a plain Keyed string.
+  This corrects an earlier note in the German section (now amended in
+  place) that said case forms were unreachable there. What is genuinely unreachable
+  is anything the *rulepack* resolver adds on top. A lookup miss returns the
+  key unchanged rather than erroring, so the mechanism is safe to use and
+  degrades to nominative — but a mod-coined label is never in the table, so
+  restructuring is still right when the injected value is one of ours.
 - **The checker compares argument placeholders, not grammar constructs,
   and that distinction is deliberate.** `{0}`/`{PAWN_labelShort}`-style
   placeholders are supplied by the C# call site and must match English
@@ -747,7 +857,14 @@ add xenogerm/xenotype rows here once one lands.
   and uninflected English never has. `Scripts/check-translations.py`
   excludes any `{...}` containing `?` before comparing (see the comment on
   `GRAMMAR_CONSTRUCT_RE`). Confirm the named argument actually exists at
-  the call site before relying on one.
+  the call site before relying on one. **Two constructs are special-cased
+  and both are worth knowing before you write one:** `{N_numCase ? … : … : …}`
+  is rewritten back to `{N}` first, because it is the only ?-construct that
+  prints its argument and therefore legitimately *replaces* the bare
+  placeholder (see `NUM_CASE_RE`); and `{lookup: …}` is **not** handled — a
+  nested `{lookup: {2}; Case; 3}` compares correctly only because the regex
+  finds the inner `{2}`, while `{lookup: [some_symbol]; Case; 1}` reads as one
+  invented placeholder and fails. Restructure rather than fight it.
 - When an English string is reworded, refresh the EN comments in every
   language **in the same commit** — the checker reports the mismatch as
   STALE either way, but batching avoids churn.

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: cargo vault -->
+  <BTG_CargoVaultMapGenerator.label>грузовое хранилище</BTG_CargoVaultMapGenerator.label>
+  <!-- EN: settlement platform -->
+  <BTG_SettlementMapGenerator.label>платформа поселения</BTG_SettlementMapGenerator.label>
+  <!-- EN: smuggler's den platform -->
+  <BTG_SmugglersDenMapGenerator.label>платформа логова контрабандистов</BTG_SmugglersDenMapGenerator.label>
+
+</LanguageData>

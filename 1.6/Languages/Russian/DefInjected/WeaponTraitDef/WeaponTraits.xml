@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>серебряная инкрустация</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>Это оружие украшено серебряной инкрустацией. Торговцы заплатят за него больше.</SilverInlay.description>
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>серебряный</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>посеребрённый</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>блестящий</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>серебристый</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>изящный</SilverInlay.traitAdjectives.4>
+
+  <!-- BTG_SilverInlayMelee (UMW-gated) lives in
+       1.6/Mods/UniqueMeleeWeapons/Languages/Russian/DefInjected/WeaponTraitDef/,
+       mirroring the English compat root - MayRequire is ignored on DefInjected
+       entries, so the gate has to be the LoadFolders compat root. -->
+
+</LanguageData>

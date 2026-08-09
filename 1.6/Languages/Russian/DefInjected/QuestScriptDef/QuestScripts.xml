@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_TradeRequest -->
+  <!-- EN:
+    <li>questName->Shuttle Run to [settlement_label]</li>
+    <li>questName->Orbital Trade with [settlement_label]</li>
+    <li>questName->Shipment for [settlement_label]</li>
+    <li>questName->Delivery to [settlement_label]</li>
+  -->
+  <BTG_TradeRequest.questNameRules.rulesStrings>
+    <li>questName->рейс челнока в [settlement_label]</li>
+    <li>questName->орбитальная торговля с [settlement_label]</li>
+    <li>questName->груз для [settlement_label]</li>
+    <li>questName->доставка в [settlement_label]</li>
+  </BTG_TradeRequest.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:
+
+ [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])
+
+If you want to make the trade, send a shuttle with the requested items.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </li>
+    <li>qualityInfo-></li>
+  -->
+  <BTG_TradeRequest.questDescriptionRules.rulesStrings>
+    <li>questDescription->Соседняя орбитальная станция, [settlement_label], обращается к вам с особым торговым предложением. Они хотели бы приобрести:\n\n  [requestedThingCount]x [requestedThing_label] [qualityInfo](стоимостью [requestedThingMarketValue_money])\n\nЕсли вы хотите заключить эту сделку, отправьте челнок с указанными товарами.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->качеством от нормального и выше </li>
+    <li>qualityInfo-></li>
+  </BTG_TradeRequest.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_TradeRequest.root.nodes.Letter.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_TradeRequest.root.nodes.Letter.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_TradeRequest.root.nodes.Letter.text.slateRef>Фракция [faction_name] теперь враждебна к вам.</BTG_TradeRequest.root.nodes.Letter.text.slateRef>
+  <!-- EN: [asker_faction_royalFavorLabel] -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>[asker_faction_royalFavorLabel]</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>
+  <!-- EN: Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request? -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>За успешное проведение сделки положена награда: [asker_faction_royalFavorLabel]. Кому её зачесть?</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN:
+    <li>questName->Smuggler's Den Near [settlement_label]</li>
+    <li>questName->Orbital Pirate Haven</li>
+    <li>questName->Salvager Outpost Near [settlement_label]</li>
+    <li>questName->Black Market Station</li>
+  -->
+  <BTG_SmugglersDen.questNameRules.rulesStrings>
+    <li>questName->логово контрабандистов рядом с [settlement_label]</li>
+    <li>questName->орбитальное пиратское убежище</li>
+    <li>questName->аванпост сталкеров рядом с [settlement_label]</li>
+    <li>questName->станция чёрного рынка</li>
+  </BTG_SmugglersDen.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+  -->
+  <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+    <li>questDescription->[asker_nameFull], представляющий гильдию торговцев, сообщает об аванпосте сталкеров, действующем рядом с [settlement_label]. Эта станция перехватывает конвои гильдии и сбывает краденый груз.\n\nГильдия предлагает права на трофеи в уплату за зачистку аванпоста. У них есть свой человек, способный подкрутить расписание стыковок так, чтобы грузовое хранилище оказалось побогаче, а сделка — повыгоднее.</li>
+  </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>Фракция [faction_name] теперь враждебна к вам.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>Узнав о нападении, сталкеры вывезли всё с аванпоста и разбежались. Задание «[resolvedQuestName]» завершено.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+
+</LanguageData>

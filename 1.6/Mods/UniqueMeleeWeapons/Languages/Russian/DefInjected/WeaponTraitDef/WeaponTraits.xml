@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SilverInlayMelee (WeaponTraitDef, MayRequire shunter.uniquemeleeweapons). These
+       injections mirror the English compat root at
+       1.6/Mods/UniqueMeleeWeapons/Languages/English/DefInjected/WeaponTraitDef/: the
+       LoadFolders gate on 1.6/Mods/UniqueMeleeWeapons is the only thing that keeps them
+       from erroring on startup for users without UMW, since the DefInjected loader
+       never reads MayRequire attributes. -->
+
+  <!-- EN: silver inlay -->
+  <BTG_SilverInlayMelee.label>серебряная инкрустация</BTG_SilverInlayMelee.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <BTG_SilverInlayMelee.description>Это оружие украшено серебряной инкрустацией. Торговцы заплатят за него больше.</BTG_SilverInlayMelee.description>
+  <!-- EN: silver -->
+  <BTG_SilverInlayMelee.traitAdjectives.0>серебряный</BTG_SilverInlayMelee.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <BTG_SilverInlayMelee.traitAdjectives.1>посеребрённый</BTG_SilverInlayMelee.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <BTG_SilverInlayMelee.traitAdjectives.2>блестящий</BTG_SilverInlayMelee.traitAdjectives.2>
+  <!-- EN: argent -->
+  <BTG_SilverInlayMelee.traitAdjectives.3>серебристый</BTG_SilverInlayMelee.traitAdjectives.3>
+  <!-- EN: fine -->
+  <BTG_SilverInlayMelee.traitAdjectives.4>изящный</BTG_SilverInlayMelee.traitAdjectives.4>
+
+</LanguageData>

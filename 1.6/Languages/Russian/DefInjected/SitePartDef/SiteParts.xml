@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>логово контрабандистов</BTG_SmugglersDen.label>
+  <!-- EN: An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer. -->
+  <BTG_SmugglersDen.description>Орбитальная платформа, захваченная сталкерами и превращённая в перевалочный пункт контрабанды и аванпост чёрного рынка.\n\nНа этих платформах установлены дальнобойные автоматические системы вооружения, способные уничтожать приближающиеся корабли. Безопасно подойти можно только на гравикорабле с глушителем сигналов.</BTG_SmugglersDen.description>
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>Напасть на {lookup: {0}; Case; 3}</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>Нападает на {lookup: {0}; Case; 3}</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

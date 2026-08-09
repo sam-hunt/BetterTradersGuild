@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>поднимается на борт TargetA</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>вызывает снабжение</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>уносит TargetA в безопасное место</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>несёт TargetA в медотсек</BTG_CarryToMedbayFloor.reportString>
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>убирает TargetA</BTG_Clean.reportString>
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>скармливает TargetA TargetB</BTG_FeedPatient.reportString>
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>взламывает TargetA</BTG_Hack.reportString>
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>открывает TargetA</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>снова открывает TargetA</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>запирает люк грузового хранилища</BTG_Relock.reportString>
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>спасает TargetA</BTG_Rescue.reportString>
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>лечит TargetA</BTG_TendPatient.reportString>
+
+</LanguageData>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_CargoVaultHatch -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>защищённый люк грузового хранилища</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>Укреплённый люк, ведущий в защищённое грузовое хранилище станции. Внизу под автоматической охраной хранятся ценные товары. Взломайте панель доступа, чтобы отключить замок.</BTG_CargoVaultHatch.description>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>Взломайте, чтобы отключить замок.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} обходит защиту {SUBJECT_labelNoParenthesisDef}.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+
+  <!-- BTG_CargoVaultHatch_Sealed -->
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>запечатанный люк грузового хранилища</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>Укреплённый люк, ведущий в защищённое грузовое хранилище станции. Его наглухо запечатали, чтобы налётчики не добрались до содержимого.</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- BTG_CargoVaultExit -->
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>выход из грузового хранилища</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>Надёжная лестница с люком, ведущая обратно в ангар челноков станции наверху.</BTG_CargoVaultExit.description>
+
+</LanguageData>
