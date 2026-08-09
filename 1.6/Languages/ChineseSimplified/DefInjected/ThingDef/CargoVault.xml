@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_CargoVaultHatch -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>货物保险库安全舱门</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>一扇通往空间站安全货物保险库的加固舱门。下方的保险库存放着受自动安保系统看护的高价值贸易货物。骇入访问面板即可解除锁定。</BTG_CargoVaultHatch.description>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>骇入以解除安保锁定。</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort}已绕过{SUBJECT_labelNoParenthesisDef}的安保系统。</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+
+  <!-- BTG_CargoVaultHatch_Sealed -->
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>货物保险库封闭舱门</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>一扇通往空间站安全货物保险库的加固舱门。为阻止袭击者进入，它已被过度封死。</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- BTG_CargoVaultExit -->
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>货物保险库出口</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>一段安全的梯子与舱门，可返回上方空间站的穿梭机库。</BTG_CargoVaultExit.description>
+
+</LanguageData>

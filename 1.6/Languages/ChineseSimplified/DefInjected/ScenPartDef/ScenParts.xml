@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes (ScenPartDef, MayRequire Biotech) is deliberately
+       outside the l10n surface - see the English file and CLAUDE.md. -->
+
+  <!-- BTG_FactionGoodwill -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>派系好感度</BTG_FactionGoodwill.label>
+
+  <!-- BTG_PlayerPawnsArriveShuttle -->
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>乘穿梭机抵达</BTG_PlayerPawnsArriveShuttle.label>
+
+  <!-- BTG_StartingApparelColor -->
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>初始服装颜色</BTG_StartingApparelColor.label>
+
+  <!-- BTG_StartingUniqueWeapon -->
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>初始独特武器</BTG_StartingUniqueWeapon.label>
+
+</LanguageData>

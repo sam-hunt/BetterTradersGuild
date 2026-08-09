@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_IndependentTraders -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>独立商人</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>一小队脱离商会的前成员，如今独立经营。</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>领袖</BTG_IndependentTraders.leaderTitle>
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>来自{1}的{0}正在攻击你的{2}。</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>商人</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>商人</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

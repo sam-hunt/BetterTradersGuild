@@ -24,8 +24,8 @@ the source of truth; every other language derives from it.
   (Planned / Machine-assisted / Native, plus credit) must be updated in the
   same commit whenever a language is added or a native review lands. The
   target roster lives there — consult it before proposing new languages.
-  Today it lists English only, so there is nothing yet to reconcile, but the
-  rule stands from the first added language onward.
+  Today it lists English (Source) and Simplified Chinese (Machine-assisted);
+  every other target is still Planned.
 
 ## File map and conventions
 
@@ -95,6 +95,21 @@ the source of truth; every other language derives from it.
   authority for what actually needs translating is never a hand-maintained
   list, it's the `Scripts/expected-injections.json` sidecar (see above); new
   content of *any* shape forces a regen rather than a manifest edit.
+- **The English DefInjected tree is NOT the translation surface — it is a
+  strict subset of it.** The checker demands the sidecar's `required` set
+  from every non-English language, but demands nothing of English (English
+  is served by the def XML's own `<label>`/`<description>`, so its
+  DefInjected files are validated-if-present reference material only). At
+  the 2026-08-09 zh pass, 35 of the 70 required entries had **no** English
+  DefInjected counterpart at all — whole def types (`SitePartDef`,
+  `WorldObjectDef`), 11 of 12 `JobDef` reportStrings, the entire
+  `BTG_SmugglersDen` quest, `FactionDef.leaderTitle` /
+  `messageDefendersAttacking`, the `scenario.name` / `scenario.description`
+  mirrors, and the `CompHackable` strings. **Enumerate from the sidecar, not
+  from `1.6/Languages/English/`,** and take the English source text for
+  those entries from the sidecar's `english` field (which is also what the
+  checker compares `<!-- EN: -->` comments against, so sourcing EN comments
+  from it programmatically makes drift impossible).
 - **EN comment convention (required):** every translated entry carries the
   current English source directly above it:
   `<!-- EN: Reset to defaults -->` — this is how the checker detects
@@ -125,12 +140,12 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **None of this repo's own glossary rows below have
-been grounded yet.** No language pass in this repo has yet run an
-Odyssey-grounded generation. Treat every glossary table below as
-**style/mechanics reference only** until an actual generation pass grounds
-BTG's own trader/settlement vocabulary against the Odyssey tar and records
-it here.
+market value, silver). **Only Simplified Chinese has been grounded in this
+repo so far** (2026-08-09) — its table below carries real BTG
+trader/settlement vocabulary and is safe to build on. Every other language's
+table is still **style/mechanics reference only**, inherited from the
+weapon-mod siblings; ground that language's own trader/settlement terms
+against the Core + Odyssey tars and record them here before relying on them.
 
 ### Glossary — shared across the mod family
 
@@ -196,7 +211,7 @@ melee combat text, which this mod has none of. See `../UniqueMeleeWeapons`
 if that ever changes. This repo has not yet run a Japanese generation pass;
 add xenogerm/xenotype rows here once one lands.
 
-#### Simplified Chinese (from the weapon-mod siblings' 2026-07 generation)
+#### Simplified Chinese (grounded in this repo's 2026-08-09 generation pass)
 
 RimWorld's language folder is `ChineseSimplified` (tar: `ChineseSimplified
 (简体中文).tar`) — the mod's folder must match it exactly, whatever the
@@ -208,22 +223,79 @@ Style rules discovered from the vanilla zh data (mandatory):
   labels and buttons carry no trailing period. Placeholders, digits and units
   stay ASCII. Vanilla labels use full-width parens: 锻造台（燃料）.
 - Quote cited names in prose with full-width curly quotes — vanilla writes
-  任务"{0}". Terse stat templates take no quotes ({0}伤害).
+  任务"{0}". Terse stat templates take no quotes ({0}伤害). **But UI commands
+  the player must click take corner brackets** 「」: Odyssey's own game-start
+  dialog writes 请选择飞船控制台，然后点击「发射」指令 and 使用「查看星球」.
+  BTG's scenario dialogs are the same shape, so they follow the same rule —
+  pick the nearer analog over the general one.
+- An English em dash `—` becomes a **double** em dash ——, not a single one
+  (vanilla: 这并不是古老的人类科技——而是一个机械族信标).
+- Units attach with no space (`{0}天`, `{0}小时`), and a bare Latin unit
+  suffix stays ASCII (`{0}W`, `{0}x`).
 - Vanilla zh files can contain untranslated English values — vanilla
   incompleteness is not style guidance. Some vanilla zh files carry a BOM;
   ours never do.
+- `LanguageWorker_ChineseSimplified` imposes no authoring requirements (no
+  particles, no elision, no contraction) — zh's difficulty is terminology,
+  not mechanics.
+
+**The single biggest lever for this mod is that Odyssey already ships zh for
+almost everything BTG builds on.** Four vanilla defs are near-exact templates
+and were reused wholesale in the 2026-08-09 pass — check them first before
+composing anything new:
+
+| BTG content | Vanilla template |
+|---|---|
+| `BTG_TradeRequest` (quest name/description rules, both failure letters, the royal-favor letters) | Core `TradeRequest` QuestScriptDef — 4 of its required slateRefs are byte-identical reuse |
+| `BTG_ExiledTraders` (scenario description + game-start dialog) | Odyssey `TheGravship` ScenarioDef |
+| `SilverInlay` / `BTG_SilverInlayMelee` | Odyssey `GoldInlay` WeaponTraitDef |
+| `BTG_SmugglersDen` SitePartDef description ¶2 | Odyssey `SpaceSettlement.description` ¶2, verbatim |
 
 | English | Use | Never | Why |
 |---|---|---|---|
 | quality tiers | 极差/较差/一般/良好/极佳/大师级/传奇级 | | Core `QualityCategory_*` |
+| "of normal+ quality" | 一般品质以上的 | | Core `TradeRequest` quest rules |
+| traders guild | 商会 | 贸易公会 | Odyssey `TradersGuild.label` |
+| salvagers | 打捞者 | 拾荒者 | Odyssey `Salvagers.label` (its *pawns* are 海盗) |
+| trader / merchant | 商人 | | Odyssey `GoldInlay.description` |
+| orbital trader | 轨道贸易商 | | Core `CommsConsole.description` |
+| Traders will pay more for it. | 商人会支付更高的价格。 | | Odyssey `GoldInlay` — verbatim; 压价收购 is the "pay less" counterpart (`Ugly`) |
+| leader (`leaderTitle`) | 领袖 | | Odyssey `GravshipCrew.leaderTitle` |
+| {0} from {1} are attacking your {2}. | 来自{1}的{0}正在攻击你的{2}。 | | every Odyssey `FactionDef` — verbatim |
+| shuttle | 穿梭机 | | Odyssey |
+| gravship / gravlite panel / pilot console | 逆重飞船 / 逆重板 / 飞船控制台 | | Odyssey (`PilotConsole.label`; the Keyed UI's 驾驶台 is a different slot) |
+| drop/transport pod vs cargo pod | 运输舱 vs 货舱 | | Core `DropPodIncoming` / `CargoPodCrash` — distinct, don't merge |
+| orbital platform | 轨道设施 | 轨道平台 | Odyssey `OrbitalPlatform.label` — so "settlement platform" → 定居点设施 |
+| space settlement / settlement | 轨道定居点 / 派系定居点 | | Odyssey `SpaceSettlement.label`, Core `Settlement.label` |
+| signal jammer | 信号干扰器 | | Odyssey |
+| sentry drone | 哨兵无人机 | 哨戒无人机 | Odyssey `Drone_Sentry.label` |
+| life support unit | 生命维持单元 | | Odyssey `LifeSupportUnit.label` |
+| mechhive / orbital relay | 机械主巢 / 轨道中继站 | | Odyssey `TheGravship.description` (the namer's 机械巢 is a different slot) |
+| goodwill / caravan / negotiator | 好感度 / 远行队 / 谈判者 | | Core |
+| market value / silver / packaged survival meal / comms console | 市场价值 / 白银 / 包装生存食物 / 通讯台 | | Core |
+| Reset to default(s) / Default / None | 重置为默认值 / 默认 / 无 | | Core `ResetBinding`, `Default`, `None` |
+| Quest failed: [resolvedQuestName] | 任务失败：[resolvedQuestName] | | Core `TradeRequest` — verbatim |
+| [faction_name] became hostile to you. | [faction_name]开始与你敌对了。 | | Core `TradeRequest` — verbatim |
+| Attack {0} / Attacking {0}. | 进攻{0} / 正在进攻{0}。 | | Core site approach strings — verbatim |
+| "Note: This is a difficult scenario…" | 注意：这是个高难度的剧本，不建议新玩家尝试。 | | Odyssey `TheGravship` — verbatim |
+| reportStrings (clean/rescue/tend/feed/hack/open) | 清理TargetA。/ 救援TargetA。/ 治疗TargetA。/ 将TargetA喂给TargetB吃。/ 骇入TargetA。/ 打开TargetA。 | | Core `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1 |
 
-The rest of the weapon-mod Simplified Chinese glossary — weapon/tool/damage
-vocabulary, the bare-attributive-word requirement for `traitAdjectives`, and
-the name-grammar composition rules (的/之 linking, material compounding) — is
-specific to `RulePackDef` name generation and melee combat text, which this
-mod has none of. See `../UniqueMeleeWeapons` if that ever changes. This repo
-has not yet run a Simplified Chinese generation pass; add xenogerm/xenotype
-rows here once one lands.
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** 货物保险库 (hatch variants 货物保险库安全舱门 / 封闭舱门 / 出口),
+**shuttle bay** 穿梭机库, **smuggler's den** 走私巢穴, **threat points**
+威胁点数, **orbital steel / rust** 轨道钢 / 锈色, **independent traders**
+独立商人, **Exiled Traders** 流放商人, **cargo claim** 货物提取权.
+`BTG_Settings_ModName` is deliberately left as the Latin brand `Better
+Traders Guild` (it is also injected into the Empire-fix dialog as a
+colorized mod name).
+
+`traitAdjectives` must be **bare attributive words** that read as a prefix on
+a weapon noun (银/白银/闪耀/银白/精良 → 银白长剑), never a 的-terminated
+phrase. The rest of the weapon-mod Simplified Chinese glossary —
+weapon/tool/damage vocabulary and the name-grammar composition rules (的/之
+linking, material compounding) — is specific to `RulePackDef` name
+generation and melee combat text, which this mod has none of. See
+`../UniqueMeleeWeapons` if that ever changes.
 
 #### Korean (from the weapon-mod siblings' 2026-07 generation)
 
@@ -696,14 +768,18 @@ changes.
 ### Initial generation (`/translate <Language>`)
 
 1. Run the checker; confirm English itself is clean.
-2. Enumerate the English Keyed keys in `BTG.xml`, and the DefInjected keys
-   per def-type folder under `1.6/Languages/English/DefInjected/`
-   (`ColorDef`, `FactionDef`, `JobDef`, `MapGeneratorDef`, `PawnKindDef`,
-   `QuestScriptDef`, `ScenPartDef`, `ScenarioDef`, `ThingDef`,
-   `WeaponTraitDef`) plus the UMW-gated root
-   `1.6/Mods/UniqueMeleeWeapons/Languages/English/DefInjected/WeaponTraitDef/` — confirm the
-   full key set against the `Scripts/expected-injections.json` sidecar
-   rather than assuming it.
+2. Enumerate the target key set: every Keyed key in
+   `1.6/Languages/English/Keyed/BTG.xml`, plus every `required` DefInjected
+   entry in the `Scripts/expected-injections.json` sidecar, taking the
+   English source text from each entry's `english` field — NOT from the
+   English DefInjected tree, which covers only half the surface (see the
+   file-map bullet above). Route the UMW-gated `BTG_SilverInlayMelee.*`
+   entries to the compat root
+   (`1.6/Mods/UniqueMeleeWeapons/Languages/<Language>/DefInjected/WeaponTraitDef/`);
+   everything else goes in the main `1.6/Languages/<Language>/` tree, never
+   the other way around — the checker cannot see which root an entry sits
+   in, but the game can (a gated entry in the main tree is a startup error
+   for users without UMW).
 3. Extract the vanilla tar for the target language into the scratchpad;
    build a term list for the grounded terms above (Core + Odyssey).
 4. Translate via subagent(s) carrying: the glossary, the vanilla term list,

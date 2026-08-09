@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>白银镶嵌</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>该武器饰以白银，商人会支付更高的价格。</SilverInlay.description>
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>银</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>白银</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>闪耀</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>银白</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>精良</SilverInlay.traitAdjectives.4>
+
+  <!-- BTG_SilverInlayMelee (UMW-gated) lives in
+       1.6/Mods/UniqueMeleeWeapons/Languages/ChineseSimplified/DefInjected/WeaponTraitDef/,
+       mirroring the English compat root - MayRequire is ignored on DefInjected
+       entries, so the gate has to be the LoadFolders compat root. -->
+
+</LanguageData>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>走私巢穴</BTG_SmugglersDen.label>
+  <!-- EN: An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer. -->
+  <BTG_SmugglersDen.description>一座被打捞者占据的轨道设施，用作走私枢纽与黑市前哨站。\n\n这些设施装备有远程自动武器系统，能摧毁来袭飞船。只有配备信号干扰器的逆重飞船才能安全靠近。</BTG_SmugglersDen.description>
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>进攻{0}</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>正在进攻{0}。</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>
