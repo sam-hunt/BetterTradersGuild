@@ -10,8 +10,10 @@ namespace BetterTradersGuild.MapGeneration
     // No XML parameters - uses the layout structure sketch from the map to
     // determine where pipes should be extended.
     //
-    // IMPORTANT: This GenStepDef should have MayRequire="OskarPotocki.VFE.Core"
-    // so it skips early when Vanilla Expanded Framework is not installed.
+    // The GenStepDef deliberately has no MayRequire gate: MapGeneratorDefs reference
+    // it by defName, so skipping the def would break cross-reference resolution.
+    // Instead the code self-guards - LandingPadPipeExtender early-returns at zero
+    // cost when no VE pipe mod is installed (empty visible/hidden pipe def lists).
     //
     // TECHNICAL APPROACH:
     // - Uses LandingPadDetector to find external landing pads via beacon markers
