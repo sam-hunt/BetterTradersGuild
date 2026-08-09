@@ -14,7 +14,9 @@ namespace BetterTradersGuild.LordJobs.Civilians
     // Three-phase state graph (see the LordToils and DutyDefs/Civilians/*.xml):
     //
     //   Shelter  ──[a walker starving (the locked shelter's food is gone) OR
-    //               the shelter is compromised (hostile inside / breached)]───▶ Escape
+    //               the shelter is compromised (hostile inside / breached /
+    //               vacuum / door unsealed) OR a walker can already reach a
+    //               launchable (the way out is open, whoever opened it)]──────▶ Escape
     //   Escape   ──[no walker can reach any launchable, and the shelter's own
     //               door is no longer what seals them in]─────────────────────▶ Stranded
     //   Stranded ──[a walker can reach a launchable again]─────────────────────▶ Escape
@@ -96,11 +98,15 @@ namespace BetterTradersGuild.LordJobs.Civilians
             // Harm signals bypass the periodic gate: a walker taking external violence IS the
             // shelter failing, whatever the compromise scan thinks - covers e.g. being shot
             // through an open doorway by an attacker who never sets foot in the room.
+            // AnyWalkerCanReachLaunchable is the "way out is open" cue: the subroom's own
+            // locked blast door blocks CanReach even for its own faction, so while properly
+            // sealed in this is ALWAYS false - it flips true precisely when a route to a
+            // launchable opens (external door hack, breach elsewhere), whoever opened it.
             Transition toEscape = new Transition(shelter, escape);
             toEscape.AddTrigger(new Trigger_Custom(signal =>
                 Trigger_PawnHarmed.SignalIsHarm(signal)
                 || (signal.type == TriggerSignalType.Tick && DueForCheck()
-                    && (AnyStarving() || ShelterCompromised()))));
+                    && (AnyStarving() || ShelterCompromised() || AnyWalkerCanReachLaunchable()))));
             toEscape.AddPostAction(new TransitionAction_WakeAll());
             toEscape.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscape);
@@ -167,11 +173,12 @@ namespace BetterTradersGuild.LordJobs.Civilians
         }
 
         // True if any living, un-downed lord walker (caretaker or child - the pawns who
-        // actually board/carry) can currently reach a launchable. Gates both the escape ->
+        // actually board/carry) can currently reach a launchable. Gates the escape ->
         // stranded demotion and the stranded -> escape re-promotion, so the lord only gives up
         // when nobody can physically get to a launchable, and tries again the moment someone
         // can - matching the per-pawn reachability LordToil_BTGEscape already uses to pick a
-        // walker's target.
+        // walker's target. Also an escape cue for the shelter phase itself (see CreateGraph):
+        // sealed in, it's always false, so it firing there means the way out has opened.
         private bool AnyWalkerCanReachLaunchable()
         {
             return LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map);
@@ -247,6 +254,18 @@ namespace BetterTradersGuild.LordJobs.Civilians
                 return false;
 
             if (room.CellCount > ShelterDoorHelper.MaxPlausibleSubroomCells)
+                return true;
+
+            // Any vacuum at all means the pressure seal has failed (a hull nick too small to
+            // fuse rooms still leaks). The infants have no vacuum resistance, so waiting out
+            // the leak kills them long before the walkers feel it - bolt immediately.
+            if (room.Vacuum > 0f)
+                return true;
+
+            // An unlocked shelter door is always an external actor's doing (no shelter-phase
+            // duty touches the door), and an unsealed shelter protects nobody - the family
+            // runs rather than sitting behind an open door until starvation.
+            if (ShelterDoorHelper.AnyShelterDoorUnlocked(subroomCenter, map))
                 return true;
 
             IReadOnlyList<Pawn> pawns = map.mapPawns.AllPawnsSpawned;

@@ -102,6 +102,26 @@ namespace BetterTradersGuild.AI.Civilians
             return false;
         }
 
+        // True when some shelter door exists but is no longer Locked - i.e. the seal has been
+        // opened from OUTSIDE the family's own plan (player hack, scenario scripting): while
+        // sheltering, no walker duty ever touches the door, so an unlocked door always means an
+        // external actor. Distinct from a DESTROYED door, which merges the subroom into a
+        // larger room and is caught by the room-size breach check instead (ShelterDoors then
+        // returns empty, so this stays false - correctly, since the breach check already fired).
+        // Used by LordJob_BTGShelterCivilians.ShelterCompromised: an unsealed shelter no longer
+        // protects anyone, so the family bolts rather than waiting out starvation behind an
+        // open door.
+        public static bool AnyShelterDoorUnlocked(IntVec3 focus, Map map)
+        {
+            List<Building_HackableDoor> doors = ShelterDoors(focus, map);
+            for (int i = 0; i < doors.Count; i++)
+            {
+                if (!doors[i].Locked)
+                    return true;
+            }
+            return false;
+        }
+
         // A door's own cell resolves to its portal region's "doorway" room, never the interior
         // room on either side, so membership can't be tested on the door cell itself - it's
         // tested via the door's cardinal neighbours instead: a door in the crib subroom's own
