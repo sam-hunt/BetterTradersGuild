@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes (Biotech compat root - see the English
+       counterpart). Label reuses Core zh ConfigPage_ConfigureStartingPawns verbatim
+       (identical English source). -->
+  <!-- EN: starting people -->
+  <BTG_ConfigureStartingPawnsXenotypes.label>开局人数</BTG_ConfigureStartingPawnsXenotypes.label>
+
+</LanguageData>

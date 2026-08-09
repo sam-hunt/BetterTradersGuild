@@ -64,15 +64,13 @@ SIDECAR = ROOT / "Scripts" / "expected-injections.json"
 # The exact list the probe boots with — deterministic expectations need a
 # deterministic def graph. Order is load order; the probe must be last.
 # Membership rule:
-#   * Core, plus every DLC this mod hard-requires OR gates content behind via
-#     MayRequire — a def whose gate is absent never loads, so its keys drop
-#     out of the sidecar and its already-shipped translations turn illegal.
-#     Odyssey is a hard dependency (About.xml's modDependencies). Known
-#     exception, kept out deliberately: BTG_ConfigureStartingPawnsXenotypes
-#     (ScenPartDef, MayRequire Biotech) carries a label, but its English
-#     DefInjected entry is commented out — the l10n surface stays at the
-#     hard-dependency baseline. Adding Biotech here + uncommenting that
-#     entry is the upgrade path if that label should ever be translatable;
+#   * Core, plus every DLC this mod hard-requires OR gates content behind
+#     (MayRequire or a LoadFolders-gated compat root) — a def whose gate is
+#     absent never loads, so its keys drop out of the sidecar and its
+#     already-shipped translations turn illegal. Odyssey is a hard dependency
+#     (About.xml's modDependencies); Biotech qualifies via the 1.6/Mods/Biotech
+#     compat root, which ships BTG_ConfigureStartingPawnsXenotypes (ScenPartDef)
+#     and its DefInjected entries;
 #   * hard dependencies (Harmony);
 #   * this repo's own sidecar-bearing mod. This mod is not part of a probed
 #     family, so the list has no siblings to add;
@@ -94,6 +92,7 @@ SIDECAR = ROOT / "Scripts" / "expected-injections.json"
 CANONICAL_ACTIVE_MODS = [
     "brrainz.harmony",
     "ludeon.rimworld",
+    "ludeon.rimworld.biotech",
     "ludeon.rimworld.odyssey",
     "shunter.uniquemeleeweapons",
     "shunter.bettertradersguild",

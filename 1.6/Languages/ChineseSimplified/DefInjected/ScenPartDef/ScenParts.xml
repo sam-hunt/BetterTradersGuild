@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-  <!-- BTG_ConfigureStartingPawnsXenotypes (ScenPartDef, MayRequire Biotech) is deliberately
-       outside the l10n surface - see the English file and CLAUDE.md. -->
+  <!-- BTG_ConfigureStartingPawnsXenotypes lives in the Biotech compat load root
+       (1.6/Mods/Biotech/), together with its DefInjected entries. -->
 
   <!-- BTG_FactionGoodwill -->
   <!-- EN: faction goodwill -->

@@ -3,6 +3,7 @@
     "gameBuild": "1.6.4871 rev591",
     "activeDlcs": [
       "Core",
+      "Biotech",
       "Odyssey"
     ],
     "modPackageId": "shunter.bettertradersguild",
@@ -10,6 +11,7 @@
     "activeMods": [
       "brrainz.harmony",
       "ludeon.rimworld",
+      "ludeon.rimworld.biotech",
       "ludeon.rimworld.odyssey",
       "shunter.uniquemeleeweapons",
       "shunter.bettertradersguild",
@@ -427,6 +429,10 @@
       }
     },
     "ScenPartDef": {
+      "BTG_ConfigureStartingPawnsXenotypes.label": {
+        "english": "starting people",
+        "required": true
+      },
       "BTG_FactionGoodwill.label": {
         "english": "faction goodwill",
         "required": true

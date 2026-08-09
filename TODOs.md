@@ -30,7 +30,6 @@ TODOs
 
 - Investigate mod Settlement Visit compatibility
 - Investigate Simple Warrants fulfilment
-- Biotech-gated l10n exclusion follow-up: BTG_ConfigureStartingPawnsXenotypes (ScenPartDef, MayRequire Biotech) keeps its English DefInjected entry commented out as a documented exclusion — the compat load root pattern now gives it a proper home (1.6/Mods/Biotech/ with an IfModActive ludeon.rimworld.biotech entry, uncomment the entry there, add Biotech to the probe roster in Scripts/refresh-translation-expectations.py, regen the sidecar)
 
 - Add trade/equivalence-focused storyteller?
 - Mod integration: VREA maintenance room

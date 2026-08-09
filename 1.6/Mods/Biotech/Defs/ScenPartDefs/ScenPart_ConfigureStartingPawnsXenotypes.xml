@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Lives in the Biotech compat load root (see LoadFolders.xml) so its label can be
+    translated: DefInjected entries can't gate themselves (the loader ignores MayRequire
+    on them), so the folder gate has to carry both the def and its Languages siblings.
+    No MayRequire needed - the folder only loads when Biotech is active. The scenario
+    patch that references this def stays in 1.6/Patches, gated there. Label mirrors
+    vanilla ConfigPage_ConfigureStartingPawns. -->
+  <ScenPartDef>
+    <defName>BTG_ConfigureStartingPawnsXenotypes</defName>
+    <label>starting people</label>
+    <scenPartClass>BetterTradersGuild.ScenParts.ScenPart_ConfigureStartingPawnsXenotypes</scenPartClass>
+    <selectionWeight>0</selectionWeight>
+    <pageClass>Page_ConfigureStartingPawns</pageClass>
+    <summaryPriority>500</summaryPriority>
+    <category>Fixed</category>
+  </ScenPartDef>
+
+</Defs>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes. Mirrors the def in this compat root's Defs/:
+       the LoadFolders gate on 1.6/Mods/Biotech is the only thing that keeps this entry
+       from erroring on startup for users without Biotech, since the DefInjected loader
+       never reads MayRequire attributes. -->
+  <BTG_ConfigureStartingPawnsXenotypes.label>starting people</BTG_ConfigureStartingPawnsXenotypes.label>
+
+</LanguageData>
