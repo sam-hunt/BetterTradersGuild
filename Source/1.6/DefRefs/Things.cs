@@ -117,10 +117,6 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef LifeSupportUnit;
         public static ThingDef AncientPlantPot;
 
-        // === ORCA SHUTTLE MOD ===
-        [MayRequire("smallmine.HeavyShuttle")]
-        public static ThingDef OrcaShuttle;
-
         // === ROYALTY DLC ===
         [MayRequireRoyalty]
         public static ThingDef ShipLandingBeacon;

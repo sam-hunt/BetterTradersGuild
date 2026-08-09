@@ -154,8 +154,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         }
 
         // Spawns the landing pad prefab using PrefabUtility API.
-        // The prefab is modified by XML patches when VGE is active (5x1 vac barriers instead of 1x1)
-        // or when Orca Shuttle mod is active (larger shuttle with repositioned coordinates).
+        // The prefab is modified by XML patches when VGE is active (5x1 vac barriers instead of 1x1).
         //
         // LEARNING NOTE: PrefabUtility.SpawnPrefab() uses CENTER-BASED positioning!
         // The IntVec3 position parameter specifies the CENTER of the prefab, not the min corner.
@@ -173,18 +172,15 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         // the nearest paintable structure ColorDef to faction.Color (exact BTG_Rust for
         // TradersGuild, Structure_RedPastel for the smugglers den's Salvagers). Skips
         // painting on faction-less maps, leaving the vanilla shuttle look.
-        // Handles both vanilla PassengerShuttle and OrcaShuttle (when mod is active).
         // Called immediately after prefab spawn so the shuttle exists on the map.
         private void PaintShuttleInLandingPad(Map map, Faction faction)
         {
             if (this.landingPadRect.Width == 0) return;
             if (faction == null) return;
 
-            // Find the shuttle in the landing pad area (PassengerShuttle or OrcaShuttle)
+            // Find the shuttle in the landing pad area
             var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            var shuttle = furniture.FirstOrDefault(b =>
-                b.def == Things.PassengerShuttle ||
-                (Things.OrcaShuttle != null && b.def == Things.OrcaShuttle));
+            var shuttle = furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
 
             if (shuttle == null) return;
 
@@ -198,11 +194,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             if (this.landingPadRect.Width == 0) return;
             if (Things.VCHE_UndergroundChemfuelPipe == null) return;
 
-            // Find the shuttle in the landing pad area (PassengerShuttle or OrcaShuttle)
+            // Find the shuttle in the landing pad area
             var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            var shuttle = furniture.FirstOrDefault(b =>
-                b.def == Things.PassengerShuttle ||
-                (Things.OrcaShuttle != null && b.def == Things.OrcaShuttle));
+            var shuttle = furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
 
             if (shuttle == null) return;
 
