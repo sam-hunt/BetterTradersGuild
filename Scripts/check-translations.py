@@ -171,15 +171,20 @@ def load_language_xml(path, report):
     return entries
 
 
-def collect_keyed(lang_dir, report):
-    # key -> (text, en_comment, path)
+def collect_keyed(lang_dirs, report):
+    # key -> (text, en_comment, path). Takes every root a language occupies (the
+    # main 1.6/Languages/<Lang> plus any LoadFolders-gated compat root under
+    # 1.6/Mods/<Mod Name>/Languages/<Lang>); the game merges them into one
+    # LoadedLanguage, so duplicate keys collide across roots too.
     keyed = {}
-    for path in sorted((lang_dir / "Keyed").glob("**/*.xml")) if (lang_dir / "Keyed").is_dir() else []:
-        entries = load_language_xml(path, report)
-        for key, elem, en in entries or []:
-            if key in keyed:
-                report.error(path, f"duplicate key <{key}> (also in {keyed[key][2].name})")
-            keyed[key] = (flatten_entry(elem), en, path)
+    for lang_dir in lang_dirs:
+        keyed_dir = lang_dir / "Keyed"
+        for path in sorted(keyed_dir.glob("**/*.xml")) if keyed_dir.is_dir() else []:
+            entries = load_language_xml(path, report)
+            for key, elem, en in entries or []:
+                if key in keyed:
+                    report.error(path, f"duplicate key <{key}> (also in {keyed[key][2]})")
+                keyed[key] = (flatten_entry(elem), en, path)
     return keyed
 
 
@@ -363,11 +368,12 @@ def check_english_definjected(lang_dir, sidecar, seen, report):
             continue
         for path in sorted(type_dir.glob("**/*.xml")):
             for key, elem, _ in load_language_xml(path, report) or []:
-                first = seen.setdefault(def_type, {}).setdefault(key, path)
-                if first is not path:
+                by_key = seen.setdefault(def_type, {})
+                if key in by_key:
                     report.error(path, f"duplicate key <{key}> (also in "
-                                       f"{first})")
+                                       f"{by_key[key]})")
                     continue
+                by_key[key] = path
                 hit = sidecar.lookup(def_type, key)
                 if hit is None:
                     report.error(path, f"unknown key <{key}> (not a legal "
@@ -407,14 +413,22 @@ def check_english_definjected(lang_dir, sidecar, seen, report):
                                        f"refresh script or fix the entry")
 
 
-def check_language(lang_dir, english_keyed, sidecar, report):
+def check_language(lang_dirs, english_keyed, sidecar, report):
     # Returns {def_type: set(canonical keys/elements)} actually translated in
     # this language, for the cross-language parity check in main(). Element
     # translations are recorded as "<canonical collection key>.<index>".
-    lang = lang_dir.name
+    #
+    # lang_dirs is EVERY root this language occupies, checked as one unit the
+    # way English already is (and the way the game loads them). A gated compat
+    # root is not a language of its own: BTG_SilverInlayMelee's injections can
+    # only live under 1.6/Mods/UniqueMeleeWeapons/Languages/<Lang>/ (MayRequire
+    # is ignored on DefInjected, so the LoadFolders gate has to be the folder),
+    # yet the sidecar marks them required — checking that root standalone would
+    # demand the whole Keyed set and every other def's injections from it.
+    lang = lang_dirs[0].name
 
     # --- Keyed ---
-    keyed = collect_keyed(lang_dir, report)
+    keyed = collect_keyed(lang_dirs, report)
     label = f"[{lang}/Keyed]"
     for key in sorted(set(english_keyed) - set(keyed)):
         report.error(label, f"missing key <{key}>")
@@ -437,9 +451,12 @@ def check_language(lang_dir, english_keyed, sidecar, report):
     # --- DefInjected ---
     found = {}       # def_type -> canonical keys / "<key>.<idx>" elements
     full_lists = {}  # def_type -> canonical collection keys translated as full lists
-    inj_root = lang_dir / "DefInjected"
-    folders = sorted(p for p in inj_root.iterdir() if p.is_dir()) \
-        if inj_root.is_dir() else []
+    seen = {}        # def_type -> key -> first path (dedup across every root)
+    folders = []
+    for lang_dir in lang_dirs:
+        inj_root = lang_dir / "DefInjected"
+        if inj_root.is_dir():
+            folders.extend(sorted(p for p in inj_root.iterdir() if p.is_dir()))
     for folder in folders:
         def_type = folder.name
         if def_type not in sidecar.def_types:
@@ -450,6 +467,12 @@ def check_language(lang_dir, english_keyed, sidecar, report):
         for path in sorted(folder.glob("**/*.xml")):
             entries = load_language_xml(path, report)
             for key, elem, en in entries or []:
+                by_key = seen.setdefault(def_type, {})
+                if key in by_key:
+                    report.error(path, f"duplicate key <{key}> (also in "
+                                       f"{by_key[key]})")
+                    continue
+                by_key[key] = path
                 resolved = sidecar.lookup(def_type, key)
                 if resolved is None:
                     report.error(path, f"<{key}>: not a legal injection point "
@@ -533,17 +556,22 @@ def main():
     if sidecar is None:
         return 2
 
-    english_keyed = {}
-    languages = []
+    # A language is the union of its dirs across every root, not one dir per
+    # root — see check_language. English already worked this way; the rest now
+    # do too, so a gated compat root can hold the injections that may only live
+    # there without being mistaken for a half-empty language of its own.
+    english_dirs = []
+    languages = {}   # language name -> [dirs], in load order
     english_injected_seen = {}
     for lang_root in lang_roots:
         for lang_dir in sorted(p for p in lang_root.iterdir() if p.is_dir()):
             if lang_dir.name == "English":
-                english_keyed.update(collect_keyed(lang_dir, report))
+                english_dirs.append(lang_dir)
                 check_english_definjected(lang_dir, sidecar,
                                           english_injected_seen, report)
             else:
-                languages.append(lang_dir)
+                languages.setdefault(lang_dir.name, []).append(lang_dir)
+    english_keyed = collect_keyed(english_dirs, report)
 
     if not english_keyed:
         print("No English Keyed strings found; nothing to check against.", file=sys.stderr)
@@ -552,9 +580,9 @@ def main():
     defs = collect_defs(defs_dirs, sidecar.active_packages)
     check_sidecar_freshness(defs, sidecar, report)
     found_by_lang = {}
-    for lang_dir in languages:
-        found_by_lang[lang_dir.name] = check_language(
-            lang_dir, english_keyed, sidecar, report)
+    for lang, lang_dirs in sorted(languages.items()):
+        found_by_lang[lang] = check_language(
+            lang_dirs, english_keyed, sidecar, report)
 
     # Cross-language parity: any DefInjected key one language translates
     # beyond the required set (secondary fields, extra collection elements)
@@ -589,7 +617,7 @@ def main():
         print(f"ERROR   {line}")
     for line in report.warnings:
         print(f"WARNING {line}")
-    checked = ", ".join(sorted({l.name for l in languages})) or "none"
+    checked = ", ".join(sorted(languages)) or "none"
     print(f"\n{len(english_keyed)} English keys; languages checked: {checked}")
     print(f"{len(report.errors)} error(s), {len(report.warnings)} warning(s)")
     return 1 if report.errors or (args.strict and report.warnings) else 0
