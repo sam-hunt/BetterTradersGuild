@@ -148,11 +148,11 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Apparel_BodyStrap;
 
         // === VFE SPACER MODULE ===
-        [MayRequire("VanillaExpanded.VFESpacerModule")]
+        [MayRequire("VanillaExpanded.VFESpacer")]
         public static ThingDef Table_interactive_1x1c;
-        [MayRequire("VanillaExpanded.VFESpacerModule")]
+        [MayRequire("VanillaExpanded.VFESpacer")]
         public static ThingDef Table_interactive_2x2c;
-        [MayRequire("VanillaExpanded.VFESpacerModule")]
+        [MayRequire("VanillaExpanded.VFESpacer")]
         public static ThingDef VFES_AirPurifier;
         [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_VacBarrierQuintuple;
