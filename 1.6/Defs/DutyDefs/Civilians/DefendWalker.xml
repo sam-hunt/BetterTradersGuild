@@ -19,7 +19,8 @@
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGDefendParty" />
         <!-- 2-4. No reachable involved attacker: continue the escape (same chain as
              BTG_EscapeWalker). A carried infant dropped when the defense interrupted a
-             ferry is re-found by the carry giver's map-wide infant scan. -->
+             ferry stays in the lord's remembered infant set wherever it lies, so the
+             carry giver's scan re-finds it. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGCarryBabyToLaunchable" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGBoardLaunchable" />

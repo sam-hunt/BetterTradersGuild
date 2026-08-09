@@ -15,7 +15,8 @@ namespace BetterTradersGuild.RoomContents.Nursery
     // When entrenched-defender AI is enabled the spawned caretaker + walking children are
     // attached to a LordJob_BTGShelterCivilians (shelter -> escape -> stranded); see
     // CivilianLords. Infants/babies are left autonomous in their cribs (the lord's jobgivers
-    // tend and, during escape, carry them by faction scan). When the setting is off they stay
+    // tend them by faction scan and, during escape, carry the lord's own remembered infants
+    // to the launchables). When the setting is off they stay
     // lordless, but the crib-placement fix, spawn rebalance, and the caretaker's knife below
     // still apply - they are plain improvements, not AI.
     public static class ShelteringCivilianSpawner
@@ -50,6 +51,9 @@ namespace BetterTradersGuild.RoomContents.Nursery
             List<Pawn> spawnedPawns = new List<Pawn>();
             // Lord members: the caretaker and walking children (NOT the autonomous infants).
             List<Pawn> walkers = new List<Pawn>();
+            // The shelter's own infants, remembered by the LordJob so escape carrying never
+            // targets unrelated faction babies elsewhere in the structure.
+            List<Pawn> infants = new List<Pawn>();
 
             // Get standable cells inside the subroom (avoid walls, doors, furniture)
             List<IntVec3> standableCells = subroomRect.Cells
@@ -141,6 +145,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     if (TryTuckInfantIntoCrib(infant, availableCribs, map))
                     {
                         spawnedPawns.Add(infant);
+                        infants.Add(infant);
                     }
                     else if (standableCells.Count > 0)
                     {
@@ -149,6 +154,7 @@ namespace BetterTradersGuild.RoomContents.Nursery
                         standableCells.Remove(cell);
                         GenSpawn.Spawn(infant, cell, map);
                         spawnedPawns.Add(infant);
+                        infants.Add(infant);
                     }
                     else
                     {
@@ -170,8 +176,9 @@ namespace BetterTradersGuild.RoomContents.Nursery
             }
 
             // Attach the caretaker + children to the sheltering lord (gated on the entrenched-
-            // defender setting). Infants stay autonomous in their cribs.
-            CivilianLords.MakeShelterLordIfEnabled(map, faction, subroomRect.CenterCell, walkers);
+            // defender setting). Infants stay autonomous in their cribs, but the LordJob
+            // remembers them as the only babies its walkers ferry during an escape.
+            CivilianLords.MakeShelterLordIfEnabled(map, faction, subroomRect.CenterCell, walkers, infants);
 
             return spawnedPawns;
         }

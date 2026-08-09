@@ -9,7 +9,10 @@ namespace BetterTradersGuild.LordJobs.Civilians
     // Lord for the non-combatant family sheltering in the Biotech nursery's crib subroom,
     // created (gated on useEntrenchedDefenders) by CivilianLords at map generation. Members
     // are the caretaker and walking children only; infants/babies stay autonomous in their
-    // cribs and are tended/carried via faction + developmental-stage scans.
+    // cribs and are tended via faction + developmental-stage scans. The lord still REMEMBERS
+    // its own infants (shelterInfants below): during escape the carry giver ferries only
+    // those, so walkers never trek across the structure for unrelated faction babies (crew
+    // quarters infants are covered by the defenders' own childcare duties).
     //
     // Three-phase state graph (see the LordToils and DutyDefs/Civilians/*.xml):
     //
@@ -45,8 +48,9 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //     boarding, and the lift-off tick keeps running. Exits back to Escape the moment
     //     nobody targets the family (attacker neutralized or aggression aborted) or every
     //     child walker is aboard/lost - the caretaker then runs for the craft himself,
-    //     collecting any infant he dropped when the fight interrupted a ferry (the carry
-    //     giver's map-wide infant scan re-finds it automatically). Defend always exits to
+    //     collecting any infant he dropped when the fight interrupted a ferry (a dropped
+    //     infant stays in shelterInfants wherever it lies, so the carry giver's scan
+    //     re-finds it automatically). Defend always exits to
     //     Escape; if the launchables are gone the normal demotion re-sorts to Stranded.
     //
     // The escape trigger counts the WALKERS only, not the autonomous infants. Walkers self-feed
@@ -60,13 +64,31 @@ namespace BetterTradersGuild.LordJobs.Civilians
     {
         private IntVec3 subroomCenter;
 
+        // The infants spawned into this shelter (never lord members - see the class comment).
+        // Scopes the escape leg's carry-target scan: walkers only ferry THESE babies, however
+        // far one has been carried/dropped from the subroom by the time it needs re-fetching.
+        // Null on saves from before this field existed; ShouldCarryInfant treats that as
+        // unscoped so a mid-escape legacy save can't strand its babies.
+        private List<Pawn> shelterInfants;
+
         public LordJob_BTGShelterCivilians()
         {
         }
 
-        public LordJob_BTGShelterCivilians(IntVec3 subroomCenter)
+        public LordJob_BTGShelterCivilians(IntVec3 subroomCenter, List<Pawn> shelterInfants)
         {
             this.subroomCenter = subroomCenter;
+            this.shelterInfants = shelterInfants;
+        }
+
+        // Whether an escaping walker of this lord should ferry this baby to a launchable.
+        // Membership, not geometry: a room/radius filter would orphan an infant dropped
+        // mid-corridor when Defend interrupted a ferry, and would wrongly claim a crew
+        // quarters baby someone carried near the shelter. Legacy saves (null list) keep the
+        // old map-wide behaviour.
+        public bool ShouldCarryInfant(Pawn baby)
+        {
+            return shelterInfants?.Contains(baby) != false;
         }
 
         // The transition triggers below are evaluated on every Tick signal (Lord.LordTick).
@@ -304,6 +326,11 @@ namespace BetterTradersGuild.LordJobs.Civilians
         {
             base.ExposeData();
             Scribe_Values.Look(ref subroomCenter, "subroomCenter");
+            Scribe_Collections.Look(ref shelterInfants, "shelterInfants", LookMode.Reference);
+            // Dead-and-cleaned-up infants resolve to null references on load; drop them so
+            // ShouldCarryInfant's Contains never matches a null and saves don't re-grow.
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+                shelterInfants?.RemoveAll(p => p == null);
         }
     }
 }
