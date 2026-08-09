@@ -13,7 +13,10 @@
     <li>1.6</li>
     <!-- Content that must only load alongside Unique Melee Weapons. Defs can gate
          themselves with MayRequire, but DefInjected entries cannot (the loader
-         ignores attributes on them), so UMW-dependent language files live here. -->
-    <li IfModActive="shunter.uniquemeleeweapons">1.6_UMW</li>
+         ignores attributes on them), so UMW-dependent language files live here.
+         Nested under 1.6 so compat content stays out of the repo root; the game
+         only scans well-known folders (Languages/, Defs/, ...) directly under a
+         load root, so 1.6/UMW is invisible to the plain 1.6 entry above. -->
+    <li IfModActive="shunter.uniquemeleeweapons">1.6/UMW</li>
   </v1.6>
 </loadFolders>

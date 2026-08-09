@@ -3,7 +3,7 @@
 
   <!-- BTG_SilverInlayMelee (WeaponTraitDef, MayRequire shunter.uniquemeleeweapons in
        1.6/Defs/WeaponTraitDefs/SilverInlayMelee.xml). These injections live in this
-       LoadFolders-gated folder (1.6_UMW loads only when Unique Melee Weapons is active)
+       LoadFolders-gated folder (1.6/UMW loads only when Unique Melee Weapons is active)
        because MayRequire is honored on defs but IGNORED on DefInjected entries — the
        DefInjected loader never reads XML attributes, so a same-folder injection would
        log a found-no-def error on every startup for users without UMW. -->

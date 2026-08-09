@@ -11,8 +11,8 @@
   <SilverInlay.traitAdjectives.4>fine</SilverInlay.traitAdjectives.4>
 
   <!-- BTG_SilverInlayMelee (UMW-gated) lives in
-       1.6_UMW/Languages/English/DefInjected/WeaponTraitDef/WeaponTraits.xml:
+       1.6/UMW/Languages/English/DefInjected/WeaponTraitDef/WeaponTraits.xml:
        MayRequire is ignored on DefInjected entries, so the gate has to be the
-       LoadFolders 1.6_UMW folder, not an attribute here. -->
+       LoadFolders 1.6/UMW folder, not an attribute here. -->
 
 </LanguageData>

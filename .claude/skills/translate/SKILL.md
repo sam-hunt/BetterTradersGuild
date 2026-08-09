@@ -51,10 +51,10 @@ the source of truth; every other language derives from it.
   `1.6/Languages/<Language>/DefInjected/<DefTypeFolder>/*.xml`, mirroring
   the English tree folder-for-folder.
 - Second language root: the UMW-gated `BTG_SilverInlayMelee.*` entries
-  (`WeaponTraitDef`) live under `1.6_UMW/Languages/English/...`, a folder
+  (`WeaponTraitDef`) live under `1.6/UMW/Languages/English/...`, a folder
   LoadFolders.xml loads only when Unique Melee Weapons is active — MayRequire
   is ignored on DefInjected entries, so the gate must be the folder. Their
-  translations mirror that root (`1.6_UMW/Languages/<Language>/...`), never
+  translations mirror that root (`1.6/UMW/Languages/<Language>/...`), never
   the main `1.6` tree, or they would error at startup without UMW.
 - `<DefTypeFolder>` must be the def's resolvable type name: bare for
   vanilla types, which is every folder BTG currently ships (`ColorDef`,
@@ -701,7 +701,7 @@ changes.
    (`ColorDef`, `FactionDef`, `JobDef`, `MapGeneratorDef`, `PawnKindDef`,
    `QuestScriptDef`, `ScenPartDef`, `ScenarioDef`, `ThingDef`,
    `WeaponTraitDef`) plus the UMW-gated root
-   `1.6_UMW/Languages/English/DefInjected/WeaponTraitDef/` — confirm the
+   `1.6/UMW/Languages/English/DefInjected/WeaponTraitDef/` — confirm the
    full key set against the `Scripts/expected-injections.json` sidecar
    rather than assuming it.
 3. Extract the vanilla tar for the target language into the scratchpad;
