@@ -50,12 +50,16 @@ the source of truth; every other language derives from it.
 - Target layout: `1.6/Languages/<Language>/Keyed/*.xml` and
   `1.6/Languages/<Language>/DefInjected/<DefTypeFolder>/*.xml`, mirroring
   the English tree folder-for-folder.
-- Second language root: the UMW-gated `BTG_SilverInlayMelee.*` entries
-  (`WeaponTraitDef`) live under `1.6/Mods/UniqueMeleeWeapons/Languages/English/...`, a folder
-  LoadFolders.xml loads only when Unique Melee Weapons is active — MayRequire
-  is ignored on DefInjected entries, so the gate must be the folder. Their
-  translations mirror that root (`1.6/Mods/UniqueMeleeWeapons/Languages/<Language>/...`), never
-  the main `1.6` tree, or they would error at startup without UMW.
+- Gated compat load roots are additional language roots: the UMW-gated
+  `BTG_SilverInlayMelee.*` entries (`WeaponTraitDef`) live under
+  `1.6/Mods/UniqueMeleeWeapons/Languages/<Language>/...`, and the
+  Biotech-gated `BTG_ConfigureStartingPawnsXenotypes.label` (`ScenPartDef`)
+  under `1.6/Mods/Biotech/Languages/<Language>/...` — folders
+  LoadFolders.xml loads only when their mod/DLC is active, because
+  MayRequire is ignored on DefInjected entries, so the gate must be the
+  folder. Each gated def's translations mirror its own root, never the main
+  `1.6` tree (that would be a startup error whenever the gate is inactive);
+  the checker enforces the placement in both directions.
 - `<DefTypeFolder>` must be the def's resolvable type name: bare for
   vanilla types, which is every folder BTG currently ships (`ColorDef`,
   `FactionDef`, `JobDef`, ... all resolve directly, no namespace prefix). A
@@ -773,13 +777,14 @@ changes.
    entry in the `Scripts/expected-injections.json` sidecar, taking the
    English source text from each entry's `english` field — NOT from the
    English DefInjected tree, which covers only half the surface (see the
-   file-map bullet above). Route the UMW-gated `BTG_SilverInlayMelee.*`
-   entries to the compat root
-   (`1.6/Mods/UniqueMeleeWeapons/Languages/<Language>/DefInjected/WeaponTraitDef/`);
-   everything else goes in the main `1.6/Languages/<Language>/` tree, never
-   the other way around — the checker cannot see which root an entry sits
-   in, but the game can (a gated entry in the main tree is a startup error
-   for users without UMW).
+   file-map bullet above). Route each gated def's entries to its own compat
+   root (`BTG_SilverInlayMelee.*` under
+   `1.6/Mods/UniqueMeleeWeapons/Languages/<Language>/...`,
+   `BTG_ConfigureStartingPawnsXenotypes.label` under
+   `1.6/Mods/Biotech/Languages/<Language>/...`); everything else goes in
+   the main `1.6/Languages/<Language>/` tree. The checker enforces this
+   both ways — an entry must live in the load root that declares its def —
+   and its missing-entry errors name the root a translation belongs under.
 3. Extract the vanilla tar for the target language into the scratchpad;
    build a term list for the grounded terms above (Core + Odyssey).
 4. Translate via subagent(s) carrying: the glossary, the vanilla term list,

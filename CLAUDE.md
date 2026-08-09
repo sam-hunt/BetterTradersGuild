@@ -345,7 +345,7 @@ English is the source of truth: `1.6/Languages/English/Keyed/BTG.xml` (`BTG_` pr
 
 - **Optional-mod content:** MayRequire is honored on defs and patch nodes but IGNORED on DefInjected entries, so content whose strings depend on an optional mod or DLC ships from a LoadFolders-gated compat root (`1.6/Mods/<Name>/` with its own `Defs`/`Languages` inside; currently `UniqueMeleeWeapons` for the silver-inlay melee trait and `Biotech` for the xenotype ScenPart). Compat roots must sit beside the well-known folders, never inside one — anything under `1.6/Defs/**` or `1.6/Languages/**` loads unconditionally at any depth.
 
-- **Checker:** `python3 Scripts/check-translations.py --strict` validates key parity, placeholders, DefInjected legality, staleness (EN comments), and file hygiene. CI's release gate runs it non-strict.
+- **Checker:** `python3 Scripts/check-translations.py --strict` validates key parity, placeholders, DefInjected legality and load-root placement, staleness (EN comments), and file hygiene. CI's release gate runs it non-strict.
 - **Sidecar:** `Scripts/expected-injections.json` is the authority for legal DefInjected keys. Regenerate with `python3 Scripts/refresh-translation-expectations.py` — it boots RimWorld (game must be closed) with a pinned mod list via the L10nProbe dev mod, then restores `ModsConfig.xml`.
 - **Probe DLC set:** the probe boots with Biotech and Odyssey active (`CANONICAL_ACTIVE_MODS` in the refresh script); the checker's `REQUIRED_DLCS` rejects a sidecar generated without either, since gated defs would drop out of the dump and their shipped translations would turn illegal.
 - **Policy:** translation generation passes run only on explicit request (they are token-expensive). Infra/tooling changes are always fine.
