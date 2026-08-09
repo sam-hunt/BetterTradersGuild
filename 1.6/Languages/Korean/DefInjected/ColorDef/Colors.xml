@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_OrbitalSteel -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>궤도 강철색</BTG_OrbitalSteel.label>
+
+  <!-- BTG_UniqueWeapon_Silver -->
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>은색</BTG_UniqueWeapon_Silver.label>
+
+  <!-- BTG_Rust -->
+  <!-- EN: rust -->
+  <BTG_Rust.label>녹슨 색</BTG_Rust.label>
+
+</LanguageData>

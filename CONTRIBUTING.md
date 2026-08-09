@@ -15,7 +15,7 @@ follow.
 | English              | Source           | —      |
 | Simplified Chinese   | Machine-assisted | Opus 5 |
 | Russian              | Machine-assisted | Opus 5 |
-| Korean               | Planned          | —      |
+| Korean               | Machine-assisted | Opus 5 |
 | German               | Planned          | —      |
 | Spanish              | Planned          | —      |
 | French               | Planned          | —      |

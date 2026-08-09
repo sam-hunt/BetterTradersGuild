@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_CargoVaultHatch -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>보안 화물 금고 해치</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>정거장의 보안 화물 금고로 통하는 강화 해치입니다. 아래 금고에는 자동 보안이 걸린 고가의 교역 물품이 보관되어 있습니다. 접근 패널을 해킹하여 잠금을 해제하세요.</BTG_CargoVaultHatch.description>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>해킹하여 보안 잠금 해제.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort}(이)가 {SUBJECT_labelNoParenthesisDef}의 보안을 우회했습니다.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+
+  <!-- BTG_CargoVaultHatch_Sealed -->
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>밀폐된 화물 금고 해치</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>정거장의 보안 화물 금고로 통하는 강화 해치입니다. 약탈자의 접근을 막기 위해 과도하게 밀폐되어 있습니다.</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- BTG_CargoVaultExit -->
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>화물 금고 출구</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>위층 정거장 왕복선 격납고로 돌아갈 수 있는 안전한 사다리와 해치입니다.</BTG_CargoVaultExit.description>
+
+</LanguageData>

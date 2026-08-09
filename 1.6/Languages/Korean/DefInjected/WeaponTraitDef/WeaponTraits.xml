@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>은 상감</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>은으로 장식돼있습니다. 상인들이 더 높은 값을 쳐줍니다.</SilverInlay.description>
+  <!-- traitAdjectives are bare attributive words that prefix an unknown weapon noun,
+       matching Odyssey ko GoldInlay (황금 / 금빛) - never a -의/-한 phrase. -->
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>백은</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>은장</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>영롱한</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>은빛</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>정교한</SilverInlay.traitAdjectives.4>
+
+  <!-- BTG_SilverInlayMelee (UMW-gated) lives in
+       1.6/Mods/UniqueMeleeWeapons/Languages/Korean/DefInjected/WeaponTraitDef/,
+       mirroring the English compat root - MayRequire is ignored on DefInjected
+       entries, so the gate has to be the LoadFolders compat root. -->
+
+</LanguageData>

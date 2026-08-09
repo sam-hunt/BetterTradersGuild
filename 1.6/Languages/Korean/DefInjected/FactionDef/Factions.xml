@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_IndependentTraders -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>독립 상인</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>교역 조합을 떠나 독자적으로 활동하는 소규모 상인 무리입니다.</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>대표</BTG_IndependentTraders.leaderTitle>
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>{1}의 {0}(이)가 당신의 {2}(을)를 공격하고 있습니다.</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>상인</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>상인들</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

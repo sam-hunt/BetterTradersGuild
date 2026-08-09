@@ -24,8 +24,8 @@ the source of truth; every other language derives from it.
   (Planned / Machine-assisted / Native, plus credit) must be updated in the
   same commit whenever a language is added or a native review lands. The
   target roster lives there — consult it before proposing new languages.
-  Today it lists English (Source) plus Simplified Chinese and Russian
-  (both Machine-assisted); every other target is still Planned.
+  Today it lists English (Source) plus Simplified Chinese, Russian and
+  Korean (all Machine-assisted); every other target is still Planned.
 
 ## File map and conventions
 
@@ -144,8 +144,8 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **Simplified Chinese and Russian have been grounded in
-this repo** (2026-08-09 / 2026-08-10) — their tables
+market value, silver). **Simplified Chinese, Russian and Korean have been
+grounded in this repo** (2026-08-09 / 2026-08-10 / 2026-08-10) — their tables
 below carry real BTG trader/settlement vocabulary and are safe to build on.
 Every other language's table is still **style/mechanics reference only**,
 inherited from the weapon-mod siblings; ground that language's own
@@ -400,7 +400,8 @@ linking, material compounding) — is specific to `RulePackDef` name
 generation and melee combat text, which this mod has none of. See
 `../UniqueMeleeWeapons` if that ever changes.
 
-#### Korean (from the weapon-mod siblings' 2026-07 generation)
+#### Korean (grounded in this repo's 2026-08-10 generation pass, on top of the
+weapon-mod siblings' 2026-07 pass)
 
 Language folder is `Korean` (tar: `Korean (한국어).tar`). Decompile-verified
 why the paren-stripped name works: `LoadedLanguage` derives
@@ -441,10 +442,31 @@ exactly eight tokens, and no others:
   is returned unresolved and the raw `(은)는` shows on screen. Korean
   therefore needs no defensive quoting at all — josa does the job quoting
   does in ja/ru/zh.
+- **Colour tags do NOT break a marker** (decompile-verified 2026-08-10, and
+  worth knowing before restructuring around one): `ReplaceJosa` first runs
+  `StripTags`, whose `TagOrNodeClosingPattern` = `(\(|<)\/\w+(\)|>)` removes
+  *closing* tags only, so a `.Colorize()`d argument's trailing `</color>`
+  is gone by the time `FindLastChar` looks back — the marker resolves off the
+  value's real last syllable. (The surviving *opening* tag sits before the
+  value and never matters.) A marker after a colorized arg is therefore safe
+  in principle; BTG's Empire-fix dialog still anchors a literal noun (세력)
+  after each of its three colorized args, because faction and mod names are
+  arbitrary text in any script and a fixed particle simply cannot be wrong.
+- **`reportString`s must carry no josa marker at all, and no trailing
+  period.** `TargetA`/`TargetB` are substituted by `JobUtility`'s plain
+  string `Replace` *after* the def value was post-processed at load, so a
+  marker there resolves against the literal token text, not the label.
+  Vanilla ko sidesteps it by using only invariant particles (`TargetB에게
+  TargetA 먹여주는 중`) or none. The form is `~하는 중` / `~ 중` with **no**
+  trailing period, where English has one.
 - The one safe unmarked case: a symbol that always resolves the same way (a
   fixed pronoun). Def labels, numbers, and any mod-coined term are never
   safe.
-- A lint for this lives outside the repo checker (which is language-agnostic).
+- A lint for this lives outside the repo checker (which is language-agnostic);
+  the 2026-08-10 pass ran an inline Python reimplementation of `ReplaceJosa`
+  (~30 lines: `JosaPatternPaired`, `FindLastChar`, `HasJong`/
+  `HasJongExceptRieul`, `StripTags`) over the resolved strings. Simulating
+  beats eyeballing — rebuild it rather than trusting a read-through.
 
 Other style rules discovered from the vanilla ko data (mandatory):
 
@@ -457,23 +479,65 @@ Other style rules discovered from the vanilla ko data (mandatory):
 
 | English | Use | Never | Why |
 |---|---|---|---|
-| Cancel / Reset / Reset all | 취소 / 초기화 / 모두 초기화 | | Core Keyed |
+| Cancel / Reset all | 취소 / 모두 초기화 | | Core Keyed |
+| Reset to default / Restore defaults / Default / None | 기본값으로 재설정 / 기본값 복원 / 기본값 / 없음 | | Core `ResetBinding`, `RestoreToDefaultSettings`, `Default`, `None` |
 | quality tiers | 끔찍/빈약/평범/상급/완벽/걸작/전설적 | | Core `QualityCategory_*` |
-| Traders will pay more/less for it. | 상인들이 더 높은 값을 쳐줍니다. / 상인들은 더 적은 돈을 쳐줍니다. | | Odyssey `GoldInlay`/`Ugly` — reuse verbatim; directly relevant to this mod's trader-price framing |
+| "of normal+ quality" / "(worth [X])" | 평범 품질 이상의 / (가치: [X]) | | Core `TradeRequest` — verbatim |
+| traders guild / guild member(s) | 교역 조합 / 조합원(들) | 상인 길드 | Odyssey `TradersGuild.*` |
+| salvagers | 해적 인양단 | 인양자 | Odyssey `Salvagers.label` (its *pawns* are 우주 해적) |
+| leader (`leaderTitle`) | 대표 | | Odyssey: TradersGuild=무역 감독관, Salvagers=단장; 대표 is the neutral slot for a small crew |
+| trader / orbital trader | 상인 / 궤도 상인 | | Core, Odyssey `AsteroidLetterText` |
+| bulk / exotic goods trader | 원자재 상선 / 희귀품 상선 | | Odyssey orbital `TraderKindDef`s (the *caravan* kinds are 상인, the orbital ones 상선) |
+| Traders will pay more/less for it. | 상인들이 더 높은 값을 쳐줍니다. / 상인들은 더 적은 돈을 쳐줍니다. | | Odyssey `GoldInlay`/`Ugly` — verbatim |
+| gold/silver inlay | 금 상감 / 은 상감 | | Odyssey `GoldInlay.label` |
+| {0} from {1} are attacking your {2}. | {1}의 {0}(이)가 당신의 {2}(을)를 공격하고 있습니다. | | every Odyssey `FactionDef` — verbatim |
+| Attack {0} / Attacking {0}. | {0} 공격 / {0} 공격 중 | | Core site approach strings — verbatim, no trailing period |
+| Quest failed: [resolvedQuestName] | 임무 실패: [resolvedQuestName] | | Core `TradeRequest` — verbatim (quest = 임무) |
+| [faction_name] became hostile to you. | [faction_name](이)가 적대로 돌아섰습니다. | | Core `TradeRequest` — verbatim |
+| orbital platform / settlement platform | 궤도 플랫폼 / 정착지 플랫폼 | | Odyssey `OrbitalPlatform.label`, `SettlementPlatform.label` |
+| orbital settlement / settlement / colony | 궤도 정착지 / 정착지 / 정착지 | | Odyssey `SpaceSettlement.label`, Core `Settlement.label`, `PlayerColony` — colony and settlement share 정착지; disambiguate with 내 |
+| shuttle | 왕복선 | 셔틀 | Core `Shuttle.label`, Odyssey `Shuttles.label` |
+| transport/drop pod vs cargo pods | 수송 포드 vs 화물 낙하기 | | Core `DropPodIncoming*` / `CargoPodCrash` — distinct, don't merge |
+| signal jammer / sentry drone / life support unit | 신호 교란기 / 센트리 드론 / 생명 유지 장치 | | Odyssey |
+| gravship / gravlite panel / pilot console | 중력부양선 / 중력감응판 / 조종석 | | Odyssey |
+| mechhive / orbital relay | 메카노이드 군락 / 궤도 중계기 | | Odyssey `TheGravship.description` |
+| goodwill / negotiator / caravan | 우호도 / 협상가 / 상단 | 호감도 | Core `Goodwill`, `Negotiator`, `TradeRequest` |
+| silver / market value / comms console / packaged survival meal | 은 / 시장 가치 / 통신기 / 보존 식량 | | Core |
+| steel / vacuum / reinforcements / hatch / safe | 강철 / 진공 / 증원군 / 해치 / 금고 | | Core, Odyssey |
+| colour labels | `~색` (은색, 회색) | | Core `ColorDef`s — `UniqueWeapon_Gray.label` is 회색, the same family as BTG's silver |
+| "Note: This is a difficult scenario…" | 주의: 어려운 시나리오입니다. 초보자에게는 권장하지 않습니다. | | Odyssey `TheGravship` — verbatim |
+| "To launch the gravship, select the pilot console…" / "select 'view planet'" | 중력부양선을 발사하려면 조종석을 선택한 후 발사 명령을 실행하세요. / 세계 지도에서 '행성 보기'를 선택하여 | | Odyssey `TheGravship` GameStartDialog — verbatim, except vanilla's curly ‘ ’ (which mirrored Odyssey's curly English) becomes ASCII, matching our ASCII English source |
+| starting people (ScenPart) | 시작 캐릭터 | | Core `ConfigPage_ConfigureStartingPawns.label` — identical English source, reuse verbatim |
+| reportStrings (clean/rescue/tend/feed/open) | TargetA 청소 중 / TargetA 구조 중 / TargetA 간호 중 / TargetB에게 TargetA 먹여주는 중 / TargetA 여는 중 | | Core `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1. Core's `Hack.reportString` writes `{TargetA} 해킹 중` — **drop the braces**, our English `TargetA` has none so the checker reads them as an invented placeholder (the exact trap ru hit with `{lookup:}`) |
+
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** 화물 금고 (hatch variants 보안 화물 금고 해치 / 밀폐된 화물 금고
+해치 / 화물 금고 출구), **shuttle bay** 왕복선 격납고, **smuggler's den**
+밀수업자 소굴, **threat points** 위협 지수, **orbital steel / rust** 궤도 강철색
+/ 녹슨 색 (never 녹색 — that is *green*), **independent traders** 독립 상인,
+**Exiled Traders** 추방된 상인, **cargo claim** 화물 인수권, **medbay** 의무실,
+**docked vessel** 정박 중인 선박, **docking bays** 정박 구역, **(Vanilla)**
+(기본값), **entrenched defender AI** 농성형 방어군 AI, **garrison** 수비대.
+`BTG_Settings_ModName` is deliberately left as the Latin brand `Better Traders
+Guild`.
+
+`traitAdjectives` are **bare attributive words prefixed onto an unknown weapon
+noun** (Odyssey `GoldInlay`: 황금, 금빛) — never a `-의`/`-한` phrase that would
+need agreement. BTG's five silver adjectives are 백은 / 은장 / 영롱한 / 은빛 /
+정교한.
 
 **Cross-checked against PWU's own ko pass, landed the same day, independently
 grounded** — worth keeping as a caution even though the specific rows are
 weapon-domain: two rows genuinely diverged between sibling mods on the same
 term (`mechanite`, `armor penetration`) because each was grounded against a
-different tar subset. **Ground TSX's own Biotech-domain terms independently
-against the Biotech tar rather than assuming a weapon-mod sibling's word for
-an adjacent concept transfers.**
+different tar subset. **Ground this mod's own trader/orbital terms
+independently against the Core + Odyssey tars rather than assuming a
+weapon-mod sibling's word for an adjacent concept transfers.**
 
 The rest of the weapon-mod Korean glossary — weapon/tool/damage vocabulary
 and the extensive mod-decided trait-adjective list — is specific to melee
 combat text, which this mod has none of. See `../UniqueMeleeWeapons` if that
-ever changes. This repo has not yet run a Korean generation pass; add
-xenogerm/xenotype rows here once one lands.
+ever changes.
 
 #### German (preseeded from PersonaWeaponsUnbound's 2026-07-28 generation,
 extended across the weapon-mod siblings 2026-07-28)

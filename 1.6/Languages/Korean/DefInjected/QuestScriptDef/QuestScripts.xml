@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_TradeRequest -->
+  <!-- EN:
+    <li>questName->Shuttle Run to [settlement_label]</li>
+    <li>questName->Orbital Trade with [settlement_label]</li>
+    <li>questName->Shipment for [settlement_label]</li>
+    <li>questName->Delivery to [settlement_label]</li>
+  -->
+  <BTG_TradeRequest.questNameRules.rulesStrings>
+    <li>questName->[settlement_label](으)로 가는 왕복선 운송</li>
+    <li>questName->[settlement_label](와)과 궤도 교역</li>
+    <li>questName->[settlement_label] 화물 수송</li>
+    <li>questName->[settlement_label](으)로 배달</li>
+  </BTG_TradeRequest.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:
+
+ [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])
+
+If you want to make the trade, send a shuttle with the requested items.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </li>
+    <li>qualityInfo-></li>
+  -->
+  <BTG_TradeRequest.questDescriptionRules.rulesStrings>
+    <li>questDescription->근처의 궤도 정거장 [settlement_label]에서 특별한 거래 요청을 보냈습니다. 다음 물품의 구매를 원한다고 합니다.\n\n  [qualityInfo][requestedThing_label] x[requestedThingCount] (가치: [requestedThingMarketValue_money])\n\n거래를 원한다면 요청된 물건을 실은 왕복선을 보내세요.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->평범 품질 이상의 </li>
+    <li>qualityInfo-></li>
+  </BTG_TradeRequest.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_TradeRequest.root.nodes.Letter.label.slateRef>임무 실패: [resolvedQuestName]</BTG_TradeRequest.root.nodes.Letter.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_TradeRequest.root.nodes.Letter.text.slateRef>[faction_name](이)가 적대로 돌아섰습니다.</BTG_TradeRequest.root.nodes.Letter.text.slateRef>
+  <!-- EN: [asker_faction_royalFavorLabel] -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>[asker_faction_royalFavorLabel]</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>
+  <!-- EN: Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request? -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>거래 요청 완수의 [asker_faction_royalFavorLabel] 공로를 누구에게 수여하겠습니까?</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN:
+    <li>questName->Smuggler's Den Near [settlement_label]</li>
+    <li>questName->Orbital Pirate Haven</li>
+    <li>questName->Salvager Outpost Near [settlement_label]</li>
+    <li>questName->Black Market Station</li>
+  -->
+  <BTG_SmugglersDen.questNameRules.rulesStrings>
+    <li>questName->[settlement_label] 인근의 밀수업자 소굴</li>
+    <li>questName->궤도 해적 은신처</li>
+    <li>questName->[settlement_label] 인근의 인양단 전초기지</li>
+    <li>questName->암시장 정거장</li>
+  </BTG_SmugglersDen.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+  -->
+  <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+    <li>questDescription->교역 조합을 대표하는 [asker_nameFull](이)가 [settlement_label] 인근에서 활동하는 해적 인양단 전초기지의 소식을 전해왔습니다. 이 정거장은 조합의 수송대를 가로채고 훔친 화물을 처분해 왔습니다.\n\n조합은 전초기지를 소탕하는 대가로 인양권을 제시하고 있습니다. 조합에는 정박 명단에 손을 써서 화물 금고를 더 채워 넣어 조건을 좋게 만들어 줄 연줄이 있습니다.</li>
+  </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>임무 실패: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>[faction_name](이)가 적대로 돌아섰습니다.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>임무 실패: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>공격을 눈치챈 해적 인양단이 전초기지를 비우고 흩어졌습니다. 임무 [resolvedQuestName](이)가 종료되었습니다.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+
+</LanguageData>

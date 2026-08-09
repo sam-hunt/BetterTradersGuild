@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes (Biotech compat root - see the English
+       counterpart). Label reuses Core ko ConfigPage_ConfigureStartingPawns verbatim
+       (identical English source). -->
+
+  <!-- EN: starting people -->
+  <BTG_ConfigureStartingPawnsXenotypes.label>시작 캐릭터</BTG_ConfigureStartingPawnsXenotypes.label>
+
+</LanguageData>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ExiledTraders -->
+  <!-- EN: Exiled Traders -->
+  <BTG_ExiledTraders.label>추방된 상인</BTG_ExiledTraders.label>
+  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+
+Note: This is a difficult scenario and is not recommended for new players. -->
+  <BTG_ExiledTraders.description>궤도 중계기에서의 평범한 인양 작업이 잘못되었습니다. 숨겨져 있던 메카노이드 신호기를 건드린 승무원이 메카노이드 군락을 깨우고 말았습니다. 교역 조합은 지체 없이 사태와 거리를 두었고, 신호 송출이 끝나기도 전에 당신의 회원 자격을 박탈했습니다. 동맹도 없고 보급도 부족한 채 무리가 다가오는 지금, 당신이 갈 곳은 아래뿐입니다.\n\n주의: 어려운 시나리오입니다. 초보자에게는 권장하지 않습니다.</BTG_ExiledTraders.description>
+  <!-- EN: Exiled Traders -->
+  <BTG_ExiledTraders.scenario.name>추방된 상인</BTG_ExiledTraders.scenario.name>
+  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+
+Note: This is a difficult scenario and is not recommended for new players. -->
+  <BTG_ExiledTraders.scenario.description>궤도 중계기에서의 평범한 인양 작업이 잘못되었습니다. 숨겨져 있던 메카노이드 신호기를 건드린 승무원이 메카노이드 군락을 깨우고 말았습니다. 교역 조합은 지체 없이 사태와 거리를 두었고, 신호 송출이 끝나기도 전에 당신의 회원 자격을 박탈했습니다. 동맹도 없고 보급도 부족한 채 무리가 다가오는 지금, 당신이 갈 곳은 아래뿐입니다.\n\n주의: 어려운 시나리오입니다. 초보자에게는 권장하지 않습니다.</BTG_ExiledTraders.scenario.description>
+  <!-- EN: Three exiled traders hunted by mechanoids. -->
+  <BTG_ExiledTraders.scenario.summary>메카노이드에게 쫓기는 세 명의 추방된 상인입니다.</BTG_ExiledTraders.scenario.summary>
+
+  <!-- BTG_IndependentTraders -->
+  <!-- EN: Independent Traders -->
+  <BTG_IndependentTraders.label>독립 상인</BTG_IndependentTraders.label>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
+  <BTG_IndependentTraders.description>수년간 교역 조합의 화물을 실어 나른 끝에, 이윤을 쪼개고 정박 구역을 두고 다투는 일에 진력이 났습니다. 왕복선이 궤도 고리를 벗어나자 교역 주파수가 무심한 작별 인사를 울리고, 앞으로는 하늘이 열립니다. 화물칸에는 은과 야망이 가득하지만, 나머지는 스스로 벌어야 합니다.</BTG_IndependentTraders.description>
+  <!-- EN: Independent Traders -->
+  <BTG_IndependentTraders.scenario.name>독립 상인</BTG_IndependentTraders.scenario.name>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
+  <BTG_IndependentTraders.scenario.description>수년간 교역 조합의 화물을 실어 나른 끝에, 이윤을 쪼개고 정박 구역을 두고 다투는 일에 진력이 났습니다. 왕복선이 궤도 고리를 벗어나자 교역 주파수가 무심한 작별 인사를 울리고, 앞으로는 하늘이 열립니다. 화물칸에는 은과 야망이 가득하지만, 나머지는 스스로 벌어야 합니다.</BTG_IndependentTraders.scenario.description>
+  <!-- EN: Three ex-guild traders and a shuttle. -->
+  <BTG_IndependentTraders.scenario.summary>조합을 떠난 상인 세 명과 왕복선 한 대입니다.</BTG_IndependentTraders.scenario.summary>
+
+</LanguageData>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>밀수업자 소굴</BTG_SmugglersDen.label>
+  <!-- EN: An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer. -->
+  <BTG_SmugglersDen.description>해적 인양단이 점거한 궤도 플랫폼으로, 밀수 거점이자 암시장 전초기지로 쓰입니다.\n\n이 플랫폼은 장거리 자동 무기 시스템을 갖추고 있어 접근하는 우주선을 파괴할 수 있습니다. 안전하게 접근하려면 신호 교란기를 장착한 중력부양선이 필요합니다.</BTG_SmugglersDen.description>
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>{0} 공격</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>{0} 공격 중</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

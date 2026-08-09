@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Korean reportStrings follow vanilla ko: the "~하는 중" form with no trailing
+       period, and no josa markers anywhere. TargetA/TargetB are substituted after the
+       string has already been post-processed, so a josa marker here would resolve
+       against the literal token text rather than the injected label. Vanilla ko
+       avoids allomorphic particles after these tokens for exactly that reason.
+       Core's Hack.reportString wraps its target as {TargetA}; the braces are dropped
+       here because our English source has none and they would read as an invented
+       placeholder. -->
+
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>TargetA에 탑승하는 중</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>보급 요청 중</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>TargetA 안전한 곳으로 옮기는 중</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>TargetA 의무실로 옮기는 중</BTG_CarryToMedbayFloor.reportString>
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>TargetA 청소 중</BTG_Clean.reportString>
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>TargetB에게 TargetA 먹여주는 중</BTG_FeedPatient.reportString>
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>TargetA 해킹 중</BTG_Hack.reportString>
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>TargetA 여는 중</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>TargetA 다시 여는 중</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>화물 금고 해치 다시 잠그는 중</BTG_Relock.reportString>
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>TargetA 구조 중</BTG_Rescue.reportString>
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>TargetA 간호 중</BTG_TendPatient.reportString>
+
+</LanguageData>
