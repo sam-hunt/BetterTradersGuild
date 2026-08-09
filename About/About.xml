@@ -38,16 +38,8 @@
     <li>ludeon.rimworld.biotech</li>
     <li>ludeon.rimworld.anomaly</li>
     <li>ludeon.rimworld.odyssey</li>
-    <!-- Third-party mods we conditionally patch via xml -->
-    <!-- Even if that's just confirming defs exist before upgrading
-         content in our own prefabs with mod content -->
-    <li>VanillaExpanded.VChemfuelE</li>
-    <li>VanillaExpanded.VNutrientE</li>
-    <li>VanillaExpanded.VFEMedical</li>
-    <li>VanillaExpanded.VFEProduction</li>
-    <li>VanillaExpanded.VFESpacer</li>
-    <li>vanillaexpanded.gravship</li>
-    <li>smallmine.HeavyShuttle</li>
-    <li>shunter.uniquemeleeweapons</li>
+    <!-- No third-party entries: our soft integrations are MayRequire-gated defs,
+         patches against the unified XML document, and post-load DefDatabase lookups,
+         all of which are load-order independent -->
   </loadAfter>
 </ModMetaData>
