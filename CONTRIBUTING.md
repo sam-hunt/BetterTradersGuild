@@ -30,10 +30,10 @@ native speaker), **Planned** (not started — contributions welcome).
   `1.6/Languages/English/DefInjected/<DefType>/`, and Keyed strings live in
   `1.6/Languages/English/Keyed/BTG.xml`, keyed with the `BTG_` prefix.
 - Exception: entries for content gated on Unique Melee Weapons live under
-  `1.6/UMW/Languages/<Language>/...` (a LoadFolders-gated root that only
+  `1.6/Mods/UniqueMeleeWeapons/Languages/<Language>/...` (a LoadFolders-gated root that only
   loads when that mod is active — MayRequire is ignored on DefInjected
   entries, so the folder is the gate). Translate them there, mirroring
-  `1.6/UMW/Languages/English/`, never in the main `1.6` tree.
+  `1.6/Mods/UniqueMeleeWeapons/Languages/English/`, never in the main `1.6` tree.
 - Formatting: UTF-8 without BOM, LF line endings, 2-space indent.
 - Validate before opening a PR:
 

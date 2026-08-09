@@ -450,10 +450,10 @@ def main():
     ap.add_argument("--strict", action="store_true", help="treat warnings as errors")
     args = ap.parse_args()
 
-    # */*/Languages picks up gated compat load roots nested inside the version
-    # folder (e.g. 1.6/UMW/Languages, see LoadFolders.xml).
+    # */Mods/*/Languages picks up gated compat load roots, which nest inside the
+    # version folder as <version>/Mods/<Mod Name>/ (see LoadFolders.xml).
     lang_roots = sorted(args.root.glob("*/Languages")) + \
-                 sorted(args.root.glob("*/*/Languages")) + \
+                 sorted(args.root.glob("*/Mods/*/Languages")) + \
                  ([args.root / "Languages"] if (args.root / "Languages").is_dir() else [])
     defs_dirs = sorted(args.root.glob("*/Defs")) + \
                 ([args.root / "Defs"] if (args.root / "Defs").is_dir() else [])
