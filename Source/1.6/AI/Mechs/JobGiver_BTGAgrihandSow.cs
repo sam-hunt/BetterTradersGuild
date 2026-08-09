@@ -16,7 +16,8 @@ namespace BetterTradersGuild.AI.Mechs
     // BTG greenhouse sets every basin to rice, whose 3-day grow cycle keeps the
     // harvest/sow loop visibly busy. Pre-filters with the exact gates JobDriver_PlantSow
     // fails on (CanNowPlantAt, no adjacent sow blocker, cell empty of plants) so the job
-    // can never spawn only to instantly abort.
+    // can never spawn only to instantly abort. Basins in rooms with any vacuum are skipped
+    // outright - the sown plant would die immediately, trapping the mech in a replant loop.
     //
     // Returns null when no in-room basin has an empty, plantable, reservable cell, letting
     // the standby node send the mech home to dormant self-charge.
@@ -45,6 +46,8 @@ namespace BetterTradersGuild.AI.Mechs
             {
                 if (!(basins[i] is Building_PlantGrower grower) || !grower.CanAcceptSowNow())
                     continue;
+                if (grower.Position.GetVacuum(map) > 0f)
+                    continue; // any vacuum kills the plant on spawn - sowing here just loops plant-die-replant
                 ThingDef toSow = grower.GetPlantDefToGrow();
                 if (toSow == null)
                     continue;

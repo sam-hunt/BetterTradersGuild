@@ -20,7 +20,9 @@ namespace BetterTradersGuild.AI.Mechs
     // the pot's sowTag, the same check the vanilla "set plant to grow" gizmo uses, so it
     // covers modded pots and modded flowers, not just vanilla roses/daylilies. Pre-filters
     // with the exact gates JobDriver_PlantSow fails on (CanNowPlantAt, no adjacent sow
-    // blocker) so the job can never spawn only to instantly abort.
+    // blocker) so the job can never spawn only to instantly abort. Pots in rooms with any
+    // vacuum are skipped outright - the sown plant would die immediately, trapping the mech
+    // in a replant loop.
     //
     // Returns null when no reachable empty pot remains, letting the return-home node walk
     // the mech back to its greenhouse before it self-charges.
@@ -55,6 +57,8 @@ namespace BetterTradersGuild.AI.Mechs
                     continue;
                 if (!StructureBoundsCache.Contains(map, pot.Position))
                     continue;
+                if (pot.Position.GetVacuum(map) > 0f)
+                    continue; // any vacuum kills the plant on spawn - sowing here just loops plant-die-replant
 
                 foreach (IntVec3 c in pot.OccupiedRect())
                 {
