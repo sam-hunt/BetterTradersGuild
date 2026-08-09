@@ -341,6 +341,72 @@ def check_sidecar_freshness(defs, sidecar, report):
                                         f"sidecar; {stale}")
 
 
+def check_english_definjected(lang_dir, sidecar, seen, report):
+    # English DefInjected files inject into defs at runtime exactly like any
+    # other language's, so an unknown key here is a live "found no def named
+    # ..." startup error, not just translator noise — historically these files
+    # were only read as reference material and never validated themselves.
+    # Every entry must be a legal injection point per the sidecar, its text
+    # must match the sidecar's English (drift means the file or the def was
+    # edited without a regen), and a key may only be injected once across all
+    # English roots (the game dedups by normalizedPath and warns). `seen` is
+    # shared across roots: def_type -> key -> first path.
+    inj_dir = lang_dir / "DefInjected"
+    if not inj_dir.is_dir():
+        return
+    for type_dir in sorted(p for p in inj_dir.iterdir() if p.is_dir()):
+        def_type = type_dir.name
+        if def_type not in sidecar.def_types:
+            report.error(f"[English/DefInjected/{def_type}]",
+                         f"unknown def type folder (no legal injection "
+                         f"points in the sidecar)")
+            continue
+        for path in sorted(type_dir.glob("**/*.xml")):
+            for key, elem, _ in load_language_xml(path, report) or []:
+                first = seen.setdefault(def_type, {}).setdefault(key, path)
+                if first is not path:
+                    report.error(path, f"duplicate key <{key}> (also in "
+                                       f"{first})")
+                    continue
+                hit = sidecar.lookup(def_type, key)
+                if hit is None:
+                    report.error(path, f"unknown key <{key}> (not a legal "
+                                       f"injection point per the sidecar)")
+                    continue
+                canonical, idx = hit
+                entry = sidecar.entries[def_type][canonical]
+                text = flatten_entry(elem)
+                if idx is not None:
+                    expected = entry["english"][idx]
+                elif entry.get("isCollection"):
+                    if not isinstance(text, list):
+                        report.error(path, f"<{key}> is a collection entry; "
+                                           f"expected a <li> list or "
+                                           f"element-wise {key}.N keys")
+                        continue
+                    if len(text) != len(entry["english"]):
+                        report.error(path, f"<{key}> has {len(text)} "
+                                           f"elements, sidecar English has "
+                                           f"{len(entry['english'])}")
+                        continue
+                    for i, (got, exp) in enumerate(zip(text, entry["english"])):
+                        if norm(got) != norm(exp):
+                            report.error(path, f"<{key}.{i}> drifted from "
+                                               f"sidecar English {exp!r} — "
+                                               f"rerun the refresh script or "
+                                               f"fix the entry")
+                    continue
+                else:
+                    expected = entry["english"]
+                if isinstance(text, list):
+                    report.error(path, f"<{key}> is scalar per the sidecar "
+                                       f"but holds a <li> list")
+                elif norm(text) != norm(expected):
+                    report.error(path, f"<{key}> drifted from sidecar "
+                                       f"English {expected!r} — rerun the "
+                                       f"refresh script or fix the entry")
+
+
 def check_language(lang_dir, english_keyed, sidecar, report):
     # Returns {def_type: set(canonical keys/elements)} actually translated in
     # this language, for the cross-language parity check in main(). Element
@@ -468,10 +534,13 @@ def main():
 
     english_keyed = {}
     languages = []
+    english_injected_seen = {}
     for lang_root in lang_roots:
         for lang_dir in sorted(p for p in lang_root.iterdir() if p.is_dir()):
             if lang_dir.name == "English":
                 english_keyed.update(collect_keyed(lang_dir, report))
+                check_english_definjected(lang_dir, sidecar,
+                                          english_injected_seen, report)
             else:
                 languages.append(lang_dir)
 
