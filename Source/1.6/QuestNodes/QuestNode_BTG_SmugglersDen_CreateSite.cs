@@ -30,9 +30,9 @@ namespace BetterTradersGuild.QuestNodes
             if (settlement == null)
                 return false;
 
-            // Verify Salvagers faction exists
-            Faction salvagers = Find.FactionManager.FirstFactionOfDef(Factions.Salvagers);
-            if (salvagers == null)
+            // Verify the Salvagers still exist (and aren't defeated) - other mods can
+            // eliminate the faction, and a den needs someone to hold it.
+            if (TradersGuildHelper.LivingSalvagersFaction() == null)
                 return false;
 
             // Verify we can find a tile for the site near the TG settlement
@@ -46,7 +46,15 @@ namespace BetterTradersGuild.QuestNodes
             Quest quest = QuestGen.quest;
 
             Settlement settlement = nearSettlement.GetValue(slate);
-            Faction salvagers = Find.FactionManager.FirstFactionOfDef(Factions.Salvagers);
+
+            // TestRunInt already gates on this, but dev-forced quest generation skips the
+            // test run - fail loudly rather than creating a faction-less site.
+            Faction salvagers = TradersGuildHelper.LivingSalvagersFaction();
+            if (salvagers == null)
+            {
+                Log.Error("[Better Traders Guild] QuestNode_BTG_SmugglersDen_CreateSite: Salvagers faction missing or defeated");
+                return;
+            }
 
             // Find orbital tile near the TG settlement
             if (!TileFinder.TryFindNewSiteTile(out PlanetTile tile, settlement.Tile,

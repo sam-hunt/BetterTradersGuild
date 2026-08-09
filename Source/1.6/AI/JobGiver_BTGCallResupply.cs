@@ -10,8 +10,9 @@ namespace BetterTradersGuild.AI
     // Last-resort hunger escalation for bounded defenders: a starving defender walks to a
     // powered in-structure comms console and calls in resupply - a survival-meal cargo-pod
     // drop and, optionally, a reinforcement raid (ResupplyRaidUtility). Both come from the
-    // wider guild network, so the last guild settlement left in the world never calls -
-    // there is no one left to answer.
+    // garrison's own off-map network (the wider guild for settlements, the Salvagers
+    // faction for the smugglers den), so when that network is gone - last guild settlement
+    // standing, Salvagers eliminated - the call is never made: no one is left to answer.
     //
     // Sits BELOW the forager (JobGiver_BTGForageInStructure) in the duty think tree, so it
     // only fires once every in-structure food source - carried rations, floor items, meal
@@ -60,10 +61,9 @@ namespace BetterTradersGuild.AI
             if (tracker?.CanResupplyNow != true)
                 return null;
 
-            // The wider guild network is what answers the call: if this is the last guild
-            // settlement standing in the world, there is no one left to send meals or
-            // reinforcements, so the console call is pointless.
-            if (!TradersGuildHelper.AnyOtherTradersGuildSettlement(pawn.Map))
+            // The garrison's off-map network is what answers the call: if no one is left
+            // out there to send meals or reinforcements, the console call is pointless.
+            if (!TradersGuildHelper.ResupplyNetworkExists(pawn.Map))
                 return null;
 
             // The two call outcomes are independent (see class remarks), so the call is

@@ -69,10 +69,11 @@ namespace BetterTradersGuild.JobDrivers
                 if (tracker?.CanResupplyNow != true)
                     return;
 
-                // The guild network may have been wiped out while the defender walked over:
-                // the last settlement standing has no one left to answer, so nothing fires
-                // and no cooldown is burned (the JobGiver stops re-issuing the call anyway).
-                if (!TradersGuildHelper.AnyOtherTradersGuildSettlement(map))
+                // The garrison's off-map network (guild settlements or, at the smugglers
+                // den, the Salvagers faction) may have been wiped out while the defender
+                // walked over: no one is left to answer, so nothing fires and no cooldown
+                // is burned (the JobGiver stops re-issuing the call anyway).
+                if (!TradersGuildHelper.ResupplyNetworkExists(map))
                     return;
 
                 // The meal drop and the reinforcement raid are independent outcomes of the

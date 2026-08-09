@@ -230,11 +230,37 @@ namespace BetterTradersGuild
             return null;
         }
 
+        // The Salvagers faction, or null when no one is left to act for it: hidden and
+        // settlement-less, so def-level existence (plus not-defeated) is the only
+        // meaningful "still out there" signal. Other mods may remove or defeat the
+        // faction outright, and BTG's Salvagers-flavored behavior should die with it.
+        public static Faction LivingSalvagersFaction()
+        {
+            Faction salvagers = Find.FactionManager.FirstFactionOfDef(Factions.Salvagers);
+            return salvagers?.defeated == false ? salvagers : null;
+        }
+
+        // True if anyone is left in the world to answer a resupply call from this map's
+        // garrison (meal drops, reinforcement raids) - callers disable those escalations
+        // when it fails. TradersGuild settlements call on the wider guild network, so the
+        // last guild settlement standing has no one left to call. The smugglers den's
+        // garrison is Salvagers, who hold no settlements - their network is simply the
+        // faction itself still being out there.
+        public static bool ResupplyNetworkExists(Verse.Map map)
+        {
+            if (map?.Parent == null)
+                return false;
+
+            if (map.Parent.def == WorldObjects.BTG_SmugglersDenSite)
+                return LivingSalvagersFaction() != null;
+
+            return AnyOtherTradersGuildSettlement(map);
+        }
+
         // True if at least one other Traders Guild settlement still stands in the world
-        // besides the one this map belongs to. The wider guild network is what answers a
-        // resupply call (meal drops, reinforcement raids), so the last base standing has
-        // no one left to call - callers use this to disable those escalations.
-        public static bool AnyOtherTradersGuildSettlement(Verse.Map map)
+        // besides the one this map belongs to (the settlement half of
+        // ResupplyNetworkExists).
+        private static bool AnyOtherTradersGuildSettlement(Verse.Map map)
         {
             Settlement own = map?.Parent as Settlement;
             List<Settlement> settlements = Find.WorldObjects.Settlements;
