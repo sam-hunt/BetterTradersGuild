@@ -74,6 +74,10 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3. Spawn landing pad prefab using PrefabUtility API
                 SpawnLandingPadPrefab(map, placement);
 
+                // 3a. Normalize the shuttle to always face west (the prefab machinery
+                //     rotates contained things along with the pad placement)
+                EnsureShuttleFacesWest(map);
+
                 // 3b. Paint the PassengerShuttle to match the owning faction's color
                 PaintShuttleInLandingPad(map, faction);
 
@@ -168,6 +172,32 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }
 
+        // Finds the shuttle spawned by the landing pad prefab, or null if the pad
+        // failed to place or the shuttle is missing.
+        private Building FindShuttleInLandingPad(Map map)
+        {
+            if (this.landingPadRect.Width == 0) return null;
+
+            var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
+            return furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
+        }
+
+        // The prefab machinery spawns the shuttle rotated along with the pad placement,
+        // but the shuttle should always face west. Respawns it in place facing west.
+        //
+        // Safe for the 3x5 shuttle's rotated footprint: the prefab positions it at the
+        // center of the pad's 7x7 interior, so the west-facing 5x3 footprint keeps at
+        // least one cell of clearance from the pad walls under every prefab rotation.
+        private void EnsureShuttleFacesWest(Map map)
+        {
+            Building shuttle = FindShuttleInLandingPad(map);
+            if (shuttle == null || shuttle.Rotation == Rot4.West) return;
+
+            IntVec3 center = shuttle.Position;
+            shuttle.DeSpawn();
+            GenSpawn.Spawn(shuttle, center, map, Rot4.West);
+        }
+
         // Paints the shuttle in the landing pad area to match the owning faction's color:
         // the nearest paintable structure ColorDef to faction.Color (exact BTG_Rust for
         // TradersGuild, Structure_RedPastel for the smugglers den's Salvagers). Skips
@@ -175,13 +205,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         // Called immediately after prefab spawn so the shuttle exists on the map.
         private void PaintShuttleInLandingPad(Map map, Faction faction)
         {
-            if (this.landingPadRect.Width == 0) return;
             if (faction == null) return;
 
-            // Find the shuttle in the landing pad area
-            var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            var shuttle = furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
-
+            Building shuttle = FindShuttleInLandingPad(map);
             if (shuttle == null) return;
 
             PaintableFurnitureHelper.TryPaint(shuttle, PaintableFurnitureHelper.NearestStructureColor(faction.Color));
@@ -191,13 +217,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         // Does nothing if VE Chemfuel Expanded is not installed (VCHE_UndergroundChemfuelPipe will be null).
         private void ConnectShuttleToPipeNetwork(Map map, CellRect roomRect)
         {
-            if (this.landingPadRect.Width == 0) return;
             if (Things.VCHE_UndergroundChemfuelPipe == null) return;
 
-            // Find the shuttle in the landing pad area
-            var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            var shuttle = furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
-
+            Building shuttle = FindShuttleInLandingPad(map);
             if (shuttle == null) return;
 
             // Connect shuttle position to nearest room edge via underground chemfuel pipes

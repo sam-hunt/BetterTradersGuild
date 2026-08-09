@@ -79,6 +79,9 @@
           <li>(8,9,8,9)</li>
         </rects>
       </AncientShipBeacon>
+      <!-- Center of the 7x7 interior. Rotation is normalized to always face west
+           post-spawn by RoomContents_ShuttleBay (prefabs only support rotation
+           relative to their own placement, not absolute). -->
       <PassengerShuttle>
         <position>(4, 0, 5)</position>
       </PassengerShuttle>
