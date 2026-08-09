@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SilverInlayMelee (WeaponTraitDef, MayRequire shunter.uniquemeleeweapons in
+       1.6/Defs/WeaponTraitDefs/SilverInlayMelee.xml). These injections live in this
+       LoadFolders-gated folder (1.6_UMW loads only when Unique Melee Weapons is active)
+       because MayRequire is honored on defs but IGNORED on DefInjected entries — the
+       DefInjected loader never reads XML attributes, so a same-folder injection would
+       log a found-no-def error on every startup for users without UMW. -->
+  <BTG_SilverInlayMelee.label>silver inlay</BTG_SilverInlayMelee.label>
+  <BTG_SilverInlayMelee.description>This weapon is inlaid with silver. Traders will pay more for it.</BTG_SilverInlayMelee.description>
+  <BTG_SilverInlayMelee.traitAdjectives.0>silver</BTG_SilverInlayMelee.traitAdjectives.0>
+  <BTG_SilverInlayMelee.traitAdjectives.1>silvered</BTG_SilverInlayMelee.traitAdjectives.1>
+  <BTG_SilverInlayMelee.traitAdjectives.2>gleaming</BTG_SilverInlayMelee.traitAdjectives.2>
+  <BTG_SilverInlayMelee.traitAdjectives.3>argent</BTG_SilverInlayMelee.traitAdjectives.3>
+  <BTG_SilverInlayMelee.traitAdjectives.4>fine</BTG_SilverInlayMelee.traitAdjectives.4>
+
+</LanguageData>
