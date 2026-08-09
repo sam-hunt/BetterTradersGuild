@@ -80,10 +80,11 @@ SIDECAR = ROOT / "Scripts" / "expected-injections.json"
 #     content carries a label/description. This mod's MayRequire-gated
 #     Vanilla Expanded prefabs are PrefabDefs (not a def type with
 #     translatable text). Unique Melee Weapons is the one qualifying case:
-#     BTG_SilverInlayMelee (WeaponTraitDef, MayRequire
-#     shunter.uniquemeleeweapons) carries a label/description/
-#     traitAdjectives, so that packageId is in the list and the mod must be
-#     deployed under the probe install's Mods folder.
+#     BTG_SilverInlayMelee (WeaponTraitDef, shipped with its DefInjected
+#     entries in the 1.6/Mods/UniqueMeleeWeapons compat load root, gated in
+#     LoadFolders.xml) carries a label/description/traitAdjectives, so that
+#     packageId is in the list and the mod must be deployed under the probe
+#     install's Mods folder.
 # Nothing else. The probe filters each dump by packageId, so an extra mod
 # adds no keys of its own — but its patches to OUR defs leak straight into
 # the expectations (see header).

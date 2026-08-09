@@ -2,13 +2,15 @@
 <Defs>
 
   <!-- Melee counterpart of BTG's ranged SilverInlay (which follows Odyssey's Ranged-only
-    GoldInlay). Gated on Unique Melee Weapons because weaponCategory references UMW's
-    WeaponCategoryDef: UMW_Melee is UMW's universal melee category, so this slots into UMW's
-    trait system exactly like UMW_GoldInlay/UMW_JadeInlay (add-on only, one Color-tagged
-    accent per weapon) and also enters UMW's random pools for all its unique melee weapons.
-    Values mirror the ranged SilverInlay 1:1. BTG spawns it deliberately on the nursery
-    caretaker's knife (ShelteringCivilianSpawner). -->
-  <WeaponTraitDef MayRequire="shunter.uniquemeleeweapons">
+    GoldInlay). Lives in the UMW compat load root (see LoadFolders.xml) because
+    weaponCategory references UMW's WeaponCategoryDef: UMW_Melee is UMW's universal melee
+    category, so this slots into UMW's trait system exactly like UMW_GoldInlay/UMW_JadeInlay
+    (add-on only, one Color-tagged accent per weapon) and also enters UMW's random pools for
+    all its unique melee weapons. No MayRequire needed - the folder only loads when UMW is
+    active, and its DefInjected sibling can't gate any other way. Values mirror the ranged
+    SilverInlay 1:1. BTG spawns it deliberately on the nursery caretaker's knife
+    (ShelteringCivilianSpawner). -->
+  <WeaponTraitDef>
     <defName>BTG_SilverInlayMelee</defName>
     <label>silver inlay</label>
     <description>This weapon is inlaid with silver. Traders will pay more for it.</description>

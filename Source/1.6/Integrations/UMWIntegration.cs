@@ -7,8 +7,9 @@ namespace BetterTradersGuild.Integrations
     // Optional integration with "Unique Melee Weapons" (UMW), a sibling mod by the same author.
     //
     // When UMW is active, the nursery caretaker's plain plasteel knife is upgraded to UMW's
-    // unique knife variant carrying BTG's silver-inlay melee trait (BTG_SilverInlayMelee, itself
-    // MayRequire-gated on UMW because its weaponCategory references UMW's WeaponCategoryDef).
+    // unique knife variant carrying BTG's silver-inlay melee trait (BTG_SilverInlayMelee,
+    // shipped in the 1.6/Mods/UniqueMeleeWeapons compat load root because its weaponCategory
+    // references UMW's WeaponCategoryDef).
     //
     // Unlike the other integrations here, UMW is consumed purely through defs, not C# types, so
     // detection is by packageId (the ApparelFactionColorHelper idiom) and the lookups are
@@ -42,7 +43,7 @@ namespace BetterTradersGuild.Integrations
         public static readonly WeaponTraitDef Opiated;
 
         // True only when UMW is active AND everything the caretaker's knife needs resolved:
-        // UMW's unique knife plus BTG's own MayRequire-gated silver-inlay melee trait.
+        // UMW's unique knife plus BTG's own compat-root-gated silver-inlay melee trait.
         public static bool Available =>
             ModActive && KnifeUnique != null && DefRefs.WeaponTraits.BTG_SilverInlayMelee != null;
 
@@ -86,7 +87,8 @@ namespace BetterTradersGuild.Integrations
             {
                 Log.Warning("[Better Traders Guild] 'Unique Melee Weapons' active but BTG's own "
                     + "BTG_SilverInlayMelee trait did not load; the nursery caretaker keeps a "
-                    + "plain plasteel knife. Check the MayRequire gate on SilverInlayMelee.xml.");
+                    + "plain plasteel knife. Check the 1.6/Mods/UniqueMeleeWeapons entry in "
+                    + "LoadFolders.xml.");
             }
         }
     }

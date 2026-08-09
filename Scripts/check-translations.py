@@ -522,6 +522,7 @@ def main():
                  sorted(args.root.glob("*/Mods/*/Languages")) + \
                  ([args.root / "Languages"] if (args.root / "Languages").is_dir() else [])
     defs_dirs = sorted(args.root.glob("*/Defs")) + \
+                sorted(args.root.glob("*/Mods/*/Defs")) + \
                 ([args.root / "Defs"] if (args.root / "Defs").is_dir() else [])
     if not lang_roots:
         print(f"No Languages/ directory found under {args.root}", file=sys.stderr)

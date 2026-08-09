@@ -1,5 +1,4 @@
 using RimWorld;
-using Verse;
 
 namespace BetterTradersGuild.DefRefs
 {
@@ -15,8 +14,9 @@ namespace BetterTradersGuild.DefRefs
         public static WeaponTraitDef GoldInlay;
         public static WeaponTraitDef SilverInlay;
 
-        // Melee counterpart of SilverInlay; its def is MayRequire-gated on Unique Melee Weapons
-        // (its weaponCategory references UMW's WeaponCategoryDef), so null when UMW is inactive.
+        // Melee counterpart of SilverInlay; its def ships in the UMW compat load root
+        // (its weaponCategory references UMW's WeaponCategoryDef), so null when UMW is
+        // inactive.
         [MayRequire(Integrations.UMWIntegration.PackageId)]
         public static WeaponTraitDef BTG_SilverInlayMelee;
 
