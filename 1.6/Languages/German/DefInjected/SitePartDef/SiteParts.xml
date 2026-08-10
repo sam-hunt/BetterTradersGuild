@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>Schmugglernest</BTG_SmugglersDen.label>
+  <!-- Paragraph 2 is Odyssey de SpaceSettlement.description paragraph 2, verbatim. -->
+  <!-- EN: An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.\n\nThese platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer. -->
+  <BTG_SmugglersDen.description>Eine Orbitalplattform, die von Schrottpiraten erobert wurde und als Umschlagplatz für Schmuggelware und Schwarzmarkt-Außenposten dient.\n\nSolche Plattformen nutzen riesige Schiffsabwehrkanonen zur Verteidigung. Sie können nur von einem Gravschiff angeflogen werden, das mit einem Signalstörer ausgestattet ist.</BTG_SmugglersDen.description>
+  <!-- Core de site approach strings, verbatim: the decline lookup takes the accusative
+       form of {0}. Our coined label is absent from decline.txt, and a lookup miss
+       returns the key unchanged - which is also the correct accusative for a neuter
+       noun, so the construct degrades exactly right. -->
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>Greife {lookup: {0}; decline; 3} an</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>Greift {lookup: {0}; decline; 3} an.</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

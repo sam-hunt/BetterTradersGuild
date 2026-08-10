@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_CargoVaultHatch -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>gesicherte Frachttresorluke</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>Eine verstärkte Luke, die zum gesicherten Frachttresor der Station führt. Der Tresor darunter enthält hochwertige Handelswaren unter automatischer Bewachung. Hacke das Zugangspanel, um die Verriegelung zu übersteuern.</BTG_CargoVaultHatch.description>
+  <!-- Core de phrases these as an imperative naming the object (Hacke die Tür, um sie zu öffnen.). -->
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>Hacke die Luke, um die Sicherheitsverriegelung zu übersteuern.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+  <!-- {SUBJECT_labelNoParenthesisDef} resolves through LanguageWorker_German's
+       WithDefiniteArticle, which is nominative-only, so the sentence is built to put
+       that argument in a nominative slot rather than after a preposition. -->
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} hat das Sicherheitssystem umgangen – {SUBJECT_labelNoParenthesisDef} ist offen.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+
+  <!-- BTG_CargoVaultHatch_Sealed -->
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>versiegelte Frachttresorluke</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>Eine verstärkte Luke, die zum gesicherten Frachttresor der Station führt. Sie wurde übertrieben gründlich versiegelt, um Angreifern den Zugang zu verwehren.</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- BTG_CargoVaultExit -->
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>Frachttresorausgang</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>Eine gesicherte Leiter mit Luke, die zurück in den Fährenhangar der Station darüber führt.</BTG_CargoVaultExit.description>
+
+</LanguageData>

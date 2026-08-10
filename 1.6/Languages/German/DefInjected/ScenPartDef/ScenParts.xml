@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes lives in the Biotech compat load root
+       (1.6/Mods/Biotech/), together with its DefInjected entries. -->
+
+  <!-- BTG_FactionGoodwill -->
+  <!-- Core de renders "goodwill" as Ruf. -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>Ruf bei Fraktionen</BTG_FactionGoodwill.label>
+
+  <!-- BTG_PlayerPawnsArriveShuttle -->
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>Ankunft per Raumfähre</BTG_PlayerPawnsArriveShuttle.label>
+
+  <!-- BTG_StartingApparelColor -->
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>Farbe der Startkleidung</BTG_StartingApparelColor.label>
+
+  <!-- BTG_StartingUniqueWeapon -->
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>Einzigartige Startwaffe</BTG_StartingUniqueWeapon.label>
+
+</LanguageData>

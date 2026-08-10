@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- Odyssey de renders "gold inlay" as the participle vergoldet, not a noun phrase;
+       the silver counterpart follows it, and the description reuses its wording. -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>versilbert</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>Diese Waffe ist versilbert. Händler werden mehr dafür bezahlen.</SilverInlay.description>
+  <!-- traitAdjectives are bare attributive adjectives prefixed onto an unknown weapon
+       noun, matching Odyssey de GoldInlay (golden / vergoldet) - no gender markers,
+       since these defs feed no RulePackDef name grammar. -->
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>silbern</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>versilbert</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>glänzend</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>silberweiß</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>edel</SilverInlay.traitAdjectives.4>
+
+  <!-- BTG_SilverInlayMelee (UMW-gated) lives in
+       1.6/Mods/UniqueMeleeWeapons/Languages/German/DefInjected/WeaponTraitDef/,
+       mirroring the English compat root - MayRequire is ignored on DefInjected
+       entries, so the gate has to be the LoadFolders compat root. -->
+
+</LanguageData>

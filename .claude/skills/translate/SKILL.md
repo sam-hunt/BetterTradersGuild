@@ -144,8 +144,9 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **Simplified Chinese, Russian and Korean have been
-grounded in this repo** (2026-08-09 / 2026-08-10 / 2026-08-10) — their tables
+market value, silver). **Simplified Chinese, Russian, Korean and German have
+been grounded in this repo** (2026-08-09 / 2026-08-10 / 2026-08-10 /
+2026-08-10) — their tables
 below carry real BTG trader/settlement vocabulary and are safe to build on.
 Every other language's table is still **style/mechanics reference only**,
 inherited from the weapon-mod siblings; ground that language's own
@@ -539,8 +540,9 @@ and the extensive mod-decided trait-adjective list — is specific to melee
 combat text, which this mod has none of. See `../UniqueMeleeWeapons` if that
 ever changes.
 
-#### German (preseeded from PersonaWeaponsUnbound's 2026-07-28 generation,
-extended across the weapon-mod siblings 2026-07-28)
+#### German (grounded in this repo's 2026-08-10 generation pass, on top of
+PersonaWeaponsUnbound's 2026-07-28 pass extended across the weapon-mod
+siblings)
 
 Language folder is `German` (tar: `German (Deutsch).tar`).
 
@@ -548,15 +550,27 @@ Style rules from the vanilla de data (mandatory, applies to any Keyed
 string regardless of mod domain):
 
 - **ASCII single quotes** for cited def labels and UI labels — vanilla writes
-  `Forschungsprojekt '{0}'`. Core+Royalty Keyed ship 140 single-quoted
-  placeholders and **zero** German `„…"`. Never use `„ "`, `» «`, or curly
-  quotes. Pawn names are not quoted.
+  `Forschungsprojekt '{0}'` and `Die Quest '{0}' erfordert …`. Core+Royalty
+  Keyed ship 140 single-quoted placeholders and **zero** German `„…"`. Never
+  use `„ "`, `» «`, or curly quotes. Pawn names are not quoted.
 - **En dash `–`, never em dash `—`** (20 vs 0). English source uses `—`, so
   every dash needs converting; `<!-- EN: -->` comments keep the English form
-  verbatim.
+  verbatim. This makes de the *only* language here that keeps a dash: es, fr
+  and pt-BR all reflow it away.
 - Ellipsis is ASCII `...` (74 in Core Keyed, `…` zero).
 - Descriptions end with `.`; labels and buttons take none. Player-facing
-  prose is informal **du** with imperatives, never Sie.
+  prose is informal **du** with imperatives, never Sie — **except scenario
+  prose, where Odyssey de addresses the crew as ihr/euch**
+  (`TheGravship.description` and its GameStartDialog). BTG follows both: the
+  settings window is du/dein, the two scenarios and their game-start dialogs
+  are ihr/euch.
+- **`reportString`s keep the trailing period and are third-person present
+  verbs** — `entfernt TargetA.`, `füttert TargetB mit TargetA.` This is the
+  opposite of ru and ko, which both drop the period; don't carry that habit
+  over.
+- Units: vanilla de writes percentages **tight** (`{0}%`) and hours tight
+  (`{0}h`), but watts **spaced** (`{0} W`, 6 occurrences). Copy per unit
+  rather than applying one rule.
 
 **Case is the German landmine, not gender** (decompile-verified:
 `Verse.GrammarResolverSimple`, `LanguageWorker_German`, `LanguageWordInfo`).
@@ -571,12 +585,43 @@ assembly): it DOES implement `lookup`** — a `{name: args}` span parses as a
 `lookup` and `replace`, so `{lookup: {0}; decline; N}` and the 2457-row
 `decline.txt` case forms are available in a plain Keyed string after all.
 (The Russian section above uses the same mechanism against `Case.txt`.) An
-earlier sibling-repo note claimed otherwise; a German pass should test the
-`decline` table rather than assume case is unreachable. What remains true is
+earlier sibling-repo note claimed otherwise. **The 2026-08-10 pass confirmed
+the tables and their indexing:** both `WordInfo/decline.txt` (singular) and
+`WordInfo/plural_decline.txt` (plural) exist in Core *and* Odyssey, sharing
+the header `NOM;1_GEN;2_DAT;3_ACC;4_NOM_DEF;5_GEN_DEF;6_DAT_DEF;7_ACC_DEF` —
+so index **3** is bare accusative and **7** is accusative-with-definite-
+article. Vanilla's own two uses are worth copying verbatim: every site
+approach string is `Greife {lookup: {0}; decline; 3} an` /
+`Greift {lookup: {0}; decline; 3} an.`, and every `messageDefendersAttacking`
+is `{0} der Fraktion '{1}' greifen deine {lookup: {2}; plural_decline; 7} an.`
+
+**A German lookup miss is genuinely harmless, unlike Russian's**
+(decompile-verified): `LanguageWorker_German` does **not** override
+`TryLookUp`, so the base runs, and its miss branch returns `keyName` — the
+*original*, not the lowercased probe key it built. A mod-coined label
+therefore passes through with its capitalization intact and simply stays in
+its base form. (`LanguageWorker_Russian` *does* override `TryLookUp` and
+lowercases the key first, which is why the ru section warns about it — the
+two languages genuinely differ here; don't generalize either way.) So the
+vanilla construct is safe to reuse even for a coined label, and for a neuter
+noun the miss is additionally indistinguishable from a hit, since German
+neuter accusative equals nominative.
+
+What remains true is
 that de's article helpers are nominative-only and a `decline` miss falls back
 to the key unchanged, so restructuring an oblique slot is still the safer
-default when the injected label is mod-coined and absent from the table. A
-gender lookup that misses **defaults to masculine**
+default when the injected label is mod-coined and absent from the table.
+**This bit is load-bearing, not theoretical:** `{SUBJECT_labelNoParenthesisDef}`
+resolves through `WithDefiniteArticle`, which prepends a bare nominative
+`der`/`die`/`das`, so an English source like *"… bypassed the security on
+{SUBJECT_labelNoParenthesisDef}."* cannot be translated literally (`auf die
+Luke` needs no case change but `von die Luke` is ungrammatical). Vanilla de
+sidesteps it by dropping the symbol and writing the noun literally
+(`… hat die antike Panzertür erfolgreich gehackt.`) — **which we cannot do,
+since the checker enforces placeholder parity.** Rebuild the sentence so the
+symbol lands in a nominative slot instead: BTG's `hackedMessage` is
+`{HACKER_labelShort} hat das Sicherheitssystem umgangen – {SUBJECT_…Def} ist
+offen.` A gender lookup that misses **defaults to masculine**
 (`ResolveGender`'s `defaultGender`) — safe only for vanilla nouns in
 nominative slots, never for a mod-coined label absent from the Gender
 tables.
@@ -585,6 +630,14 @@ tables.
 after s/ß/z/x/ce) — a closing ASCII single quote immediately followed by
 lowercase `s` is silently mangled, so never write `'{0}'s` in German prose.
 
+**Odyssey de covers nearly everything BTG builds on, and three vanilla defs
+are near-exact templates** — check them first before composing anything new:
+Core's `TradeRequest` QuestScriptDef (its description frame, the
+`qualityInfo` fragment and all three letter strings were byte-identical
+reuse for `BTG_TradeRequest`), Odyssey's `TheGravship` ScenarioDef (the
+difficulty note and the launch / view-planet sentences), and Odyssey's
+`GoldInlay` WeaponTraitDef (`SilverInlay` / `BTG_SilverInlayMelee`).
+
 | English | Use | Never | Why |
 |---|---|---|---|
 | Cancel / Reset / Confirm / Randomize | Abbrechen / Zurücksetzen / Bestätigen / Zufällig | | Core buttons |
@@ -592,6 +645,54 @@ lowercase `s` is silently mangled, so never write `'{0}'s` in German prose.
 | None | Nichts | Keine | Core `None` |
 | quality / tiers | Qualität / übel·schlecht·normal·gut·exzellent·meisterlich·legendär | | Core `Quality`, `QualityCategory_*` |
 | "{0} quality or better" | `Qualität {0} oder besser` | | reshaped from Core `NormalQualityOrBetter` (pre-inflected, untemplatable) |
+| "of normal+ quality" / "(worth [X])" | in normaler Qualität oder besser / (Wert: [X]) | | Core `TradeRequest` — verbatim, trailing space included |
+| traders guild / guild member(s) | Händlergilde / Gildenmitglied(er) | Handelsgilde | Odyssey `TradersGuild.*` |
+| salvagers | Schrottpiraten | Berger | Odyssey `Salvagers.label` (its *pawns* are Piraten) |
+| leader (`leaderTitle`) | Anführer | | Core `PlayerColony`/`GravshipCrew`; Odyssey: TradersGuild=Handelsmagnat, Salvagers=Boss — Anführer is the neutral slot |
+| trader / orbital trader | Händler / Orbitalhändler | | Core `Silver`-era vocabulary; Odyssey `TradersGuild.description` |
+| bulk / exotic goods trader | Großhändler / Händler exotischer Güter | | Core orbital `TraderKindDef`s |
+| Traders will pay more/less for it. | Händler werden mehr dafür bezahlen. / … weniger dafür bezahlen. | | Odyssey `GoldInlay`/`Ugly` — verbatim |
+| gold/silver inlay | vergoldet / versilbert | Goldeinlage | Odyssey `GoldInlay.label` is a **participle**, not a noun phrase |
+| {0} from {1} are attacking your {2}. | {0} der Fraktion '{1}' greifen deine {lookup: {2}; plural_decline; 7} an. | | every vanilla de `FactionDef` — verbatim |
+| Attack {0} / Attacking {0}. | Greife {lookup: {0}; decline; 3} an / Greift {lookup: {0}; decline; 3} an. | | Core site approach strings — verbatim |
+| Quest failed: [resolvedQuestName] | Quest gescheitert: [resolvedQuestName] | | Core `TradeRequest` — verbatim |
+| [faction_name] became hostile to you. | Die Fraktion [faction_name] wurde dir gegenüber feindselig. | | Core `TradeRequest` — verbatim |
+| Who should be credited with [X] …? | Wem soll die [X] für die Erfüllung des Handelsangebotes zuteilwerden? | | Core `TradeRequest` — verbatim |
+| hostile to {0} | Feindliche Beziehungen zur Fraktion '{0}' | | shaped from Core `QuestHostileTo` |
+| orbital platform / settlement platform | Orbitalplattform / Siedlungsplattform | | Odyssey `OrbitalPlatform.label`, `SettlementPlatform.label` |
+| orbital settlement / settlement | orbitale Siedlung / Siedlung | | Odyssey `SpaceSettlement.label`, Core `Settlement.label` |
+| shuttle | Raumfähre | Shuttle | Core `Shuttle.label`, Odyssey `Shuttles.label` (shuttle engine = Fährentriebwerk) |
+| drop pod vs cargo pod | Landekapsel vs Vorratskapsel | | Core `DropPodIncoming` / `CargoPodCrash` — distinct, don't merge |
+| signal jammer / sentry drone / life support unit | Signalstörer / Wächterdrohne / Lebenserhaltungseinheit | | Odyssey |
+| gravship / gravlite panel / pilot console | Gravschiff / Gravlitplatte / Pilotenkonsole | | Odyssey |
+| mechhive / orbital relay | Mechnest / Orbitalrelais | Mechbau | Odyssey `Mechhive.label`, `TheGravship.description` |
+| goodwill / caravan / negotiator | Ruf / Karawane / Unterhändler | Wohlwollen | Core `Goodwill`, `Caravan.label`, `Negotiator` |
+| silver / market value / comms console / packaged survival meal | Silber / Marktwert / Funkanlage / Überlebensration | | Core |
+| steel / vacuum / safe / power output | Stahl / Vakuum / Tresor / Leistungsabgabe | | Core |
+| colour labels | material colours are capitalized nouns (Gold, Jade, Silber); descriptive ones lowercase adjectives (grau, schwarz) | | Core + Odyssey `ColorDef`s |
+| "Note: This is a difficult scenario…" | Hinweis: Dies ist ein schwieriges Szenario und wird neuen Spielern nicht empfohlen. | | Odyssey `TheGravship` — verbatim |
+| "To launch the gravship, select the pilot console…" / "select 'view planet'" | Um das Gravschiff zu starten, selektiere die Pilotenkonsole und klicke auf 'Starten'. / klicke auf 'Planet anzeigen' | | Odyssey `TheGravship` GameStartDialog — verbatim, ASCII single quotes included |
+| starting people (ScenPart) | Anzahl Startcharaktere | | Core `ConfigPage_ConfigureStartingPawns.label` — identical English source, reuse verbatim |
+| reportStrings (clean/rescue/tend/feed/hack/open/board) | entfernt TargetA. / rettet TargetA. / behandelt TargetA. / füttert TargetB mit TargetA. / hackt TargetA. / öffnet TargetA. / betritt TargetA. | | Core `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1, trailing period and all |
+
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** Frachttresor (hatch variants gesicherte Frachttresorluke /
+versiegelte Frachttresorluke / Frachttresorausgang), **shuttle bay**
+Fährenhangar, **smuggler's den** Schmugglernest (echoing Odyssey's Mechnest),
+**threat points** Bedrohungspunkte, **orbital steel / rust** Orbitalstahl /
+Rost, **independent traders** unabhängige Händler, **Exiled Traders**
+Verbannte Händler, **cargo claim** Frachtanspruch, **medbay**
+Krankenstation, **docked vessel** Angedocktes Schiff, **docking bays**
+Andockbuchten, **(Vanilla)** (wie im Original), **entrenched defender AI**
+Verschanzte Verteidiger-KI, **garrison** Garnison, **resupply** Nachschub.
+"TG maps" is spelled out as **Gildenkarten** — a German initialism would be
+opaque. `BTG_Settings_ModName` is deliberately left as the Latin brand
+`Better Traders Guild`.
+
+`traitAdjectives` are **bare attributive adjectives** in vanilla de (Odyssey
+`GoldInlay`: golden, vergoldet) — no gender markers, because these defs feed
+no `RulePackDef` name grammar here. BTG's five silver adjectives are silbern /
+versilbert / glänzend / silberweiß / edel.
 
 The rest of the weapon-mod German glossary — weapon/tool/damage vocabulary,
 the `namerLabels`/`traitAdjectives` `|M|`/`|F|`/`|N|` gender-marker scheme
@@ -599,8 +700,7 @@ for `RulePackDef`s, the relic-name truncation rule, and the "never *print*
 a `[X_definite]'s` genitive" battle-log lesson — is specific to
 `RulePackDef` name generation and melee combat text, neither of which this
 mod has (it ships no RulePackDefs). See `../UniqueMeleeWeapons` or
-`../PersonaWeaponsUnbound` if that ever changes. This repo has not yet run
-a German generation pass; add xenogerm/xenotype rows here once one lands.
+`../PersonaWeaponsUnbound` if that ever changes.
 
 #### Spanish (Castellano) (from the weapon-mod siblings' 2026-07-29 generation)
 
@@ -914,6 +1014,15 @@ add xenogerm/xenotype rows here once one lands.
   key unchanged rather than erroring, so the mechanism is safe to use and
   degrades to nominative — but a mod-coined label is never in the table, so
   restructuring is still right when the injected value is one of ours.
+- **A `lookup` miss does not degrade identically across languages — check
+  whether the worker overrides `TryLookUp`** (decompile-verified 2026-08-10).
+  The base implementation lowercases only its internal probe key and returns
+  the caller's `keyName` untouched on a miss, so a mod-coined label keeps its
+  capitalization (this is German's behaviour — it overrides only the article
+  helpers, `PostProcessed`, `OrdinalNumber`, `Pluralize` and
+  `PostProcessThingLabelForRelic`). `LanguageWorker_Russian` *does* override
+  `TryLookUp` and lowercases the key before the lookup, so a ru miss can come
+  back lowercased. Same construct, different failure mode.
 - **The checker compares argument placeholders, not grammar constructs,
   and that distinction is deliberate.** `{0}`/`{PAWN_labelShort}`-style
   placeholders are supplied by the C# call site and must match English

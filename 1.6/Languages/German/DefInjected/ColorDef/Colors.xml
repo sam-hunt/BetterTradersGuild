@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla de colour labels are lowercase adjectives for descriptive colours
+       (grau, schwarz) but capitalized nouns for material colours (Gold, Jade,
+       Kalkstein). All three below are material colours. -->
+
+  <!-- BTG_OrbitalSteel -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>Orbitalstahl</BTG_OrbitalSteel.label>
+
+  <!-- BTG_UniqueWeapon_Silver -->
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>Silber</BTG_UniqueWeapon_Silver.label>
+
+  <!-- BTG_Rust -->
+  <!-- EN: rust -->
+  <BTG_Rust.label>Rost</BTG_Rust.label>
+
+</LanguageData>

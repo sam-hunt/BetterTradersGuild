@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_IndependentTraders -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>unabhängige Händler</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>Eine kleine Mannschaft ehemaliger Mitglieder der Händlergilde, die nun auf eigene Rechnung operiert.</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>Anführer</BTG_IndependentTraders.leaderTitle>
+  <!-- Every vanilla de FactionDef uses this exact wording, including the plural_decline
+       lookup for the accusative-definite form of {2}; reused verbatim. -->
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>{0} der Fraktion '{1}' greifen deine {lookup: {2}; plural_decline; 7} an.</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>Händler</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>Händler</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

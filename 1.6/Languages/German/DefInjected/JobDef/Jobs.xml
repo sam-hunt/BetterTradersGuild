@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla de reportStrings are third-person present verbs and DO keep the trailing
+       period (unlike ru/ko). BTG's NPC-safe BTG_* copies of vanilla jobs reuse Core de's
+       wording 1:1 (Clean, FeedPatient, Hack, Open, Rescue, TendPatient, EnterTransporter). -->
+
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>betritt TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>fordert Nachschub an.</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>bringt TargetA in Sicherheit.</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>bringt TargetA zur Krankenstation.</BTG_CarryToMedbayFloor.reportString>
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>entfernt TargetA.</BTG_Clean.reportString>
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>füttert TargetB mit TargetA.</BTG_FeedPatient.reportString>
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>hackt TargetA.</BTG_Hack.reportString>
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>öffnet TargetA.</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>öffnet TargetA erneut.</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>verriegelt die Frachttresorluke wieder.</BTG_Relock.reportString>
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>rettet TargetA.</BTG_Rescue.reportString>
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>behandelt TargetA.</BTG_TendPatient.reportString>
+
+</LanguageData>
