@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SilverInlayMelee is the UniqueMeleeWeapons-gated twin of SilverInlay; its strings
+       match that def's, which lives in 1.6/Languages/Japanese/DefInjected/. -->
+  <!-- EN: silver inlay -->
+  <BTG_SilverInlayMelee.label>銀の象眼</BTG_SilverInlayMelee.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <BTG_SilverInlayMelee.description>この武器は銀で装飾されています.貿易商は高値でこれを買い取ります.</BTG_SilverInlayMelee.description>
+  <!-- EN: silver -->
+  <BTG_SilverInlayMelee.traitAdjectives.0>銀の</BTG_SilverInlayMelee.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <BTG_SilverInlayMelee.traitAdjectives.1>銀めっきの</BTG_SilverInlayMelee.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <BTG_SilverInlayMelee.traitAdjectives.2>輝く</BTG_SilverInlayMelee.traitAdjectives.2>
+  <!-- EN: argent -->
+  <BTG_SilverInlayMelee.traitAdjectives.3>白銀の</BTG_SilverInlayMelee.traitAdjectives.3>
+  <!-- EN: fine -->
+  <BTG_SilverInlayMelee.traitAdjectives.4>精巧な</BTG_SilverInlayMelee.traitAdjectives.4>
+
+</LanguageData>

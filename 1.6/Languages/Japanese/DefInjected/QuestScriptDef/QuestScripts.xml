@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Core ja's TradeRequest QuestScriptDef is the direct template: its description frame,
+       its qualityInfo fragment ("標準品以上の品質の") and its two failure-letter strings are
+       reused, with キャラバン隊 swapped for シャトル and 入植地 for 軌道ステーション.
+       Note Core ja places qualityInfo BEFORE the requested item, which is where a
+       Japanese attributive phrase belongs; the English has it after. All four bracketed
+       symbols are preserved either way. -->
+  <!-- EN:
+    <li>questName->Shuttle Run to [settlement_label]</li>
+    <li>questName->Orbital Trade with [settlement_label]</li>
+    <li>questName->Shipment for [settlement_label]</li>
+    <li>questName->Delivery to [settlement_label]</li>
+  -->
+  <BTG_TradeRequest.questNameRules.rulesStrings>
+    <li>questName-&gt;[settlement_label]へのシャトル便</li>
+    <li>questName-&gt;[settlement_label]との軌道上の交易</li>
+    <li>questName-&gt;[settlement_label]への出荷</li>
+    <li>questName-&gt;[settlement_label]への配達</li>
+  </BTG_TradeRequest.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:
+
+ [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])
+
+If you want to make the trade, send a shuttle with the requested items.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </li>
+    <li>qualityInfo-></li>
+  -->
+  <BTG_TradeRequest.questDescriptionRules.rulesStrings>
+    <li>questDescription-&gt;近くにある軌道ステーション,[settlement_label]が特別な取引を申し出てきました.彼らは,以下の物を欲しがっています:\n\n [requestedThingCount]個の[qualityInfo][requestedThing_label] (価値 [requestedThingMarketValue_money])\n\nこの取引に興味があれば,要求された品物を積んだシャトルを送りましょう.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)-&gt;標準品以上の品質の</li>
+    <li>qualityInfo-&gt;</li>
+  </BTG_TradeRequest.questDescriptionRules.rulesStrings>
+  <!-- Verbatim from Core ja TradeRequest.LetterLabelQuestFailed. -->
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_TradeRequest.root.nodes.Letter.label.slateRef>クエスト失敗: [resolvedQuestName]</BTG_TradeRequest.root.nodes.Letter.label.slateRef>
+  <!-- Verbatim from Core ja TradeRequest.LetterTextQuestFailed. -->
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_TradeRequest.root.nodes.Letter.text.slateRef>[faction_name]があなたのコロニーと敵対状態になりました.</BTG_TradeRequest.root.nodes.Letter.text.slateRef>
+  <!-- EN: [asker_faction_royalFavorLabel] -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>[asker_faction_royalFavorLabel]</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>
+  <!-- NOT mirrored from Core ja, deliberately: its LetterTextFavorReceiver reads
+       "誰が[X]を持っていると信じるべきですか?" ("who should we believe HOLDS [X]?"), which
+       inverts the English - the player is choosing who RECEIVES the favor, not who owns
+       it. Flagged for native review; a corrected phrasing is used here instead. -->
+  <!-- EN: Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request? -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>この取引の要求を満たした功績として,誰に[asker_faction_royalFavorLabel]を与えますか?</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- "横流し" is vanilla ja's own word for fencing stolen cargo (Core BackstoryDef
+       "積荷の横流し"). Both failure letters reuse Core ja's TradeRequest strings. -->
+  <!-- EN:
+    <li>questName->Smuggler's Den Near [settlement_label]</li>
+    <li>questName->Orbital Pirate Haven</li>
+    <li>questName->Salvager Outpost Near [settlement_label]</li>
+    <li>questName->Black Market Station</li>
+  -->
+  <BTG_SmugglersDen.questNameRules.rulesStrings>
+    <li>questName-&gt;[settlement_label]近くの密輸業者の巣窟</li>
+    <li>questName-&gt;軌道上の海賊の隠れ家</li>
+    <li>questName-&gt;[settlement_label]近くの略奪者の前哨基地</li>
+    <li>questName-&gt;闇市ステーション</li>
+  </BTG_SmugglersDen.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+  -->
+  <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+    <li>questDescription-&gt;商人ギルドを代表する[asker_nameFull]から,[settlement_label]の近くで略奪者の前哨基地が活動しているとの知らせが届きました.このステーションはギルドの輸送団を襲い,奪った積荷を横流ししています.\n\nギルドは前哨基地を排除する報酬として,回収権を提示しています.また,ドッキングの割り当てに手を回せる伝手があり,貨物保管庫の中身を増やして条件を良くしてくれるそうです.</li>
+  </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+  <!-- Verbatim from Core ja TradeRequest.LetterLabelQuestFailed. -->
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>クエスト失敗: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
+  <!-- Verbatim from Core ja TradeRequest.LetterTextQuestFailed. -->
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>[faction_name]があなたのコロニーと敵対状態になりました.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>クエスト失敗: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>攻撃を察知した略奪者は,前哨基地から物資を運び出して散り散りになりました.クエスト[resolvedQuestName]は終了しました.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+
+</LanguageData>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey ja's TheGravship is the template: its difficulty note is reused verbatim,
+       full-width colon (注意：) included - that colon is vanilla ja's own choice in this
+       exact slot, even though ASCII : is used elsewhere. Its vocabulary carries over too
+       (メカハイブ, 軌道リレー, メカノイドビーコン, グラヴシップ), as does the shape of its
+       scenario.summary ("メカノイドに追われる3人のクルー."). -->
+  <!-- EN: Exiled Traders -->
+  <BTG_ExiledTraders.label>追放された商人</BTG_ExiledTraders.label>
+  <!-- EN:
+A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+
+Note: This is a difficult scenario and is not recommended for new players.
+  -->
+  <BTG_ExiledTraders.description>軌道リレーでの日常的な回収作業が,取り返しのつかない事態を招きました.隠されていたメカノイドビーコンによって,クルーはメカハイブを目覚めさせてしまったのです.商人ギルドはただちにこの騒動と距離を置き,信号が鳴り終わらないうちにあなたの会員資格を取り消しました.味方はなく,物資は乏しく,群れは迫っています.あなたに残された道は,眼下の惑星へ降りることだけです.\n\n注意：このシナリオは難易度が高く,始めたばかりのプレイヤーにはお勧めできません.</BTG_ExiledTraders.description>
+  <!-- EN: Exiled Traders -->
+  <BTG_ExiledTraders.scenario.name>追放された商人</BTG_ExiledTraders.scenario.name>
+  <!-- EN:
+A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+
+Note: This is a difficult scenario and is not recommended for new players.
+  -->
+  <BTG_ExiledTraders.scenario.description>軌道リレーでの日常的な回収作業が,取り返しのつかない事態を招きました.隠されていたメカノイドビーコンによって,クルーはメカハイブを目覚めさせてしまったのです.商人ギルドはただちにこの騒動と距離を置き,信号が鳴り終わらないうちにあなたの会員資格を取り消しました.味方はなく,物資は乏しく,群れは迫っています.あなたに残された道は,眼下の惑星へ降りることだけです.\n\n注意：このシナリオは難易度が高く,始めたばかりのプレイヤーにはお勧めできません.</BTG_ExiledTraders.scenario.description>
+  <!-- Shaped from Odyssey ja TheGravship.scenario.summary. -->
+  <!-- EN: Three exiled traders hunted by mechanoids. -->
+  <BTG_ExiledTraders.scenario.summary>メカノイドに追われる3人の追放された商人.</BTG_ExiledTraders.scenario.summary>
+
+  <!-- "船倉" is vanilla ja's word for a ship's hold (Core BackstoryDef); "シルバー" is Core
+       ja's Silver.label. The English hyphen breaks in the matching game-start dialog are
+       reflowed into ordinary clauses there, and this description has none to begin with. -->
+  <!-- EN: Independent Traders -->
+  <BTG_IndependentTraders.label>独立商人</BTG_IndependentTraders.label>
+  <!-- EN:
+After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.
+  -->
+  <BTG_IndependentTraders.description>商人ギルドのために積荷を運び続けた年月の末,利益を分け合い,ドッキングベイを奪い合う日々にはもう飽き飽きしました.シャトルが軌道リングを抜けると,交易用の周波数が素っ気ない別れの合図を鳴らし,行く手には空が広がります.船倉いっぱいのシルバーと野心はありますが,その先は自分の手で稼ぎ取るしかありません.</BTG_IndependentTraders.description>
+  <!-- EN: Independent Traders -->
+  <BTG_IndependentTraders.scenario.name>独立商人</BTG_IndependentTraders.scenario.name>
+  <!-- EN:
+After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.
+  -->
+  <BTG_IndependentTraders.scenario.description>商人ギルドのために積荷を運び続けた年月の末,利益を分け合い,ドッキングベイを奪い合う日々にはもう飽き飽きしました.シャトルが軌道リングを抜けると,交易用の周波数が素っ気ない別れの合図を鳴らし,行く手には空が広がります.船倉いっぱいのシルバーと野心はありますが,その先は自分の手で稼ぎ取るしかありません.</BTG_IndependentTraders.scenario.description>
+  <!-- EN: Three ex-guild traders and a shuttle. -->
+  <BTG_IndependentTraders.scenario.summary>元ギルドの商人3人と1隻のシャトル.</BTG_IndependentTraders.scenario.summary>
+
+</LanguageData>

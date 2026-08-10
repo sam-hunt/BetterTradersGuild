@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey ja's GoldInlay is the template: its label is a noun phrase ("金の象眼") and
+       the second sentence of its description is reused verbatim ("貿易商は高値でこれを
+       買い取ります."), which is also vanilla ja's own phrasing for the trader-price line.
+       traitAdjectives must be ATTRIBUTIVE forms that read as a prefix on an unknown weapon
+       noun, following vanilla ja's own GoldInlay adjectives (金の, 黄金の) - so の-terminated
+       noun modifiers, な-terminated adjectival nouns, or a plain attributive verb (輝く).
+       Japanese needs no gender or number agreement, so the weapon noun's identity never
+       matters here. -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>銀の象眼</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>この武器は銀で装飾されています.貿易商は高値でこれを買い取ります.</SilverInlay.description>
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>銀の</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>銀めっきの</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>輝く</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>白銀の</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>精巧な</SilverInlay.traitAdjectives.4>
+
+</LanguageData>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Matches BTG_SmugglersDen.label in DefInjected/SitePartDef/SiteParts.xml. Both
+       密輸業者 and 巣窟 are vanilla ja words (Core BackstoryDefs and the settlement namer
+       "[townname_wordgen]の巣窟"). -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDenSite.label>密輸業者の巣窟</BTG_SmugglersDenSite.label>
+
+</LanguageData>

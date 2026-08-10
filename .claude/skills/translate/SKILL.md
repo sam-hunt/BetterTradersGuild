@@ -25,8 +25,9 @@ the source of truth; every other language derives from it.
   same commit whenever a language is added or a native review lands. The
   target roster lives there — consult it before proposing new languages.
   Today it lists English (Source) plus Simplified Chinese, Russian, Korean,
-  German, Spanish and French (all Machine-assisted); Brazilian Portuguese
-  and Japanese are still Planned.
+  German, Spanish, French, Brazilian Portuguese and Japanese — every one of
+  them Machine-assisted, and nothing left Planned. A further language means
+  adding a row, not filling one in.
 
 ## File map and conventions
 
@@ -145,15 +146,14 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **Simplified Chinese, Russian, Korean, German,
-Spanish, French and Brazilian Portuguese have been grounded in this repo**
-(2026-08-09 / 2026-08-10 / 2026-08-10 / 2026-08-10 / 2026-08-10 / 2026-08-10
-/ 2026-08-10) — their tables
-below carry real BTG trader/settlement vocabulary and are safe to build on.
-Every other language's table is still **style/mechanics reference only**,
-inherited from the weapon-mod siblings; ground that language's own
-trader/settlement terms against the Core + Odyssey tars and record them here
-before relying on them.
+market value, silver). **All eight shipped languages — Simplified Chinese,
+Russian, Korean, German, Spanish, French, Brazilian Portuguese and Japanese —
+have been grounded in this repo** (2026-08-09 for zh, 2026-08-10 for the
+other seven), so every table below carries real BTG trader/settlement
+vocabulary and is safe to build on. **A ninth language starts from nothing**:
+there is no inherited table to lean on, so ground its own trader/settlement
+terms against the Core + Odyssey tars and record them here before relying on
+them, exactly as each of the eight did.
 
 **Dashes: no new usages.** A dash the English source does not have must not
 appear in a translation. Reflow into that language's ordinary punctuation
@@ -337,32 +337,150 @@ simply does not try. The dropped weapon-domain rows (`trait`, gun `charge`)
 and the mod-decided WeaponCategoryDef labels live in `../UniqueMeleeWeapons`'s
 skill if that vocabulary is ever needed here.
 
-#### Japanese (from the weapon-mod siblings' 2026-07 generation)
+#### Japanese (grounded in this repo's 2026-08-10 generation pass, on top of the
+weapon-mod siblings' 2026-07 pass)
 
 RimWorld's language folder is `Japanese` (tar: `Japanese (日本語).tar`).
 
-Style rules discovered from the vanilla JP data (mandatory):
+**There is no `LanguageWorker_Japanese`, and that absence is the finding that
+shapes the pass** (verified 2026-08-10 against the 1.6 assembly's full typedef
+list: workers ship for Catalan, Czech, Danish, Default, Dutch, English, French,
+German, Hungarian, Italian, Korean, Norwegian, Portuguese, Romanian, Russian,
+Spanish, Swedish and Turkish — Japanese is not among them). `LanguageInfo.xml`
+declares no `languageWorkerClass` either, so the base `LanguageWorker` runs and
+its `PostProcessed` only calls `MergeMultipleSpaces()`. No elision, no
+contraction, no `'s` rewriting, no particles. **Nothing rewrites these strings,
+so what is authored is what ships** — and equally, nothing will rescue a
+malformed one. Japanese also needs no gender, number or case agreement, so
+every hazard the de/es/fr/pt-BR sections are organized around simply does not
+arise: BTG's `hackedMessage` keeps the English sentence shape with the injected
+symbol in place, where all four of those languages had to restructure it. Read
+this as pt-BR's lesson inverted — an absent worker there *created* the author's
+problem, here it removes it.
 
-- Vanilla JP uses ASCII punctuation: `,` and `.` — never `、` or `。`.
-- Descriptions/tooltips: polite です/ます form ending `.`; labels/buttons take
-  no period.
-- Quote injected def labels and cross-referenced UI labels with 「」. Suffixes
-  and parentheticals take no leading space and use ASCII parens.
-- DLC names stay in Latin script (Biotech, Royalty, Odyssey), as does MOD.
+Style rules from the vanilla ja data (mandatory). Counted 2026-08-10 over
+Core+Odyssey, Keyed **and** DefInjected, comments stripped — 887k chars of
+translated values:
+
+- **ASCII `.` and `,`, never `。` or `、`** — and this is now verified
+  tree-wide, not just in Keyed: **zero** 。 and **zero** 、 in all 887k chars,
+  against 13,747 ASCII periods and 14,771 ASCII commas. Also zero full-width
+  spaces `　` and (bar 2 stray Keyed instances) zero full-width parens — ASCII
+  `(` `)` throughout, 603 of them.
+- **Corner brackets 「」 and ASCII `"` are different slots, and the nearer
+  analog decides.** 171 「」 ship tree-wide, but they mark quoted *text* —
+  note contents, map inscriptions (`次の言葉が書かれている ——「[mapText]」`).
+  For a **UI command the player clicks**, Odyssey ja's own `TheGravship`
+  GameStartDialog writes ASCII double quotes: `ワールドマップで"惑星を見る"を選択し`.
+  BTG's scenario dialogs are that exact slot, so they use `"…"`. This
+  **corrects** the sibling-inherited rule that said 「」 for cross-referenced
+  UI labels, and it is the opposite of zh, which reaches for 「」 in precisely
+  this slot — do not generalize between the two CJK languages.
+- **Dashes: 56 em dashes in 887k chars (6.3 per 100k), 22 of them doubled
+  ——, and zero en dashes.** Most are one repeated `RulePackDef` idiom
+  (treasure-map notes: `次の言葉が書かれている ——「[mapText]」`), so the real
+  diversity is far below the raw count. Per the no-new-dashes rule, BTG's
+  Japanese ships **zero**: the two ` - ` hyphen breaks in
+  `BTG_GameStartDialog_IndependentTraders` were reflowed into ordinary clauses.
+  Ellipsis is ASCII `...` (86) over `…` (14).
+- **Units attach tight, with no per-unit split** — `{0}W` 5/0, `{0}%` 1/0,
+  `{0}x` 11/1, `{0}日` 31/2, `{0}時間` 4, `{0}個` 9. This is simpler than
+  fr/es/pt-BR, which each split percentages from watts; in ja one rule covers
+  everything. Vanilla has no `{0}h` string at all, so the English form carries
+  over unchanged.
+- **Colons are per-slot, not per-rule.** ASCII `:` dominates (442 vs 111
+  full-width), and `クエスト失敗: [resolvedQuestName]` uses it — but Odyssey's
+  difficulty note is `注意：このシナリオは…` with a full-width one, and
+  `内容物：重力コア` likewise. Copy the slot, don't apply a rule.
+- Descriptions and tooltips take polite です/ます and end `.`; labels, buttons,
+  section headers and `ScenPartDef` labels take none. DLC names stay in Latin
+  script (Biotech, Royalty, Odyssey), as does MOD.
+- **`reportString`s carry NO trailing period** where the English has one, and
+  take the progressive 〜中 / 〜している form. This matches ru and ko, and is the
+  opposite of de/es/fr/pt-BR, which all keep it.
+
+**Odyssey ja covers nearly everything BTG builds on, and four vanilla defs are
+near-exact templates** — check them first before composing anything new:
+
+| BTG content | Vanilla template |
+|---|---|
+| `BTG_TradeRequest` (description frame, `qualityInfo`, both failure-letter strings) | Core `TradeRequest` QuestScriptDef |
+| `BTG_ExiledTraders` + `BTG_GameStartDialog_ExiledTraders` | Odyssey `TheGravship` ScenarioDef — the difficulty note, the gravlite sentence, the launch sentence, the `"惑星を見る"` sentence and the closing mechhive sentence are all verbatim |
+| `BTG_CargoVaultHatch` (both `CompHackable` strings) | Odyssey `AncientHatch` |
+| `BTG_SmugglersDen.description` ¶2 | Odyssey `SpaceSettlement.description` ¶2, verbatim |
 
 | English | Use | Never | Why |
 |---|---|---|---|
-| Cancel / Reset / Reset to defaults | キャンセル / リセット / デフォルトに戻す | | vanilla Keyed buttons |
+| Cancel / Reset / Confirm | キャンセル / リセット / 了承 | | Core buttons |
+| Reset to defaults / Default / None | デフォルトに戻す / デフォルト / なし | | Core `RestoreToDefaultSettings`, `Default`, `None` |
 | quality tiers | 壊れかけ/低品質/標準品/良品/秀品/名品/幻の一品 | | Core `QualityCategory_*` |
-| Traders will pay more/less for it. | 貿易商は高値で/低い価格でこれを買い取ります. | | Odyssey `GoldInlay`/`Ugly` descs — reuse verbatim; directly relevant to this mod's trader-price framing |
+| "of normal+ quality" / "(worth [X])" | 標準品以上の品質の / (価値 [X]) | | Core `TradeRequest` — verbatim; note ja places the quality phrase BEFORE the item, where a Japanese attributive belongs |
+| traders guild / guild member(s) | 商人ギルド / ギルドメンバー | 貿易ギルド | Odyssey `TradersGuild.*` (pawnSingular and pawnsPlural are identical — ja does not inflect for number) |
+| salvagers | 略奪者 | 回収業者 | Odyssey `Salvagers.label` (its *pawns* are 宙族) |
+| leader (`leaderTitle`) | リーダー | | Core/Odyssey `GravshipCrew`, `Ancients`, `Insect` all use リーダー; Odyssey: TradersGuild=交易修士, Salvagers=ボス |
+| trader / merchant | 商人 / 貿易商 | | Odyssey `TradersGuild.description` uses 商人 for the guild's people, `GoldInlay.description` 貿易商 for the trade role |
+| orbital trader | 軌道上の商人 | | Odyssey `TradersGuild.description` |
+| Traders will pay more/less for it. | 貿易商は高値でこれを買い取ります. / 貿易商は低い価格でこれを買い取ります. | | Odyssey `GoldInlay`/`Ugly` — verbatim |
+| gold/silver inlay | 金の象眼 / 銀の象眼 | | Odyssey `GoldInlay.label` is a **noun phrase** (like es/pt-BR, unlike de/fr's participle) |
+| {0} from {1} are attacking your {2}. | {1}の{0}は {2}を攻撃中です. | | every Odyssey `FactionDef` — verbatim, its internal double space included |
+| Attack {0} / Attacking {0}. | {0}を攻撃 / {0}を攻撃中 | | Odyssey `Outpost` approach strings — verbatim; ja drops the English's trailing period on both |
+| Quest failed: [resolvedQuestName] | クエスト失敗: [resolvedQuestName] | | Core `TradeRequest` — verbatim (quest = クエスト) |
+| [faction_name] became hostile to you. | [faction_name]があなたのコロニーと敵対状態になりました. | | Core `TradeRequest` — verbatim |
+| hostile to {0} | {0}と敵対関係 | | shaped from Core `QuestHostileTo` (`{0}と敵対`) |
+| No capable negotiator | まともな交渉人がいません | | shaped from Core `CommandTradeFailNoNegotiator` |
+| requires signal jammer | シグナルジャマーが必要 | | Odyssey `TransportPodDestinationRequiresSignalJammer` — verbatim |
+| orbital platform / settlement platform | 軌道プラットフォーム / 入植用プラットフォーム | | Odyssey `OrbitalPlatform.label`, `SettlementPlatform.label` (a MapGeneratorDef, the same slot BTG's is) |
+| orbital settlement / settlement | 軌道上の入植地 / 入植地 | | Odyssey `SpaceSettlement.label` |
+| shuttle | シャトル | 宇宙往還機 | Odyssey `Shuttles.label` (passenger shuttle = 旅客シャトル) |
+| drop pod vs transport pod vs cargo pod | ドロップポッド vs 輸送ポッド vs 貨物ポッド | | Core `DropPodIncoming`, `TransportPod`, `CargoPodCrash` — three distinct terms, don't merge |
+| signal jammer / sentry drone / life support unit | シグナルジャマー / セントリードローン / 生命維持ユニット | | Odyssey |
+| gravship / gravlite panel / pilot console | グラヴシップ / 重力軽量パネル / パイロットコンソール | | Odyssey (gravcore = 重力コア) |
+| mechhive / orbital relay | メカハイブ / 軌道リレー | | Odyssey `Mechhive.label`, `OrbitalRelay.label` |
+| goodwill / caravan / negotiator | 友好値 / キャラバン隊 / 交渉人 | 好感度 | Core `Goodwill`, `Caravan.label`, `Negotiator` |
+| silver / steel / market value / comms console / packaged survival meal / vacuum | シルバー / スチール / 標準小売価格 / 通信機 / 非常用食品 / 真空 | | Core |
+| garrison / outpost / safe / hatch / medbay / ship's hold | 駐屯地 / 前哨基地 / 金庫 / ハッチ / 医務室 / 船倉 | | Core `AncientGarrison`, Odyssey `Outpost`/`AncientSafe`/`AncientHatch`; 医務室 and 船倉 are vanilla ja words found elsewhere in the tree |
+| colour labels | Weapon-family ColorDefs are **bare nouns** (金, 灰, 緑); Structure-family ones are 〜色 compounds (赤褐色, 淡い青色) or katakana | | Core `Structure_*` vs Odyssey `UniqueWeapon_*` — match the def's `colorType`, not a blanket rule |
+| "Note: This is a difficult scenario…" | 注意：このシナリオは難易度が高く,始めたばかりのプレイヤーにはお勧めできません. | | Odyssey `TheGravship` — verbatim, full-width colon included |
+| "To launch the gravship, select the pilot console…" / "select 'view planet'" | グラヴシップを打ち上げるには,パイロットコンソールを選択し,発射コマンドを選択してください. / ワールドマップで"惑星を見る"を選択し | | Odyssey `TheGravship` GameStartDialog — verbatim, ASCII double quotes included |
+| starting people (ScenPart) | 開始時の人数 | | Core `ConfigPage_ConfigureStartingPawns.label` — identical English source, reuse verbatim |
+| reportStrings (clean/rescue/tend/feed/hack/open/board) | TargetAを掃除中 / TargetAを救助中 / TargetAの看病中 / TargetAをTargetBに給仕中 / TargetAをハッキングしている / TargetAを開封中 / TargetAに乗り込んでいる | | Core+Odyssey `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1. **No trailing period**, and TargetA/TargetB stay bare |
 
-The rest of the weapon-mod Japanese glossary — weapon/tool/damage
-vocabulary, the attributive-form (`の`/`な`-terminated) requirement for
-`traitAdjectives`, the `[stuff_adjective]の[noun]` name-grammar composition,
-and battle-log grammar — is specific to `RulePackDef` name generation and
-melee combat text, which this mod has none of. See `../UniqueMeleeWeapons`
-if that ever changes. This repo has not yet run a Japanese generation pass;
-add xenogerm/xenotype rows here once one lands.
+**One Core ja `TradeRequest` string is wrong and was deliberately not
+mirrored** (flagged in `QuestScriptDef/QuestScripts.xml` for native review):
+`LetterTextFavorReceiver` reads `誰が[X]を持っていると信じるべきですか?` — "who
+should we believe *holds* [X]?" — inverting the English, where the player picks
+who *receives* the favor. BTG ships
+`この取引の要求を満たした功績として,誰に[asker_faction_royalFavorLabel]を与えますか?`
+instead. Same lesson pt-BR's section records from its own direction: frequency
+is not correctness, and it applies to vanilla's own data.
+
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** 貨物保管庫 (hatch variants 貨物保管庫の保安ハッチ / 封鎖された貨物
+保管庫のハッチ / 貨物保管庫の出口), **shuttle bay** シャトル格納庫, **smuggler's
+den** 密輸業者の巣窟 (both 密輸業者 and 巣窟 are vanilla ja words, from Core
+BackstoryDefs and the settlement namer `[townname_wordgen]の巣窟`), **threat
+points** 脅威ポイント, **orbital steel / rust** 軌道スチール色 / 錆色, **silver
+(colour)** 銀, **independent traders** 独立商人, **Exiled Traders**
+追放された商人, **cargo claim** 貨物引換権, **docked vessel** ドッキング中の船,
+**docking bays** ドッキングベイ, **orbital ring** 軌道リング, **(Vanilla)**
+(バニラ) — the JP modding community's standard word for unmodded RimWorld,
+**entrenched defender AI** 籠城型の防衛AI, **resupply** 補給, **fencing stolen
+cargo** 積荷の横流し (vanilla ja's own phrase, Core BackstoryDef). "TG maps" is
+spelled out as **ギルドのマップ** — a Japanese initialism would be opaque.
+`BTG_Settings_ModName` is deliberately left as the Latin brand `Better Traders
+Guild`.
+
+**`traitAdjectives` must be ATTRIBUTIVE forms that read as a prefix on an
+unknown weapon noun** — vanilla ja's `GoldInlay` uses 金の / 黄金の, i.e.
+の-terminated noun modifiers. な-terminated adjectival nouns and plain
+attributive verbs (輝く) work identically. Japanese needs no agreement of any
+kind, so unlike de/es/fr/pt-BR the weapon noun's identity never constrains the
+choice. BTG's five silver adjectives are 銀の / 銀めっきの / 輝く / 白銀の / 精巧な.
+
+The rest of the weapon-mod Japanese glossary — weapon/tool/damage vocabulary,
+the `[stuff_adjective]の[noun]` name-grammar composition, and battle-log
+grammar — is specific to `RulePackDef` name generation and melee combat text,
+which this mod has none of. See `../UniqueMeleeWeapons` if that ever changes.
 
 #### Simplified Chinese (grounded in this repo's 2026-08-09 generation pass)
 
@@ -1291,7 +1409,12 @@ this mod has none of. See `../UniqueMeleeWeapons` if that ever changes.
 
 - Wrap injected `{0}` def labels in the language's quote marks (JP 「{0}」,
   RU «{0}», zh-Hans "{0}") — injected labels never inflect, and quoting
-  sidesteps case and agreement problems. **Korean is the exception, and
+  sidesteps case and agreement problems. **But the quote mark is per *slot*,
+  not per language**: ja's 「」 marks quoted text (note contents, inscriptions)
+  while a UI command the player clicks takes ASCII `"…"`, and zh reaches for
+  「」 in exactly that second slot. Same two brackets, opposite assignments —
+  find the nearest vanilla analog rather than porting a sibling CJK rule.
+  **Korean is a harder exception, and
   porting the ja form actively breaks it**: ko solves the same problem
   mechanically with josa markers, and `FindLastChar` looks through only
   ASCII `'` `"` `)` to find the syllable that decides the particle. Curly
@@ -1316,12 +1439,20 @@ this mod has none of. See `../UniqueMeleeWeapons` if that ever changes.
   frequency is not correctness (both es and fr ship a demonstrably broken
   contraction in their own combat packs).
 - **A "no hidden mechanics" worker is itself a finding, not a reason to
-  skip the check.** Spanish's and Portuguese's workers impose few or no
-  authoring requirements, but Portuguese's *absence* of a `PostProcessed`
-  override is precisely what makes every contraction the author's problem.
-  Read what the worker does **not** do as carefully as what it does, and
-  note that languages can share one worker class (`PortugueseBrazilian` and
-  `Portuguese` both use `LanguageWorker_Portuguese`).
+  skip the check — and a language may have no worker at all.** Spanish's and
+  Portuguese's workers impose few or no authoring requirements, but
+  Portuguese's *absence* of a `PostProcessed` override is precisely what
+  makes every contraction the author's problem. **Japanese goes further: no
+  `LanguageWorker_Japanese` exists** (verified against the assembly's full
+  typedef list, and `LanguageInfo.xml` declares no `languageWorkerClass`), so
+  the base worker runs and only merges repeated spaces. The *same* absence
+  cuts opposite ways in the two languages — it creates the author's problem
+  in pt-BR and removes it in ja — because what matters is whether the
+  language's own grammar needs the rewriting, not whether the hook is
+  missing. Confirm a worker's existence by enumerating the types, not by
+  assuming a major language has one, and note that languages can share one
+  worker class (`PortugueseBrazilian` and `Portuguese` both use
+  `LanguageWorker_Portuguese`).
 - **The possessive symbol (`[X_possessive]`/`Prohis`/`Proher`/`Proits`) has
   a different correct answer per language, so never generalize one.**
   Korean drops it, German keeps and inflects it inline, Spanish keeps it

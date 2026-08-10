@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Matches BTG_IndependentTraders.label in DefInjected/FactionDef/Factions.xml. -->
+  <!-- EN: independent trader -->
+  <BTG_IndependentTrader.label>独立商人</BTG_IndependentTrader.label>
+
+</LanguageData>

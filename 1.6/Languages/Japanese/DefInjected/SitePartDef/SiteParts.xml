@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The approach strings are verbatim from Odyssey ja's Outpost SitePartDef, including
+       its omission of the trailing period the English has.
+       The second paragraph of the description is verbatim from Odyssey ja's
+       SpaceSettlement.description - BTG's English restates it word for word. -->
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>{0}を攻撃</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>{0}を攻撃中</BTG_SmugglersDen.approachingReportString>
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>密輸業者の巣窟</BTG_SmugglersDen.label>
+  <!-- EN:
+An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer.
+  -->
+  <BTG_SmugglersDen.description>略奪者に奪われた軌道プラットフォームです.密輸の拠点,そして闇市の前哨基地として使われています.\n\nこれらのプラットフォームは,接近する船を破壊できる長距離自動兵器システムを備えています.安全に接近したい場合は,グラヴシップにシグナルジャマーを搭載しましょう.</BTG_SmugglersDen.description>
+
+</LanguageData>

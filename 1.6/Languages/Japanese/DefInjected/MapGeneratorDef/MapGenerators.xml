@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SettlementMapGenerator occupies the same slot as Odyssey ja's own
+       SettlementPlatform MapGeneratorDef, so its label is reused verbatim. -->
+  <!-- EN: cargo vault -->
+  <BTG_CargoVaultMapGenerator.label>貨物保管庫</BTG_CargoVaultMapGenerator.label>
+  <!-- EN: settlement platform -->
+  <BTG_SettlementMapGenerator.label>入植用プラットフォーム</BTG_SettlementMapGenerator.label>
+  <!-- EN: smuggler's den platform -->
+  <BTG_SmugglersDenMapGenerator.label>密輸業者の巣窟プラットフォーム</BTG_SmugglersDenMapGenerator.label>
+
+</LanguageData>

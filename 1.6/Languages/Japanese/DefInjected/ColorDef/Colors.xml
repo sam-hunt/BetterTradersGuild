@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Two colour families, two conventions, both taken from vanilla ja's own ColorDefs.
+       BTG_OrbitalSteel and BTG_Rust are colorType Structure, whose vanilla ja labels are
+       〜色 compounds (赤褐色, 淡い青色). BTG_UniqueWeapon_Silver is colorType Weapon, whose
+       vanilla ja labels are bare single-word nouns (UniqueWeapon_Gold は 金,
+       UniqueWeapon_Gray は 灰) - so silver is 銀, matching that family exactly.
+       "スチール" is Core ja's Steel.label. -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>軌道スチール色</BTG_OrbitalSteel.label>
+  <!-- EN: rust -->
+  <BTG_Rust.label>錆色</BTG_Rust.label>
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>銀</BTG_UniqueWeapon_Silver.label>
+
+</LanguageData>

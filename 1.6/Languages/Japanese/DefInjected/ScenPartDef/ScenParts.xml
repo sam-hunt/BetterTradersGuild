@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- ScenPartDef labels are bare noun phrases with no trailing period in vanilla ja
+       (登場方法, プレイヤーの派閥, マップを指定). BTG_PlayerPawnsArriveShuttle sits in the
+       same slot as Core ja's PlayerPawnsArriveMethod, whose values are formed as
+       "<method>" (グラヴシップ, ドロップポッド), so "シャトルで登場" reads as its natural
+       sibling. "シャトル" is Odyssey ja's Shuttles.label. -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>派閥の友好値</BTG_FactionGoodwill.label>
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>シャトルで登場</BTG_PlayerPawnsArriveShuttle.label>
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>開始時の衣服の色</BTG_StartingApparelColor.label>
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>開始時のユニーク武器</BTG_StartingUniqueWeapon.label>
+
+</LanguageData>

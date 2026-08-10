@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey ja's AncientHatch is the template for both CompHackable strings: its
+       hackedMessage is "{HACKER_labelShort}は{SUBJECT_labelNoParenthesisDef}のハッキングを
+       終えました." and its notHackedInspectString "ハッキングで開く.". Japanese needs no
+       article before the injected symbol and has no contraction to fight, so the English
+       sentence shape carries over directly - unlike de/es/fr/pt-BR, which each had to
+       restructure this string. -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>貨物保管庫の保安ハッチ</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>ステーションの厳重な貨物保管庫へ通じる,補強されたハッチです.下の保管庫には,自動警備のもとに高価な交易品が収められています.アクセスパネルをハッキングして,ロックを解除しましょう.</BTG_CargoVaultHatch.description>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort}は{SUBJECT_labelNoParenthesisDef}の警備を突破しました.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>ハッキングで保安ロックを解除する.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>封鎖された貨物保管庫のハッチ</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>ステーションの厳重な貨物保管庫へ通じる,補強されたハッチです.襲撃者の侵入を防ぐため,過剰なまでに封鎖されています.</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>貨物保管庫の出口</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>上階にあるステーションのシャトル格納庫へ戻るための,安全なはしごとハッチです.</BTG_CargoVaultExit.description>
+
+</LanguageData>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Biotech-gated: MayRequire is ignored on DefInjected entries, so this entry ships from
+       the LoadFolders compat root rather than the main 1.6 tree. -->
+  <!-- Verbatim from Core ja ConfigPage_ConfigureStartingPawns.label - identical English source. -->
+  <!-- EN: starting people -->
+  <BTG_ConfigureStartingPawnsXenotypes.label>開始時の人数</BTG_ConfigureStartingPawnsXenotypes.label>
+
+</LanguageData>

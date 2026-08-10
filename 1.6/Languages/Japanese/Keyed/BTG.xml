@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Japanese: ASCII punctuation throughout. Vanilla ja Core+Odyssey contain ZERO
+       full-width 。 and ZERO 、 across 887k characters of translated values (Keyed and
+       DefInjected alike) - it writes . and , instead. Descriptions and tooltips take
+       polite です/ます and end with a period; labels, buttons and section headers take
+       none. ASCII parens. Units attach tight in vanilla ja without exception
+       ({0}W, {0}%, {0}x, {0}日) - unlike fr/es/pt-BR, there is no per-unit split.
+       There is no LanguageWorker_Japanese: the full typedef list ships workers for 20
+       languages and Japanese is not among them, and LanguageInfo.xml declares no
+       languageWorkerClass, so the base worker runs and PostProcessed only merges
+       repeated spaces. No elision, no contraction, no particles - nothing rewrites
+       these strings, so what is written here is what ships.
+       Clicked UI commands take ASCII double quotes, following Odyssey ja's own
+       TheGravship game-start dialog ("惑星を見る"), which is the exact analog of the
+       scenario dialogs at the bottom of this file. Corner brackets 「」 are vanilla ja's
+       mark for quoted TEXT (note contents, map inscriptions), a different slot.
+       Zero dashes: vanilla ja runs 6.3 em dashes per 100k chars, and BTG's English has
+       none, so the two hyphens in the Independent Traders dialog are reflowed. -->
+
+  <!-- ========== FLOAT MENU OPTIONS ========== -->
+  <!-- EN: (requires signal jammer) -->
+  <BTG_RequiresSignalJammer>(シグナルジャマーが必要)</BTG_RequiresSignalJammer>
+  <!-- Verbatim from Odyssey ja TransportPodDestinationRequiresSignalJammer. -->
+  <!-- EN: requires signal jammer -->
+  <BTG_RequiresSignalJammerReason>シグナルジャマーが必要</BTG_RequiresSignalJammerReason>
+  <!-- Shaped from Core ja CommandTradeFailNoNegotiator ("意識のしっかりした,まともな交渉人が
+       いません."), trimmed to a label with no trailing period as the English has none. -->
+  <!-- EN: No capable negotiator -->
+  <BTG_NoNegotiator>まともな交渉人がいません</BTG_NoNegotiator>
+  <!-- Shaped from Core ja QuestHostileTo ("{0}と敵対"). -->
+  <!-- EN: Hostile relations with {0} -->
+  <BTG_TraderFactionHostile>{0}と敵対関係</BTG_TraderFactionHostile>
+
+  <!-- ========== ADOPT DESIGNATOR ========== -->
+  <!-- Japanese needs no pronoun for the infant, so the string carries no assumption
+       about the pawn being adopted. -->
+  <!-- EN: Their people are still protecting them. -->
+  <BTG_AdoptBlockedByGuardians>まだ仲間たちに守られています.</BTG_AdoptBlockedByGuardians>
+
+  <!-- ========== INSPECT STRINGS ========== -->
+  <!-- EN: Docked vessel -->
+  <BTG_DockedVessel>ドッキング中の船</BTG_DockedVessel>
+  <!-- EN: {0}: {1} (departs in {2} days) -->
+  <BTG_DockedVesselDeparts>{0}: {1} ({2}日後に出発)</BTG_DockedVesselDeparts>
+
+  <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
+  <!-- EN: Trading -->
+  <BTG_Settings_Trading>交易</BTG_Settings_Trading>
+  <!-- EN: Misc -->
+  <BTG_Settings_Misc>その他</BTG_Settings_Misc>
+  <!-- EN: Map Generation -->
+  <BTG_Settings_MapGeneration>マップ生成</BTG_Settings_MapGeneration>
+  <!-- EN: Defenders -->
+  <BTG_Settings_Defenders>防衛部隊</BTG_Settings_Defenders>
+  <!-- EN: Defender Resupply -->
+  <BTG_Settings_Resupply>防衛部隊への補給</BTG_Settings_Resupply>
+  <!-- Verbatim from Core ja RestoreToDefaultSettings. -->
+  <!-- EN: Reset to defaults -->
+  <BTG_Settings_ResetToDefaults>デフォルトに戻す</BTG_Settings_ResetToDefaults>
+
+  <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
+  <!-- EN: Trader rotation interval: {0} days -->
+  <BTG_Settings_TraderRotationInterval>商人の交代間隔: {0}日</BTG_Settings_TraderRotationInterval>
+  <!-- "バニラ" is the JP modding community's standard word for unmodded RimWorld. -->
+  <!-- EN: (Vanilla) -->
+  <BTG_Settings_Vanilla>(バニラ)</BTG_Settings_Vanilla>
+  <!-- EN: (BTG Recommended) -->
+  <BTG_Settings_BTGRecommended>(BTG推奨)</BTG_Settings_BTGRecommended>
+  <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
+  <BTG_Settings_TraderRotationDesc1>商人ギルドの入植地で軌道上の商人が入れ替わる頻度です.</BTG_Settings_TraderRotationDesc1>
+  <!-- The English "=" equivalence is reflowed into the ほど...ほど correlative, which is
+       how Japanese states this relation. -->
+  <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
+  <BTG_Settings_TraderRotationDesc2>値を小さくするほど商人の種類は豊富になりますが,遠くの入植地にたどり着くまでの猶予は短くなります.</BTG_Settings_TraderRotationDesc2>
+
+  <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
+  <!-- EN: Use custom settlement map generator -->
+  <BTG_Settings_UseCustomLayouts>専用の入植地マップ生成を使用する</BTG_Settings_UseCustomLayouts>
+  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts. -->
+  <BTG_Settings_UseCustomLayoutsDesc>商人ギルドの入植地を,廃墟らしさを抑えた外観で生成します.\n他のマップ生成MODを使用している場合や,バニラの配置を好む場合は無効にしてください.</BTG_Settings_UseCustomLayoutsDesc>
+
+  <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
+  <!-- EN: Enable cargo vault access -->
+  <BTG_Settings_EnableCargoVault>貨物保管庫への進入を有効にする</BTG_Settings_EnableCargoVault>
+  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements. -->
+  <BTG_Settings_EnableCargoVaultDesc>有効にすると,シャトル格納庫にある貨物保管庫のハッチをハッキングして,交易品の在庫にアクセスできます.\n無効にすると,貨物保管庫は封鎖された状態で生成され,進入できません.\n新しく生成される入植地にのみ影響します.</BTG_Settings_EnableCargoVaultDesc>
+
+  <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
+  <!-- EN: Additional sentry drone presence: {0}% -->
+  <BTG_Settings_SentryDronePresence>セントリードローンの追加配備: {0}%</BTG_Settings_SentryDronePresence>
+  <!-- EN: Factor of threat points used for additional patrolling sentry drones. -->
+  <BTG_Settings_SentryDroneDesc>巡回するセントリードローンを追加するために使用する,脅威ポイントの割合です.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
+  <!-- EN: Entrenched defender AI -->
+  <BTG_Settings_EntrenchedDefenders>籠城型の防衛AI</BTG_Settings_EntrenchedDefenders>
+  <!-- EN: Defenders hold the settlement structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nDecided when a settlement is entered; only affects settlements entered afterwards. -->
+  <BTG_Settings_EntrenchedDefendersDesc>防衛部隊は入植地の構造物を守り続け,真空へ突撃したり侵入者を追跡したりせず,基地の中で食事と休息をとります.\n無効にすると,バニラの防衛AI(基地を守り,その後に突撃する)に戻ります.\n入植地に入った時点で決定されるため,それ以降に入った入植地にのみ影響します.</BTG_Settings_EntrenchedDefendersDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
+  <!-- EN: Scale defenders to colony threat level -->
+  <BTG_Settings_ScaleDefenders>防衛部隊をコロニーの脅威レベルに合わせる</BTG_Settings_ScaleDefenders>
+  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress. -->
+  <BTG_Settings_ScaleDefendersDesc>襲撃と同じように,初期の防衛部隊の戦力がコロニーの資産と難易度に応じて増減します(バニラの基準値を下回ることはありません).\nバニラでは,進行度にかかわらずどの入植地もほぼ一定の戦力の駐屯部隊になります.</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Defender threat points multiplier: {0}x -->
+  <BTG_Settings_ThreatMultiplier>防衛部隊の脅威ポイント倍率: {0}x</BTG_Settings_ThreatMultiplier>
+  <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
+  <BTG_Settings_ThreatMultiplierDesc>値を大きくするほど,入植地に入った時の初期の防衛部隊が多く,強くなります.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: Minimum defender threat points: {0} -->
+  <BTG_Settings_MinThreatPoints>防衛部隊の最小脅威ポイント: {0}</BTG_Settings_MinThreatPoints>
+  <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
+  <BTG_Settings_MinThreatPointsDesc>資産が少ない時に,初期の防衛部隊の戦力がこの値を下回らないようにします.\nセントリードローンの巡回規模を決める脅威レベルの下限にもなります.</BTG_Settings_MinThreatPointsDesc>
+
+  <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
+  <!-- "生命維持ユニット" is Odyssey ja's own LifeSupportUnit.label. -->
+  <!-- EN: LifeSupportUnit power output: {0}W -->
+  <BTG_Settings_LifeSupportPower>生命維持ユニットの電力出力: {0}W</BTG_Settings_LifeSupportPower>
+  <!-- EN: Power output from orbital LifeSupportUnits. -->
+  <BTG_Settings_LifeSupportDesc>軌道上の生命維持ユニットの電力出力です.</BTG_Settings_LifeSupportDesc>
+
+  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
+  <!-- "TG maps" is spelled out as ギルドのマップ; a Japanese initialism would be opaque. -->
+  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
+  <BTG_Settings_SalvagersRaidWeight>ギルドのマップでの略奪者襲撃の重み: {0}x</BTG_Settings_SalvagersRaidWeight>
+  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
+  <BTG_Settings_SalvagersRaidWeightDesc>商人ギルドの入植地を襲撃している間は,略奪者による襲撃が起こりやすくなります.</BTG_Settings_SalvagersRaidWeightDesc>
+
+  <!-- ========== MOD SETTINGS: MOD NAME ========== -->
+  <!-- Deliberately left as the Latin brand name. -->
+  <!-- EN: Better Traders Guild -->
+  <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName>
+
+  <!-- ========== DEFENDER RESUPPLY ========== -->
+  <!-- EN: The garrison's distress call has drawn a response. -->
+  <BTG_ResupplyDropArrived>駐屯部隊の救援要請に応答がありました.</BTG_ResupplyDropArrived>
+
+  <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
+  <!-- EN: Enable resupply meals -->
+  <BTG_Settings_EnableResupply>補給食料の投下を有効にする</BTG_Settings_EnableResupply>
+  <!-- "通信機" is Core ja's CommsConsole.label; "非常用食品" its MealSurvivalPack.label. -->
+  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
+  <BTG_Settings_EnableResupplyDesc>飢えた防衛部隊が入植地内の食料を使い果たした時,通信機を使って非常用食品の貨物ポッドを要請できるようにします.</BTG_Settings_EnableResupplyDesc>
+  <!-- EN: Resupply meals per defender: {0} -->
+  <BTG_Settings_ResupplyMealsPerDefender>防衛部隊1人あたりの補給食料: {0}</BTG_Settings_ResupplyMealsPerDefender>
+  <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>飢えた駐屯部隊が補給を要請するたびに,生存している防衛部隊1人あたりに投下される非常用食品の数です.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- Vanilla ja has no {0}h string; units attach tight throughout, so the English form
+       is kept as-is. -->
+  <!-- EN: Resupply cooldown: {0}h -->
+  <BTG_Settings_ResupplyCooldown>補給の再要請までの時間: {0}h</BTG_Settings_ResupplyCooldown>
+  <!-- EN: Minimum time between resupply drops at a single settlement. -->
+  <BTG_Settings_ResupplyCooldownDesc>同じ入植地で補給物資が投下される最短の間隔です.</BTG_Settings_ResupplyCooldownDesc>
+  <!-- EN: Call in reinforcements -->
+  <BTG_Settings_ResupplyTriggersRaid>増援を要請する</BTG_Settings_ResupplyTriggersRaid>
+  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>補給の要請が成功した時,入植地の増援によるドロップポッド襲撃も発生し,あなたのキャラクターを狙います.増援は行動範囲を制限された防衛部隊ではなく,通常の襲撃として現れます.低い確率で,少人数のまま真上に降下してくることがあります.入植地が敵対している間のみ発生します.</BTG_Settings_ResupplyTriggersRaidDesc>
+
+  <!-- ========== CARGO VAULT HATCH ========== -->
+  <!-- EN: Relock cargo vault -->
+  <BTG_CargoVaultHatch_RelockLabel>貨物保管庫を再施錠</BTG_CargoVaultHatch_RelockLabel>
+  <!-- EN: Relock the cargo vault. Contents will be returned to station inventory. -->
+  <BTG_CargoVaultHatch_RelockDesc>貨物保管庫を再び施錠します.中身はステーションの在庫に戻されます.</BTG_CargoVaultHatch_RelockDesc>
+
+  <!-- ========== SMUGGLER'S DEN QUEST ========== -->
+  <!-- EN: Cargo claim: {0} -->
+  <BTG_Reward_CargoClaim>貨物引換権: {0}</BTG_Reward_CargoClaim>
+  <!-- EN: Cargo claim: unknown manifest -->
+  <BTG_Reward_CargoClaim_Unknown>貨物引換権: 積荷内容は不明</BTG_Reward_CargoClaim_Unknown>
+
+  <!-- ========== ONE-TIME FIX NOTIFICATIONS ========== -->
+  <!-- EN: {0}: Update -->
+  <BTG_EmpireRelationFix_DialogTitle>{0}: アップデート</BTG_EmpireRelationFix_DialogTitle>
+  <!-- EN: A bug in a previous version of {2} caused {0} to be permanently hostile when playing as {1}.\n\nThis has been corrected.\n\nWould you like to reset your relations with {0} to neutral, or remain hostile for now? -->
+  <BTG_EmpireRelationFix_DialogBody>{2}の以前のバージョンにあった不具合により,{1}としてプレイしている間,{0}が恒久的に敵対状態になっていました.\n\nこの問題は修正されました.\n\n{0}との関係を中立に戻しますか?それとも当面は敵対したままにしますか?</BTG_EmpireRelationFix_DialogBody>
+  <!-- EN: Reset to neutral -->
+  <BTG_EmpireRelationFix_Neutral>中立に戻す</BTG_EmpireRelationFix_Neutral>
+  <!-- EN: Remain hostile for now -->
+  <BTG_EmpireRelationFix_LeaveHostile>当面は敵対したままにする</BTG_EmpireRelationFix_LeaveHostile>
+
+  <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
+  <!-- Odyssey ja's TheGravship GameStartDialog is the direct template: the gravlite
+       sentence, the launch sentence, the "惑星を見る" sentence and the closing mechhive
+       sentence are reused verbatim, ASCII double quotes included. -->
+  <!-- EN: Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself. -->
+  <BTG_GameStartDialog_ExiledTraders>ギルドの発信器は沈黙し,メカハイブがあなたの信号を追跡しています.あの恐ろしい殺人マシンはすぐにでも追いつくでしょう.貴重品である重力軽量パネルを回収し,グラヴシップで目の前にある惑星の,安全そうな場所に逃げなければなりません.\n\nグラヴシップを打ち上げるには,パイロットコンソールを選択し,発射コマンドを選択してください.\n\nワールドマップで"惑星を見る"を選択し,着陸地点を選びましょう.\n\nギルドは助けてくれません.そして,どこへ逃げようとも最終的にはメカノイドに見つけられます.これを止めるには,メカハイブそのものを見つけ出し,打ち負かさなければなりません.</BTG_GameStartDialog_ExiledTraders>
+  <!-- The English uses two " - " hyphen breaks; Japanese carries both with an ordinary
+       comma-and-clause structure rather than introducing a dash. "船倉" is vanilla ja's
+       word for a ship's hold (Core BackstoryDef). -->
+  <!-- EN: The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home. -->
+  <BTG_GameStartDialog_IndependentTraders>シャトルが軌道リングを抜けると,交易用の周波数が別れの合図を短く鳴らしました.ギルドの運送に追われた年月も,分け合った利ざやも,混み合ったドッキングベイも,すべて後ろに置いてきました.恨みはありません.あるのは,より大きな計画だけです.\n\nシャトルは誰のものでもない荒野へと降りていきますが,ここではシルバーだけで生き延びることはできません.ギルドはこれからも昔なじみと取引してくれるでしょう.しかしまずは,拠点が必要です.</BTG_GameStartDialog_IndependentTraders>
+
+</LanguageData>

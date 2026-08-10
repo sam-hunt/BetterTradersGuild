@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- "商人ギルド" is Odyssey ja's TradersGuild.label (never 貿易ギルド). Japanese does not
+       inflect for number, so pawnSingular and pawnsPlural are identical - which is what
+       vanilla ja does for TradersGuild too (both ギルドメンバー).
+       messageDefendersAttacking is verbatim from every Odyssey ja FactionDef, its
+       internal spacing included.
+       "リーダー" is vanilla ja's neutral leaderTitle (GravshipCrew, Ancients, Insect all
+       use it); the Traders Guild's own 交易修士 is a rank this small breakaway crew would
+       not carry. -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>独立商人</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>商人ギルドに所属していた者たちによる小さなクルーで,現在は独立して活動しています.</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>リーダー</BTG_IndependentTraders.leaderTitle>
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>{1}の{0}は {2}を攻撃中です.</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>商人</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>商人</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla ja reportStrings carry NO trailing period where the English has one, and
+       take the progressive 〜中 / 〜している form (Core ja: TargetAを掃除中,
+       TargetAを救助中, TargetAをハッキングしている). This matches ru and ko, and is the
+       opposite of de/es/fr/pt-BR, which all keep the period.
+       BTG's NPC-safe BTG_* job copies reuse Core+Odyssey ja's own strings 1:1 where one
+       exists: Clean, FeedPatient, Hack, Rescue, TendPatient from Core, EnterTransporter
+       from Odyssey (for BTG_BoardLaunchable), and Core's Open for BTG_OpenContainer.
+       TargetA/TargetB are substituted by plain string replacement at runtime, so they are
+       left bare - no braces, no particles attached to them beyond the invariant を/に/の. -->
+  <!-- Verbatim from Odyssey ja EnterTransporter.reportString. -->
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>TargetAに乗り込んでいる</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>補給を要請中</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>TargetAを安全な場所へ運搬中</BTG_CarryBabyToLaunchable.reportString>
+  <!-- "医務室" is vanilla ja's own word for a medbay. -->
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>TargetAを医務室へ運搬中</BTG_CarryToMedbayFloor.reportString>
+  <!-- Verbatim from Core ja Clean.reportString. -->
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>TargetAを掃除中</BTG_Clean.reportString>
+  <!-- Verbatim from Core ja FeedPatient.reportString. -->
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>TargetAをTargetBに給仕中</BTG_FeedPatient.reportString>
+  <!-- Verbatim from Core ja Hack.reportString. -->
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>TargetAをハッキングしている</BTG_Hack.reportString>
+  <!-- Verbatim from Core ja Open.reportString. -->
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>TargetAを開封中</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>TargetAを開け直している</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>貨物保管庫のハッチを再施錠中</BTG_Relock.reportString>
+  <!-- Verbatim from Core ja Rescue.reportString. -->
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>TargetAを救助中</BTG_Rescue.reportString>
+  <!-- Verbatim from Core ja TendPatient.reportString. -->
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>TargetAの看病中</BTG_TendPatient.reportString>
+
+</LanguageData>

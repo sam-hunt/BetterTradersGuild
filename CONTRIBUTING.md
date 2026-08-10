@@ -20,7 +20,7 @@ follow.
 | Spanish              | Machine-assisted | Opus 5 |
 | French               | Machine-assisted | Opus 5 |
 | Brazilian Portuguese | Machine-assisted | Opus 5 |
-| Japanese             | Planned          | —      |
+| Japanese             | Machine-assisted | Opus 5 |
 
 Statuses: **Source** (the authoritative English strings), **Machine-assisted**
 (generated with terminology grounded against the official RimWorld
