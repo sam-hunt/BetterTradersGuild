@@ -201,8 +201,9 @@ On the world map, select 'view planet' to choose a landing spot on the planet.
 The Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.
   -->
   <BTG_GameStartDialog_ExiledTraders>Votre transpondeur de guilde est mort, et la ruche mécanoïde suit votre signal. Ses machines de meurtre effrayantes arriveront bientôt. Rassemblez les précieux panneaux de gravlite, puis utilisez votre vaisseau gravitationnel pour fuir vers un endroit sûr sur la planète ci-dessous.\n\nPour lancer le vaisseau, sélectionnez la console de pilotage, puis sélectionnez la commande de lancement.\n\nSur la carte du monde, sélectionnez « voir la planète » pour choisir un site d'atterrissage sur la planète.\n\nLa guilde ne vous aidera pas, et où que vous alliez, les mécanoïdes finiront par vous trouver. Pour les arrêter, vous devez trouver et vaincre la ruche mécanoïde elle-même.</BTG_GameStartDialog_ExiledTraders>
-  <!-- The English hyphen-dashes become em dashes: Odyssey fr's own TheGravship.description
-       uses "—" for exactly this parenthetical break. -->
+  <!-- The two English hyphen-dashes are reflowed into ":" and "," rather than converted:
+       vanilla fr's dash rate is only 1.6 per 100k, so adding even one here would run well
+       above it. -->
   <!-- EN:
 The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.
 
