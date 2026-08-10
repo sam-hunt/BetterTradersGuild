@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey fr GoldInlay is the template: its label is a PARTICIPLE ("incrusté d'or"),
+       not a noun phrase, and the second sentence of its description is reused verbatim.
+       traitAdjectives follow vanilla fr's own pattern for GoldInlay - a bare noun ("or")
+       plus masculine-singular adjectives ("doré") - because NamerUniqueWeapon fr postposes
+       the adjective under a hardcoded masculine "Le [weapon_type] [weapon_adjective]" and
+       so cannot agree with the weapon noun's real gender. -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>incrusté d'argent</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>Cette arme est incrustée d'argent. Les commerçants en paieront un prix plus élevé.</SilverInlay.description>
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>argent</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>argenté</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>étincelant</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>d'argent</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>raffiné</SilverInlay.traitAdjectives.4>
+
+</LanguageData>

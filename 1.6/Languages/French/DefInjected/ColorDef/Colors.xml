@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla fr ColorDef labels are lowercase bare nouns; "argent" mirrors Odyssey fr
+       UniqueWeapon_Gold.label ("or"), which likewise reuses the resource noun. -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>acier orbital</BTG_OrbitalSteel.label>
+  <!-- EN: rust -->
+  <BTG_Rust.label>rouille</BTG_Rust.label>
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>argent</BTG_UniqueWeapon_Silver.label>
+
+</LanguageData>

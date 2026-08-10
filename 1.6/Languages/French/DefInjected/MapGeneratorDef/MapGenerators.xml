@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- "plateforme d'installation" is verbatim Odyssey fr SettlementPlatform.label - the
+       same MapGeneratorDef slot with the same English source. -->
+  <!-- EN: cargo vault -->
+  <BTG_CargoVaultMapGenerator.label>coffre à cargaison</BTG_CargoVaultMapGenerator.label>
+  <!-- EN: settlement platform -->
+  <BTG_SettlementMapGenerator.label>plateforme d'installation</BTG_SettlementMapGenerator.label>
+  <!-- EN: smuggler's den platform -->
+  <BTG_SmugglersDenMapGenerator.label>plateforme de repaire de contrebandiers</BTG_SmugglersDenMapGenerator.label>
+
+</LanguageData>

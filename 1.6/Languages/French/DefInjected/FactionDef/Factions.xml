@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey fr TradersGuild is the template: "guilde des commerçants", pawns are
+       "commerçants". leaderTitle takes the neutral "chef" that Core fr PlayerColony,
+       Odyssey fr GravshipCrew and Salvagers all use for a small crew. -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>commerçants indépendants</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>Un petit équipage d'anciens membres de la guilde des commerçants, qui opère désormais de façon indépendante.</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>chef</BTG_IndependentTraders.leaderTitle>
+  <!-- Verbatim from every Odyssey fr FactionDef.messageDefendersAttacking. -->
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>{0} de {1} attaquent votre {2}.</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>commerçant</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>commerçants</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

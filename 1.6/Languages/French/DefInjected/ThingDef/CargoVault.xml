@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey fr AncientHatch / AncientHatchExit are the direct templates: "trappe" is its
+       word for a hatch and "Pirater pour ouvrir." the shape of the not-hacked string.
+       hackedMessage makes {SUBJECT_labelNoParenthesisDef} a plain direct object, as vanilla
+       does - the English "security on X" would put "de" before an injected _definite
+       symbol, and LanguageWorker_French's DeLe rule rewrites "de le" to a bare "de". -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>trappe sécurisée du coffre à cargaison</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>Une trappe renforcée qui mène au coffre à cargaison sécurisé de la station. Le coffre situé en dessous contient des marchandises de grande valeur sous surveillance automatisée. Piratez le panneau d'accès pour contourner le verrou.</BTG_CargoVaultHatch.description>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} a contourné la sécurité et ouvert {SUBJECT_labelNoParenthesisDef}.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>Pirater pour contourner le verrou de sécurité.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>trappe scellée du coffre à cargaison</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>Une trappe renforcée qui mène au coffre à cargaison sécurisé de la station. Elle a été scellée de façon excessive pour empêcher les pillards d'y accéder.</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>sortie du coffre à cargaison</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>Une échelle et une trappe sécurisées qui permettent de remonter au hangar à navettes de la station.</BTG_CargoVaultExit.description>
+
+</LanguageData>

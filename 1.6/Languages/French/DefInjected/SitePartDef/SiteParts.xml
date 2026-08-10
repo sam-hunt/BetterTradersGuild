@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- approach strings are verbatim Core fr Outpost/BanditCamp. Paragraph 2 of the
+       description is verbatim Odyssey fr SpaceSettlement.description paragraph 2. -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>repaire de contrebandiers</BTG_SmugglersDen.label>
+  <!-- EN:
+An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer.
+  -->
+  <BTG_SmugglersDen.description>Une plateforme orbitale prise par les récupérateurs, utilisée comme plaque tournante de la contrebande et avant-poste du marché noir.\n\nCes plateformes disposent de systèmes d'armes automatiques à longue portée capables de détruire les vaisseaux entrants. Elles ne peuvent être approchées en toute sécurité que par un vaisseau gravitationnel avec un brouilleur de signal.</BTG_SmugglersDen.description>
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>Attaquer {0}</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>Attaque {0}.</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

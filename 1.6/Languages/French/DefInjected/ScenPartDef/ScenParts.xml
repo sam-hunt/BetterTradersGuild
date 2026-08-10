@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- ScenPart labels are lowercase noun phrases in vanilla fr ("colons de départ",
+       "méthode d'arrivée", "commence avec"). "bonne entente" is Core fr Goodwill. -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>bonne entente de faction</BTG_FactionGoodwill.label>
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>arrive en navette</BTG_PlayerPawnsArriveShuttle.label>
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>couleur des vêtements de départ</BTG_StartingApparelColor.label>
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>arme unique de départ</BTG_StartingUniqueWeapon.label>
+
+</LanguageData>

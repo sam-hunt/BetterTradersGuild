@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- reportStrings are third-person present verbs and KEEP the trailing period in
+       vanilla fr (unlike ru/ko, which drop it). BTG's NPC-safe BTG_* copies reuse the
+       Core fr strings 1:1: Clean, FeedPatient, Hack, Open, Rescue, TendPatient,
+       EnterTransporter. -->
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>entre dans TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>appelle un ravitaillement.</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>transporte TargetA en sécurité.</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>transporte TargetA à l'infirmerie.</BTG_CarryToMedbayFloor.reportString>
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>nettoie TargetA.</BTG_Clean.reportString>
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>nourrit le patient TargetB avec TargetA.</BTG_FeedPatient.reportString>
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>pirate TargetA.</BTG_Hack.reportString>
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>ouvre TargetA.</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>rouvre TargetA.</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>reverrouille la trappe du coffre à cargaison.</BTG_Relock.reportString>
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>porte secours à TargetA.</BTG_Rescue.reportString>
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>soigne TargetA.</BTG_TendPatient.reportString>
+
+</LanguageData>

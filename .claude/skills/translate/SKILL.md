@@ -25,7 +25,7 @@ the source of truth; every other language derives from it.
   same commit whenever a language is added or a native review lands. The
   target roster lives there — consult it before proposing new languages.
   Today it lists English (Source) plus Simplified Chinese, Russian, Korean,
-  German and Spanish (all Machine-assisted); French, Brazilian Portuguese
+  German, Spanish and French (all Machine-assisted); Brazilian Portuguese
   and Japanese are still Planned.
 
 ## File map and conventions
@@ -145,14 +145,53 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **Simplified Chinese, Russian, Korean, German and
-Spanish have been grounded in this repo** (2026-08-09 / 2026-08-10 /
-2026-08-10 / 2026-08-10 / 2026-08-10) — their tables
+market value, silver). **Simplified Chinese, Russian, Korean, German,
+Spanish and French have been grounded in this repo** (2026-08-09 / 2026-08-10
+/ 2026-08-10 / 2026-08-10 / 2026-08-10 / 2026-08-10) — their tables
 below carry real BTG trader/settlement vocabulary and are safe to build on.
 Every other language's table is still **style/mechanics reference only**,
 inherited from the weapon-mod siblings; ground that language's own
 trader/settlement terms against the Core + Odyssey tars and record them here
 before relying on them.
+
+**Dashes: no new usages.** A dash the English source does not have must not
+appear in a translation. Reflow into that language's ordinary punctuation
+(comma, colon, or a restructured sentence) instead. The bar for introducing one
+is *both* an exact parallel in vanilla for that construction *and* a workaround
+that would read less naturally — extremely occasionally that's satisfied;
+consistent dash-per-paragraph prose never is. Rationale: heavy em-dash use is a
+widely recognised tell-tale of LLM-generated text, it is rare in real
+handwritten prose, and many players react disproportionately badly to it, so
+the cost of a stray dash is far higher than the stylistic gain. Note this is
+about *new* usage: mirroring a dash that vanilla itself puts in the same slot
+is fine, and BTG's English currently has **zero** dashes in its entire
+translation surface, so today the answer is always "reflow".
+
+**The test is a density comparison, not taste** — measure the target
+language's own vanilla rate and compare. At the 2026-08-10 audit BTG's
+translations ran **3.4x–11.3x** vanilla's dash rate in every language that had
+any, which is what "unnatural overuse" looks like numerically:
+
+```python
+# strip comments and tags, count dashes per 100k chars of vanilla values,
+# then the same over 1.6/Languages/<lang>/ — flag anything above ~1x.
+```
+
+All 22 were reflowed; ru's two settings strings became the proper
+`Чем меньше значение, тем больше…` correlative, which is better Russian than
+the dash it replaced. Re-run the comparison after any generation pass.
+
+**Count style over the whole tar, not just `Keyed/`.** The French pass found
+two of this skill's own style rules inverted because they had been derived
+from Core+DLC Keyed alone: French does use `—` (13 tree-wide, including the
+one vanilla def BTG's scenario prose is modelled on), and it does use
+guillemets for clicked UI commands (74 tree-wide, 62 of them in DefInjected).
+DefInjected is where the *prose* lives — descriptions, letters, scenario
+text — so a Keyed-only count systematically under-samples exactly the
+register a mod's own descriptions are written in. Walk both, strip comments
+first, and split the count per DLC when the two disagree (fr's curly
+apostrophes are almost entirely legacy Core `BackstoryDef`s; Odyssey is
+decisively ASCII).
 
 ### Glossary — shared across the mod family
 
@@ -230,9 +269,17 @@ Style rules from the vanilla ru data (mandatory):
 - **Guillemets `«…»`** for cited names and UI commands — vanilla writes
   `Задание провалено: «[resolvedQuestName]»` and `выберите «Просмотр планеты»`.
   Never `"` or `„…"`.
-- **Em dash `—`** is used freely in prose (unlike es/fr/pt-BR, which have
-  none); ellipsis is ASCII `...`. Descriptions end `.`; labels, buttons and
-  stat fragments take none, and labels are lowercase noun phrases.
+- **Em dash `—` is the most common of any language here (27.4 per 100k), but
+  that still does not license introducing one** — see the no-new-dashes rule
+  above; BTG's Russian ran 3.4x vanilla before its 9 were reflowed. Russian
+  is the language where the temptation is strongest, because the dash is
+  genuinely mandatory in a nominal sentence with an omitted copula and in
+  verb gapping (`а сделка — повыгоднее`). Both have clean rewrites that are
+  *better* Russian, not merely dash-free: use the `Чем …, тем …` correlative
+  for an "X = Y" equivalence, and repeat the elided verb (`а сделка стала
+  повыгоднее`) instead of gapping. Ellipsis is ASCII `...`. Descriptions end
+  `.`; labels, buttons and stat fragments take none, and labels are lowercase
+  noun phrases.
 - **`ё` is written**, not folded to `е` (паёк, всё, ещё, налёт).
 - **`reportString`s take no trailing period** and are 3rd-person present
   verbs — `убирает TargetA`, not a noun phrase and not `убирает TargetA.`
@@ -333,8 +380,11 @@ Style rules discovered from the vanilla zh data (mandatory):
   dialog writes 请选择飞船控制台，然后点击「发射」指令 and 使用「查看星球」.
   BTG's scenario dialogs are the same shape, so they follow the same rule —
   pick the nearer analog over the general one.
-- An English em dash `—` becomes a **double** em dash ——, not a single one
-  (vanilla: 这并不是古老的人类科技——而是一个机械族信标).
+- Should an English em dash `—` ever need carrying over, it becomes a
+  **double** em dash ——, never a single one (vanilla: 这并不是古老的人类科技——
+  而是一个机械族信标). But per the no-new-dashes rule above, don't introduce
+  one where English has none: `，` carries the same break, and BTG's zh ran
+  6.5x vanilla's rate before its 4 were reflowed to `，`.
 - Units attach with no space (`{0}天`, `{0}小时`), and a bare Latin unit
   suffix stays ASCII (`{0}W`, `{0}x`).
 - Vanilla zh files can contain untranslated English values — vanilla
@@ -554,10 +604,12 @@ string regardless of mod domain):
   `Forschungsprojekt '{0}'` and `Die Quest '{0}' erfordert …`. Core+Royalty
   Keyed ship 140 single-quoted placeholders and **zero** German `„…"`. Never
   use `„ "`, `» «`, or curly quotes. Pawn names are not quoted.
-- **En dash `–`, never em dash `—`** (20 vs 0). English source uses `—`, so
-  every dash needs converting; `<!-- EN: -->` comments keep the English form
-  verbatim. This makes de the *only* language here that keeps a dash: es, fr
-  and pt-BR all reflow it away.
+- **If a dash is genuinely unavoidable it is an en dash `–`, never an em dash
+  `—`** (20 vs 0 in Core Keyed) — but per the no-new-dashes rule above,
+  reflow instead. German's rate is 9.6/100k tree-wide, and the 2026-08-10
+  audit found BTG's German at 6.8x that before its 7 dashes were reflowed to
+  `:` and `,` (both of which German joins main clauses with quite happily,
+  unlike English).
 - Ellipsis is ASCII `...` (74 in Core Keyed, `…` zero).
 - Descriptions end with `.`; labels and buttons take none. Player-facing
   prose is informal **du** with imperatives, never Sie — **except scenario
@@ -851,7 +903,8 @@ preposition entirely — the same move vanilla es makes in `AncientHatch`
 ("ha terminado de hackear {SUBJECT_labelNoParenthesisDef}."). Restructuring
 beats `{replace:}` whenever the sentence allows it.
 
-#### French (from the weapon-mod siblings' 2026-07-29 generation)
+#### French (grounded in this repo's 2026-08-10 generation pass, on top of the
+weapon-mod siblings' 2026-07-29 pass)
 
 Language folder is `French` (tar: `French (Français).tar`).
 
@@ -876,14 +929,30 @@ ALe        \bà le(s)                                                → au / au
   vanilla bug, not guidance to imitate; restructure so the entity is a
   subject, or use an agent phrase — **`par [X_definite]` never contracts**
   and is the clean escape.
-- **`IsVowel` includes `h`**, so the worker cannot tell *h muet* from
+- **`IsVowel` includes `h`** — and also `æ`/`œ` (re-verified 2026-08-10
+  against the 1.6 assembly) — so the worker cannot tell *h muet* from
   *h aspiré* and elides both. Never place an elidable word directly before
   an h-initial noun without checking which kind it is.
+- **`à le`/`à les` DO fuse correctly** (`ReplaceALe` maps them to `au`/`aux`,
+  and `à la` never matches), so `à` is a safe preposition to write before a
+  `_definite` symbol. `de` is the *only* broken one — don't generalize the
+  `de le` trap into a fear of all prepositions.
+
+**`PostProcessed` runs at load, before argument substitution, so elision
+never fires across a placeholder.** `de {0}` / `de [settlement_label]` sees a
+literal `{`/`[` — not a vowel — and ships unelided. Vanilla fr's own
+`TradeRequest.questNameRules` is the tell: every rule picks a preposition that
+never needs contracting (`pour`, `avec`, `à [X]`), and BTG's quest names
+follow suit. This is the practical reason to restructure rather than trust the
+worker whenever an injected symbol is involved.
 
 `WithDefiniteArticle`/`WithIndefiniteArticle` are **overridden**, handling
 `l'` before a vowel and `le`/`la` by gender directly — so `[X_definite]` is
 reliable in French even in a plain Keyed string. `Pluralize` knows
-`-al`→`-aux`, `-au`/`-eu`→`+x`, and leaves `s`/`x`/`z` alone.
+`-al`→`-aux`, `-au`/`-eu`→`+x`, and leaves `s`/`x`/`z` alone. There is **no
+`TryLookUp` override**, and French ships only `WordInfo/Gender` — no
+`decline.txt`/`Case.txt` — so the `{lookup: …}` function the ru and de
+sections rely on has nothing to read here and is simply unusable.
 
 Style rules from the vanilla fr data (mandatory):
 
@@ -891,17 +960,49 @@ Style rules from the vanilla fr data (mandatory):
   `tu`/`Tu` in Core+DLC Keyed. This is the opposite of German and Spanish,
   both informal. Imperatives are the vous form (`Explorez`, `Faites
   attention`).
-- **ASCII straight double quotes** for cited def labels — 356 ASCII `"`
-  against 14 guillemets `«»` (inconsistently spaced) and **zero** curly `“`.
-- **ASCII apostrophe `'`**, not `’` (1991 vs 65) — load-bearing, not
-  cosmetic: the elision worker emits ASCII `'`, so a curly one would not
-  match.
-- **A space before `:` `;` `!` `?`**, per French typography — a **plain
-  ASCII space**, not a no-break or narrow space.
-- **Zero dashes.** An English `—` must be **reflowed**, as in Spanish and
-  unlike German, which mandates `–`. Ellipsis is ASCII `...`.
+- **ASCII straight double quotes** for cited def labels — 332 ASCII `"` and
+  **zero** curly `“`/`”` across the whole tree.
+- **But guillemets `« … »` for a UI command the player must click**, with a
+  **plain ASCII space** inside each (61 occurrences, against 2 with U+202F).
+  74 `«` ship tree-wide, 62 of them in DefInjected — this is a real
+  convention, not noise, and Odyssey fr's `TheGravship` GameStartDialog
+  writes `sélectionnez « voir la planète »`, the exact analog of BTG's
+  scenario dialogs. **The three counts above correct an earlier
+  Keyed-only reading of this section that reported "14 guillemets,
+  inconsistently spaced" and concluded ASCII everywhere.** Same
+  nearer-analog rule as zh, which reaches for 「」 in precisely this slot.
+- **ASCII apostrophe `'`**, not `’` — load-bearing, not cosmetic: the elision
+  worker emits ASCII `'`, so a curly one would not match. Tree-wide it is
+  6896 vs 1881, but the split is per-DLC and worth knowing: Core carries
+  1848 of the curly ones (legacy `BackstoryDef` prose), while **Odyssey is
+  decisively ASCII, 1629 vs 37** — so the DLC whose vocabulary this mod
+  builds on agrees with the rule.
+- **A space before `:` `!` `?`**, per French typography — a **plain ASCII
+  space**, not a no-break or narrow space (3656 plain vs 9 U+00A0 before a
+  colon). `;` can't be counted from the raw XML (`&lt;`/`&gt;` entities
+  swamp it); prefer a period and sidestep the question.
+- **Dashes exist in French but are vanishingly rare, so introduce none.**
+  Counted over the whole Core+Odyssey tree with comments stripped: **13 em
+  dashes, 15 en dashes in 1.79M characters** — a rate of 1.6 per 100k, the
+  lowest of any language here that has any at all. `—` is a parenthetical
+  break (Odyssey's `TheGravship.description`) and `–` a bullet marker
+  (`  – Recherche débloquée :`). This corrects an earlier "zero dashes"
+  claim derived from Keyed alone — the correction is that they are *rare*,
+  **not** that they are available: at 1.6/100k, adding even one to a short
+  string blows past vanilla's rate, which is exactly what the first draft of
+  this pass did (2 dashes = 11.3x vanilla) before they were reflowed. Use
+  `:` for an appositive summary and `,` for a contrastive clause, as the
+  shipped `BTG_GameStartDialog_IndependentTraders` now does. Ellipsis is
+  ASCII `...`.
+- **Units are per-unit, not one rule** (counted over Core+Odyssey): `%`
+  **tight** (`{0}%`), but `W` and `h` **spaced** (`} W` 5× / `}W` 0×,
+  `} h` 14× / `}h` 1×), and `jours` spaced. Vanilla has no trailing
+  multiplier suffix at all — its `{0}x` occurrences are all counted
+  quantities (`{0}x chemfuel`) — so keep the English's tight `{0}x`.
 - Descriptions end `.`; labels, buttons and stat fragments take none, and
   labels are lowercase noun phrases.
+- **`reportString`s are third-person present verbs and KEEP the trailing
+  period** (`nettoie TargetA.`), like de and es and unlike ru/ko.
 
 **`[X_possessive]` is structurally wrong in French.** Core
 `Keyed/Grammar.xml` sets `Prohis`=`son`, `Proher`=`sa`, `Proits`=`son/sa` —
@@ -911,19 +1012,94 @@ no matter what; write the possessive literally instead (Core's own
 `[RECIPIENT_possessive]de son travail` renders the broken "sonde son
 travail", which is vanilla's own evidence not to use it).
 
+**Odyssey fr covers nearly everything BTG builds on, and four vanilla defs
+are near-exact templates** — check them first before composing anything new:
+
+| BTG content | Vanilla template |
+|---|---|
+| `BTG_TradeRequest` (description frame, `qualityInfo`, all three letter strings) | Core `TradeRequest` QuestScriptDef — 4 of its required slateRefs are byte-identical reuse |
+| `BTG_ExiledTraders` + `BTG_GameStartDialog_ExiledTraders` | Odyssey `TheGravship` ScenarioDef — the difficulty note, the gravlite sentence, the launch sentence and the `« voir la planète »` sentence are all verbatim |
+| `BTG_CargoVaultHatch` / `_Sealed` / `Exit` | Odyssey `AncientHatch` / `AncientHatchExit` |
+| `BTG_SmugglersDen.description` ¶2 | Odyssey `SpaceSettlement.description` ¶2, verbatim |
+
 | English | Use | Never | Why |
 |---|---|---|---|
-| quest / mod UI: Cancel / Reset / Reset to defaults / Default / None | `Annuler` / `Réinitialiser` / `Réinitialiser les valeurs par défaut` / `Par défaut` / `Aucune` | | Core buttons |
+| Cancel / Reset / Confirm | `Annuler` / `Réinitialiser` / `Confirmer` | | Core buttons |
+| Reset to defaults / Default / None | `Réinitialiser les valeurs par défaut` / `Par défaut` / `Aucune` | | Core `ResetBinding`, `Default`, `None` |
 | quality tiers | `horrible·médiocre·normal·bon·excellent·merveille·légendaire` | | Core `QualityCategory_*` |
-| Traders will pay more/less for it. | `Les commerçants en paieront un prix plus élevé.` / `Les commerçants en paieront moins cher.` | | Odyssey `GoldInlay`/`Ugly` — reuse verbatim; directly relevant to this mod's trader-price framing |
+| "of normal+ quality" / "(worth [X])" | de qualité normale ou mieux / (valant [X]) | | Core `TradeRequest` — verbatim, trailing space included |
+| traders guild / guild member(s) | guilde des commerçants / membre(s) de la guilde | guilde commerciale | Odyssey `TradersGuild.*` |
+| salvagers | récupérateurs | charognards | Odyssey `Salvagers.label` (its *pawns* are pirates; charognards is the descriptive word inside its own description) |
+| leader (`leaderTitle`) | chef | | Core `PlayerColony`, Odyssey `GravshipCrew`/`Salvagers` all use chef; TradersGuild's own is maître du commerce |
+| trader / orbital trader | commerçant / commerçant orbital | marchand | Core, Odyssey `TradersGuild.description` |
+| bulk / exotic goods trader | grossiste / vendeur de produits exotiques | | Core orbital `TraderKindDef`s |
+| smuggler | contrebandier | | Core `Orbital_PirateMerchant.label` |
+| Traders will pay more/less for it. | Les commerçants en paieront un prix plus élevé. / … en paieront moins cher. | | Odyssey `GoldInlay`/`Ugly` — verbatim |
+| gold/silver inlay | incrusté d'or / incrusté d'argent | incrustation d'or | Odyssey `GoldInlay.label` is a **participle**, like de's and unlike es's noun phrase |
+| {0} from {1} are attacking your {2}. | {0} de {1} attaquent votre {2}. | | every Odyssey `FactionDef` — verbatim (Core `PlayerColony`'s "Les {0} … vos {2}" is the player-side variant) |
+| Attack {0} / Attacking {0}. | Attaquer {0} / Attaque {0}. | | Core `Outpost`/`BanditCamp` approach strings — verbatim |
+| Quest failed: [resolvedQuestName] | Quête échouée : [resolvedQuestName] | | Core `TradeRequest` — verbatim (quest = quête) |
+| [faction_name] became hostile to you. | la faction [faction_name] vous est devenue hostile. | | Core `TradeRequest` — verbatim, lowercase opener and all |
+| Who should be credited with [X] …? | Qui doit recevoir la faveur [X] pour avoir satisfait cette commande ? | | Core `TradeRequest` — verbatim |
+| No capable negotiator | Aucun négociateur en état de négocier | | shaped from Core `CommandTradeFailNoNegotiator` |
+| orbital platform / settlement platform | plateforme orbitale / plateforme d'installation | | Odyssey `OrbitalPlatform.label`, `SettlementPlatform.label` (a MapGeneratorDef, the same slot BTG's is) |
+| orbital settlement / settlement | colonie orbitale / base de faction | | Odyssey `SpaceSettlement.label`, Core `Settlement.label` — but "colonie" is also the player's, so lean on context |
+| shuttle | navette | navette spatiale | Core `Shuttle.label`, Odyssey `Shuttles.label` |
+| drop pod vs cargo pod | capsule de largage vs capsule de cargo | | Core `DropPodIncoming` / `LetterLabelCargoPodCrash` — distinct, don't merge |
+| signal jammer / sentry drone / life support unit | brouilleur de signal / drone sentinelle / unité de survie | | Odyssey |
+| gravship / gravlite panel / pilot console | vaisseau gravitationnel / panneau de gravlite / console de pilotage | gravnavire | Odyssey |
+| mechhive / orbital relay | ruche mécanoïde / relais orbital | | Odyssey `Mechhive.label`, `OrbitalRelay.label` |
+| goodwill / caravan / negotiator | bonne entente / caravane / marchand | bonne volonté | Core `Goodwill`, `Caravan.label`, `Negotiator` — note the Keyed `Negotiator` slot is *marchand*, while the trade-fail message says *négociateur* |
+| hatch / safe / vault | trappe / coffre-fort / coffre | | Odyssey `AncientHatch.description`, `AncientSafe.label` |
+| garrison / outpost | garnison / avant-poste | | Core `AncientGarrison.label`, `Outpost.label` |
+| market value / silver / steel / comms console / packaged survival meal / vacuum | valeur marchande / argent / acier / console de com / ration de survie / vide | | Core (the Keyed `MarketValue` slot is *Prix de base*, a different one — use the StatDef label) |
+| reinforcements / raid | renforts / raid | | Core `MessageMechanoidsReinforcementsDrop`, Keyed `Raid` |
+| colour labels | lowercase bare nouns/adjectives: or, gris, jade, calcaire | | Core + Odyssey `ColorDef`s — `UniqueWeapon_Gold.label` is **or**, reusing the resource noun, which is the family BTG's silver joins |
+| "Note: This is a difficult scenario…" | Remarque : Il s'agit d'un scénario difficile et il n'est pas recommandé pour les nouveaux joueurs. | | Odyssey `TheGravship` — verbatim |
+| "To launch the gravship, select the pilot console…" / "select 'view planet'" | Pour lancer le vaisseau, sélectionnez la console de pilotage, puis sélectionnez la commande de lancement. / sélectionnez « voir la planète » | | Odyssey `TheGravship` GameStartDialog — verbatim, guillemets included |
+| starting people (ScenPart) | colons de départ | | Core `ConfigPage_ConfigureStartingPawns.label` — identical English source, reuse verbatim |
+| reportStrings (clean/rescue/tend/feed/hack/open/board) | nettoie TargetA. / porte secours à TargetA. / soigne TargetA. / nourrit le patient TargetB avec TargetA. / pirate TargetA. / ouvre TargetA. / entre dans TargetA. | | Core `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1, trailing period and all. Note `FeedPatient` inserts "le patient" that the English has no word for |
+
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** coffre à cargaison (hatch variants trappe sécurisée du coffre à
+cargaison / trappe scellée… / sortie du…), **shuttle bay** hangar à navettes
+(`hangar` appears nowhere in vanilla fr, but is a French word to begin with),
+**smuggler's den** repaire de contrebandiers (echoing Odyssey's `InsectLair` =
+repaire d'insectes), **threat points** points de menace, **orbital steel /
+rust** acier orbital / rouille, **silver (colour)** argent, **independent
+traders** commerçants indépendants, **Exiled Traders** Commerçants exilés,
+**cargo claim** droit sur la cargaison, **medbay** infirmerie, **docked
+vessel** Navire amarré, **docking bays** quais d'amarrage, **(Vanilla)**
+(d'origine), **entrenched defender AI** IA de défenseurs retranchés,
+**resupply** ravitaillement, **a hold full of silver** une cale pleine
+d'argent (`soute` appears nowhere in vanilla fr; `cale` is the ship's-hold
+sense). "TG maps" is spelled out as **cartes de la guilde** — a French
+initialism would be opaque. `BTG_Settings_ModName` is deliberately left as the
+Latin brand `Better Traders Guild`.
+
+**`traitAdjectives` follow vanilla fr's own shape for `GoldInlay`: a bare noun
+(`or`) plus masculine-singular adjectives (`doré`).** French cannot agree with
+an unknown weapon noun's gender here and vanilla does not try — Odyssey's
+`NamerUniqueWeapon` fr postposes the adjective under a hardcoded masculine
+`Le [weapon_type] [weapon_adjective]`, so masculine forms are consistent with
+vanilla's own choice rather than a hazard. BTG's five silver adjectives are
+argent / argenté / étincelant / d'argent / raffiné.
+
+**The `de le` hazard in practice:** BTG's only string injecting a `_definite`
+symbol is `BTG_CargoVaultHatch`'s `hackedMessage`, whose English ("bypassed the
+security **on** {SUBJECT_…Def}") would land a `de` right before it — the one
+preposition the worker breaks. The sentence was rebuilt so the symbol is a
+plain **direct object** (`… a contourné la sécurité et ouvert {SUBJECT_…Def}.`),
+which is also what vanilla fr does in `AncientHatch` (`a terminé de pirater
+{SUBJECT_labelNoParenthesisDef}.`). Restructuring beats fighting the worker —
+the same conclusion the de and es sections reach from their own directions.
 
 The rest of the weapon-mod French glossary — weapon/tool/damage vocabulary,
 the rule-level gender constraint technique for `RulePackDef`s
 (`staggered(SUBJECT_gender==Female)->…`), `traitAdjectives`/`namerLabels`
 shape rules, and quest-site vocabulary — is specific to name generation and
 melee combat text, which this mod has none of. See
-`../UniqueMeleeWeapons` if that ever changes. This repo has not yet run a
-French generation pass; add xenogerm/xenotype rows here once one lands.
+`../UniqueMeleeWeapons` if that ever changes.
 
 #### Brazilian Portuguese (from the weapon-mod siblings' 2026-07-29 generation)
 
@@ -963,8 +1139,8 @@ a definite-article'd label, not only rulepacks:
 Style rules from the vanilla pt-BR data (mandatory):
 
 - **ASCII straight double quotes**, **zero em/en dashes** (reflow an
-  English `—`, as in es and fr — the opposite of de), ASCII ellipsis `...`
-  and apostrophe `'`.
+  English `—`, as in es — the opposite of de and fr, which each keep one),
+  ASCII ellipsis `...` and apostrophe `'`.
 - **No space before `:` `;` `!` `?`** — the exact opposite of French, and
   the two languages are otherwise close enough that this is an easy
   cross-contamination.
@@ -1018,12 +1194,19 @@ add xenogerm/xenotype rows here once one lands.
 - **Check whether the worker contracts before writing any contraction
   scaffolding — the answer inverts between languages.** Spanish must fuse
   `de`+`el` by hand (in a rulepack or in any `.Translate()` call using
-  `[X_definite]`); French must do the **opposite and write nothing**,
-  because `LanguageWorker_French.PostProcessed` elides and fuses
-  automatically, so hand-contracting would double-apply; Portuguese is the
-  worst case, where contractions are mandatory and nothing supplies them at
-  all — see the German/Spanish/French/pt-BR sections above for the
-  specifics. Verify a vanilla pattern actually works before copying it;
+  `[X_definite]`); French needs **no scaffolding at all**, because
+  `LanguageWorker_French.PostProcessed` elides and fuses automatically;
+  Portuguese is the worst case, where contractions are mandatory and nothing
+  supplies them at all — see the German/Spanish/French/pt-BR sections above
+  for the specifics. **French does not "double-apply", though** (verified
+  2026-08-10 by reimplementing its five regexes and running the whole BTG fr
+  tree through them: zero rewrites): the regexes match only the
+  *uncontracted* forms, so an already-elided `l'accès` or a hand-written `du`
+  passes through untouched — which is exactly how vanilla fr authors its own
+  data. The worker is a safety net for text assembled at runtime, not a
+  reason to write unnatural French; and because it runs at *load*, before
+  argument substitution, it can never help across a `{0}` or `[symbol]`
+  anyway. Verify a vanilla pattern actually works before copying it;
   frequency is not correctness (both es and fr ship a demonstrably broken
   contraction in their own combat packs).
 - **A "no hidden mechanics" worker is itself a finding, not a reason to
