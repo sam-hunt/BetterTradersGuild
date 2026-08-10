@@ -24,8 +24,9 @@ the source of truth; every other language derives from it.
   (Planned / Machine-assisted / Native, plus credit) must be updated in the
   same commit whenever a language is added or a native review lands. The
   target roster lives there — consult it before proposing new languages.
-  Today it lists English (Source) plus Simplified Chinese, Russian and
-  Korean (all Machine-assisted); every other target is still Planned.
+  Today it lists English (Source) plus Simplified Chinese, Russian, Korean,
+  German and Spanish (all Machine-assisted); French, Brazilian Portuguese
+  and Japanese are still Planned.
 
 ## File map and conventions
 
@@ -144,9 +145,9 @@ translation. Sources, in order:
 Terms that MUST be grounded before use: trader, orbital trader, settlement,
 faction, goodwill, caravan, shuttle, cargo, hacking, and market-value
 vocabulary ("Traders will pay more/less for it" and similar phrasing,
-market value, silver). **Simplified Chinese, Russian, Korean and German have
-been grounded in this repo** (2026-08-09 / 2026-08-10 / 2026-08-10 /
-2026-08-10) — their tables
+market value, silver). **Simplified Chinese, Russian, Korean, German and
+Spanish have been grounded in this repo** (2026-08-09 / 2026-08-10 /
+2026-08-10 / 2026-08-10 / 2026-08-10) — their tables
 below carry real BTG trader/settlement vocabulary and are safe to build on.
 Every other language's table is still **style/mechanics reference only**,
 inherited from the weapon-mod siblings; ground that language's own
@@ -702,7 +703,8 @@ a `[X_definite]'s` genitive" battle-log lesson — is specific to
 mod has (it ships no RulePackDefs). See `../UniqueMeleeWeapons` or
 `../PersonaWeaponsUnbound` if that ever changes.
 
-#### Spanish (Castellano) (from the weapon-mod siblings' 2026-07-29 generation)
+#### Spanish (Castellano) (grounded in this repo's 2026-08-10 generation pass, on
+top of the weapon-mod siblings' 2026-07-29 pass)
 
 RimWorld ships **two** Spanish languages: `Spanish (Español(Castellano)).tar` and
 `SpanishLatin (Español(Latinoamérica)).tar`. The roster's "Spanish" means the
@@ -756,19 +758,98 @@ Spanish `su` agrees in number with the *possessed* noun, the symbol is only
 safe before a **singular** noun. Use the definite article for plurals
 instead.
 
+**Units are per-unit, not one rule** (counted over Core+Odyssey Keyed):
+percentages tight (`{0}%`), `x` tight (`{0}x`), but watts spaced (`{0} W`,
+as in `PowerConnectedRateStored`) and days/hours spaced (`{0} días`). Copy
+per unit rather than generalizing.
+
+**Odyssey es covers nearly everything BTG builds on, and four vanilla defs
+are near-exact templates** — check them first before composing anything new:
+
+| BTG content | Vanilla template |
+|---|---|
+| `BTG_TradeRequest` (description frame, `qualityInfo`, both failure letters, the royal-favor letters) | Core `TradeRequest` QuestScriptDef — 4 of its required slateRefs are byte-identical reuse |
+| `BTG_ExiledTraders` (difficulty note + the launch / view-planet sentences) | Odyssey `TheGravship` ScenarioDef |
+| `BTG_SmugglersDen.description` ¶2 | Odyssey `SpaceSettlement.description` ¶2, verbatim |
+| `BTG_CargoVaultHatch` (description shape, both `CompHackable` strings, the exit's ladder line) | Core `AncientHatch` / `AncientHatchExit` |
+
 | English | Use | Never | Why |
 |---|---|---|---|
 | Cancel / Reset / Confirm / Default / None | `Cancelar` / `Restablecer` / `Confirmar` / `Por defecto` / `Ninguno` | | Core buttons |
 | quality tiers | `horrible·mediocre·normal·bueno·excelente·obra maestra·legendaria` | | Core `QualityCategory_*` |
-| Traders will pay more/less for it. | `Los comerciantes pagarán más por ella.` / `… menos por ella.` | | Odyssey `GoldInlay`/`Ugly` — reuse verbatim; directly relevant to this mod's trader-price framing |
+| "of normal+ quality" / "(worth [X])" | de calidad normal o superior / (valor [X]) | | Core `TradeRequest` — verbatim, trailing space included |
+| traders guild / guild member(s) | gremio de comerciantes / miembro(s) del gremio | gremio comercial | Odyssey `TradersGuild.*` |
+| salvagers | chatarreros | carroñeros | Odyssey `Salvagers.label` (its *pawns* are piratas; carroñeros is the descriptive word inside its own description) |
+| leader (`leaderTitle`) | jefe | | Odyssey: TradersGuild=maestro comerciante, Salvagers=jefe — jefe is the neutral slot for a small crew |
+| trader / orbital trader | comerciante / comerciante orbital | mercader | Core, Odyssey `AsteroidLetterText` |
+| bulk / exotic goods trader | mayorista / comerciante de productos exóticos | | Core orbital `TraderKindDef`s |
+| Traders will pay more/less for it. | Los comerciantes pagarán más por ella. / … menos por ella. | | Odyssey `GoldInlay`/`Ugly` — verbatim |
+| gold/silver inlay | incrustación de oro / incrustación de plata | | Odyssey `GoldInlay.label` is a **noun phrase** (unlike de's participle) |
+| {0} from {1} are attacking your {2}. | {0} de {1} están atacando tu {2}. | | every Odyssey `FactionDef` — verbatim; note the bare `de {1}`, no "de la facción" |
+| Attack {0} / Attacking {0}. | Atacar {0} / Atacando {0}. | | Odyssey `Outpost` approach strings — verbatim |
+| Quest failed: [resolvedQuestName] | Misión fallida: [resolvedQuestName] | | Core `TradeRequest` — verbatim (quest = misión) |
+| [faction_name] became hostile to you. | La facción [faction_name] se ha vuelto hostil. | | Core `TradeRequest` — verbatim |
+| Who should be credited with [X] …? | ¿A quién se le debe acreditar con [X] por cumplir con la solicitud de intercambio? | | Core `TradeRequest` — verbatim |
+| hostile to {0} | Relaciones hostiles con {0} | | shaped from Core `QuestHostileTo` ("hostil hacia {0}") |
+| No capable negotiator | No hay ningún negociador capaz | | shaped from Core `CommandTradeFailNoNegotiator` |
+| orbital platform / settlement platform | plataforma orbital / plataforma de asentamiento | | Odyssey `OrbitalPlatform.label`, `SettlementPlatform.label` |
+| orbital settlement / settlement / colony | asentamiento orbital / asentamiento / colonia | | Odyssey `SpaceSettlement.label`; Core `Settlement.label` is **colonia**, but `TradeRequest` prose says "un asentamiento cercano" — asentamiento is the prose word for a faction settlement |
+| shuttle | transbordador | lanzadera | Core `Shuttle.label` ("transbordador imperial"), Odyssey `AsteroidLetterText` |
+| transport/drop pod vs cargo pod | cápsula de transporte / cápsula de desembarco vs cápsula de carga | | Core `TransportPod`, `DropPodIncoming`, `CargoPodCrash` — distinct, don't merge |
+| signal jammer / sentry drone / life support unit | inhibidor de señales / dron centinela / unidad de soporte vital | | Odyssey (Core's older singular "inhibidor de señal" loses to Odyssey's `SpaceSettlement.description`) |
+| gravship / gravlite panel / pilot console | gravinave / panel de gravilita / consola de piloto | gravnave | Odyssey `TheGravship` |
+| mechhive / orbital relay | mecacolmena / repetidor orbital | | Odyssey `TheGravship.description` (the MapGeneratorDef's "retransmisor orbital" is a different slot) |
+| goodwill / caravan / negotiator | reputación / caravana / negociador | buena voluntad | Core `Goodwill`, `Caravan.label`, `Negotiator` |
+| raid | asalto | incursión | Core `RaidEnemy.label`, Keyed `Raid` (incursión is reserved for `RaidFriendly`) |
+| silver / market value / comms console / packaged survival meal | plata / valor de mercado / consola de comunicaciones / raciones de supervivencia envasadas | | Core |
+| steel / vacuum / safe / reinforcements / hatch / vault | acero / vacío / caja fuerte / refuerzos / escotilla / bóveda | | Core, Odyssey (`AncientHatch`, `AncientSafe`; bóveda is the sealed-valuables sense) |
+| garrison / outpost | guarnición / puesto de avanzada | | Core `AncientGarrison.label`, `Outpost.description` |
+| colour labels | lowercase, gender-invariant where possible: dorado, gris, jade | | Core + Odyssey `ColorDef`s — `UniqueWeapon_Gold.label` is dorado, the family BTG's silver joins |
+| "Note: This is a difficult scenario…" | Nota: Este es un escenario difícil. No se recomienda para jugadores sin experiencia. | | Odyssey `TheGravship` — verbatim (vanilla splits the English single sentence in two) |
+| "To launch the gravship, select the pilot console…" / "select 'view planet'" | Para lanzar la gravinave, selecciona la consola de piloto y luego elige el comando de lanzamiento. / selecciona "ver planeta" | | Odyssey `TheGravship` GameStartDialog — verbatim, ASCII double quotes included |
+| starting people (ScenPart) | personas iniciales | | Core `ConfigPage_ConfigureStartingPawns.label` — identical English source, reuse verbatim |
+| reportStrings (clean/rescue/tend/feed/hack/open/board) | limpiando TargetA. / rescatando a TargetA. / tratando a TargetA. / alimentando a TargetB con TargetA. / hackeando TargetA. / abriendo TargetA. / entrando en TargetA. | | Core `JobDef`s — verbatim; BTG's NPC-safe `BTG_*` copies reuse them 1:1. **Keep the trailing period** (unlike ru/ko), and note the personal "a" appears before *animate* targets only |
+
+Mod-decided (no vanilla source — the rows most in need of native review):
+**cargo vault** bóveda de carga (hatch variants escotilla segura de la bóveda de
+carga / escotilla sellada… / salida de…), **shuttle bay** hangar de
+transbordadores, **smuggler's den** guarida de contrabandistas (echoing Odyssey's
+`InsectLair` = guarida de insectoides), **threat points** puntos de amenaza,
+**orbital steel / rust** acero orbital / óxido, **silver (colour)** plateado,
+**independent traders** comerciantes independientes, **Exiled Traders**
+Comerciantes exiliados, **cargo claim** derecho de carga, **medbay** enfermería,
+**docked vessel** Nave atracada, **docking bays** muelles de atraque,
+**(Vanilla)** (Original), **entrenched defender AI** IA de defensores
+atrincherados, **resupply** reabastecimiento. "TG maps" is spelled out as
+**mapas del gremio** — a Spanish initialism would be opaque.
+`BTG_Settings_ModName` is deliberately left as the Latin brand `Better Traders
+Guild`.
+
+**`traitAdjectives` must be gender-invariant in Spanish, and this is a
+mechanical constraint, not a style call.** Odyssey's `NamerUniqueWeapon`
+rulePack **postposes** the adjective (`[weapon_type] [trait_adjective]`), and
+`CompUniqueWeapon` feeds `weapon_type` from the *weapon's* `namerLabels` — an
+unknown noun of unknown gender. Vanilla es dodges agreement entirely by
+picking invariant forms for `GoldInlay` (`de oro`, `brillante`): a
+prepositional phrase or an `-e`/`-ente` adjective. BTG's five silver
+adjectives follow suit: de plata / de plata bruñida / brillante / reluciente /
+noble. Never ship an `-o`/`-a` adjective here.
 
 The rest of the weapon-mod Spanish glossary — weapon/tool/damage
 vocabulary, the `badass_concept`/`conceptF` parallel-symbol-family
-technique for `RulePackDef` gender, `traitAdjectives`/`namerLabels` shape
-rules, and quest-site vocabulary — is specific to name generation and melee
-combat, which this mod has none of. See `../UniqueMeleeWeapons` if that
-ever changes. This repo has not yet run a Spanish generation pass; add
-xenogerm/xenotype rows here once one lands.
+technique for `RulePackDef` gender, and quest-site vocabulary — is specific
+to name generation and melee combat, which this mod has none of. See
+`../UniqueMeleeWeapons` if that ever changes.
+
+**Note on the `de el` hazard in practice:** BTG's only string that injects a
+`_definite` symbol is `BTG_CargoVaultHatch`'s `hackedMessage`, and the
+English ("bypassed the security **on** {SUBJECT_…Def}") would land a `de`
+directly before it. Rather than reach for the `{replace:}` scaffolding above,
+the sentence was rebuilt so the symbol is a plain **direct object**
+("… ha burlado la seguridad y ha abierto {SUBJECT_…Def}."), which removes the
+preposition entirely — the same move vanilla es makes in `AncientHatch`
+("ha terminado de hackear {SUBJECT_labelNoParenthesisDef}."). Restructuring
+beats `{replace:}` whenever the sentence allows it.
 
 #### French (from the weapon-mod siblings' 2026-07-29 generation)
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>comerciantes independientes</BTG_IndependentTraders.label>
+  <!-- Odyssey es renders "Traders Guild" as gremio de comerciantes. -->
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>Una pequeña tripulación de antiguos miembros del gremio de comerciantes que ahora operan por su cuenta.</BTG_IndependentTraders.description>
+  <!-- Odyssey es gives TradersGuild "maestro comerciante" and Salvagers "jefe"; a small
+       independent crew takes the neutral jefe. -->
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>jefe</BTG_IndependentTraders.leaderTitle>
+  <!-- Verbatim from every Odyssey es FactionDef.messageDefendersAttacking. -->
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>{0} de {1} están atacando tu {2}.</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>comerciante</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>comerciantes</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

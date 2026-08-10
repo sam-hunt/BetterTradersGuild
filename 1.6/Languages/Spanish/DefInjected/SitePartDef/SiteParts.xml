@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>guarida de contrabandistas</BTG_SmugglersDen.label>
+  <!-- Paragraph 2 is Odyssey es SpaceSettlement.description's own second paragraph, verbatim. -->
+  <!-- EN: An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer. -->
+  <BTG_SmugglersDen.description>Una plataforma orbital tomada por los chatarreros, usada como centro de contrabando y puesto de mercado negro.\n\nEstas plataformas tienen sistemas de armas automáticas de largo alcance capaces de destruir naves entrantes. Solo se puede acceder a ellas con seguridad en una gravinave equipada con un inhibidor de señales.</BTG_SmugglersDen.description>
+  <!-- Verbatim from Odyssey es Outpost's own approach strings. -->
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>Atacar {0}</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>Atacando {0}.</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

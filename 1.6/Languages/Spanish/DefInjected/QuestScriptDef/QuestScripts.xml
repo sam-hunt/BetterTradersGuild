@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_TradeRequest - Core es's Script_TradeRequest is the direct template; the
+       description frame, the quality fragment and all three letter strings are reused
+       verbatim, with caravan/settlement swapped for shuttle/orbital station. -->
+  <!-- EN:
+    <li>questName->Shuttle Run to [settlement_label]</li>
+    <li>questName->Orbital Trade with [settlement_label]</li>
+    <li>questName->Shipment for [settlement_label]</li>
+    <li>questName->Delivery to [settlement_label]</li>
+  -->
+  <BTG_TradeRequest.questNameRules.rulesStrings>
+    <li>questName->Viaje en transbordador a [settlement_label]</li>
+    <li>questName->Comercio orbital con [settlement_label]</li>
+    <li>questName->Envío para [settlement_label]</li>
+    <li>questName->Entrega a [settlement_label]</li>
+  </BTG_TradeRequest.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:
+
+ [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])
+
+If you want to make the trade, send a shuttle with the requested items.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </li>
+    <li>qualityInfo-></li>
+  -->
+  <BTG_TradeRequest.questDescriptionRules.rulesStrings>
+    <li>questDescription->Una estación orbital cercana, [settlement_label], tiene una solicitud comercial especial. Les gustaría comprar:\n\n [requestedThingCount]x [requestedThing_label] [qualityInfo](valor [requestedThingMarketValue_money])\n\nSi quieres hacer el intercambio, envía un transbordador con los artículos solicitados.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->de calidad normal o superior </li>
+    <li>qualityInfo-></li>
+  </BTG_TradeRequest.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_TradeRequest.root.nodes.Letter.label.slateRef>Misión fallida: [resolvedQuestName]</BTG_TradeRequest.root.nodes.Letter.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_TradeRequest.root.nodes.Letter.text.slateRef>La facción [faction_name] se ha vuelto hostil.</BTG_TradeRequest.root.nodes.Letter.text.slateRef>
+  <!-- EN: [asker_faction_royalFavorLabel] -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>[asker_faction_royalFavorLabel]</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>
+  <!-- EN: Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request? -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>¿A quién se le debe acreditar con [asker_faction_royalFavorLabel] por cumplir con la solicitud de intercambio?</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- EN:
+    <li>questName->Smuggler's Den Near [settlement_label]</li>
+    <li>questName->Orbital Pirate Haven</li>
+    <li>questName->Salvager Outpost Near [settlement_label]</li>
+    <li>questName->Black Market Station</li>
+  -->
+  <BTG_SmugglersDen.questNameRules.rulesStrings>
+    <li>questName->Guarida de contrabandistas cerca de [settlement_label]</li>
+    <li>questName->Refugio de piratas orbital</li>
+    <li>questName->Puesto de avanzada de chatarreros cerca de [settlement_label]</li>
+    <li>questName->Estación del mercado negro</li>
+  </BTG_SmugglersDen.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+  -->
+  <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+    <li>questDescription->[asker_nameFull], en representación del gremio de comerciantes, ha avisado de un puesto de avanzada de chatarreros que opera cerca de [settlement_label]. Desde esa estación se interceptan convoyes del gremio y se trafica con carga robada.\n\nEl gremio ofrece los derechos de salvamento como pago por despejar el puesto. Tienen un contacto capaz de mover hilos en la lista de atraques para llenar la bóveda de carga y endulzar el trato.</li>
+  </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Misión fallida: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>La facción [faction_name] se ha vuelto hostil.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>Misión fallida: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <!-- Cited quest names take ASCII straight double quotes mid-sentence, as in Core es's own
+       "La misión se llama "{0}"." string. -->
+  <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>Alertados del ataque, los chatarreros han desmantelado el puesto y se han dispersado. La misión "[resolvedQuestName]" ha terminado.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+
+</LanguageData>

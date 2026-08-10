@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SilverInlayMelee is the UniqueMeleeWeapons-gated twin of SilverInlay; its
+       strings match that def's, which lives in 1.6/Languages/Spanish/DefInjected/. -->
+  <!-- EN: silver inlay -->
+  <BTG_SilverInlayMelee.label>incrustación de plata</BTG_SilverInlayMelee.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <BTG_SilverInlayMelee.description>Esta arma tiene incrustaciones de plata. Los comerciantes pagarán más por ella.</BTG_SilverInlayMelee.description>
+  <!-- Gender-invariant, because the es weapon namer postposes the adjective; see the note
+       on SilverInlay in the main load root. -->
+  <!-- EN: silver -->
+  <BTG_SilverInlayMelee.traitAdjectives.0>de plata</BTG_SilverInlayMelee.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <BTG_SilverInlayMelee.traitAdjectives.1>de plata bruñida</BTG_SilverInlayMelee.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <BTG_SilverInlayMelee.traitAdjectives.2>brillante</BTG_SilverInlayMelee.traitAdjectives.2>
+  <!-- EN: argent -->
+  <BTG_SilverInlayMelee.traitAdjectives.3>reluciente</BTG_SilverInlayMelee.traitAdjectives.3>
+  <!-- EN: fine -->
+  <BTG_SilverInlayMelee.traitAdjectives.4>noble</BTG_SilverInlayMelee.traitAdjectives.4>
+
+</LanguageData>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla es uses "bóveda" for a sealed store of valuables (bóveda de armas,
+       bóveda de tecnología antigua) and "escotilla" for a hatch (AncientHatch). -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>escotilla segura de la bóveda de carga</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>Una escotilla reforzada que conduce a la bóveda de carga segura de la estación. Abajo se guardan mercancías de gran valor bajo seguridad automatizada. Hackea el panel de acceso para anular el cierre.</BTG_CargoVaultHatch.description>
+  <!-- {SUBJECT_labelNoParenthesisDef} arrives with a bare definite article prepended, and
+       Spanish fuses de+el into del / a+el into al by hand (LanguageWorker_Spanish does not).
+       The sentence is rebuilt so the symbol is a direct object with no preposition before
+       it, which sidesteps the contraction entirely; vanilla es AncientHatch does the same
+       ("ha terminado de hackear {SUBJECT_labelNoParenthesisDef}."). -->
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} ha burlado la seguridad y ha abierto {SUBJECT_labelNoParenthesisDef}.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+  <!-- Shaped from Core es AncientHatch's "Hackear para abrir." -->
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>Hackear para anular el cierre de seguridad.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>escotilla sellada de la bóveda de carga</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>Una escotilla reforzada que conduce a la bóveda de carga segura de la estación. Ha sido sellada de forma excesivamente drástica para negar el acceso a los asaltantes.</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>salida de la bóveda de carga</BTG_CargoVaultExit.label>
+  <!-- Shaped from Core es AncientHatchExit ("Una escalera que conecta con la escotilla superior."). -->
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>Una escalera segura con escotilla que da acceso de vuelta al hangar de transbordadores de la estación, en el nivel superior.</BTG_CargoVaultExit.description>
+
+</LanguageData>

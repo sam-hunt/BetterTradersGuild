@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla es ScenPart labels are lowercase noun phrases (objetos iniciales,
+       método de llegada); these follow that shape. -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>reputación con la facción</BTG_FactionGoodwill.label>
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>llegada en transbordador</BTG_PlayerPawnsArriveShuttle.label>
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>color de la ropa inicial</BTG_StartingApparelColor.label>
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>arma única inicial</BTG_StartingUniqueWeapon.label>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes (Biotech-gated) lives in
+       1.6/Mods/Biotech/Languages/Spanish/DefInjected/ScenPartDef/, mirroring the English
+       compat root - MayRequire is ignored on DefInjected entries, so the gate has to be
+       the LoadFolders compat root. -->
+
+</LanguageData>

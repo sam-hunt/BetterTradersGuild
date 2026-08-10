@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Core es reportStrings are gerunds and KEEP the trailing period. Animate targets take
+       the personal "a" (rescatando a TargetA), inanimate ones do not (limpiando TargetA).
+       BTG's NPC-safe BTG_* copies reuse the vanilla wording 1:1 where one exists. -->
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>embarcando en TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>pidiendo reabastecimiento.</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>llevando a TargetA a un lugar seguro.</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>llevando a TargetA a la enfermería.</BTG_CarryToMedbayFloor.reportString>
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>limpiando TargetA.</BTG_Clean.reportString>
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>alimentando a TargetB con TargetA.</BTG_FeedPatient.reportString>
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>hackeando TargetA.</BTG_Hack.reportString>
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>abriendo TargetA.</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>volviendo a abrir TargetA.</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>volviendo a cerrar la escotilla de la bóveda de carga.</BTG_Relock.reportString>
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>rescatando a TargetA.</BTG_Rescue.reportString>
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>tratando a TargetA.</BTG_TendPatient.reportString>
+
+</LanguageData>

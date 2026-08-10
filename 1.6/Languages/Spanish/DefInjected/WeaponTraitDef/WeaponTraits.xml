@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- Odyssey es renders "gold inlay" as the noun phrase "incrustación de oro"; the silver
+       counterpart follows it, and the description reuses its wording verbatim. -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>incrustación de plata</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>Esta arma tiene incrustaciones de plata. Los comerciantes pagarán más por ella.</SilverInlay.description>
+  <!-- Odyssey es NamerUniqueWeapon POSTPOSES the trait adjective ("[weapon_type]
+       [trait_adjective]"), so it would have to agree with an unknown weapon noun's gender.
+       Vanilla es dodges this by picking gender-invariant forms for GoldInlay ("de oro",
+       "brillante"); these five do the same - prepositional phrases or -e/-ente adjectives. -->
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>de plata</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>de plata bruñida</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>brillante</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>reluciente</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>noble</SilverInlay.traitAdjectives.4>
+
+  <!-- BTG_SilverInlayMelee (UMW-gated) lives in
+       1.6/Mods/UniqueMeleeWeapons/Languages/Spanish/DefInjected/WeaponTraitDef/,
+       mirroring the English compat root - MayRequire is ignored on DefInjected
+       entries, so the gate has to be the LoadFolders compat root. -->
+
+</LanguageData>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla es ColorDef labels are lowercase and gender-invariant where possible;
+       "plateado" mirrors Odyssey es UniqueWeapon_Gold.label ("dorado"). -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>acero orbital</BTG_OrbitalSteel.label>
+  <!-- EN: rust -->
+  <BTG_Rust.label>óxido</BTG_Rust.label>
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>plateado</BTG_UniqueWeapon_Silver.label>
+
+</LanguageData>

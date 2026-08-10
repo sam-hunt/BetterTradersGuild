@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ExiledTraders - Odyssey es TheGravship is the template; its difficulty note is
+       reused verbatim, as is its vocabulary (mecacolmena, repetidor orbital, gravinave). -->
+  <!-- EN: Exiled Traders -->
+  <BTG_ExiledTraders.label>Comerciantes exiliados</BTG_ExiledTraders.label>
+  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+
+Note: This is a difficult scenario and is not recommended for new players. -->
+  <BTG_ExiledTraders.description>Un trabajo rutinario de recuperación de restos en un repetidor orbital que sale mal. Una baliza mecanoide oculta, y tu tripulación ha despertado a la mecacolmena. El gremio de comerciantes no tardó nada en desmarcarse de las consecuencias y te revocó la membresía antes incluso de que la señal terminara de emitirse. Sin aliados, con pocos suministros y con el enjambre acercándose, no te queda más sitio adonde ir que hacia abajo.\n\nNota: Este es un escenario difícil. No se recomienda para jugadores sin experiencia.</BTG_ExiledTraders.description>
+  <!-- EN: Exiled Traders -->
+  <BTG_ExiledTraders.scenario.name>Comerciantes exiliados</BTG_ExiledTraders.scenario.name>
+  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+
+Note: This is a difficult scenario and is not recommended for new players. -->
+  <BTG_ExiledTraders.scenario.description>Un trabajo rutinario de recuperación de restos en un repetidor orbital que sale mal. Una baliza mecanoide oculta, y tu tripulación ha despertado a la mecacolmena. El gremio de comerciantes no tardó nada en desmarcarse de las consecuencias y te revocó la membresía antes incluso de que la señal terminara de emitirse. Sin aliados, con pocos suministros y con el enjambre acercándose, no te queda más sitio adonde ir que hacia abajo.\n\nNota: Este es un escenario difícil. No se recomienda para jugadores sin experiencia.</BTG_ExiledTraders.scenario.description>
+  <!-- Shaped from Odyssey es TheGravship.scenario.summary ("Una tripulación de tres cazada por mecanoides."). -->
+  <!-- EN: Three exiled traders hunted by mechanoids. -->
+  <BTG_ExiledTraders.scenario.summary>Tres comerciantes exiliados cazados por mecanoides.</BTG_ExiledTraders.scenario.summary>
+
+  <!-- BTG_IndependentTraders -->
+  <!-- EN: Independent Traders -->
+  <BTG_IndependentTraders.label>Comerciantes independientes</BTG_IndependentTraders.label>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
+  <BTG_IndependentTraders.description>Después de años transportando carga para el gremio de comerciantes, ya no soportas repartir beneficios ni pelear por los muelles de atraque. Mientras tu transbordador deja atrás el anillo orbital, la frecuencia comercial emite su despedida indiferente y el cielo se abre ante ti. Con una bodega llena de plata y de ambición, el resto tendrás que ganártelo.</BTG_IndependentTraders.description>
+  <!-- EN: Independent Traders -->
+  <BTG_IndependentTraders.scenario.name>Comerciantes independientes</BTG_IndependentTraders.scenario.name>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
+  <BTG_IndependentTraders.scenario.description>Después de años transportando carga para el gremio de comerciantes, ya no soportas repartir beneficios ni pelear por los muelles de atraque. Mientras tu transbordador deja atrás el anillo orbital, la frecuencia comercial emite su despedida indiferente y el cielo se abre ante ti. Con una bodega llena de plata y de ambición, el resto tendrás que ganártelo.</BTG_IndependentTraders.scenario.description>
+  <!-- EN: Three ex-guild traders and a shuttle. -->
+  <BTG_IndependentTraders.scenario.summary>Tres excomerciantes del gremio y un transbordador.</BTG_IndependentTraders.scenario.summary>
+
+</LanguageData>
