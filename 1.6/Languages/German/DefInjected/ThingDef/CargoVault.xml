@@ -13,7 +13,7 @@
        WithDefiniteArticle, which is nominative-only, so the sentence is built to put
        that argument in a nominative slot rather than after a preposition. -->
   <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
-  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} hat das Sicherheitssystem umgangen – {SUBJECT_labelNoParenthesisDef} ist offen.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} hat das Sicherheitssystem umgangen, {SUBJECT_labelNoParenthesisDef} ist offen.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
 
   <!-- BTG_CargoVaultHatch_Sealed -->
   <!-- EN: sealed cargo vault hatch -->

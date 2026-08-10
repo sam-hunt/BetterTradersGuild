@@ -56,7 +56,7 @@ If you want to make the trade, send a shuttle with the requested items.</li>
 The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription->[asker_nameFull], представляющий гильдию торговцев, сообщает об аванпосте сталкеров, действующем рядом с [settlement_label]. Эта станция перехватывает конвои гильдии и сбывает краденый груз.\n\nГильдия предлагает права на трофеи в уплату за зачистку аванпоста. У них есть свой человек, способный подкрутить расписание стыковок так, чтобы грузовое хранилище оказалось побогаче, а сделка — повыгоднее.</li>
+    <li>questDescription->[asker_nameFull], представляющий гильдию торговцев, сообщает об аванпосте сталкеров, действующем рядом с [settlement_label]. Эта станция перехватывает конвои гильдии и сбывает краденый груз.\n\nГильдия предлагает права на трофеи в уплату за зачистку аванпоста. У них есть свой человек, способный подкрутить расписание стыковок так, чтобы грузовое хранилище оказалось побогаче, а сделка стала повыгоднее.</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
   <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>

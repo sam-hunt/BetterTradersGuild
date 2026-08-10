@@ -7,13 +7,13 @@
   <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.description>Обычные работы по разбору орбитального ретранслятора пошли не так. Скрытый маяк механоидов — и ваша команда разбудила мехрой. Гильдия торговцев тут же отмежевалась от последствий, отозвав ваше членство ещё до того, как сигнал успел отзвучать. Без союзников, почти без припасов и с приближающимся роем вам остаётся только один путь — вниз.\n\nПримечание: это сложный сценарий, не рекомендуется новичкам.</BTG_ExiledTraders.description>
+  <BTG_ExiledTraders.description>Обычные работы по разбору орбитального ретранслятора пошли не так. Скрытый маяк механоидов, и ваша команда разбудила мехрой. Гильдия торговцев тут же отмежевалась от последствий, отозвав ваше членство ещё до того, как сигнал успел отзвучать. Без союзников, почти без припасов и с приближающимся роем вам остаётся идти только вниз.\n\nПримечание: это сложный сценарий, не рекомендуется новичкам.</BTG_ExiledTraders.description>
   <!-- EN: Exiled Traders -->
   <BTG_ExiledTraders.scenario.name>Торговцы-изгнанники</BTG_ExiledTraders.scenario.name>
   <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.scenario.description>Обычные работы по разбору орбитального ретранслятора пошли не так. Скрытый маяк механоидов — и ваша команда разбудила мехрой. Гильдия торговцев тут же отмежевалась от последствий, отозвав ваше членство ещё до того, как сигнал успел отзвучать. Без союзников, почти без припасов и с приближающимся роем вам остаётся только один путь — вниз.\n\nПримечание: это сложный сценарий, не рекомендуется новичкам.</BTG_ExiledTraders.scenario.description>
+  <BTG_ExiledTraders.scenario.description>Обычные работы по разбору орбитального ретранслятора пошли не так. Скрытый маяк механоидов, и ваша команда разбудила мехрой. Гильдия торговцев тут же отмежевалась от последствий, отозвав ваше членство ещё до того, как сигнал успел отзвучать. Без союзников, почти без припасов и с приближающимся роем вам остаётся идти только вниз.\n\nПримечание: это сложный сценарий, не рекомендуется новичкам.</BTG_ExiledTraders.scenario.description>
   <!-- EN: Three exiled traders hunted by mechanoids. -->
   <BTG_ExiledTraders.scenario.summary>Трое торговцев-изгнанников, на которых охотятся механоиды.</BTG_ExiledTraders.scenario.summary>
 

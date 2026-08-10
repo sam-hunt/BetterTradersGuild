@@ -7,13 +7,13 @@
   <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.description>一次在轨道中继站的例行打捞作业出了岔子。一个隐藏的机械族信标，你的船员唤醒了机械主巢。商会立刻与这场灾祸撇清关系，信号还没广播完就吊销了你的会籍。没有盟友，补给短缺，机械大军步步逼近——你已无处可去，只能向下。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.description>
+  <BTG_ExiledTraders.description>一次在轨道中继站的例行打捞作业出了岔子。一个隐藏的机械族信标，你的船员唤醒了机械主巢。商会立刻与这场灾祸撇清关系，信号还没广播完就吊销了你的会籍。没有盟友，补给短缺，机械大军步步逼近，你已无处可去，只能向下。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.description>
   <!-- EN: Exiled Traders -->
   <BTG_ExiledTraders.scenario.name>流放商人</BTG_ExiledTraders.scenario.name>
   <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.scenario.description>一次在轨道中继站的例行打捞作业出了岔子。一个隐藏的机械族信标，你的船员唤醒了机械主巢。商会立刻与这场灾祸撇清关系，信号还没广播完就吊销了你的会籍。没有盟友，补给短缺，机械大军步步逼近——你已无处可去，只能向下。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.scenario.description>
+  <BTG_ExiledTraders.scenario.description>一次在轨道中继站的例行打捞作业出了岔子。一个隐藏的机械族信标，你的船员唤醒了机械主巢。商会立刻与这场灾祸撇清关系，信号还没广播完就吊销了你的会籍。没有盟友，补给短缺，机械大军步步逼近，你已无处可去，只能向下。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.scenario.description>
   <!-- EN: Three exiled traders hunted by mechanoids. -->
   <BTG_ExiledTraders.scenario.summary>三名流放商人遭机械族追杀。</BTG_ExiledTraders.scenario.summary>
 

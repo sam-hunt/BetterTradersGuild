@@ -45,7 +45,7 @@
   <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
   <BTG_Settings_TraderRotationDesc1>Как часто сменяются орбитальные торговцы в поселениях гильдии торговцев.</BTG_Settings_TraderRotationDesc1>
   <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
-  <BTG_Settings_TraderRotationDesc2>Меньше значение — больше разнообразия, но меньше времени, чтобы добраться до далёких поселений.</BTG_Settings_TraderRotationDesc2>
+  <BTG_Settings_TraderRotationDesc2>Чем меньше значение, тем больше разнообразия, но тем меньше времени, чтобы добраться до далёких поселений.</BTG_Settings_TraderRotationDesc2>
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <!-- EN: Use custom settlement map generator -->
@@ -79,7 +79,7 @@
   <!-- EN: Defender threat points multiplier: {0}x -->
   <BTG_Settings_ThreatMultiplier>Множитель очков угрозы защитников: {0}x</BTG_Settings_ThreatMultiplier>
   <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
-  <BTG_Settings_ThreatMultiplierDesc>Больше значение — больше и сильнее защитники при входе в поселение.</BTG_Settings_ThreatMultiplierDesc>
+  <BTG_Settings_ThreatMultiplierDesc>Чем больше значение, тем больше и сильнее защитники при входе в поселение.</BTG_Settings_ThreatMultiplierDesc>
   <!-- EN: Minimum defender threat points: {0} -->
   <BTG_Settings_MinThreatPoints>Минимум очков угрозы защитников: {0}</BTG_Settings_MinThreatPoints>
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
@@ -149,6 +149,6 @@
   <!-- EN: Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself. -->
   <BTG_GameStartDialog_ExiledTraders>Ваш гильдейский маяк мёртв, а мехрой отслеживает ваш сигнал. Его ужасающие машины-убийцы скоро прибудут. Соберите ценные гравлитовые панели, а затем используйте ваш гравикорабль, чтобы сбежать в безопасное место на планете внизу.\n\nЧтобы запустить гравикорабль, выберите пульт пилота, а затем команду запуска.\n\nНа мировой карте выберите «Просмотр планеты», чтобы выбрать место посадки.\n\nГильдия вам не поможет, и куда бы вы ни отправились, механоиды всё равно найдут вас. Чтобы остановить их, вы должны найти и уничтожить сам мехрой.</BTG_GameStartDialog_ExiledTraders>
   <!-- EN: The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home. -->
-  <BTG_GameStartDialog_IndependentTraders>Торговая частота прощально трещит, пока ваш челнок покидает орбитальное кольцо. Годы гильдейских рейсов, делёж прибыли и вечно забитые причалы — всё позади. Без обид. Просто планы стали больше.\n\nВаш челнок идёт к незанятым диким землям, но одним серебром здесь не проживёшь. Гильдия по-прежнему готова торговать со старыми друзьями — но сперва вам нужен дом.</BTG_GameStartDialog_IndependentTraders>
+  <BTG_GameStartDialog_IndependentTraders>Торговая частота прощально трещит, пока ваш челнок покидает орбитальное кольцо. Годы гильдейских рейсов, делёж прибыли и вечно забитые причалы. Всё это позади. Без обид. Просто планы стали больше.\n\nВаш челнок идёт к незанятым диким землям, но одним серебром здесь не проживёшь. Гильдия по-прежнему готова торговать со старыми друзьями, но сперва вам нужен дом.</BTG_GameStartDialog_IndependentTraders>
 
 </LanguageData>
