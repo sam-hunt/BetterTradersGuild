@@ -91,6 +91,56 @@ namespace BetterTradersGuild.LordJobs.Civilians
             return shelterInfants?.Contains(baby) != false;
         }
 
+        // Strict ownership (unlike ShouldCarryInfant, a legacy-save null list owns nothing):
+        // whether this baby is one of the shelter's own remembered infants.
+        public bool OwnsInfant(Pawn baby)
+        {
+            return shelterInfants?.Contains(baby) == true;
+        }
+
+        // True when this baby belongs to a shelter family the carer is NOT part of and that
+        // family can still care for it itself. Exempts shelter infants from the garrison's
+        // map-wide childcare scans (JobGiver_BTGFeedBaby / JobGiver_BTGTuckBabyInCrib): the
+        // locked blast door used to be the only thing keeping defenders away from them, so
+        // the moment an escape opens it a defender could bottle-feed a shelter baby into its
+        // arms (despawning it from the walkers' carry scan - the craft then left without it)
+        // or re-crib a baby a walker dropped mid-ferry. The family always outranks the
+        // garrison for its own infants; a family with no active walker left (all dead,
+        // downed, or already aboard a launchable) can't care for anything, so its babies
+        // fall back to garrison care rather than starving unclaimed.
+        public static bool ClaimedByOtherFamily(Pawn baby, Pawn carer)
+        {
+            Map map = baby.MapHeld;
+            if (map == null)
+                return false;
+
+            List<Lord> lords = map.lordManager.lords;
+            for (int i = 0; i < lords.Count; i++)
+            {
+                Lord lord = lords[i];
+                if (!(lord.LordJob is LordJob_BTGShelterCivilians shelter) || !shelter.OwnsInfant(baby))
+                    continue;
+                if (lord == carer.GetLord())
+                    return false;
+                return AnyActiveWalker(lord);
+            }
+            return false;
+        }
+
+        // A walker that is alive, un-downed, and still on the map (aboard a launchable means
+        // despawned into its container - no longer able to care for anyone left behind).
+        private static bool AnyActiveWalker(Lord lord)
+        {
+            List<Pawn> owned = lord.ownedPawns;
+            for (int i = 0; i < owned.Count; i++)
+            {
+                Pawn p = owned[i];
+                if (p?.Dead == false && !p.Downed && p.Spawned)
+                    return true;
+            }
+            return false;
+        }
+
         // The transition triggers below are evaluated on every Tick signal (Lord.LordTick).
         // Neither condition needs sub-second latency - food exhaustion and launchable loss
         // both play out over many ticks - so we only run the actual checks every N ticks.
@@ -113,10 +163,12 @@ namespace BetterTradersGuild.LordJobs.Civilians
             LordToil_BTGDefend defend = new LordToil_BTGDefend(subroomCenter);
             graph.AddToil(defend);
 
-            // Every transition ends the walkers' in-progress jobs (and wakes sleepers) once the
-            // new toil's duties are assigned - think trees only re-evaluate when the current job
-            // ends, so without this a pawn mid-sleep or mid-meal carries its old phase's job deep
-            // into the new phase (vanilla pairs its lord transitions with these same actions).
+            // Every transition ends in-progress jobs (and wakes sleepers) once the new toil's
+            // duties are assigned - think trees only re-evaluate when the current job ends, so
+            // without this a pawn mid-sleep or mid-meal carries its old phase's job deep into
+            // the new phase (vanilla pairs its lord transitions with these same actions). The
+            // full-phase transitions end everyone's jobs; the defend edges end only the
+            // adult's, since children's duties don't change there (see the defend block).
             // Harm signals bypass the periodic gate: a walker taking external violence IS the
             // shelter failing, whatever the compromise scan thinks - covers e.g. being shot
             // through an open doorway by an attacker who never sets foot in the room.
@@ -164,6 +216,13 @@ namespace BetterTradersGuild.LordJobs.Civilians
             // later. ShouldDefend gates both signal paths on the same predicate, and its
             // mirror below is the exit condition, so the posture can't ping-pong: each check
             // interval has exactly one truth.
+            //
+            // Both defend edges end the ADULT's job only (not EndAllJobs like the other
+            // transitions): the adult's duty is the only one that changes - children keep
+            // BTG_EscapeWalker throughout - so a child mid-ferry keeps walking its baby to
+            // the craft. The harm-signal path also re-fires on every hit, which with
+            // EndAllJobs meant sustained fire could kill a carry job (far longer than one
+            // check interval) every ~60 ticks, so no ferry ever completed under attack.
             Transition toDefend = new Transition(escape, defend);
             toDefend.AddSource(stranded);
             toDefend.AddTrigger(new Trigger_Custom(signal =>
@@ -171,7 +230,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
                     || (signal.type == TriggerSignalType.Tick && DueForCheck()))
                 && ShouldDefend()));
             toDefend.AddPostAction(new TransitionAction_WakeAll());
-            toDefend.AddPostAction(new TransitionAction_EndAllJobs());
+            toDefend.AddPostAction(new TransitionAction_BTGEndAdultJobs());
             graph.AddTransition(toDefend);
 
             // Disengage the moment defense stops making sense: nobody targets the family
@@ -182,7 +241,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             Transition fromDefend = new Transition(defend, escape);
             fromDefend.AddTrigger(new Trigger_Custom(signal =>
                 signal.type == TriggerSignalType.Tick && DueForCheck() && !ShouldDefend()));
-            fromDefend.AddPostAction(new TransitionAction_EndAllJobs());
+            fromDefend.AddPostAction(new TransitionAction_BTGEndAdultJobs());
             graph.AddTransition(fromDefend);
 
             return graph;

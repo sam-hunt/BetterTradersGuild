@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -12,7 +13,9 @@ namespace BetterTradersGuild.AI.Civilians
     // bottle-feed job. No-op when the caretaker can't manipulate, no baby is hungry, or no
     // baby food is available (and for mechs, via ChildcareUtility's Humanlike gate). Used by
     // the shelter and stranded caretaker duties, and by the entrenched-defender duty so the
-    // garrison keeps the base's babies fed through a siege.
+    // garrison keeps the base's babies fed through a siege. A shelter family's own infants
+    // are exempt from everyone else's scan while the family can still care for them (see
+    // LordJob_BTGShelterCivilians.ClaimedByOtherFamily).
     public class JobGiver_BTGFeedBaby : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)
@@ -29,6 +32,11 @@ namespace BetterTradersGuild.AI.Civilians
                 if (baby == pawn)
                     continue;
                 if (!(baby.DevelopmentalStage.Baby() || baby.DevelopmentalStage.Newborn()))
+                    continue;
+                // A sheltering family's own infants are the family's job: a garrison feeder
+                // would carry one in its arms for the whole bottle-feed, despawning it from
+                // the escape walkers' carry scan right when they need to ferry it aboard.
+                if (LordJob_BTGShelterCivilians.ClaimedByOtherFamily(baby, pawn))
                     continue;
                 if (!ChildcareUtility.WantsSuckle(baby, out _))
                     continue;

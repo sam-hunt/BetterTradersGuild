@@ -34,6 +34,14 @@ namespace BetterTradersGuild.JobDrivers
             this.FailOn(() => Launchable?.Destroyed != false
                 || Launchable.TryGetComp<CompTransporter>() == null);
 
+            Toil gotoLaunchable = Toils_Goto.GotoThing(LaunchableIndex, PathEndMode.Touch)
+                .FailOnDestroyedOrNull(LaunchableIndex);
+
+            // The giver issues this job directly when the walker already holds the baby (an
+            // interrupted feed can leave one in the caretaker's arms); the baby is despawned
+            // in the carry tracker then, so the fetch leg below would insta-fail on it.
+            yield return Toils_Jump.JumpIf(gotoLaunchable, () => pawn.carryTracker?.CarriedThing == Baby);
+
             yield return Toils_Goto.GotoThing(BabyIndex, PathEndMode.ClosestTouch)
                 .FailOnDespawnedNullOrForbidden(BabyIndex);
 
@@ -51,8 +59,7 @@ namespace BetterTradersGuild.JobDrivers
             pickUp.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return pickUp;
 
-            yield return Toils_Goto.GotoThing(LaunchableIndex, PathEndMode.Touch)
-                .FailOnDestroyedOrNull(LaunchableIndex);
+            yield return gotoLaunchable;
 
             Toil load = ToilMaker.MakeToil("BTGLoadBabyIntoLaunchable");
             load.initAction = () =>

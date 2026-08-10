@@ -18,9 +18,10 @@
              the giver self-gates). -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGDefendParty" />
         <!-- 2-4. No reachable involved attacker: continue the escape (same chain as
-             BTG_EscapeWalker). A carried infant dropped when the defense interrupted a
-             ferry stays in the lord's remembered infant set wherever it lies, so the
-             carry giver's scan re-finds it. -->
+             BTG_EscapeWalker). Only the adult's job is ended entering Defend (children's
+             ferries continue uninterrupted); an infant the adult dropped to fight stays
+             in the lord's remembered infant set wherever it lies, so any walker's carry
+             scan re-finds it. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGCarryBabyToLaunchable" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGBoardLaunchable" />

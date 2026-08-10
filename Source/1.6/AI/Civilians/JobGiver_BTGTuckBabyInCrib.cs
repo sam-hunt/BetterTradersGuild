@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -14,7 +15,9 @@ namespace BetterTradersGuild.AI.Civilians
     // Only acts when a crib is free, so it never hauls a baby to a random floor spot; no-op
     // when the caretaker can't manipulate or can't haul the baby. Used by the shelter and
     // stranded caretaker duties, and by the entrenched-defender duty so the garrison keeps
-    // the base's babies tended through a siege.
+    // the base's babies tended through a siege. A shelter family's own infants are exempt
+    // from everyone else's scan while the family can still care for them (see
+    // LordJob_BTGShelterCivilians.ClaimedByOtherFamily).
     public class JobGiver_BTGTuckBabyInCrib : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)
@@ -34,6 +37,12 @@ namespace BetterTradersGuild.AI.Civilians
                     continue;
                 // Already resting in a bed/crib: leave it be.
                 if (baby.CurrentBed() != null)
+                    continue;
+                // A sheltering family's own infants are the family's job: a baby a walker
+                // set down mid-ferry (defend interruption, dropped carry) is about to be
+                // re-fetched by the escape - a garrison tucker grabbing it first would haul
+                // it back to a crib, fighting the evacuation baby-by-baby.
+                if (LordJob_BTGShelterCivilians.ClaimedByOtherFamily(baby, pawn))
                     continue;
                 if (!ChildcareUtility.CanHaulBabyNow(pawn, baby, ignoreOtherReservations: false, out _))
                     continue;
