@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey pt-BR TradersGuild is the template: "Guilda dos Mercadores", whose own
+       description calls its people "mercadores". Vanilla pt-BR FactionDef labels, pawn
+       nouns and leaderTitles are all Title Case. "Lider" is the neutral leaderTitle Core
+       and Odyssey pt-BR both use for a small crew (GravshipCrew.leaderTitle). -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>Mercadores Independentes</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>Um pequeno grupo de ex-membros da Guilda dos Mercadores, agora operando de forma independente.</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>Líder</BTG_IndependentTraders.leaderTitle>
+  <!-- Verbatim from every Odyssey pt-BR FactionDef.messageDefendersAttacking, including
+       its literal "(s)" number hedge on the injected label. -->
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>{0} de {1} estão atacando seu(s) {2}.</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>Mercador</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>Mercadores</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

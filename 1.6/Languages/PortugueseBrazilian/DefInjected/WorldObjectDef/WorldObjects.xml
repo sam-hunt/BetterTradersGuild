@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Lowercase, matching Odyssey pt-BR SpaceSettlement.label ("assentamento orbital") and
+       Core pt-BR Settlement.label ("assentamento"). Same wording as the SitePartDef of the
+       same name. -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDenSite.label>covil de contrabandistas</BTG_SmugglersDenSite.label>
+
+</LanguageData>

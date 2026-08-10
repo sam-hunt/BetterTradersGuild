@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Brazilian Portuguese: voce formality throughout (Core+Odyssey use voce decisively,
+       zero tu). ASCII straight double quotes for cited UI commands - vanilla pt-BR ships
+       202 ASCII " and essentially no curly ones. NO space before : ! ? (the exact opposite
+       of French). Zero em dashes and effectively zero en dashes tree-wide, so an English
+       dash is reflowed, never converted. Ellipsis and apostrophe are ASCII.
+       LanguageWorker_Portuguese overrides only WithDefiniteArticle/WithIndefiniteArticle -
+       it has no PostProcessed, so nothing contracts de/em/a with an article automatically.
+       No string here places one before an injected article'd symbol.
+       Units follow vanilla pt-BR per unit: % tight, W and h spaced, x tight, days spaced. -->
+
+  <!-- ========== FLOAT MENU OPTIONS ========== -->
+  <!-- "bloqueador de sinal" is Odyssey pt-BR SignalJammer.label. -->
+  <!-- EN: (requires signal jammer) -->
+  <BTG_RequiresSignalJammer>(requer bloqueador de sinal)</BTG_RequiresSignalJammer>
+  <!-- EN: requires signal jammer -->
+  <BTG_RequiresSignalJammerReason>requer bloqueador de sinal</BTG_RequiresSignalJammerReason>
+  <!-- Shaped from Core pt-BR CommandTradeFailNoNegotiator ("Nao ha nenhum negociador
+       consciente, nao quebrado."). -->
+  <!-- EN: No capable negotiator -->
+  <BTG_NoNegotiator>Nenhum negociador capaz</BTG_NoNegotiator>
+  <!-- EN: Hostile relations with {0} -->
+  <BTG_TraderFactionHostile>Relações hostis com {0}</BTG_TraderFactionHostile>
+
+  <!-- ========== ADOPT DESIGNATOR ========== -->
+  <!-- "Os seus" agrees with the people, not with the infant, so the string carries no
+       gender assumption about the pawn being adopted - pt-BR would otherwise need the
+       literal "(a)" hedge vanilla uses elsewhere. -->
+  <!-- EN: Their people are still protecting them. -->
+  <BTG_AdoptBlockedByGuardians>Os seus ainda montam guarda.</BTG_AdoptBlockedByGuardians>
+
+  <!-- ========== INSPECT STRINGS ========== -->
+  <!-- "atracada" is Odyssey pt-BR's own word for a docked ship (TheGravship.description). -->
+  <!-- EN: Docked vessel -->
+  <BTG_DockedVessel>Nave atracada</BTG_DockedVessel>
+  <!-- EN: {0}: {1} (departs in {2} days) -->
+  <BTG_DockedVesselDeparts>{0}: {1} (parte em {2} dias)</BTG_DockedVesselDeparts>
+
+  <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
+  <!-- EN: Trading -->
+  <BTG_Settings_Trading>Comércio</BTG_Settings_Trading>
+  <!-- EN: Misc -->
+  <BTG_Settings_Misc>Diversos</BTG_Settings_Misc>
+  <!-- EN: Map Generation -->
+  <BTG_Settings_MapGeneration>Geração de Mapa</BTG_Settings_MapGeneration>
+  <!-- EN: Defenders -->
+  <BTG_Settings_Defenders>Defensores</BTG_Settings_Defenders>
+  <!-- EN: Defender Resupply -->
+  <BTG_Settings_Resupply>Reabastecimento de Defensores</BTG_Settings_Resupply>
+  <!-- Shaped from Core pt-BR RestoreToDefaultSettings ("Restaurar Padroes"). -->
+  <!-- EN: Reset to defaults -->
+  <BTG_Settings_ResetToDefaults>Restaurar padrões</BTG_Settings_ResetToDefaults>
+
+  <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
+  <!-- EN: Trader rotation interval: {0} days -->
+  <BTG_Settings_TraderRotationInterval>Intervalo de rotação de comerciantes: {0} dias</BTG_Settings_TraderRotationInterval>
+  <!-- EN: (Vanilla) -->
+  <BTG_Settings_Vanilla>(Original)</BTG_Settings_Vanilla>
+  <!-- EN: (BTG Recommended) -->
+  <BTG_Settings_BTGRecommended>(Recomendado pelo BTG)</BTG_Settings_BTGRecommended>
+  <!-- "comerciantes orbitais" and "Guilda dos Mercadores" are both Odyssey pt-BR
+       TradersGuild vocabulary. -->
+  <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
+  <BTG_Settings_TraderRotationDesc1>Com que frequência os comerciantes orbitais mudam nos assentamentos da Guilda dos Mercadores.</BTG_Settings_TraderRotationDesc1>
+  <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
+  <BTG_Settings_TraderRotationDesc2>Valores menores = mais variedade, mas menos tempo para alcançar assentamentos distantes.</BTG_Settings_TraderRotationDesc2>
+
+  <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
+  <!-- EN: Use custom settlement map generator -->
+  <BTG_Settings_UseCustomLayouts>Usar gerador de mapa de assentamento personalizado</BTG_Settings_UseCustomLayouts>
+  <!-- EN:
+Generate TradersGuild settlements with less abandoned-looking aesthetics.
+Disable if using other map generation mods or prefer vanilla layouts.
+  -->
+  <BTG_Settings_UseCustomLayoutsDesc>Gera os assentamentos da Guilda dos Mercadores com uma estética menos abandonada.\nDesative se você usa outros mods de geração de mapa ou prefere os layouts originais.</BTG_Settings_UseCustomLayoutsDesc>
+
+  <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
+  <!-- "cofre" is Odyssey pt-BR AncientSafe.label and "alcapao" its AncientHatch word.
+       "hangar de onibus espaciais" is mod-coined: vanilla pt-BR has no word for a shuttle
+       bay, but "onibus espacial" is its own word for a shuttle (Core Shuttle.description). -->
+  <!-- EN: Enable cargo vault access -->
+  <BTG_Settings_EnableCargoVault>Ativar acesso ao cofre de carga</BTG_Settings_EnableCargoVault>
+  <!-- EN:
+When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.
+When disabled, cargo vaults spawn sealed and inaccessible.
+Only affects newly generated settlements.
+  -->
+  <BTG_Settings_EnableCargoVaultDesc>Quando ativado, os alçapões dos cofres de carga nos hangares de ônibus espaciais podem ser hackeados para acessar o inventário comercial.\nQuando desativado, os cofres de carga aparecem selados e inacessíveis.\nAfeta apenas os assentamentos gerados a partir de então.</BTG_Settings_EnableCargoVaultDesc>
+
+  <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
+  <!-- "drone sentinela" is Odyssey pt-BR Drone_Sentry.label. -->
+  <!-- EN: Additional sentry drone presence: {0}% -->
+  <BTG_Settings_SentryDronePresence>Presença adicional de drones sentinelas: {0}%</BTG_Settings_SentryDronePresence>
+  <!-- EN: Factor of threat points used for additional patrolling sentry drones. -->
+  <BTG_Settings_SentryDroneDesc>Fração dos pontos de ameaça usada para drones sentinelas adicionais em patrulha.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
+  <!-- EN: Entrenched defender AI -->
+  <BTG_Settings_EntrenchedDefenders>IA de defensores entrincheirados</BTG_Settings_EntrenchedDefenders>
+  <!-- EN:
+Defenders hold the settlement structure and never assault or chase intruders into vacuum, foraging and resting inside their base.
+Disable to revert to vanilla defender AI (defends the base, then assaults).
+Decided when a settlement is entered; only affects settlements entered afterwards.
+  -->
+  <BTG_Settings_EntrenchedDefendersDesc>Os defensores mantêm a estrutura do assentamento e nunca partem para o ataque nem perseguem invasores no vácuo, alimentando-se e descansando dentro da base.\nDesative para voltar à IA de defensores original (defende a base e depois parte para o ataque).\nDefinido ao entrar em um assentamento. Afeta apenas os assentamentos visitados a partir de então.</BTG_Settings_EntrenchedDefendersDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
+  <!-- EN: Scale defenders to colony threat level -->
+  <BTG_Settings_ScaleDefenders>Ajustar defensores ao nível de ameaça da colônia</BTG_Settings_ScaleDefenders>
+  <!-- EN:
+Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).
+Vanilla gives every settlement a similar fixed-strength garrison regardless of your progress.
+  -->
+  <BTG_Settings_ScaleDefendersDesc>A força inicial dos defensores acompanha a riqueza e a dificuldade da sua colônia, como acontece com as invasões (nunca abaixo do patamar original).\nO jogo original dá a cada assentamento uma guarnição de força fixa semelhante, independentemente do seu progresso.</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Defender threat points multiplier: {0}x -->
+  <BTG_Settings_ThreatMultiplier>Multiplicador de pontos de ameaça dos defensores: {0}x</BTG_Settings_ThreatMultiplier>
+  <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
+  <BTG_Settings_ThreatMultiplierDesc>Valores maiores = defensores iniciais mais numerosos ou mais fortes ao entrar em assentamentos.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: Minimum defender threat points: {0} -->
+  <BTG_Settings_MinThreatPoints>Pontos de ameaça mínimos dos defensores: {0}</BTG_Settings_MinThreatPoints>
+  <!-- EN:
+Prevents initial defender strength from scaling below this value at low wealth.
+Also floors the threat level used to size the sentry drone patrol.
+  -->
+  <BTG_Settings_MinThreatPointsDesc>Impede que a força inicial dos defensores caia abaixo deste valor quando a riqueza é baixa.\nTambém define o piso do nível de ameaça usado para dimensionar a patrulha de drones sentinelas.</BTG_Settings_MinThreatPointsDesc>
+
+  <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
+  <!-- "unidade de suporte de vida" is Odyssey pt-BR LifeSupportUnit.label. -->
+  <!-- EN: LifeSupportUnit power output: {0}W -->
+  <BTG_Settings_LifeSupportPower>Produção de energia da unidade de suporte de vida: {0} W</BTG_Settings_LifeSupportPower>
+  <!-- EN: Power output from orbital LifeSupportUnits. -->
+  <BTG_Settings_LifeSupportDesc>Produção de energia das unidades de suporte de vida orbitais.</BTG_Settings_LifeSupportDesc>
+
+  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
+  <!-- "salteadores" is Odyssey pt-BR Salvagers.label; "invasao" is Core pt-BR Raid.
+       "TG maps" is spelled out as "mapas da guilda" - a Portuguese initialism would be
+       opaque. -->
+  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
+  <BTG_Settings_SalvagersRaidWeight>Peso das invasões de salteadores nos mapas da guilda: {0}x</BTG_Settings_SalvagersRaidWeight>
+  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
+  <BTG_Settings_SalvagersRaidWeightDesc>Ao assaltar assentamentos da Guilda dos Mercadores, as invasões de salteadores se tornam mais prováveis.</BTG_Settings_SalvagersRaidWeightDesc>
+
+  <!-- ========== MOD SETTINGS: MOD NAME ========== -->
+  <!-- Left as the Latin brand name, as in every other language. -->
+  <!-- EN: Better Traders Guild -->
+  <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName>
+
+  <!-- ========== DEFENDER RESUPPLY ========== -->
+  <!-- EN: The garrison's distress call has drawn a response. -->
+  <BTG_ResupplyDropArrived>O pedido de socorro da guarnição foi atendido.</BTG_ResupplyDropArrived>
+
+  <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
+  <!-- "refeicao de sobrevivencia embalada" is Core pt-BR MealSurvivalPack.label,
+       "console de comunicacao" its CommsConsole.label, "capsulas de carga" its
+       LetterLabelCargoPodCrash. -->
+  <!-- EN: Enable resupply meals -->
+  <BTG_Settings_EnableResupply>Ativar refeições de reabastecimento</BTG_Settings_EnableResupply>
+  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
+  <BTG_Settings_EnableResupplyDesc>Quando os defensores famintos tiverem esgotado toda a comida do assentamento, permitir que usem um console de comunicação para chamar uma cápsula de carga com refeições de sobrevivência.</BTG_Settings_EnableResupplyDesc>
+  <!-- EN: Resupply meals per defender: {0} -->
+  <BTG_Settings_ResupplyMealsPerDefender>Refeições de reabastecimento por defensor: {0}</BTG_Settings_ResupplyMealsPerDefender>
+  <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>Refeições de sobrevivência lançadas por defensor sobrevivente a cada vez que uma guarnição faminta pede reabastecimento.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- EN: Resupply cooldown: {0}h -->
+  <BTG_Settings_ResupplyCooldown>Intervalo entre reabastecimentos: {0} h</BTG_Settings_ResupplyCooldown>
+  <!-- EN: Minimum time between resupply drops at a single settlement. -->
+  <BTG_Settings_ResupplyCooldownDesc>Tempo mínimo entre lançamentos de reabastecimento em um mesmo assentamento.</BTG_Settings_ResupplyCooldownDesc>
+  <!-- "reforcos" is Core pt-BR MessageMechanoidsReinforcementsDrop. -->
+  <!-- EN: Call in reinforcements -->
+  <BTG_Settings_ResupplyTriggersRaid>Chamar reforços</BTG_Settings_ResupplyTriggersRaid>
+  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>Quando um pedido de reabastecimento é atendido, também convoca uma invasão de reforços do assentamento em cápsulas de transporte para caçar seus personagens. Eles chegam como uma invasão normal, e não como defensores confinados. Há uma pequena chance de caírem bem em cima dos seus personagens, em um grupo menor. Só ocorre enquanto o assentamento estiver hostil.</BTG_Settings_ResupplyTriggersRaidDesc>
+
+  <!-- ========== CARGO VAULT HATCH ========== -->
+  <!-- EN: Relock cargo vault -->
+  <BTG_CargoVaultHatch_RelockLabel>Trancar cofre de carga novamente</BTG_CargoVaultHatch_RelockLabel>
+  <!-- EN: Relock the cargo vault. Contents will be returned to station inventory. -->
+  <BTG_CargoVaultHatch_RelockDesc>Tranca o cofre de carga novamente. O conteúdo será devolvido ao inventário da estação.</BTG_CargoVaultHatch_RelockDesc>
+
+  <!-- ========== SMUGGLER'S DEN QUEST ========== -->
+  <!-- EN: Cargo claim: {0} -->
+  <BTG_Reward_CargoClaim>Direito sobre a carga: {0}</BTG_Reward_CargoClaim>
+  <!-- EN: Cargo claim: unknown manifest -->
+  <BTG_Reward_CargoClaim_Unknown>Direito sobre a carga: manifesto desconhecido</BTG_Reward_CargoClaim_Unknown>
+
+  <!-- ========== ONE-TIME FIX NOTIFICATIONS ========== -->
+  <!-- EN: {0}: Update -->
+  <BTG_EmpireRelationFix_DialogTitle>{0}: atualização</BTG_EmpireRelationFix_DialogTitle>
+  <!-- Every colorized argument is preceded either by no preposition or by one that never
+       contracts in Portuguese (com, como, de + a bare "{N}" with no article), so no faction
+       or mod name can produce the "de o" that LanguageWorker_Portuguese would not fix. -->
+  <!-- EN:
+A bug in a previous version of {2} caused {0} to be permanently hostile when playing as {1}.
+
+This has been corrected.
+
+Would you like to reset your relations with {0} to neutral, or remain hostile for now?
+  -->
+  <BTG_EmpireRelationFix_DialogBody>Um bug em uma versão anterior de {2} fazia com que {0} ficasse permanentemente hostil ao jogar como {1}.\n\nIsso foi corrigido.\n\nVocê gostaria de redefinir suas relações com {0} para neutras ou permanecer hostil por enquanto?</BTG_EmpireRelationFix_DialogBody>
+  <!-- EN: Reset to neutral -->
+  <BTG_EmpireRelationFix_Neutral>Restaurar a neutralidade</BTG_EmpireRelationFix_Neutral>
+  <!-- EN: Remain hostile for now -->
+  <BTG_EmpireRelationFix_LeaveHostile>Permanecer hostil por enquanto</BTG_EmpireRelationFix_LeaveHostile>
+
+  <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
+  <!-- Odyssey pt-BR's TheGravship GameStartDialog is the direct template: the gravlite
+       sentence, the launch sentence and the "exibir planeta" sentence are verbatim, ASCII
+       double quotes and all. -->
+  <!-- EN:
+Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.
+
+To launch the gravship, select the pilot console, then select the launch command.
+
+On the world map, select 'view planet' to choose a landing spot on the planet.
+
+The Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.
+  -->
+  <BTG_GameStartDialog_ExiledTraders>Seu transponder da guilda está morto, e a mecholmeia rastreia seu sinal. Suas aterrorizantes máquinas assassinas chegarão em breve. Recolha os valiosos painéis de gravilita e então use sua gravinave para fugir para um local seguro no planeta abaixo.\n\nPara lançar a gravinave, selecione o console do piloto e depois comande o lançamento.\n\nNo mapa-múndi, selecione "exibir planeta" para escolher um local de pouso no planeta.\n\nA Guilda não vai ajudar você e, onde quer que você vá, os mecanoides eventualmente irão encontrá-lo. Para pará-los, você deverá encontrar e derrotar a própria mecholmeia.</BTG_GameStartDialog_ExiledTraders>
+  <!-- The two English hyphen-dashes are reflowed into ":" and "," rather than converted:
+       vanilla pt-BR ships zero em dashes and effectively zero en dashes tree-wide. -->
+  <!-- EN:
+The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.
+
+Your shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.
+  -->
+  <BTG_GameStartDialog_IndependentTraders>A frequência comercial emite seu adeus enquanto seu ônibus espacial deixa o anel orbital. Anos de viagens para a guilda, margens divididas e docas de atracação lotadas: tudo isso ficou para trás. Sem ressentimentos. Apenas planos maiores.\n\nSeu ônibus espacial ruma para terras selvagens não reclamadas, mas só a prata não vai mantê-lo vivo aqui fora. A guilda ainda negociará com velhos amigos, mas primeiro você precisa de um lar.</BTG_GameStartDialog_IndependentTraders>
+
+</LanguageData>

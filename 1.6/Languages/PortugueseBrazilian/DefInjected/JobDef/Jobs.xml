@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- reportStrings are gerund phrases and KEEP the trailing period in vanilla pt-BR (like
+       de/es/fr, unlike ru/ko which drop it). BTG's NPC-safe BTG_* copies reuse the Core and
+       Odyssey pt-BR strings 1:1 where one exists: Clean, Hack, Rescue, Open,
+       EnterTransporter.
+       Two deliberate departures, both flagged for native review:
+       - TendPatient: Core pt-BR ships "Cuidando de TargetA." with a stray mid-string
+         capital that no other reportString has; lowercased here.
+       - FeedPatient: Core pt-BR ships "levando TargetA para TargetB." ("carrying"), which
+         does not translate "feeding TargetA to TargetB"; the accurate phrasing is used
+         instead of mirroring the vanilla slip. -->
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>entrando em TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>pedindo reabastecimento.</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>levando TargetA para um lugar seguro.</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>levando TargetA para a enfermaria.</BTG_CarryToMedbayFloor.reportString>
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>limpando TargetA.</BTG_Clean.reportString>
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>alimentando TargetB com TargetA.</BTG_FeedPatient.reportString>
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>hackeando TargetA.</BTG_Hack.reportString>
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>abrindo TargetA.</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>reabrindo TargetA.</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>trancando novamente o alçapão do cofre de carga.</BTG_Relock.reportString>
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>resgatando TargetA.</BTG_Rescue.reportString>
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>cuidando de TargetA.</BTG_TendPatient.reportString>
+
+</LanguageData>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Odyssey pt-BR AncientHatch / AncientHatchExit are the direct templates: "alcapao" is
+       its word for a hatch, "Hackear para abrir." the shape of the not-hacked string, and
+       "cofre" its AncientSafe word for a safe. ThingDef labels here are lowercase, like
+       AncientHatch.label itself.
+       hackedMessage makes {SUBJECT_labelNoParenthesisDef} a plain direct object, as vanilla
+       does - the English "security on X" would put "de" before an injected article'd
+       symbol, and LanguageWorker_Portuguese supplies no contraction at all, so "de o cofre"
+       would ship literally. -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>alçapão seguro do cofre de carga</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>Um alçapão reforçado que leva ao cofre de carga seguro da estação. O cofre abaixo contém mercadorias de alto valor sob segurança automatizada. Hackeie o painel de acesso para burlar a tranca.</BTG_CargoVaultHatch.description>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort} burlou a segurança e abriu {SUBJECT_labelNoParenthesisDef}.</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>Hackear para burlar a tranca de segurança.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>alçapão selado do cofre de carga</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>Um alçapão reforçado que leva ao cofre de carga seguro da estação. Ele foi selado de forma exagerada para impedir o acesso de invasores.</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>saída do cofre de carga</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>Uma escada e um alçapão seguros que dão acesso de volta ao hangar de ônibus espaciais da estação, acima.</BTG_CargoVaultExit.description>
+
+</LanguageData>

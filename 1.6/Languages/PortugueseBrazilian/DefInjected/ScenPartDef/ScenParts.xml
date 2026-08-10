@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- ScenPart labels are Title Case noun phrases in vanilla pt-BR ("Pessoas Iniciais",
+       "Metodo de Chegada", "Mapa Forcado"). "Boa Vontade" is Core pt-BR Goodwill;
+       "Onibus Espacial" is its own word for a shuttle (Core Shuttle.description,
+       Odyssey Shuttles.label). -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>Boa Vontade de Facção</BTG_FactionGoodwill.label>
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>Chegada de Ônibus Espacial</BTG_PlayerPawnsArriveShuttle.label>
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>Cor de Vestimenta Inicial</BTG_StartingApparelColor.label>
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>Arma Única Inicial</BTG_StartingUniqueWeapon.label>
+
+</LanguageData>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla pt-BR ColorDef labels are lowercase bare adjectives/nouns; "prateado"
+       mirrors Odyssey pt-BR UniqueWeapon_Gold.label ("dourado") and UniqueWeapon_Gray.label
+       ("cinza"), the same family BTG's silver joins. -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>aço orbital</BTG_OrbitalSteel.label>
+  <!-- EN: rust -->
+  <BTG_Rust.label>ferrugem</BTG_Rust.label>
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>prateado</BTG_UniqueWeapon_Silver.label>
+
+</LanguageData>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Core pt-BR SitePartDef labels are lowercase ("posto avancado", "acampamento de
+       bandidos"), so this matches its WorldObjectDef twin. The approach strings are
+       verbatim Core pt-BR Outpost. Paragraph 2 of the description is verbatim Odyssey
+       pt-BR SpaceSettlement.description paragraph 2. -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>covil de contrabandistas</BTG_SmugglersDen.label>
+  <!-- EN:
+An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer.
+  -->
+  <BTG_SmugglersDen.description>Uma plataforma orbital tomada pelos salteadores, usada como centro de contrabando e posto avançado do mercado negro.\n\nEssas plataformas possuem sistemas automáticos de armas de longo alcance capazes de destruir naves que se aproximam. Só podem ser abordadas com segurança por uma gravinave com um bloqueador de sinal.</BTG_SmugglersDen.description>
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>Ataque {0}</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>Atacando {0}.</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

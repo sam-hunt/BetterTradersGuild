@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla pt-BR PawnKindDef labels are Title Case (Odyssey TradersGuild_Citizen =
+       "Cidadao da Guilda"). -->
+  <!-- EN: independent trader -->
+  <BTG_IndependentTrader.label>Mercador Independente</BTG_IndependentTrader.label>
+
+</LanguageData>

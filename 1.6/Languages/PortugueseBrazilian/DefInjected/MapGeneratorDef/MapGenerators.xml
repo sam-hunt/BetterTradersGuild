@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla pt-BR MapGeneratorDef labels are Title Case. "Plataforma de Assentamento" is
+       verbatim Odyssey pt-BR SettlementPlatform.label - the same MapGeneratorDef slot with
+       the same English source. "Covil" follows Odyssey pt-BR InsectLair.label
+       ("Covil de Insetos"). -->
+  <!-- EN: cargo vault -->
+  <BTG_CargoVaultMapGenerator.label>Cofre de Carga</BTG_CargoVaultMapGenerator.label>
+  <!-- EN: settlement platform -->
+  <BTG_SettlementMapGenerator.label>Plataforma de Assentamento</BTG_SettlementMapGenerator.label>
+  <!-- EN: smuggler's den platform -->
+  <BTG_SmugglersDenMapGenerator.label>Plataforma de Covil de Contrabandistas</BTG_SmugglersDenMapGenerator.label>
+
+</LanguageData>
