@@ -3,12 +3,9 @@ TODOs
 - AI defense lords
   - Civilian AI
     - Test no escape route
-    - Test shelter escape on external door hack / vacuum breach (new triggers)
-    - Test shelter-scoped baby carrying (walkers ignore crew quarters infants)
-    - Test caretaker's UMW knife upgrade
+
   - Defender AI
     - If shuttle pad is free and at least one outer door hacked, reinforcements land in shuttle?
-    - Test defender weapon recovery
     - Test defender duty recovery after base destroyed with/without escape route (do they leave infants behind?)
 
 - VGE2 integration
