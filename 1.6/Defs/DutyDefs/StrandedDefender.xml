@@ -34,10 +34,10 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGRestInStructure">
           <minRestCategory>Tired</minRestCategory>
         </li>
-        <!-- Idle: wander near the focus point. -->
-        <li Class="JobGiver_WanderNearDutyLocation">
-          <wanderRadius>12</wanderRadius>
-        </li>
+        <!-- Idle: aimless structure-wide wandering. Defeated survivors drift apart and
+             roam the halls instead of regrouping at the old defense point - a garrison
+             loitering on its rally point reads as still holding it. -->
+        <li Class="BetterTradersGuild.AI.JobGiver_BTGWanderInStructure" />
       </subNodes>
     </thinkNode>
   </DutyDef>
