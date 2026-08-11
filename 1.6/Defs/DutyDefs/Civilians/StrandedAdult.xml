@@ -9,6 +9,8 @@
   -->
   <DutyDef>
     <defName>BTG_StrandedAdult</defName>
+    <!-- Never an auto-target (see BTG_ShelterAdult for the full rationale). -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- Still a caretaker: keep babies tucked and fed first. -->

@@ -12,6 +12,15 @@
   -->
   <DutyDef>
     <defName>BTG_ShelterAdult</defName>
+    <!-- Non-combatants are never AUTO-targets: Pawn.ThreatDisabled honors this flag, so
+         player turrets and hostility-response colonists won't open fire on the family on
+         their own - attacking them stays a deliberate act (they remain faction-hostile
+         and manually attackable while the garrison stands). Also makes vanilla's defeat
+         test (IsDefeated -> IsActiveThreatToPlayer) ignore the family deterministically,
+         instead of only while they happen to be asleep or already aboard. Set on every
+         civilian duty except BTG_DefendWalker (an actively fighting adult is a
+         legitimate target). -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- 1. Put any loose/downed baby back into the nearest free crib. -->

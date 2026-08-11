@@ -12,6 +12,9 @@
   -->
   <DutyDef>
     <defName>BTG_DefendWalker</defName>
+    <!-- Deliberately NO threatDisabled here, unlike every other civilian duty: while
+         covering the family's retreat the adult is an active combatant, so turrets and
+         hostility-response colonists may legitimately engage. -->
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- 1. Melee the nearest pawn actively targeting a family member (adults only;

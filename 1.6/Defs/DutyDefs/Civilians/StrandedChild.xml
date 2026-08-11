@@ -10,6 +10,8 @@
   -->
   <DutyDef>
     <defName>BTG_StrandedChild</defName>
+    <!-- Never an auto-target (see BTG_ShelterAdult for the full rationale). -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- Backup baby care: normally the caretaker claims these first (reservations

@@ -14,6 +14,11 @@
 
   <DutyDef>
     <defName>BTG_StrandedDefender</defName>
+    <!-- Never an auto-target (see BTG_ShelterAdult for the full rationale). Load-bearing
+         here: post-defeat survivors stay guild-flagged (hostile-red), so this flag is the
+         only thing keeping turrets and hostility-response colonists off pawns the defeat
+         letter just promised were no longer a threat. -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- Infants first: re-crib, then bottle-feed. -->

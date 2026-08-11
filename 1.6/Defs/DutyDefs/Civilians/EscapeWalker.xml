@@ -8,6 +8,10 @@
   -->
   <DutyDef>
     <defName>BTG_EscapeWalker</defName>
+    <!-- Never an auto-target (see BTG_ShelterAdult for the full rationale). Also worn by
+         post-defeat defenders ferrying infants (the defender lord reuses the escape
+         toil), where it is what keeps the still-guild-flagged ferry from being shot. -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- 1. Open the way out: hack the locked subroom blast door. Adults only (the giver
