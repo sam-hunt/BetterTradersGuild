@@ -74,9 +74,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3. Spawn landing pad prefab using PrefabUtility API
                 SpawnLandingPadPrefab(map, placement);
 
-                // 3a. Normalize the shuttle to always face west (the prefab machinery
+                // 3a. Normalize the shuttle to always face east (the prefab machinery
                 //     rotates contained things along with the pad placement)
-                EnsureShuttleFacesWest(map);
+                EnsureShuttleFacesEast(map);
 
                 // 3b. Paint the PassengerShuttle to match the owning faction's color
                 PaintShuttleInLandingPad(map, faction);
@@ -183,19 +183,19 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         }
 
         // The prefab machinery spawns the shuttle rotated along with the pad placement,
-        // but the shuttle should always face west. Respawns it in place facing west.
+        // but the shuttle should always face east. Respawns it in place facing east.
         //
         // Safe for the 3x5 shuttle's rotated footprint: the prefab positions it at the
-        // center of the pad's 7x7 interior, so the west-facing 5x3 footprint keeps at
+        // center of the pad's 7x7 interior, so the east-facing 5x3 footprint keeps at
         // least one cell of clearance from the pad walls under every prefab rotation.
-        private void EnsureShuttleFacesWest(Map map)
+        private void EnsureShuttleFacesEast(Map map)
         {
             Building shuttle = FindShuttleInLandingPad(map);
-            if (shuttle == null || shuttle.Rotation == Rot4.West) return;
+            if (shuttle == null || shuttle.Rotation == Rot4.East) return;
 
             IntVec3 center = shuttle.Position;
             shuttle.DeSpawn();
-            GenSpawn.Spawn(shuttle, center, map, Rot4.West);
+            GenSpawn.Spawn(shuttle, center, map, Rot4.East);
         }
 
         // Paints the shuttle in the landing pad area to match the owning faction's color:
