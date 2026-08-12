@@ -10,12 +10,23 @@
   -->
 
   <!-- A walker carries one infant/baby and loads it into a launchable's transporter
-       container. TargetA = baby (carried), TargetB = launchable. -->
+       container. TargetA = baby (carried), TargetB = launchable.
+
+       Both carry flags below make the ferried baby sticky in the walker's arms:
+       Pawn_JobTracker drops the carried thing on job START unless dropThingBeforeJob is
+       false (so re-issuing this job for a baby already in arms would drop and re-fetch
+       it), and on job END unless carryThingAfterJob is true (so every forced interrupt,
+       e.g. the defend/stranded transition job-enders, would dump the baby on the floor
+       mid-ferry). With both set, an interrupted ferry resumes seamlessly through
+       JobGiver_BTGCarryBabyToLaunchable's carried-baby branch; the paired in-arms branch
+       in JobGiver_BTGTuckBabyInCrib covers the phases with no ferry to resume. -->
   <JobDef>
     <defName>BTG_CarryBabyToLaunchable</defName>
     <driverClass>BetterTradersGuild.JobDrivers.JobDriver_BTGCarryBabyToLaunchable</driverClass>
     <reportString>carrying TargetA to safety.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <dropThingBeforeJob>false</dropThingBeforeJob>
+    <carryThingAfterJob>true</carryThingAfterJob>
   </JobDef>
 
   <!-- A walker boards a launchable, entering its transporter container.

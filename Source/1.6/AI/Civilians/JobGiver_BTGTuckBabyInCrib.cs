@@ -25,6 +25,26 @@ namespace BetterTradersGuild.AI.Civilians
             if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
                 return null;
 
+            // Already holding a baby (an interrupted feed's finalizer, or a ferry ended by
+            // the escape -> stranded transition, leaves one in arms now that the carry job
+            // sets carryThingAfterJob): put THAT baby somewhere safe first. A carried pawn
+            // is despawned, so the spawned-faction scan below can never see it, and no
+            // other giver's scan can either - without this branch the baby would ride in
+            // the carer's arms indefinitely, unfed and untended. No ClaimedByOtherFamily
+            // or free-crib gate here: whoever ends up holding a baby must set it down
+            // somewhere sensible, and the bring-to-safety driver (which skips its pickup
+            // leg when already carrying) falls back to a safe floor spot when no crib is
+            // valid - back in view of the feed/tuck/ferry scans either way.
+            // CanSuckle mirrors the bring-to-safety driver's own fail condition: a baby
+            // that died in the carer's arms would insta-fail the job, and this giver
+            // would re-issue it every think tick.
+            if (pawn.carryTracker?.CarriedThing is Pawn carriedBaby
+                && (carriedBaby.DevelopmentalStage.Baby() || carriedBaby.DevelopmentalStage.Newborn())
+                && ChildcareUtility.CanSuckle(carriedBaby, out _))
+            {
+                return ChildcareUtility.MakeBringBabyToSafetyJob(pawn, carriedBaby);
+            }
+
             Pawn best = null;
             float bestDistSq = float.MaxValue;
             List<Pawn> facPawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
