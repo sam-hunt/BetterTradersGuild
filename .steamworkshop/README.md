@@ -14,6 +14,13 @@ machine-assisted first passes pending native review. Format:
 - Line 2: blank
 - Rest: the BBCode description
 
+Title convention: just as the English title leans on vanilla vocabulary
+("Traders Guild") so players searching for the faction find the mod, every
+localized title must contain that language's vanilla-localized Traders Guild
+term (Händlergilde, гильдия торговцев, 商会, ...) alongside the English
+brand. Steam searches the localized title for users on that language, so
+this is what makes the mod discoverable to non-English players.
+
 Steam has no API for per-language Workshop text, so updated files are pasted
 manually into the Workshop page's edit UI (note Steam's own language names
 differ: schinese, koreana, brazilian, latam, ...). The `release` skill diffs
