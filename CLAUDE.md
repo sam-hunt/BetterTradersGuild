@@ -134,6 +134,8 @@ English is the source of truth: `1.6/Languages/English/Keyed/BTG.xml` (`BTG_` pr
 
 - **Optional-mod content:** MayRequire is honored on defs and patch nodes but IGNORED on DefInjected entries, so content whose strings depend on an optional mod or DLC ships from a LoadFolders-gated compat root (`1.6/Mods/<Name>/` with its own `Defs`/`Languages` inside; currently `UniqueMeleeWeapons` for the silver-inlay melee trait and `Biotech` for the xenotype ScenPart). Compat roots must sit beside the well-known folders, never inside one — anything under `1.6/Defs/**` or `1.6/Languages/**` loads unconditionally at any depth.
 
+- **Workshop title coupling:** each language's `BTG_Settings_ModName` Keyed value is the localized Steam Workshop title and must equal the title line (line 1) of `.steamworkshop/Description/<Language>.txt` — always change the two together (English keeps `Better Traders Guild` in both).
+
 - **Checker:** `python3 Scripts/check-translations.py --strict` validates key parity, placeholders, DefInjected legality and load-root placement, staleness (EN comments), and file hygiene. CI's release gate runs it non-strict.
 - **Sidecar:** `Scripts/expected-injections.json` is the authority for legal DefInjected keys. Regenerate with `python3 Scripts/refresh-translation-expectations.py` — it boots RimWorld (game must be closed) with a pinned mod list via the L10nProbe dev mod, then restores `ModsConfig.xml`.
 - **Probe DLC set:** the probe boots with Biotech and Odyssey active (`CANONICAL_ACTIVE_MODS` in the refresh script); the checker's `REQUIRED_DLCS` rejects a sidecar generated without either, since gated defs would drop out of the dump and their shipped translations would turn illegal.

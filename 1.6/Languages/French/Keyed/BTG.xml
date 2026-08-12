@@ -132,7 +132,7 @@ Also floors the threat level used to size the sentry drone patrol.
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Left as the Latin brand name, as in every other language. -->
   <!-- EN: Better Traders Guild -->
-  <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName>
+  <BTG_Settings_ModName>Guilde des commerçants améliorée</BTG_Settings_ModName>
 
   <!-- ========== DEFENDER RESUPPLY ========== -->
   <!-- EN: The garrison's distress call has drawn a response. -->

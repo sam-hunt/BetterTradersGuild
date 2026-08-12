@@ -327,8 +327,9 @@ Mod-decided (no vanilla source — the rows most in need of native review):
 **orbital steel / rust** орбитальная сталь / ржавый, **independent traders**
 независимые торговцы, **Exiled Traders** Торговцы-изгнанники, **cargo claim**
 право на груз, **medbay** медотсек, **docked vessel** пришвартованное судно,
-**(Vanilla)** (как в оригинале). `BTG_Settings_ModName` is deliberately left
-as the Latin brand `Better Traders Guild`.
+**(Vanilla)** (как в оригинале). `BTG_Settings_ModName` is the localized Workshop title
+`Улучшенная гильдия торговцев` and must stay in sync with the title line of
+`.steamworkshop/Description/Russian.txt` (see the CLAUDE.md localization note).
 
 `traitAdjectives` are **masculine nominative singular adjectives** in vanilla
 ru (Odyssey `GoldInlay`: золотой, золоченый) — Russian cannot agree with an
@@ -467,8 +468,9 @@ points** 脅威ポイント, **orbital steel / rust** 軌道スチール色 / �
 **entrenched defender AI** 籠城型の防衛AI, **resupply** 補給, **fencing stolen
 cargo** 積荷の横流し (vanilla ja's own phrase, Core BackstoryDef). "TG maps" is
 spelled out as **ギルドのマップ** — a Japanese initialism would be opaque.
-`BTG_Settings_ModName` is deliberately left as the Latin brand `Better Traders
-Guild`.
+`BTG_Settings_ModName` is the localized Workshop title
+`商人ギルド拡張MOD` and must stay in sync with the title line of
+`.steamworkshop/Description/Japanese.txt` (see the CLAUDE.md localization note).
 
 **`traitAdjectives` must be ATTRIBUTIVE forms that read as a prefix on an
 unknown weapon noun** — vanilla ja's `GoldInlay` uses 金の / 黄金の, i.e.
@@ -559,8 +561,9 @@ Mod-decided (no vanilla source — the rows most in need of native review):
 **shuttle bay** 穿梭机库, **smuggler's den** 走私巢穴, **threat points**
 威胁点数, **orbital steel / rust** 轨道钢 / 锈色, **independent traders**
 独立商人, **Exiled Traders** 流放商人, **cargo claim** 货物提取权.
-`BTG_Settings_ModName` is deliberately left as the Latin brand `Better
-Traders Guild` (it is also injected into the Empire-fix dialog as a
+`BTG_Settings_ModName` is the localized Workshop title
+`强化商会` and must stay in sync with the title line of
+`.steamworkshop/Description/ChineseSimplified.txt` (see the CLAUDE.md localization note) (it is also injected into the Empire-fix dialog as a
 colorized mod name).
 
 `traitAdjectives` must be **bare attributive words** that read as a prefix on
@@ -689,8 +692,9 @@ Mod-decided (no vanilla source — the rows most in need of native review):
 **Exiled Traders** 추방된 상인, **cargo claim** 화물 인수권, **medbay** 의무실,
 **docked vessel** 정박 중인 선박, **docking bays** 정박 구역, **(Vanilla)**
 (기본값), **entrenched defender AI** 농성형 방어군 AI, **garrison** 수비대.
-`BTG_Settings_ModName` is deliberately left as the Latin brand `Better Traders
-Guild`.
+`BTG_Settings_ModName` is the localized Workshop title
+`교역 조합 확장판` and must stay in sync with the title line of
+`.steamworkshop/Description/Korean.txt` (see the CLAUDE.md localization note).
 
 `traitAdjectives` are **bare attributive words prefixed onto an unknown weapon
 noun** (Odyssey `GoldInlay`: 황금, 금빛) — never a `-의`/`-한` phrase that would
@@ -858,8 +862,9 @@ Krankenstation, **docked vessel** Angedocktes Schiff, **docking bays**
 Andockbuchten, **(Vanilla)** (wie im Original), **entrenched defender AI**
 Verschanzte Verteidiger-KI, **garrison** Garnison, **resupply** Nachschub.
 "TG maps" is spelled out as **Gildenkarten** — a German initialism would be
-opaque. `BTG_Settings_ModName` is deliberately left as the Latin brand
-`Better Traders Guild`.
+opaque. `BTG_Settings_ModName` is the localized Workshop title
+`Bessere Händlergilde` and must stay in sync with the title line of
+`.steamworkshop/Description/German.txt` (see the CLAUDE.md localization note).
 
 `traitAdjectives` are **bare attributive adjectives** in vanilla de (Odyssey
 `GoldInlay`: golden, vergoldet) — no gender markers, because these defs feed
@@ -993,8 +998,9 @@ Comerciantes exiliados, **cargo claim** derecho de carga, **medbay** enfermería
 **(Vanilla)** (Original), **entrenched defender AI** IA de defensores
 atrincherados, **resupply** reabastecimiento. "TG maps" is spelled out as
 **mapas del gremio** — a Spanish initialism would be opaque.
-`BTG_Settings_ModName` is deliberately left as the Latin brand `Better Traders
-Guild`.
+`BTG_Settings_ModName` is the localized Workshop title
+`Gremio de comerciantes mejorado` and must stay in sync with the title line of
+`.steamworkshop/Description/Spanish.txt` (see the CLAUDE.md localization note).
 
 **`traitAdjectives` must be gender-invariant in Spanish, and this is a
 mechanical constraint, not a style call.** Odyssey's `NamerUniqueWeapon`
@@ -1193,8 +1199,9 @@ vessel** Navire amarré, **docking bays** quais d'amarrage, **(Vanilla)**
 **resupply** ravitaillement, **a hold full of silver** une cale pleine
 d'argent (`soute` appears nowhere in vanilla fr; `cale` is the ship's-hold
 sense). "TG maps" is spelled out as **cartes de la guilde** — a French
-initialism would be opaque. `BTG_Settings_ModName` is deliberately left as the
-Latin brand `Better Traders Guild`.
+initialism would be opaque. `BTG_Settings_ModName` is the localized Workshop title
+`Guilde des commerçants améliorée` and must stay in sync with the title line of
+`.steamworkshop/Description/French.txt` (see the CLAUDE.md localization note).
 
 **`traitAdjectives` follow vanilla fr's own shape for `GoldInlay`: a bare noun
 (`or`) plus masculine-singular adjectives (`doré`).** French cannot agree with
@@ -1379,8 +1386,9 @@ docas de atracação (built on Odyssey's own docking verb, "atracada"),
 **(Vanilla)** (Original), **entrenched defender AI** IA de defensores
 entrincheirados, **resupply** reabastecimento, **a hold full of silver** um
 porão cheio de prata. "TG maps" is spelled out as **mapas da guilda** — a
-Portuguese initialism would be opaque. `BTG_Settings_ModName` is deliberately
-left as the Latin brand `Better Traders Guild`.
+Portuguese initialism would be opaque. `BTG_Settings_ModName` is the localized Workshop title
+`Guilda dos Mercadores Aprimorada` and must stay in sync with the title line of
+`.steamworkshop/Description/PortugueseBrazilian.txt` (see the CLAUDE.md localization note).
 
 **`traitAdjectives` follow vanilla pt-BR's own shape for `GoldInlay`: a bare
 noun (`ouro`) plus a masculine-singular adjective (`dourado`).** Odyssey's

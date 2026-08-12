@@ -17,9 +17,13 @@ machine-assisted first passes pending native review. Format:
 Title convention: just as the English title leans on vanilla vocabulary
 ("Traders Guild") so players searching for the faction find the mod, every
 localized title must contain that language's vanilla-localized Traders Guild
-term (Händlergilde, гильдия торговцев, 商会, ...) alongside the English
-brand. Steam searches the localized title for users on that language, so
-this is what makes the mod discoverable to non-English players.
+term (Händlergilde, гильдия торговцев, 商会, ...). Titles are fully
+localized with no English brand appended: Workshop search is
+language-agnostic (any language's title matches regardless of UI language,
+verified 2026-08-12) and the preview thumbnail already carries the English
+name. Each title must equal that language's `BTG_Settings_ModName` Keyed
+value so the in-game settings header matches the Workshop page (see the
+CLAUDE.md localization note).
 
 Steam has no API for per-language Workshop text, so updated files are pasted
 manually into the Workshop page's edit UI (note Steam's own language names
