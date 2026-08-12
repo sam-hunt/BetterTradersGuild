@@ -1,0 +1,57 @@
+Better Traders Guild
+
+[h1]Acerca de[/h1]
+El gremio de comerciantes es la facción detrás de los eventos de comerciantes orbitales en el DLC Odyssey de RimWorld. Este mod amplía su presencia con comercio pacífico, interiores de asentamiento más ricos y nuevas formas de interactuar con ellos.
+
+[hr][/hr]
+[h2]Comercio pacífico[/h2]
+[list]
+[*]Visita al gremio de comerciantes en el mapa del mundo mediante un transbordador cuando las relaciones sean neutrales o mejores
+[*]Los asentamientos rotan entre distintos tipos de comerciante orbital según un calendario configurable
+[*]Consulta qué comerciante está atracado en el mapa del mundo y planea tus rutas por el planeta
+[*]Solicitudes de intercambio orbital: los asentamientos del gremio envían encargos de entrega por transbordador con recompensas de reputación y plata
+[/list]
+
+[h2]Generación de mapas renovada[/h2]
+[list]
+[*]Nuevos tipos de sala (centro de control, camarotes de la tripulación, bodega de carga, salón del comandante, enfermería y más)
+[*]Los objetos de la bóveda de carga se generan a partir del inventario comercial: róbalos y desaparecerán de sus existencias
+[*]Un ambiente habitado, digno de comerciantes acaudalados
+[/list]
+
+[h2]Nuevos escenarios[/h2]
+[olist]
+[*][b]Comerciantes independientes[/b]: abandona el gremio para independizarte. Empiezas con un transbordador, plata y una posición aliada con tus antiguos empleadores.
+[*][b]Comerciantes exiliados[/b]: un trabajo de recuperación de restos que sale mal despierta a una mecacolmena. El gremio corta todo vínculo contigo. Recupera lo que puedas y sobrevive con los mecanoides pisándote los talones. No es apto para pusilánimes.
+[/olist]
+Partes de escenario reutilizables: llegadas en transbordador, armas únicas con rasgos, coloración de indumentaria, reputación de facción y configuración de xenotipos para las personas iniciales
+
+[hr][/hr]
+[h1]Compatibilidad[/h1]
+[list]
+[*]Seguro para añadir a partidas guardadas existentes
+[*]No es seguro quitarlo de partidas guardadas
+[*]Totalmente compatible con los tipos de comerciante orbital añadidos por otros mods
+[*]No se ha probado con Combat Extended
+[/list]
+
+[hr][/hr]
+[h1]Preguntas frecuentes[/h1]
+[b]P: ¿Necesito el DLC Odyssey?[/b]
+R: Sí. Este mod mejora la facción del gremio de comerciantes de Odyssey.
+
+[b]P: ¿Sigo necesitando un inhibidor de señales para atacarlos?[/b]
+R: Sí.
+
+[b]P: ¿Esto hace el juego más fácil?[/b]
+R: ¡Puede ser! Añade más oportunidades comerciales. Los asentamientos del gremio tienen mucha más riqueza, pero también están mejor defendidos.
+
+[b]P: ¡La rotación de existencias, la generación de mapas, la bóveda de carga o la fuerza de los defensores están descompensados![/b]
+R: Todo es configurable en los ajustes del mod.
+
+[b]P: ¿Por qué no aparece un tipo de comerciante concreto?[/b]
+R: Los tipos de comerciante se eligen al azar según sus valores de frecuencia. Algunos son más raros que otros. Espera a la siguiente rotación o revisa otros asentamientos. La frecuencia de los tipos de comerciante añadidos por otros mods puede no estar equilibrada.
+
+[hr][/hr]
+[h2]Enlaces[/h2]
+[url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: código fuente, informes de errores y solicitudes de funciones

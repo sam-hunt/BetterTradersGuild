@@ -1,0 +1,57 @@
+Better Traders Guild
+
+[h1]About[/h1]
+The Traders Guild are the faction behind orbital trader events in RimWorld's Odyssey DLC. This mod expands their presence with peaceful trading, richer settlement interiors, and new ways to interact with them.
+
+[hr][/hr]
+[h2]Peaceful Trading[/h2]
+[list]
+[*]Visit the Traders Guild on the world map via shuttle when relations are Neutral or better
+[*]Settlements cycle through orbital trader types on a configurable schedule
+[*]Preview which trader is docked on the world map and plan your trips around the planet!
+[*]Orbital trade requests - Guild settlements send shuttle delivery jobs with goodwill and silver rewards
+[/list]
+
+[h2]Overhauled Map Generation[/h2]
+[list]
+[*]New room types (Control Center, Crew Quarters, Cargo Hold, Commander's Lounge, Medbay, and more)
+[*]Cargo vault items spawn from trade inventory - steal it and it's gone from their stock
+[*]Lived-in aesthetics befitting wealthy merchants
+[/list]
+
+[h2]New Scenarios[/h2]
+[olist]
+[*][b]Independent Traders[/b] - Leave the Guild to strike out on your own. Start with a shuttle, silver, and allied standing with your former employers.
+[*][b]Exiled Traders[/b] - A salvage job gone wrong awakens a mechhive. The Guild cuts you loose. Scavenge what you can and survive with mechanoids on your tail. Not for the faint of heart.
+[/olist]
+Reusable scenario parts: shuttle arrivals, unique weapons with traits, apparel coloring, faction goodwill, and xenotype pawn slot configuration
+
+[hr][/hr]
+[h1]Compatibility[/h1]
+[list]
+[*]Safe to add to existing saves
+[*]Not safe to remove from saves
+[*]Fully compatible with orbital trader types added by other mods
+[*]Not tested with Combat Extended
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]Q: Do I need the Odyssey DLC?[/b]
+A: Yes. This mod enhances Odyssey's Traders Guild faction.
+
+[b]Q: Do I still need a signal jammer to attack them?[/b]
+A: Yes.
+
+[b]Q: Does this make the game easier?[/b]
+A: Possibly! It adds more trading opportunities. Guild settlements have much higher wealth but are also better defended.
+
+[b]Q: Trader stock rotation/map generation/cargo vault/defender strength is imbalanced![/b]
+A: All configurable in mod settings.
+
+[b]Q: Why isn't a specific trader type showing up?[/b]
+A: Trader types are selected randomly based on commonality values. Some are rarer than others. Wait for rotations or check other settlements. Commonality of trader types from other mods might not be balanced.
+
+[hr][/hr]
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url] - Source code, bug reports, and feature requests

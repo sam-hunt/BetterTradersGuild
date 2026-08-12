@@ -1,0 +1,57 @@
+Better Traders Guild
+
+[h1]Über den Mod[/h1]
+Die Händlergilde ist die Fraktion hinter den Orbitalhändler-Ereignissen in RimWorlds Odyssey-DLC. Dieser Mod erweitert ihre Präsenz um friedlichen Handel, detailreichere Siedlungsinnenräume und neue Möglichkeiten, mit ihr zu interagieren.
+
+[hr][/hr]
+[h2]Friedlicher Handel[/h2]
+[list]
+[*]Besuche die Händlergilde per Raumfähre auf der Weltkarte, wenn die Beziehungen neutral oder besser sind
+[*]Siedlungen wechseln ihre Orbitalhändlertypen nach einem konfigurierbaren Zeitplan
+[*]Sieh auf der Weltkarte, welcher Händler angedockt ist, und plane deine Reisen um den Planeten!
+[*]Orbitalhandelsanfragen: Siedlungen der Händlergilde verschicken Lieferaufträge per Raumfähre mit Ruf und Silber als Belohnung
+[/list]
+
+[h2]Überarbeitete Kartengenerierung[/h2]
+[list]
+[*]Neue Raumtypen (Kontrollzentrum, Mannschaftsquartiere, Frachtraum, Kommandantenlounge, Krankenstation und mehr)
+[*]Gegenstände im Frachttresor stammen aus dem Handelsbestand: Stiehlst du sie, fehlen sie im Warenangebot der Händler
+[*]Belebte, wohnliche Optik, wie es sich für wohlhabende Händler gehört
+[/list]
+
+[h2]Neue Szenarien[/h2]
+[olist]
+[*][b]Unabhängige Händler[/b]: Verlasst die Gilde, um euer eigenes Geschäft aufzubauen. Startet mit einer Raumfähre, Silber und verbündetem Ruf bei euren ehemaligen Arbeitgebern.
+[*][b]Verbannte Händler[/b]: Ein schiefgelaufener Bergungsauftrag weckt ein Mechnest. Die Gilde lässt euch fallen. Sammelt, was ihr könnt, und überlebt mit Mechanoiden im Nacken. Nichts für schwache Nerven.
+[/olist]
+Wiederverwendbare Szenario-Bausteine: Ankunft per Raumfähre, einzigartige Waffen mit besonderen Eigenschaften, Farbe der Startkleidung, Ruf bei Fraktionen und Xenotyp-Konfiguration der Startcharaktere
+
+[hr][/hr]
+[h1]Kompatibilität[/h1]
+[list]
+[*]Kann bestehenden Spielständen sicher hinzugefügt werden
+[*]Kann nicht sicher aus Spielständen entfernt werden
+[*]Vollständig kompatibel mit Orbitalhändlertypen aus anderen Mods
+[*]Nicht getestet mit Combat Extended
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]F: Brauche ich das Odyssey-DLC?[/b]
+A: Ja. Dieser Mod erweitert die Händlergilde-Fraktion aus Odyssey.
+
+[b]F: Brauche ich weiterhin einen Signalstörer, um sie anzugreifen?[/b]
+A: Ja.
+
+[b]F: Macht dieser Mod das Spiel einfacher?[/b]
+A: Möglich! Er bietet mehr Handelsmöglichkeiten. Siedlungen der Händlergilde haben deutlich mehr Reichtum, sind aber auch besser verteidigt.
+
+[b]F: Händlerwechsel, Kartengenerierung, Frachttresor oder Verteidigerstärke sind unausgewogen![/b]
+A: Alles in den Mod-Einstellungen konfigurierbar.
+
+[b]F: Warum taucht ein bestimmter Händlertyp nicht auf?[/b]
+A: Händlertypen werden zufällig anhand von Häufigkeitswerten ausgewählt. Manche sind seltener als andere. Warte auf den nächsten Wechsel oder überprüfe andere Siedlungen. Die Häufigkeit von Händlertypen aus anderen Mods ist möglicherweise nicht ausgeglichen.
+
+[hr][/hr]
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: Quellcode, Fehlerberichte und Funktionswünsche

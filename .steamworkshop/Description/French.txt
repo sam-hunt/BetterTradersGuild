@@ -1,0 +1,57 @@
+Better Traders Guild
+
+[h1]À propos[/h1]
+La guilde des commerçants est la faction à l'origine des événements de commerçants orbitaux dans le DLC Odyssey de RimWorld. Ce mod développe sa présence avec du commerce pacifique, des intérieurs de colonies plus riches, et de nouvelles façons d'interagir avec elle.
+
+[hr][/hr]
+[h2]Commerce pacifique[/h2]
+[list]
+[*]Visitez la guilde des commerçants sur la carte du monde en navette lorsque les relations sont neutres ou meilleures
+[*]Les colonies de la guilde des commerçants alternent entre différents types de commerçants orbitaux selon un calendrier configurable
+[*]Prévisualisez quel commerçant est amarré depuis la carte du monde et planifiez vos trajets autour de la planète !
+[*]Demandes de commerce orbital : les colonies de la guilde des commerçants envoient des missions de livraison par navette, avec des récompenses en bonne entente et en argent
+[/list]
+
+[h2]Génération de carte repensée[/h2]
+[list]
+[*]Nouveaux types de salles (centre de contrôle, quartiers de l'équipage, cale à cargaison, salon du commandant, infirmerie, et plus encore)
+[*]Les objets du coffre à cargaison sont générés à partir de l'inventaire commercial : les voler les retire de leur stock
+[*]Un aspect habité, digne de riches commerçants
+[/list]
+
+[h2]Nouveaux scénarios[/h2]
+[olist]
+[*][b]Commerçants indépendants[/b] : quittez la guilde pour voler de vos propres ailes. Commencez avec une navette, de l'argent, et des relations alliées avec vos anciens employeurs.
+[*][b]Commerçants exilés[/b] : une mission de récupération qui tourne mal réveille une ruche mécanoïde. La guilde vous abandonne. Récupérez ce que vous pouvez et survivez avec les mécanoïdes à vos trousses. Pas pour les âmes sensibles.
+[/olist]
+Éléments de scénario réutilisables : arrivées par navette, armes uniques avec traits, coloration des tenues, bonne entente avec les factions, et configuration des emplacements de colons par xénotype
+
+[hr][/hr]
+[h1]Compatibilité[/h1]
+[list]
+[*]Peut être ajouté sans risque à des parties existantes
+[*]Le retrait d'une partie en cours n'est pas sûr
+[*]Entièrement compatible avec les types de commerçants orbitaux ajoutés par d'autres mods
+[*]Non testé avec Combat Extended
+[/list]
+
+[hr][/hr]
+[h1]FAQ[/h1]
+[b]Q : Ai-je besoin du DLC Odyssey ?[/b]
+R : Oui. Ce mod améliore la faction de la guilde des commerçants d'Odyssey.
+
+[b]Q : Ai-je toujours besoin d'un brouilleur de signal pour les attaquer ?[/b]
+R : Oui.
+
+[b]Q : Cela rend-il le jeu plus facile ?[/b]
+R : Peut-être ! Il ajoute davantage d'occasions de commerce. Les colonies de la guilde ont une richesse bien plus élevée, mais sont aussi mieux défendues.
+
+[b]Q : La rotation des stocks des commerçants, la génération de carte, le coffre à cargaison ou la force des défenseurs est déséquilibrée ![/b]
+R : Tout est configurable dans les paramètres du mod.
+
+[b]Q : Pourquoi un type de commerçant précis n'apparaît-il pas ?[/b]
+R : Les types de commerçants sont sélectionnés aléatoirement selon des valeurs de fréquence. Certains sont plus rares que d'autres. Attendez de nouvelles rotations ou vérifiez d'autres colonies. La fréquence des types de commerçants ajoutés par d'autres mods n'est pas forcément équilibrée.
+
+[hr][/hr]
+[h2]Liens[/h2]
+[url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url] : code source, rapports de bugs et demandes de fonctionnalités

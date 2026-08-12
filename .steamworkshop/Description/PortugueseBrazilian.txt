@@ -1,0 +1,57 @@
+Better Traders Guild
+
+[h1]Sobre[/h1]
+A Guilda dos Mercadores é a facção responsável pelos eventos de comerciantes orbitais na DLC Odyssey de RimWorld. Este mod amplia a presença dela com comércio pacífico, interiores de assentamento mais elaborados e novas formas de interagir com a guilda.
+
+[hr][/hr]
+[h2]Comércio Pacífico[/h2]
+[list]
+[*]Visite a Guilda dos Mercadores no mapa-múndi por meio de um ônibus espacial quando o relacionamento estiver Neutro ou melhor
+[*]Os assentamentos alternam entre os tipos de comerciante orbital seguindo um cronograma configurável
+[*]Veja com antecedência, no mapa-múndi, qual comerciante está atracado e planeje suas viagens pelo planeta!
+[*]Solicitações de comércio orbital: assentamentos da Guilda enviam tarefas de entrega por ônibus espacial com recompensas em boa vontade e prata
+[/list]
+
+[h2]Geração de Mapa Reformulada[/h2]
+[list]
+[*]Novos tipos de cômodo (Centro de Controle, Alojamento da Tripulação, Porão de Carga, Salão do Comandante, Enfermaria e muito mais)
+[*]Os itens do cofre de carga surgem a partir do inventário comercial: roube-os e eles desaparecem do estoque
+[*]Estética de ambiente habitado, digna de mercadores ricos
+[/list]
+
+[h2]Novos Cenários[/h2]
+[olist]
+[*][b]Mercadores Independentes[/b]: deixe a Guilda para seguir seu próprio caminho. Comece com um ônibus espacial, prata e uma posição aliada com seus antigos empregadores.
+[*][b]Mercadores Exilados[/b]: um trabalho de recuperação que deu errado desperta uma mecholmeia. A Guilda corta os laços com você. Recolha o que puder e sobreviva com mecanoides em seu rastro. Não é para os fracos de coração.
+[/olist]
+Partes de cenário reutilizáveis: chegadas de ônibus espacial, armas únicas com características, coloração de vestuário, boa vontade da facção e configuração de xenótipo para os personagens iniciais
+
+[hr][/hr]
+[h1]Compatibilidade[/h1]
+[list]
+[*]Seguro para adicionar a jogos salvos existentes
+[*]Não é seguro remover de jogos salvos
+[*]Totalmente compatível com tipos de comerciante orbital adicionados por outros mods
+[*]Não testado com Combat Extended
+[/list]
+
+[hr][/hr]
+[h1]Perguntas Frequentes[/h1]
+[b]P: Preciso da DLC Odyssey?[/b]
+R: Sim. Este mod aprimora a facção Guilda dos Mercadores do Odyssey.
+
+[b]P: Ainda preciso de um bloqueador de sinal para atacá-los?[/b]
+R: Sim.
+
+[b]P: Isso torna o jogo mais fácil?[/b]
+R: Talvez! O mod adiciona mais oportunidades de comércio. Os assentamentos da Guilda têm uma riqueza muito maior, mas também são mais bem defendidos.
+
+[b]P: A rotação de estoque dos comerciantes, a geração de mapa, o cofre de carga ou a força dos defensores está desequilibrada![/b]
+R: Tudo isso é configurável nas opções do mod.
+
+[b]P: Por que um tipo específico de comerciante não está aparecendo?[/b]
+R: Os tipos de comerciante são escolhidos de forma aleatória, com base em valores de frequência. Alguns são mais raros que outros. Aguarde as próximas rotações ou verifique outros assentamentos. A frequência dos tipos de comerciante adicionados por outros mods pode não estar equilibrada.
+
+[hr][/hr]
+[h2]Links[/h2]
+[url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: código-fonte, relatórios de bugs e pedidos de novas funcionalidades
