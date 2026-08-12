@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.AI;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -21,10 +22,17 @@ namespace BetterTradersGuild.JobDrivers
     //
     // Kept from vanilla: the fail conditions (casualty no longer downed, bed no longer
     // usable, someone else interacting), resume-mid-carry via the IsCarryingPawn jump
-    // (the JobDef keeps the takee in the carry tracker across job restarts), the
-    // drop-on-interrupt finish action, and creating playerSettings before tuck-in
-    // (vanilla gives every rescued pawn one; downstream medical code expects it on
-    // bed-ridden pawns).
+    // (the JobDef keeps the takee in the carry tracker across job restarts), and the
+    // drop-on-interrupt finish action.
+    //
+    // Deliberately NOT kept: vanilla's create-playerSettings-before-tuck step. Vanilla
+    // pairs it with guesting the pawn to the player; created standalone it seeds medCare
+    // from the player's medical-defaults screen for the takee's faction relation, and a
+    // no-care default there made RestUtility.TuckIntoBed's CanUseBedNow check silently
+    // refuse the tuck (casualty dumped beside the bed, tended on the floor) and every
+    // later rescue of that pawn insta-fail on FailOnBedNoLongerUsable. NPC pawns pass
+    // those gates precisely by having playerSettings == null; NpcMedicalCare repairs
+    // pawns that already acquired one.
     public class JobDriver_BTGRescue : JobDriver
     {
         private const TargetIndex TakeeIndex = TargetIndex.A;
@@ -90,6 +98,11 @@ namespace BetterTradersGuild.JobDrivers
                 .FailOn(() => !pawn.IsCarryingPawn(Takee));
             goToBed.FailOnBedNoLongerUsable(BedIndex, TakeeIndex);
 
+            // Repair a takee already carrying playerSettings with medCare == NoCare
+            // (created by a pre-fix version of this driver, or by player hosting) before
+            // the FailOnBedNoLongerUsable conditions and the tuck's own CanUseBedNow
+            // check can see it - both read NoCare as "may not lie in a medical bed".
+            yield return Toils_General.Do(() => NpcMedicalCare.EnsureBedRestAllowed(Takee));
             // A re-issued job (interrupt, save/load) skips straight to the bed leg when
             // the casualty is already in the medic's arms.
             yield return Toils_Jump.JumpIf(goToBed, () => pawn.IsCarryingPawn(Takee));
@@ -97,11 +110,6 @@ namespace BetterTradersGuild.JobDrivers
             yield return Toils_General.Do(() => droppedWeapon = Takee.mindState?.droppedWeapon);
             yield return startCarrying;
             yield return goToBed;
-            yield return Toils_General.Do(() =>
-            {
-                if (Takee.playerSettings == null)
-                    Takee.playerSettings = new Pawn_PlayerSettings(Takee);
-            });
             yield return Toils_Reserve.Release(BedIndex);
             // rescued: false - the flag only feeds Notify_RescuedBy, which is gated on a
             // humanlike rescuer and would be inert for the mech anyway.

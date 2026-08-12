@@ -58,14 +58,12 @@ namespace BetterTradersGuild.AI
             if (bed == null)
                 return null;
 
-            // Vanilla LayDown is NPC-safe here, but by a thread: the driver's
-            // FailOnBedNoLongerUsable runs CanUseBedNow, whose medical-bed branch calls
-            // ShouldEverReceiveMedicalCareFromPlayer - which passes for a TG defender only
-            // because NPC pawns have playerSettings == null (the NoCare check is skipped).
-            // A pawn that ever acquires playerSettings (e.g. was player-hosted) with
-            // medCare == NoCare would silently fail this job. Same bug family as the
-            // vanilla FeedPatient/TakeToBed player assumptions behind BTG_FeedPatient
-            // and BTG_Rescue.
+            // Vanilla LayDown's bed gates (FailOnBedNoLongerUsable, which runs
+            // CanUseBedNow and ShouldEverReceiveMedicalCareFromPlayer) pass for a TG
+            // defender because NPC pawns have playerSettings == null. A pawn that
+            // acquired playerSettings (player hosting, or a pre-fix BTG_Rescue) with
+            // medCare == NoCare would silently fail this job; clear exactly that case.
+            NpcMedicalCare.EnsureBedRestAllowed(pawn);
             Job job = JobMaker.MakeJob(JobDefOf.LayDown, bed);
             job.checkOverrideOnExpire = true;
             return job;
