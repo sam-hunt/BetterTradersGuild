@@ -82,21 +82,22 @@
           <traderTypeCount>2</traderTypeCount>
         </li>
 
-        <!-- Fail if TG becomes hostile -->
-        <li Class="QuestNode_Letter">
-          <inSignal>faction.BecameHostileToPlayer</inSignal>
-          <label TKey="BTG_LetterLabel_SmugglersDenFailed">Quest failed: [resolvedQuestName]</label>
-          <text TKey="BTG_LetterText_SmugglersDenFailed">[faction_name] became hostile to you.</text>
-        </li>
-        <li Class="QuestNode_End">
-          <inSignal>faction.BecameHostileToPlayer</inSignal>
-          <outcome>Fail</outcome>
-        </li>
+        <!-- Deliberately NO fail on faction.BecameHostileToPlayer: the den is a
+             Salvagers site, so TG hostility doesn't make it uncompletable, and an
+             early quest end destroys the site (QuestPart_DestroyWorldObject on End)
+             out from under the player. Vanilla opportunity sites carry no hostility
+             fail either (Script_BanditCamp even allows a hostile asker). TG relations
+             only gate the OFFER (QuestNode_GetNearestTGSettlement). -->
 
-        <!-- Timeout -->
+        <!-- Timeout, for a quest accepted but never engaged. Disarmed permanently
+             once the den map generates (vanilla opportunity-site idiom, see
+             Script_BanditCamp): without the disable, the timeout could fire mid-raid
+             and destroy the site before the player finishes clearing it. Leaving
+             without clearing is still a fail via site.Destroyed below. -->
         <li Class="QuestNode_Delay">
           <delayTicks>$(randInt(8,15)*60000)</delayTicks>
           <isQuestTimeout>true</isQuestTimeout>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
           <outSignalComplete>SmugglersDenTimeout</outSignalComplete>
         </li>
 
