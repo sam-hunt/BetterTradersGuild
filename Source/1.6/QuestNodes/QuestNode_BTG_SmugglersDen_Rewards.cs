@@ -33,6 +33,10 @@ namespace BetterTradersGuild.QuestNodes
         public SlateRef<Faction> faction;
         public SlateRef<int> traderTypeCount = 2;
 
+        // Single source for the goodwill option so the reward card and the actual
+        // payout part below can never disagree.
+        private const int GoodwillRewardAmount = 15;
+
         protected override bool TestRunInt(Slate slate)
         {
             // Site may not exist in slate during TestRunInt (created later in RunInt).
@@ -103,8 +107,23 @@ namespace BetterTradersGuild.QuestNodes
 
                 Reward_Goodwill goodwillReward = new Reward_Goodwill();
                 goodwillReward.faction = factionVal;
-                goodwillReward.amount = 15;
+                goodwillReward.amount = GoodwillRewardAmount;
                 goodwillChoice.rewards.Add(goodwillReward);
+
+                // QuestPart: actually pay the goodwill on quest success. Reward objects
+                // are display-only; vanilla generates this part from the reward via
+                // Reward_Goodwill.GenerateQuestParts in the QuestNode_GiveRewards flow,
+                // which this hand-built choice bypasses - without it the option
+                // advertised the goodwill and never granted it. Vanilla sets exactly
+                // these three fields; the signal is the quest's success trigger.
+                QuestPart_FactionGoodwillChange goodwillPart = new QuestPart_FactionGoodwillChange
+                {
+                    inSignal = QuestGenUtility.HardcodedSignalWithQuestID("site.AllEnemiesDefeated"),
+                    faction = factionVal,
+                    change = GoodwillRewardAmount,
+                };
+                goodwillChoice.questParts.Add(goodwillPart);
+                quest.AddPart(goodwillPart);
 
                 // QuestPart: set null trader (vault will be sealed)
                 QuestPart_SetVaultTraderKind sealVaultPart = new QuestPart_SetVaultTraderKind
