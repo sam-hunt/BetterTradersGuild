@@ -82,6 +82,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             Thing book = BookGenerationHelper.GenerateRandomBook();
             if (book == null) return;
             GenSpawn.Spawn(book, pos, map);
+            book.SetForbidden(true, false);
         }
 
         // Spawns an UnfinishedThing for a recipe that produces the target item.
@@ -122,6 +123,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 uft.workLeft = Rand.Range(100f, 500f);  // Random work remaining
 
                 GenSpawn.Spawn(uft, pos, map);
+                uft.SetForbidden(true, false);
             }
             catch (System.Exception ex)
             {
