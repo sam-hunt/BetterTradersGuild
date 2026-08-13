@@ -3,7 +3,6 @@ using BetterTradersGuild.AI;
 using BetterTradersGuild.AI.Civilians;
 using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
-using RimWorld.Planet;
 using Unity.Collections;
 using Verse;
 using Verse.AI.Group;
@@ -71,30 +70,33 @@ namespace BetterTradersGuild.LordJobs
             graph.StartingToil = defend;
 
             // Post-defeat abandon-ship chain. Defeat only fires while every garrison
-            // human is dead or downed (SettlementDefeatUtilityIsDefeated), but downed
-            // defenders stay in the lord (ShouldRemovePawn below) and the medic mech
-            // keeps caring for them, so late recoveries are expected. They must not
-            // resume the fight after the defeated letter promised the player safety:
-            // instead they ferry reachable faction infants to a launchable and fly
-            // off (reusing the civilian escape toil, whose LordToilTick drives the
-            // actual lift-off), or settle into a peaceful stranded routine when no
-            // launchable is reachable. Both threat patches that key on this LordJob
-            // disarm themselves at the moment of defeat (their map-parent checks fail
-            // once vanilla reparents the map to DestroyedSettlement), so abandon-phase
-            // pawns never read as garrison.
+            // human is dead or downed (SettlementDefeatUtilityIsDefeated on settlements,
+            // GenHostilityAnyHostileActiveThreatTo on the den), but downed defenders
+            // stay in the lord (ShouldRemovePawn below) and the medic mech keeps caring
+            // for them, so late recoveries are expected. They must not resume the fight
+            // after the defeated letter promised the player safety: instead they ferry
+            // reachable faction infants to a launchable and fly off (reusing the
+            // civilian escape toil, whose LordToilTick drives the actual lift-off), or
+            // settle into a peaceful stranded routine when no launchable is reachable.
+            // Both threat patches that key on this LordJob disarm themselves at the
+            // moment of defeat (the settlement patch's map-parent check fails once
+            // vanilla reparents the map to DestroyedSettlement; the den patch
+            // early-outs on the site's latched defeat signal), so abandon-phase pawns
+            // never read as garrison.
             LordToil_BTGEscape escape = new LordToil_BTGEscape(baseCenter);
             graph.AddToil(escape);
 
             LordToil_BTGStrandedDefender stranded = new LordToil_BTGStrandedDefender(baseCenter);
             graph.AddToil(stranded);
 
-            // Defeat detection is the map reparent itself: vanilla CheckDefeated sets
-            // map.info.parent to a DestroyedSettlement in the same call that destroys
-            // the Settlement, so polling the parent needs no defeat-time hook and
-            // survives a save made after the defeat.
+            // Defeat detection is engine state, not a hook: settlements reparent the
+            // map to a DestroyedSettlement in the same call that destroys the
+            // Settlement, and the den's Site latches its all-enemies-defeated signal.
+            // Both are scribed, so polling (TradersGuildHelper.IsPostDefeatMap) needs
+            // no defeat-time event and survives a save made after the defeat.
             Transition abandon = new Transition(defend, escape);
             abandon.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck() && SettlementDefeated()));
+                signal.type == TriggerSignalType.Tick && DueForCheck() && MapDefeated()));
             abandon.AddPostAction(new TransitionAction_WakeAll());
             abandon.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(abandon);
@@ -125,9 +127,9 @@ namespace BetterTradersGuild.LordJobs
             return Find.TickManager.TicksGame % TransitionCheckIntervalTicks == 0;
         }
 
-        private bool SettlementDefeated()
+        private bool MapDefeated()
         {
-            return lord?.Map?.Parent is DestroyedSettlement;
+            return TradersGuildHelper.IsPostDefeatMap(lord?.Map);
         }
 
         // Keep downed defenders in the lord (vanilla default evicts them, permanently:

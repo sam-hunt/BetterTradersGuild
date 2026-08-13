@@ -1,4 +1,5 @@
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.Reflection;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
@@ -210,6 +211,24 @@ namespace BetterTradersGuild
 
             Settlement settlement = map.Parent as Settlement;
             return IsTradersGuildSettlement(settlement);
+        }
+
+        // True once this map's garrison has been definitively defeated - the moment after
+        // which every surviving garrison-faction pawn is non-hostile (escaping or stranded).
+        // Settlements: vanilla CheckDefeated reparents the map to a DestroyedSettlement in
+        // the same call that destroys the Settlement, so the parent type IS the defeat
+        // signal - scribed, per-map, no defeat-time hook needed. The smugglers den keeps
+        // its Site parent forever; its equivalent is the site's private latched
+        // all-enemies-defeated signal (see SiteReflection), which shares those properties.
+        public static bool IsPostDefeatMap(Verse.Map map)
+        {
+            MapParent parent = map?.Parent;
+            if (parent is DestroyedSettlement)
+                return true;
+
+            return parent is Site site
+                && site.def == WorldObjects.BTG_SmugglersDenSite
+                && SiteReflection.AllEnemiesDefeatedSent(site);
         }
 
         // Resolves the owning faction of a map whose garrison BTG generates and manages:
