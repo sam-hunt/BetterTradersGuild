@@ -1,12 +1,14 @@
+using System.Reflection;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.Patches.PawnNameColorUtilityPatches;
 using HarmonyLib;
 using RimWorld.Planet;
+using Verse;
 
 namespace BetterTradersGuild.Patches.SitePatches
 {
-    // Harmony patch: Site.CheckAllEnemiesDefeated (private, hence the name string)
+    // Harmony patch: Site.CheckAllEnemiesDefeated (private, hence the reflection lookup)
     //
     // The den counterpart of the survivor-label Refresh call in
     // SettlementDefeatUtilityCheckDefeated: settlements announce defeat through
@@ -20,9 +22,41 @@ namespace BetterTradersGuild.Patches.SitePatches
     // every defender died but civilians survived: emptied lords are removed before
     // their transitions run). Always-applied but cold: sites tick on world-object
     // intervals and the method self-latches after firing once.
-    [HarmonyPatch(typeof(Site), "CheckAllEnemiesDefeated")]
+    //
+    // Degrades gracefully: the target is resolved here rather than string-named in
+    // the attribute, so on a rename (RimWorld API change) Prepare skips this class
+    // instead of PatchAll throwing mid-run and aborting every later patch;
+    // VerifyPatched reports the drift at startup. The consequence is timing only:
+    // the label override then first applies on the next save load
+    // (BTGGameComponent) or settlement defeat instead of at the den's latch moment.
+    [HarmonyPatch]
     public static class SiteCheckAllEnemiesDefeated
     {
+        private static readonly MethodInfo Target = AccessTools.Method(
+            typeof(Site), "CheckAllEnemiesDefeated");
+
+        [HarmonyPrepare]
+        public static bool Prepare()
+        {
+            return Target != null;
+        }
+
+        [HarmonyTargetMethod]
+        public static MethodBase TargetMethod()
+        {
+            return Target;
+        }
+
+        // Logs a targeted warning if the target failed to resolve. Called once at
+        // startup by ReflectionVerification.VerifyAll after Harmony.PatchAll has run.
+        public static void VerifyPatched()
+        {
+            if (Target == null)
+                Log.Warning("[Better Traders Guild] Site.CheckAllEnemiesDefeated method not found via reflection; "
+                    + "survivor name labels will not recolor at the moment a smugglers den is cleared "
+                    + "(they still apply on the next save load or settlement defeat). RimWorld API may have changed.");
+        }
+
         [HarmonyPrefix]
         public static void Prefix(Site __instance, out bool __state)
         {
