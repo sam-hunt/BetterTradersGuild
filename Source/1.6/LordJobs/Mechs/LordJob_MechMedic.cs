@@ -11,7 +11,7 @@ namespace BetterTradersGuild.LordJobs.Mechs
     // assigns one duty to every pawn it owns: passive wander mechs that share the same
     // room (e.g. a cleansweeper) must stay on their own LordJob_StayInArea lord and not
     // be forced onto the medic duty. RoomMechLordHelper keeps the two lord types apart.
-    public class LordJob_MechMedic : LordJob
+    public class LordJob_MechMedic : LordJob, IBTGSurvivorLord
     {
         private IntVec3 point;
 

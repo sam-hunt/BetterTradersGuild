@@ -13,7 +13,7 @@ namespace BetterTradersGuild.LordJobs.Mechs
     // assigns one duty to every pawn it owns: other passive mechs that share the room
     // must stay on their own LordJob_StayInArea lord and not be forced onto the farm
     // duty. RoomMechLordHelper keeps the lord types apart.
-    public class LordJob_MechFarm : LordJob
+    public class LordJob_MechFarm : LordJob, IBTGSurvivorLord
     {
         private IntVec3 point;
 

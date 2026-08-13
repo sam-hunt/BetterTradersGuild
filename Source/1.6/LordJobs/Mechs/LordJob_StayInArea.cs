@@ -23,7 +23,7 @@ namespace BetterTradersGuild.LordJobs.Mechs
     // The duty's thinkNode only contains JobGiver_WanderNearDutyLocation,
     // so pawns stay busy wandering and don't fall through to aggressive
     // ThinkTree behaviors.
-    public class LordJob_StayInArea : LordJob
+    public class LordJob_StayInArea : LordJob, IBTGSurvivorLord
     {
         private IntVec3 point;
 

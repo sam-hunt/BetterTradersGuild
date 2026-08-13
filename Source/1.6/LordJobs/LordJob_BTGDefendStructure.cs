@@ -36,7 +36,7 @@ namespace BetterTradersGuild.LordJobs
     // in another whenever that beats the interior maze — surrendering all cover
     // on the way. Soft (a cost, not a wall) by design: a defender that somehow
     // ends up outside can always path back in.
-    public class LordJob_BTGDefendStructure : LordJob
+    public class LordJob_BTGDefendStructure : LordJob, IBTGSurvivorLord
     {
         private Faction faction;
         private IntVec3 baseCenter;

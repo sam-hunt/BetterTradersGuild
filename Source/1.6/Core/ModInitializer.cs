@@ -18,11 +18,14 @@ namespace BetterTradersGuild
             }
         }
 
+        // Shared instance: startup PatchAll here, plus runtime Patch/Unpatch by the
+        // manually lifecycled survivor-label patch (PawnNameColorUtilityPawnNameColorOf).
+        public static readonly Harmony Harmony = new Harmony("shunter.bettertradersguild");
+
         static BetterTradersGuildMod()
         {
             // Apply Harmony patches
-            var harmony = new Harmony("shunter.bettertradersguild");
-            harmony.PatchAll();
+            Harmony.PatchAll();
 
             // Verify every reflection-based lookup the mod depends on actually resolved, so any
             // base-game or optional-mod API drift surfaces here at startup rather than as a silent

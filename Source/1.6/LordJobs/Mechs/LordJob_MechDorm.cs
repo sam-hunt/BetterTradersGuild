@@ -14,7 +14,7 @@ namespace BetterTradersGuild.LordJobs.Mechs
     // assigns one duty to every pawn it owns: any mech still meant to wander must stay
     // on its own LordJob_StayInArea lord and not be forced onto the dorm duty.
     // RoomMechLordHelper keeps the lord types apart.
-    public class LordJob_MechDorm : LordJob
+    public class LordJob_MechDorm : LordJob, IBTGSurvivorLord
     {
         private IntVec3 point;
 

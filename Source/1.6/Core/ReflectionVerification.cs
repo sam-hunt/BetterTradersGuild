@@ -3,6 +3,7 @@ using BetterTradersGuild.Helpers.RoomContents;
 using BetterTradersGuild.Integrations;
 using BetterTradersGuild.Patches.CaravanPatches;
 using BetterTradersGuild.Patches.MechGestatorPatches;
+using BetterTradersGuild.Patches.PawnNameColorUtilityPatches;
 using BetterTradersGuild.Patches.SettlementPatches;
 using BetterTradersGuild.Patches.WorldObjectPatches;
 
@@ -29,6 +30,7 @@ namespace BetterTradersGuild
             RefuelableReflection.VerifyReflection();
             MapGenUtilityReflection.VerifyReflection();
             SiteReflection.VerifyReflection();
+            PawnNameColorUtilityPawnNameColorOf.VerifyReflection();
             UniqueWeaponNameColorRegenerator.VerifyReflection();
             UniqueWeaponAbilityResetter.VerifyReflection();
             CompMechGestatorTankTrigger.VerifyReflection();

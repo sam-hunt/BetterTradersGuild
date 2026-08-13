@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.Patches.PawnNameColorUtilityPatches;
 using RimWorld.Planet;
 using Verse;
 
@@ -126,6 +127,11 @@ namespace BetterTradersGuild.MapComponents
                     }
                 }
             }
+
+            // A defeated map going away may be the last one holding recolored
+            // survivors; recompute the survivor-label patch state. This map can
+            // still be listed in Find.Maps at this point, so exclude it explicitly.
+            PawnNameColorUtilityPawnNameColorOf.Refresh(map);
         }
     }
 }

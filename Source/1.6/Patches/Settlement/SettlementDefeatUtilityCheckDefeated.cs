@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BetterTradersGuild.MapComponents;
+using BetterTradersGuild.Patches.PawnNameColorUtilityPatches;
 using BetterTradersGuild.RoomContents.CargoVault;
 using BetterTradersGuild.WorldComponents;
 using HarmonyLib;
@@ -98,6 +99,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             Map map = __state.Map;
             if (map == null)
                 return;
+
+            // Defeat is confirmed for this TG map (the reparent has happened): apply
+            // the survivor label override while survivors remain. Before the stock
+            // transfer's early returns so an empty vault can't skip it.
+            PawnNameColorUtilityPawnNameColorOf.Refresh();
 
             // Get or add the cache component
             var cache = map.GetComponent<SettlementStockCache>();

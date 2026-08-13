@@ -60,7 +60,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
     // supplies exhaust together and walker hunger tracks baby hunger), and an infant can hit
     // Starving from a mere care hiccup - the caretaker asleep through its hungry window, downed,
     // or mid-job - which used to bolt the family while the shelves were still stocked.
-    public class LordJob_BTGShelterCivilians : LordJob
+    public class LordJob_BTGShelterCivilians : LordJob, IBTGSurvivorLord
     {
         private IntVec3 subroomCenter;
 
