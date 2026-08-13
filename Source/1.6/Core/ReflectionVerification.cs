@@ -28,6 +28,7 @@ namespace BetterTradersGuild
             CompHackableReflection.VerifyReflection();
             RefuelableReflection.VerifyReflection();
             MapGenUtilityReflection.VerifyReflection();
+            SiteReflection.VerifyReflection();
             UniqueWeaponNameColorRegenerator.VerifyReflection();
             UniqueWeaponAbilityResetter.VerifyReflection();
             CompMechGestatorTankTrigger.VerifyReflection();

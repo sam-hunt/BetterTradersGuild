@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.LordJobs;
 using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -27,6 +29,15 @@ namespace BetterTradersGuild.Patches.GenHostilityPatches
     // path - AnyHostileActiveThreatTo iterates the attack-target cache with no race
     // filter, so hostile mechs already count while awake.
     //
+    // Like that twin, this gate disarms at defeat - defeat is final. The settlement
+    // patch disarms structurally (its map-parent check fails once the map reparents to
+    // DestroyedSettlement); the den map keeps its Site parent forever, so the site's
+    // latched allEnemiesDefeatedSignalSent is the equivalent finality signal. Without
+    // the early-out, a medic-recovered defender would re-arm this override after the
+    // quest already resolved as a Success: post-defeat survivors are still members of
+    // LordJob_BTGDefendStructure (the abandon-ship phase is a toil, not a different
+    // LordJob), so the lord-membership filter below cannot tell them apart.
+    //
     // Postfix only: when vanilla concludes "no active threat", override back to
     // threatened if a genuine garrison member remains - alive, not downed, not in a
     // mental break, member of the entrenched-defender lord (which excludes sheltering
@@ -47,7 +58,13 @@ namespace BetterTradersGuild.Patches.GenHostilityPatches
 
             // Only smugglers den site maps; the settlement equivalent is handled by
             // the SettlementDefeatUtility.IsDefeated patch.
-            if (map.Parent?.def != WorldObjects.BTG_SmugglersDenSite)
+            if (!(map.Parent is Site site) || site.def != WorldObjects.BTG_SmugglersDenSite)
+                return;
+
+            // Defeat is final: once the site latches all-enemies-defeated, survivors
+            // (including late medic recoveries) are on the abandon-ship chain and must
+            // never read as garrison again (see class comment).
+            if (SiteReflection.AllEnemiesDefeatedSent(site))
                 return;
 
             Faction owner = map.ParentFaction;
