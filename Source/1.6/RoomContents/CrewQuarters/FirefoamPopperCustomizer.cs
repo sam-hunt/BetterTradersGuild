@@ -214,7 +214,8 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 kind: shamblerKind,
                 faction: null,
                 context: PawnGenerationContext.NonPlayer,
-                tile: map.Tile));
+                tile: map.Tile,
+                forcedXenotype: RollShamblerXenotype(shamblerKind)));
 
             GenSpawn.Spawn(shambler, pos, map);
 
@@ -230,6 +231,24 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     }
                 }
             }
+        }
+
+        // Picks the shambler's xenotype from its own PawnKindDef xenotypeSet up front.
+        // Vanilla generates shamblers under the Entities faction; ours are factionless, and for a
+        // factionless pawn PawnGenerator re-rolls every Baseliner result across all XenotypeDefs
+        // weighted by factionlessGenerationWeight (AdjustXenotypeForFactionlessPawn). That fallback
+        // ignores the kind's set, so any modded xenotype that leaves the weight at its default of 1
+        // can turn up - including synthetic ones such as VRE Androids' awakened android, which has
+        // no business being a reanimated corpse. Forcing the xenotype skips the fallback and keeps
+        // the vanilla mutant spread (Dirtmole, Hussar, Waster, ...).
+        private static XenotypeDef RollShamblerXenotype(PawnKindDef shamblerKind)
+        {
+            if (!ModsConfig.BiotechActive) return null;
+
+            Dictionary<XenotypeDef, float> chances = PawnGenerator.XenotypesAvailableFor(shamblerKind);
+            return chances.TryRandomElementByWeight(x => x.Value, out KeyValuePair<XenotypeDef, float> picked)
+                ? picked.Key
+                : XenotypeDefOf.Baseliner;
         }
 
         // Replaces a marker with an animal bed and spawns a pet.
