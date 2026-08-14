@@ -32,10 +32,17 @@ namespace BetterTradersGuild.AI
                 {
                     if (room?.rects == null)
                         continue;
-                    if (room.requiredDef == def || room.HasLayoutDef(def))
+                    if (IsOfDef(room, def))
                         yield return room;
                 }
             }
+        }
+
+        // Whether room carries def, either as its single requiredDef or as any
+        // entry in its defs list. Shared def-match predicate for room lookups.
+        public static bool IsOfDef(LayoutRoom room, LayoutRoomDef def)
+        {
+            return room.requiredDef == def || room.HasLayoutDef(def);
         }
 
         // The layout room whose rects contain cell, regardless of its def, or null when

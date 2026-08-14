@@ -59,7 +59,8 @@ namespace BetterTradersGuild.RoomContents.Corridor
         // Destroys checkpoint barricades, turrets, and wall-attached buildings that were
         // placed in the reserved perimeter zone. Checks all things on each cell, not just
         // the edifice, because wallAttachment-spawned buildings (e.g. LifeSupportUnit)
-        // share a cell with the wall and are not the edifice.
+        // are not the edifice: their Position is the interior cell beside the wall
+        // (only their sprite is drawn over the wall tile via drawOffset).
         private void ClearCheckpointsFromReservedZone(Map map, LayoutRoom room)
         {
             if (validInterior.Width <= 0)

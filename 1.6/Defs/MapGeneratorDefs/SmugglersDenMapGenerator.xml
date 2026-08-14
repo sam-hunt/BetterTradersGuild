@@ -6,6 +6,9 @@
     Custom MapGeneratorDef for smuggler's den quest sites.
     Reuses most GenSteps from BTG_SettlementMapGenerator with these differences:
     - BTG_SmugglersDenPlatform: Forked layout (no nursery/classroom, required armory)
+    - BTG_ReplaceTerrain/BTG_PaintTerrain skipped: keeps the aged AncientTile floors
+      for a run-down look
+    - BTG_SmugglersDenWallLampColor: corridor and armory lamps glow red
     - BTG_GenerateQuestVaultStock: Pre-populates vault stock from quest reward choice
     - Defenders (pawns + sentry drones) are NOT listed here: they run via the
       linkWithSite GenStepDefs in GenStepDefs/SmugglersDenDefenders.xml so they
@@ -24,10 +27,10 @@
       <li>BTG_SmugglersDenPlatform</li>     <!-- order 200 -->
 
       <!-- Static post-processing -->
-      <li>BTG_ReplaceTerrain</li>            <!-- order 250 -->
-      <li>BTG_PaintTerrain</li>              <!-- order 255 -->
+      <!-- BTG_ReplaceTerrain skipped for run-down look -->
+      <!-- BTG_PaintTerrain skipped for run-down look -->
       <li>BTG_ExtendLandingPadPipes</li>     <!-- order 260 -->
-      <li>BTG_SetWallLampColor</li>          <!-- order 265 -->
+      <li>BTG_SmugglersDenWallLampColor</li> <!-- order 265; red corridor/armory lamps -->
 
       <!-- Pre-populate vault stock from quest reward choice -->
       <li>BTG_GenerateQuestVaultStock</li>   <!-- order 698 -->

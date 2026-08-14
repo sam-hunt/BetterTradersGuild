@@ -9,6 +9,8 @@
     XML-configurable parameters:
     - wallLampDef: ThingDef of the wall lamp to modify
     - glowColor: ColorInt for the glow color (r, g, b) where each value is 0-255
+    - roomOverrides: optional per-room recolors keyed by LayoutRoomDef, applied to
+      lamps inside matching layout rooms
   -->
 
   <GenStepDef>
@@ -17,6 +19,28 @@
     <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SetWallLampColor">
       <wallLampDef>WallLamp</wallLampDef>
       <glowColor>(187, 187, 221)</glowColor>
+    </genStep>
+  </GenStepDef>
+
+  <!-- Smuggler's den variant: corridors and armories glow emergency-light red
+       (the color of vanilla AncientEmergencyLight); everything else keeps the
+       standard blue-white. -->
+  <GenStepDef>
+    <defName>BTG_SmugglersDenWallLampColor</defName>
+    <order>265</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SetWallLampColor">
+      <wallLampDef>WallLamp</wallLampDef>
+      <glowColor>(187, 187, 221)</glowColor>
+      <roomOverrides>
+        <li>
+          <rooms>
+            <li>BTG_Corridor</li>
+            <li>BTG_CorridorDefense</li>
+            <li>BTG_Armory</li>
+          </rooms>
+          <glowColor>(224, 54, 54)</glowColor>
+        </li>
+      </roomOverrides>
     </genStep>
   </GenStepDef>
 </Defs>
