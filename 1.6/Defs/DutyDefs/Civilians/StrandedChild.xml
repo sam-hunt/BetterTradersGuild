@@ -15,9 +15,10 @@
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- Backup baby care: normally the caretaker claims these first (reservations
-             prevent double-claiming); with no adult left, a capable child takes over. -->
-        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+             prevent double-claiming); with no adult left, a capable child takes over.
+             Feed above tuck, same rationale as BTG_ShelterAdult. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
         </li>

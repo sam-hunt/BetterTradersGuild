@@ -50,11 +50,13 @@
         <li Class="BetterTradersGuild.AI.JobGiver_BTGSeekTreatmentInMedbay" />
         <!-- 6. Self-tend when not in combat (in place; no containment needed). -->
         <li Class="JobGiver_SelfTend" />
-        <!-- 7. Childcare during lulls: re-crib, then bottle-feed faction infants
+        <!-- 7. Childcare during lulls: bottle-feed, then re-crib faction infants
              (same givers the sheltering family uses) - caretaker priority, above
-             the defender's own meals. -->
-        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+             the defender's own meals. Feed sits above tuck so a hungry stray baby
+             is fed in one motion (the feed's finalizer re-cribs it afterwards)
+             instead of being tucked and immediately lifted back out to feed. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <!-- 8. Eat: in-structure food only - carried rations, item food, then the
              last-resort sources (paste valve, meal pallets, dispensers). Never
              corpses, never raw hydroponics produce. -->

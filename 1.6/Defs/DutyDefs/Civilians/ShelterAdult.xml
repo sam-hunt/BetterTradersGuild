@@ -23,10 +23,12 @@
     <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <!-- 1. Put any loose/downed baby back into the nearest free crib. -->
-        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
-        <!-- 2. Bottle-feed a hungry baby with the subroom's baby food. -->
+        <!-- 1. Bottle-feed a hungry baby with the subroom's baby food. Above the tuck:
+             the feed's finalizer re-cribs the baby anyway, so a hungry stray baby is
+             handled in one motion instead of tucked and immediately lifted back out. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <!-- 2. Put any loose/downed baby back into the nearest free crib. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <!-- 3. Eat when hungry. Subroom-confined forager: self-gates on hunger (vanilla
              JobGiver_GetFood's gate lives in GetPriority, which a ThinkNode_Priority tree
              ignores) and bounds candidates to the crib subroom (focus+radius), so the

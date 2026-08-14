@@ -13,9 +13,10 @@
     <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <!-- Still a caretaker: keep babies tucked and fed first. -->
-        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+        <!-- Still a caretaker: keep babies fed and tucked first (feed above tuck,
+             same rationale as BTG_ShelterAdult). -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <!-- Sealed-in safety net: stranding can fire while the subroom door is still locked
              (e.g. no launchable exists at all); without this the structure-wide forage below
              can't path out and the family starves boxed in. No-op once the door is open. -->

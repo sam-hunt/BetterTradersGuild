@@ -23,6 +23,15 @@ namespace BetterTradersGuild.AI.Civilians
             if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
                 return null;
 
+            // Hands full of a carried pawn: yield to JobGiver_BTGTuckBabyInCrib's
+            // carried-baby branch (this giver now runs ABOVE the tuck giver). The scan
+            // below can't see the carried baby (despawned), but it CAN see some other
+            // hungry baby - and starting a feed job for it would silently drop the
+            // carried one at this pawn's feet (BottleFeedBaby keeps the vanilla
+            // dropThingBeforeJob default of true).
+            if (pawn.carryTracker?.CarriedThing is Pawn)
+                return null;
+
             Pawn best = null;
             float bestDistSq = float.MaxValue;
             List<Pawn> facPawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);

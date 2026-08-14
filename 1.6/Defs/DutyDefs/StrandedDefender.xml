@@ -21,9 +21,11 @@
     <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
-        <!-- Infants first: re-crib, then bottle-feed. -->
-        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
+        <!-- Infants first: bottle-feed, then re-crib (feed above tuck: the feed's
+             finalizer re-cribs a hungry stray baby anyway, so tucking first would
+             just double-handle it). -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGFeedBaby" />
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGTuckBabyInCrib" />
         <!-- Own needs: in-structure food, then hack out if starving and sealed in. -->
         <li Class="BetterTradersGuild.AI.JobGiver_BTGForageInStructure">
           <minCategory>Hungry</minCategory>
