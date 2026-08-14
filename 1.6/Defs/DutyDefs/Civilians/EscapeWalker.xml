@@ -22,6 +22,11 @@
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGCarryBabyToLaunchable" />
         <!-- 3. No infant left to ferry: board the launchable yourself. -->
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGBoardLaunchable" />
+        <!-- 4. Blocked (route to the launchable momentarily impassable, or nothing
+             reachable): hold position and re-poll instead of falling through to vanilla
+             wander, which walks baby-carriers away from the shuttle and stalls the
+             re-check for the length of the wander. -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGEscapeHold" />
       </subNodes>
     </thinkNode>
   </DutyDef>

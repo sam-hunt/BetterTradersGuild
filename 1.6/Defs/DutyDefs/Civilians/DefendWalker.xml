@@ -28,6 +28,8 @@
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGHackShelterDoor" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGCarryBabyToLaunchable" />
         <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGBoardLaunchable" />
+        <!-- 5. Blocked: hold and re-poll (see BTG_EscapeWalker node 4). -->
+        <li Class="BetterTradersGuild.AI.Civilians.JobGiver_BTGEscapeHold" />
       </subNodes>
     </thinkNode>
   </DutyDef>
