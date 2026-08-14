@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -108,6 +109,49 @@ namespace BetterTradersGuild.AI.Civilians
                     continue;
                 if (PreferredLaunchable(p) != null)
                     return true;
+            }
+            return false;
+        }
+
+        // True while any infant this walker's escape group is responsible for still lies
+        // spawned on the map with at least one living group member able to reach it. A
+        // carried or already-loaded infant is despawned (carry tracker / transporter
+        // container), so it drops out of the spawned scan on its own. The board giver
+        // uses this to hold non-carriers until every infant is actually in someone's
+        // arms, so the group departs together instead of trickling out while the
+        // caretaker is still walking to the crib. The any-member reach gate mirrors the
+        // lord's walker-skip idiom: an infant nobody can reach must not stall the
+        // departure forever (without the gate it would simply have been left behind).
+        public static bool AnyInfantAwaitingCarry(Pawn walker)
+        {
+            Lord lord = walker.GetLord();
+            if (lord == null)
+                return false;
+            var shelterJob = lord.LordJob as LordJob_BTGShelterCivilians;
+
+            List<Pawn> facPawns = walker.Map.mapPawns.SpawnedPawnsInFaction(walker.Faction);
+            for (int i = 0; i < facPawns.Count; i++)
+            {
+                Pawn baby = facPawns[i];
+                if (!(baby.DevelopmentalStage.Baby() || baby.DevelopmentalStage.Newborn()))
+                    continue;
+                if (shelterJob?.ShouldCarryInfant(baby) == false)
+                    continue;
+
+                List<Pawn> owned = lord.ownedPawns;
+                for (int j = 0; j < owned.Count; j++)
+                {
+                    Pawn carrier = owned[j];
+                    if (carrier == baby || carrier.Dead || !carrier.Spawned || carrier.Downed)
+                        continue;
+                    if (!carrier.RaceProps.Humanlike
+                        || carrier.DevelopmentalStage.Baby() || carrier.DevelopmentalStage.Newborn())
+                        continue;
+                    if (!carrier.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+                        continue;
+                    if (carrier.CanReach(baby, PathEndMode.ClosestTouch, Danger.Deadly))
+                        return true;
+                }
             }
             return false;
         }

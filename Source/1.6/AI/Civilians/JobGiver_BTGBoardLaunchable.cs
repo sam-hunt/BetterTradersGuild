@@ -16,6 +16,14 @@ namespace BetterTradersGuild.AI.Civilians
             if (pawn.carryTracker?.CarriedThing != null)
                 return null;
 
+            // Group cohesion: don't board while an infant in the group's scope still lies
+            // uncarried and reachable. Falling through to the hold giver keeps the walker
+            // waiting in place with a fast re-poll, so the whole group starts for the
+            // craft together the moment the last infant is scooped up, instead of
+            // non-carriers trickling out while the caretaker is still walking to a crib.
+            if (LaunchableEscapeHelper.AnyInfantAwaitingCarry(pawn))
+                return null;
+
             Thing launchable = LaunchableEscapeHelper.PreferredLaunchable(pawn);
             if (launchable == null)
                 return null;
