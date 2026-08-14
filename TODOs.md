@@ -1,8 +1,6 @@
 TODOs
 
 - Update steam workshop description to include new features: Custom settlement pawn lord ai, smuggler's den, localizations
-- Shambler should always spawn behind locked door
-- defenders feeding crew quarters' infants pick up and retuck infants a couple of times before feeding
 - smuggler's den gets VFE Pirates gun shuttle if active?
 
 - VGE2 integration
