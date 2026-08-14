@@ -391,6 +391,15 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     // Start lying down job
                     Job layDownJob = JobMaker.MakeJob(Jobs.LayDownResting, crib);
                     newborn.jobs.StartJob(layDownJob, JobCondition.None, null, resumeCurJobAfterwards: false, cancelBusyStances: true);
+
+                    // Start on a full stomach so a fast-draining newborn can't hit starvation
+                    // in the first moments after map load, before the garrison's feed loop is
+                    // established (same reason as ShelteringCivilianSpawner). Map-gen only.
+                    // (allowFood in the generation request governs inventory food, not the
+                    // food-need level, which vanilla otherwise randomises.)
+                    Need_Food food = newborn.needs?.food;
+                    if (food != null)
+                        food.CurLevel = food.MaxLevel;
                 }
                 else
                 {
