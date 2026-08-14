@@ -69,20 +69,22 @@ namespace BetterTradersGuild.LordJobs
             graph.AddToil(defend);
             graph.StartingToil = defend;
 
-            // Post-defeat abandon-ship chain. Defeat only fires while every garrison
-            // human is dead or downed (SettlementDefeatUtilityIsDefeated on settlements,
-            // GenHostilityAnyHostileActiveThreatTo on the den), but downed defenders
-            // stay in the lord (ShouldRemovePawn below) and the medic mech keeps caring
-            // for them, so late recoveries are expected. They must not resume the fight
-            // after the defeated letter promised the player safety: instead they ferry
-            // reachable faction infants to a launchable and fly off (reusing the
-            // civilian escape toil, whose LordToilTick drives the actual lift-off), or
-            // settle into a peaceful stranded routine when no launchable is reachable.
-            // Both threat patches that key on this LordJob disarm themselves at the
-            // moment of defeat (the settlement patch's map-parent check fails once
-            // vanilla reparents the map to DestroyedSettlement; the den patch
-            // early-outs on the site's latched defeat signal), so abandon-phase pawns
-            // never read as garrison.
+            // Post-defeat abandon-ship chain. Defeat fires once 80% of the map's
+            // original active security is incapacitated (SecurityDefeatUtility, applied
+            // by SettlementDefeatUtilityIsDefeated on settlements and
+            // SiteCheckAllEnemiesDefeated on the den), so up to a fifth of the garrison
+            // may still be up and fighting at that moment - the wake-all/end-jobs
+            // actions below stand them down within one check interval. Downed defenders
+            // also stay in the lord (ShouldRemovePawn below) and the medic mech keeps
+            // caring for them, so late recoveries are expected too. Neither group must
+            // resume the fight after the defeated letter promised the player safety:
+            // instead they ferry reachable faction infants to a launchable and fly off
+            // (reusing the civilian escape toil, whose LordToilTick drives the actual
+            // lift-off), or settle into a peaceful stranded routine when no launchable
+            // is reachable. Both defeat patches disarm at the moment of defeat (the
+            // settlement patch's map-parent check fails once vanilla reparents the map
+            // to DestroyedSettlement; the den patch early-outs on the site's latched
+            // defeat signal), so abandon-phase pawns never re-trigger defeat logic.
             LordToil_BTGEscape escape = new LordToil_BTGEscape(baseCenter);
             graph.AddToil(escape);
 
@@ -138,9 +140,8 @@ namespace BetterTradersGuild.LordJobs
         // re-arms or fights). Kept, recovery flows natively: MakeUndowned ->
         // Lord.Notify_PawnUndowned -> base LordJob re-runs UpdateAllDuties, which
         // re-issues BTG_DefendStructure. Same pattern as vanilla
-        // LordJob_DefendAndExpandHive. Downed pawns can't hold the base open: the
-        // defeat/threat patches (SettlementDefeatUtilityIsDefeated,
-        // GenHostilityAnyHostileActiveThreatTo) both filter Downed explicitly.
+        // LordJob_DefendAndExpandHive. Downed pawns can't hold the base open:
+        // SecurityDefeatUtility.CountActiveSecurity filters Downed explicitly.
         public override bool ShouldRemovePawn(Pawn p, PawnLostCondition reason)
         {
             if (reason == PawnLostCondition.Incapped)

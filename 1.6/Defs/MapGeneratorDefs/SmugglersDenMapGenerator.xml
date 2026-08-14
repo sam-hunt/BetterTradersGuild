@@ -19,7 +19,12 @@
     <defName>BTG_SmugglersDenMapGenerator</defName>
     <label>smuggler's den platform</label>
 
-    <!-- Enemies behind locked doors in fogged areas still count as active threats -->
+    <!-- Defeat itself is decided by BTG's SiteCheckAllEnemiesDefeated prefix
+         (SecurityDefeatUtility threshold), which ignores fog and reachability by
+         design - defenders behind locked subroom doors still count. This flag only
+         shapes vanilla GenHostility.IsPotentialThreat for its remaining consumers
+         (e.g. the NoActiveThreats site signal): keep enemies in unreachable fogged
+         areas counting as threats there too, for consistency. -->
     <defeatRequiresCantReachUnfogged>false</defeatRequiresCantReachUnfogged>
 
     <genSteps>
