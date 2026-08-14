@@ -1,16 +1,14 @@
 TODOs
 
-- AI defense lords
-  - Civilian AI
-    - Test no escape route
-
-  - Defender AI
-    - If shuttle pad is free and at least one outer door hacked, reinforcements land in shuttle?
-    - Test defender duty recovery after base destroyed with/without escape route (do they leave infants behind?)
+- Update steam workshop description to include new features: Custom settlement pawn lord ai, smuggler's den, localizations
+- Shambler should always spawn behind locked door
+- defenders feeding crew quarters' infants pick up and retuck infants a couple of times before feeding
+- smuggler's den gets VFE Pirates gun shuttle if active?
 
 - VGE2 integration
   - Defender overhaul opt-out toggle: spec ready in Docs/Specs/SPEC-defender-overhaul-toggle.md (settings-gated PatchOperationToggledSequence; lets players revert pawnkind rebalance + garrison weights to vanilla for VGE mapgen)
   - Investigate/Activate VGE Gauss cannon code/other VGE TG mechanics
+  - VGE2 Shuttle texture replacement
   - Surface one-time mapgen options if VGE2 and BTG mapgen are both enabled:
     - Use BTG every time
     - Use VGE every time
@@ -18,6 +16,7 @@ TODOs
     - Ask every time
 
 - Propagate translate skill learnings to other mods if appropriate
+- Port Steam Workshop localization structure to sibling mod repos, from BTG commits c74f2fc (committed .steamworkshop/Description/<Language>.txt files: line 1 title, blank, BBCode body; folder README conventions; release skill step diffing English vs last tag to spawn translation subagents) and acdfd14 (fully localized titles, no English brand, coupled 1:1 to each language's settings ModName key; CLAUDE.md coupling note). c464448 is an intermediate title format superseded by acdfd14.
 - Review mod settings page layout
 - Settlement spawn count scale?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
