@@ -11,41 +11,48 @@ namespace BetterTradersGuild.Patches.SitePatches
 {
     // Harmony patch: Site.CheckAllEnemiesDefeated (private, hence the reflection lookup)
     //
-    // Replaces the defeat verdict on smugglers den maps with BTG's own rule:
-    // defeated once 80% of the map's original active security (entrenched garrison
-    // humans + roaming sentry drones) is incapacitated. Full predicate and
-    // rationale live in SecurityDefeatUtility; the settlement twin is
-    // SettlementDefeatUtilityIsDefeated.
+    // Adds BTG's defeat rule on smugglers den maps: defeated once 80% of the map's
+    // original active security (entrenched garrison humans + roaming sentry drones)
+    // is incapacitated. Full predicate and rationale live in SecurityDefeatUtility;
+    // the settlement twin is SettlementDefeatUtilityIsDefeated.
     //
-    // Vanilla's check can never pass on a den: it requires
+    // Vanilla's own check can essentially never pass on a den: it requires
     // AnyHostileActiveThreatToPlayer(countDormantPawnsAsHostile: true,
     // canBeFogged: true) to go false, and that counts every powered hostile turret
     // (any IAttackTargetSearcher) plus dormant and fogged pawns. Den maps always
     // ship turrets (the required armory's corner turrets at minimum), so the
     // AllEnemiesDefeated latch - and with it quest success and the abandon-ship
-    // phase - could never fire, even with every pawn dead. Settlements never had
-    // this problem because SettlementDefeatUtility.IsDefeated only ever counted
-    // humanlike pawns; this override brings the den in line with that.
+    // phase - could not fire even with every pawn dead. Settlements never had this
+    // problem because SettlementDefeatUtility.IsDefeated only ever counted
+    // humanlike pawns; this patch brings the den in line with that.
     //
-    // The prefix replaces the method wholesale for BTG dens (vanilla continues to
-    // run for every other site): evaluate BTG's threshold, and on collapse mirror
-    // vanilla's send-then-latch exactly - fire the AllEnemiesDefeated quest signal
-    // (QuestNode_End(Success) in Script_BTG_SmugglersDen.xml listens for it), set
-    // the site's private latch, and refresh survivor name colors. Hooked here
-    // rather than on the quest's signal (a QuestPart races the same-signal
-    // QuestNode_End, and the latch - not the quest - is the truth) or the
-    // defenders' abandon transition (never fires when every defender died but
+    // Additive postfix, never a skip: the original always runs, so other mods'
+    // prefixes, transpilers, and postfixes on this method keep their full
+    // semantics. Letting vanilla go first can never produce a different outcome,
+    // because its latch condition (zero active threats, turrets included) is a
+    // strict subset of BTG's threshold - any state vanilla would latch on, BTG's
+    // rule has already latched on or latches in the same call. When the threshold
+    // fires first, the postfix mirrors vanilla's send-then-latch exactly: fire the
+    // AllEnemiesDefeated quest signal (QuestNode_End(Success) in
+    // Script_BTG_SmugglersDen.xml listens for it), set the site's private latch,
+    // and refresh survivor name colors. The prefix only snapshots the latch so the
+    // postfix can tell a fresh vanilla latch (refresh labels only) from an old one
+    // (do nothing - defeat is final).
+    //
+    // Hooked here rather than on the quest's signal (a QuestPart races the
+    // same-signal QuestNode_End, and the latch - not the quest - is the truth) or
+    // the defenders' abandon transition (never fires when every defender died but
     // civilians survived: emptied lords are removed before their transitions run).
-    // Cold path: sites tick on world-object intervals, and the latch check
-    // early-outs every call after defeat.
+    // Cold path: sites tick on world-object intervals, and everything early-outs
+    // once the latch is set.
     //
     // Degrades gracefully twice over: the target is resolved here rather than
     // string-named in the attribute, so on a rename (RimWorld API change) Prepare
     // skips this class instead of PatchAll throwing mid-run, and VerifyPatched
     // reports the drift at startup. And if the latch field is what drifted, the
-    // prefix steps aside entirely - sending the signal without latching would
-    // re-fire it every world-object tick - leaving vanilla's (turret-gated) check
-    // in charge; SiteReflection.VerifyReflection reports that consequence.
+    // postfix stays passive - sending the signal without latching would re-fire it
+    // every world-object tick - leaving vanilla's (turret-gated) check in charge;
+    // SiteReflection.VerifyReflection reports that consequence.
     [HarmonyPatch]
     public static class SiteCheckAllEnemiesDefeated
     {
@@ -76,29 +83,42 @@ namespace BetterTradersGuild.Patches.SitePatches
         }
 
         [HarmonyPrefix]
-        public static bool Prefix(Site __instance)
+        public static void Prefix(Site __instance, out bool __state)
+        {
+            __state = SiteReflection.AllEnemiesDefeatedSent(__instance);
+        }
+
+        [HarmonyPostfix]
+        public static void Postfix(Site __instance, bool __state)
         {
             if (__instance.def != WorldObjects.BTG_SmugglersDenSite)
-                return true;
+                return;
+
+            // Defeat is final: latched before this call means nothing left to do.
+            if (__state)
+                return;
+
+            // Vanilla latched during this call (only reachable once every turret is
+            // down too, a strict subset of BTG's threshold): the defeat side is
+            // done, just recompute the survivor label state.
+            if (SiteReflection.AllEnemiesDefeatedSent(__instance))
+            {
+                PawnNameColorUtilityPawnNameColorOf.Refresh();
+                return;
+            }
 
             // Without the latch field, stepping in would re-fire the quest signal
-            // every world-object tick; let vanilla's own check run instead.
-            if (SiteReflection.AllEnemiesDefeatedSignalSentField == null)
-                return true;
-
-            // Defeat is final; and the caller (Site.TickInterval) only runs this
-            // with a map, but a guard costs nothing.
-            if (SiteReflection.AllEnemiesDefeatedSent(__instance) || !__instance.HasMap)
-                return false;
+            // every world-object tick; stay passive (see class comment).
+            if (SiteReflection.AllEnemiesDefeatedSignalSentField == null || !__instance.HasMap)
+                return;
 
             if (!SecurityDefeatUtility.IsSecurityDefeated(__instance.Map, __instance.Faction))
-                return false;
+                return;
 
             QuestUtility.SendQuestTargetSignals(__instance.questTags, "AllEnemiesDefeated",
                 __instance.Named("SUBJECT"));
             SiteReflection.SetAllEnemiesDefeatedSent(__instance);
             PawnNameColorUtilityPawnNameColorOf.Refresh();
-            return false;
         }
     }
 }

@@ -29,9 +29,9 @@ namespace BetterTradersGuild.Helpers.Reflection
         }
 
         // Latches the site's defeat signal; called by the SiteCheckAllEnemiesDefeated
-        // prefix at the moment BTG's threshold fires. Vanilla only ever writes true, so
-        // no value parameter. No-op when reflection failed - that patch then steps aside
-        // entirely rather than half-applying (send without latch would re-fire the quest
+        // postfix at the moment BTG's threshold fires. Vanilla only ever writes true, so
+        // no value parameter. No-op when reflection failed - that patch then stays
+        // passive rather than half-applying (send without latch would re-fire the quest
         // signal every world-object tick).
         public static void SetAllEnemiesDefeatedSent(Site site)
         {

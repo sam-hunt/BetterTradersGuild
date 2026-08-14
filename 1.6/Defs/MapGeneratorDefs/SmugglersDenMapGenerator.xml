@@ -19,7 +19,7 @@
     <defName>BTG_SmugglersDenMapGenerator</defName>
     <label>smuggler's den platform</label>
 
-    <!-- Defeat itself is decided by BTG's SiteCheckAllEnemiesDefeated prefix
+    <!-- Defeat itself is decided by BTG's SiteCheckAllEnemiesDefeated patch
          (SecurityDefeatUtility threshold), which ignores fog and reachability by
          design - defenders behind locked subroom doors still count. This flag only
          shapes vanilla GenHostility.IsPotentialThreat for its remaining consumers
