@@ -201,6 +201,11 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
             GenSpawn.Spawn(infant, sleepPos, map);
             crib.TryGetComp<CompAssignableToPawn>()?.TryAssignPawn(infant);
+            // Known cosmetic quirk: at generation time the vacuum grid still reads full
+            // vacuum, so this places the infant on the crib WITHOUT registering the tuck
+            // (CanUseBedNow silently fails at vacuum >= 0.5) and the caretaker re-cribs
+            // it shortly after. Accepted: the subroom is fogged until breached, so the
+            // walk-over is never visible.
             RestUtility.TuckIntoBed(crib, infant, infant, rescued: false);
 
             if (!crib.AnyUnownedSleepingSlot)

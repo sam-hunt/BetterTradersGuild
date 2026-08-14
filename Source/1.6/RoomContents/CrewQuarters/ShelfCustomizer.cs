@@ -5,7 +5,6 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 using BetterTradersGuild.DefRefs;
-using BetterTradersGuild.Helpers;
 using BetterTradersGuild.Helpers.RoomContents;
 
 namespace BetterTradersGuild.RoomContents.CrewQuarters
@@ -388,7 +387,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                     var compAssignable = crib.TryGetComp<CompAssignableToPawn>();
                     compAssignable?.TryAssignPawn(newborn);
 
-                    // Start lying down job
+                    // Start lying down job. Known cosmetic quirk: the vacuum grid still
+                    // reads full vacuum during map generation, so this job dies on its
+                    // first tick (CanUseBedNow rejects any bed at vacuum >= 0.5) and the
+                    // newborn lies ON the crib rather than tucked IN it until the first
+                    // caretaker re-cribs it. Accepted: the structure interior is fogged
+                    // until the player breaches it, so the walk-over is never visible.
                     Job layDownJob = JobMaker.MakeJob(Jobs.LayDownResting, crib);
                     newborn.jobs.StartJob(layDownJob, JobCondition.None, null, resumeCurJobAfterwards: false, cancelBusyStances: true);
 
