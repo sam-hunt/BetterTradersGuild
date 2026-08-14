@@ -58,6 +58,10 @@ The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods fo
 
 **Harmony Patching:** All patches use `[HarmonyPatch]` attributes for automatic discovery. Patches are organized by target class in subdirectories under `Patches/`. Most are Postfix patches that check `TradersGuildHelper.IsTradersGuildSettlement()` before modifying behavior.
 
+**Prefix discipline:** Prefer Postfix. A Prefix should only set flags or pre-align state, returning void/true. Skipping the original (`return false`) is a mod-compat hazard — other mods' transpilers and the original's side effects silently die with it — so before writing one, check whether an additive Postfix can express the change (vanilla's condition being a strict subset of ours is what made the den defeat check postfix-able). When a skip is genuinely unavoidable because vanilla's effect must not happen (e.g. `TryDestroyStock` while a settlement map is loaded), scope it tightly to BTG-owned defs/state and preserve any vanilla effects other patches may rely on.
+
+**Private patch targets:** resolve via a cached `AccessTools.Method` with `[HarmonyPrepare]`/`[HarmonyTargetMethod]`, never a string-named attribute: on API drift, Prepare skips just that one patch instead of `PatchAll` throwing and aborting every later patch, and a `VerifyPatched()` hook wired into `ReflectionVerification.VerifyAll()` reports the drift at startup (example: `SiteCheckAllEnemiesDefeated`).
+
 **Namespace Convention:** Use `*Patches` suffix for patch namespaces to avoid RimWorld type conflicts (e.g., `SettlementPatches`, `CaravanPatches`).
 
 **DefOf Constants:** Static `[DefOf]` classes in `DefRefs/` provide compile-time safety for XML definitions (e.g., `Factions.TradersGuild`, `LayoutRooms.CommandersQuarters`).
