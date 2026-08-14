@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.LordJobs.Civilians;
+using RimWorld;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -87,9 +88,51 @@ namespace BetterTradersGuild.AI.Civilians
             if (best == null)
                 return null;
 
+            // A child yields the claim when a free adult walker could make this ferry:
+            // carrier selection is otherwise pure think-order (whoever evaluates this
+            // giver first reserves the baby), which reads as random. The adult scooping
+            // up the infant is the intended picture; children stay the FALLBACK carriers
+            // (adult dead, downed, hands full with another infant, or cut off from this
+            // one), preserving the ferry-freely robustness above.
+            if (!pawn.DevelopmentalStage.Adult() && AnyFreeAdultCouldFerry(pawn, best))
+                return null;
+
             Job job = JobMaker.MakeJob(Jobs.BTG_CarryBabyToLaunchable, best, launchable);
             job.count = 1;
             return job;
+        }
+
+        // True if another walker in this pawn's lord is an adult currently able to take
+        // the ferry instead: alive, spawned, standing, capable of manipulation, not
+        // already holding a pawn or mid-ferry, and able to reach the infant. The reach
+        // check keeps a sealed-off adult from stalling the deferral forever.
+        private static bool AnyFreeAdultCouldFerry(Pawn child, Pawn baby)
+        {
+            var lord = child.GetLord();
+            if (lord == null)
+                return false;
+
+            List<Pawn> owned = lord.ownedPawns;
+            for (int i = 0; i < owned.Count; i++)
+            {
+                Pawn adult = owned[i];
+                if (adult == child || adult.Dead || !adult.Spawned || adult.Downed)
+                    continue;
+                // Humanlike gate: a mech in the same lord must never count as the
+                // "adult who'll do it" - it never runs this ferry.
+                if (!adult.RaceProps.Humanlike || !adult.DevelopmentalStage.Adult())
+                    continue;
+                if (!adult.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+                    continue;
+                if (adult.carryTracker?.CarriedThing is Pawn)
+                    continue;
+                if (adult.CurJobDef == Jobs.BTG_CarryBabyToLaunchable)
+                    continue;
+                if (!adult.CanReach(baby, PathEndMode.ClosestTouch, Danger.Deadly))
+                    continue;
+                return true;
+            }
+            return false;
         }
     }
 }
