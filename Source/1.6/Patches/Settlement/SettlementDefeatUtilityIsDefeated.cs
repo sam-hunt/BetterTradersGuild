@@ -8,10 +8,10 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     // Harmony patch: SettlementDefeatUtility.IsDefeated
     //
     // Replaces the defeat verdict on TradersGuild settlement maps with BTG's own
-    // rule: defeated once 80% of the map's original active security (entrenched
-    // garrison humans + roaming sentry drones) is incapacitated. Full predicate and
-    // rationale live in SecurityDefeatUtility; the den twin is
-    // SiteCheckAllEnemiesDefeated.
+    // rule: defeated once the securityDefeatFraction setting's share (default 80%)
+    // of the map's original active security (entrenched garrison humans + roaming
+    // sentry drones) is incapacitated. Full predicate and rationale live in
+    // SecurityDefeatUtility; the den twin is SiteCheckAllEnemiesDefeated.
     //
     // A full override in both directions, because vanilla's test mis-scores BTG
     // settlements both ways:
@@ -23,8 +23,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     //     defeated though the garrison would wake within ~3.5s.
     //
     //   - Too strict: vanilla requires every last defender out, where BTG wants the
-    //     80% collapse threshold (the space-map replacement for vanilla's ground
-    //     rout at 40-70% lost; see SecurityDefeatUtility).
+    //     collapse threshold (the space-map replacement for vanilla's ground rout at
+    //     40-70% lost; see SecurityDefeatUtility). Only at a 100% setting do the two
+    //     agree on this side.
     //
     // Mechs never enter vanilla's verdict (it gates on RaceProps.Humanlike) and BTG
     // now agrees for all but sentry drones: worker mechs and room-bound security

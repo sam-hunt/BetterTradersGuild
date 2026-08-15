@@ -62,6 +62,11 @@
   <BTG_Settings_MinThreatPoints>Minimum defender threat points: {0}</BTG_Settings_MinThreatPoints>
   <BTG_Settings_MinThreatPointsDesc>Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- {0} = percentage -->
+  <BTG_Settings_SecurityDefeatThreshold>Garrison defeat threshold: {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <BTG_Settings_SecurityDefeatThresholdDesc>How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- {0} = watts -->
   <BTG_Settings_LifeSupportPower>LifeSupportUnit power output: {0}W</BTG_Settings_LifeSupportPower>

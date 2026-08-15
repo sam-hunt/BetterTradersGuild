@@ -11,9 +11,10 @@ namespace BetterTradersGuild.Patches.SitePatches
 {
     // Harmony patch: Site.CheckAllEnemiesDefeated (private, hence the reflection lookup)
     //
-    // Adds BTG's defeat rule on smugglers den maps: defeated once 80% of the map's
-    // original active security (entrenched garrison humans + roaming sentry drones)
-    // is incapacitated. Full predicate and rationale live in SecurityDefeatUtility;
+    // Adds BTG's defeat rule on smugglers den maps: defeated once the
+    // securityDefeatFraction setting's share (default 80%) of the map's original
+    // active security (entrenched garrison humans + roaming sentry drones) is
+    // incapacitated. Full predicate and rationale live in SecurityDefeatUtility;
     // the settlement twin is SettlementDefeatUtilityIsDefeated.
     //
     // Vanilla's own check can essentially never pass on a den: it requires

@@ -8,7 +8,8 @@ using Verse.AI.Group;
 namespace BetterTradersGuild
 {
     // Decides when a BTG-managed garrison (TradersGuild settlement or smugglers den)
-    // counts as defeated: 80% of the map's original active security incapacitated.
+    // counts as defeated: securityDefeatFraction of the map's original active
+    // security incapacitated (default 80%).
     //
     // "Active security" is the mobile fighting force only - entrenched garrison
     // humans (LordJob_BTGDefendStructure members) plus roaming sentry drones
@@ -20,8 +21,8 @@ namespace BetterTradersGuild
     // count toward the threshold. A counted pawn stops being active when it is dead,
     // despawned, downed, captured, or in a mental state.
     //
-    // Vanilla reference for the 80%: ground settlement defenders rout at a seeded
-    // 40-70% of the lord lost (Lord.SetJob injects a panic-flee toil gated on
+    // Vanilla reference for the 80% default: ground settlement defenders rout at a
+    // seeded 40-70% of the lord lost (Lord.SetJob injects a panic-flee toil gated on
     // FactionDef.attackersDownPercentageRangeForAutoFlee), and fleeing pawns stop
     // blocking defeat. Space maps never get that toil (the Space biome's
     // canExitMap=false makes Map.CanEverExit false), so this threshold is the
@@ -29,9 +30,16 @@ namespace BetterTradersGuild
     // guild conducts an orderly evacuation, not a rout. Static rather than seeded:
     // defender spawn positions are already random (some land behind locked subroom
     // doors), so the player cannot game an exact head-count anyway.
+    //
+    // The fraction is a player setting (securityDefeatFraction, 0.5-1.0), read live
+    // on every query rather than latched at map generation, so a mid-visit change
+    // applies immediately.
     public static class SecurityDefeatUtility
     {
-        public const float DefeatedFraction = 0.8f;
+        public const float DefaultDefeatedFraction = 0.8f;
+
+        public static float DefeatedFraction =>
+            BetterTradersGuildMod.Settings.securityDefeatFraction;
 
         // Whether the map's garrison has collapsed past the threshold. owner is the
         // garrison faction (settlement faction / den site faction). Callers gate on
@@ -43,21 +51,22 @@ namespace BetterTradersGuild
 
             SecurityCensus census = map.GetComponent<SecurityCensus>();
             int initial = census != null ? census.InitialSecurity : SecurityCensus.Unknown;
-            return MeetsDefeatThreshold(initial, CountActiveSecurity(map, owner));
+            return MeetsDefeatThreshold(initial, CountActiveSecurity(map, owner), DefeatedFraction);
         }
 
-        // Pure threshold arithmetic, split out for unit tests. Vanilla float-compare
-        // idiom (Trigger_FractionPawnsLost): defeated once incapacitated count
-        // reaches initial * fraction, so small garrisons round toward requiring
-        // more, never fewer (initial 4 -> 4 incapacitated, not 3). initial <= 0
-        // means the census is missing (map predates the component, or no security
-        // ever generated): fall back to requiring zero active security.
-        public static bool MeetsDefeatThreshold(int initial, int active)
+        // Pure threshold arithmetic, split out for unit tests (which cannot read mod
+        // settings, hence the explicit fraction). Vanilla float-compare idiom
+        // (Trigger_FractionPawnsLost): defeated once incapacitated count reaches
+        // initial * fraction, so small garrisons round toward requiring more, never
+        // fewer (initial 4 at 0.8 -> 4 incapacitated, not 3). initial <= 0 means the
+        // census is missing (map predates the component, or no security ever
+        // generated): fall back to requiring zero active security.
+        public static bool MeetsDefeatThreshold(int initial, int active, float fraction)
         {
             if (initial <= 0)
                 return active == 0;
 
-            return initial - active >= initial * DefeatedFraction;
+            return initial - active >= initial * fraction;
         }
 
         // Counts the currently active security on the map. Also used by
