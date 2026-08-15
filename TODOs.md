@@ -1,7 +1,12 @@
 TODOs
 
+- smuggler's den quest shouldn't require non-hostile relation
+- hostility forces goodwill rewards on some vanilla quests. can we do something similar for smuggler's den? conditional ""
+- Remove white light-recoloring on smuggler's den, keep only red on named rooms
+- things can't be claimed after defeat trigger if mechanoids etc are still alive
+- escaping civilians shouldn't stop to feed/tuck infants etc
+- Review mod settings page layout
 - Update steam workshop description to include new features: Custom settlement pawn lord ai, smuggler's den, localizations
-- smuggler's den gets VFE Pirates gun shuttle if active?
 
 - VGE2 integration
   - Defender overhaul opt-out toggle: spec ready in Docs/Specs/SPEC-defender-overhaul-toggle.md (settings-gated PatchOperationToggledSequence; lets players revert pawnkind rebalance + garrison weights to vanilla for VGE mapgen)
@@ -15,7 +20,8 @@ TODOs
 
 - Propagate translate skill learnings to other mods if appropriate
 - Port Steam Workshop localization structure to sibling mod repos, from BTG commits c74f2fc (committed .steamworkshop/Description/<Language>.txt files: line 1 title, blank, BBCode body; folder README conventions; release skill step diffing English vs last tag to spawn translation subagents) and acdfd14 (fully localized titles, no English brand, coupled 1:1 to each language's settings ModName key; CLAUDE.md coupling note). c464448 is an intermediate title format superseded by acdfd14.
-- Review mod settings page layout
+- smuggler's den shuttle bay gets VFE Pirates gun shuttle variant if active?
+- sanity check pass over our harmony prefixes for mod compatibility risks
 - Settlement spawn count scale?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Rare Subroom placement small room off-by-one?
