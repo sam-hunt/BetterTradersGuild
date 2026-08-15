@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BetterTradersGuild.Helpers;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -440,7 +441,7 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             {
                 Log.Warning("[Better Traders Guild] No valid floor cells for pawns in cargo vault");
                 foreach (Pawn pawn in pawns)
-                    Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+                    WorldPawnRegistrar.EnsureWorldPawn(pawn, PawnDiscardDecideMode.Decide);
                 return;
             }
 

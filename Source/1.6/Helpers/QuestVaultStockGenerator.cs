@@ -44,7 +44,7 @@ namespace BetterTradersGuild.Helpers
                 // Same pattern as CargoReturnHelper.ReturnPawnsToStock.
                 if (thing is Pawn pawn && !pawn.Dead)
                 {
-                    Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.KeepForever);
+                    WorldPawnRegistrar.EnsureWorldPawn(pawn, PawnDiscardDecideMode.KeepForever);
                 }
 
                 stock.TryAdd(thing, canMergeWithExistingStacks: false);

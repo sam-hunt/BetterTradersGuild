@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using BetterTradersGuild.RoomContents.CargoVault;
-using RimWorld;
 using RimWorld.Planet;
 using Verse;
 using PawnKinds = BetterTradersGuild.DefRefs.PawnKinds;
@@ -124,7 +122,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                     // Register as world pawn BEFORE adding to stock.
                     // KeepForever ensures the pawn persists (not garbage collected)
                     // since it's actively in trade inventory and could be purchased.
-                    Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.KeepForever);
+                    WorldPawnRegistrar.EnsureWorldPawn(pawn, PawnDiscardDecideMode.KeepForever);
 
                     // Return to stock
                     stock.TryAdd(pawn, canMergeWithExistingStacks: false);
@@ -132,7 +130,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 else
                 {
                     // Safety fallback: pass to world (never lose pawns)
-                    Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+                    WorldPawnRegistrar.EnsureWorldPawn(pawn, PawnDiscardDecideMode.Decide);
                 }
             }
         }
