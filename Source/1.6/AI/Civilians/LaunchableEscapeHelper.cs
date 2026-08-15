@@ -23,6 +23,13 @@ namespace BetterTradersGuild.AI.Civilians
     // Boarding itself still uses ordinary carry/enter jobs so it looks normal.
     public static class LaunchableEscapeHelper
     {
+        // Chemfuel a departing transport pod "spends" on take-off, drained from the adjacent
+        // pod launcher it draws fuel from. The escape launch itself bypasses vanilla's fuel
+        // requirement (see LiftOff), so this is purely a visible after-the-fact mark: a player
+        // who later takes the settlement finds a fired pod's launcher partly drained instead of
+        // full. Shuttles have no fueling port and are unaffected.
+        private const float EscapeFuelDrain = 50f;
+
         // All loadable launchables on the map (shuttle + pods + anything else carrying a
         // CompTransporter), ranked: shuttle(s) first, then transport pods, then the rest.
         public static List<Thing> AllLaunchables(Map map)
@@ -207,8 +214,21 @@ namespace BetterTradersGuild.AI.Civilians
 
             // Pod / other launchable: no TransportShip, so spawn the leaving skyfaller ourselves
             // (the destination-free tail of ShipJob_FlyAway / CompLaunchable.TryLaunch, minus the
-            // fuel and world travel).
+            // fuel and world travel). Drain the pod's launcher first, while it's still spawned.
+            DrainFuelingPortSource(launchable);
             LaunchWithoutDestination(launchable, transporter);
+        }
+
+        // Best-effort: spend EscapeFuelDrain chemfuel from a transport pod's attached pod
+        // launcher (its fueling-port source). No-op when there is nothing to drain - a shuttle
+        // or other craft without a CompLaunchable_TransportPod, or a lone pod with no adjacent
+        // launcher. CompRefuelable.ConsumeFuel clamps at zero and fires its own out-of-fuel
+        // notification, so a launcher with under 50 chemfuel simply empties.
+        private static void DrainFuelingPortSource(Thing launchable)
+        {
+            CompLaunchable_TransportPod podLaunchable = launchable.TryGetComp<CompLaunchable_TransportPod>();
+            CompRefuelable fuelSource = podLaunchable?.FuelingPortSource;
+            fuelSource?.ConsumeFuel(EscapeFuelDrain);
         }
 
         // Remove every launchable occupant from its lord so the escape lord shrinks and self-
