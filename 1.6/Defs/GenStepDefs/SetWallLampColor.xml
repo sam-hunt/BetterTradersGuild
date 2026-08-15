@@ -23,14 +23,14 @@
   </GenStepDef>
 
   <!-- Smuggler's den variant: corridors and armories glow emergency-light red
-       (the color of vanilla AncientEmergencyLight); everything else keeps the
-       standard blue-white. -->
+       (the color of vanilla AncientEmergencyLight); every other lamp keeps its
+       default glow (no blue-white recolor). -->
   <GenStepDef>
     <defName>BTG_SmugglersDenWallLampColor</defName>
     <order>265</order>
     <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SetWallLampColor">
       <wallLampDef>WallLamp</wallLampDef>
-      <glowColor>(187, 187, 221)</glowColor>
+      <onlyRecolorOverriddenRooms>true</onlyRecolorOverriddenRooms>
       <roomOverrides>
         <li>
           <rooms>
