@@ -115,6 +115,19 @@ Also floors the threat level used to size the sentry drone patrol.
   -->
   <BTG_Settings_MinThreatPointsDesc>Empêche la force initiale des défenseurs de descendre en dessous de cette valeur lorsque la richesse est faible.\nFixe également le plancher du niveau de menace utilisé pour dimensionner la patrouille de drones sentinelles.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- garnison is Core fr AncientGarrison.label; tourelles and mécanoïdes are Core fr vocabulary. -->
+  <!-- Vanilla fr writes percentages tight ({0}%) and puts a space before a colon; both are copied. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>Seuil de défaite de la garnison : {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN:
+How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.
+Counts defending guards and patrolling sentry drones, not turrets or worker mechs.
+100% means fighting to the last defender.
+  -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>Proportion de la force de défense initiale d'une colonie ou d'un repaire de contrebandiers qui doit être mise hors de combat avant que la guilde n'abandonne la carte.\nSeuls les gardes en défense et les drones sentinelles en patrouille sont comptés, pas les tourelles ni les mécanoïdes ouvriers.\n100% signifie combattre jusqu'au dernier défenseur.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- "unité de survie" is Odyssey fr LifeSupportUnit.label. -->
   <!-- EN: LifeSupportUnit power output: {0}W -->

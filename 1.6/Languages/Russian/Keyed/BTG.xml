@@ -85,6 +85,15 @@
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
   <BTG_Settings_MinThreatPointsDesc>Не даёт начальной силе защитников опуститься ниже этого значения при малом богатстве.\nТакже задаёт нижнюю границу угрозы, по которой рассчитывается патруль дронов-дозорных.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- гарнизон is Core ru AncientGarrison.label; турели and механоиды are Core ru. -->
+  <!-- Рабочие механоиды, not дроны: дрон would collide with дрон-дозорный in the same sentence. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>Порог поражения гарнизона: {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>Какая доля первоначальных сил обороны поселения или логова контрабандистов должна быть выведена из строя, прежде чем гильдия оставит карту.\nУчитываются защитники и патрульные дроны-дозорные, но не турели и не рабочие механоиды.\n100% означает бой до последнего защитника.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>Выработка энергии блоком жизнеобеспечения: {0} Вт</BTG_Settings_LifeSupportPower>

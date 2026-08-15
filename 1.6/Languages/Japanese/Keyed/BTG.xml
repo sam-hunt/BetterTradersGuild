@@ -113,6 +113,15 @@
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
   <BTG_Settings_MinThreatPointsDesc>資産が少ない時に,初期の防衛部隊の戦力がこの値を下回らないようにします.\nセントリードローンの巡回規模を決める脅威レベルの下限にもなります.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- 守備隊 is the mod-decided word for a garrison force (vanilla ja AncientGarrison is 駐屯地, a place). -->
+  <!-- 衛兵 is Core ja Town_Guard.label; タレット and メカ are Core/Biotech ja vocabulary. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>守備隊の敗退しきい値: {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>入植地や密輸業者の巣窟の初期防衛戦力がどれだけ無力化されると,ギルドがそのマップを放棄するかを決めます.\n防衛にあたる衛兵と巡回中のセントリードローンのみを数え,タレットや作業用メカは数えません.\n100%にすると,最後の一人まで戦います.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- "生命維持ユニット" is Odyssey ja's own LifeSupportUnit.label. -->
   <!-- EN: LifeSupportUnit power output: {0}W -->

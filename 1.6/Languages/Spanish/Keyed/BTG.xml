@@ -92,6 +92,15 @@
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
   <BTG_Settings_MinThreatPointsDesc>Evita que la fuerza inicial de los defensores baje de este valor cuando la riqueza es escasa.\nTambién fija el mínimo del nivel de amenaza que se usa para dimensionar la patrulla de drones centinela.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- guarnición is Core es AncientGarrison.label; torretas and mecanoides are Core es vocabulary. -->
+  <!-- Vanilla es writes percentages tight ({0}%); copied exactly. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>Umbral de derrota de la guarnición: {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>Qué parte de la fuerza defensora original de un asentamiento o de una guarida de contrabandistas debe caer incapacitada antes de que el gremio abandone el mapa.\nCuenta a los guardias defensores y a los drones centinela de patrulla, pero no a las torretas ni a los mecanoides de trabajo.\n100% significa luchar hasta el último defensor.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>Producción de energía de la unidad de soporte vital: {0} W</BTG_Settings_LifeSupportPower>

@@ -86,6 +86,15 @@
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
   <BTG_Settings_MinThreatPointsDesc>防止低财富时初始守卫强度缩放到该值以下。\n同时作为计算哨兵无人机巡逻规模所用威胁等级的下限。</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- 守备队 is Odyssey zh AncientGarrison.label (远古守备队); -->
+  <!-- 炮塔 and 机械族 are Core zh turret/Mechanoid vocabulary. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>守备队战败阈值：{0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>定居点或走私巢穴的初始防守力量需有多大比例被打倒，商会才会放弃该地图。\n只计入驻守的守卫与巡逻的哨兵无人机，不计入炮塔与工作机械族。\n设为100%表示战至最后一名守卫。</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>生命维持单元电力输出：{0}W</BTG_Settings_LifeSupportPower>

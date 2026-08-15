@@ -87,6 +87,15 @@
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
   <BTG_Settings_MinThreatPointsDesc>Verhindert, dass die anfängliche Verteidigerstärke bei geringem Reichtum unter diesen Wert fällt.\nBegrenzt außerdem nach unten die Bedrohungsstufe, nach der die Wächterdrohnen-Patrouille bemessen wird.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- Garnison is Core de AncientGarrison.label; Geschuetze is Core de turret vocabulary. -->
+  <!-- Vanilla de writes percentages tight ({0}%); copied exactly. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>Niederlagenschwelle der Garnison: {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>Wie viel der ursprünglichen Verteidigungstruppe einer Siedlung oder eines Schmugglernests kampfunfähig sein muss, bevor die Gilde die Karte aufgibt.\nGezählt werden verteidigende Wachen und patrouillierende Wächterdrohnen, nicht aber Geschütze oder Arbeitsmechs.\n100% bedeutet Kampf bis zum letzten Verteidiger.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>Leistungsabgabe der Lebenserhaltungseinheit: {0} W</BTG_Settings_LifeSupportPower>

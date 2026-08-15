@@ -85,6 +85,16 @@
   <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
   <BTG_Settings_MinThreatPointsDesc>자산이 적을 때 초기 방어군 전력이 이 값 아래로 내려가지 않게 합니다.\n센트리 드론 순찰 규모를 정하는 위협 수준에도 같은 하한이 적용됩니다.</BTG_Settings_MinThreatPointsDesc>
 
+  <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
+  <!-- 수비대 is the mod-decided word for a garrison force (vanilla ko AncientGarrison is 주둔지, a place). -->
+  <!-- 포탑 is Core ko turret vocabulary (보안 포탑, 자동 포탑); 메카노이드 is Core ko. -->
+  <!-- No josa markers needed: {0} is followed by % only. -->
+  <!-- {0} = percentage -->
+  <!-- EN: Garrison defeat threshold: {0}% -->
+  <BTG_Settings_SecurityDefeatThreshold>수비대 패배 기준: {0}%</BTG_Settings_SecurityDefeatThreshold>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>정착지나 밀수업자 소굴의 초기 방어 전력이 얼마나 쓰러져야 조합이 그 지도를 포기하는지를 정합니다.\n방어를 맡은 경비병과 순찰 중인 센트리 드론만 세며, 포탑이나 작업용 메카노이드는 세지 않습니다.\n100%는 마지막 한 명까지 싸운다는 뜻입니다.</BTG_Settings_SecurityDefeatThresholdDesc>
+
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>생명 유지 장치 전력 출력: {0}W</BTG_Settings_LifeSupportPower>
