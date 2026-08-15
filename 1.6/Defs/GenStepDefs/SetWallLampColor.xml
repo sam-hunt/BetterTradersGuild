@@ -37,6 +37,9 @@
             <li>BTG_Corridor</li>
             <li>BTG_CorridorDefense</li>
             <li>BTG_Armory</li>
+            <li>BTG_ControlCenter</li>
+            <li>BTG_MechSecurityPost</li>
+            <li>NarrowHalls</li>
           </rooms>
           <glowColor>(224, 54, 54)</glowColor>
         </li>
