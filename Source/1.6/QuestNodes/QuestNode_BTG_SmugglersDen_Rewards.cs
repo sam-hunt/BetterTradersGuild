@@ -20,10 +20,9 @@ namespace BetterTradersGuild.QuestNodes
     // Hostile giver: vanilla's reward pipeline (QuestGen_Rewards.GiveRewards /
     // RewardsGenerator.DoGenerate) collapses a hostile giver's rewards to a single
     // pure-goodwill choice - no items, no picking between packages. Mirror that:
-    // when the TG is hostile the only option is goodwill and the vault stays sealed
-    // (the Guild won't grant salvage rights to an enemy). If the player disabled
-    // goodwill rewards for the faction there is nothing left to offer, so the
-    // quest is not generated at all.
+    // when the TG is hostile the only option is goodwill and the vault stays sealed.
+    // If the player disabled goodwill rewards for the faction there is nothing
+    // left to offer, so the quest is not generated at all.
     //
     // The 2 trader types are selected randomly with removal, weighted by commonality,
     // from the available orbital traders in the current world.
@@ -41,9 +40,13 @@ namespace BetterTradersGuild.QuestNodes
         public SlateRef<Faction> faction;
         public SlateRef<int> traderTypeCount = 2;
 
-        // Single source for the goodwill option so the reward card and the actual
-        // payout part below can never disagree.
-        private const int GoodwillRewardAmount = 15;
+        // Quest reward value (the script derives it from siteThreatPoints via
+        // vanilla's Util_GetDefaultRewardValueFromPoints subscript). Sizes the
+        // goodwill option through Reward_Goodwill.InitFromValue, vanilla's own
+        // value->goodwill conversion: RewardValueToGoodwillCurve for the base
+        // amount, plus the hostile-giver boost of up to double (min(-PlayerGoodwill/2,
+        // base)), clamped so goodwill can't exceed +100.
+        public SlateRef<float> rewardValue;
 
         protected override bool TestRunInt(Slate slate)
         {
@@ -124,9 +127,16 @@ namespace BetterTradersGuild.QuestNodes
             {
                 QuestPart_Choice.Choice goodwillChoice = new QuestPart_Choice.Choice();
 
+                // InitFromValue sets goodwillReward.amount from the reward value
+                // (see rewardValue field comment); it reads only parms.giverFaction,
+                // for the current goodwill clamp and the hostile boost. The computed
+                // amount is the single source for the card and the payout part below.
                 Reward_Goodwill goodwillReward = new Reward_Goodwill();
                 goodwillReward.faction = factionVal;
-                goodwillReward.amount = GoodwillRewardAmount;
+                goodwillReward.InitFromValue(
+                    rewardValue.GetValue(slate),
+                    new RewardsGeneratorParams { giverFaction = factionVal },
+                    out _);
                 goodwillChoice.rewards.Add(goodwillReward);
 
                 // QuestPart: actually pay the goodwill on quest success. Reward objects
@@ -139,7 +149,7 @@ namespace BetterTradersGuild.QuestNodes
                 {
                     inSignal = QuestGenUtility.HardcodedSignalWithQuestID("site.AllEnemiesDefeated"),
                     faction = factionVal,
-                    change = GoodwillRewardAmount,
+                    change = goodwillReward.amount,
                 };
                 goodwillChoice.questParts.Add(goodwillPart);
                 quest.AddPart(goodwillPart);

@@ -30,7 +30,7 @@
     <questDescriptionRules>
       <rulesStrings>
         <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
-        <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild will not grant salvage rights to an enemy of theirs. Still, [asker_nameDef] hints that clearing the outpost would do much to mend your relations with the Guild.</li>
+        <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\n[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
       </rulesStrings>
     </questDescriptionRules>
 
@@ -79,6 +79,17 @@
           </curve>
         </li>
 
+        <!-- Points -> reward value via the shared vanilla curve (same subscript
+             vanilla opportunity sites use, e.g. Script_BanditCamp). The rewards
+             node feeds it to Reward_Goodwill.InitFromValue, so the goodwill
+             option scales with quest difficulty exactly as vanilla's would. -->
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+          <parms>
+            <points>$siteThreatPoints</points>
+          </parms>
+        </li>
+
         <!-- Create smuggler's den site (deferred to quest acceptance) -->
         <li Class="BetterTradersGuild.QuestNodes.QuestNode_BTG_SmugglersDen_CreateSite">
           <storeAs>site</storeAs>
@@ -91,6 +102,7 @@
           <site>$site</site>
           <faction>$faction</faction>
           <traderTypeCount>2</traderTypeCount>
+          <rewardValue>$rewardValue</rewardValue>
         </li>
 
         <!-- Deliberately NO fail on faction.BecameHostileToPlayer: the den is a
