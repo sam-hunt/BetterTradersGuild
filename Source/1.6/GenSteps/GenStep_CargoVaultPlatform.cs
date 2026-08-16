@@ -129,6 +129,19 @@ namespace BetterTradersGuild.MapGeneration
                 owner
             );
 
+            // The layout can spawn a WaspDroneTrap owned by the vault faction. When that
+            // faction treats factionless humanlikes as hostile (Salvagers at the smugglers
+            // den), the trap's proximity scan springs on the vault's factionless stock pawns
+            // and the released wasps hunt them. Retarget the trap to AncientsHostile: still
+            // a permanent enemy of the player (the threat is preserved) but blind to
+            // factionless pawns. The wasps read the trap's faction at spring time, so this
+            // covers them too. TG-owned vaults are untouched (TG doesn't set the flag).
+            if (owner?.def.hostileToFactionlessHumanlikes == true && Things.WaspDroneTrap != null)
+            {
+                foreach (Thing trap in map.listerThings.ThingsOfDef(Things.WaspDroneTrap))
+                    trap.SetFaction(Faction.OfAncientsHostile);
+            }
+
             // Spawn sniper turret arrays on external platforms connected by bridges
             SpawnTurretArrays(map, vaultRect, owner);
 
