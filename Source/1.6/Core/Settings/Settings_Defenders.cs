@@ -7,8 +7,8 @@ namespace BetterTradersGuild
     // spawns when the player enters a settlement. The generation knobs only affect
     // BTG's custom generation, so they gate on useCustomLayouts (greyed out, values
     // preserved, when off). None of them affect subsequent raid incidents, only
-    // initial defenders. The defeat threshold at the end of the section is
-    // deliberately outside that gate (see its draw comment).
+    // initial defenders. The defeat threshold leading the section is deliberately
+    // outside that gate (see its draw comment).
     public partial class BetterTradersGuildSettings
     {
         // Defender AI style ("Entrenched defender AI" in the settings UI). When
@@ -54,8 +54,8 @@ namespace BetterTradersGuild
         // takes effect on maps already in progress.
         // Range: 0.5-1.0. Default/BTG Recommended: 0.8. 1.0 = every last defender.
         // No vanilla value exists: space maps never get vanilla's rout toil, so this
-        // threshold is BTG's replacement for it. Unlike the knobs above, this
-        // applies regardless of useCustomLayouts.
+        // threshold is BTG's replacement for it. Unlike the other knobs in this
+        // section, it applies regardless of useCustomLayouts.
         public float securityDefeatFraction = 0.8f;
 
         private void ExposeDefenderSettings()
@@ -82,7 +82,25 @@ namespace BetterTradersGuild
         {
             SectionHeader(listing, "BTG_Settings_Defenders".Translate());
 
-            // Whole section depends on custom layouts.
+            // Garrison defeat threshold. Drawn ahead of the useCustomLayouts gate on
+            // purpose: it governs smugglers den sites as well as settlements, and
+            // dens are generated from a BTG-only SiteDef that useCustomLayouts never
+            // touches, so greying this out with the generation knobs would be a lie.
+            int defeatPercentageDisplay = (int)(securityDefeatFraction * 100f);
+            string defeatLabel = Annotate(
+                "BTG_Settings_SecurityDefeatThreshold".Translate(defeatPercentageDisplay),
+                recommended: defeatPercentageDisplay == 80);
+            listing.Label(defeatLabel);
+
+            float defeatSliderValue = listing.Slider(securityDefeatFraction * 100f, 50f, 100f);
+            securityDefeatFraction = (int)(System.Math.Round(defeatSliderValue / 5f) * 5f) / 100f;
+
+            listing.Gap(2f);
+            Description(listing, "BTG_Settings_SecurityDefeatThresholdDesc".Translate());
+
+            listing.Gap(16f);
+
+            // Remaining knobs depend on custom layouts.
             GUI.enabled = useCustomLayouts;
 
             // Defender AI style: BTG's bounded entrenched lord vs vanilla
@@ -155,24 +173,6 @@ namespace BetterTradersGuild
             Description(listing, "BTG_Settings_SentryDroneDesc".Translate());
 
             GUI.enabled = true;
-
-            listing.Gap(16f);
-
-            // Garrison defeat threshold. Drawn after the GUI.enabled restore on
-            // purpose: it governs smugglers den sites as well as settlements, and
-            // dens are generated from a BTG-only SiteDef that useCustomLayouts never
-            // touches, so greying this out with the generation knobs would be a lie.
-            int defeatPercentageDisplay = (int)(securityDefeatFraction * 100f);
-            string defeatLabel = Annotate(
-                "BTG_Settings_SecurityDefeatThreshold".Translate(defeatPercentageDisplay),
-                recommended: defeatPercentageDisplay == 80);
-            listing.Label(defeatLabel);
-
-            float defeatSliderValue = listing.Slider(securityDefeatFraction * 100f, 50f, 100f);
-            securityDefeatFraction = (int)(System.Math.Round(defeatSliderValue / 5f) * 5f) / 100f;
-
-            listing.Gap(2f);
-            Description(listing, "BTG_Settings_SecurityDefeatThresholdDesc".Translate());
 
             listing.Gap(24f);
         }
