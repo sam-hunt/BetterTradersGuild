@@ -26,7 +26,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 (3f,  (marker, map, faction) => ReplaceWithTrap(marker, Things.HunterDroneTrap, map, faction)),
                 (3f,  (marker, map, faction) => ReplaceWithTrap(marker, Things.WaspDroneTrap, map, faction)),
                 (5f,  (marker, map, faction) => TrySpawnHeater(marker, map)),
-                (7f,  (marker, map, faction) => SpawnPetWithKibble(marker, map)),
+                (5f,  (marker, map, faction) => SpawnPetWithKibble(marker, map)),
                 (1f,  (marker, map, faction) => TrySpawnGameOfUr(marker, map)),
                 (2f,  (marker, map, faction) => TrySpawnHorseshoePin(marker, map)),
                 (4f,  (marker, map, faction) => TrySpawnPlantPot(marker, map)),
