@@ -17,6 +17,14 @@ namespace BetterTradersGuild.QuestNodes
     // - Option 2: Cargo vault stocked with Trader Type B + standard quest loot
     // - Option 3: Goodwill with TG (standard vanilla pattern, vault sealed)
     //
+    // Hostile giver: vanilla's reward pipeline (QuestGen_Rewards.GiveRewards /
+    // RewardsGenerator.DoGenerate) collapses a hostile giver's rewards to a single
+    // pure-goodwill choice - no items, no picking between packages. Mirror that:
+    // when the TG is hostile the only option is goodwill and the vault stays sealed
+    // (the Guild won't grant salvage rights to an enemy). If the player disabled
+    // goodwill rewards for the faction there is nothing left to offer, so the
+    // quest is not generated at all.
+    //
     // The 2 trader types are selected randomly with removal, weighted by commonality,
     // from the available orbital traders in the current world.
     //
@@ -45,6 +53,11 @@ namespace BetterTradersGuild.QuestNodes
             if (factionVal == null)
                 return false;
 
+            // Hostile giver: goodwill is the only reward on offer, so no traders
+            // are needed - but the option must actually be payable.
+            if (factionVal.HostileTo(Faction.OfPlayer))
+                return factionVal.allowGoodwillRewards;
+
             // Need enough traders for all cargo slots (base count + 1 if goodwill disabled)
             int needed = factionVal.allowGoodwillRewards
                 ? traderTypeCount.GetValue(slate)
@@ -62,9 +75,14 @@ namespace BetterTradersGuild.QuestNodes
             Faction factionVal = faction.GetValue(slate);
             int baseCount = traderTypeCount.GetValue(slate);
 
-            // If goodwill is disabled, fill the slot with an extra cargo option
-            bool includeGoodwill = factionVal.allowGoodwillRewards;
-            int cargoCount = includeGoodwill ? baseCount : baseCount + 1;
+            // Hostile giver: goodwill only, vault sealed (see class comment). The
+            // goodwill option is forced on even if allowGoodwillRewards is off:
+            // TestRunInt gates normal generation, so this only happens dev-forced,
+            // and an empty choice list would be worse than an unwanted goodwill card.
+            // Otherwise: if goodwill is disabled, fill the slot with an extra cargo option.
+            bool hostile = factionVal.HostileTo(Faction.OfPlayer);
+            bool includeGoodwill = hostile || factionVal.allowGoodwillRewards;
+            int cargoCount = hostile ? 0 : (factionVal.allowGoodwillRewards ? baseCount : baseCount + 1);
 
             // Select distinct trader types using weighted random with removal
             List<TraderKindDef> available = OrbitalTraderHelper.GetAvailableOrbitalTraders(factionVal);
@@ -100,8 +118,9 @@ namespace BetterTradersGuild.QuestNodes
                 choicePart.choices.Add(choice);
             }
 
-            // Add goodwill option if player's reward preferences allow it
-            if (factionVal.allowGoodwillRewards)
+            // Add goodwill option if player's reward preferences allow it (always on
+            // for a hostile giver, where it is the sole option)
+            if (includeGoodwill)
             {
                 QuestPart_Choice.Choice goodwillChoice = new QuestPart_Choice.Choice();
 

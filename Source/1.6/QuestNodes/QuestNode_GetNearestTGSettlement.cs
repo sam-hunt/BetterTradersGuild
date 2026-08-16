@@ -23,7 +23,14 @@ namespace BetterTradersGuild.QuestNodes
 
         // Configuration
         public SlateRef<bool> allowActiveTradeRequest = false;
+        public SlateRef<bool> allowHostile = false;
         public SlateRef<int> maxTileDistance = 64;
+
+        // Vanilla down-weights hostile quest-givers rather than excluding them
+        // (Script_BanditCamp: hostileWeight 0.15 vs nonHostileWeight 1). A relative
+        // weight can't apply with a single candidate faction, so approximate it as
+        // an offer chance rolled once per generation attempt.
+        private const float HostileOfferChance = 0.15f;
 
         protected override bool TestRunInt(Slate slate)
         {
@@ -33,6 +40,9 @@ namespace BetterTradersGuild.QuestNodes
 
             Settlement settlement = FindNearestTGSettlement(map, slate);
             if (settlement == null)
+                return false;
+
+            if (settlement.Faction.HostileTo(Faction.OfPlayer) && !Rand.Chance(HostileOfferChance))
                 return false;
 
             // IMPORTANT: Set slate values during TestRunInt so subsequent nodes can access them
@@ -79,6 +89,11 @@ namespace BetterTradersGuild.QuestNodes
             string factionSlotName = storeFactionAs.GetValue(slate);
             if (!string.IsNullOrEmpty(factionSlotName) && settlement.Faction != null)
                 slate.Set(factionSlotName, settlement.Faction);
+
+            // Primitive slate vars become grammar constants at text resolution
+            // (QuestGenUtility.AddSlateVar), so questDescriptionRules can branch on
+            // askerFactionHostile==True/False for the hostile-giver description.
+            slate.Set("askerFactionHostile", settlement.Faction.HostileTo(Faction.OfPlayer));
         }
 
         private Settlement FindNearestTGSettlement(Map playerMap, Slate slate)
@@ -96,8 +111,12 @@ namespace BetterTradersGuild.QuestNodes
                 if (!TradersGuildHelper.IsTradersGuildSettlement(settlement))
                     continue;
 
-                // Must have peaceful relations
-                if (!TradersGuildHelper.CanPeacefullyVisit(settlement.Faction))
+                // Must have peaceful relations, unless the quest opts into hostile
+                // givers (vanilla opportunity-site pattern, e.g. Script_BanditCamp).
+                // Even then a relation row must exist (defs like pirates never get one).
+                if (allowHostile.GetValue(slate)
+                    ? !TradersGuildHelper.HasPlayerRelation(settlement.Faction)
+                    : !TradersGuildHelper.CanPeacefullyVisit(settlement.Faction))
                     continue;
 
                 // Check for existing active trade request (unless allowed)

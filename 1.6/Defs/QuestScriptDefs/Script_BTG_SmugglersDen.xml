@@ -22,9 +22,15 @@
       </rulesStrings>
     </questNameRules>
 
+    <!-- Opening line follows the Odyssey leader-quest idiom ("[asker_faction_leaderTitle]
+         [asker_nameFull] of [asker_faction_name] has sent us a message.", see
+         Script_OrbitalFugitive/Script_Site/Script_GravShip). askerFactionHostile is a
+         slate bool set by QuestNode_GetNearestTGSettlement; the hostile variant must
+         not advertise the cargo vault reward, since only goodwill is offered then. -->
     <questDescriptionRules>
       <rulesStrings>
-        <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+        <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+        <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild will not grant salvage rights to an enemy of theirs. Still, [asker_nameDef] hints that clearing the outpost would do much to mend your relations with the Guild.</li>
       </rulesStrings>
     </questDescriptionRules>
 
@@ -41,11 +47,15 @@
           <canBeSpace>true</canBeSpace>
         </li>
 
-        <!-- Find nearest TG settlement (quest giver) -->
+        <!-- Find nearest TG settlement (quest giver). A hostile TG can still give
+             this quest (down-weighted, vanilla Script_BanditCamp pattern); the
+             rewards node then offers goodwill only and the description drops the
+             cargo vault pitch. -->
         <li Class="BetterTradersGuild.QuestNodes.QuestNode_GetNearestTGSettlement">
           <storeAs>settlement</storeAs>
           <storeFactionAs>faction</storeFactionAs>
           <storeFactionLeaderAs>asker</storeFactionLeaderAs>
+          <allowHostile>true</allowHostile>
         </li>
 
         <!-- Threat scaling: wealth -> site threat points, delivered to the garrison
@@ -75,7 +85,8 @@
           <nearSettlement>$settlement</nearSettlement>
         </li>
 
-        <!-- Reward choices: 2 cargo vault types + goodwill -->
+        <!-- Reward choices: 2 cargo vault types + goodwill (goodwill only when
+             the TG is hostile) -->
         <li Class="BetterTradersGuild.QuestNodes.QuestNode_BTG_SmugglersDen_Rewards">
           <site>$site</site>
           <faction>$faction</faction>
@@ -86,8 +97,9 @@
              Salvagers site, so TG hostility doesn't make it uncompletable, and an
              early quest end destroys the site (QuestPart_DestroyWorldObject on End)
              out from under the player. Vanilla opportunity sites carry no hostility
-             fail either (Script_BanditCamp even allows a hostile asker). TG relations
-             only gate the OFFER (QuestNode_GetNearestTGSettlement). -->
+             fail either (Script_BanditCamp even allows a hostile asker) - and since
+             allowHostile above, neither does the offer: a hostile TG offers the
+             quest too, just rarely and for goodwill only. -->
 
         <!-- Timeout, for a quest accepted but never engaged. Disarmed permanently
              once the den map generates (vanilla opportunity-site idiom, see
