@@ -169,6 +169,11 @@ namespace BetterTradersGuild.LordJobs.Civilians
             // the new phase (vanilla pairs its lord transitions with these same actions). The
             // full-phase transitions end everyone's jobs; the defend edges end only the
             // adult's, since children's duties don't change there (see the defend block).
+            // Edges INTO escape drop mid-feed babies first: ending a bottle-feed with the baby
+            // still in arms starts vanilla's bring-baby-to-safety finalizer directly, bypassing
+            // the new duty entirely, and the feeder retucked the baby in a crib before bolting
+            // (see TransitionAction_BTGDropMidFeedBabies). Edges into stranded don't need it -
+            // no escape-phase giver feeds, so no feed can be current there.
             // Harm signals bypass the periodic gate: a walker taking external violence IS the
             // shelter failing, whatever the compromise scan thinks - covers e.g. being shot
             // through an open doorway by an attacker who never sets foot in the room.
@@ -182,6 +187,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
                 || (signal.type == TriggerSignalType.Tick && DueForCheck()
                     && (AnyStarving() || ShelterCompromised() || AnyWalkerCanReachLaunchable()))));
             toEscape.AddPostAction(new TransitionAction_WakeAll());
+            toEscape.AddPostAction(new TransitionAction_BTGDropMidFeedBabies());
             toEscape.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscape);
 
@@ -207,6 +213,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             toEscapeAgain.AddTrigger(new Trigger_Custom(signal =>
                 signal.type == TriggerSignalType.Tick && DueForCheck() && AnyWalkerCanReachLaunchable()));
             toEscapeAgain.AddPostAction(new TransitionAction_WakeAll());
+            toEscapeAgain.AddPostAction(new TransitionAction_BTGDropMidFeedBabies());
             toEscapeAgain.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toEscapeAgain);
 
