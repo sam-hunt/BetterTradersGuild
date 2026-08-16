@@ -39,6 +39,15 @@
 
   <DutyDef>
     <defName>BTG_MechMedic</defName>
+    <!-- Never an auto-target (see BTG_ShelterAdult), and - the load-bearing effect here -
+         never a claim blocker: Thing.FactionPreventsClaimingOrAdopting counts any awake
+         ToolUser faction pawn as a "threat nearby", so one idle worker mech would keep
+         every building on the map unclaimable indefinitely. Worker mechs are already
+         excluded from the defeat count (SecurityDefeatUtility) as the furniture they
+         functionally are; this flag extends the same posture to vanilla's claim gate.
+         Set on every mech work duty. Militors keep vanilla's Defend duty and sentry
+         drones stay lordless, so real combat mechs correctly still block claiming. -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- 1. Stabilize and Tend defenders in the medbay, worst-first (bed or floor), best medicine first. -->

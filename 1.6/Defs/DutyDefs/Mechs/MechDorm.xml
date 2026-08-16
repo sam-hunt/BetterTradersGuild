@@ -28,6 +28,10 @@
 
   <DutyDef>
     <defName>BTG_MechDorm</defName>
+    <!-- Never an auto-target and never a claim blocker (see BTG_MechMedic for the full
+         rationale). Mostly redundant while wall-parked dormant (dormancy already exempts
+         from IsPotentialThreat) but keeps the exemption deterministic across wake-ups. -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- 1. Displaced (combat, player interference): walk back into the home room. -->

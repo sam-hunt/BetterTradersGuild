@@ -25,6 +25,9 @@
 
   <DutyDef>
     <defName>BTG_MechClean</defName>
+    <!-- Never an auto-target and never a claim blocker (see BTG_MechMedic for the full
+         rationale). -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- 1. Clean nearby in-bounds filth, nearest-first, a cluster per job. -->

@@ -25,6 +25,9 @@
 
   <DutyDef>
     <defName>BTG_MechFarm</defName>
+    <!-- Never an auto-target and never a claim blocker (see BTG_MechMedic for the full
+         rationale). -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <li Class="BetterTradersGuild.AI.Mechs.JobGiver_BTGAgrihandHarvest" />

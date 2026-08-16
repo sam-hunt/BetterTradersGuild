@@ -17,9 +17,12 @@
          their own - attacking them stays a deliberate act (they remain faction-hostile
          and manually attackable while the garrison stands). Also makes vanilla's defeat
          test (IsDefeated -> IsActiveThreatToPlayer) ignore the family deterministically,
-         instead of only while they happen to be asleep or already aboard. Set on every
-         civilian duty except BTG_DefendWalker (an actively fighting adult is a
-         legitimate target). -->
+         instead of only while they happen to be asleep or already aboard. Also what lets
+         vanilla's Claim gizmo unblock while they remain on-map:
+         Thing.FactionPreventsClaimingOrAdopting blocks claiming on any faction ToolUser
+         passing IsPotentialThreat, which honors this flag. Set on every civilian duty
+         except BTG_DefendWalker (an actively fighting adult is a legitimate target), and
+         on every mech work duty (see BTG_MechMedic). -->
     <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>

@@ -16,6 +16,9 @@
 
   <DutyDef>
     <defName>BTG_WanderInArea</defName>
+    <!-- Never an auto-target and never a claim blocker (see BTG_MechMedic for the full
+         rationale): Passive mode is by definition a non-combat mech. -->
+    <threatDisabled>true</threatDisabled>
     <thinkNode Class="ThinkNode_Priority">
       <subNodes>
         <!-- Wander near duty focus point - 7 tile radius -->
