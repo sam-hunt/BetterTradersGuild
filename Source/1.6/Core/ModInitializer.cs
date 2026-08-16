@@ -34,6 +34,21 @@ namespace BetterTradersGuild
 
             // Apply def modifications
             ApplyLifeSupportUnitPowerSetting();
+            ApplySmugglersDenQuestWeightSetting();
+        }
+
+        // Pushes the configured selection weight onto the smuggler's den QuestScriptDef.
+        // NaturalRandomQuestChooser reads rootSelectionWeight off the def on every roll,
+        // so there is nothing to invalidate — the next storyteller quest roll sees the
+        // new value. A weight of 0 also flips QuestScriptDef.IsRootRandomSelected false,
+        // dropping the quest out of the random pool entirely rather than just making it
+        // rare. Re-applied from WriteSettings so the change lands on settings close.
+        public static void ApplySmugglersDenQuestWeightSetting()
+        {
+            var questDef = DefRefs.QuestScripts.BTG_SmugglersDen;
+            if (questDef == null) return;
+
+            questDef.rootSelectionWeight = Settings.smugglersDenQuestWeight;
         }
 
         // Applies the configured power output to LifeSupportUnit ThingDef

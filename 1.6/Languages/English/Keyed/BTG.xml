@@ -77,6 +77,11 @@
   <BTG_Settings_SalvagersRaidWeight>Salvagers raid weight on TG maps: {0}x</BTG_Settings_SalvagersRaidWeight>
   <BTG_Settings_SalvagersRaidWeightDesc>When assaulting TradersGuild settlements, Salvagers raids become more likely.</BTG_Settings_SalvagersRaidWeightDesc>
 
+  <!-- ========== MOD SETTINGS: SMUGGLER'S DEN QUEST ========== -->
+  <!-- {0} = selection weight (e.g., "1.00") -->
+  <BTG_Settings_SmugglersDenQuestWeight>Smuggler's den quest weight: {0}</BTG_Settings_SmugglersDenQuestWeight>
+  <BTG_Settings_SmugglersDenQuestWeightDesc>How often the storyteller offers the smuggler's den quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all.</BTG_Settings_SmugglersDenQuestWeightDesc>
+
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <BTG_Settings_ModName>Better Traders Guild</BTG_Settings_ModName>
 

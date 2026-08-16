@@ -148,6 +148,10 @@ namespace BetterTradersGuild
             // both), so the change takes effect immediately with no restart needed.
             BetterTradersGuildMod.ApplyLifeSupportUnitPowerSetting();
 
+            // Push the smuggler's den quest weight onto its QuestScriptDef, so the next
+            // storyteller quest roll uses the new value with no restart needed.
+            BetterTradersGuildMod.ApplySmugglersDenQuestWeightSetting();
+
             // Check if rotation interval changed
             if (settings.traderRotationIntervalDays != previousRotationInterval)
             {
