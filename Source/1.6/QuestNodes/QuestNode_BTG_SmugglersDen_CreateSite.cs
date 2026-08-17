@@ -37,7 +37,7 @@ namespace BetterTradersGuild.QuestNodes
 
             // Verify we can find a tile for the site near the TG settlement
             return TileFinder.TryFindNewSiteTile(out _, settlement.Tile,
-                minDist: 1, maxDist: 10, allowCaravans: false, canBeSpace: true);
+                minDist: 1, maxDist: 5, allowCaravans: false, canBeSpace: true);
         }
 
         protected override void RunInt()
@@ -58,7 +58,7 @@ namespace BetterTradersGuild.QuestNodes
 
             // Find orbital tile near the TG settlement
             if (!TileFinder.TryFindNewSiteTile(out PlanetTile tile, settlement.Tile,
-                minDist: 1, maxDist: 10, allowCaravans: false, canBeSpace: true))
+                minDist: 1, maxDist: 5, allowCaravans: false, canBeSpace: true))
             {
                 Log.Error("[Better Traders Guild] QuestNode_BTG_SmugglersDen_CreateSite: Failed to find tile for site");
                 return;
