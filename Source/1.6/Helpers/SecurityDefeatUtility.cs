@@ -11,9 +11,13 @@ namespace BetterTradersGuild
     // counts as defeated: securityDefeatFraction of the map's original active
     // security incapacitated (default 80%).
     //
-    // "Active security" is the mobile fighting force only - entrenched garrison
-    // humans (LordJob_BTGDefendStructure members) plus roaming sentry drones
-    // (CompSentryDrone, lordless). Static and room-bound defenses are deliberately
+    // "Active security" is the mobile fighting force only - garrison humans
+    // (members of the defender lord, either AI style: LordJob_BTGDefendStructure,
+    // or the LordJob_DefendBase that BTG maps create when entrenched defenders are
+    // off) plus roaming sentry drones (CompSentryDrone, lordless). Counting the
+    // vanilla lord type is safe from false positives because every caller gates on
+    // BTG-generated maps, where the only owner-faction DefendBase lord is the
+    // garrison itself. Static and room-bound defenses are deliberately
     // excluded, mirroring vanilla settlement defeat
     // (SettlementDefeatUtility.IsDefeated), which ignores everything but humanlike
     // pawns: turrets, hunter/wasp drone traps, worker mechs, and the room-bound
@@ -84,10 +88,12 @@ namespace BetterTradersGuild
 
                 if (p.RaceProps.Humanlike)
                 {
-                    // Entrenched garrison only - never the sheltering civilians
-                    // (LordJob_BTGShelterCivilians) or crib infants. Asleep still
-                    // counts: the garrison rests in shifts and wakes in seconds.
-                    if (!p.InMentalState && p.GetLord()?.LordJob is LordJob_BTGDefendStructure)
+                    // Garrison only (defender lord of either AI style) - never the
+                    // sheltering civilians (LordJob_BTGShelterCivilians, or lordless
+                    // when entrenched defenders are off) or crib infants. Asleep
+                    // still counts: the garrison rests in shifts and wakes in
+                    // seconds.
+                    if (!p.InMentalState && DefenderLords.IsDefenderLord(p.GetLord()))
                         count++;
                 }
                 else if (p.TryGetComp<CompSentryDrone>() != null)

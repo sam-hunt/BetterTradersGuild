@@ -64,13 +64,11 @@ namespace BetterTradersGuild.MapGeneration
 
             if (generatePawns)
             {
-                // The bounded defender lord: never assaults, never paths outside the
-                // structure footprint to chase intruders. Routed through the shared
-                // factory so this and the gestator-reinforcement site can't drift.
-                // With entrenched defenders off, mirror vanilla's lord exactly.
-                LordJob lordJob = BetterTradersGuildMod.Settings.useEntrenchedDefenders
-                    ? DefenderLords.MakeDefenderLordJob(faction, spawnRect.CenterCell)
-                    : new LordJob_DefendBase(faction, spawnRect.CenterCell, 25000);
+                // The defender lord, routed through the shared factory so this and
+                // the gestator-reinforcement site can't drift: BTG's bounded lord
+                // (never assaults, never paths outside the structure footprint), or
+                // vanilla's LordJob_DefendBase when entrenched defenders are off.
+                LordJob lordJob = DefenderLords.MakeDefenderLordJob(faction, spawnRect.CenterCell);
                 Lord lord = LordMaker.MakeNewLord(faction, lordJob, map);
                 MapGenUtility.GeneratePawns(map, spawnRect, faction, lord, PawnGroupKindDefOf.Settlement, points: points, requiresRoof: requiresRoof);
             }

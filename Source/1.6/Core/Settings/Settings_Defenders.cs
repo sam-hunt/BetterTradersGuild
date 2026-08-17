@@ -48,10 +48,12 @@ namespace BetterTradersGuild
         // Requires useCustomLayouts.
         public float sentryDronePresence = 0.25f;
 
-        // Fraction of a BTG map's original active security (entrenched garrison
-        // humans + roaming sentry drones) that must be incapacitated before the map
-        // counts as defeated. Read live by SecurityDefeatUtility, so changing it
-        // takes effect on maps already in progress.
+        // Fraction of a BTG map's original active security (garrison humans of
+        // either defender AI style + roaming sentry drones) that must be
+        // incapacitated before the map counts as defeated. Read live by
+        // SecurityDefeatUtility, so changing it takes effect on maps already in
+        // progress. Only governs BTG-generated maps; vanilla-generated TG
+        // settlements (useCustomLayouts off) keep vanilla's defeat check.
         // Range: 0.5-1.0. Default/BTG Recommended: 0.8. 1.0 = every last defender.
         // No vanilla value exists: space maps never get vanilla's rout toil, so this
         // threshold is BTG's replacement for it. Unlike the other knobs in this

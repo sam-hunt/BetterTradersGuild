@@ -13,9 +13,11 @@ namespace BetterTradersGuild.Patches.SitePatches
     //
     // Adds BTG's defeat rule on smugglers den maps: defeated once the
     // securityDefeatFraction setting's share (default 80%) of the map's original
-    // active security (entrenched garrison humans + roaming sentry drones) is
-    // incapacitated. Full predicate and rationale live in SecurityDefeatUtility;
-    // the settlement twin is SettlementDefeatUtilityIsDefeated.
+    // active security (garrison humans of either defender AI style + roaming
+    // sentry drones) is incapacitated. Full predicate and rationale live in
+    // SecurityDefeatUtility; the settlement twin is
+    // SettlementDefeatUtilityIsDefeated. No generator gate needed here: the den
+    // SiteDef hard-wires the BTG map generator regardless of useCustomLayouts.
     //
     // Vanilla's own check can essentially never pass on a den: it requires
     // AnyHostileActiveThreatToPlayer(countDormantPawnsAsHostile: true,

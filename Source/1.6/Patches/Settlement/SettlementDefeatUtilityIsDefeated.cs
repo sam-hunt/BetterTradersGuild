@@ -7,11 +7,17 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 {
     // Harmony patch: SettlementDefeatUtility.IsDefeated
     //
-    // Replaces the defeat verdict on TradersGuild settlement maps with BTG's own
-    // rule: defeated once the securityDefeatFraction setting's share (default 80%)
-    // of the map's original active security (entrenched garrison humans + roaming
-    // sentry drones) is incapacitated. Full predicate and rationale live in
+    // Replaces the defeat verdict on BTG-generated TradersGuild settlement maps
+    // with BTG's own rule: defeated once the securityDefeatFraction setting's share
+    // (default 80%) of the map's original active security (garrison humans +
+    // roaming sentry drones) is incapacitated. Full predicate and rationale live in
     // SecurityDefeatUtility; the den twin is SiteCheckAllEnemiesDefeated.
+    //
+    // Gated on IsBTGGeneratedMap, not the useCustomLayouts setting: the census only
+    // recognizes BTG-spawned defenders, so on a vanilla-generated TG map it reads
+    // zero garrison and this override would report defeat on first blood. The
+    // scribed per-map generatorDef keeps already-generated maps correctly
+    // classified across save/load and mid-save setting flips.
     //
     // A full override in both directions, because vanilla's test mis-scores BTG
     // settlements both ways:
@@ -46,6 +52,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return;
 
             if (!TradersGuildHelper.IsMapInTradersGuildSettlement(map))
+                return;
+
+            // Vanilla-generated TG maps (useCustomLayouts off, or another mod's
+            // generator won) keep vanilla's verdict; see class comment.
+            if (!TradersGuildHelper.IsBTGGeneratedMap(map))
                 return;
 
             __result = SecurityDefeatUtility.IsSecurityDefeated(map, faction);
