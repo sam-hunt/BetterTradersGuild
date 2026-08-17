@@ -26,7 +26,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
                 (3f,  (marker, map, faction) => ReplaceWithTrap(marker, Things.HunterDroneTrap, map, faction)),
                 (3f,  (marker, map, faction) => ReplaceWithTrap(marker, Things.WaspDroneTrap, map, faction)),
                 (5f,  (marker, map, faction) => TrySpawnHeater(marker, map)),
-                (5f,  (marker, map, faction) => SpawnPetWithKibble(marker, map)),
+                (5f,  (marker, map, faction) => SpawnPetWithKibble(marker, map, faction)),
                 (1f,  (marker, map, faction) => TrySpawnGameOfUr(marker, map)),
                 (2f,  (marker, map, faction) => TrySpawnHorseshoePin(marker, map)),
                 (4f,  (marker, map, faction) => TrySpawnPlantPot(marker, map)),
@@ -253,7 +253,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
 
         // Replaces a marker with an animal bed and spawns a pet.
         // Adds kibble to the nearest reachable small shelf.
-        private static void SpawnPetWithKibble(Thing marker, Map map)
+        private static void SpawnPetWithKibble(Thing marker, Map map, Faction faction)
         {
             IntVec3 pos = marker.Position;
             Rot4 rot = marker.Rotation;
@@ -267,7 +267,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
 
             // Spawn random pet (cat or dog) using weighted selection
-            RoomPetHelper.SpawnPetAtPosition(map, pos);
+            RoomPetHelper.SpawnPetAtPosition(map, pos, faction);
 
             // Add kibble to nearest small shelf
             RoomPetHelper.AddKibbleToNearestShelf(map, pos);

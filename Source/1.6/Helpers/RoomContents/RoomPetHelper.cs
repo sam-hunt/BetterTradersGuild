@@ -32,11 +32,13 @@ namespace BetterTradersGuild.Helpers.RoomContents
         }
 
         // Spawns a random pet (cat or dog) at the specified position.
-        // Pet is spawned factionless and given a vanilla animal name.
+        // Dogs are loyal and belong to dogFaction (the settlement owner); cats keep
+        // to themselves and spawn factionless. Pet is given a vanilla animal name.
         // map: The map to spawn on.
         // position: The position to spawn the pet.
+        // dogFaction: Faction assigned to dogs (cats always spawn factionless).
         // Returns: The spawned pet, or null if no valid pet kinds available.
-        public static Pawn SpawnPetAtPosition(Map map, IntVec3 position)
+        public static Pawn SpawnPetAtPosition(Map map, IntVec3 position, Faction dogFaction)
         {
             if (WeightedPetKinds.Count == 0)
                 return null;
@@ -45,12 +47,12 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             Pawn pet = PawnGenerator.GeneratePawn(new PawnGenerationRequest(
                 kind: petKind,
-                faction: null,
+                faction: petKind == PawnKinds.Cat ? null : dogFaction,
                 context: PawnGenerationContext.NonPlayer,
                 tile: map.Tile));
 
             // Give the pet a name from the vanilla animal namer. PawnGenerator leaves
-            // factionless animals unnamed, and Pawn.GenerateNecessaryName() only names
+            // non-player animals unnamed, and Pawn.GenerateNecessaryName() only names
             // player-faction pawns, so call the generator directly.
             pet.Name = PawnBioAndNameGenerator.GeneratePawnName(pet, NameStyle.Full);
 

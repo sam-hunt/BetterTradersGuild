@@ -54,7 +54,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                 SubroomPlacementHelper.SpawnWalls(map, placement.RequiredWalls);
 
                 // 6. Spawn commander's pet at the animal bed
-                SpawnPetAtAnimalBed(map, this.bedroomRect);
+                SpawnPetAtAnimalBed(map, this.bedroomRect, faction);
             }
             else
             {
@@ -125,7 +125,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
 
         // Spawns a random pet (cat or dog) at the animal bed location in the bedroom.
         // Searches the bedroom rect for the AnimalBed spawned by the prefab.
-        private void SpawnPetAtAnimalBed(Map map, CellRect bedroomRect)
+        private void SpawnPetAtAnimalBed(Map map, CellRect bedroomRect, Faction faction)
         {
             if (Things.AnimalBed == null)
                 return;
@@ -139,7 +139,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                 {
                     if (thing.def == Things.AnimalBed)
                     {
-                        RoomPetHelper.SpawnPetAtPosition(map, thing.Position);
+                        RoomPetHelper.SpawnPetAtPosition(map, thing.Position, faction);
                         return;
                     }
                 }
