@@ -89,10 +89,9 @@ namespace BetterTradersGuild
                 if (p.RaceProps.Humanlike)
                 {
                     // Garrison only (defender lord of either AI style) - never the
-                    // sheltering civilians (LordJob_BTGShelterCivilians, or lordless
-                    // when entrenched defenders are off) or crib infants. Asleep
-                    // still counts: the garrison rests in shifts and wakes in
-                    // seconds.
+                    // sheltering civilians (LordJob_BTGShelterCivilians) or crib
+                    // infants. Asleep still counts: the garrison rests in shifts
+                    // and wakes in seconds.
                     if (!p.InMentalState && DefenderLords.IsDefenderLord(p.GetLord()))
                         count++;
                 }

@@ -7,7 +7,7 @@ using Verse.AI.Group;
 namespace BetterTradersGuild.LordJobs.Civilians
 {
     // Lord for the non-combatant family sheltering in the Biotech nursery's crib subroom,
-    // created (gated on useEntrenchedDefenders) by CivilianLords at map generation. Members
+    // created by CivilianLords at map generation. Members
     // are the caretaker and walking children only; infants/babies stay autonomous in their
     // cribs and are tended via faction + developmental-stage scans. The lord still REMEMBERS
     // its own infants (shelterInfants below): during escape the carry giver ferries only

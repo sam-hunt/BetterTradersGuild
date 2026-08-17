@@ -175,10 +175,10 @@ namespace BetterTradersGuild.RoomContents.Nursery
                     food.CurLevel = food.MaxLevel;
             }
 
-            // Attach the caretaker + children to the sheltering lord (gated on the entrenched-
-            // defender setting). Infants stay autonomous in their cribs, but the LordJob
-            // remembers them as the only babies its walkers ferry during an escape.
-            CivilianLords.MakeShelterLordIfEnabled(map, faction, subroomRect.CenterCell, walkers, infants);
+            // Attach the caretaker + children to the sheltering lord. Infants stay autonomous
+            // in their cribs, but the LordJob remembers them as the only babies its walkers
+            // ferry during an escape.
+            CivilianLords.MakeShelterLord(map, faction, subroomRect.CenterCell, walkers, infants);
 
             return spawnedPawns;
         }
