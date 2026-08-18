@@ -14,9 +14,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
     // infrastructure setup that must happen during structure generation.
     //
     // LIFECYCLE:
-    // 1. PRE-SPAWN: Initialize TradersGuildSettlementComponent for cargo tracking
-    // 2. BASE SPAWN: Vanilla orbital platform generation (walls, doors, rooms, contents)
-    // 3. POST-SPAWN INFRASTRUCTURE: Hidden conduits, pipe network tanks, valves
+    // 1. BASE SPAWN: Vanilla orbital platform generation (walls, doors, rooms, contents)
+    // 2. POST-SPAWN INFRASTRUCTURE: Hidden conduits, pipe network tanks, valves
     //
     // NOTE: Post-spawn aesthetics and external infrastructure are handled by separate GenSteps
     // which run AFTER all structure generation completes (including external landing pads):
