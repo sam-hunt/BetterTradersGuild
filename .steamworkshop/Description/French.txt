@@ -1,7 +1,7 @@
 Guilde des commerçants améliorée
 
 [h1]À propos[/h1]
-La guilde des commerçants est la faction à l'origine des événements de commerçants orbitaux dans le DLC Odyssey de RimWorld. Ce mod développe sa présence avec du commerce pacifique, des intérieurs de colonies plus riches, et de nouvelles façons d'interagir avec elle.
+La guilde des commerçants est la faction à l'origine des événements de commerçants orbitaux dans le DLC Odyssey de RimWorld. Ce mod développe sa présence avec du commerce pacifique, des intérieurs de colonies plus riches, des habitants vivants, et de nouvelles façons d'interagir avec elle.
 
 [hr][/hr]
 [h2]Commerce pacifique[/h2]
@@ -15,8 +15,22 @@ La guilde des commerçants est la faction à l'origine des événements de comme
 [h2]Génération de carte repensée[/h2]
 [list]
 [*]Nouveaux types de salles (centre de contrôle, quartiers de l'équipage, cale à cargaison, salon du commandant, infirmerie, et plus encore)
-[*]Les objets du coffre à cargaison sont générés à partir de l'inventaire commercial : les voler les retire de leur stock
+[*]Les objets du coffre à cargaison sont générés à partir de l'inventaire commercial : les voler les retire de leur stock commercial sur la carte du monde
 [*]Un aspect habité, digne de riches commerçants
+[/list]
+
+[h2]Colonies vivantes[/h2]
+[list]
+[*]Les garnisons retranchées défendent leur base au lieu de se ruer dans le vide : elles tiennent la structure, mangent, dorment, soignent leurs blessures, et demandent des largages de ravitaillement (ainsi que des renforts) lors de sièges prolongés
+[*]Les mécanoïdes ouvriers vaquent à leurs tâches : les médiktoïdes secourent et soignent les blessés, les nettoïdes gardent les couloirs propres, les agritoïdes cultivent la serre
+[*]Les civils se mettent à l'abri pendant l'assaut et foncent vers la navette si l'abri est percé
+[*]Venez à bout d'une colonie en anéantissant sa force de défense : les survivants renoncent plutôt que de se battre jusqu'à la mort
+[/list]
+
+[h2]Quête du repaire de contrebandiers[/h2]
+[list]
+[*]Découvrez la génération de carte d'assaut personnalisée de BTG, même si vous êtes engagé dans des relations amicales, ou si vous préférez la génération de carte d'un autre mod pour les colonies de la guilde des commerçants (par exemple VGE2).
+[*]Choisissez votre récompense : la bonne entente avec la faction, ou le droit sur les biens du coffre à cargaison du commerçant orbital
 [/list]
 
 [h2]Nouveaux scénarios[/h2]
@@ -46,7 +60,7 @@ R : Oui.
 [b]Q : Cela rend-il le jeu plus facile ?[/b]
 R : Peut-être ! Il ajoute davantage d'occasions de commerce. Les colonies de la guilde ont une richesse bien plus élevée, mais sont aussi mieux défendues.
 
-[b]Q : La rotation des stocks des commerçants, la génération de carte, le coffre à cargaison ou la force des défenseurs est déséquilibrée ![/b]
+[b]Q : La rotation des stocks des commerçants, la génération de carte, le coffre à cargaison, le comportement des défenseurs ou la fréquence des quêtes est déséquilibrée ![/b]
 R : Tout est configurable dans les paramètres du mod.
 
 [b]Q : Pourquoi un type de commerçant précis n'apparaît-il pas ?[/b]

@@ -1,10 +1,12 @@
 TODOs
 
-- test salvager's cargo vault wasp hostility
-- test items get returned to stock after settlement map unload
+- sanity check pass over our harmony prefixes for mod compatibility risks
+- smuggler's den shuttle bay gets VFE Pirates gun shuttle variant if active?
+- Smoke test with no integration mods active
 - Smoke test against old heavily modded game save
-- Smoke test with performance analyzer
-- Update steam workshop description to include new features: Custom settlement pawn lord ai, smuggler's den, localizations
+- Smoke test with performance analyzer (particularly the post-mapgen spike)
+- test CWTL on den quest site
+- Run a /translate update pass for the settings-rework batch: the two smugglers-den quest keys, the new Events/InitialGarrison labels, and the reworded scope/tooltip descs, across all 8 languages (136 checker errors)
 
 - VGE2 integration
   - Defender overhaul opt-out toggle: spec ready in Docs/Specs/SPEC-defender-overhaul-toggle.md (settings-gated PatchOperationToggledSequence; lets players revert pawnkind rebalance + garrison weights to vanilla for VGE mapgen)
@@ -16,17 +18,9 @@ TODOs
     - Something in between
     - Ask every time
 
-- Review mod settings page layout (subscript footnotes vs tooltips)
-- Propagate translate skill learnings to other mods if appropriate
-- Port Steam Workshop localization structure to sibling mod repos, from BTG commits c74f2fc (committed .steamworkshop/Description/<Language>.txt files: line 1 title, blank, BBCode body; folder README conventions; release skill step diffing English vs last tag to spawn translation subagents) and acdfd14 (fully localized titles, no English brand, coupled 1:1 to each language's settings ModName key; CLAUDE.md coupling note). c464448 is an intermediate title format superseded by acdfd14.
-- smuggler's den shuttle bay gets VFE Pirates gun shuttle variant if active?
-- sanity check pass over our harmony prefixes for mod compatibility risks
-- Settlement spawn count scale?
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Rare Subroom placement small room off-by-one?
 - Bind band nodes?
-
-- Peace talks TG variant?
 
 - Way more backstories?!
 
@@ -40,17 +34,3 @@ TODOs
 - Mod integration: trader ships shuttles texture option?
 - Mod integration: VE Brewing whisky shelf in Captain's quarters?
 - Mod integration: Include UMW weapons in unique weapon pools?
-
----
-
-Uncommitted — sibling-mod audit prompt (paste into a clean session in this repo):
-
-> Audit our sibling RimWorld mods for the localization/gating gaps found and fixed in BetterTradersGuild on 2026-08-09 (reference implementations: BTG commits d9af1f0, 7de4368, c557a73, 4be8e8b; conventions written up in CLAUDE.md under Localization and Deployment). Candidates in ~/dev: UniqueWeaponsUnbound, UniqueMeleeWeapons, PersonaWeaponsUnbound, TradersStockXenogerms, ArchotechAndroidHardware, ArchotechThumb, BionicThumbGuild, and RimworldModTemplate (so future mods inherit the fixes); skip any without XML content. For each mod check, and port fixes where they apply:
->
-> 1. MayRequire attributes on DefInjected entries. The DefInjected loader ignores XML attributes entirely, so such entries log found-no-def startup errors whenever the gating mod/DLC is absent (this bug shipped in BTG's WeaponTraits.xml). Fix: move the entries — and optionally the gated defs themselves, dropping their now-redundant MayRequire — into a LoadFolders-gated compat root: version-folder/Mods/ModName/ containing its own Defs/ and Languages/, loaded via an IfModActive entry in LoadFolders.xml. The compat root must sit BESIDE the well-known folders, never inside Defs/ or Languages/, which load recursively and unconditionally at any depth.
-> 2. If the mod has BTG-style translation tooling (a check-translations.py with an expected-injections.json sidecar): English DefInjected files are likely read only as reference and never validated — BTG's was. Port BTG's check_english_definjected pass (every English entry must be a legal, non-duplicate injection point whose text matches the sidecar English), and if a compat root was added, extend the checker's lang_roots/defs_dirs globs and the deploy manifest (StageMod \_ModFiles) to match star/Mods/star paths, as BTG did. Also port BTG's multi-root language model (collect_keyed/check_language, 2026-08-09): a language is the union of its dirs across every load root, grouped by folder name and checked as one merged unit the way the game loads it — checking a compat root standalone would wrongly demand the full Keyed set and every other def's injections from it. Duplicate keys must be reported across roots AND within a file via dict membership on the key, not path identity (BTG's first cut used `first is not path`, which can never fire when both occurrences share a file).
-> 3. Deliberately excluded/commented-out DefInjected entries for optionally-gated defs that a compat root could now make translatable — list them as follow-ups rather than acting. BTG has since acted on its own: the Biotech ScenPartDef now ships from 1.6/Mods/Biotech (IfModActive ludeon.rimworld.biotech) with the probe roster and the checker's REQUIRED_DLCS updated and the sidecar regenerated — the reference implementation when a sibling's follow-up is eventually scheduled.
-> 4. If the mod has a translate skill: check whether its generation workflow enumerates the DefInjected surface from the English DefInjected tree. In BTG that tree turned out to be a strict subset of the required surface (35 of the sidecar's 70 required entries had no English counterpart — English is served by the def XML's own label/description, so English DefInjected files are validated-if-present reference only). BTG's skill now instructs: enumerate from the sidecar's required entries, and source the EN comments from each entry's english field (the exact text the checker compares against, so programmatic sourcing makes drift impossible). Port that instruction wherever the same trap exists.
-> 5. Wrong-root placement check (landed in BTG 2026-08-09; port wherever a compat root exists): the game gates a DefInjected entry by the load root that CONTAINS it, never by the def it targets — a gated def's entry in the main tree errors at startup whenever the gate is inactive, and a main-tree def's entry in a compat root silently vanishes when the gate is closed. BTG's checker maps defName -> declaring load root during its Defs scan (collect_defs / check_entry_root) and errors on any entry whose containing root differs, in every language including English; its missing-entry errors also name the compat root a translation belongs under, steering generation agents to the right folder.
->
-> Verify claims against each mod's actual loader usage before editing; run each mod's own checker/tests/build before committing, one mod per commit, no pushes.

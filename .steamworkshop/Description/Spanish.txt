@@ -1,7 +1,7 @@
 Gremio de comerciantes mejorado
 
 [h1]Acerca de[/h1]
-El gremio de comerciantes es la facción detrás de los eventos de comerciantes orbitales en el DLC Odyssey de RimWorld. Este mod amplía su presencia con comercio pacífico, interiores de asentamiento más ricos y nuevas formas de interactuar con ellos.
+El gremio de comerciantes es la facción detrás de los eventos de comerciantes orbitales en el DLC Odyssey de RimWorld. Este mod amplía su presencia con comercio pacífico, interiores de asentamiento más ricos, habitantes vivos y nuevas formas de interactuar con ellos.
 
 [hr][/hr]
 [h2]Comercio pacífico[/h2]
@@ -15,8 +15,22 @@ El gremio de comerciantes es la facción detrás de los eventos de comerciantes 
 [h2]Generación de mapas renovada[/h2]
 [list]
 [*]Nuevos tipos de sala (centro de control, camarotes de la tripulación, bodega de carga, salón del comandante, enfermería y más)
-[*]Los objetos de la bóveda de carga se generan a partir del inventario comercial: róbalos y desaparecerán de sus existencias
+[*]Los objetos de la bóveda de carga se generan a partir del inventario comercial: róbalos y desaparecerán de sus existencias comerciales del mapa del mundo
 [*]Un ambiente habitado, digno de comerciantes acaudalados
+[/list]
+
+[h2]Asentamientos vivos[/h2]
+[list]
+[*]Las guarniciones atrincheradas defienden su hogar en lugar de lanzarse al vacío: mantienen la estructura, comen, duermen, tratan sus heridas y piden lanzamientos de reabastecimiento (y refuerzos) durante asedios prolongados
+[*]Los mecanoides trabajadores se dedican a sus tareas: los paramédicos rescatan y tratan a los heridos, los limpiadores mantienen los pasillos limpios y las manos agrícolas cultivan el invernadero
+[*]Los civiles se refugian durante un asalto e intentan llegar corriendo al transbordador si el refugio es invadido
+[*]Rompe un asentamiento debilitando su fuerza de seguridad; los supervivientes abandonan el barco en lugar de luchar hasta la muerte
+[/list]
+
+[h2]Misión de la guarida de contrabandistas[/h2]
+[list]
+[*]Vive la generación de mapas de asalto personalizada de BTG, incluso si mantienes relaciones amistosas o prefieres la generación de mapas de otro mod para los asentamientos del gremio de comerciantes (por ejemplo, VGE2).
+[*]Elige tu recompensa: reputación con la facción o reclama para ti los bienes de la bóveda de carga del comerciante orbital
 [/list]
 
 [h2]Nuevos escenarios[/h2]
@@ -46,7 +60,7 @@ R: Sí.
 [b]P: ¿Esto hace el juego más fácil?[/b]
 R: ¡Puede ser! Añade más oportunidades comerciales. Los asentamientos del gremio tienen mucha más riqueza, pero también están mejor defendidos.
 
-[b]P: ¡La rotación de existencias, la generación de mapas, la bóveda de carga o la fuerza de los defensores están descompensados![/b]
+[b]P: ¡La rotación de existencias, la generación de mapas, la bóveda de carga, el comportamiento de los defensores o la frecuencia de las misiones están descompensados![/b]
 R: Todo es configurable en los ajustes del mod.
 
 [b]P: ¿Por qué no aparece un tipo de comerciante concreto?[/b]

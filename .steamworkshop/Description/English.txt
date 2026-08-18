@@ -1,7 +1,7 @@
 Better Traders Guild
 
 [h1]About[/h1]
-The Traders Guild are the faction behind orbital trader events in RimWorld's Odyssey DLC. This mod expands their presence with peaceful trading, richer settlement interiors, and new ways to interact with them.
+The Traders Guild are the faction behind orbital trader events in RimWorld's Odyssey DLC. This mod expands their presence with peaceful trading, richer settlement interiors, living inhabitants, and new ways to interact with them.
 
 [hr][/hr]
 [h2]Peaceful Trading[/h2]
@@ -15,8 +15,22 @@ The Traders Guild are the faction behind orbital trader events in RimWorld's Ody
 [h2]Overhauled Map Generation[/h2]
 [list]
 [*]New room types (Control Center, Crew Quarters, Cargo Hold, Commander's Lounge, Medbay, and more)
-[*]Cargo vault items spawn from trade inventory - steal it and it's gone from their stock
+[*]Cargo vault items spawn from trade inventory - steal it and it's gone from their world-layer trade stock
 [*]Lived-in aesthetics befitting wealthy merchants
+[/list]
+
+[h2]Living Settlements[/h2]
+[list]
+[*]Entrenched garrisons defend their home instead of charging into vacuum: they hold the structure, eat, sleep, tend to wounds, and call in resupply drops (and reinforcements) during long sieges
+[*]Worker mechs go about their jobs: paramedics rescue and treat casualties, cleansweepers keep the halls clean, agrihands farm the greenhouse
+[*]Civilians take shelter during assault and make a break for the shuttle if the shelter is breached
+[*]Break a settlement by crippling its security force; survivors abandon ship rather than fighting to the death
+[/list]
+
+[h2]Smuggler's Den Quest[/h2]
+[list]
+[*]Experience the custom BTG assault map generation, even if you're committed to friendly relations, or prefer a different mod's map generation for Traders Guild settlements (e.g. VGE2).
+[*]Choose your reward: Faction goodwill, or claim orbital trader cargo vault goods for yourself
 [/list]
 
 [h2]New Scenarios[/h2]
@@ -46,7 +60,7 @@ A: Yes.
 [b]Q: Does this make the game easier?[/b]
 A: Possibly! It adds more trading opportunities. Guild settlements have much higher wealth but are also better defended.
 
-[b]Q: Trader stock rotation/map generation/cargo vault/defender strength is imbalanced![/b]
+[b]Q: Trader stock rotation/map generation/cargo vault/defender behavior/quest frequency is imbalanced![/b]
 A: All configurable in mod settings.
 
 [b]Q: Why isn't a specific trader type showing up?[/b]

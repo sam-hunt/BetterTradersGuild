@@ -1,7 +1,7 @@
 Guilda dos Mercadores Aprimorada
 
 [h1]Sobre[/h1]
-A Guilda dos Mercadores é a facção responsável pelos eventos de comerciantes orbitais na DLC Odyssey de RimWorld. Este mod amplia a presença dela com comércio pacífico, interiores de assentamento mais elaborados e novas formas de interagir com a guilda.
+A Guilda dos Mercadores é a facção responsável pelos eventos de comerciantes orbitais na DLC Odyssey de RimWorld. Este mod amplia a presença dela com comércio pacífico, interiores de assentamento mais elaborados, habitantes vivos e novas formas de interagir com a guilda.
 
 [hr][/hr]
 [h2]Comércio Pacífico[/h2]
@@ -15,8 +15,22 @@ A Guilda dos Mercadores é a facção responsável pelos eventos de comerciantes
 [h2]Geração de Mapa Reformulada[/h2]
 [list]
 [*]Novos tipos de cômodo (Centro de Controle, Alojamento da Tripulação, Porão de Carga, Salão do Comandante, Enfermaria e muito mais)
-[*]Os itens do cofre de carga surgem a partir do inventário comercial: roube-os e eles desaparecem do estoque
+[*]Os itens do cofre de carga surgem a partir do inventário comercial: roube-os e eles desaparecem do estoque comercial do mapa-múndi
 [*]Estética de ambiente habitado, digna de mercadores ricos
+[/list]
+
+[h2]Assentamentos Vivos[/h2]
+[list]
+[*]Guarnições entrincheiradas defendem seu lar em vez de avançar para o vácuo: mantêm a estrutura, comem, dormem, tratam seus ferimentos e pedem lançamentos de reabastecimento (e reforços) durante cercos longos
+[*]Mecanoides trabalhadores seguem com suas tarefas: paramédicos resgatam e tratam os feridos, limpadores mantêm os corredores limpos, agrimãos cultivam a estufa
+[*]Civis se abrigam durante o ataque e correm para o ônibus espacial caso o abrigo seja invadido
+[*]Derrote um assentamento debilitando sua força de segurança. Os sobreviventes abandonam a nave em vez de lutar até a morte
+[/list]
+
+[h2]Missão do Covil de Contrabandistas[/h2]
+[list]
+[*]Experimente a geração de mapa de ataque personalizada da BTG, mesmo que você esteja comprometido com relações amigáveis ou prefira a geração de mapa de outro mod para assentamentos da Guilda dos Mercadores (ex.: VGE2).
+[*]Escolha sua recompensa: boa vontade da facção ou reivindique para si os itens do cofre de carga do comerciante orbital
 [/list]
 
 [h2]Novos Cenários[/h2]
@@ -46,7 +60,7 @@ R: Sim.
 [b]P: Isso torna o jogo mais fácil?[/b]
 R: Talvez! O mod adiciona mais oportunidades de comércio. Os assentamentos da Guilda têm uma riqueza muito maior, mas também são mais bem defendidos.
 
-[b]P: A rotação de estoque dos comerciantes, a geração de mapa, o cofre de carga ou a força dos defensores está desequilibrada![/b]
+[b]P: A rotação de estoque dos comerciantes, a geração de mapa, o cofre de carga, o comportamento dos defensores ou a frequência de missões está desequilibrada![/b]
 R: Tudo isso é configurável nas opções do mod.
 
 [b]P: Por que um tipo específico de comerciante não está aparecendo?[/b]

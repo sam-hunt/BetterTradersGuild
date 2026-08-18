@@ -1,7 +1,7 @@
 Bessere Händlergilde
 
 [h1]Über den Mod[/h1]
-Die Händlergilde ist die Fraktion hinter den Orbitalhändler-Ereignissen in RimWorlds Odyssey-DLC. Dieser Mod erweitert ihre Präsenz um friedlichen Handel, detailreichere Siedlungsinnenräume und neue Möglichkeiten, mit ihr zu interagieren.
+Die Händlergilde ist die Fraktion hinter den Orbitalhändler-Ereignissen in RimWorlds Odyssey-DLC. Dieser Mod erweitert ihre Präsenz um friedlichen Handel, detailreichere Siedlungsinnenräume, lebendige Bewohner und neue Möglichkeiten, mit ihr zu interagieren.
 
 [hr][/hr]
 [h2]Friedlicher Handel[/h2]
@@ -15,8 +15,22 @@ Die Händlergilde ist die Fraktion hinter den Orbitalhändler-Ereignissen in Rim
 [h2]Überarbeitete Kartengenerierung[/h2]
 [list]
 [*]Neue Raumtypen (Kontrollzentrum, Mannschaftsquartiere, Frachtraum, Kommandantenlounge, Krankenstation und mehr)
-[*]Gegenstände im Frachttresor stammen aus dem Handelsbestand: Stiehlst du sie, fehlen sie im Warenangebot der Händler
+[*]Gegenstände im Frachttresor stammen aus dem Handelsbestand: Stiehlst du sie, fehlen sie im Handelsbestand auf der Weltkarte
 [*]Belebte, wohnliche Optik, wie es sich für wohlhabende Händler gehört
+[/list]
+
+[h2]Lebendige Siedlungen[/h2]
+[list]
+[*]Verschanzte Garnisonen verteidigen ihr Zuhause, statt sich ins Vakuum zu stürzen: Sie halten das Gebäude, essen, schlafen, versorgen ihre Wunden und fordern bei langen Belagerungen Nachschub (und Verstärkung) an
+[*]Arbeitsmechs gehen ihrer Arbeit nach: Notfallsanitäter retten und behandeln Verwundete, Putzhelfer halten die Gänge sauber, Agrarhelfer bestellen das Gewächshaus
+[*]Zivilisten suchen bei einem Angriff Schutz und flüchten zur Raumfähre, falls ihr Schutzraum durchbrochen wird
+[*]Schwäche die Sicherheitskräfte einer Siedlung entscheidend, um sie zu brechen: Die Überlebenden ergreifen die Flucht, statt bis zum Tod zu kämpfen
+[/list]
+
+[h2]Schmugglernest-Quest[/h2]
+[list]
+[*]Erlebe die BTG-eigene Kartengenerierung für Angriffe, auch wenn du auf freundliche Beziehungen setzt oder für Siedlungen der Händlergilde die Kartengenerierung eines anderen Mods bevorzugst (z.B. VGE2).
+[*]Wähle deine Belohnung: Ruf bei der Fraktion oder einen Frachtanspruch auf die Waren im Frachttresor des Orbitalhändlers
 [/list]
 
 [h2]Neue Szenarien[/h2]
@@ -46,7 +60,7 @@ A: Ja.
 [b]F: Macht dieser Mod das Spiel einfacher?[/b]
 A: Möglich! Er bietet mehr Handelsmöglichkeiten. Siedlungen der Händlergilde haben deutlich mehr Reichtum, sind aber auch besser verteidigt.
 
-[b]F: Händlerwechsel, Kartengenerierung, Frachttresor oder Verteidigerstärke sind unausgewogen![/b]
+[b]F: Händlerwechsel, Kartengenerierung, Frachttresor, Verteidigerverhalten oder Questhäufigkeit sind unausgewogen![/b]
 A: Alles in den Mod-Einstellungen konfigurierbar.
 
 [b]F: Warum taucht ein bestimmter Händlertyp nicht auf?[/b]
