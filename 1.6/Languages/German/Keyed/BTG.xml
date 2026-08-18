@@ -25,8 +25,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Handel</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>Sonstiges</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>Kartengenerierung</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -101,13 +99,6 @@
   <BTG_Settings_LifeSupportPower>Leistungsabgabe der Lebenserhaltungseinheit: {0} W</BTG_Settings_LifeSupportPower>
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>Leistungsabgabe orbitaler Lebenserhaltungseinheiten.</BTG_Settings_LifeSupportDesc>
-
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
-  <!-- "TG maps" is spelled out as Gildenkarten; a German initialism would be opaque. -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>Gewichtung von Schrottpiraten-Überfällen auf Gildenkarten: {0}x</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>Beim Angriff auf Siedlungen der Händlergilde werden Überfälle der Schrottpiraten wahrscheinlicher.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Deliberately untranslated: this is the mod's brand name. -->

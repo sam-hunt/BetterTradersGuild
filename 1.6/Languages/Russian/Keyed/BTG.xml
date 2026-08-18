@@ -24,8 +24,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Торговля</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>Разное</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>Генерация карты</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -99,12 +97,6 @@
   <BTG_Settings_LifeSupportPower>Выработка энергии блоком жизнеобеспечения: {0} Вт</BTG_Settings_LifeSupportPower>
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>Мощность, вырабатываемая орбитальными блоками жизнеобеспечения.</BTG_Settings_LifeSupportDesc>
-
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>Вес налётов сталкеров на картах гильдии: {0}x</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>При штурме поселений гильдии торговцев налёты сталкеров становятся более вероятными.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- EN: Better Traders Guild -->

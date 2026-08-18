@@ -48,8 +48,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>交易</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>その他</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>マップ生成</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -128,13 +126,6 @@
   <BTG_Settings_LifeSupportPower>生命維持ユニットの電力出力: {0}W</BTG_Settings_LifeSupportPower>
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>軌道上の生命維持ユニットの電力出力です.</BTG_Settings_LifeSupportDesc>
-
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
-  <!-- "TG maps" is spelled out as ギルドのマップ; a Japanese initialism would be opaque. -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>ギルドのマップでの略奪者襲撃の重み: {0}x</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>商人ギルドの入植地を襲撃している間は,略奪者による襲撃が起こりやすくなります.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Deliberately left as the Latin brand name. -->

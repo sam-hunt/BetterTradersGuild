@@ -36,8 +36,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Commerce</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>Divers</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>Génération de carte</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -134,13 +132,6 @@ Counts defending guards and patrolling sentry drones, not turrets or worker mech
   <BTG_Settings_LifeSupportPower>Production d'énergie de l'unité de survie : {0} W</BTG_Settings_LifeSupportPower>
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>Production d'énergie des unités de survie orbitales.</BTG_Settings_LifeSupportDesc>
-
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
-  <!-- "TG maps" is spelled out as "cartes de la guilde" - a French initialism would be opaque. -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>Poids des raids de récupérateurs sur les cartes de la guilde : {0}x</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>Lors de l'assaut de colonies de la guilde des commerçants, les raids de récupérateurs deviennent plus probables.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Left as the Latin brand name, as in every other language. -->

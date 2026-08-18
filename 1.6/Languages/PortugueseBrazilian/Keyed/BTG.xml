@@ -41,8 +41,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Comércio</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>Diversos</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>Geração de Mapa</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -146,14 +144,9 @@ Counts defending guards and patrolling sentry drones, not turrets or worker mech
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>Produção de energia das unidades de suporte de vida orbitais.</BTG_Settings_LifeSupportDesc>
 
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
   <!-- "salteadores" is Odyssey pt-BR Salvagers.label; "invasao" is Core pt-BR Raid.
        "TG maps" is spelled out as "mapas da guilda" - a Portuguese initialism would be
        opaque. -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>Peso das invasões de salteadores nos mapas da guilda: {0}x</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>Ao assaltar assentamentos da Guilda dos Mercadores, as invasões de salteadores se tornam mais prováveis.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Left as the Latin brand name, as in every other language. -->

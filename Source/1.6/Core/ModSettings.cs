@@ -13,8 +13,12 @@ namespace BetterTradersGuild
     // edit. This file holds only the structural glue — the scroll/reset frame in
     // DoWindowContents, the per-section orchestration of
     // ExposeData / ResetToDefaults, and the shared
-    // SectionHeader / Annotate / Description
+    // SectionHeader / Annotate / LabelWithTooltip
     // helpers.
+    //
+    // Help text convention: hover tooltips only (LabelWithTooltip for sliders, the
+    // tooltip argument of CheckboxLabeled for checkboxes) — no always-visible
+    // tiny-font sub-labels, which read as a wall of text at section scale.
     public partial class BetterTradersGuildSettings : ModSettings
     {
         // Transient UI state for the scrollable settings panel — not serialized.
@@ -29,19 +33,19 @@ namespace BetterTradersGuild
         {
             base.ExposeData();
             ExposeTradingSettings();
-            ExposeMiscSettings();
-            ExposeMapGenerationSettings();
+            ExposeSettlementGenerationSettings();
             ExposeDefenderSettings();
             ExposeResupplySettings();
+            ExposeEventsSettings();
         }
 
         public void ResetToDefaults()
         {
             ResetTradingSettings();
-            ResetMiscSettings();
-            ResetMapGenerationSettings();
+            ResetSettlementGenerationSettings();
             ResetDefenderSettings();
             ResetResupplySettings();
+            ResetEventsSettings();
         }
 
         public void DoWindowContents(Rect inRect)
@@ -63,13 +67,13 @@ namespace BetterTradersGuild
             listing.Begin(new Rect(0f, 0f, innerWidth - 8f, 99999f));
             GameFont prevFont = Text.Font;
 
-            // Trading and Misc are global/balance knobs that apply regardless of the
-            // map generator; the rest depend on (and self-gate on) custom layouts.
+            // Grouped by player activity: trade with the guild, generate their
+            // settlements, fight their garrisons (settlements and smuggler's den
+            // alike; resupply renders inside as a subgroup), storyteller dials.
             DrawTradingSection(listing);
-            DrawMiscSection(listing);
-            DrawMapGenerationSection(listing);
+            DrawSettlementGenerationSection(listing);
             DrawDefendersSection(listing);
-            DrawResupplySection(listing);
+            DrawEventsSection(listing);
 
             Text.Font = prevFont;
             settingsHeight = listing.CurHeight;
@@ -101,13 +105,12 @@ namespace BetterTradersGuild
             return label;
         }
 
-        // Explanatory sub-label rendered in tiny font under a control.
-        private static void Description(Listing_Standard listing, string text)
+        // Slider label with the explanatory text as a hover tooltip. The explicit
+        // TipSignal keeps overload resolution away from the ambiguous
+        // Label(TaggedString,...) / Label(string,...) pair.
+        private static void LabelWithTooltip(Listing_Standard listing, string label, string tooltip)
         {
-            GameFont prev = Text.Font;
-            Text.Font = GameFont.Tiny;
-            listing.Label(text);
-            Text.Font = prev;
+            listing.Label(label, -1f, new TipSignal(tooltip));
         }
     }
 

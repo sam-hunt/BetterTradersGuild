@@ -24,8 +24,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>거래</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>기타</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>지도 생성</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -100,12 +98,6 @@
   <BTG_Settings_LifeSupportPower>생명 유지 장치 전력 출력: {0}W</BTG_Settings_LifeSupportPower>
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>궤도 생명 유지 장치의 전력 출력입니다.</BTG_Settings_LifeSupportDesc>
-
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>교역 조합 지도에서 해적 인양단 습격 가중치: {0}배</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>교역 조합 정착지를 공격하는 동안 해적 인양단의 습격이 더 자주 발생합니다.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- EN: Better Traders Guild -->

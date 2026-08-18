@@ -115,15 +115,6 @@ stock/dialog desync, defeat-time stock handoff). The full write-up lives in
 directory. Read it before touching `MapComponents/SettlementStockCache.cs` or
 `RoomContents/CargoHoldVault/CargoVaultHelper.cs` too, since those collaborate from outside it.
 
-### Salvagers Raid Weight System
-
-Two tightly-coupled patches in `Patches/Incidents/` boost Salvagers raid probability on TG maps:
-
-1. **PawnGroupMakerUtilityTryGetRandomFactionForCombatPawnGroupWeighted.cs** - Sets `RaidFactionSelectionContext.IsOnTradersGuildMap` flag
-2. **FactionDefRaidCommonalityFromPoints.cs** - Reads flag, multiplies Salvagers weight by `ModSettings.salvagersRaidWeightMultiplier`
-
-The context flag pattern is required because `RaidCommonalityFromPoints` has no map parameter.
-
 ### Testing
 
 XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, subroom packing). Tests use ASCII diagram visualization for room layouts. Run with `dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj`.

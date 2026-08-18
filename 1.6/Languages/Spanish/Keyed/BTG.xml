@@ -29,8 +29,6 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Comercio</BTG_Settings_Trading>
-  <!-- EN: Misc -->
-  <BTG_Settings_Misc>Varios</BTG_Settings_Misc>
   <!-- EN: Map Generation -->
   <BTG_Settings_MapGeneration>Generación de mapas</BTG_Settings_MapGeneration>
   <!-- EN: Defenders -->
@@ -106,13 +104,6 @@
   <BTG_Settings_LifeSupportPower>Producción de energía de la unidad de soporte vital: {0} W</BTG_Settings_LifeSupportPower>
   <!-- EN: Power output from orbital LifeSupportUnits. -->
   <BTG_Settings_LifeSupportDesc>Producción de energía de las unidades de soporte vital orbitales.</BTG_Settings_LifeSupportDesc>
-
-  <!-- ========== MOD SETTINGS: SALVAGERS RAIDS ========== -->
-  <!-- "TG maps" is spelled out as mapas del gremio; a Spanish initialism would be opaque. -->
-  <!-- EN: Salvagers raid weight on TG maps: {0}x -->
-  <BTG_Settings_SalvagersRaidWeight>Peso de los asaltos de chatarreros en los mapas del gremio: {0}x</BTG_Settings_SalvagersRaidWeight>
-  <!-- EN: When assaulting TradersGuild settlements, Salvagers raids become more likely. -->
-  <BTG_Settings_SalvagersRaidWeightDesc>Al asaltar asentamientos del gremio de comerciantes, los asaltos de chatarreros se vuelven más probables.</BTG_Settings_SalvagersRaidWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Deliberately untranslated: this is the mod's brand name. -->
