@@ -19,6 +19,12 @@ namespace BetterTradersGuild.MapComponents
     {
         private const int TicksPerHour = 2500;
 
+        // Fixed debounce between drops on a single map. It exists to keep the whole
+        // garrison from stacking drops the moment they go hungry, not as a balance
+        // lever (the meals-per-defender setting is the lever), so it is deliberately
+        // not a mod setting.
+        private const int CooldownHours = 6;
+
         // -1 = no resupply has ever happened on this map, so the first call is allowed
         // immediately (a freshly besieged garrison shouldn't have to wait out a cooldown).
         private int lastResupplyTick = -1;
@@ -26,15 +32,14 @@ namespace BetterTradersGuild.MapComponents
         public ResupplyDropTracker(Map map) : base(map) { }
 
         // True if a defender may call in a resupply right now: no drop yet, or the
-        // cooldown (ModSettings, in hours) has elapsed since the last one.
+        // fixed cooldown has elapsed since the last one.
         public bool CanResupplyNow
         {
             get
             {
                 if (lastResupplyTick < 0)
                     return true;
-                int cooldownTicks = BetterTradersGuildMod.Settings.resupplyCooldownHours * TicksPerHour;
-                return Find.TickManager.TicksGame - lastResupplyTick >= cooldownTicks;
+                return Find.TickManager.TicksGame - lastResupplyTick >= CooldownHours * TicksPerHour;
             }
         }
 

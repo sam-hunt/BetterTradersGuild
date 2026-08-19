@@ -116,13 +116,6 @@ Vanilla gives every settlement a similar fixed-strength garrison regardless of y
   <BTG_Settings_ThreatMultiplier>Multiplicador de pontos de ameaça dos defensores: {0}x</BTG_Settings_ThreatMultiplier>
   <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
   <BTG_Settings_ThreatMultiplierDesc>Valores maiores = defensores iniciais mais numerosos ou mais fortes ao entrar em assentamentos.</BTG_Settings_ThreatMultiplierDesc>
-  <!-- EN: Minimum defender threat points: {0} -->
-  <BTG_Settings_MinThreatPoints>Pontos de ameaça mínimos dos defensores: {0}</BTG_Settings_MinThreatPoints>
-  <!-- EN:
-Prevents initial defender strength from scaling below this value at low wealth.
-Also floors the threat level used to size the sentry drone patrol.
-  -->
-  <BTG_Settings_MinThreatPointsDesc>Impede que a força inicial dos defensores caia abaixo deste valor quando a riqueza é baixa.\nTambém define o piso do nível de ameaça usado para dimensionar a patrulha de drones sentinelas.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- guarnição is Core pt-BR AncientGarrison.label; torretas and mecanoides are Core pt-BR vocabulary. -->
@@ -161,18 +154,10 @@ Counts defending guards and patrolling sentry drones, not turrets or worker mech
   <!-- "refeicao de sobrevivencia embalada" is Core pt-BR MealSurvivalPack.label,
        "console de comunicacao" its CommsConsole.label, "capsulas de carga" its
        LetterLabelCargoPodCrash. -->
-  <!-- EN: Enable resupply meals -->
-  <BTG_Settings_EnableResupply>Ativar refeições de reabastecimento</BTG_Settings_EnableResupply>
-  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
-  <BTG_Settings_EnableResupplyDesc>Quando os defensores famintos tiverem esgotado toda a comida do assentamento, permitir que usem um console de comunicação para chamar uma cápsula de carga com refeições de sobrevivência.</BTG_Settings_EnableResupplyDesc>
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Refeições de reabastecimento por defensor: {0}</BTG_Settings_ResupplyMealsPerDefender>
   <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
   <BTG_Settings_ResupplyMealsPerDefenderDesc>Refeições de sobrevivência lançadas por defensor sobrevivente a cada vez que uma guarnição faminta pede reabastecimento.</BTG_Settings_ResupplyMealsPerDefenderDesc>
-  <!-- EN: Resupply cooldown: {0}h -->
-  <BTG_Settings_ResupplyCooldown>Intervalo entre reabastecimentos: {0} h</BTG_Settings_ResupplyCooldown>
-  <!-- EN: Minimum time between resupply drops at a single settlement. -->
-  <BTG_Settings_ResupplyCooldownDesc>Tempo mínimo entre lançamentos de reabastecimento em um mesmo assentamento.</BTG_Settings_ResupplyCooldownDesc>
   <!-- "reforcos" is Core pt-BR MessageMechanoidsReinforcementsDrop. -->
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Chamar reforços</BTG_Settings_ResupplyTriggersRaid>

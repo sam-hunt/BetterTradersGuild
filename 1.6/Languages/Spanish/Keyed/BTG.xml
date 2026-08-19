@@ -85,10 +85,6 @@
   <BTG_Settings_ThreatMultiplier>Multiplicador de puntos de amenaza de los defensores: {0}x</BTG_Settings_ThreatMultiplier>
   <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
   <BTG_Settings_ThreatMultiplierDesc>Valores más altos = defensores iniciales más numerosos y más fuertes al entrar en los asentamientos.</BTG_Settings_ThreatMultiplierDesc>
-  <!-- EN: Minimum defender threat points: {0} -->
-  <BTG_Settings_MinThreatPoints>Puntos de amenaza mínimos de los defensores: {0}</BTG_Settings_MinThreatPoints>
-  <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
-  <BTG_Settings_MinThreatPointsDesc>Evita que la fuerza inicial de los defensores baje de este valor cuando la riqueza es escasa.\nTambién fija el mínimo del nivel de amenaza que se usa para dimensionar la patrulla de drones centinela.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- guarnición is Core es AncientGarrison.label; torretas and mecanoides are Core es vocabulary. -->
@@ -115,18 +111,10 @@
   <BTG_ResupplyDropArrived>La llamada de auxilio de la guarnición ha obtenido respuesta.</BTG_ResupplyDropArrived>
 
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
-  <!-- EN: Enable resupply meals -->
-  <BTG_Settings_EnableResupply>Habilitar raciones de reabastecimiento</BTG_Settings_EnableResupply>
-  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
-  <BTG_Settings_EnableResupplyDesc>Cuando los defensores hambrientos hayan agotado toda la comida del asentamiento, permíteles usar una consola de comunicaciones para pedir una cápsula de carga con raciones de supervivencia.</BTG_Settings_EnableResupplyDesc>
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Raciones de reabastecimiento por defensor: {0}</BTG_Settings_ResupplyMealsPerDefender>
   <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
   <BTG_Settings_ResupplyMealsPerDefenderDesc>Raciones de supervivencia que se lanzan por cada defensor superviviente cada vez que una guarnición hambrienta pide un reabastecimiento.</BTG_Settings_ResupplyMealsPerDefenderDesc>
-  <!-- EN: Resupply cooldown: {0}h -->
-  <BTG_Settings_ResupplyCooldown>Tiempo de espera del reabastecimiento: {0}h</BTG_Settings_ResupplyCooldown>
-  <!-- EN: Minimum time between resupply drops at a single settlement. -->
-  <BTG_Settings_ResupplyCooldownDesc>Tiempo mínimo entre dos lanzamientos de reabastecimiento en un mismo asentamiento.</BTG_Settings_ResupplyCooldownDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Pedir refuerzos</BTG_Settings_ResupplyTriggersRaid>
   <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->

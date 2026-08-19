@@ -12,9 +12,13 @@ namespace BetterTradersGuild
     // those only feed the settlement points roll — the den's garrison is sized by
     // its quest — so they alone gate on useCustomLayouts.
     //
-    // The resupply fields and their draw helper live in Settings_Resupply.cs; they
-    // render here as an indented subgroup under the entrenched-AI toggle, which is
-    // their true prerequisite (the resupply job only exists on the entrenched lord).
+    // The defender resupply knobs render as an indented subgroup under the
+    // entrenched-AI toggle, which is their true prerequisite: the resupply job is a
+    // node of the BTG_DefendStructure duty, so it runs wherever the entrenched lord
+    // runs — custom-layout settlements and the smuggler's den alike — and never
+    // runs under the vanilla lord. The subgroup deliberately does NOT gate on
+    // useCustomLayouts: that toggle has no effect on the den, whose garrison these
+    // knobs still fully govern.
     public partial class BetterTradersGuildSettings
     {
         // Defender AI style ("Entrenched defender AI" in the settings UI). When
@@ -28,6 +32,21 @@ namespace BetterTradersGuild
         // smuggler's den garrison (always).
         public bool useEntrenchedDefenders = true;
 
+        // Survival-meal packs delivered per surviving humanlike defender, each time the
+        // garrison calls in a comms-console resupply drop (the last-resort hunger
+        // escalation for starving entrenched defenders). Doubles as the feature's
+        // master switch: 0 = defenders never call in a resupply drop.
+        // Range: 0-10. Default: 2 (drop size = 2 × living humanlike defenders). The
+        // drop shrinks as the player neutralizes defenders, so no per-map cap is
+        // needed; drops are also debounced by a fixed per-map cooldown
+        // (ResupplyDropTracker).
+        public int resupplyMealsPerDefender = 2;
+
+        // When on, a successful resupply call also summons a drop-pod reinforcement raid of
+        // the map faction's own troops (ResupplyRaidUtility). Default: true. Only fires while
+        // the map faction is hostile, so it never triggers on a peaceful visit.
+        public bool resupplyTriggersRaid = true;
+
         // Scale initial defender generation to the world's current threat points
         // (colony wealth + difficulty) instead of vanilla's flat 1150-1600 roll.
         // The flat roll is intentional vanilla design for all settlements, so this
@@ -39,19 +58,10 @@ namespace BetterTradersGuild
 
         // Threat points multiplier for initial defender generation. Applied to the
         // base points (flat vanilla roll, or threat-scaled when
-        // scaleDefendersToThreatLevel is on), before the minimum threat points
-        // floor. Range: 0.5-3.0. Default: 1.0 (no modification). Settlements only,
-        // same as scaleDefendersToThreatLevel. Requires useCustomLayouts.
+        // scaleDefendersToThreatLevel is on). Range: 0.5-3.0. Default: 1.0 (no
+        // modification). Settlements only, same as scaleDefendersToThreatLevel.
+        // Requires useCustomLayouts.
         public float threatPointsMultiplier = 1.0f;
-
-        // Minimum threat points for initial defender generation. Two consumers with
-        // different scopes: floors the settlement garrison points roll (settlements
-        // only — den pawn budget comes from its quest), and floors the threat level
-        // GenStep_SpawnSentryDrones sizes the drone patrol from (settlements AND
-        // den). Because of the drone floor it stays live regardless of
-        // useCustomLayouts. Range: 0-5000. 0 = vanilla (no floor). Default: 0.
-        // BTG Recommended: 2400 (ensures elite pawn types can spawn at low wealth).
-        public float minimumThreatPoints = 0f;
 
         // Additional sentry drone presence as a factor of threat points.
         // Range: 0.0-2.0 (0-200% of threat points). 0 = vanilla. Default: 0.25.
@@ -73,19 +83,32 @@ namespace BetterTradersGuild
         private void ExposeDefenderSettings()
         {
             Scribe_Values.Look(ref useEntrenchedDefenders, "useEntrenchedDefenders", true);
+            Scribe_Values.Look(ref resupplyMealsPerDefender, "resupplyMealsPerDefender", 2);
+            Scribe_Values.Look(ref resupplyTriggersRaid, "resupplyTriggersRaid", true);
             Scribe_Values.Look(ref scaleDefendersToThreatLevel, "scaleDefendersToThreatLevel", false);
             Scribe_Values.Look(ref threatPointsMultiplier, "threatPointsMultiplier", 1.0f);
-            Scribe_Values.Look(ref minimumThreatPoints, "minimumThreatPoints", 0f);
             Scribe_Values.Look(ref sentryDronePresence, "sentryDronePresence", 0.25f);
             Scribe_Values.Look(ref securityDefeatFraction, "securityDefeatFraction", 0.8f);
+
+            // Legacy migration: enableResupply was rolled into resupplyMealsPerDefender
+            // (0 = disabled). Carry an old "off" over so those players keep resupply
+            // disabled; the stale node is simply never written back.
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                bool legacyEnableResupply = true;
+                Scribe_Values.Look(ref legacyEnableResupply, "enableResupply", true);
+                if (!legacyEnableResupply)
+                    resupplyMealsPerDefender = 0;
+            }
         }
 
         private void ResetDefenderSettings()
         {
             useEntrenchedDefenders = true;
+            resupplyMealsPerDefender = 2;
+            resupplyTriggersRaid = true;
             scaleDefendersToThreatLevel = false;
             threatPointsMultiplier = 1.0f;
-            minimumThreatPoints = 0f;
             sentryDronePresence = 0.25f;
             securityDefeatFraction = 0.8f;
         }
@@ -103,8 +126,7 @@ namespace BetterTradersGuild
             listing.CheckboxLabeled(defenderAiLabel, ref useEntrenchedDefenders,
                 "BTG_Settings_EntrenchedDefendersDesc".Translate());
 
-            // Resupply subgroup, indented beneath its prerequisite. Fields and draw
-            // helper live in Settings_Resupply.cs.
+            // Resupply subgroup, indented beneath its prerequisite.
             listing.Gap(8f);
             DrawResupplySubgroup(listing);
 
@@ -120,7 +142,7 @@ namespace BetterTradersGuild
             float defeatSliderValue = listing.Slider(securityDefeatFraction * 100f, 50f, 100f);
             securityDefeatFraction = (int)(System.Math.Round(defeatSliderValue / 5f) * 5f) / 100f;
 
-            listing.Gap(16f);
+            listing.Gap(12f);
 
             // Additional sentry drone presence. Settlements and den alike.
             int dronePercentageDisplay = (int)(sentryDronePresence * 100f);
@@ -133,21 +155,7 @@ namespace BetterTradersGuild
             float droneSliderValue = listing.Slider(sentryDronePresence * 100f, 0f, 200f);
             sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 5f) * 5f) / 100f;
 
-            listing.Gap(16f);
-
-            // Minimum threat points. Stays live regardless of useCustomLayouts
-            // because it also floors the den's sentry drone patrol.
-            int threatPointsDisplay = (int)minimumThreatPoints;
-            string threatLabel = Annotate(
-                "BTG_Settings_MinThreatPoints".Translate(threatPointsDisplay),
-                vanilla: threatPointsDisplay == 0,
-                recommended: threatPointsDisplay == 2400);
-            LabelWithTooltip(listing, threatLabel, "BTG_Settings_MinThreatPointsDesc".Translate());
-
-            float threatSliderValue = listing.Slider(minimumThreatPoints, 0f, 5000f);
-            minimumThreatPoints = (int)(System.Math.Round(threatSliderValue / 100f) * 100f);
-
-            listing.Gap(16f);
+            listing.Gap(12f);
 
             // Initial settlement garrison subgroup: the only knobs here that are
             // truly settlement-only (the den's garrison is sized by its quest), so
@@ -156,14 +164,16 @@ namespace BetterTradersGuild
             listing.Gap(4f);
 
             GUI.enabled = useCustomLayouts;
-            listing.Indent(12f);
-            listing.ColumnWidth -= 12f;
+            listing.Indent(16f);
+            listing.ColumnWidth -= 16f;
 
+            // While gated off the effective state is "no scaling" (= vanilla), so
+            // the annotation follows the shown state rather than the stored one.
             string scaleLabel = Annotate(
                 "BTG_Settings_ScaleDefenders".Translate(),
-                vanilla: !scaleDefendersToThreatLevel);
-            listing.CheckboxLabeled(scaleLabel, ref scaleDefendersToThreatLevel,
-                "BTG_Settings_ScaleDefendersDesc".Translate());
+                vanilla: !(useCustomLayouts && scaleDefendersToThreatLevel));
+            CheckboxLabeledGated(listing, scaleLabel, ref scaleDefendersToThreatLevel,
+                "BTG_Settings_ScaleDefendersDesc".Translate(), useCustomLayouts);
 
             listing.Gap(8f);
 
@@ -172,14 +182,49 @@ namespace BetterTradersGuild
                 vanilla: threatPointsMultiplier == 1.0f);
             LabelWithTooltip(listing, multiplierLabel, "BTG_Settings_ThreatMultiplierDesc".Translate());
 
+            // Discard the slider result while gated off: greyed sliders still take
+            // drags (the fade is visual only), and the stored value must survive.
             float multiplierSliderValue = listing.Slider(threatPointsMultiplier, 0.5f, 3.0f);
-            threatPointsMultiplier = (float)(System.Math.Round(multiplierSliderValue / 0.25) * 0.25);
+            if (useCustomLayouts)
+                threatPointsMultiplier = (float)(System.Math.Round(multiplierSliderValue / 0.25) * 0.25);
 
-            listing.ColumnWidth += 12f;
-            listing.Outdent(12f);
+            listing.ColumnWidth += 16f;
+            listing.Outdent(16f);
             GUI.enabled = true;
 
             listing.Gap(24f);
+        }
+
+        // Indented subgroup rendered by DrawDefendersSection directly beneath the
+        // entrenched-AI checkbox. Restores GUI.enabled to true before returning.
+        private void DrawResupplySubgroup(Listing_Standard listing)
+        {
+            listing.Indent(16f);
+            listing.ColumnWidth -= 16f;
+
+            // The whole subgroup is dead weight without the entrenched lord.
+            GUI.enabled = useEntrenchedDefenders;
+            listing.Label("BTG_Settings_Resupply".Translate());
+            listing.Gap(4f);
+
+            // Meals per defender. Doubles as the master switch: 0 = resupply off.
+            LabelWithTooltip(listing, "BTG_Settings_ResupplyMealsPerDefender".Translate(resupplyMealsPerDefender),
+                "BTG_Settings_ResupplyMealsPerDefenderDesc".Translate());
+            float resupplyMealsSliderValue = listing.Slider(resupplyMealsPerDefender, 0f, 10f);
+            if (useEntrenchedDefenders)
+                resupplyMealsPerDefender = (int)System.Math.Round(resupplyMealsSliderValue);
+
+            listing.Gap(4f);
+
+            // Reinforcement raid on a successful resupply call. Meaningless while
+            // resupply itself is off, so it additionally gates on the meals switch.
+            CheckboxLabeledGated(listing, "BTG_Settings_ResupplyTriggersRaid".Translate(), ref resupplyTriggersRaid,
+                "BTG_Settings_ResupplyTriggersRaidDesc".Translate(),
+                useEntrenchedDefenders && resupplyMealsPerDefender > 0);
+
+            listing.ColumnWidth += 16f;
+            listing.Outdent(16f);
+            GUI.enabled = true;
         }
     }
 }

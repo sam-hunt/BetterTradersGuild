@@ -105,13 +105,6 @@ Vanilla gives every settlement a similar fixed-strength garrison regardless of y
   <BTG_Settings_ThreatMultiplier>Multiplicateur des points de menace des défenseurs : {0}x</BTG_Settings_ThreatMultiplier>
   <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
   <BTG_Settings_ThreatMultiplierDesc>Valeurs plus élevées = défenseurs initiaux plus nombreux ou plus puissants à l'entrée dans les colonies.</BTG_Settings_ThreatMultiplierDesc>
-  <!-- EN: Minimum defender threat points: {0} -->
-  <BTG_Settings_MinThreatPoints>Points de menace minimum des défenseurs : {0}</BTG_Settings_MinThreatPoints>
-  <!-- EN:
-Prevents initial defender strength from scaling below this value at low wealth.
-Also floors the threat level used to size the sentry drone patrol.
-  -->
-  <BTG_Settings_MinThreatPointsDesc>Empêche la force initiale des défenseurs de descendre en dessous de cette valeur lorsque la richesse est faible.\nFixe également le plancher du niveau de menace utilisé pour dimensionner la patrouille de drones sentinelles.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- garnison is Core fr AncientGarrison.label; tourelles and mécanoïdes are Core fr vocabulary. -->
@@ -143,18 +136,10 @@ Counts defending guards and patrolling sentry drones, not turrets or worker mech
   <BTG_ResupplyDropArrived>L'appel de détresse de la garnison a été entendu.</BTG_ResupplyDropArrived>
 
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
-  <!-- EN: Enable resupply meals -->
-  <BTG_Settings_EnableResupply>Activer les rations de ravitaillement</BTG_Settings_EnableResupply>
-  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
-  <BTG_Settings_EnableResupplyDesc>Lorsque les défenseurs affamés ont épuisé toute la nourriture de la colonie, leur permettre d'utiliser une console de com pour appeler une capsule de cargo remplie de rations de survie.</BTG_Settings_EnableResupplyDesc>
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Rations de ravitaillement par défenseur : {0}</BTG_Settings_ResupplyMealsPerDefender>
   <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
   <BTG_Settings_ResupplyMealsPerDefenderDesc>Rations de survie larguées par défenseur survivant à chaque appel de ravitaillement d'une garnison affamée.</BTG_Settings_ResupplyMealsPerDefenderDesc>
-  <!-- EN: Resupply cooldown: {0}h -->
-  <BTG_Settings_ResupplyCooldown>Délai entre deux ravitaillements : {0} h</BTG_Settings_ResupplyCooldown>
-  <!-- EN: Minimum time between resupply drops at a single settlement. -->
-  <BTG_Settings_ResupplyCooldownDesc>Temps minimum entre deux largages de ravitaillement dans une même colonie.</BTG_Settings_ResupplyCooldownDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Appeler des renforts</BTG_Settings_ResupplyTriggersRaid>
   <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->

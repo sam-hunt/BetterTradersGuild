@@ -78,10 +78,6 @@
   <BTG_Settings_ThreatMultiplier>Множитель очков угрозы защитников: {0}x</BTG_Settings_ThreatMultiplier>
   <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
   <BTG_Settings_ThreatMultiplierDesc>Чем больше значение, тем больше и сильнее защитники при входе в поселение.</BTG_Settings_ThreatMultiplierDesc>
-  <!-- EN: Minimum defender threat points: {0} -->
-  <BTG_Settings_MinThreatPoints>Минимум очков угрозы защитников: {0}</BTG_Settings_MinThreatPoints>
-  <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
-  <BTG_Settings_MinThreatPointsDesc>Не даёт начальной силе защитников опуститься ниже этого значения при малом богатстве.\nТакже задаёт нижнюю границу угрозы, по которой рассчитывается патруль дронов-дозорных.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- гарнизон is Core ru AncientGarrison.label; турели and механоиды are Core ru. -->
@@ -107,18 +103,10 @@
   <BTG_ResupplyDropArrived>На сигнал бедствия гарнизона откликнулись.</BTG_ResupplyDropArrived>
 
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
-  <!-- EN: Enable resupply meals -->
-  <BTG_Settings_EnableResupply>Разрешить доставку пайков</BTG_Settings_EnableResupply>
-  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
-  <BTG_Settings_EnableResupplyDesc>Когда голодающие защитники съедят всю еду в поселении, они смогут вызвать через консоль связи транспортную капсулу с сухими пайками.</BTG_Settings_EnableResupplyDesc>
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Пайков на одного защитника: {0}</BTG_Settings_ResupplyMealsPerDefender>
   <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
   <BTG_Settings_ResupplyMealsPerDefenderDesc>Сколько сухих пайков сбрасывается на каждого уцелевшего защитника при каждом вызове снабжения голодающим гарнизоном.</BTG_Settings_ResupplyMealsPerDefenderDesc>
-  <!-- EN: Resupply cooldown: {0}h -->
-  <BTG_Settings_ResupplyCooldown>Задержка между поставками: {0} ч</BTG_Settings_ResupplyCooldown>
-  <!-- EN: Minimum time between resupply drops at a single settlement. -->
-  <BTG_Settings_ResupplyCooldownDesc>Наименьшее время между сбросами снабжения в одном поселении.</BTG_Settings_ResupplyCooldownDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Вызывать подкрепление</BTG_Settings_ResupplyTriggersRaid>
   <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->

@@ -35,7 +35,6 @@ namespace BetterTradersGuild
             ExposeTradingSettings();
             ExposeSettlementGenerationSettings();
             ExposeDefenderSettings();
-            ExposeResupplySettings();
             ExposeEventsSettings();
         }
 
@@ -44,7 +43,6 @@ namespace BetterTradersGuild
             ResetTradingSettings();
             ResetSettlementGenerationSettings();
             ResetDefenderSettings();
-            ResetResupplySettings();
             ResetEventsSettings();
         }
 
@@ -112,6 +110,39 @@ namespace BetterTradersGuild
         {
             listing.Label(label, -1f, new TipSignal(tooltip));
         }
+
+        // Checkbox whose prerequisite may be off. GUI.enabled alone is not enough
+        // for that state: it only fades the visuals, while RimWorld's invisible-
+        // button hit test ignores it, so a "greyed" checkbox would still toggle on
+        // click. When gated off this draws a genuinely non-interactive checkbox,
+        // shown UNCHECKED (the effective state, since the feature can't run) while
+        // the stored value stays untouched and reappears once re-enabled.
+        private static void CheckboxLabeledGated(Listing_Standard listing, string label, ref bool value,
+            string tooltip, bool enabled)
+        {
+            if (enabled)
+            {
+                listing.CheckboxLabeled(label, ref value, tooltip);
+                return;
+            }
+
+            // Mirror Listing_Standard.CheckboxLabeled's rect/tooltip handling, but
+            // draw through Widgets' disabled path with a throwaway unchecked state.
+            bool prevGuiEnabled = GUI.enabled;
+            GUI.enabled = false;
+            float height = Text.CalcHeight(label, listing.ColumnWidth);
+            Rect rect = listing.GetRect(height);
+            if (!tooltip.NullOrEmpty())
+            {
+                if (Mouse.IsOver(rect))
+                    Widgets.DrawHighlight(rect);
+                TooltipHandler.TipRegion(rect, tooltip);
+            }
+            bool shownUnchecked = false;
+            Widgets.CheckboxLabeled(rect, label, ref shownUnchecked, disabled: true);
+            listing.Gap(listing.verticalSpacing);
+            GUI.enabled = prevGuiEnabled;
+        }
     }
 
     // Mod class for handling settings UI. The window itself is drawn by
@@ -151,9 +182,9 @@ namespace BetterTradersGuild
             // both), so the change takes effect immediately with no restart needed.
             BetterTradersGuildMod.ApplyLifeSupportUnitPowerSetting();
 
-            // Push the smuggler's den quest weight onto its QuestScriptDef, so the next
-            // storyteller quest roll uses the new value with no restart needed.
-            BetterTradersGuildMod.ApplySmugglersDenQuestWeightSetting();
+            // Push the quest weights onto their QuestScriptDefs, so the next
+            // storyteller quest roll uses the new values with no restart needed.
+            BetterTradersGuildMod.ApplyQuestWeightSettings();
 
             // Check if rotation interval changed
             if (settings.traderRotationIntervalDays != previousRotationInterval)

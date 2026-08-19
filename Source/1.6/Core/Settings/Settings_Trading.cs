@@ -1,4 +1,3 @@
-using UnityEngine;
 using Verse;
 
 namespace BetterTradersGuild
@@ -38,6 +37,12 @@ namespace BetterTradersGuild
         {
             SectionHeader(listing, "BTG_Settings_Trading".Translate());
 
+            // The vault only exists on custom-generated settlement maps.
+            CheckboxLabeledGated(listing, "BTG_Settings_EnableCargoVault".Translate(), ref enableCargoVault,
+                "BTG_Settings_EnableCargoVaultDesc".Translate(), useCustomLayouts);
+
+            listing.Gap(12f);
+
             string intervalLabel = Annotate(
                 "BTG_Settings_TraderRotationInterval".Translate(traderRotationIntervalDays),
                 vanilla: traderRotationIntervalDays == 30);
@@ -46,14 +51,6 @@ namespace BetterTradersGuild
 
             float sliderValue = listing.Slider(traderRotationIntervalDays, 5f, 60f);
             traderRotationIntervalDays = (int)(System.Math.Round(sliderValue / 5f) * 5f);
-
-            listing.Gap(12f);
-
-            // The vault only exists on custom-generated settlement maps.
-            GUI.enabled = useCustomLayouts;
-            listing.CheckboxLabeled("BTG_Settings_EnableCargoVault".Translate(), ref enableCargoVault,
-                "BTG_Settings_EnableCargoVaultDesc".Translate());
-            GUI.enabled = true;
 
             listing.Gap(24f);
         }

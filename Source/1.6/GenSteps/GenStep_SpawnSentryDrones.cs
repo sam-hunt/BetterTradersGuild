@@ -9,7 +9,6 @@ namespace BetterTradersGuild.MapGeneration
     //
     // No XML parameters - reads configuration from ModSettings:
     // - sentryDronePresence: Scale factor (0-200%) for drone count
-    // - minimumThreatPoints: Floors the points the count curve is evaluated at
     //
     // There is deliberately no useCustomLayouts check here: on settlements this
     // GenStep only runs inside the BTG pipeline (itself gated on useCustomLayouts),
@@ -82,11 +81,9 @@ namespace BetterTradersGuild.MapGeneration
             // the map's value is zero at generation time.
             float actualPoints = parms.sitePart?.parms?.threatPoints
                 ?? StorytellerUtility.DefaultThreatPointsNow(Find.World);
-            float minimumPoints = BetterTradersGuildMod.Settings.minimumThreatPoints;
-            float effectivePoints = System.Math.Max(actualPoints, minimumPoints);
 
             // Intended count = base curve evaluated at the presence-scaled points.
-            int droneCount = UnityEngine.Mathf.RoundToInt(DroneCountFromPoints.Evaluate(effectivePoints * dronePresence));
+            int droneCount = UnityEngine.Mathf.RoundToInt(DroneCountFromPoints.Evaluate(actualPoints * dronePresence));
             if (droneCount <= 0)
                 return;
 

@@ -106,10 +106,6 @@
   <BTG_Settings_ThreatMultiplier>防衛部隊の脅威ポイント倍率: {0}x</BTG_Settings_ThreatMultiplier>
   <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
   <BTG_Settings_ThreatMultiplierDesc>値を大きくするほど,入植地に入った時の初期の防衛部隊が多く,強くなります.</BTG_Settings_ThreatMultiplierDesc>
-  <!-- EN: Minimum defender threat points: {0} -->
-  <BTG_Settings_MinThreatPoints>防衛部隊の最小脅威ポイント: {0}</BTG_Settings_MinThreatPoints>
-  <!-- EN: Prevents initial defender strength from scaling below this value at low wealth.\nAlso floors the threat level used to size the sentry drone patrol. -->
-  <BTG_Settings_MinThreatPointsDesc>資産が少ない時に,初期の防衛部隊の戦力がこの値を下回らないようにします.\nセントリードローンの巡回規模を決める脅威レベルの下限にもなります.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- 守備隊 is the mod-decided word for a garrison force (vanilla ja AncientGarrison is 駐屯地, a place). -->
@@ -137,21 +133,13 @@
   <BTG_ResupplyDropArrived>駐屯部隊の救援要請に応答がありました.</BTG_ResupplyDropArrived>
 
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
-  <!-- EN: Enable resupply meals -->
-  <BTG_Settings_EnableResupply>補給食料の投下を有効にする</BTG_Settings_EnableResupply>
   <!-- "通信機" is Core ja's CommsConsole.label; "非常用食品" its MealSurvivalPack.label. -->
-  <!-- EN: When starving defenders have exhausted all food inside the settlement, let them use a comms console to call in a survival-meal cargo pod. -->
-  <BTG_Settings_EnableResupplyDesc>飢えた防衛部隊が入植地内の食料を使い果たした時,通信機を使って非常用食品の貨物ポッドを要請できるようにします.</BTG_Settings_EnableResupplyDesc>
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>防衛部隊1人あたりの補給食料: {0}</BTG_Settings_ResupplyMealsPerDefender>
   <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
   <BTG_Settings_ResupplyMealsPerDefenderDesc>飢えた駐屯部隊が補給を要請するたびに,生存している防衛部隊1人あたりに投下される非常用食品の数です.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- Vanilla ja has no {0}h string; units attach tight throughout, so the English form
        is kept as-is. -->
-  <!-- EN: Resupply cooldown: {0}h -->
-  <BTG_Settings_ResupplyCooldown>補給の再要請までの時間: {0}h</BTG_Settings_ResupplyCooldown>
-  <!-- EN: Minimum time between resupply drops at a single settlement. -->
-  <BTG_Settings_ResupplyCooldownDesc>同じ入植地で補給物資が投下される最短の間隔です.</BTG_Settings_ResupplyCooldownDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>増援を要請する</BTG_Settings_ResupplyTriggersRaid>
   <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->

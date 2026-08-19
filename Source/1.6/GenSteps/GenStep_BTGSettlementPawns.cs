@@ -119,23 +119,19 @@ namespace BetterTradersGuild.MapGeneration
         {
             bool scaleToThreatLevel = BetterTradersGuildMod.Settings.scaleDefendersToThreatLevel;
             float multiplier = BetterTradersGuildMod.Settings.threatPointsMultiplier;
-            float minimumPoints = BetterTradersGuildMod.Settings.minimumThreatPoints;
 
-            if (!scaleToThreatLevel && multiplier == 1.0f && minimumPoints <= 0f)
+            if (!scaleToThreatLevel && multiplier == 1.0f)
                 return null;
 
             // Same base roll vanilla would make, then: optional floor-raise to the
             // world's threat points (max, so an early-game garrison never drops below
-            // the vanilla baseline), multiplier, minimum floor.
+            // the vanilla baseline), then the multiplier.
             float points = MapGenUtilityReflection.DefaultPawnsPoints.RandomInRange;
 
             if (scaleToThreatLevel)
                 points = System.Math.Max(points, StorytellerUtility.DefaultThreatPointsNow(Find.World));
 
             points *= multiplier;
-
-            if (minimumPoints > 0f && points < minimumPoints)
-                points = minimumPoints;
 
             return points;
         }

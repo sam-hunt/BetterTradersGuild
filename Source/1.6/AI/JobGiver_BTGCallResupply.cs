@@ -44,9 +44,9 @@ namespace BetterTradersGuild.AI
 
         protected override Job TryGiveJob(Pawn pawn)
         {
-            // Behavior disabled, or pawn isn't starving / can't operate a console.
-            if (!BetterTradersGuildMod.Settings.enableResupply
-                || BetterTradersGuildMod.Settings.resupplyMealsPerDefender <= 0)
+            // Behavior disabled (0 meals per defender = resupply off), or pawn isn't
+            // starving / can't operate a console.
+            if (BetterTradersGuildMod.Settings.resupplyMealsPerDefender <= 0)
                 return null;
             Need_Food need = pawn.needs?.food;
             if (need == null || (int)need.CurCategory < (int)minCategory)

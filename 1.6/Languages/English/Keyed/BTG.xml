@@ -29,6 +29,10 @@
   <BTG_Settings_InitialGarrison>Initial settlement garrison</BTG_Settings_InitialGarrison>
   <BTG_Settings_ResetToDefaults>Reset to defaults</BTG_Settings_ResetToDefaults>
 
+  <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
+  <BTG_Settings_EnableCargoVault>Enable cargo vault access</BTG_Settings_EnableCargoVault>
+  <BTG_Settings_EnableCargoVaultDesc>When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting.</BTG_Settings_EnableCargoVaultDesc>
+
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- {0} = days -->
   <BTG_Settings_TraderRotationInterval>Trader rotation interval: {0} days</BTG_Settings_TraderRotationInterval>
@@ -40,10 +44,6 @@
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <BTG_Settings_UseCustomLayouts>Use custom settlement map generator</BTG_Settings_UseCustomLayouts>
   <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to.</BTG_Settings_UseCustomLayoutsDesc>
-
-  <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
-  <BTG_Settings_EnableCargoVault>Enable cargo vault access</BTG_Settings_EnableCargoVault>
-  <BTG_Settings_EnableCargoVaultDesc>When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- {0} = percentage -->
@@ -60,9 +60,6 @@
   <!-- {0} = multiplier (e.g., "1.5") -->
   <BTG_Settings_ThreatMultiplier>Defender threat points multiplier: {0}x</BTG_Settings_ThreatMultiplier>
   <BTG_Settings_ThreatMultiplierDesc>Higher values = more/stronger initial defenders when entering settlements.\nSettlements only: the smuggler's den garrison is sized by its quest instead.</BTG_Settings_ThreatMultiplierDesc>
-  <!-- {0} = points -->
-  <BTG_Settings_MinThreatPoints>Minimum defender threat points: {0}</BTG_Settings_MinThreatPoints>
-  <BTG_Settings_MinThreatPointsDesc>Prevents initial settlement defender strength from scaling below this value at low wealth (the smuggler's den garrison is sized by its quest instead).\nAlso floors the threat level used to size the sentry drone patrol, on settlements and the smuggler's den alike.</BTG_Settings_MinThreatPointsDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- {0} = percentage -->
@@ -74,7 +71,10 @@
   <BTG_Settings_LifeSupportPower>LifeSupportUnit power output: {0}W</BTG_Settings_LifeSupportPower>
   <BTG_Settings_LifeSupportDesc>Power output from orbital LifeSupportUnits.\nChanges the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps.</BTG_Settings_LifeSupportDesc>
 
-  <!-- ========== MOD SETTINGS: SMUGGLER'S DEN QUEST ========== -->
+  <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
+  <!-- {0} = selection weight (e.g., "1.00") -->
+  <BTG_Settings_TradeRequestQuestWeight>Trade request quest weight: {0}</BTG_Settings_TradeRequestQuestWeight>
+  <BTG_Settings_TradeRequestQuestWeightDesc>How often the storyteller offers the guild's shuttle trade request quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all.</BTG_Settings_TradeRequestQuestWeightDesc>
   <!-- {0} = selection weight (e.g., "1.00") -->
   <BTG_Settings_SmugglersDenQuestWeight>Smuggler's den quest weight: {0}</BTG_Settings_SmugglersDenQuestWeight>
   <BTG_Settings_SmugglersDenQuestWeightDesc>How often the storyteller offers the smuggler's den quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all.</BTG_Settings_SmugglersDenQuestWeightDesc>
@@ -86,14 +86,9 @@
   <BTG_ResupplyDropArrived>The garrison's distress call has drawn a response.</BTG_ResupplyDropArrived>
 
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
-  <BTG_Settings_EnableResupply>Enable resupply meals</BTG_Settings_EnableResupply>
-  <BTG_Settings_EnableResupplyDesc>When starving defenders have exhausted all food inside the structure, let them use a comms console to call in a survival-meal cargo pod.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike.</BTG_Settings_EnableResupplyDesc>
   <!-- {0} = meals per defender -->
   <BTG_Settings_ResupplyMealsPerDefender>Resupply meals per defender: {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>Survival meals dropped per surviving defender each time a starving garrison calls in a resupply.</BTG_Settings_ResupplyMealsPerDefenderDesc>
-  <!-- {0} = hours -->
-  <BTG_Settings_ResupplyCooldown>Resupply cooldown: {0}h</BTG_Settings_ResupplyCooldown>
-  <BTG_Settings_ResupplyCooldownDesc>Minimum time between resupply drops on a single map.</BTG_Settings_ResupplyCooldownDesc>
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.\nSet to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <BTG_Settings_ResupplyTriggersRaid>Call in reinforcements</BTG_Settings_ResupplyTriggersRaid>
   <BTG_Settings_ResupplyTriggersRaidDesc>When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
 
