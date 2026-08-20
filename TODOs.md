@@ -7,6 +7,7 @@ TODOs
 - Smoke test against old heavily modded game save
 - Smoke test with performance analyzer (particularly the post-mapgen spike)
 - test CWTL on den quest site
+- review mod settings page
 - Run a /translate update pass for the settings-rework batch: the two smugglers-den quest keys, the two new trade-request quest weight keys, the new Events/InitialGarrison labels, the reworded scope/tooltip descs (incl. the merged resupply meals-per-defender desc), the BTG_Settings_BTGRecommended reword to "(Suggested)", the new BTG_Settings_Default "(default)" tag key, and the guild-to-faction tweak in the defeat-threshold desc, across all 8 languages
 
 - VGE2 integration
