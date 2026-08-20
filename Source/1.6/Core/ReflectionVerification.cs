@@ -40,6 +40,8 @@ namespace BetterTradersGuild
             TransportersArrivalActionTradeArrived.VerifyReflection();
             CaravanMakerMakeCaravan.VerifyPatched();
             SiteCheckAllEnemiesDefeated.VerifyPatched();
+            TransportersArrivalActionTradeCanTradeWith.VerifyPatched();
+            TransportersArrivalActionTradeArrived.VerifyPatched();
 
             // Optional-mod integrations — soft dependencies. Forcing each static constructor makes
             // it resolve now and self-report drift (silent unless the mod is present but shifted).
