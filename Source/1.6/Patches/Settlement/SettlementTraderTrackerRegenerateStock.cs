@@ -42,7 +42,11 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         // IMPORTANT: Only allow regeneration if stock is NULL (never created).
         // An empty stock (Count == 0) means items were legitimately removed (trading, cargo vault)
         // and should NOT trigger regeneration - we want the stock to remain frozen while visiting.
+        // Priority.High: this prefix decides whether regeneration runs at all, so it must run
+        // before the alignment patch's prefix, whose __runOriginal guard reads that decision
+        // (see SettlementTraderTrackerRegenerateStockAlignment).
         [HarmonyPrefix]
+        [HarmonyPriority(Priority.High)]
         public static bool Prefix(Settlement_TraderTracker __instance)
         {
             Settlement settlement = __instance.settlement;

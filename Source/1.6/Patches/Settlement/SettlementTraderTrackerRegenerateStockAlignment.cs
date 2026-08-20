@@ -40,9 +40,18 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
         // Prefix method - calculates effective lastStockTicks for all stock generation scenarios
         // __instance: The Settlement_TraderTracker instance
+        // __runOriginal: whether regeneration will actually run. Void prefixes still execute
+        // after a bool prefix skips the original, so without this guard a blocked call (frozen
+        // stock while visiting, see SettlementTraderTrackerRegenerateStock's Priority.High
+        // prefix) would still overwrite lastStockGenerationTicks even though no stock was
+        // generated. The guard also respects skips by other mods' prefixes.
         [HarmonyPrefix]
-        public static void Prefix(Settlement_TraderTracker __instance)
+        public static void Prefix(Settlement_TraderTracker __instance, bool __runOriginal)
         {
+            // Nothing to align when regeneration itself was skipped
+            if (!__runOriginal)
+                return;
+
             // Safety check for reflection
             if (lastStockGenerationTicksField == null)
                 return;

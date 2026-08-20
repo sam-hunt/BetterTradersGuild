@@ -41,6 +41,8 @@ The trader rotation system requires three Harmony patches working together:
 
 2. **SettlementTraderTrackerRegenerateStock.cs** (Prefix/Postfix on `RegenerateStock()`)
    - **ESSENTIAL** - Sets thread-local flag during stock regeneration
+   - Prefix runs at `Priority.High`: it decides whether regeneration runs at all (frozen stock
+     while visiting), and that decision must land before the alignment prefix reads it
    - Postfix caches selected trader to `TradersGuildWorldComponent` for subsequent access
    - **CRITICAL ORDERING**: Must cache trader BEFORE clearing flag (see below)
    - Exposes `IsRegeneratingStock(settlementID)` for other patches
@@ -48,8 +50,13 @@ The trader rotation system requires three Harmony patches working together:
 3. **SettlementTraderTrackerRegenerateStockAlignment.cs** (Prefix/Postfix on `RegenerateStock()`)
    - Aligns stock generation with virtual schedule for BOTH first-time AND rotation scenarios
    - Prefix: Calls `GetEffectiveLastStockTicks()`, sets up alignment if effective != stored
+   - Prefix bails on `__runOriginal == false` (void prefixes still run after a skip), so a
+     blocked regeneration never rewrites `lastStockGenerationTicks` without generating stock
    - Postfix: Restores aligned value after vanilla overwrites with TicksGame
    - Exposes `HasPendingAlignment(settlementID)` for other patches
+   - Postfix ordering vs. patch 2's postfix is order-independent by design: once alignment is
+     set up, the stored field and `pendingAlignments` agree on the same virtual tick, so the
+     TraderKind getter resolves identically whichever postfix runs first
 
 **Critical Problem #1: Stock/Dialog Desync**
 
