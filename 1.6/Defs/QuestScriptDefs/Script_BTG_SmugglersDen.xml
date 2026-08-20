@@ -4,7 +4,7 @@
   <QuestScriptDef>
     <defName>BTG_SmugglersDen</defName>
 
-    <rootSelectionWeight>1</rootSelectionWeight>
+    <rootSelectionWeight>0.8</rootSelectionWeight>
     <rootMinProgressScore>0</rootMinProgressScore>
     <!-- Stars are pure UI (quest log display) - vanilla never feeds challengeRating
          back into points. The siteThreatPoints curve below is what actually delivers

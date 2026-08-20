@@ -75,7 +75,7 @@ namespace BetterTradersGuild
         // SecurityDefeatUtility, so changing it takes effect on maps already in
         // progress. Only governs BTG-generated maps; vanilla-generated TG
         // settlements (useCustomLayouts off) keep vanilla's defeat check.
-        // Range: 0.5-1.0. Default/BTG Recommended: 0.8. 1.0 = every last defender.
+        // Range: 0.5-1.0. Default/Suggested: 0.8. 1.0 = every last defender.
         // No vanilla value exists: space maps never get vanilla's rout toil, so this
         // threshold is BTG's replacement for it.
         public float securityDefeatFraction = 0.8f;
@@ -122,7 +122,9 @@ namespace BetterTradersGuild
             // useCustomLayouts: it also decides the smuggler's den garrison's lord.
             string defenderAiLabel = Annotate(
                 "BTG_Settings_EntrenchedDefenders".Translate(),
-                vanilla: !useEntrenchedDefenders);
+                vanilla: !useEntrenchedDefenders,
+                recommended: useEntrenchedDefenders,
+                isDefault: useEntrenchedDefenders);
             listing.CheckboxLabeled(defenderAiLabel, ref useEntrenchedDefenders,
                 "BTG_Settings_EntrenchedDefendersDesc".Translate());
 
@@ -136,7 +138,8 @@ namespace BetterTradersGuild
             int defeatPercentageDisplay = (int)(securityDefeatFraction * 100f);
             string defeatLabel = Annotate(
                 "BTG_Settings_SecurityDefeatThreshold".Translate(defeatPercentageDisplay),
-                recommended: defeatPercentageDisplay == 80);
+                recommended: defeatPercentageDisplay == 80,
+                isDefault: defeatPercentageDisplay == 80);
             LabelWithTooltip(listing, defeatLabel, "BTG_Settings_SecurityDefeatThresholdDesc".Translate());
 
             float defeatSliderValue = listing.Slider(securityDefeatFraction * 100f, 50f, 100f);
@@ -149,7 +152,8 @@ namespace BetterTradersGuild
             string droneLabel = Annotate(
                 "BTG_Settings_SentryDronePresence".Translate(dronePercentageDisplay),
                 vanilla: dronePercentageDisplay == 0,
-                recommended: dronePercentageDisplay == 25);
+                recommended: dronePercentageDisplay == 25,
+                isDefault: dronePercentageDisplay == 25);
             LabelWithTooltip(listing, droneLabel, "BTG_Settings_SentryDroneDesc".Translate());
 
             float droneSliderValue = listing.Slider(sentryDronePresence * 100f, 0f, 200f);
@@ -167,11 +171,14 @@ namespace BetterTradersGuild
             listing.Indent(16f);
             listing.ColumnWidth -= 16f;
 
-            // While gated off the effective state is "no scaling" (= vanilla), so
-            // the annotation follows the shown state rather than the stored one.
+            // While gated off the effective state is "no scaling" (= vanilla, and
+            // also the shipped default), so the annotations follow the shown state
+            // rather than the stored one.
+            bool scalingShownOff = !(useCustomLayouts && scaleDefendersToThreatLevel);
             string scaleLabel = Annotate(
                 "BTG_Settings_ScaleDefenders".Translate(),
-                vanilla: !(useCustomLayouts && scaleDefendersToThreatLevel));
+                vanilla: scalingShownOff,
+                isDefault: scalingShownOff);
             CheckboxLabeledGated(listing, scaleLabel, ref scaleDefendersToThreatLevel,
                 "BTG_Settings_ScaleDefendersDesc".Translate(), useCustomLayouts);
 
@@ -179,7 +186,8 @@ namespace BetterTradersGuild
 
             string multiplierLabel = Annotate(
                 "BTG_Settings_ThreatMultiplier".Translate(threatPointsMultiplier.ToString("F1")),
-                vanilla: threatPointsMultiplier == 1.0f);
+                vanilla: threatPointsMultiplier == 1.0f,
+                isDefault: threatPointsMultiplier == 1.0f);
             LabelWithTooltip(listing, multiplierLabel, "BTG_Settings_ThreatMultiplierDesc".Translate());
 
             // Discard the slider result while gated off: greyed sliders still take
@@ -207,9 +215,16 @@ namespace BetterTradersGuild
             listing.Label("BTG_Settings_Resupply".Translate());
             listing.Gap(4f);
 
+            // Second indent step: the controls sit one level deeper than the
+            // subheading itself, making the grouping legible at a glance.
+            listing.Indent(16f);
+            listing.ColumnWidth -= 16f;
+
             // Meals per defender. Doubles as the master switch: 0 = resupply off.
-            LabelWithTooltip(listing, "BTG_Settings_ResupplyMealsPerDefender".Translate(resupplyMealsPerDefender),
-                "BTG_Settings_ResupplyMealsPerDefenderDesc".Translate());
+            string mealsLabel = Annotate(
+                "BTG_Settings_ResupplyMealsPerDefender".Translate(resupplyMealsPerDefender),
+                isDefault: resupplyMealsPerDefender == 2);
+            LabelWithTooltip(listing, mealsLabel, "BTG_Settings_ResupplyMealsPerDefenderDesc".Translate());
             float resupplyMealsSliderValue = listing.Slider(resupplyMealsPerDefender, 0f, 10f);
             if (useEntrenchedDefenders)
                 resupplyMealsPerDefender = (int)System.Math.Round(resupplyMealsSliderValue);
@@ -218,12 +233,17 @@ namespace BetterTradersGuild
 
             // Reinforcement raid on a successful resupply call. Meaningless while
             // resupply itself is off, so it additionally gates on the meals switch.
-            CheckboxLabeledGated(listing, "BTG_Settings_ResupplyTriggersRaid".Translate(), ref resupplyTriggersRaid,
-                "BTG_Settings_ResupplyTriggersRaidDesc".Translate(),
-                useEntrenchedDefenders && resupplyMealsPerDefender > 0);
+            // While gated off it renders unchecked, so the default tag follows the
+            // shown state, same as the scale-defenders checkbox.
+            bool raidGateOpen = useEntrenchedDefenders && resupplyMealsPerDefender > 0;
+            string raidLabel = Annotate(
+                "BTG_Settings_ResupplyTriggersRaid".Translate(),
+                isDefault: raidGateOpen && resupplyTriggersRaid);
+            CheckboxLabeledGated(listing, raidLabel, ref resupplyTriggersRaid,
+                "BTG_Settings_ResupplyTriggersRaidDesc".Translate(), raidGateOpen);
 
-            listing.ColumnWidth += 16f;
-            listing.Outdent(16f);
+            listing.ColumnWidth += 32f;
+            listing.Outdent(32f);
             GUI.enabled = true;
         }
     }

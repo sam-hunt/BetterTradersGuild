@@ -1,9 +1,5 @@
 TODOs
 
-- Review mod settings ui
-  - review left indent everywhere (manual)
-  - final review of all mod settings English copy (manual)
-
 - run STARTUP_AUDIT_PROMPT.md
 - sanity check pass over our harmony prefixes for mod compatibility risks
 - smuggler's den shuttle bay gets VFE Pirates gun shuttle variant if active?
@@ -11,7 +7,7 @@ TODOs
 - Smoke test against old heavily modded game save
 - Smoke test with performance analyzer (particularly the post-mapgen spike)
 - test CWTL on den quest site
-- Run a /translate update pass for the settings-rework batch: the two smugglers-den quest keys, the two new trade-request quest weight keys, the new Events/InitialGarrison labels, and the reworded scope/tooltip descs (incl. the merged resupply meals-per-defender desc), across all 8 languages
+- Run a /translate update pass for the settings-rework batch: the two smugglers-den quest keys, the two new trade-request quest weight keys, the new Events/InitialGarrison labels, the reworded scope/tooltip descs (incl. the merged resupply meals-per-defender desc), the BTG_Settings_BTGRecommended reword to "(Suggested)", the new BTG_Settings_Default "(default)" tag key, and the guild-to-faction tweak in the defeat-threshold desc, across all 8 languages
 
 - VGE2 integration
   - Defender overhaul opt-out toggle: spec ready in Docs/Specs/SPEC-defender-overhaul-toggle.md (settings-gated PatchOperationToggledSequence; lets players revert pawnkind rebalance + garrison weights to vanilla for VGE mapgen)

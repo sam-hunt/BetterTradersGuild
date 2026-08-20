@@ -24,7 +24,7 @@ namespace BetterTradersGuild
 
         // LifeSupportUnit power output in watts.
         // Range: 0-5000W. Default: 3200W (vanilla; the value v1.0.x actually shipped, and a
-        // safe fallback for existing saves). BTG Recommended: 800W for a tighter grid —
+        // safe fallback for existing saves). Suggested: 800W for a tighter grid —
         // BTG connects buildings into a map-wide grid where vanilla output is generous.
         // Applied live on save via WriteSettings (no restart needed). Edits the shared
         // vanilla def, so it applies to all orbital platforms game-wide.
@@ -47,7 +47,10 @@ namespace BetterTradersGuild
             SectionHeader(listing, "BTG_Settings_MapGeneration".Translate());
 
             // Master toggle — always editable.
-            listing.CheckboxLabeled("BTG_Settings_UseCustomLayouts".Translate(), ref useCustomLayouts,
+            string layoutsLabel = Annotate(
+                "BTG_Settings_UseCustomLayouts".Translate(),
+                isDefault: useCustomLayouts);
+            listing.CheckboxLabeled(layoutsLabel, ref useCustomLayouts,
                 "BTG_Settings_UseCustomLayoutsDesc".Translate());
 
             listing.Gap(12f);
@@ -56,7 +59,8 @@ namespace BetterTradersGuild
             string powerLabel = Annotate(
                 "BTG_Settings_LifeSupportPower".Translate(lifeSupportUnitPowerOutput),
                 vanilla: lifeSupportUnitPowerOutput == 3200,
-                recommended: lifeSupportUnitPowerOutput == 800);
+                recommended: lifeSupportUnitPowerOutput == 800,
+                isDefault: lifeSupportUnitPowerOutput == 3200);
             LabelWithTooltip(listing, powerLabel, "BTG_Settings_LifeSupportDesc".Translate());
 
             float powerSliderValue = listing.Slider(lifeSupportUnitPowerOutput, 0f, 5000f);

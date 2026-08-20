@@ -91,15 +91,21 @@ namespace BetterTradersGuild
             listing.Gap(8f);
         }
 
-        // Appends a "(Vanilla)" / "(BTG Recommended)" tag to a slider label when the
-        // current value matches the vanilla default or BTG's recommended value. The
-        // two are mutually exclusive in practice; vanilla wins if both are passed.
-        private static string Annotate(string label, bool vanilla = false, bool recommended = false)
+        // Appends status tags to a control's label: "(Vanilla)" when the current
+        // value matches vanilla behaviour, "(Suggested)" when it matches BTG's
+        // suggested value (the two are mutually exclusive in practice; vanilla wins
+        // if both are passed), and "(default)" when it is the mod's shipped default.
+        // The default tag is independent of the other two and renders last, so a
+        // shipped default that is also the suggested value reads "(Suggested) (default)".
+        private static string Annotate(string label, bool vanilla = false, bool recommended = false,
+            bool isDefault = false)
         {
             if (vanilla)
-                return label + " " + "BTG_Settings_Vanilla".Translate();
-            if (recommended)
-                return label + " " + "BTG_Settings_BTGRecommended".Translate();
+                label += " " + "BTG_Settings_Vanilla".Translate();
+            else if (recommended)
+                label += " " + "BTG_Settings_BTGRecommended".Translate();
+            if (isDefault)
+                label += " " + "BTG_Settings_Default".Translate();
             return label;
         }
 

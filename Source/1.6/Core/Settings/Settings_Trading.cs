@@ -37,15 +37,21 @@ namespace BetterTradersGuild
         {
             SectionHeader(listing, "BTG_Settings_Trading".Translate());
 
-            // The vault only exists on custom-generated settlement maps.
-            CheckboxLabeledGated(listing, "BTG_Settings_EnableCargoVault".Translate(), ref enableCargoVault,
+            // The vault only exists on custom-generated settlement maps. While
+            // gated off it renders unchecked, so the default tag follows the shown
+            // state rather than the stored one.
+            string vaultLabel = Annotate(
+                "BTG_Settings_EnableCargoVault".Translate(),
+                isDefault: useCustomLayouts && enableCargoVault);
+            CheckboxLabeledGated(listing, vaultLabel, ref enableCargoVault,
                 "BTG_Settings_EnableCargoVaultDesc".Translate(), useCustomLayouts);
 
             listing.Gap(12f);
 
             string intervalLabel = Annotate(
                 "BTG_Settings_TraderRotationInterval".Translate(traderRotationIntervalDays),
-                vanilla: traderRotationIntervalDays == 30);
+                vanilla: traderRotationIntervalDays == 30,
+                isDefault: traderRotationIntervalDays == 30);
             LabelWithTooltip(listing, intervalLabel,
                 "BTG_Settings_TraderRotationDesc1".Translate() + "\n" + "BTG_Settings_TraderRotationDesc2".Translate());
 
