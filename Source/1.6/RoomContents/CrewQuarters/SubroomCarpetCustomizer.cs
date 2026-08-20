@@ -17,6 +17,13 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         private static List<TerrainDef> _carpetOptions;
         private static List<TerrainDef> CarpetOptions => _carpetOptions ?? (_carpetOptions = BuildCarpetOptions());
 
+        // Drops the cached TerrainDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        internal static void InvalidateCache()
+        {
+            _carpetOptions = null;
+        }
+
         private static List<TerrainDef> BuildCarpetOptions()
         {
             var options = new List<TerrainDef>();

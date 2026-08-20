@@ -113,12 +113,11 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             return prefabsBySize.TryGetValue(sizeKey, out var candidates) && candidates.Count > 0;
         }
 
-        // Forces re-scanning of available prefabs.
-        // Call this if prefabs are dynamically added/removed after initial load.
-        public static void Refresh()
+        // Drops the cached PrefabDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        public static void InvalidateCache()
         {
             prefabsBySize = null;
-            EnsureInitialized();
         }
 
         // Ensures the prefab cache is initialized by scanning DefDatabase.

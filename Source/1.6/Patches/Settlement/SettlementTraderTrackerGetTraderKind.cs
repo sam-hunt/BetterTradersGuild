@@ -41,7 +41,9 @@ namespace BetterTradersGuild.Patches.SettlementPatches
         // Key: Settlement ID, Value: Cached trader info
         private static Dictionary<int, CachedTraderInfo> traderCache = new Dictionary<int, CachedTraderInfo>();
 
-        // Clears the local trader cache. Called when rotation interval setting changes.
+        // Clears the local trader cache. Called when the rotation interval setting changes,
+        // and once per play-data load from BTGStartup.Run (the cached TraderKindDef
+        // instances are replaced by an in-process reload and would otherwise go stale).
         public static void ClearLocalCache()
         {
             traderCache.Clear();

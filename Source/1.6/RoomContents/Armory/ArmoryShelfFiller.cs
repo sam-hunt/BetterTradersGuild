@@ -17,6 +17,14 @@ namespace BetterTradersGuild.RoomContents.Armory
         private static List<List<ThingDef>> pools;
         private static bool initialized;
 
+        // Drops the cached ThingDef pools so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        public static void InvalidateCache()
+        {
+            pools = null;
+            initialized = false;
+        }
+
         public static void FillWeaponShelves(Map map, CellRect roomRect)
         {
             EnsureInitialized();

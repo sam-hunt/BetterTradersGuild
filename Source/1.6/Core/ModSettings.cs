@@ -165,6 +165,12 @@ namespace BetterTradersGuild
 
         public BetterTradersGuildMod_ModClass(ModContentPack content) : base(content)
         {
+            // PatchAll must run here, not from a [StaticConstructorOnStartup] class: Mod
+            // constructors execute at the very start of LoadAllPlayData, which arms the
+            // CallAll postfix that drives BTGStartup.Run in time to fire on the same load
+            // (see Patches/StaticConstructorOnStartupUtility/StaticConstructorOnStartupUtilityCallAll.cs).
+            BetterTradersGuildMod.Harmony.PatchAll();
+
             this.settings = GetSettings<BetterTradersGuildSettings>();
             this.previousRotationInterval = settings.traderRotationIntervalDays;
         }

@@ -12,6 +12,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
         private static List<ThingDef> cachedBookDefs;
         private static bool initialized;
 
+        // Drops the cached ThingDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        internal static void InvalidateCache()
+        {
+            cachedBookDefs = null;
+            initialized = false;
+        }
+
         // Gets all book-type ThingDefs by scanning for defs with CompBook.
         // Includes vanilla novels, textbooks, Anomaly tomes, and any mod-added book types.
         // Results are cached after first call.

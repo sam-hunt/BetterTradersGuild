@@ -14,6 +14,14 @@ namespace BetterTradersGuild.Helpers.RoomContents
         private static List<ThingDef> cachedWeapons;
         private static bool initialized;
 
+        // Drops the cached ThingDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        internal static void InvalidateCache()
+        {
+            cachedWeapons = null;
+            initialized = false;
+        }
+
         // Gets all unique weapon ThingDefs whose CompProperties_UniqueWeapon.weaponCategories
         // include PulseCharge or BeamWeapon. Results are cached after first call.
         internal static IReadOnlyList<ThingDef> GetPulseChargeAndBeamWeapons()

@@ -18,6 +18,13 @@ namespace BetterTradersGuild.Helpers.RoomContents
         private static List<(float weight, PawnKindDef kind)> WeightedPetKinds =>
             _weightedPetKinds ?? (_weightedPetKinds = BuildWeightedPetKindsList());
 
+        // Drops the cached PawnKindDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        internal static void InvalidateCache()
+        {
+            _weightedPetKinds = null;
+        }
+
         private static List<(float weight, PawnKindDef kind)> BuildWeightedPetKindsList()
         {
             var candidates = new List<(float weight, PawnKindDef kind)>

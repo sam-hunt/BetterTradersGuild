@@ -28,9 +28,17 @@ namespace BetterTradersGuild.AI.Mechs
     // the mech back to its greenhouse before it self-charges.
     public class JobGiver_BTGAgrihandPlantPots : ThinkNode_JobGiver
     {
-        // Every sowable plant def, resolved once - the def set is fixed after load. Filtered
+        // Every sowable plant def, resolved once per play-data load (the def instances are
+        // replaced by an in-process reload, so BTGStartup.Run invalidates this). Filtered
         // down to what a given pot can grow per-pot via CanSowOnGrower.
         private static List<ThingDef> sowablePlants;
+
+        // Drops the cached ThingDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        public static void InvalidateCache()
+        {
+            sowablePlants = null;
+        }
 
         protected override Job TryGiveJob(Pawn pawn)
         {

@@ -5,8 +5,11 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    // Main mod class - handles initialization and Harmony patching
-    [StaticConstructorOnStartup]
+    // Main mod class - holds the settings accessor, the shared Harmony instance, and the
+    // settings-driven def-field writes. Startup work moved out of a static ctor: PatchAll
+    // runs from the Mod subclass constructor (ModSettings.cs), and everything def-derived
+    // runs once per play-data load via BTGStartup.Run (see the rationale in
+    // Patches/StaticConstructorOnStartupUtility/StaticConstructorOnStartupUtilityCallAll.cs).
     public static class BetterTradersGuildMod
     {
         // Mod settings instance - accessed statically throughout the mod
@@ -18,31 +21,18 @@ namespace BetterTradersGuild
             }
         }
 
-        // Shared instance: startup PatchAll here, plus runtime Patch/Unpatch by the
-        // manually lifecycled survivor-label patch (PawnNameColorUtilityPawnNameColorOf).
+        // Shared instance: startup PatchAll (from the Mod subclass ctor), plus runtime
+        // Patch/Unpatch by the manually lifecycled survivor-label patch
+        // (PawnNameColorUtilityPawnNameColorOf).
         public static readonly Harmony Harmony = new Harmony("shunter.bettertradersguild");
-
-        static BetterTradersGuildMod()
-        {
-            // Apply Harmony patches
-            Harmony.PatchAll();
-
-            // Verify every reflection-based lookup the mod depends on actually resolved, so any
-            // base-game or optional-mod API drift surfaces here at startup rather than as a silent
-            // feature failure later. (Pattern ported from UniqueWeaponsUnbound.)
-            ReflectionVerification.VerifyAll();
-
-            // Apply def modifications
-            ApplyLifeSupportUnitPowerSetting();
-            ApplyQuestWeightSettings();
-        }
 
         // Pushes the configured selection weights onto BTG's QuestScriptDefs.
         // NaturalRandomQuestChooser reads rootSelectionWeight off the def on every roll,
         // so there is nothing to invalidate — the next storyteller quest roll sees the
         // new values. A weight of 0 also flips QuestScriptDef.IsRootRandomSelected false,
         // dropping the quest out of the random pool entirely rather than just making it
-        // rare. Re-applied from WriteSettings so changes land on settings close.
+        // rare. Re-applied from WriteSettings so changes land on settings close, and from
+        // BTGStartup.Run so a play-data reload's fresh defs don't revert to XML values.
         public static void ApplyQuestWeightSettings()
         {
             var denDef = DefRefs.QuestScripts.BTG_SmugglersDen;

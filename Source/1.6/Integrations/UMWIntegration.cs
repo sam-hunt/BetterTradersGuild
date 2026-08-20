@@ -21,33 +21,38 @@ namespace BetterTradersGuild.Integrations
     // Self-reports drift at startup (Pattern B, ported from UniqueWeaponsUnbound): silent when
     // UMW isn't active; a single Log.Warning when UMW IS active but an expected def is missing.
     //
-    // Timing: the static ctor resolves defs, so it must not be touched before defs are loaded.
-    // Its only triggers are ReflectionVerification.VerifyAll (StaticConstructorOnStartup) and
-    // map generation - both safely after def load.
+    // Timing: unlike the reflection-based integrations, this one holds def INSTANCES, which an
+    // in-process play-data reload replaces — so resolution lives in an idempotent Resolve()
+    // invoked once per load from ReflectionVerification.VerifyAll (via BTGStartup.Run), never
+    // a static ctor. Resolve() must not be called before defs are loaded; map-generation
+    // consumers run safely after.
     public static class UMWIntegration
     {
         public const string PackageId = "shunter.uniquemeleeweapons";
 
         // True when the UMW mod is in the active mod list.
-        public static readonly bool ModActive;
+        public static bool ModActive { get; private set; }
 
         // UMW's unique variant of the vanilla knife (rolls its own texture/colours/name).
-        public static readonly ThingDef KnifeUnique;
+        public static ThingDef KnifeUnique { get; private set; }
 
         // Royalty-gated ultratech blade traits; null without Royalty (or if UMW drifted).
-        public static readonly WeaponTraitDef Monomolecular;
-        public static readonly WeaponTraitDef PlasmaCored;
+        public static WeaponTraitDef Monomolecular { get; private set; }
+        public static WeaponTraitDef PlasmaCored { get; private set; }
 
         // Non-lethal capture coating; the caretaker's second trait when the ultratech pair is
         // unavailable.
-        public static readonly WeaponTraitDef Opiated;
+        public static WeaponTraitDef Opiated { get; private set; }
 
         // True only when UMW is active AND everything the caretaker's knife needs resolved:
         // UMW's unique knife plus BTG's own compat-root-gated silver-inlay melee trait.
         public static bool Available =>
             ModActive && KnifeUnique != null && DefRefs.WeaponTraits.BTG_SilverInlayMelee != null;
 
-        static UMWIntegration()
+        // Resolves (or re-resolves) UMW's defs against the current DefDatabase. Idempotent:
+        // every field is overwritten each call, and the drift warnings re-fire at most once
+        // per load.
+        public static void Resolve()
         {
             try
             {

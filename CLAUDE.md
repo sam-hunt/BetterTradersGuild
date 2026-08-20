@@ -50,7 +50,7 @@ The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods fo
 
 ### Entry Point
 
-`Source/1.6/Core/ModInitializer.cs` - Static constructor with `[StaticConstructorOnStartup]` auto-patches via Harmony attribute discovery. Logs initialization message with patch count.
+`Source/1.6/Core/ModInitializer.cs` holds the settings accessor, the shared Harmony instance, and the settings-driven def writes. `Harmony.PatchAll()` runs from the Mod subclass constructor (`Core/ModSettings.cs`); all def-derived startup work runs per play-data load via `BTGStartup.Run` (see the per-load startup bullet below).
 
 **Settings Access:** `BetterTradersGuildMod.Settings` provides global access to mod configuration.
 
@@ -66,6 +66,8 @@ The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods fo
 
 **DefOf Constants:** Static `[DefOf]` classes in `DefRefs/` provide compile-time safety for XML definitions (e.g., `Factions.TradersGuild`, `LayoutRooms.CommandersQuarters`).
 
+**Per-load startup:** an in-process play-data reload (mid-session language switch) replaces every def instance, but type initializers never re-run — so startup def-writes and def-instance caches must not live in `[StaticConstructorOnStartup]` classes (texture caching is the exception and keeps the attribute). All def-derived/def-mutating startup work therefore lives in `BTGStartup.Run` (which must stay idempotent), invoked once per load from `Patches/StaticConstructorOnStartupUtility/StaticConstructorOnStartupUtilityCallAll.cs` — its header carries the verified load ordering and the traps in full. New lazy caches of def instances get an `InvalidateCache()` called from `Run()`.
+
 **Room Contents Workers:** Each room type has a `RoomContents_[RoomName].cs` file that handles specialized furniture and pawn spawning using `Prefab` definitions.
 
 **Comments:** In `Source/`, use plain `//` comments only — do **not** write XML doc comments (`///`, `<summary>`, `<param>`, etc.); nothing consumes them there, so they add ceremony without benefit. `Tests/` is exempt: XML doc comments are fine there (they read cleanly on the test helpers and are the most likely place to adopt a tool that parses them).
@@ -76,9 +78,9 @@ The repo lives in `~/dev/BetterTradersGuild`, separate from the RimWorld Mods fo
 
 BTG reaches private RimWorld members and optional-mod APIs by string-named reflection. To catch API drift at startup instead of as a silent runtime failure (the `lifeSupportUnitPowerOutput` bug), every reflection dependency is self-checked when the game loads. Pattern ported from the sister mod `UniqueWeaponsUnbound`.
 
-- **Single trigger, not a registry:** `ReflectionVerification.VerifyAll()` (`Core/`) runs once from `BetterTradersGuildMod`'s static ctor, right after `Harmony.PatchAll()`. Each looked-up member name still lives in exactly **one** owner — `VerifyAll()` only triggers the checks, so nothing is declared twice or can drift apart.
+- **Single trigger, not a registry:** `ReflectionVerification.VerifyAll()` (`Core/`) runs once per play-data load from `BTGStartup.Run()`. Each looked-up member name still lives in exactly **one** owner — `VerifyAll()` only triggers the checks, so nothing is declared twice or can drift apart.
 - **Base-game lookups (Pattern A):** the owning class caches its `FieldInfo`/`MethodInfo` in `static readonly` fields and exposes `public static void VerifyReflection()`, which `Log.Error`s a message naming the member, the user-visible consequence, and "RimWorld API may have changed." Shared base-game members live in single owners under `Helpers/Reflection/` (`TraderTrackerReflection`, `CompHackableReflection`, `RefuelableReflection`); single-consumer ones verify in-place. Every runtime caller still null-guards, so a missing member degrades to a no-op rather than throwing.
-- **Optional-mod integrations (Pattern B):** dedicated classes under `Integrations/` (`HARIntegration`, `VEPipesIntegration`) resolve their type/members in a `try/catch` static ctor, expose `static bool Available`, and `Log.Warning` **only when the mod is detected present but a member failed to resolve** (silent when the mod isn't installed). `VerifyAll()` forces each static ctor via `_ = X.Available;`.
+- **Optional-mod integrations (Pattern B):** dedicated classes under `Integrations/` (`HARIntegration`, `VEPipesIntegration`) resolve their type/members in a `try/catch` static ctor, expose `static bool Available`, and `Log.Warning` **only when the mod is detected present but a member failed to resolve** (silent when the mod isn't installed). `VerifyAll()` forces each static ctor via `_ = X.Available;`. Exception: `UMWIntegration` holds def *instances*, which a play-data reload replaces, so it resolves in an idempotent `Resolve()` that `VerifyAll()` calls every load instead of a static ctor.
 - **Adding a new reflection site:** put the lookup in the relevant owner (or a new `Helpers/Reflection/` / `Integrations/` class), add its `VerifyReflection()`/`Available`, and call it from `VerifyAll()`. Note: checks must run against the real game DLL — the `Krafs.Rimworld.Ref` package strips private members, so they can't be unit-tested.
 
 ### Map Generation Architecture

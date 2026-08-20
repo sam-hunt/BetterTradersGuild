@@ -36,6 +36,14 @@ namespace BetterTradersGuild.Helpers.MapGeneration
         // Separate from null check because an empty list is a valid result.
         private static bool hiddenPipeDefsInitialized = false;
 
+        // Drops the cached ThingDef instances so the next use rebuilds from the current
+        // DefDatabase. Called once per play-data load from BTGStartup.Run().
+        public static void InvalidateCache()
+        {
+            cachedHiddenPipeDefs = null;
+            hiddenPipeDefsInitialized = false;
+        }
+
         // Gets the list of supported hidden pipe ThingDefs for installed VE mods.
         // Results are cached after first call for performance.
         // Returns: Read-only list of hidden pipe ThingDefs (may be empty if no VE mods installed)
