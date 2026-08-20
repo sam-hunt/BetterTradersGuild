@@ -1,4 +1,3 @@
-using BetterTradersGuild.Patches.SettlementPatches;
 using BetterTradersGuild.WorldComponents;
 using UnityEngine;
 using Verse;
@@ -206,9 +205,6 @@ namespace BetterTradersGuild
                 int oldIntervalTicks = previousRotationInterval * 60000;
                 int newIntervalTicks = settings.traderRotationIntervalDays * 60000;
                 TradersGuildWorldComponent.GetComponent()?.ScaleExpirationsForIntervalChange(oldIntervalTicks, newIntervalTicks);
-
-                // Clear local cache - it uses lastStockTicks as key which doesn't update for scaling
-                SettlementTraderTrackerGetTraderKind.ClearLocalCache();
 
                 previousRotationInterval = settings.traderRotationIntervalDays;
             }

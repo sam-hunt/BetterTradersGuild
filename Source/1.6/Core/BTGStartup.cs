@@ -1,7 +1,6 @@
 using BetterTradersGuild.AI.Mechs;
 using BetterTradersGuild.Helpers.MapGeneration;
 using BetterTradersGuild.Helpers.RoomContents;
-using BetterTradersGuild.Patches.SettlementPatches;
 using BetterTradersGuild.RoomContents.Armory;
 using BetterTradersGuild.RoomContents.CrewQuarters;
 
@@ -44,7 +43,6 @@ namespace BetterTradersGuild
             HiddenPipeHelper.InvalidateCache();
             RoomPetHelper.InvalidateCache();
             JobGiver_BTGAgrihandPlantPots.InvalidateCache();
-            SettlementTraderTrackerGetTraderKind.ClearLocalCache();
         }
     }
 }

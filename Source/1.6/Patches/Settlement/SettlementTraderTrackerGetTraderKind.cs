@@ -25,29 +25,15 @@ namespace BetterTradersGuild.Patches.SettlementPatches
     [HarmonyPatch(typeof(Settlement_TraderTracker), nameof(Settlement_TraderTracker.TraderKind), MethodType.Getter)]
     public static class SettlementTraderTrackerGetTraderKind
     {
-        // Cached trader information to avoid recalculating every frame
-        private class CachedTraderInfo
-        {
-            public TraderKindDef traderKind;
-            public int lastStockTicks;
-        }
-
         // Aliases the shared Settlement_TraderTracker.lastStockGenerationTicks lookup,
         // resolved and verified once in TraderTrackerReflection.
         private static readonly FieldInfo lastStockGenerationTicksField =
             TraderTrackerReflection.LastStockGenerationTicksField;
 
-        // Cache trader assignments to avoid recalculating on every property access
-        // Key: Settlement ID, Value: Cached trader info
-        private static Dictionary<int, CachedTraderInfo> traderCache = new Dictionary<int, CachedTraderInfo>();
-
-        // Clears the local trader cache. Called when the rotation interval setting changes,
-        // and once per play-data load from BTGStartup.Run (the cached TraderKindDef
-        // instances are replaced by an in-process reload and would otherwise go stale).
-        public static void ClearLocalCache()
-        {
-            traderCache.Clear();
-        }
+        // The TradersGuildWorldComponent cache below is the only cache: a recalculation
+        // happens once per settlement per rotation-cache expiry, and its result is stored
+        // back to the world component, so per-frame accesses (trade dialog open) resolve
+        // to a single dictionary lookup.
 
         // Slavery and stock generator checks are in OrbitalTraderHelper (shared with quest reward system)
 
@@ -93,10 +79,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 return;
             }
 
-            // WorldComponent cache miss (expired or never cached) - clear local cache to prevent stale data
-            // The local cache uses lastStockTicks as key, which doesn't change on rotation for visited settlements
-            traderCache.Remove(settlementID);
-
             // Fall back to deterministic calculation
             // This happens for unvisited settlements (no stock yet) or after rotation expiry
 
@@ -112,9 +94,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
 
             // Get the current lastStockGenerationTicks from the field
             int rawLastStockTicks = (int)lastStockGenerationTicksField.GetValue(__instance);
-
-            // Track if this is an unvisited settlement (for caching decisions)
-            bool isUnvisitedSettlement = (rawLastStockTicks == -1);
 
             // Determine the effective lastStockTicks for trader selection
             // LEARNING NOTE: This handles the stock/dialog desync problem. During RegenerateStock():
@@ -140,18 +119,7 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 lastStockTicks = Helpers.TradersGuildTraderRotation.GetEffectiveLastStockTicks(settlementID, rawLastStockTicks);
             }
 
-            // Check cache before expensive calculation
-            // The TraderKind property is accessed frequently (every frame during trade dialog)
-            if (traderCache.TryGetValue(settlementID, out CachedTraderInfo cached))
-            {
-                if (cached.lastStockTicks == lastStockTicks)
-                {
-                    __result = cached.traderKind;
-                    return; // Cache hit - return immediately
-                }
-            }
-
-            // Cache miss - calculate new trader type with deterministic weighted selection
+            // Calculate the trader type with deterministic weighted selection
             int seed = Gen.HashCombineInt(settlementID, lastStockTicks);
 
             TraderKindDef traderKind;
@@ -169,13 +137,6 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             {
                 Rand.PopState();
             }
-
-            // Store in local cache for subsequent accesses within this session
-            traderCache[settlementID] = new CachedTraderInfo
-            {
-                traderKind = traderKind,
-                lastStockTicks = lastStockTicks
-            };
 
             // Cache to WorldComponent with expiration for ALL settlements after recalculation
             // This ensures both visited and unvisited settlements get re-cached after expiration
