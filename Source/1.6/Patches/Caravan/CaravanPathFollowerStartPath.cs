@@ -16,6 +16,14 @@ namespace BetterTradersGuild.Patches.CaravanPatches
     // - Same-tile arrivals allowed (e.g., trading actions that don't change position)
     // - Cross-tile pathing blocked (returns false, no path preview shown)
     //
+    // SCOPE: deliberately gated on the space LAYER (LayerDef.isSpace), not on BTG-owned
+    // defs/state - shuttle-only travel is a rule about space itself, and vanilla has no
+    // walkable space terrain to path over anyway. The known cost: skipping the original
+    // also suppresses its side effects (arrivalAction assignment, pause reset,
+    // Notify_DestinationOrPauseStatusChanged) for ANY mod's caravans on a space layer,
+    // so a mod that implements its own space caravan movement would find it blocked.
+    // Revisit this gate if such a mod appears.
+    //
     // RELATED PATCHES:
     // - WorldGridFindMostReasonableAdjacentTile: Prevents UI crashes when caravan selected
     // - WorldGridGetRoadMovementDifficulty: Prevents UI crashes during cost calculations
