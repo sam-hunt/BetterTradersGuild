@@ -1,4 +1,3 @@
-using BetterTradersGuild.DefRefs;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -31,22 +30,25 @@ namespace BetterTradersGuild.Patches.CaravanPatches
                 }
             }
 
+            // Vanilla's attack gizmo (Settlement.GetCaravanGizmos, re-yielded here) calls
+            // SettlementUtility.Attack directly with no CanAttack/StillValid recheck, so this
+            // disable is the only gate on it. Identify it by its exact translated label:
+            // correct in every locale (substring-matching the English word missed translated
+            // labels, leaving the gizmo live) and free of per-frame ToLower allocations.
+            string attackLabel = tradersGuildSettlement != null
+                ? (string)"CommandAttackSettlement".Translate()
+                : null;
+
             // First, yield all original gizmos, modifying attack gizmo if needed
             foreach (Gizmo gizmo in __result)
             {
-                // Check if this is an attack gizmo for Traders Guild
-                if (tradersGuildSettlement != null && gizmo is Command_Action attackCommand)
+                if (attackLabel != null && gizmo is Command_Action attackCommand
+                    && attackCommand.defaultLabel == attackLabel)
                 {
-                    // Identify attack gizmos by their icon or label
-                    // Attack gizmos typically have "Attack" in the label
-                    string label = attackCommand.defaultLabel?.ToLower() ?? "";
-                    if (label.Contains("attack"))
-                    {
-                        // Disable this gizmo and add signal jammer message to tooltip
-                        attackCommand.Disable("BTG_RequiresSignalJammer".Translate());
-                        yield return attackCommand;
-                        continue;
-                    }
+                    // Disable this gizmo and add signal jammer message to tooltip
+                    attackCommand.Disable("BTG_RequiresSignalJammer".Translate());
+                    yield return attackCommand;
+                    continue;
                 }
 
                 // Return gizmo unchanged

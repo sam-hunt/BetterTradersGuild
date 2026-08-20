@@ -26,6 +26,16 @@ namespace BetterTradersGuild.Patches.SettlementPatches
             // Track which gizmo types we've seen
             bool hasTradeGizmo = false;
 
+            // Vanilla's gizmo labels, matched by their exact translation keys (the attack gizmo
+            // from the Attackable branch of Settlement.GetCaravanGizmos, the trade gizmo from
+            // CaravanVisitUtility.TradeCommand). Exact translated equality stays correct in every
+            // locale (substring-matching the English word missed translated attack labels,
+            // leaving a gizmo live whose action calls SettlementUtility.Attack with no
+            // CanAttack recheck), avoids catching quest gizmos like Fulfill trade request, and
+            // adds no per-frame ToLower allocations.
+            string attackLabel = isTradersGuild ? (string)"CommandAttackSettlement".Translate() : null;
+            string tradeLabel = isTradersGuild ? (string)"CommandTrade".Translate() : null;
+
             foreach (Gizmo gizmo in __result)
             {
                 // For non-TradersGuild settlements, return gizmos unchanged
@@ -38,17 +48,14 @@ namespace BetterTradersGuild.Patches.SettlementPatches
                 // Check if this is a Command_Action (most action buttons)
                 if (gizmo is Command_Action command)
                 {
-                    string label = command.defaultLabel?.ToLower() ?? "";
-
                     // ATTACK GIZMOS: Disable and add signal jammer message
-                    if (label.Contains("attack"))
+                    if (command.defaultLabel == attackLabel)
                     {
                         command.Disable("BTG_RequiresSignalJammer".Translate());
                         yield return command;
                     }
                     // TRADE GIZMOS: Replace with correctly faction-checked version
-                    // Use exact match to avoid catching quest gizmos like "Fulfill trade request"
-                    else if (label == "CommandTrade".Translate().RawText.ToLower())
+                    else if (command.defaultLabel == tradeLabel)
                     {
                         hasTradeGizmo = true;
                         string blockedReason = TradersGuildHelper.GetTradeBlockedReason(caravan, __instance);
