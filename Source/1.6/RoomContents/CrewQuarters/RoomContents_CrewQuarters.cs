@@ -121,7 +121,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             {
                 foreach (var wasteFiller in result.WasteFillers)
                 {
-                    SpawnWasteFillerPrefab(map, wasteFiller, usedWasteFillerPrefabs);
+                    SpawnWasteFillerPrefab(map, wasteFiller, usedWasteFillerPrefabs, faction);
 
                     // Track waste filler area to prevent XML content from spawning inside
                     CellRect wasteRect = new CellRect(wasteFiller.MinX, wasteFiller.MinZ, wasteFiller.Width, wasteFiller.Depth);
@@ -233,7 +233,11 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         // map: The map to spawn on.
         // wasteFiller: Placement data from SubroomPackingCalculator.
         // usedPrefabs: Set of prefabs already used in this room, to minimize duplicates.
-        private void SpawnWasteFillerPrefab(Map map, WasteFillerPlacement wasteFiller, HashSet<PrefabDef> usedPrefabs)
+        // faction: Settlement faction, applied to any beds in the prefab (the VREA android
+        //   stand variants are Building_Bed subclasses; ownership hides their float-menu
+        //   option and lets BuildingAndroidStandCannotUseNowReason identify them as
+        //   settlement property).
+        private void SpawnWasteFillerPrefab(Map map, WasteFillerPlacement wasteFiller, HashSet<PrefabDef> usedPrefabs, Faction faction)
         {
             // Use the selector to pick a prefab, avoiding duplicates where possible
             PrefabDef prefab = WasteFillerPrefabSelector.SelectPrefab(wasteFiller.Width, wasteFiller.Depth, usedPrefabs);
@@ -248,7 +252,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             Rot4 rotation = wasteFiller.Rotation.AsRot4();
             IntVec3 spawnPos = new IntVec3(wasteFiller.CenterX, 0, wasteFiller.CenterZ);
 
-            PrefabUtility.SpawnPrefab(prefab, map, spawnPos, rotation, null);
+            SubroomPrefabSpawner.SpawnWithFactionBeds(prefab, map, spawnPos, rotation, faction);
         }
 
         // Spawns walls from the SubroomPackingCalculator's wall segments.

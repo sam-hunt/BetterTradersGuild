@@ -49,6 +49,7 @@ namespace BetterTradersGuild
             _ = HARIntegration.Available;
             _ = VEPipesIntegration.Available;
             _ = CWTLIntegration.Available;
+            _ = VREAIntegration.Available;
 
             // UMW is consumed through def instances, which do NOT survive a reload — its
             // resolution is an explicit idempotent call so it re-runs here every load.

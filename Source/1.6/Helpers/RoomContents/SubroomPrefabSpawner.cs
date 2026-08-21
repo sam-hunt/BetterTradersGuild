@@ -3,8 +3,11 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    // Spawns a hand-placed subroom prefab with the settlement faction applied to its beds
-    // and nothing else.
+    // Spawns a hand-placed prefab (crew-quarters subrooms and waste fillers) with the
+    // settlement faction applied to its beds and nothing else. Beds includes the VREA
+    // android stands in the waste-filler variants (Building_AndroidStand : Building_Bed),
+    // whose ownership hides their float-menu option and marks them settlement property
+    // for BuildingAndroidStandCannotUseNowReason.
     //
     // Beds must carry the faction: RestUtility.IsValidBedFor rejects any bed whose faction
     // differs from the traveler's, so factionless beds are invisible to FindBedFor - the
