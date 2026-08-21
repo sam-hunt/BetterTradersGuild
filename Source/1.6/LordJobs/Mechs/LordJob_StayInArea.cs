@@ -1,7 +1,12 @@
+using BetterTradersGuild.LordJobs.Mechs;
 using Verse;
 using Verse.AI.Group;
 
-namespace BetterTradersGuild.LordJobs.Mechs
+// NOTE: this class must stay in the BetterTradersGuild.LordJobs namespace even though the
+// file lives under LordJobs/Mechs/. Lords scribe their LordJob by full type name, so v1.0.8
+// saves contain the literal string "BetterTradersGuild.LordJobs.LordJob_StayInArea"; moving
+// the namespace would null the lord on load (error burst, mechs dropped from their lord).
+namespace BetterTradersGuild.LordJobs
 {
     // LordJob that keeps pawns wandering near a point without aggressive behavior.
     //

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.LordJobs;
 using BetterTradersGuild.LordJobs.Mechs;
 using RimWorld;
 using Verse;
