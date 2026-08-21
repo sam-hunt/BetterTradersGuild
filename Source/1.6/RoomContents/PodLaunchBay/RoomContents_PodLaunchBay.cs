@@ -50,6 +50,10 @@ namespace BetterTradersGuild.RoomContents.PodLaunchBay
                 float fuelPct = hasMalfunctioningPod ? 0.4f : 0.2f;
                 float targetFuel = fuelComp.Props.fuelCapacity * fuelPct;
                 RefuelableReflection.TrySetFuel(fuelComp, targetFuel);
+
+                // Cap the configured refuel target at a third of capacity (50/150) so
+                // haulers don't top launchers up to full; players can raise it later.
+                fuelComp.TargetFuelLevel = fuelComp.Props.fuelCapacity / 3f;
             }
         }
 
