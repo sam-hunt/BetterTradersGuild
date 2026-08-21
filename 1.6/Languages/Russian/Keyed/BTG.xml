@@ -24,22 +24,28 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Торговля</BTG_Settings_Trading>
-  <!-- EN: Map Generation -->
-  <BTG_Settings_MapGeneration>Генерация карты</BTG_Settings_MapGeneration>
-  <!-- EN: Defenders -->
-  <BTG_Settings_Defenders>Защитники</BTG_Settings_Defenders>
+  <!-- EN: Settlement Generation -->
+  <BTG_Settings_MapGeneration>Генерация поселений</BTG_Settings_MapGeneration>
+  <!-- EN: Garrison & Combat -->
+  <BTG_Settings_Defenders>Гарнизон и бой</BTG_Settings_Defenders>
+  <!-- EN: Events & Quests -->
+  <BTG_Settings_Events>События и задания</BTG_Settings_Events>
   <!-- EN: Defender Resupply -->
   <BTG_Settings_Resupply>Снабжение защитников</BTG_Settings_Resupply>
+  <!-- EN: Initial settlement garrison -->
+  <BTG_Settings_InitialGarrison>Начальный гарнизон поселения</BTG_Settings_InitialGarrison>
   <!-- EN: Reset to defaults -->
   <BTG_Settings_ResetToDefaults>Восстановить по умолчанию</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->
   <BTG_Settings_TraderRotationInterval>Интервал смены торговцев: {0_numCase ? день : дня : дней}</BTG_Settings_TraderRotationInterval>
-  <!-- EN: (Vanilla) -->
+  <!-- EN: (vanilla) -->
   <BTG_Settings_Vanilla>(как в оригинале)</BTG_Settings_Vanilla>
-  <!-- EN: (BTG Recommended) -->
+  <!-- EN: (suggested) -->
   <BTG_Settings_BTGRecommended>(рекомендация BTG)</BTG_Settings_BTGRecommended>
+  <!-- EN: (default) -->
+  <BTG_Settings_Default>(по умолчанию)</BTG_Settings_Default>
   <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
   <BTG_Settings_TraderRotationDesc1>Как часто сменяются орбитальные торговцы в поселениях гильдии торговцев.</BTG_Settings_TraderRotationDesc1>
   <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
@@ -48,36 +54,36 @@
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <!-- EN: Use custom settlement map generator -->
   <BTG_Settings_UseCustomLayouts>Использовать свой генератор карт поселений</BTG_Settings_UseCustomLayouts>
-  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts. -->
-  <BTG_Settings_UseCustomLayoutsDesc>Поселения гильдии торговцев будут выглядеть обжитыми, а не заброшенными.\nОтключите, если вы используете другие моды на генерацию карт или предпочитаете оригинальную планировку.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
+  <BTG_Settings_UseCustomLayoutsDesc>Поселения гильдии торговцев будут выглядеть обжитыми, а не заброшенными.\nОтключите, если вы используете другие моды на генерацию карт или предпочитаете оригинальную планировку.\nМесто задания «Логово контрабандистов» всегда использует свой генератор карт, независимо от этой настройки.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>Разрешить доступ к грузовому хранилищу</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements. -->
-  <BTG_Settings_EnableCargoVaultDesc>Если включено, люки грузовых хранилищ в ангарах челноков можно взломать и добраться до товаров торговца.\nЕсли выключено, грузовые хранилища создаются наглухо запечатанными.\nВлияет только на вновь создаваемые поселения.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>Если включено, люки грузовых хранилищ в ангарах челноков можно взломать и добраться до товаров торговца.\nЕсли выключено, грузовые хранилища создаются наглухо запечатанными.\nВлияет только на вновь создаваемые поселения и только когда включён свой генератор карт поселений.\nХранилище логова контрабандистов управляется наградой за его задание, а не этой настройкой.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>Дополнительные дроны-дозорные: {0}%</BTG_Settings_SentryDronePresence>
-  <!-- EN: Factor of threat points used for additional patrolling sentry drones. -->
-  <BTG_Settings_SentryDroneDesc>Доля очков угрозы, которая тратится на дополнительные патрульные дроны-дозорные.</BTG_Settings_SentryDroneDesc>
+  <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
+  <BTG_Settings_SentryDroneDesc>Доля очков угрозы, которая тратится на дополнительные патрульные дроны-дозорные.\nДействует как для поселений, так и для логова контрабандистов.</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->
   <BTG_Settings_EntrenchedDefenders>Оборонительный ИИ защитников</BTG_Settings_EntrenchedDefenders>
-  <!-- EN: Defenders hold the settlement structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nDecided when a settlement is entered; only affects settlements entered afterwards. -->
-  <BTG_Settings_EntrenchedDefendersDesc>Защитники удерживают постройки поселения, не идут в атаку и не преследуют нарушителей в вакууме, а едят и отдыхают внутри базы.\nОтключите, чтобы вернуть оригинальное поведение защитников (сначала оборона, затем атака).\nРешение принимается при входе в поселение и действует только для поселений, посещённых после изменения.</BTG_Settings_EntrenchedDefendersDesc>
+  <!-- EN: Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nGoverns settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).\nDecided when a map is generated; only affects maps entered afterwards. -->
+  <BTG_Settings_EntrenchedDefendersDesc>Защитники удерживают свои постройки, не идут в атаку и не преследуют нарушителей в вакууме, а едят и отдыхают внутри базы.\nОтключите, чтобы вернуть оригинальное поведение защитников (сначала оборона, затем атака).\nДействует для гарнизонов поселений (когда включён свой генератор карт поселений) и всегда для гарнизона логова контрабандистов.\nРешение принимается при генерации карты и действует только для карт, посещённых после изменения.</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- EN: Scale defenders to colony threat level -->
   <BTG_Settings_ScaleDefenders>Соотносить защитников с уровнем угрозы поселения</BTG_Settings_ScaleDefenders>
-  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress. -->
-  <BTG_Settings_ScaleDefendersDesc>Начальная сила защитников зависит от богатства вашего поселения и сложности, как и налёты врагов (но не ниже исходного уровня).\nВ оригинале в каждом поселении стоит гарнизон примерно одинаковой силы, независимо от ваших успехов.</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ScaleDefendersDesc>Начальная сила защитников зависит от богатства вашего поселения и сложности, как и налёты врагов (но не ниже исходного уровня).\nВ оригинале в каждом поселении стоит гарнизон примерно одинаковой силы, независимо от ваших успехов.\nТолько для поселений: гарнизон логова контрабандистов определяется его заданием.</BTG_Settings_ScaleDefendersDesc>
   <!-- EN: Defender threat points multiplier: {0}x -->
   <BTG_Settings_ThreatMultiplier>Множитель очков угрозы защитников: {0}x</BTG_Settings_ThreatMultiplier>
-  <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
-  <BTG_Settings_ThreatMultiplierDesc>Чем больше значение, тем больше и сильнее защитники при входе в поселение.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: Higher values = more/stronger initial defenders when entering settlements.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ThreatMultiplierDesc>Чем больше значение, тем больше и сильнее защитники при входе в поселение.\nТолько для поселений: гарнизон логова контрабандистов определяется его заданием.</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- гарнизон is Core ru AncientGarrison.label; турели and механоиды are Core ru. -->
@@ -85,14 +91,24 @@
   <!-- {0} = percentage -->
   <!-- EN: Garrison defeat threshold: {0}% -->
   <BTG_Settings_SecurityDefeatThreshold>Порог поражения гарнизона: {0}%</BTG_Settings_SecurityDefeatThreshold>
-  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
-  <BTG_Settings_SecurityDefeatThresholdDesc>Какая доля первоначальных сил обороны поселения или логова контрабандистов должна быть выведена из строя, прежде чем гильдия оставит карту.\nУчитываются защитники и патрульные дроны-дозорные, но не турели и не рабочие механоиды.\n100% означает бой до последнего защитника.</BTG_Settings_SecurityDefeatThresholdDesc>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>Какая доля первоначальных сил обороны поселения или логова контрабандистов должна быть выведена из строя, прежде чем фракция оставит карту.\nУчитываются защитники и патрульные дроны-дозорные, но не турели и не рабочие механоиды.\n100% означает бой до последнего защитника.</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>Выработка энергии блоком жизнеобеспечения: {0} Вт</BTG_Settings_LifeSupportPower>
-  <!-- EN: Power output from orbital LifeSupportUnits. -->
-  <BTG_Settings_LifeSupportDesc>Мощность, вырабатываемая орбитальными блоками жизнеобеспечения.</BTG_Settings_LifeSupportDesc>
+  <!-- EN: Power output from orbital LifeSupportUnits.\nChanges the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps. -->
+  <BTG_Settings_LifeSupportDesc>Мощность, вырабатываемая орбитальными блоками жизнеобеспечения.\nИзменяет сам тип постройки, поэтому влияет на все орбитальные платформы на планете, а не только на карты гильдии торговцев.</BTG_Settings_LifeSupportDesc>
+
+  <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
+  <!-- EN: Trade request quest weight: {0} -->
+  <BTG_Settings_TradeRequestQuestWeight>Вес задания «Торговый запрос»: {0}</BTG_Settings_TradeRequestQuestWeight>
+  <!-- EN: How often the storyteller offers the guild's shuttle trade request quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all. -->
+  <BTG_Settings_TradeRequestQuestWeightDesc>Как часто рассказчик предлагает задание гильдии о доставке груза по торговому запросу, в сравнении с любым другим заданием, которое он мог бы выбрать.\nУстановите 0, чтобы это задание вообще не появлялось.</BTG_Settings_TradeRequestQuestWeightDesc>
+  <!-- EN: Smuggler's den quest weight: {0} -->
+  <BTG_Settings_SmugglersDenQuestWeight>Вес задания «Логово контрабандистов»: {0}</BTG_Settings_SmugglersDenQuestWeight>
+  <!-- EN: How often the storyteller offers the smuggler's den quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all. -->
+  <BTG_Settings_SmugglersDenQuestWeightDesc>Как часто рассказчик предлагает задание «Логово контрабандистов», в сравнении с любым другим заданием, которое он мог бы выбрать.\nУстановите 0, чтобы это задание вообще не появлялось.</BTG_Settings_SmugglersDenQuestWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- EN: Better Traders Guild -->
@@ -105,12 +121,12 @@
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Пайков на одного защитника: {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>Сколько сухих пайков сбрасывается на каждого уцелевшего защитника при каждом вызове снабжения голодающим гарнизоном.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- EN: When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.\nSet to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>Когда голодающие защитники израсходуют всю еду внутри постройки, они вызывают через консоль связи транспортную капсулу с сухими пайками: именно столько на каждого уцелевшего защитника.\nУстановите 0, чтобы полностью отключить вызовы снабжения. Не более одной капсулы на карту раз в 6 часов.\nТребует оборонительного ИИ защитников. Действует как для поселений, так и для логова контрабандистов.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Вызывать подкрепление</BTG_Settings_ResupplyTriggersRaid>
-  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->
-  <BTG_Settings_ResupplyTriggersRaidDesc>При удачном вызове снабжения вместе с ним прибывает налёт подкреплений поселения на транспортных капсулах, охотящихся за вашими людьми. Они приходят как обычный налёт, а не как ограниченные защитники. Есть небольшой шанс, что они меньшей группой высадятся прямо на ваших людей. Срабатывает, только пока поселение враждебно.</BTG_Settings_ResupplyTriggersRaidDesc>
+  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>При удачном вызове снабжения вместе с ним прибывает налёт подкреплений фракции гарнизона на транспортных капсулах, охотящихся за вашими людьми. Они приходят как обычный налёт, а не как ограниченные защитники. Есть небольшой шанс, что они меньшей группой высадятся прямо на ваших людей. Срабатывает, только пока фракция карты враждебна.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- EN: Relock cargo vault -->

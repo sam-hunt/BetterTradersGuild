@@ -36,12 +36,16 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Commerce</BTG_Settings_Trading>
-  <!-- EN: Map Generation -->
-  <BTG_Settings_MapGeneration>Génération de carte</BTG_Settings_MapGeneration>
-  <!-- EN: Defenders -->
-  <BTG_Settings_Defenders>Défenseurs</BTG_Settings_Defenders>
+  <!-- EN: Settlement Generation -->
+  <BTG_Settings_MapGeneration>Génération de colonies</BTG_Settings_MapGeneration>
+  <!-- EN: Garrison & Combat -->
+  <BTG_Settings_Defenders>Garnison et combat</BTG_Settings_Defenders>
+  <!-- EN: Events & Quests -->
+  <BTG_Settings_Events>Événements et quêtes</BTG_Settings_Events>
   <!-- EN: Defender Resupply -->
   <BTG_Settings_Resupply>Ravitaillement des défenseurs</BTG_Settings_Resupply>
+  <!-- EN: Initial settlement garrison -->
+  <BTG_Settings_InitialGarrison>Garnison initiale de la colonie</BTG_Settings_InitialGarrison>
   <!-- Verbatim from Core fr ResetBinding. -->
   <!-- EN: Reset to defaults -->
   <BTG_Settings_ResetToDefaults>Réinitialiser les valeurs par défaut</BTG_Settings_ResetToDefaults>
@@ -49,10 +53,12 @@
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->
   <BTG_Settings_TraderRotationInterval>Intervalle de rotation des commerçants : {0} jours</BTG_Settings_TraderRotationInterval>
-  <!-- EN: (Vanilla) -->
+  <!-- EN: (vanilla) -->
   <BTG_Settings_Vanilla>(d'origine)</BTG_Settings_Vanilla>
-  <!-- EN: (BTG Recommended) -->
+  <!-- EN: (suggested) -->
   <BTG_Settings_BTGRecommended>(recommandé par BTG)</BTG_Settings_BTGRecommended>
+  <!-- EN: (default) -->
+  <BTG_Settings_Default>(par défaut)</BTG_Settings_Default>
   <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
   <BTG_Settings_TraderRotationDesc1>Fréquence de rotation des commerçants orbitaux dans les colonies de la guilde des commerçants.</BTG_Settings_TraderRotationDesc1>
   <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
@@ -64,8 +70,9 @@
   <!-- EN:
 Generate TradersGuild settlements with less abandoned-looking aesthetics.
 Disable if using other map generation mods or prefer vanilla layouts.
+The smuggler's den quest site always uses its own map generator, whatever this is set to.
   -->
-  <BTG_Settings_UseCustomLayoutsDesc>Génère les colonies de la guilde des commerçants avec une esthétique moins abandonnée.\nDésactivez cette option si vous utilisez d'autres mods de génération de carte ou si vous préférez les agencements d'origine.</BTG_Settings_UseCustomLayoutsDesc>
+  <BTG_Settings_UseCustomLayoutsDesc>Génère les colonies de la guilde des commerçants avec une esthétique moins abandonnée.\nDésactivez cette option si vous utilisez d'autres mods de génération de carte ou si vous préférez les agencements d'origine.\nLe site de la quête du repaire de contrebandiers utilise toujours son propre générateur de carte, quel que soit ce paramètre.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
@@ -73,25 +80,30 @@ Disable if using other map generation mods or prefer vanilla layouts.
   <!-- EN:
 When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.
 When disabled, cargo vaults spawn sealed and inaccessible.
-Only affects newly generated settlements.
+Only affects newly generated settlements, and requires the custom settlement map generator.
+The smuggler's den vault is controlled by its quest reward instead of this setting.
   -->
-  <BTG_Settings_EnableCargoVaultDesc>Lorsque cette option est activée, les trappes des coffres à cargaison des hangars à navettes peuvent être piratées pour accéder à l'inventaire commercial.\nLorsqu'elle est désactivée, les coffres à cargaison apparaissent scellés et inaccessibles.\nN'affecte que les colonies générées par la suite.</BTG_Settings_EnableCargoVaultDesc>
+  <BTG_Settings_EnableCargoVaultDesc>Lorsque cette option est activée, les trappes des coffres à cargaison des hangars à navettes peuvent être piratées pour accéder à l'inventaire commercial.\nLorsqu'elle est désactivée, les coffres à cargaison apparaissent scellés et inaccessibles.\nN'affecte que les colonies générées par la suite et nécessite le générateur de carte de colonie personnalisé.\nLe coffre à cargaison du repaire de contrebandiers est contrôlé par la récompense de sa quête plutôt que par ce paramètre.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>Présence supplémentaire de drones sentinelles : {0}%</BTG_Settings_SentryDronePresence>
-  <!-- EN: Factor of threat points used for additional patrolling sentry drones. -->
-  <BTG_Settings_SentryDroneDesc>Proportion des points de menace consacrée aux drones sentinelles supplémentaires en patrouille.</BTG_Settings_SentryDroneDesc>
+  <!-- EN:
+Factor of threat points used for additional patrolling sentry drones.
+Applies to settlements and the smuggler's den alike.
+  -->
+  <BTG_Settings_SentryDroneDesc>Proportion des points de menace consacrée aux drones sentinelles supplémentaires en patrouille.\nS'applique aux colonies et au repaire de contrebandiers de la même façon.</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->
   <BTG_Settings_EntrenchedDefenders>IA de défenseurs retranchés</BTG_Settings_EntrenchedDefenders>
   <!-- EN:
-Defenders hold the settlement structure and never assault or chase intruders into vacuum, foraging and resting inside their base.
+Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.
 Disable to revert to vanilla defender AI (defends the base, then assaults).
-Decided when a settlement is entered; only affects settlements entered afterwards.
+Governs settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).
+Decided when a map is generated; only affects maps entered afterwards.
   -->
-  <BTG_Settings_EntrenchedDefendersDesc>Les défenseurs tiennent la structure de la colonie et ne lancent jamais d'assaut ni ne poursuivent les intrus dans le vide, se nourrissant et se reposant à l'intérieur de leur base.\nDésactivez cette option pour revenir à l'IA de défenseurs d'origine (défend la base, puis lance un assaut).\nDéterminé à l'entrée dans une colonie. N'affecte que les colonies visitées par la suite.</BTG_Settings_EntrenchedDefendersDesc>
+  <BTG_Settings_EntrenchedDefendersDesc>Les défenseurs tiennent leur structure et ne lancent jamais d'assaut ni ne poursuivent les intrus dans le vide, se nourrissant et se reposant à l'intérieur de leur base.\nDésactivez cette option pour revenir à l'IA de défenseurs d'origine (défend la base, puis lance un assaut).\nRégit les garnisons de colonie (lorsque le générateur de carte de colonie personnalisé est activé) et la garnison du repaire de contrebandiers (toujours).\nDéterminé à la génération de la carte. N'affecte que les cartes visitées par la suite.</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- EN: Scale defenders to colony threat level -->
@@ -99,12 +111,16 @@ Decided when a settlement is entered; only affects settlements entered afterward
   <!-- EN:
 Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).
 Vanilla gives every settlement a similar fixed-strength garrison regardless of your progress.
+Settlements only: the smuggler's den garrison is sized by its quest instead.
   -->
-  <BTG_Settings_ScaleDefendersDesc>La force initiale des défenseurs évolue avec la richesse et la difficulté de votre colonie, comme pour les raids (jamais en dessous du niveau de référence d'origine).\nLe jeu d'origine attribue à chaque colonie une garnison de force fixe similaire, quels que soient vos progrès.</BTG_Settings_ScaleDefendersDesc>
+  <BTG_Settings_ScaleDefendersDesc>La force initiale des défenseurs évolue avec la richesse et la difficulté de votre colonie, comme pour les raids (jamais en dessous du niveau de référence d'origine).\nLe jeu d'origine attribue à chaque colonie une garnison de force fixe similaire, quels que soient vos progrès.\nColonies uniquement : la garnison du repaire de contrebandiers est dimensionnée par sa quête à la place.</BTG_Settings_ScaleDefendersDesc>
   <!-- EN: Defender threat points multiplier: {0}x -->
   <BTG_Settings_ThreatMultiplier>Multiplicateur des points de menace des défenseurs : {0}x</BTG_Settings_ThreatMultiplier>
-  <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
-  <BTG_Settings_ThreatMultiplierDesc>Valeurs plus élevées = défenseurs initiaux plus nombreux ou plus puissants à l'entrée dans les colonies.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN:
+Higher values = more/stronger initial defenders when entering settlements.
+Settlements only: the smuggler's den garrison is sized by its quest instead.
+  -->
+  <BTG_Settings_ThreatMultiplierDesc>Valeurs plus élevées = défenseurs initiaux plus nombreux ou plus puissants à l'entrée dans les colonies.\nColonies uniquement : la garnison du repaire de contrebandiers est dimensionnée par sa quête à la place.</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- garnison is Core fr AncientGarrison.label; tourelles and mécanoïdes are Core fr vocabulary. -->
@@ -113,18 +129,37 @@ Vanilla gives every settlement a similar fixed-strength garrison regardless of y
   <!-- EN: Garrison defeat threshold: {0}% -->
   <BTG_Settings_SecurityDefeatThreshold>Seuil de défaite de la garnison : {0}%</BTG_Settings_SecurityDefeatThreshold>
   <!-- EN:
-How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.
+How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.
 Counts defending guards and patrolling sentry drones, not turrets or worker mechs.
 100% means fighting to the last defender.
   -->
-  <BTG_Settings_SecurityDefeatThresholdDesc>Proportion de la force de défense initiale d'une colonie ou d'un repaire de contrebandiers qui doit être mise hors de combat avant que la guilde n'abandonne la carte.\nSeuls les gardes en défense et les drones sentinelles en patrouille sont comptés, pas les tourelles ni les mécanoïdes ouvriers.\n100% signifie combattre jusqu'au dernier défenseur.</BTG_Settings_SecurityDefeatThresholdDesc>
+  <BTG_Settings_SecurityDefeatThresholdDesc>Proportion de la force de défense initiale d'une colonie ou d'un repaire de contrebandiers qui doit être mise hors de combat avant que la faction n'abandonne la carte.\nSeuls les gardes en défense et les drones sentinelles en patrouille sont comptés, pas les tourelles ni les mécanoïdes ouvriers.\n100% signifie combattre jusqu'au dernier défenseur.</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- "unité de survie" is Odyssey fr LifeSupportUnit.label. -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>Production d'énergie de l'unité de survie : {0} W</BTG_Settings_LifeSupportPower>
-  <!-- EN: Power output from orbital LifeSupportUnits. -->
-  <BTG_Settings_LifeSupportDesc>Production d'énergie des unités de survie orbitales.</BTG_Settings_LifeSupportDesc>
+  <!-- EN:
+Power output from orbital LifeSupportUnits.
+Changes the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps.
+  -->
+  <BTG_Settings_LifeSupportDesc>Production d'énergie des unités de survie orbitales.\nModifie le type de bâtiment lui-même, ce qui affecte donc toutes les plateformes orbitales de la planète, pas seulement les cartes de la guilde.</BTG_Settings_LifeSupportDesc>
+
+  <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
+  <!-- EN: Trade request quest weight: {0} -->
+  <BTG_Settings_TradeRequestQuestWeight>Poids de la quête de commande commerciale : {0}</BTG_Settings_TradeRequestQuestWeight>
+  <!-- EN:
+How often the storyteller offers the guild's shuttle trade request quest, weighed against every other quest it could pick.
+Set to 0 to stop the quest being offered at all.
+  -->
+  <BTG_Settings_TradeRequestQuestWeightDesc>Fréquence à laquelle le narrateur propose la quête de commande commerciale par navette de la guilde, pondérée par rapport à toutes les autres quêtes qu'il pourrait choisir.\nRéglez sur 0 pour que cette quête ne soit jamais proposée.</BTG_Settings_TradeRequestQuestWeightDesc>
+  <!-- EN: Smuggler's den quest weight: {0} -->
+  <BTG_Settings_SmugglersDenQuestWeight>Poids de la quête du repaire de contrebandiers : {0}</BTG_Settings_SmugglersDenQuestWeight>
+  <!-- EN:
+How often the storyteller offers the smuggler's den quest, weighed against every other quest it could pick.
+Set to 0 to stop the quest being offered at all.
+  -->
+  <BTG_Settings_SmugglersDenQuestWeightDesc>Fréquence à laquelle le narrateur propose la quête du repaire de contrebandiers, pondérée par rapport à toutes les autres quêtes qu'il pourrait choisir.\nRéglez sur 0 pour que cette quête ne soit jamais proposée.</BTG_Settings_SmugglersDenQuestWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- Left as the Latin brand name, as in every other language. -->
@@ -138,12 +173,16 @@ Counts defending guards and patrolling sentry drones, not turrets or worker mech
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Rations de ravitaillement par défenseur : {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>Rations de survie larguées par défenseur survivant à chaque appel de ravitaillement d'une garnison affamée.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- EN:
+When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.
+Set to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.
+Requires entrenched defender AI. Applies to settlements and the smuggler's den alike.
+  -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>Lorsque des défenseurs affamés ont épuisé toute la nourriture à l'intérieur de la structure, ils utilisent une console de communication pour appeler une capsule de cargo de rations de survie : ce nombre de rations par défenseur survivant.\nRéglez sur 0 pour désactiver entièrement les appels de ravitaillement. Au maximum une capsule atterrit par carte toutes les 6 heures.\nNécessite l'IA de défenseurs retranchés. S'applique aux colonies et au repaire de contrebandiers de la même façon.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Appeler des renforts</BTG_Settings_ResupplyTriggersRaid>
-  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->
-  <BTG_Settings_ResupplyTriggersRaidDesc>Lorsqu'un appel de ravitaillement aboutit, envoie également un raid de renforts de la colonie par capsules de largage pour traquer vos colons. Ils arrivent comme un raid normal et non comme des défenseurs confinés. Faible probabilité qu'ils atterrissent juste sur vos colons, en groupe plus réduit. Ne se déclenche que si la colonie est hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
+  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>Lorsqu'un appel de ravitaillement aboutit, envoie également un raid de renforts de la faction de la garnison par capsules de largage pour traquer vos colons. Ils arrivent comme un raid normal et non comme des défenseurs confinés. Faible probabilité qu'ils atterrissent juste sur vos colons, en groupe plus réduit. Ne se déclenche que si la faction de la carte est hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- EN: Relock cargo vault -->

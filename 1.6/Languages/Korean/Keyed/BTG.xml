@@ -24,22 +24,28 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>거래</BTG_Settings_Trading>
-  <!-- EN: Map Generation -->
-  <BTG_Settings_MapGeneration>지도 생성</BTG_Settings_MapGeneration>
-  <!-- EN: Defenders -->
-  <BTG_Settings_Defenders>방어군</BTG_Settings_Defenders>
+  <!-- EN: Settlement Generation -->
+  <BTG_Settings_MapGeneration>정착지 생성</BTG_Settings_MapGeneration>
+  <!-- EN: Garrison & Combat -->
+  <BTG_Settings_Defenders>수비대 및 전투</BTG_Settings_Defenders>
+  <!-- EN: Events & Quests -->
+  <BTG_Settings_Events>사건 및 임무</BTG_Settings_Events>
   <!-- EN: Defender Resupply -->
   <BTG_Settings_Resupply>방어군 보급</BTG_Settings_Resupply>
+  <!-- EN: Initial settlement garrison -->
+  <BTG_Settings_InitialGarrison>초기 정착지 수비대</BTG_Settings_InitialGarrison>
   <!-- EN: Reset to defaults -->
   <BTG_Settings_ResetToDefaults>기본값 복원</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->
   <BTG_Settings_TraderRotationInterval>상인 교체 주기: {0}일</BTG_Settings_TraderRotationInterval>
-  <!-- EN: (Vanilla) -->
+  <!-- EN: (vanilla) -->
   <BTG_Settings_Vanilla>(기본값)</BTG_Settings_Vanilla>
-  <!-- EN: (BTG Recommended) -->
+  <!-- EN: (suggested) -->
   <BTG_Settings_BTGRecommended>(BTG 권장)</BTG_Settings_BTGRecommended>
+  <!-- EN: (default) -->
+  <BTG_Settings_Default>(모드 기본값)</BTG_Settings_Default>
   <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
   <BTG_Settings_TraderRotationDesc1>교역 조합 정착지에서 궤도 상인이 교체되는 주기입니다.</BTG_Settings_TraderRotationDesc1>
   <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
@@ -48,36 +54,36 @@
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <!-- EN: Use custom settlement map generator -->
   <BTG_Settings_UseCustomLayouts>전용 정착지 지도 생성기 사용</BTG_Settings_UseCustomLayouts>
-  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts. -->
-  <BTG_Settings_UseCustomLayoutsDesc>교역 조합 정착지를 버려진 느낌이 덜한 모습으로 생성합니다.\n다른 지도 생성 모드를 사용하거나 기본 배치를 선호한다면 해제하세요.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
+  <BTG_Settings_UseCustomLayoutsDesc>교역 조합 정착지를 버려진 느낌이 덜한 모습으로 생성합니다.\n다른 지도 생성 모드를 사용하거나 기본 배치를 선호한다면 해제하세요.\n밀수업자 소굴 임무 지역은 이 설정과 관계없이 항상 자체 지도 생성기를 사용합니다.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>화물 금고 접근 허용</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements. -->
-  <BTG_Settings_EnableCargoVaultDesc>활성화하면 왕복선 격납고의 화물 금고 해치를 해킹하여 교역 물품에 접근할 수 있습니다.\n비활성화하면 화물 금고가 밀폐된 채로 생성되어 접근할 수 없습니다.\n새로 생성되는 정착지에만 적용됩니다.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>활성화하면 왕복선 격납고의 화물 금고 해치를 해킹하여 교역 물품에 접근할 수 있습니다.\n비활성화하면 화물 금고가 밀폐된 채로 생성되어 접근할 수 없습니다.\n새로 생성되는 정착지에만 적용되며, 전용 정착지 지도 생성기가 필요합니다.\n밀수업자 소굴의 화물 금고는 이 설정이 아니라 임무 보상에 따라 결정됩니다.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>추가 센트리 드론 배치: {0}%</BTG_Settings_SentryDronePresence>
-  <!-- EN: Factor of threat points used for additional patrolling sentry drones. -->
-  <BTG_Settings_SentryDroneDesc>순찰하는 센트리 드론을 추가로 배치하는 데 사용할 위협 지수의 비율입니다.</BTG_Settings_SentryDroneDesc>
+  <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
+  <BTG_Settings_SentryDroneDesc>순찰하는 센트리 드론을 추가로 배치하는 데 사용할 위협 지수의 비율입니다.\n정착지와 밀수업자 소굴 모두에 적용됩니다.</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->
   <BTG_Settings_EntrenchedDefenders>농성형 방어군 AI</BTG_Settings_EntrenchedDefenders>
-  <!-- EN: Defenders hold the settlement structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nDecided when a settlement is entered; only affects settlements entered afterwards. -->
-  <BTG_Settings_EntrenchedDefendersDesc>방어군이 정착지 구조물을 지키며, 침입자를 쫓아 진공으로 돌격하지 않고 기지 안에서 식사하고 휴식합니다.\n해제하면 기본 방어군 AI(기지를 지킨 뒤 돌격)로 되돌아갑니다.\n정착지에 진입할 때 결정되며, 이후에 진입하는 정착지에만 적용됩니다.</BTG_Settings_EntrenchedDefendersDesc>
+  <!-- EN: Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nGoverns settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).\nDecided when a map is generated; only affects maps entered afterwards. -->
+  <BTG_Settings_EntrenchedDefendersDesc>방어군이 자신의 구조물을 지키며, 침입자를 쫓아 진공으로 돌격하지 않고 기지 안에서 식사하고 휴식합니다.\n해제하면 기본 방어군 AI(기지를 지킨 뒤 돌격)로 되돌아갑니다.\n정착지 수비대(전용 정착지 지도 생성기가 켜져 있을 때)와 밀수업자 소굴 수비대(항상)에 적용됩니다.\n지도가 생성될 때 결정되며, 이후에 진입하는 지도에만 적용됩니다.</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- EN: Scale defenders to colony threat level -->
   <BTG_Settings_ScaleDefenders>내 정착지 위협 수준에 맞춰 방어군 조정</BTG_Settings_ScaleDefenders>
-  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress. -->
-  <BTG_Settings_ScaleDefendersDesc>초기 방어군 전력이 습격과 마찬가지로 내 정착지의 자산과 난이도에 따라 조정됩니다(기본 기준치 아래로는 내려가지 않습니다).\n기본 설정에서는 진행 상황과 관계없이 모든 정착지에 비슷한 고정 전력의 수비대가 배치됩니다.</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ScaleDefendersDesc>초기 방어군 전력이 습격과 마찬가지로 내 정착지의 자산과 난이도에 따라 조정됩니다(기본 기준치 아래로는 내려가지 않습니다).\n기본 설정에서는 진행 상황과 관계없이 모든 정착지에 비슷한 고정 전력의 수비대가 배치됩니다.\n정착지에만 해당하며, 밀수업자 소굴 수비대의 규모는 대신 해당 임무에 따라 정해집니다.</BTG_Settings_ScaleDefendersDesc>
   <!-- EN: Defender threat points multiplier: {0}x -->
   <BTG_Settings_ThreatMultiplier>방어군 위협 지수 배율: {0}배</BTG_Settings_ThreatMultiplier>
-  <!-- EN: Higher values = more/stronger initial defenders when entering settlements. -->
-  <BTG_Settings_ThreatMultiplierDesc>값이 높을수록 정착지에 진입할 때 초기 방어군이 많아지거나 강해집니다.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: Higher values = more/stronger initial defenders when entering settlements.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ThreatMultiplierDesc>값이 높을수록 정착지에 진입할 때 초기 방어군이 많아지거나 강해집니다.\n정착지에만 해당하며, 밀수업자 소굴 수비대의 규모는 대신 해당 임무에 따라 정해집니다.</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- 수비대 is the mod-decided word for a garrison force (vanilla ko AncientGarrison is 주둔지, a place). -->
@@ -86,14 +92,24 @@
   <!-- {0} = percentage -->
   <!-- EN: Garrison defeat threshold: {0}% -->
   <BTG_Settings_SecurityDefeatThreshold>수비대 패배 기준: {0}%</BTG_Settings_SecurityDefeatThreshold>
-  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the guild gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
-  <BTG_Settings_SecurityDefeatThresholdDesc>정착지나 밀수업자 소굴의 초기 방어 전력이 얼마나 쓰러져야 조합이 그 지도를 포기하는지를 정합니다.\n방어를 맡은 경비병과 순찰 중인 센트리 드론만 세며, 포탑이나 작업용 메카노이드는 세지 않습니다.\n100%는 마지막 한 명까지 싸운다는 뜻입니다.</BTG_Settings_SecurityDefeatThresholdDesc>
+  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>정착지나 밀수업자 소굴의 초기 방어 전력이 얼마나 쓰러져야 세력이 그 지도를 포기하는지를 정합니다.\n방어를 맡은 경비병과 순찰 중인 센트리 드론만 세며, 포탑이나 작업용 메카노이드는 세지 않습니다.\n100%는 마지막 한 명까지 싸운다는 뜻입니다.</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- EN: LifeSupportUnit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>생명 유지 장치 전력 출력: {0}W</BTG_Settings_LifeSupportPower>
-  <!-- EN: Power output from orbital LifeSupportUnits. -->
-  <BTG_Settings_LifeSupportDesc>궤도 생명 유지 장치의 전력 출력입니다.</BTG_Settings_LifeSupportDesc>
+  <!-- EN: Power output from orbital LifeSupportUnits.\nChanges the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps. -->
+  <BTG_Settings_LifeSupportDesc>궤도 생명 유지 장치의 전력 출력입니다.\n건물 유형 자체를 변경하므로 교역 조합 지도뿐 아니라 행성의 모든 궤도 플랫폼에 영향을 미칩니다.</BTG_Settings_LifeSupportDesc>
+
+  <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
+  <!-- EN: Trade request quest weight: {0} -->
+  <BTG_Settings_TradeRequestQuestWeight>거래 요청 임무 가중치: {0}</BTG_Settings_TradeRequestQuestWeight>
+  <!-- EN: How often the storyteller offers the guild's shuttle trade request quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all. -->
+  <BTG_Settings_TradeRequestQuestWeightDesc>이야기꾼이 고를 수 있는 다른 모든 임무와 견주어, 조합의 왕복선 거래 요청 임무를 얼마나 자주 제시하는지를 나타냅니다.\n0으로 설정하면 이 임무가 전혀 제시되지 않습니다.</BTG_Settings_TradeRequestQuestWeightDesc>
+  <!-- EN: Smuggler's den quest weight: {0} -->
+  <BTG_Settings_SmugglersDenQuestWeight>밀수업자 소굴 임무 가중치: {0}</BTG_Settings_SmugglersDenQuestWeight>
+  <!-- EN: How often the storyteller offers the smuggler's den quest, weighed against every other quest it could pick.\nSet to 0 to stop the quest being offered at all. -->
+  <BTG_Settings_SmugglersDenQuestWeightDesc>이야기꾼이 고를 수 있는 다른 모든 임무와 견주어, 밀수업자 소굴 임무를 얼마나 자주 제시하는지를 나타냅니다.\n0으로 설정하면 이 임무가 전혀 제시되지 않습니다.</BTG_Settings_SmugglersDenQuestWeightDesc>
 
   <!-- ========== MOD SETTINGS: MOD NAME ========== -->
   <!-- EN: Better Traders Guild -->
@@ -106,12 +122,12 @@
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>방어군 1명당 보급 식량: {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <!-- EN: Survival meals dropped per surviving defender each time a starving garrison calls in a resupply. -->
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>굶주린 수비대가 보급을 요청할 때마다 생존한 방어군 1명당 투하되는 보존 식량의 수입니다.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- EN: When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.\nSet to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>방어군이 굶주려 구조물 안의 식량을 모두 소진하면, 통신기로 보존 식량 화물 낙하기를 요청합니다. 생존한 방어군 1명당 지급되는 식량 수입니다.\n0으로 설정하면 보급 요청을 완전히 비활성화합니다. 지도당 6시간마다 최대 1회만 낙하합니다.\n농성형 방어군 AI가 필요합니다. 정착지와 밀수업자 소굴 모두에 적용됩니다.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>증원군 요청</BTG_Settings_ResupplyTriggersRaid>
-  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of settlement reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the settlement is hostile. -->
-  <BTG_Settings_ResupplyTriggersRaidDesc>보급 요청이 성공하면 정착지 증원군의 수송 포드 습격도 함께 발생시켜 내 캐릭터를 추격하게 합니다. 이들은 제한된 방어군이 아니라 일반 습격으로 도착합니다. 낮은 확률로 더 적은 인원이 내 캐릭터 바로 위에 낙하하기도 합니다. 정착지가 적대 상태일 때만 발생합니다.</BTG_Settings_ResupplyTriggersRaidDesc>
+  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>보급 요청이 성공하면 수비대 세력 증원군의 수송 포드 습격도 함께 발생시켜 내 캐릭터를 추격하게 합니다. 이들은 제한된 방어군이 아니라 일반 습격으로 도착합니다. 낮은 확률로 더 적은 인원이 내 캐릭터 바로 위에 낙하하기도 합니다. 지도의 세력이 적대 상태일 때만 발생합니다.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- EN: Relock cargo vault -->
