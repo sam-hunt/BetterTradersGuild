@@ -261,11 +261,12 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             return closest;
         }
 
-        // Places an item in a cell and updates tracking.
+        // Places an item in a cell and updates tracking. Left unforbidden on purpose:
+        // the vault pocket map is always hostile-free and exists only to be hauled from,
+        // so vanilla's forbid-at-spawn convention would just cost the player a click per stack.
         private static void PlaceItem(Map map, Thing item, CellState cell)
         {
             GenSpawn.Spawn(item, cell.Cell, map);
-            item.SetForbidden(true, false);
             cell.CurrentItems++;
         }
 

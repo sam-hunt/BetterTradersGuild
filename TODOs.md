@@ -1,6 +1,5 @@
 TODOs
 
-- cargo vault goods should spawn unforbidden
 - android stand faction? player androids try to use
 - Smoke test with performance analyzer (particularly the post-mapgen spike)
 - test CWTL on den quest site

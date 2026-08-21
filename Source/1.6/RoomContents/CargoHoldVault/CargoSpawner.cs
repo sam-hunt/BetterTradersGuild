@@ -11,6 +11,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 {
     // Handles spawning cargo items in the cargo vault.
     // Items go on shelves first (clustered by type), overflow and pawns go on floor.
+    // Goods deliberately spawn unforbidden (unlike vanilla map-gen loot): vanilla forbids
+    // spawned resources so colonists don't haul across an uncleared map, but the vault
+    // pocket map is always hostile-free and exists only to be hauled from.
     public static class CargoSpawner
     {
         // Spawns items on shelves in the room using clustered placement.
@@ -216,7 +219,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     return thing;
                 if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
                     return thing;
-                thing.SetForbidden(true, false);
                 usedCells.Add(thing.Position); // Use actual position since TryPlaceThing may adjust
                 return null;
             }
@@ -235,7 +237,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     return thing;
                 if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
                     return thing;
-                thing.SetForbidden(true, false);
                 if (isNonStackable)
                     usedCells.Add(thing.Position);
                 return null;
@@ -265,7 +266,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                     thing.stackCount = stackLimit + remaining;
                     return thing;
                 }
-                thing.SetForbidden(true, false);
                 if (isNonStackable)
                     usedCells.Add(thing.Position);
 
@@ -302,7 +302,6 @@ namespace BetterTradersGuild.RoomContents.CargoVault
                         newStack.Destroy(DestroyMode.Vanish);
                         continue;
                     }
-                    newStack.SetForbidden(true, false);
                     if (isNonStackable)
                         usedCells.Add(newStack.Position);
                 }
