@@ -90,12 +90,12 @@ namespace BetterTradersGuild
             listing.Gap(8f);
         }
 
-        // Appends status tags to a control's label: "(Vanilla)" when the current
-        // value matches vanilla behaviour, "(Suggested)" when it matches BTG's
+        // Appends status tags to a control's label: "(vanilla)" when the current
+        // value matches vanilla behaviour, "(suggested)" when it matches BTG's
         // suggested value (the two are mutually exclusive in practice; vanilla wins
         // if both are passed), and "(default)" when it is the mod's shipped default.
         // The default tag is independent of the other two and renders last, so a
-        // shipped default that is also the suggested value reads "(Suggested) (default)".
+        // shipped default that is also the suggested value reads "(suggested) (default)".
         private static string Annotate(string label, bool vanilla = false, bool recommended = false,
             bool isDefault = false)
         {

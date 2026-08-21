@@ -138,6 +138,7 @@ namespace BetterTradersGuild
             int defeatPercentageDisplay = (int)(securityDefeatFraction * 100f);
             string defeatLabel = Annotate(
                 "BTG_Settings_SecurityDefeatThreshold".Translate(defeatPercentageDisplay),
+                vanilla: defeatPercentageDisplay == 100,
                 recommended: defeatPercentageDisplay == 80,
                 isDefault: defeatPercentageDisplay == 80);
             LabelWithTooltip(listing, defeatLabel, "BTG_Settings_SecurityDefeatThresholdDesc".Translate());
@@ -194,7 +195,7 @@ namespace BetterTradersGuild
             // drags (the fade is visual only), and the stored value must survive.
             float multiplierSliderValue = listing.Slider(threatPointsMultiplier, 0.5f, 3.0f);
             if (useCustomLayouts)
-                threatPointsMultiplier = (float)(System.Math.Round(multiplierSliderValue / 0.25) * 0.25);
+                threatPointsMultiplier = (int)System.Math.Round(multiplierSliderValue * 10f) / 10f;
 
             listing.ColumnWidth += 16f;
             listing.Outdent(16f);
