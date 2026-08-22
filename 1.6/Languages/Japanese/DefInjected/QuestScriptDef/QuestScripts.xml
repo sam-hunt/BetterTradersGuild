@@ -30,7 +30,7 @@ If you want to make the trade, send a shuttle with the requested items.</li>
   -->
   <BTG_TradeRequest.questDescriptionRules.rulesStrings>
     <li>questDescription-&gt;近くにある軌道ステーション,[settlement_label]が特別な取引を申し出てきました.彼らは,以下の物を欲しがっています:\n\n [requestedThingCount]個の[qualityInfo][requestedThing_label] (価値 [requestedThingMarketValue_money])\n\nこの取引に興味があれば,要求された品物を積んだシャトルを送りましょう.</li>
-    <li>qualityInfo(requestedThingHasQuality==True,priority=1)-&gt;標準品以上の品質の</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->標準品以上の品質の</li>
     <li>qualityInfo-&gt;</li>
   </BTG_TradeRequest.questDescriptionRules.rulesStrings>
   <!-- Verbatim from Core ja TradeRequest.LetterLabelQuestFailed. -->
@@ -63,23 +63,29 @@ If you want to make the trade, send a shuttle with the requested items.</li>
     <li>questName-&gt;[settlement_label]近くの略奪者の前哨基地</li>
     <li>questName-&gt;闇市ステーション</li>
   </BTG_SmugglersDen.questNameRules.rulesStrings>
+  <!-- Opener follows Core ja's leader-message idiom for "[leaderTitle]
+       [nameFull] of [faction_name] has sent ..." - "[faction_name]の
+       [leaderTitle]である [nameFull]が, ..." (Script_OrbitalFugitive,
+       Script_Site, OpportunitySite_PeaceTalks all render it this way,
+       including the space before the name token and after the comma).
+       Paragraph 1 is identical EN text in both variants, so it stays
+       identical here too. The hostile variant deliberately withholds the
+       salvage-rights/cargo-vault reward and offers goodwill only. -->
   <!-- EN:
-    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
 
 The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription-&gt;商人ギルドを代表する[asker_nameFull]から,[settlement_label]の近くで略奪者の前哨基地が活動しているとの知らせが届きました.このステーションはギルドの輸送団を襲い,奪った積荷を横流ししています.\n\nギルドは前哨基地を排除する報酬として,回収権を提示しています.また,ドッキングの割り当てに手を回せる伝手があり,貨物保管庫の中身を増やして条件を良くしてくれるそうです.</li>
+    <li>questDescription(askerFactionHostile==False)-&gt;[asker_faction_name]の[asker_faction_leaderTitle]である [asker_nameFull]が, [settlement_label]の近くで略奪者の前哨基地が活動しているとの知らせを送ってきました.このステーションはギルドの輸送団を襲い,奪った積荷を横流ししています.\n\nギルドは前哨基地を排除する報酬として,回収権を提示しています.また,ドッキングの割り当てに手を回せる伝手があり,貨物保管庫の中身を増やして条件を良くしてくれるそうです.</li>
+    <li>questDescription(askerFactionHostile==True)-&gt;[asker_faction_name]の[asker_faction_leaderTitle]である [asker_nameFull]が, [settlement_label]の近くで略奪者の前哨基地が活動しているとの知らせを送ってきました.このステーションはギルドの輸送団を襲い,奪った積荷を横流ししています.\n\n[asker_nameDef]は,敵対関係にあるにもかかわらず,この前哨基地を破壊することがギルドへの善意の表明とみなされることを明言しています.それは,ギルドとの関係を改善する絶好の機会になるでしょう.</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-  <!-- Verbatim from Core ja TradeRequest.LetterLabelQuestFailed. -->
   <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>クエスト失敗: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
-  <!-- Verbatim from Core ja TradeRequest.LetterTextQuestFailed. -->
-  <!-- EN: [faction_name] became hostile to you. -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>[faction_name]があなたのコロニーと敵対状態になりました.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
-  <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>クエスト失敗: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.label.slateRef>クエスト失敗: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter.label.slateRef>
   <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>攻撃を察知した略奪者は,前哨基地から物資を運び出して散り散りになりました.クエスト[resolvedQuestName]は終了しました.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.text.slateRef>攻撃を察知した略奪者は,前哨基地から物資を運び出して散り散りになりました.クエスト[resolvedQuestName]は終了しました.</BTG_SmugglersDen.root.nodes.Letter.text.slateRef>
 
 </LanguageData>

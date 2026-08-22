@@ -56,20 +56,16 @@ If you want to make the trade, send a shuttle with the requested items.</li>
     <li>questName->黑市太空站</li>
   </BTG_SmugglersDen.questNameRules.rulesStrings>
   <!-- EN:
-    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
-
-The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\n[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription->代表商人公會的[asker_nameFull]傳來消息：[settlement_label]附近有一座打撈者前哨站正在活動。該平台一直在攔截公會的運輸隊，並銷贓劫來的貨物。\n\n公會願意以打撈權作為清除該前哨站的報酬。他們有一位內線，能在停泊排班上動些手腳，把貨物保險庫堆得更滿，讓這筆交易更划算。</li>
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_name]的[asker_faction_leaderTitle][asker_nameFull]傳來消息：[settlement_label]附近有一座打撈者前哨站正在活動。該平台一直在攔截公會的運輸隊，並銷贓劫來的貨物。\n\n公會願意以打撈權作為清除該前哨站的報酬。他們有一位內線，能在停泊排班上動些手腳，把貨物保險庫堆得更滿，讓這筆交易更划算。</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_name]的[asker_faction_leaderTitle][asker_nameFull]傳來消息：[settlement_label]附近有一座打撈者前哨站正在活動。該平台一直在攔截公會的運輸隊，並銷贓劫來的貨物。\n\n[asker_nameDef]明確表示，儘管雙方目前敵對，摧毀該前哨站仍會被視為一種友好的表示。這可能是改善與公會關係的絕佳機會。</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>任務失敗：[resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
-  <!-- EN: [faction_name] became hostile to you. -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>[faction_name]開始敵視你。</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
-  <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>任務失敗：[resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.label.slateRef>任務失敗：[resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter.label.slateRef>
   <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>察覺到攻擊後，打撈者已將前哨站洗劫一空並四散逃逸。任務[resolvedQuestName]已結束。</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.text.slateRef>察覺到攻擊後，打撈者已將前哨站洗劫一空並四散逃逸。任務[resolvedQuestName]已結束。</BTG_SmugglersDen.root.nodes.Letter.text.slateRef>
 
 </LanguageData>

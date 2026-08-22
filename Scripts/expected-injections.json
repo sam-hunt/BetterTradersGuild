@@ -173,7 +173,8 @@
     "QuestScriptDef": {
       "BTG_SmugglersDen.questDescriptionRules.rulesStrings": {
         "english": [
-          "questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal."
+          "questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.",
+          "questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\n[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild."
         ],
         "isCollection": true,
         "fullListAllowed": true,
@@ -192,47 +193,47 @@
       },
       "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_CreateSite.nearSettlement.slateRef": {
         "english": "$settlement",
-        "normalized": "BTG_SmugglersDen.root.nodes.5.nearSettlement.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.6.nearSettlement.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.faction.slateRef": {
         "english": "$faction",
-        "normalized": "BTG_SmugglersDen.root.nodes.6.faction.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.7.faction.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.rewardValue.slateRef": {
+        "english": "$rewardValue",
+        "normalized": "BTG_SmugglersDen.root.nodes.7.rewardValue.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.site.slateRef": {
         "english": "$site",
-        "normalized": "BTG_SmugglersDen.root.nodes.6.site.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.7.site.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.BTG_SmugglersDen_Rewards.traderTypeCount.slateRef": {
         "english": "2",
-        "normalized": "BTG_SmugglersDen.root.nodes.6.traderTypeCount.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.7.traderTypeCount.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.Delay.delayTicks.slateRef": {
         "english": "$(randInt(8,15)*60000)",
-        "normalized": "BTG_SmugglersDen.root.nodes.9.delayTicks.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.8.delayTicks.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.Delay.isQuestTimeout.slateRef": {
         "english": "true",
-        "normalized": "BTG_SmugglersDen.root.nodes.9.isQuestTimeout.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.8.isQuestTimeout.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.End-0.outcome.slateRef": {
-        "english": "Fail",
-        "normalized": "BTG_SmugglersDen.root.nodes.8.outcome.slateRef"
+        "english": "Success",
+        "normalized": "BTG_SmugglersDen.root.nodes.9.outcome.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.End-0.sendStandardLetter.slateRef": {
+        "english": "true",
+        "normalized": "BTG_SmugglersDen.root.nodes.9.sendStandardLetter.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.End-1.outcome.slateRef": {
-        "english": "Success",
-        "normalized": "BTG_SmugglersDen.root.nodes.10.outcome.slateRef"
-      },
-      "BTG_SmugglersDen.root.nodes.End-1.sendStandardLetter.slateRef": {
-        "english": "true",
-        "normalized": "BTG_SmugglersDen.root.nodes.10.sendStandardLetter.slateRef"
+        "english": "Fail",
+        "normalized": "BTG_SmugglersDen.root.nodes.11.outcome.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.End-2.outcome.slateRef": {
         "english": "Fail",
         "normalized": "BTG_SmugglersDen.root.nodes.12.outcome.slateRef"
-      },
-      "BTG_SmugglersDen.root.nodes.End-3.outcome.slateRef": {
-        "english": "Fail",
-        "normalized": "BTG_SmugglersDen.root.nodes.13.outcome.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.EvaluateSimpleCurve.curve.slateRef": {
         "english": "<points><li>0, 1200</li><li>100000, 2400</li><li>300000, 4800</li></points>",
@@ -254,33 +255,35 @@
         "english": "False",
         "normalized": "BTG_SmugglersDen.root.nodes.2.allowActiveTradeRequest.slateRef"
       },
+      "BTG_SmugglersDen.root.nodes.GetNearestTGSettlement.allowHostile.slateRef": {
+        "english": "true",
+        "normalized": "BTG_SmugglersDen.root.nodes.2.allowHostile.slateRef"
+      },
       "BTG_SmugglersDen.root.nodes.GetNearestTGSettlement.maxTileDistance.slateRef": {
         "english": "64",
         "normalized": "BTG_SmugglersDen.root.nodes.2.maxTileDistance.slateRef"
       },
-      "BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef": {
+      "BTG_SmugglersDen.root.nodes.Letter.label.slateRef": {
         "english": "Quest failed: [resolvedQuestName]",
         "required": true,
-        "normalized": "BTG_SmugglersDen.root.nodes.7.label.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.10.label.slateRef"
       },
-      "BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef": {
-        "english": "[faction_name] became hostile to you.",
-        "required": true,
-        "normalized": "BTG_SmugglersDen.root.nodes.7.text.slateRef"
-      },
-      "BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef": {
-        "english": "Quest failed: [resolvedQuestName]",
-        "required": true,
-        "normalized": "BTG_SmugglersDen.root.nodes.11.label.slateRef"
-      },
-      "BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef": {
+      "BTG_SmugglersDen.root.nodes.Letter.text.slateRef": {
         "english": "Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended.",
         "required": true,
-        "normalized": "BTG_SmugglersDen.root.nodes.11.text.slateRef"
+        "normalized": "BTG_SmugglersDen.root.nodes.10.text.slateRef"
       },
       "BTG_SmugglersDen.root.nodes.RequirementsToAcceptResearch.reserach.slateRef": {
         "english": "AdvancedGravtech",
         "normalized": "BTG_SmugglersDen.root.nodes.0.reserach.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Util_GetDefaultRewardValueFromPoints.def.slateRef": {
+        "english": "Util_GetDefaultRewardValueFromPoints",
+        "normalized": "BTG_SmugglersDen.root.nodes.5.def.slateRef"
+      },
+      "BTG_SmugglersDen.root.nodes.Util_GetDefaultRewardValueFromPoints.parms.points.value.slateRef": {
+        "english": "$siteThreatPoints",
+        "normalized": "BTG_SmugglersDen.root.nodes.5.parms.0.value.slateRef"
       },
       "BTG_TradeRequest.questDescriptionRules.rulesStrings": {
         "english": [
@@ -370,6 +373,10 @@
       "BTG_TradeRequest.root.nodes.GetNearestTGSettlement.allowActiveTradeRequest.slateRef": {
         "english": "False",
         "normalized": "BTG_TradeRequest.root.nodes.2.allowActiveTradeRequest.slateRef"
+      },
+      "BTG_TradeRequest.root.nodes.GetNearestTGSettlement.allowHostile.slateRef": {
+        "english": "False",
+        "normalized": "BTG_TradeRequest.root.nodes.2.allowHostile.slateRef"
       },
       "BTG_TradeRequest.root.nodes.GetNearestTGSettlement.maxTileDistance.slateRef": {
         "english": "64",

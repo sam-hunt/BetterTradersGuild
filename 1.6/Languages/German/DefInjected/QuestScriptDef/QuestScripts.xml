@@ -53,22 +53,22 @@ If you want to make the trade, send a shuttle with the requested items.</li>
     <li>questName->Schwarzmarktstation</li>
   </BTG_SmugglersDen.questNameRules.rulesStrings>
   <!-- EN:
-    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
 
 The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription->[asker_nameFull] von der Händlergilde hat Nachricht von einem Außenposten der Schrottpiraten geschickt, der nahe [settlement_label] operiert. Von dieser Station aus werden Konvois der Gilde abgefangen und gestohlene Fracht verschoben.\n\nDie Gilde bietet die Bergungsrechte als Bezahlung dafür an, den Außenposten auszuräumen. Sie hat einen Kontakt, der bei der Andockliste nachhelfen kann, um den Frachttresor zu füllen und den Handel schmackhafter zu machen.</li>
+    <li>questDescription(askerFactionHostile==False)->[asker_nameFull], [asker_faction_leaderTitle] der Fraktion [asker_faction_name], hat Nachricht von einem Außenposten der Schrottpiraten geschickt, der nahe [settlement_label] operiert. Von dieser Station aus werden Konvois der Gilde abgefangen und gestohlene Fracht verschoben.\n\nDie Gilde bietet die Bergungsrechte als Bezahlung dafür an, den Außenposten auszuräumen. Sie hat einen Kontakt, der bei der Andockliste nachhelfen kann, um den Frachttresor zu füllen und den Handel schmackhafter zu machen.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_nameFull], [asker_faction_leaderTitle] der Fraktion [asker_faction_name], hat Nachricht von einem Außenposten der Schrottpiraten geschickt, der nahe [settlement_label] operiert. Von dieser Station aus werden Konvois der Gilde abgefangen und gestohlene Fracht verschoben.\n\n[asker_nameDef] macht deutlich, dass die Zerstörung des Außenpostens trotz deiner feindlichen Beziehungen als Geste des guten Willens gewertet würde. Es könnte eine großartige Gelegenheit sein, den Ruf bei der Gilde zu verbessern.</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Quest gescheitert: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
-  <!-- EN: [faction_name] became hostile to you. -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>Die Fraktion [faction_name] wurde dir gegenüber feindselig.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
-  <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>Quest gescheitert: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.label.slateRef>Quest gescheitert: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter.label.slateRef>
   <!-- Cited quest names take ASCII single quotes mid-sentence, as in Core de's own
        "Die Quest '{0}' erfordert ..." strings. -->
   <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>Von dem Angriff gewarnt, haben die Schrottpiraten den Außenposten ausgeräumt und sich zerstreut. Die Quest '[resolvedQuestName]' ist beendet.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.text.slateRef>Von dem Angriff gewarnt, haben die Schrottpiraten den Außenposten ausgeräumt und sich zerstreut. Die Quest '[resolvedQuestName]' ist beendet.</BTG_SmugglersDen.root.nodes.Letter.text.slateRef>
 
 </LanguageData>

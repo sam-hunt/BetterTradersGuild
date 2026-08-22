@@ -53,22 +53,18 @@ If you want to make the trade, send a shuttle with the requested items.</li>
     <li>questName->Estación del mercado negro</li>
   </BTG_SmugglersDen.questNameRules.rulesStrings>
   <!-- EN:
-    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
-
-The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\n[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription->[asker_nameFull], en representación del gremio de comerciantes, ha avisado de un puesto de avanzada de chatarreros que opera cerca de [settlement_label]. Desde esa estación se interceptan convoyes del gremio y se trafica con carga robada.\n\nEl gremio ofrece los derechos de salvamento como pago por despejar el puesto. Tienen un contacto capaz de mover hilos en la lista de atraques para llenar la bóveda de carga y endulzar el trato.</li>
+    <li>questDescription(askerFactionHostile==False)->[asker_nameFull], [asker_faction_leaderTitle] de la facción [asker_faction_name], ha avisado de un puesto de avanzada de chatarreros que opera cerca de [settlement_label]. Desde esa estación se interceptan convoyes del gremio y se trafica con carga robada.\n\nEl gremio ofrece los derechos de salvamento como pago por despejar el puesto. Tienen un contacto capaz de mover hilos en la lista de atraques para llenar la bóveda de carga y endulzar el trato.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_nameFull], [asker_faction_leaderTitle] de la facción [asker_faction_name], ha avisado de un puesto de avanzada de chatarreros que opera cerca de [settlement_label]. Desde esa estación se interceptan convoyes del gremio y se trafica con carga robada.\n\n[asker_nameDef] deja claro que, a pesar de tus relaciones hostiles, destruir el puesto sería visto como un gesto de buena voluntad. Podría ser una gran oportunidad para mejorar las relaciones con el gremio.</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Misión fallida: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
-  <!-- EN: [faction_name] became hostile to you. -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>La facción [faction_name] se ha vuelto hostil.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
-  <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>Misión fallida: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.label.slateRef>Misión fallida: [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter.label.slateRef>
   <!-- Cited quest names take ASCII straight double quotes mid-sentence, as in Core es's own
        "La misión se llama "{0}"." string. -->
   <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>Alertados del ataque, los chatarreros han desmantelado el puesto y se han dispersado. La misión "[resolvedQuestName]" ha terminado.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.text.slateRef>Alertados del ataque, los chatarreros han desmantelado el puesto y se han dispersado. La misión "[resolvedQuestName]" ha terminado.</BTG_SmugglersDen.root.nodes.Letter.text.slateRef>
 
 </LanguageData>

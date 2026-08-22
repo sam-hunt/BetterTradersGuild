@@ -29,7 +29,7 @@ If you want to make the trade, send a shuttle with the requested items.</li>
   -->
   <BTG_TradeRequest.questDescriptionRules.rulesStrings>
     <li>questDescription-&gt;Une station orbitale à proximité, [settlement_label], vous contacte pour une commande commerciale spéciale. Ils souhaitent acheter :\n\n [requestedThingCount]x [requestedThing_label] [qualityInfo](valant [requestedThingMarketValue_money])\n\nSi vous souhaitez faire l'échange, envoyez une navette avec les fournitures demandées.</li>
-    <li>qualityInfo(requestedThingHasQuality==True,priority=1)-&gt;de qualité normale ou mieux </li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->de qualité normale ou mieux </li>
     <li>qualityInfo-&gt;</li>
   </BTG_TradeRequest.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
@@ -55,22 +55,22 @@ If you want to make the trade, send a shuttle with the requested items.</li>
     <li>questName-&gt;Une station du marché noir</li>
   </BTG_SmugglersDen.questNameRules.rulesStrings>
   <!-- EN:
-    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
 
 The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription-&gt;[asker_nameFull], qui représente la guilde des commerçants, signale un avant-poste de récupérateurs en activité près de [settlement_label]. La station intercepte les convois de la guilde et écoule la cargaison volée.\n\nLa guilde offre des droits de récupération en paiement du nettoyage de l'avant-poste. Elle a un contact capable de jouer de son influence sur le registre d'amarrage pour garnir le coffre à cargaison et rendre l'affaire plus attrayante.</li>
+    <li>questDescription(askerFactionHostile==False)-&gt;[asker_faction_leaderTitle] [asker_nameFull] de [asker_faction_name] nous a signalé un avant-poste de récupérateurs en activité près de [settlement_label]. La station intercepte les convois de la guilde et écoule la cargaison volée.\n\nLa guilde offre des droits de récupération en paiement du nettoyage de l'avant-poste. Elle a un contact capable de jouer de son influence sur le registre d'amarrage pour garnir le coffre à cargaison et rendre l'affaire plus attrayante.</li>
+    <li>questDescription(askerFactionHostile==True)-&gt;[asker_faction_leaderTitle] [asker_nameFull] de [asker_faction_name] nous a signalé un avant-poste de récupérateurs en activité près de [settlement_label]. La station intercepte les convois de la guilde et écoule la cargaison volée.\n\n[asker_nameDef] fait clairement comprendre que, malgré vos relations hostiles, détruire l'avant-poste serait vu comme un geste de bonne volonté. Ce pourrait être une excellente occasion d'améliorer les relations avec la guilde.</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Quête échouée : [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
-  <!-- EN: [faction_name] became hostile to you. -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>la faction [faction_name] vous est devenue hostile.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
-  <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>Quête échouée : [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.label.slateRef>Quête échouée : [resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter.label.slateRef>
   <!-- Cited quest names take guillemets with plain spaces inside, as in Core fr's own
        « Reformer la caravane » strings. -->
   <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>Alertés par l'attaque, les récupérateurs ont vidé l'avant-poste et se sont dispersés. La quête « [resolvedQuestName] » est terminée.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.text.slateRef>Alertés par l'attaque, les récupérateurs ont vidé l'avant-poste et se sont dispersés. La quête « [resolvedQuestName] » est terminée.</BTG_SmugglersDen.root.nodes.Letter.text.slateRef>
 
 </LanguageData>

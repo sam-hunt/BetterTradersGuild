@@ -51,20 +51,20 @@ If you want to make the trade, send a shuttle with the requested items.</li>
     <li>questName->станция чёрного рынка</li>
   </BTG_SmugglersDen.questNameRules.rulesStrings>
   <!-- EN:
-    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
 
 The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
   -->
   <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
-    <li>questDescription->[asker_nameFull], представляющий гильдию торговцев, сообщает об аванпосте сталкеров, действующем рядом с [settlement_label]. Эта станция перехватывает конвои гильдии и сбывает краденый груз.\n\nГильдия предлагает права на трофеи в уплату за зачистку аванпоста. У них есть свой человек, способный подкрутить расписание стыковок так, чтобы грузовое хранилище оказалось побогаче, а сделка стала повыгоднее.</li>
+    <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] из фракции [asker_faction_name] сообщил об аванпосте сталкеров, действующем рядом с [settlement_label]. Эта станция перехватывает конвои гильдии и сбывает краденый груз.\n\nГильдия предлагает права на трофеи в уплату за зачистку аванпоста. У них есть свой человек, способный подкрутить расписание стыковок так, чтобы грузовое хранилище оказалось побогаче, а сделка стала повыгоднее.</li>
+    <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] из фракции [asker_faction_name] сообщил об аванпосте сталкеров, действующем рядом с [settlement_label]. Эта станция перехватывает конвои гильдии и сбывает краденый груз.\n\n[asker_nameDef] даёт понять, что, несмотря на ваши враждебные отношения, уничтожение аванпоста будет воспринято как жест «доброй воли». Это может стать отличной возможностью улучшить отношения с гильдией.</li>
   </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
   <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
-  <!-- EN: [faction_name] became hostile to you. -->
-  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>Фракция [faction_name] теперь враждебна к вам.</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
-  <!-- EN: Quest failed: [resolvedQuestName] -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.label.slateRef>Задание провалено: «[resolvedQuestName]»</BTG_SmugglersDen.root.nodes.Letter.label.slateRef>
   <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
-  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>Узнав о нападении, сталкеры вывезли всё с аванпоста и разбежались. Задание «[resolvedQuestName]» завершено.</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+  <BTG_SmugglersDen.root.nodes.Letter.text.slateRef>Узнав о нападении, сталкеры вывезли всё с аванпоста и разбежались. Задание «[resolvedQuestName]» завершено.</BTG_SmugglersDen.root.nodes.Letter.text.slateRef>
 
 </LanguageData>
