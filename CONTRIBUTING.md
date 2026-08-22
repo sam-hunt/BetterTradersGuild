@@ -21,6 +21,7 @@ follow.
 | French               | Machine-assisted | Opus 5 |
 | Brazilian Portuguese | Machine-assisted | Opus 5 |
 | Japanese             | Machine-assisted | Opus 5 |
+| Traditional Chinese  | Machine-assisted | Opus 5 |
 
 Statuses: **Source** (the authoritative English strings), **Machine-assisted**
 (generated with terminology grounded against the official RimWorld

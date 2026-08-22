@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_ConfigureStartingPawnsXenotypes lives in the Biotech compat load root
+       (1.6/Mods/Biotech/), together with its DefInjected entries. -->
+
+  <!-- BTG_FactionGoodwill -->
+  <!-- 派系 and 友好度 are Core zh-Hant faction/goodwill vocabulary. -->
+  <!-- EN: faction goodwill -->
+  <BTG_FactionGoodwill.label>派系友好度</BTG_FactionGoodwill.label>
+
+  <!-- BTG_PlayerPawnsArriveShuttle -->
+  <!-- 太空梭 is Odyssey zh-Hant's shuttle (PassengerShuttle.label 客運太空梭). -->
+  <!-- EN: arrive in shuttle -->
+  <BTG_PlayerPawnsArriveShuttle.label>搭乘太空梭抵達</BTG_PlayerPawnsArriveShuttle.label>
+
+  <!-- BTG_StartingApparelColor -->
+  <!-- EN: starting apparel color -->
+  <BTG_StartingApparelColor.label>初始服裝顏色</BTG_StartingApparelColor.label>
+
+  <!-- BTG_StartingUniqueWeapon -->
+  <!-- 獨特武器 is Odyssey zh-Hant UniqueWeapon. -->
+  <!-- EN: starting unique weapon -->
+  <BTG_StartingUniqueWeapon.label>初始獨特武器</BTG_StartingUniqueWeapon.label>
+
+</LanguageData>

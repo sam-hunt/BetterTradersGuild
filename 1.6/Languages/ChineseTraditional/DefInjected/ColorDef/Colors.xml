@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Vanilla zh-Hant ColorDefs suffix material-derived names with 色
+       (Core 花崗岩色/砂岩色, Odyssey UniqueWeapon_Gold.label 金色). -->
+
+  <!-- BTG_OrbitalSteel -->
+  <!-- EN: orbital steel -->
+  <BTG_OrbitalSteel.label>軌道鋼色</BTG_OrbitalSteel.label>
+
+  <!-- BTG_UniqueWeapon_Silver -->
+  <!-- EN: silver -->
+  <BTG_UniqueWeapon_Silver.label>銀色</BTG_UniqueWeapon_Silver.label>
+
+  <!-- BTG_Rust -->
+  <!-- EN: rust -->
+  <BTG_Rust.label>鐵鏽色</BTG_Rust.label>
+
+</LanguageData>

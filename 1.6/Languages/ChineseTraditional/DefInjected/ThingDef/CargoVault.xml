@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- 破解 is Core/Odyssey zh-Hant "hack" (Hack.reportString, AncientHatch's
+       CompHackable strings); 強化 is AncientBlastDoor's "reinforced"; 安全系統 is
+       Odyssey's "security systems"; "station" renders as 軌道平台, Odyssey's
+       orbital platform. -->
+
+  <!-- BTG_CargoVaultHatch -->
+  <!-- EN: secure cargo vault hatch -->
+  <BTG_CargoVaultHatch.label>貨物保險庫安全艙門</BTG_CargoVaultHatch.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. The vault below contains high-value trade goods under automated security. Hack the access panel to override the lock. -->
+  <BTG_CargoVaultHatch.description>一道通往軌道平台安全貨物保險庫的強化艙門。下方的保險庫存放著由自動安全系統看守的高價值貿易貨物。破解存取面板即可解除鎖定。</BTG_CargoVaultHatch.description>
+  <!-- EN: Hack to override security lock. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>破解以解除安全鎖。</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
+  <!-- EN: {HACKER_labelShort} has bypassed the security on {SUBJECT_labelNoParenthesisDef}. -->
+  <BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>{HACKER_labelShort}已繞過{SUBJECT_labelNoParenthesisDef}的安全系統。</BTG_CargoVaultHatch.comps.CompHackable.hackedMessage>
+
+  <!-- BTG_CargoVaultHatch_Sealed -->
+  <!-- EN: sealed cargo vault hatch -->
+  <BTG_CargoVaultHatch_Sealed.label>貨物保險庫密封艙門</BTG_CargoVaultHatch_Sealed.label>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
+  <BTG_CargoVaultHatch_Sealed.description>一道通往軌道平台安全貨物保險庫的強化艙門。為了阻止襲擊者進入，它被過度密封了。</BTG_CargoVaultHatch_Sealed.description>
+
+  <!-- BTG_CargoVaultExit -->
+  <!-- EN: cargo vault exit -->
+  <BTG_CargoVaultExit.label>貨物保險庫出口</BTG_CargoVaultExit.label>
+  <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->
+  <BTG_CargoVaultExit.description>一組安全的梯子與艙門，可通往上方軌道平台的太空梭機庫。</BTG_CargoVaultExit.description>
+
+</LanguageData>

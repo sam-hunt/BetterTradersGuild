@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- 軌道平台 is Odyssey zh-Hant's word for an orbital platform. -->
+  <!-- EN: cargo vault -->
+  <BTG_CargoVaultMapGenerator.label>貨物保險庫</BTG_CargoVaultMapGenerator.label>
+  <!-- EN: settlement platform -->
+  <BTG_SettlementMapGenerator.label>據點平台</BTG_SettlementMapGenerator.label>
+  <!-- EN: smuggler's den platform -->
+  <BTG_SmugglersDenMapGenerator.label>走私巢穴平台</BTG_SmugglersDenMapGenerator.label>
+
+</LanguageData>

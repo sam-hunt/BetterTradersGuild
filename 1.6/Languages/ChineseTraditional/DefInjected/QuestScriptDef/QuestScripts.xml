@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_TradeRequest -->
+  <!-- Templated on Core zh-Hant Script_TradeRequest.xml; its four letter/favor
+       slateRefs are identical English and are reused byte-for-byte below. -->
+  <!-- EN:
+    <li>questName->Shuttle Run to [settlement_label]</li>
+    <li>questName->Orbital Trade with [settlement_label]</li>
+    <li>questName->Shipment for [settlement_label]</li>
+    <li>questName->Delivery to [settlement_label]</li>
+  -->
+  <BTG_TradeRequest.questNameRules.rulesStrings>
+    <li>questName->太空梭前往[settlement_label]</li>
+    <li>questName->與[settlement_label]的軌道貿易</li>
+    <li>questName->運往[settlement_label]的貨物</li>
+    <li>questName->送貨到[settlement_label]</li>
+  </BTG_TradeRequest.questNameRules.rulesStrings>
+  <!-- [qualityInfo] moves ahead of the item label so the quality phrase reads as
+       an attributive (普通品質以上的塑鋼), which Chinese word order requires. -->
+  <!-- EN:
+    <li>questDescription->A nearby orbital station, [settlement_label], has a special trade request. They would like to purchase:
+
+ [requestedThingCount]x [requestedThing_label] [qualityInfo](worth [requestedThingMarketValue_money])
+
+If you want to make the trade, send a shuttle with the requested items.</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->of normal+ quality </li>
+    <li>qualityInfo-></li>
+  -->
+  <BTG_TradeRequest.questDescriptionRules.rulesStrings>
+    <li>questDescription->附近的軌道據點[settlement_label]提出了一場特殊交易。他們想收購：\n\n[qualityInfo][requestedThing_label]x[requestedThingCount](價值[requestedThingMarketValue_money])\n\n如果你同意這場交易，請派出太空梭攜帶要求物品前往交易。</li>
+    <li>qualityInfo(requestedThingHasQuality==True,priority=1)->普通品質以上的</li>
+    <li>qualityInfo-></li>
+  </BTG_TradeRequest.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_TradeRequest.root.nodes.Letter.label.slateRef>任務失敗：[resolvedQuestName]</BTG_TradeRequest.root.nodes.Letter.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_TradeRequest.root.nodes.Letter.text.slateRef>[faction_name]開始敵視你。</BTG_TradeRequest.root.nodes.Letter.text.slateRef>
+  <!-- EN: [asker_faction_royalFavorLabel] -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>[asker_faction_royalFavorLabel]</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.label.slateRef>
+  <!-- EN: Who should be credited with [asker_faction_royalFavorLabel] for fulfilling the trade request? -->
+  <BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>誰應該作為[asker_faction_royalFavorLabel]以完成此次交易任務？</BTG_TradeRequest.root.nodes.GiveRewards.nodeIfChosenPawnSignalUsed.text.slateRef>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- 打撈者 is Odyssey zh-Hant Salvagers.label; 前哨站 is Core's outpost. -->
+  <!-- EN:
+    <li>questName->Smuggler's Den Near [settlement_label]</li>
+    <li>questName->Orbital Pirate Haven</li>
+    <li>questName->Salvager Outpost Near [settlement_label]</li>
+    <li>questName->Black Market Station</li>
+  -->
+  <BTG_SmugglersDen.questNameRules.rulesStrings>
+    <li>questName->[settlement_label]附近的走私巢穴</li>
+    <li>questName->軌道海盜巢</li>
+    <li>questName->[settlement_label]附近的打撈者前哨站</li>
+    <li>questName->黑市太空站</li>
+  </BTG_SmugglersDen.questNameRules.rulesStrings>
+  <!-- EN:
+    <li>questDescription->[asker_nameFull], representing the Traders Guild, has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.
+
+The Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+  -->
+  <BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+    <li>questDescription->代表商人公會的[asker_nameFull]傳來消息：[settlement_label]附近有一座打撈者前哨站正在活動。該平台一直在攔截公會的運輸隊，並銷贓劫來的貨物。\n\n公會願意以打撈權作為清除該前哨站的報酬。他們有一位內線，能在停泊排班上動些手腳，把貨物保險庫堆得更滿，讓這筆交易更划算。</li>
+  </BTG_SmugglersDen.questDescriptionRules.rulesStrings>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>任務失敗：[resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-0.label.slateRef>
+  <!-- EN: [faction_name] became hostile to you. -->
+  <BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>[faction_name]開始敵視你。</BTG_SmugglersDen.root.nodes.Letter-0.text.slateRef>
+  <!-- EN: Quest failed: [resolvedQuestName] -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>任務失敗：[resolvedQuestName]</BTG_SmugglersDen.root.nodes.Letter-1.label.slateRef>
+  <!-- EN: Alerted to the attack, the Salvagers have stripped the outpost and scattered. The quest [resolvedQuestName] has ended. -->
+  <BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>察覺到攻擊後，打撈者已將前哨站洗劫一空並四散逃逸。任務[resolvedQuestName]已結束。</BTG_SmugglersDen.root.nodes.Letter-1.text.slateRef>
+
+</LanguageData>

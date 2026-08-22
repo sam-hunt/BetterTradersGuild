@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- SilverInlay -->
+  <!-- Templated on Odyssey zh-Hant GoldInlay: label 鑲金, description
+       此武器鑲有金。商人會為其支付更多錢。 (the second sentence is identical English
+       and reused verbatim), traitAdjectives 黃金/金. -->
+  <!-- EN: silver inlay -->
+  <SilverInlay.label>鑲銀</SilverInlay.label>
+  <!-- EN: This weapon is inlaid with silver. Traders will pay more for it. -->
+  <SilverInlay.description>此武器鑲有銀。商人會為其支付更多錢。</SilverInlay.description>
+  <!-- traitAdjectives stay bare attributive words with no trailing 之 or 的, so they
+       read directly prefixed to a weapon noun (銀白長劍) - same rule as Odyssey's own. -->
+  <!-- EN: silver -->
+  <SilverInlay.traitAdjectives.0>白銀</SilverInlay.traitAdjectives.0>
+  <!-- EN: silvered -->
+  <SilverInlay.traitAdjectives.1>銀</SilverInlay.traitAdjectives.1>
+  <!-- EN: gleaming -->
+  <SilverInlay.traitAdjectives.2>閃亮</SilverInlay.traitAdjectives.2>
+  <!-- EN: argent -->
+  <SilverInlay.traitAdjectives.3>銀白</SilverInlay.traitAdjectives.3>
+  <!-- EN: fine -->
+  <SilverInlay.traitAdjectives.4>精良</SilverInlay.traitAdjectives.4>
+
+  <!-- BTG_SilverInlayMelee (UMW-gated) lives in
+       1.6/Mods/UniqueMeleeWeapons/Languages/ChineseTraditional/DefInjected/WeaponTraitDef/,
+       mirroring the English compat root - MayRequire is ignored on DefInjected
+       entries, so the gate has to be the LoadFolders compat root. -->
+
+</LanguageData>

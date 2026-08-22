@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_IndependentTraders -->
+  <!-- 商人公會 is Odyssey zh-Hant TradersGuild.label; 領導者 is its
+       GravshipCrew.leaderTitle (the same English "leader"). -->
+  <!-- EN: independent traders -->
+  <BTG_IndependentTraders.label>獨立商人</BTG_IndependentTraders.label>
+  <!-- EN: A small crew of former Traders Guild members, now operating independently. -->
+  <BTG_IndependentTraders.description>一小群前商人公會成員，如今獨立行動。</BTG_IndependentTraders.description>
+  <!-- EN: leader -->
+  <BTG_IndependentTraders.leaderTitle>領導者</BTG_IndependentTraders.leaderTitle>
+  <!-- Verbatim reuse of Odyssey zh-Hant TradersGuild.messageDefendersAttacking. -->
+  <!-- EN: {0} from {1} are attacking your {2}. -->
+  <BTG_IndependentTraders.messageDefendersAttacking>來自{1}的{0}正在攻擊你的{2}。</BTG_IndependentTraders.messageDefendersAttacking>
+  <!-- EN: trader -->
+  <BTG_IndependentTraders.pawnSingular>商人</BTG_IndependentTraders.pawnSingular>
+  <!-- EN: traders -->
+  <BTG_IndependentTraders.pawnsPlural>商人</BTG_IndependentTraders.pawnsPlural>
+
+</LanguageData>

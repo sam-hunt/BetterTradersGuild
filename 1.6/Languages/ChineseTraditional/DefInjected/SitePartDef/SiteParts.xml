@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_SmugglersDen -->
+  <!-- Paragraph 2 reuses Odyssey zh-Hant SpaceSettlement.description verbatim
+       (identical English). -->
+  <!-- EN: smuggler's den -->
+  <BTG_SmugglersDen.label>走私巢穴</BTG_SmugglersDen.label>
+  <!-- EN: An orbital platform seized by Salvagers, used as a smuggling hub and black market outpost.
+
+These platforms have long-range automatic weapon systems capable of destroying incoming ships. They can only safely be approached by a gravship with a signal jammer. -->
+  <BTG_SmugglersDen.description>一座被打撈者佔據的軌道平台，用作走私樞紐與黑市前哨站。\n\n這些平台擁有長程自動武器系統，可以摧毀進入的飛船。只有裝有信號干擾器的重力船才能安全靠近。</BTG_SmugglersDen.description>
+  <!-- Vanilla zh-Hant approach strings carry no trailing 。 (Odyssey: 調查{0}). -->
+  <!-- EN: Attack {0} -->
+  <BTG_SmugglersDen.approachOrderString>攻擊{0}</BTG_SmugglersDen.approachOrderString>
+  <!-- EN: Attacking {0}. -->
+  <BTG_SmugglersDen.approachingReportString>正在攻擊{0}</BTG_SmugglersDen.approachingReportString>
+
+</LanguageData>

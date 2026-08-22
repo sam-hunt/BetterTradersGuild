@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- zh-Hant job reportStrings carry NO trailing 。 (Core: 清理TargetA, 破解TargetA,
+       救援TargetA, 治療TargetA) - the opposite of zh-Hans, which ends each with 。 -->
+
+  <!-- Core zh-Hant EnterTransporter.reportString. -->
+  <!-- EN: boarding TargetA. -->
+  <BTG_BoardLaunchable.reportString>進入TargetA</BTG_BoardLaunchable.reportString>
+  <!-- EN: calling for resupply. -->
+  <BTG_CallResupply.reportString>呼叫補給中</BTG_CallResupply.reportString>
+  <!-- EN: carrying TargetA to safety. -->
+  <BTG_CarryBabyToLaunchable.reportString>將TargetA帶往安全處</BTG_CarryBabyToLaunchable.reportString>
+  <!-- EN: carrying TargetA to the medbay. -->
+  <BTG_CarryToMedbayFloor.reportString>將TargetA帶往醫療艙</BTG_CarryToMedbayFloor.reportString>
+  <!-- Core zh-Hant Clean.reportString verbatim. -->
+  <!-- EN: cleaning TargetA. -->
+  <BTG_Clean.reportString>清理TargetA</BTG_Clean.reportString>
+  <!-- Core zh-Hant FeedPatient.reportString verbatim. -->
+  <!-- EN: feeding TargetA to TargetB. -->
+  <BTG_FeedPatient.reportString>給TargetB餵食TargetA</BTG_FeedPatient.reportString>
+  <!-- Core zh-Hant Hack.reportString verbatim. -->
+  <!-- EN: hacking TargetA. -->
+  <BTG_Hack.reportString>破解TargetA</BTG_Hack.reportString>
+  <!-- Core zh-Hant Open.reportString verbatim. -->
+  <!-- EN: opening TargetA. -->
+  <BTG_OpenContainer.reportString>開啟TargetA</BTG_OpenContainer.reportString>
+  <!-- EN: reopening TargetA. -->
+  <BTG_OpenPasteValve.reportString>重新開啟TargetA</BTG_OpenPasteValve.reportString>
+  <!-- EN: relocking cargo vault hatch. -->
+  <BTG_Relock.reportString>重新鎖上貨物保險庫艙門</BTG_Relock.reportString>
+  <!-- Core zh-Hant Rescue.reportString verbatim. -->
+  <!-- EN: rescuing TargetA. -->
+  <BTG_Rescue.reportString>救援TargetA</BTG_Rescue.reportString>
+  <!-- Core zh-Hant TendPatient.reportString verbatim. -->
+  <!-- EN: tending to TargetA. -->
+  <BTG_TendPatient.reportString>治療TargetA</BTG_TendPatient.reportString>
+
+</LanguageData>
