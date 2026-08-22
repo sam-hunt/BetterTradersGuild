@@ -5,6 +5,12 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-08-22
+
+### Fixed
+
+- Fixed a red startup error ("Failed to find PawnsArrivalModeDef named CWTL_ChooseWhereToLand") and broken landing-spot attacks for players also running Choose Where To Land. BTG's compatibility patches for other mods (CWTL, HAR, VREA) were applied before defs loaded, which could run the target mod's initialization too early; they now apply after def load. (#2)
+
 ## [1.1.0] - 2026-08-22
 
 ### Added
@@ -243,6 +249,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.1.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.1.1
 [1.1.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.1.0
 [1.0.8]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.8
 [1.0.7]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.7
