@@ -61,7 +61,7 @@ python3 Scripts/check-translations.py --strict
   there is still time to act on them.
 - If the sidecar or any translations changed, commit them as their own
   `fix(l10n)` commit (show the diff and **ask the user to confirm**) before
-  moving on — step 8 stages only the version-bump files.
+  moving on — step 9 stages only the version-bump files.
 
 ### 4. Refresh Steam Workshop page translations
 
@@ -108,9 +108,31 @@ Run:
 dotnet build BetterTradersGuild.sln -c Release
 ```
 
-The build's post-build `StageMod` step wipes and recopies the deployed mod folder, so no separate clean step is needed. Report the build result. If the build fails, stop and help the user fix it. **Ask the user to confirm** before proceeding to commit.
+The build's post-build `StageMod` step wipes and recopies the deployed mod folder, so no separate clean step is needed. Report the build result. If the build fails, stop and help the user fix it. **Ask the user to confirm** before proceeding to the smoke test.
 
-### 8. Stage, commit, tag
+### 8. Integration smoke test
+
+Run (game closed — the script refuses while RimWorld is open, same as the
+refresh in step 3; if it reports that, **stop and ask the user** to close the
+client and rerun):
+
+```bash
+python3 Scripts/integration-smoke-test.py
+```
+
+- Boots the freshly deployed build once on a pinned list of BTG plus all
+  five integration mods (HAR, VEF, VREA, CWTL, UMW — graphical boot,
+  ~1-2 min, auto-quits), then classifies every Player.log error by origin
+  and fails on anything attributed to BTG or an integration seam. This is
+  the only automated coverage the conditional integration patches get; it
+  exists because the v1.1.0 CWTL regression was invisible without an
+  integration mod active (see CLAUDE.md's Testing section).
+- On PASS, report the summary line and move on. On FAIL, show the gated
+  error blocks and **stop** — the release does not proceed until the errors
+  are fixed or the user explicitly waives them. Third-party (`other`) errors
+  are reported but not gating; mention them so the user can judge.
+
+### 9. Stage, commit, tag
 
 - Stage only the release files: `About/About.xml`, `Source/1.6/Properties/AssemblyInfo.cs`, `README.md`, `CHANGELOG.md`
 - If there are other modified tracked files, list them and ask the user whether to include them
@@ -119,7 +141,7 @@ The build's post-build `StageMod` step wipes and recopies the deployed mod folde
 - Show `git log --oneline -3` and `git tag -l 'v*' --sort=-v:refname | head -5`
 - **Ask the user to confirm** before pushing
 
-### 9. Push
+### 10. Push
 
 ```bash
 git push && git push --tags
