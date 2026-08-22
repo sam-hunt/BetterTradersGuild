@@ -1,6 +1,6 @@
 TODOs
 
-- android stand faction? player androids try to use
+- recolor vanilla/suggested/default tags in mod settings ui
 - Smoke test with performance analyzer (particularly the post-mapgen spike)
 - test CWTL on den quest site
 
@@ -31,4 +31,7 @@ TODOs
 - Mod integration: VE Brewing whisky shelf in Captain's quarters?
 - Mod integration: Include UMW weapons in unique weapon pools?
 
-- aptitude for unique sniper rifle
+- upstream l10n: sidecar freshness check only compares label/description, so an
+  English edit to a nested field (quest rulesStrings) never forces a regen
+- upstream missing dynamic gene weapon texture for aptitude for unique weapon x
+- upstream missing faction check on Building_AndroidStand.CannotUseNowReason(Pawn)

@@ -5,11 +5,66 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2026-08-22
+
+### Added
+
+**Entrenched settlement defenders** (new AI, opt-out in settings)
+
+- Defenders hold the structure instead of wandering off or auto-fleeing
+- They forage food from pallets, crops, paste valves and VNPE dispensers, and hack out of a locked room rather than starve
+- They rest when safe, self-tend when critical, and head to the medbay when they can't
+- They call in food resupply or reinforcement raids on the comms console
+- They hunt intruders, roam when idle, and abandon ship once defeated
+
+**Sheltering civilians** (new nursery AI)
+
+- Non-combatants shelter in the nursery, tucking in and feeding the infants
+- They flee by shuttle or pod when the shelter breaks, carrying every infant out
+- The caretaker covers the retreat with a masterwork shield belt (and a silvered unique knife with Unique Melee Weapons)
+- Children take over the nursery when no adult is left
+
+**Worker mech behaviour**
+
+- Cleansweepers clean their own room
+- Paramedics rescue, tend and feed casualties, longjumping to reach them
+- Agrihands farm the greenhouse and plant flowers in empty pots
+- Idle lifters and fabricors park dormant; all settlement mechs are named
+
+**Smuggler's Den quest**
+
+- A new 3-star quest with a hackable cargo vault, offered even while the Guild is hostile (for goodwill only)
+- Aged floors and red corridor lighting set it apart
+
+**Localization**
+
+- Machine-assisted Simplified Chinese, Traditional Chinese, Japanese, Korean, Russian, German, Spanish, French and Brazilian Portuguese, plus localized Workshop pages
+
+**Other**
+
+- Garrison surrenders at a configurable share of security incapacitated (default 80%) instead of a total wipe
+
+### Changed
+
+- Mod settings regrouped by activity, with vanilla-value tags and finer sliders
+- Room pets spawn faction-split: dogs Guild, cats factionless
+- Decorative plant pots become VGE faux plants when installed
+
+### Fixed
+
+- Settlements no longer count as defeated while defenders or worker mechs still stand
+- Defenders no longer path through vacuum or hack out through the airlock
+- Many nursery fixes: infant hypothermia, starving sealed in, dropped mid-feed, caretakers competing
+- Closed the pod and shuttle attack bypass on Guild settlements
+- Cargo vault fixes: stock saving, relock UI by gravship, unforbidden goods, correct defense ownership
+- Life support power setting now applies; landing pad pipes connect reliably
+- Settings and defs reapply correctly after a mid-session language switch
+- Reflection lookups verified at startup, so RimWorld API drift is reported instead of failing silently
 
 ### Removed
 
-- Empty non-English translation templates (comment-only placeholders with no actual translations), reducing download size and mod-load parsing. Translations are better provided by standalone translation mods that depend on this one.
+- Orca Shuttle integration (its texture overflowed the landing pad)
+- Salvagers raid boost setting
 
 ## [1.0.8] - 2026-06-24
 
@@ -188,6 +243,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.1.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.1.0
 [1.0.8]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.8
 [1.0.7]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.7
 [1.0.6]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.0.6

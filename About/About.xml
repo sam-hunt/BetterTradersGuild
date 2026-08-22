@@ -3,7 +3,7 @@
   <name>Better Traders Guild</name>
   <author>Sam Hunt</author>
   <packageId>shunter.bettertradersguild</packageId>
-  <modVersion>1.0.8</modVersion>
+  <modVersion>1.1.0</modVersion>
   <description>Overhaul for the Odyssey DLC Traders Guild faction. Trade at orbital bases via shuttle caravan, with rotating traders and trade request quests. A custom map generator builds lived-in settlements where entrenched garrisons defend their home, worker mechs go about their jobs, civilians shelter their children, and a hackable cargo vault links trade stock to spawned items. Also adds a smuggler's den assault quest and two new scenarios. See the Steam Workshop page for full details.</description>
   <supportedVersions>
     <li>1.6</li>
