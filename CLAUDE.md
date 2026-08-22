@@ -121,6 +121,8 @@ directory. Read it before touching `MapComponents/SettlementStockCache.cs` or
 
 ### Testing
 
+**Integration smoke test (pre-release):** `python3 Scripts/integration-smoke-test.py` (game closed) boots RimWorld once on a pinned list of BTG + all five integration mods (HAR, VEF, VREA, CWTL, UMW), then classifies every Player.log error by origin and fails on anything attributed to BTG or an integration seam. Run it before every release — conditional integration patches never execute on the normal dev modlist, so this is the only automated coverage they get (born from the v1.1.0 CWTL incident). Thin shim over the shared engine in `l10n/smoke/`.
+
 XUnit tests in `Tests/1.6/` validate spatial algorithms (placement calculators, subroom packing). Tests use ASCII diagram visualization for room layouts. Run with `dotnet test Tests/1.6/BetterTradersGuild.Tests.csproj`.
 
 **Excluded Test Files:** `Tests/Tools/RegenerateDiagrams.cs` (utility), `Tests/Helpers/DiagramGeneratorTests.cs` - excluded via `<Compile Remove="..." />`.
