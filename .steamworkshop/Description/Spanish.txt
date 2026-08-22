@@ -66,6 +66,9 @@ R: Todo es configurable en los ajustes del mod.
 [b]P: ¿Por qué no aparece un tipo de comerciante concreto?[/b]
 R: Los tipos de comerciante se eligen al azar según sus valores de frecuencia. Algunos son más raros que otros. Espera a la siguiente rotación o revisa otros asentamientos. La frecuencia de los tipos de comerciante añadidos por otros mods puede no estar equilibrada.
 
+[b]P: ¿Se ha hecho esto con LLMs?[/b]
+R: Parte del código más tedioso, y la mayoría de las localizaciones. Soy ingeniero de software de profesión y llevo 25 años escribiendo código. Todo el código se revisa y se prueba a mano; todos los informes de errores y los conflictos con otros mods se atienden personalmente, según lo permitan el tiempo y los detalles disponibles. Todo el arte está encargado a artistas humanos, hecho a mano en Krita, o ambas cosas.
+
 [hr][/hr]
 [h2]Enlaces[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: código fuente, informes de errores y solicitudes de funciones

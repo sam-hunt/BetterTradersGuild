@@ -66,6 +66,9 @@ A: Alles in den Mod-Einstellungen konfigurierbar.
 [b]F: Warum taucht ein bestimmter Händlertyp nicht auf?[/b]
 A: Händlertypen werden zufällig anhand von Häufigkeitswerten ausgewählt. Manche sind seltener als andere. Warte auf den nächsten Wechsel oder überprüfe andere Siedlungen. Die Häufigkeit von Händlertypen aus anderen Mods ist möglicherweise nicht ausgeglichen.
 
+[b]F: Wurde das mit LLMs erstellt!?[/b]
+A: Ein Teil der Fleißarbeit im Code, und die meisten Lokalisierungen. Ich bin von Beruf Softwareentwickler und schreibe seit 25 Jahren Code. Aller Code wird manuell überprüft und getestet. Fehlerberichte und Mod-Konflikte verfolge ich persönlich weiter, soweit Zeit und Detailtiefe es erlauben. Alle Grafiken sind entweder bei Menschen in Auftrag gegeben, von Hand in Krita erstellt, oder beides.
+
 [hr][/hr]
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: Quellcode, Fehlerberichte und Funktionswünsche

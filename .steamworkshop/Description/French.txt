@@ -66,6 +66,9 @@ R : Tout est configurable dans les paramètres du mod.
 [b]Q : Pourquoi un type de commerçant précis n'apparaît-il pas ?[/b]
 R : Les types de commerçants sont sélectionnés aléatoirement selon des valeurs de fréquence. Certains sont plus rares que d'autres. Attendez de nouvelles rotations ou vérifiez d'autres colonies. La fréquence des types de commerçants ajoutés par d'autres mods n'est pas forcément équilibrée.
 
+[b]Q : Est-ce que ceci a été fait à l'aide de LLM !?[/b]
+R : Une partie du code fastidieux, et la plupart des localisations. Je suis ingénieur logiciel de métier, et j'écris du code depuis 25 ans. Tout le code est relu et testé manuellement. Tous les rapports de bugs et les conflits de mods sont suivis personnellement, dans la mesure du temps et des détails disponibles. Tout l'art est soit commandé à des humains, soit réalisé à la main dans Krita, soit les deux.
+
 [hr][/hr]
 [h2]Liens[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url] : code source, rapports de bugs et demandes de fonctionnalités
