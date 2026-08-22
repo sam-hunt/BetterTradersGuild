@@ -21,12 +21,16 @@ namespace BetterTradersGuild.Patches.MapGenerationPatches
     // state. OutfitStandHarFixer then normalizes the stand before apparel is added.
     //
     // CONDITIONAL: This patch only applies if HAR is loaded (Prepare returns false otherwise).
+    //
+    // DEFERRED: applied by DeferredModPatches.ApplyAll (post-defs), never the ctor-time
+    // PatchAll — detouring another mod's method runs its declaring type's cctor, and HAR's
+    // cctor contents are outside our control (see DeferredModPatches for the CWTL incident).
     [HarmonyPatch]
     public static class CompOutfitStandHARPostSpawnSetup
     {
         public static bool Prepare()
         {
-            return HARIntegration.CompType != null;
+            return DeferredModPatches.PassActive && HARIntegration.CompType != null;
         }
 
         public static MethodBase TargetMethod()

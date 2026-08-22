@@ -27,10 +27,14 @@ namespace BetterTradersGuild.Patches.BuildingAndroidStandPatches
     [HarmonyPatch]
     public static class BuildingAndroidStandCannotUseNowReason
     {
+        // DEFERRED: applied by DeferredModPatches.ApplyAll (post-defs), never the ctor-time
+        // PatchAll — detouring another mod's method runs its declaring type's cctor, and
+        // VREA's cctor contents are outside our control (see DeferredModPatches for the
+        // CWTL incident).
         [HarmonyPrepare]
         public static bool Prepare()
         {
-            return VREAIntegration.Available;
+            return DeferredModPatches.PassActive && VREAIntegration.Available;
         }
 
         [HarmonyTargetMethod]

@@ -18,12 +18,17 @@ namespace BetterTradersGuild.Patches.TransportersArrivalActionPatches
     //
     // CONDITIONAL: only applies when CWTL is loaded and its CanAttack resolved (Prepare gates it);
     // CWTLIntegration's static constructor warns if CWTL is present but its API shifted.
+    //
+    // DEFERRED: applied by DeferredModPatches.ApplyAll (post-defs), never the ctor-time
+    // PatchAll — detouring CanAttack runs its declaring type's cctor, which resolves the
+    // CWTL_ChooseWhereToLand def and permanently nulls it when run before defs load (the
+    // v1.1.0 startup error). PassActive keeps every other patching pass off this class.
     [HarmonyPatch]
     public static class CWTLAttackSettlementCanAttack
     {
         public static bool Prepare()
         {
-            return CWTLIntegration.Available;
+            return DeferredModPatches.PassActive && CWTLIntegration.Available;
         }
 
         public static MethodBase TargetMethod()

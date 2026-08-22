@@ -23,6 +23,13 @@ namespace BetterTradersGuild
     {
         public static void Run()
         {
+            // Patches on OTHER MODS' methods apply here (once per process), not in the
+            // ctor-time PatchAll: detouring a method compiles it, which runs its declaring
+            // type's static ctor — and at Mod-ctor time no defs exist yet, so a target whose
+            // cctor resolves defs breaks for the whole session (the CWTL_ChooseWhereToLand
+            // startup error). Rationale and the class list live in DeferredModPatches.
+            DeferredModPatches.ApplyAll();
+
             // Reflection self-checks, plus per-load re-resolution of UMWIntegration's def
             // references (the other integrations cache only types/members, which survive a
             // play-data reload).
