@@ -31,5 +31,7 @@ namespace BetterTradersGuild.DefRefs
         // Cargo vault room - secure storage room within BTG_OrbitalCargoVault.
         // Contains exit portal, shelves, and turrets.
         public static LayoutRoomDef BTG_CargoVaultRoom;
+
+        static LayoutRooms() => DefOfHelper.EnsureInitializedInCtor(typeof(LayoutRooms));
     }
 }
