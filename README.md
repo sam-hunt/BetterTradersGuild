@@ -7,6 +7,11 @@
 [![Version](https://img.shields.io/badge/Version-1.1.1-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 [![Development Status](https://img.shields.io/badge/Status-Stable-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
 
+[![Subscribers](https://img.shields.io/steam/subscriptions/3684587591?logo=steam&label=subscribers)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
+[![Downloads](https://img.shields.io/steam/downloads/3684587591?logo=steam&label=downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
+[![Favorites](https://img.shields.io/steam/favorites/3684587591?logo=steam&label=favorites)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
+[![Views](https://img.shields.io/steam/views/3684587591?logo=steam&label=views)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
+
 ![Preview](About/Preview.png)
 
 ## About
