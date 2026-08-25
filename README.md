@@ -3,10 +3,7 @@
 > A RimWorld mod enhancing the Odyssey Traders Guild faction
 
 [![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
-[![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey%20Required-orange.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
-[![Version](https://img.shields.io/badge/Version-1.1.1-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
-[![Development Status](https://img.shields.io/badge/Status-Stable-brightgreen.svg)](https://github.com/sam-hunt/BetterTradersGuild/releases)
-
+[![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey-red.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
 [![Subscribers](https://img.shields.io/steam/subscriptions/3684587591?logo=steam&label=subscribers)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
 [![Downloads](https://img.shields.io/steam/downloads/3684587591?logo=steam&label=downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
 [![Favorites](https://img.shields.io/steam/favorites/3684587591?logo=steam&label=favorites)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
