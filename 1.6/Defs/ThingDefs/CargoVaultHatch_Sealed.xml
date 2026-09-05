@@ -21,10 +21,10 @@
     <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
     <canOverlapZones>false</canOverlapZones>
 
-    <!-- Reuse AncientHatch closed graphics (sealed looks like closed) -->
+    <!-- Same closed graphic as the live hatch (sealed looks like closed) -->
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Building/AncientHatch/AncientHatch_Closed</texPath>
+      <texPath>Things/Building/VaultHatch/VaultHatch_Closed</texPath>
       <drawSize>(3, 3)</drawSize>
     </graphicData>
 

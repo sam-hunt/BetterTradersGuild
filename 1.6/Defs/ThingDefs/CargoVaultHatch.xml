@@ -10,7 +10,8 @@
     - Uses custom BTG_CargoVaultHatch ThingClass (NOT vanilla AncientHatch)
     - This prevents vanilla's AncientStockpile GenStep from generating
     - All pocket map generation is controlled by BTG_CargoVault MapGeneratorDef
-    - Uses AncientHatch textures for visual consistency
+    - Uses commissioned BTG VaultHatch textures; the Open variant is swapped in
+      by CargoVaultHatch.Print once hacked (mirrors vanilla AncientHatch)
 
     The hatch provides access to a secure orbital cargo vault containing valuable
     trade goods protected by automated defenses.
@@ -29,10 +30,9 @@
     <canOverlapZones>false</canOverlapZones>
     <tickerType>Normal</tickerType>
 
-    <!-- Reuse AncientHatch graphics -->
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Building/AncientHatch/AncientHatch_Closed</texPath>
+      <texPath>Things/Building/VaultHatch/VaultHatch_Closed</texPath>
       <drawSize>(3, 3)</drawSize>
     </graphicData>
 

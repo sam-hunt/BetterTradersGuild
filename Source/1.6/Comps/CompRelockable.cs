@@ -228,6 +228,10 @@ namespace BetterTradersGuild.Comps
 
             // 2. Reset CompHackable state via reflection
             ResetHackableState();
+
+            // 3. Redraw so CargoVaultHatch.Print swaps back to the closed texture
+            if (parent.Spawned)
+                parent.DirtyMapMesh(parent.Map);
         }
 
         // Resets the CompHackable component to its initial locked state.

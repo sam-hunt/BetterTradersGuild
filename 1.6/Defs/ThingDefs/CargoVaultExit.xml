@@ -19,10 +19,9 @@
     <size>(3,3)</size>
     <drawerType>RealtimeOnly</drawerType>
 
-    <!-- Reuse AncientHatchExit graphics -->
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
-      <texPath>Things/Building/AncientHatchExit/AncientHatchExit</texPath>
+      <texPath>Things/Building/VaultHatchExit/VaultHatchExit</texPath>
       <drawSize>(3,3)</drawSize>
     </graphicData>
 
@@ -31,7 +30,7 @@
         <graphics>
           <li>
             <graphicClass>Graphic_Single</graphicClass>
-            <texPath>Things/Building/AncientHatchExit/AncientHatchExit_Ladder</texPath>
+            <texPath>Things/Building/VaultHatchExit/VaultHatchExit_Ladder</texPath>
             <drawSize>(3,3)</drawSize>
             <drawOffset>(0, 0.01, 0.7)</drawOffset>
             <shaderType>Transparent</shaderType>

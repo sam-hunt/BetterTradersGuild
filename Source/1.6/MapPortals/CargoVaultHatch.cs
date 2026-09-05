@@ -19,6 +19,31 @@ namespace BetterTradersGuild.MapGeneration
     // by overriding DeSpawn to clean up the pocket map and reset hackable state.
     public class CargoVaultHatch : MapPortal
     {
+        private const string OpenTexturePath = "Things/Building/VaultHatch/VaultHatch_Open";
+
+        // Copy of def.graphicData pointing at the open texture. Built per spawn (not static)
+        // because graphicData is a def instance and a play-data reload replaces it.
+        private GraphicData openGraphicData;
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            openGraphicData = new GraphicData();
+            openGraphicData.CopyFrom(def.graphicData);
+            openGraphicData.texPath = OpenTexturePath;
+        }
+
+        // Draw the open hatch once hacked, the closed hatch otherwise. Mirrors vanilla
+        // AncientHatch.Print. CompHackable dirties the map mesh on hack completion, and
+        // CompRelockable.Relock dirties it on relock, so the swap shows immediately.
+        public override void Print(SectionLayer layer)
+        {
+            if (openGraphicData != null && IsEnterable(out _))
+                openGraphicData.Graphic.Print(layer, this, 0f);
+            else
+                Graphic.Print(layer, this, 0f);
+        }
+
         // Override GetExtraGenSteps to return empty - we don't want any extra steps.
         // All pocket map generation is handled by BTG_CargoVault GenStep in our MapGeneratorDef
         // specified in the MapGeneratorDef.

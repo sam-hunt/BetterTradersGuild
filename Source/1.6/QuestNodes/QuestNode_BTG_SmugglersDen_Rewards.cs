@@ -212,7 +212,7 @@ namespace BetterTradersGuild.QuestNodes
 
         private static Texture2D ResolveIcon()
         {
-            Texture2D tex = ContentFinder<Texture2D>.Get("Things/Building/AncientHatch/AncientHatch_Closed", false);
+            Texture2D tex = ContentFinder<Texture2D>.Get("Things/Building/VaultHatch/VaultHatch_Closed", false);
             if (tex == null)
                 return BaseContent.BadTex;
             return tex;
