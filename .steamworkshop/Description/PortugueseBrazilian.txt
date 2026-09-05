@@ -72,3 +72,4 @@ R: Parte do código mais repetitivo, e a maioria das localizações. Sou engenhe
 [hr][/hr]
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: código-fonte, relatórios de bugs e pedidos de novas funcionalidades
+Texturas do cofre de carga por [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

@@ -72,3 +72,4 @@ A: 地味なコード作業の一部と、ローカライズ作業のほとん�
 [hr][/hr]
 [h2]リンク[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]:ソースコード、バグ報告、機能リクエスト
+貨物保管庫のテクスチャ:[url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

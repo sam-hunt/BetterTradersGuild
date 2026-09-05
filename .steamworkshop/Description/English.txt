@@ -72,3 +72,4 @@ A: Some of the grunt code, and most localizations. I'm a software engineer by tr
 [hr][/hr]
 [h2]Links[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url] - Source code, bug reports, and feature requests
+Cargo vault textures by [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

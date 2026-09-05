@@ -72,3 +72,4 @@
 [hr][/hr]
 [h2]Ссылки[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: исходный код, отчёты об ошибках и предложения по улучшению
+Текстуры грузового хранилища: [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

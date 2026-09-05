@@ -72,3 +72,4 @@
 [hr][/hr]
 [h2]링크[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: 소스 코드, 버그 신고, 기능 제안
+화물 금고 텍스처: [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

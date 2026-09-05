@@ -83,6 +83,7 @@ For development setup, see [CLAUDE.md](CLAUDE.md).
 
 **Special Thanks**:
 
+- [Cargo vault textures by IcingWithCheeseCake](https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100)
 - [Ludeon Studios](https://ludeon.com) for RimWorld and modding API
 - [The RimWorld modding community](https://steamcommunity.com/app/294100/workshop/) for inspiration and working examples
 - [Vanilla Expanded Framework](https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013) for prefab creation tooling

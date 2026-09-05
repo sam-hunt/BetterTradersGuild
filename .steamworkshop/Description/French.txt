@@ -72,3 +72,4 @@ R : Une partie du code fastidieux, et la plupart des localisations. Je suis ing�
 [hr][/hr]
 [h2]Liens[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url] : code source, rapports de bugs et demandes de fonctionnalités
+Textures du coffre à cargaison par [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]

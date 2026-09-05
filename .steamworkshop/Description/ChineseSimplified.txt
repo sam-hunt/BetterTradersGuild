@@ -72,3 +72,4 @@
 [hr][/hr]
 [h2]链接[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]：源代码、错误报告与功能建议
+货物保险库贴图由 [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url] 制作

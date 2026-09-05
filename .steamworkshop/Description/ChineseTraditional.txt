@@ -72,3 +72,4 @@
 [hr][/hr]
 [h2]連結[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]：原始碼、錯誤報告與功能建議
+貨物保險庫貼圖由 [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url] 製作

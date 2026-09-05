@@ -72,3 +72,4 @@ R: Parte del código más tedioso, y la mayoría de las localizaciones. Soy inge
 [hr][/hr]
 [h2]Enlaces[/h2]
 [url=https://github.com/sam-hunt/BetterTradersGuild]GitHub[/url]: código fuente, informes de errores y solicitudes de funciones
+Texturas de la bóveda de carga de [url=https://steamcommunity.com/profiles/76561198094174176/myworkshopfiles/?appid=294100]IcingWithCheeseCake[/url]
