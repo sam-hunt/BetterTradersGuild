@@ -82,7 +82,6 @@
         <relockTexPath>UI/Commands/SealHatch</relockTexPath>
       </li>
 
-      <!-- Orange glow for locked state (swapped to green on hack via code) -->
       <li Class="CompProperties_Glower">
         <glowRadius>3</glowRadius>
         <glowColor>(255,140,0,0)</glowColor>
