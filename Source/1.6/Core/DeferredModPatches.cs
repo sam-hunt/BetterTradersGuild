@@ -34,7 +34,6 @@ namespace BetterTradersGuild
         private static readonly Type[] DeferredPatchClasses =
         {
             typeof(Patches.TransportersArrivalActionPatches.CWTLAttackSettlementCanAttack),
-            typeof(Patches.MapGenerationPatches.CompOutfitStandHARPostSpawnSetup),
             typeof(Patches.BuildingAndroidStandPatches.BuildingAndroidStandCannotUseNowReason),
         };
 

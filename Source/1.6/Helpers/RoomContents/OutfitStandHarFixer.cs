@@ -6,16 +6,18 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    // Fixes Humanoid Alien Races (HAR) compatibility issues with Building_OutfitStand.
+    // Fixes a Humanoid Alien Races (HAR) quirk on freshly spawned Building_OutfitStands.
     //
-    // HAR adds Comp_OutfitStandHAR to all outfit stands. During PostSpawnSetup, it:
-    // 1. Accesses faction.def.basicMemberKind.race — TradersGuild has no basicMemberKind → NullRef
-    // 2. For factionless stands, defaults to Human and picks random body type from ALL
-    //    BodyTypeDefs (including Baby/Child) → store filter rejects adult apparel
+    // HAR adds Comp_OutfitStandHAR to every outfit stand. PostSpawnSetup resolves the stand's
+    // race from its faction (Human for factionless stands and for any faction whose basic
+    // member kind is human, i.e. every BTG stand). The Race setter then rolls a body type; for
+    // non-alien races the pool is ALL BodyTypeDefs, which with Biotech includes Baby and Child.
+    // A juvenile roll flips the store filter to child-only apparel, so adult apparel is rejected
+    // (or dropped by HAR's deferred graphics recache once the map finishes generating).
     //
-    // This helper normalizes outfit stands after spawn by fixing juvenile body types
-    // back to adult types via reflection, with a vanilla API fallback for the store filter.
-    // Safe to call when HAR is not installed (no-op).
+    // This helper normalizes a stand right after spawn by forcing a juvenile body type back to
+    // an adult one via reflection, with a vanilla API fallback for the store filter.
+    // Safe to call when HAR is not installed (no-op). Call it BEFORE adding apparel.
     public static class OutfitStandHarFixer
     {
         // Normalizes an outfit stand after spawn by fixing HAR's juvenile body type selection.

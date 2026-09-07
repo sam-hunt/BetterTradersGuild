@@ -24,7 +24,7 @@ engine.PACKAGE_ID = "shunter.bettertradersguild"
 # RATIONALE: Odyssey is BTG's hard dep; Biotech is MayRequire-gated (xenotype
 # ScenPart) and VREA's own hard dep. The five optional mods are exactly the
 # Integrations/ roster - each activates conditional patches or reflection
-# that never runs otherwise: HAR (outfit stand finalizer), VEF (PipeSystem
+# that never runs otherwise: HAR (outfit stand body-type fixer), VEF (PipeSystem
 # landing pad pipes), VREA (android stand gate), CWTL (attack CanAttack
 # gate), UMW (silver-inlay melee trait + nursery knife). VEF is also VREA's
 # hard dep and must load before it. Probe last (auto-quit).
