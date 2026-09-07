@@ -63,8 +63,8 @@ namespace BetterTradersGuild.AI
         public HungerCategory fallbackMinCategory = HungerCategory.UrgentlyHungry;
 
         // Openable in-structure containers a defender will crack for food, by defName.
-        // Resolved null-safe, so an absent def (or DLC) is simply skipped.
-        public List<string> mealContainerDefNames = new List<string> { "Pallet_SurvivalMeals" };
+        // Resolved null-safe, so an absent def (DLC or optional mod such as VGE2) is skipped.
+        public List<string> mealContainerDefNames = new List<string> { "Pallet_SurvivalMeals", "VGE_SpacerPallet_SurvivalMeals" };
 
         private List<ThingDef> resolvedContainerDefs;
 

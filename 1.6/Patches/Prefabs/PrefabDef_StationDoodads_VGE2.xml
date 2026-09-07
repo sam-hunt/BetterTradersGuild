@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    When Vanilla Gravship Expanded - Chapter 2 is active, swap the rusted "ancient"
+    doodads in BTG's room prefabs for VGE2's clean orbital-station equivalents, so a
+    smuggler's den (and any BTG-generated settlement) reads as the same station
+    lineage as VGE2's own Traders Guild station.
+
+    Every swap below is a 1:1 reskin: same footprint, same rotatability, same
+    graphic class, and (for the lootable boxes and pallet) the same loot
+    ThingSetMaker, so positions, chances and rotations carry over verbatim.
+
+      AncientSpacerCrate            -> VGE2_SpacerCrate            (1x1, Graphic_Random)
+      AncientLockerBank             -> VGE2_StationLockerBank      (3x1, drawSize 3.5x1.5)
+      AncientBox_ComponentIndustrial -> VGE_SpacerBox_ComponentIndustrial (1x1, same loot)
+      AncientBox_ComponentSpacer    -> VGE_SpacerBox_ComponentSpacer     (1x1, same loot)
+      Pallet_SurvivalMeals          -> VGE_SpacerPallet_SurvivalMeals    (2x2, same loot)
+      AncientEmergencyLight_Blue    -> VGE_StationLight_Blue       (same wall-attachment
+                                       parent; glow 14 vs 11, lighter blue)
+
+    Bundled into one operation for the same reason as PrefabDef_FauxPlant_VGE.xml:
+    identical purpose, and one gate keeps the targets from drifting apart.
+
+    Deliberately NOT swapped here (need C# awareness or have no clean counterpart):
+    - AncientSealedCrate: RoomContents_ShuttleBay uses it as a conduit marker.
+    - AncientShipBeacon: LandingPadDetector keys on it (VGE2_NavBeacon candidate).
+    - AncientSystemRack (1x3) vs VGE2_StationSystemRack (3x1): only fits rotated.
+    - ShelfCustomizer's C#-spawned AncientSafe/AncientSealedCrate/AncientBox_* swaps.
+    - PassengerShuttle vs VGE_SalvagerDropship: pending design decision.
+
+    The forage AI's meal-container list (JobGiver_BTGForageInStructure) includes
+    VGE_SpacerPallet_SurvivalMeals so defenders still crack the swapped pallet.
+  -->
+  <Operation Class="PatchOperationConditional" MayRequire="vanillaexpanded.gravship2">
+    <xpath>/Defs/ThingDef[defName="VGE2_SpacerCrate"]</xpath>
+    <match Class="PatchOperationSequence">
+      <operations>
+
+        <!-- Spacer crates -->
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewQuartersIndustrialShelves1x5"]/things/AncientSpacerCrate</xpath>
+          <value>
+            <VGE2_SpacerCrate MayRequire="vanillaexpanded.gravship2">
+              <position>(0, 0, 2)</position>
+            </VGE2_SpacerCrate>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewQuartersIndustrialShelves2x5"]/things/AncientSpacerCrate</xpath>
+          <value>
+            <VGE2_SpacerCrate MayRequire="vanillaexpanded.gravship2">
+              <position>(0, 0, 1)</position>
+            </VGE2_SpacerCrate>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewQuartersIndustrialShelves2x4"]/things/AncientSpacerCrate</xpath>
+          <value>
+            <VGE2_SpacerCrate MayRequire="vanillaexpanded.gravship2">
+              <chance>0.5</chance>
+              <positions>
+                <li>(1, 0, 0)</li>
+                <li>(1, 0, 1)</li>
+                <li>(1, 0, 2)</li>
+                <li>(1, 0, 3)</li>
+              </positions>
+            </VGE2_SpacerCrate>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_ServerRacks_Subroom"]/things/AncientSpacerCrate</xpath>
+          <value>
+            <VGE2_SpacerCrate MayRequire="vanillaexpanded.gravship2">
+              <chance>0.5</chance>
+              <rects>
+                <li>(1,1,1,1)</li>
+                <li>(3,3,3,3)</li>
+              </rects>
+            </VGE2_SpacerCrate>
+          </value>
+        </li>
+
+        <!-- Locker bank -->
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewQuartersLockers1x5"]/things/AncientLockerBank</xpath>
+          <value>
+            <VGE2_StationLockerBank MayRequire="vanillaexpanded.gravship2">
+              <positions>
+                <li>(0, 0, 2)</li>
+              </positions>
+              <relativeRotation>Clockwise</relativeRotation>
+            </VGE2_StationLockerBank>
+          </value>
+        </li>
+
+        <!-- Lootable component boxes (same Reward_AncientBox_* ThingSetMakers) -->
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_ServerRacks_Subroom"]/things/AncientBox_ComponentIndustrial</xpath>
+          <value>
+            <VGE_SpacerBox_ComponentIndustrial MayRequire="vanillaexpanded.gravship2">
+              <chance>0.5</chance>
+              <position>(3, 0, 1)</position>
+            </VGE_SpacerBox_ComponentIndustrial>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_ServerRacks_Subroom"]/things/AncientBox_ComponentSpacer</xpath>
+          <value>
+            <VGE_SpacerBox_ComponentSpacer MayRequire="vanillaexpanded.gravship2">
+              <chance>0.5</chance>
+              <position>(1, 0, 3)</position>
+            </VGE_SpacerBox_ComponentSpacer>
+          </value>
+        </li>
+
+        <!-- Survival meal pallet (same Reward_Pallet_SurvivalMeals ThingSetMaker) -->
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CrewQuartersCommSupplies2x5"]/things/Pallet_SurvivalMeals</xpath>
+          <value>
+            <VGE_SpacerPallet_SurvivalMeals MayRequire="vanillaexpanded.gravship2">
+              <position>(0, 0, 0)</position>
+            </VGE_SpacerPallet_SurvivalMeals>
+          </value>
+        </li>
+
+        <!-- Blue wall lights -->
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CommandersBedroom"]/things/AncientEmergencyLight_Blue</xpath>
+          <value>
+            <VGE_StationLight_Blue MayRequire="vanillaexpanded.gravship2">
+              <position>(4, 0, 3)</position>
+              <relativeRotation>Clockwise</relativeRotation>
+            </VGE_StationLight_Blue>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_CribSubroom"]/things/AncientEmergencyLight_Blue</xpath>
+          <value>
+            <VGE_StationLight_Blue MayRequire="vanillaexpanded.gravship2">
+              <position>(4, 0, 2)</position>
+              <relativeRotation>Clockwise</relativeRotation>
+            </VGE_StationLight_Blue>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_HydroponicHealroot"]/things/AncientEmergencyLight_Blue</xpath>
+          <value>
+            <VGE_StationLight_Blue MayRequire="vanillaexpanded.gravship2">
+              <position>(3, 0, 1)</position>
+            </VGE_StationLight_Blue>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_HospitalBeds_Edge"]/things/AncientEmergencyLight_Blue</xpath>
+          <value>
+            <VGE_StationLight_Blue MayRequire="vanillaexpanded.gravship2">
+              <position>(2, 0, 1)</position>
+            </VGE_StationLight_Blue>
+          </value>
+        </li>
+
+      </operations>
+    </match>
+  </Operation>
+</Patch>
