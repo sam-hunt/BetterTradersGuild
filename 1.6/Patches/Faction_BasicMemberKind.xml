@@ -4,10 +4,15 @@
 
   Adds basicMemberKind to the TradersGuild FactionDef.
 
-  The Odyssey DLC doesn't define basicMemberKind for TradersGuild, which is fine
-  for vanilla (code null-checks it). However, Humanoid Alien Races (HAR) reads
-  faction.def.basicMemberKind.race without null-checking, causing a NullRef when
-  spawning any Building_OutfitStand owned by TradersGuild.
+  The Odyssey DLC doesn't define basicMemberKind for TradersGuild (or Salvagers);
+  vanilla null-checks it, but every other faction sets it, so third-party code
+  routinely assumes it is non-null. Humanoid Alien Races (HAR) used to read
+  faction.def.basicMemberKind.race in Comp_OutfitStandHAR.PostSpawnSetup and threw
+  a NullRef on every TradersGuild-owned Building_OutfitStand. HAR fixed that upstream
+  on 2026-09-07 (AlienRaces ae8412c, BasicPawnKindOfFaction fallback); this patch
+  stays as cover for older HAR builds and any other mod with the same assumption,
+  and it makes HAR resolve the stand race deterministically instead of rolling a
+  random pawnGroupMaker kind.
 
   TradersGuild_Citizen is the natural choice as the faction's basic member kind.
 -->
