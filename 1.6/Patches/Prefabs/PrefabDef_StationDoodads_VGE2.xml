@@ -17,14 +17,18 @@
       Pallet_SurvivalMeals          -> VGE_SpacerPallet_SurvivalMeals    (2x2, same loot)
       AncientEmergencyLight_Blue    -> VGE_StationLight_Blue       (same wall-attachment
                                        parent; glow 14 vs 11, lighter blue)
+      AncientSystemRack (1x3)       -> VGE2_StationSystemRack (3x1) placed rotated so the
+                                       footprint stays 1x3; fronts face into the room
 
     Bundled into one operation for the same reason as PrefabDef_FauxPlant_VGE.xml:
     identical purpose, and one gate keeps the targets from drifting apart.
 
+    The rack swap is the one non-literal transfer (rotation added, side-on texture);
+    it needs a visual check in-game.
+
     Deliberately NOT swapped here (need C# awareness or have no clean counterpart):
     - AncientSealedCrate: RoomContents_ShuttleBay uses it as a conduit marker.
     - AncientShipBeacon: LandingPadDetector keys on it (VGE2_NavBeacon candidate).
-    - AncientSystemRack (1x3) vs VGE2_StationSystemRack (3x1): only fits rotated.
     - ShelfCustomizer's C#-spawned AncientSafe/AncientSealedCrate/AncientBox_* swaps.
     - PassengerShuttle vs VGE_SalvagerDropship: pending design decision.
 
@@ -95,6 +99,27 @@
               </positions>
               <relativeRotation>Clockwise</relativeRotation>
             </VGE2_StationLockerBank>
+          </value>
+        </li>
+
+        <!-- Server racks: vanilla 1x3 racks face north; VGE2's 3x1 rack is rotated so
+             each keeps a 1x3 footprint. Left/middle racks face east, the rack against
+             the right-hand wall faces west. -->
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/PrefabDef[defName="BTG_ServerRacks_Subroom"]/things/AncientSystemRack</xpath>
+          <value>
+            <VGE2_StationSystemRack MayRequire="vanillaexpanded.gravship2">
+              <positions>
+                <li>(0, 0, 2)</li>
+                <li>(2, 0, 4)</li>
+              </positions>
+              <relativeRotation>Clockwise</relativeRotation>
+            </VGE2_StationSystemRack>
+            <VGE2_StationSystemRack MayRequire="vanillaexpanded.gravship2">
+              <position>(4, 0, 2)</position>
+              <relativeRotation>Counterclockwise</relativeRotation>
+            </VGE2_StationSystemRack>
           </value>
         </li>
 

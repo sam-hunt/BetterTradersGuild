@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    When Vanilla Gravship Expanded - Chapter 2 is active, the blue wall lights in BTG
+    prefabs are VGE_StationLight_Blue (see Prefabs/PrefabDef_StationDoodads_VGE2.xml),
+    so retune the settlement-wide wall lamp glow to that light's colour instead of
+    AncientEmergencyLight_Blue's, keeping the two light sources matched.
+  -->
+  <Operation Class="PatchOperationConditional" MayRequire="vanillaexpanded.gravship2">
+    <xpath>/Defs/ThingDef[defName="VGE_StationLight_Blue"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>/Defs/GenStepDef[defName="BTG_SetWallLampColor"]/genStep/glowColor</xpath>
+      <value>
+        <glowColor>(134, 190, 224)</glowColor>
+      </value>
+    </match>
+  </Operation>
+</Patch>
