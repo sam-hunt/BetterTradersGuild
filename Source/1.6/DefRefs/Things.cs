@@ -21,7 +21,6 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef MedicineUltratech;
         public static ThingDef Luciferium;
         public static ThingDef GoJuice;
-        public static ThingDef Synthread;
         public static ThingDef Beer;
         public static ThingDef Yayo;
         public static ThingDef SmokeleafJoint;
@@ -60,11 +59,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Gun_ChargeRifle;
         public static ThingDef Gun_ChargeLance;
         public static ThingDef Apparel_ShieldBelt;
-        public static ThingDef Apparel_PowerArmor;
-        public static ThingDef Apparel_PowerArmorHelmet;
         public static ThingDef Shell_HighExplosive;
         public static ThingDef Shell_AntigrainWarhead;
-        public static ThingDef Leather_Panthera;
         public static ThingDef PodLauncher;
         public static ThingDef TransportPod;
         public static ThingDef MalfunctioningTransportPod;
@@ -94,12 +90,6 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef Gun_Revolver_Unique;
 
         // Apparel
-        public static ThingDef Apparel_CollarShirt;
-        public static ThingDef Apparel_Pants;
-        public static ThingDef Apparel_Vacsuit;
-        public static ThingDef Apparel_VacsuitHelmet;
-        public static ThingDef Apparel_ArmorRecon;
-        public static ThingDef Apparel_ArmorHelmetRecon;
         public static ThingDef Apparel_SmokepopBelt;
 
         // === BTG CUSTOM BUILDINGS ===
@@ -138,10 +128,6 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef ScrapCubeSculpture;
         [MayRequireAnomaly]
         public static ThingDef GoldenCube;
-
-        // === IDEOLOGY DLC ===
-        [MayRequireIdeology]
-        public static ThingDef Apparel_BodyStrap;
 
         // === VFE SPACER MODULE ===
         [MayRequire("VanillaExpanded.VFESpacer")]

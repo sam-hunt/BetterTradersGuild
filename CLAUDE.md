@@ -107,6 +107,7 @@ BTG uses a declarative, XML-driven approach for custom map generation.
 | `BTG_ExtendLandingPadPipes` | Extend VE pipes to landing pads (graceful no-op if no VE)    |
 | `BTG_SetWallLampColor`      | Set WallLamp glow to white/blue                              |
 | `BTG_SowPlantGrowers`       | Sow every empty grower: room defs' `PlantGrowerRulesExtension` rules first, then map defaults (also in the den and VGE2 pipelines) |
+| `BTG_StockOutfitStands`     | Dress every empty outfit stand: room defs' `OutfitStandRuleExtension` rule first, then the map default (also in the den and VGE2 pipelines) |
 | `BTG_SettlementPawnsLoot`   | Pawn spawning (loot disabled via `lootMarketValue: 0~0`)     |
 | `BTG_SpawnSentryDrones`     | Spawn additional sentry drones (uses ModSettings)            |
 

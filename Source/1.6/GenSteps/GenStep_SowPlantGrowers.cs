@@ -43,46 +43,24 @@ namespace BetterTradersGuild.MapGeneration
         // removing what it plants from the pool.
         private static void SowRooms(Map map, List<Building_PlantGrower> empty)
         {
-            if (map.layoutStructureSketches == null)
-                return;
-
-            var inRoom = new List<Building_PlantGrower>();
             var roomRules = new List<PlantGrowerRule>();
-            foreach (LayoutStructureSketch sketch in map.layoutStructureSketches)
+            BuiltRoomRules.ForEach<PlantGrowerRulesExtension>(map, (room, extensions, label) =>
             {
-                if (sketch?.structureLayout?.Rooms == null)
-                    continue;
-
-                foreach (LayoutRoom room in sketch.structureLayout.Rooms)
+                roomRules.Clear();
+                foreach (PlantGrowerRulesExtension ext in extensions)
                 {
-                    if (room?.rects == null || room.defs == null)
-                        continue;
-
-                    roomRules.Clear();
-                    string label = null;
-                    foreach (LayoutRoomDef roomDef in room.defs)
-                    {
-                        PlantGrowerRulesExtension ext = roomDef?.GetModExtension<PlantGrowerRulesExtension>();
-                        if (ext?.rules == null)
-                            continue;
+                    if (ext.rules != null)
                         roomRules.AddRange(ext.rules);
-                        label ??= roomDef.defName;
-                    }
-                    if (roomRules.Count == 0)
-                        continue;
-
-                    inRoom.Clear();
-                    foreach (Building_PlantGrower grower in empty)
-                    {
-                        if (Contains(room.rects, grower.Position))
-                            inRoom.Add(grower);
-                    }
-                    if (inRoom.Count == 0)
-                        continue;
-
-                    Sow(map, PlantGrowerRuleResolver.PlanForGrowers(roomRules, inRoom, label), empty);
                 }
-            }
+                if (roomRules.Count == 0)
+                    return;
+
+                List<Building_PlantGrower> inRoom = BuiltRoomRules.Inside(room, empty);
+                if (inRoom.Count == 0)
+                    return;
+
+                Sow(map, PlantGrowerRuleResolver.PlanForGrowers(roomRules, inRoom, label), empty);
+            });
         }
 
         private static void Sow(Map map, List<PlantGrowerRuleResolver.Assignment<Building_PlantGrower, ThingDef>> plan, List<Building_PlantGrower> empty)
@@ -113,16 +91,6 @@ namespace BetterTradersGuild.MapGeneration
                 }
             }
             return result;
-        }
-
-        private static bool Contains(List<CellRect> rects, IntVec3 cell)
-        {
-            foreach (CellRect rect in rects)
-            {
-                if (rect.Contains(cell))
-                    return true;
-            }
-            return false;
         }
     }
 }

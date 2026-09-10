@@ -4,83 +4,26 @@ using Verse;
 
 namespace BetterTradersGuild.Helpers.RoomContents
 {
-    // Helper class for spawning apparel into outfit stands during room generation.
-    // Provides methods for populating outfit stands with armor, clothing, and weapons.
+    // Fills a single outfit stand with a set of apparel. GenStep_StockOutfitStands is the
+    // only production caller; it decides which stands get which set (room rules, then the
+    // map default) and this owns making, quality-rolling, tinting and inserting the items.
     //
     // LEARNING NOTE: Building_OutfitStand has a dedicated AddApparel(Apparel) method
     // that handles storage settings and display cache updates internally. This is
     // cleaner than the ThingOwner.TryAdd() pattern used for bookcases.
-    //
-    // USAGE: Designed for reuse in any RoomContentsWorker. Call this AFTER base.FillRoom()
-    // to populate outfit stands placed by XML prefabs.
     public static class RoomOutfitStandHelper
     {
-        // Spawns apparel items into all outfit stands within the search area.
-        // Each outfit stand receives the full set of apparel items specified.
-        //
-        // Quality is randomized within the specified range for each item.
-        // Items that require stuff (like flak vest) will use default stuff.
-        // map: The map to search for outfit stands
-        // searchArea: Area to search (typically the full room rect)
-        // apparelDefs: List of apparel ThingDefs to spawn in each stand
-        // minQuality: Minimum quality for randomization (default: Normal)
-        // maxQuality: Maximum quality for randomization (default: Excellent)
-        // faction: Optional faction for VEF faction color tinting
-        public static void SpawnApparelInOutfitStands(
-            Map map,
-            CellRect searchArea,
-            List<ThingDef> apparelDefs,
-            QualityCategory minQuality = QualityCategory.Normal,
-            QualityCategory maxQuality = QualityCategory.Excellent,
-            Faction faction = null)
-        {
-            if (apparelDefs == null || apparelDefs.Count == 0)
-            {
-                return;
-            }
-
-            // Find all unique outfit stands in search area
-            // Use HashSet to avoid duplicates (multi-cell buildings appear at multiple positions)
-            HashSet<Building_OutfitStand> uniqueStands = new HashSet<Building_OutfitStand>();
-
-            foreach (IntVec3 cell in searchArea.Cells)
-            {
-                if (!cell.InBounds(map)) continue;
-
-                List<Thing> things = cell.GetThingList(map);
-                if (things == null) continue;
-
-                foreach (Thing thing in things)
-                {
-                    if (thing is Building_OutfitStand outfitStand)
-                    {
-                        uniqueStands.Add(outfitStand);
-                    }
-                }
-            }
-
-            if (uniqueStands.Count == 0)
-            {
-                return; // No outfit stands found (may not be an error - some prefab variations might not include them)
-            }
-
-            // Populate each outfit stand with apparel
-            foreach (Building_OutfitStand outfitStand in uniqueStands)
-            {
-                FillOutfitStand(outfitStand, apparelDefs, minQuality, maxQuality, faction);
-            }
-        }
-
-        // Adds one of each apparel def to a single outfit stand, the primitive the area
-        // scan above reduces to. Map-wide passes (GenStep_StockOutfitStands) call it
-        // directly. Normalizes the stand for HAR first (see OutfitStandHarFixer).
+        // Adds one of each apparel def to a single outfit stand. Normalizes the stand for
+        // HAR first (see OutfitStandHarFixer). stuff applies to every stuffable item (omit
+        // for each item's default stuff).
         // Returns: number of apparel items added
         public static int FillOutfitStand(
             Building_OutfitStand outfitStand,
             List<ThingDef> apparelDefs,
             QualityCategory minQuality = QualityCategory.Normal,
             QualityCategory maxQuality = QualityCategory.Excellent,
-            Faction faction = null)
+            Faction faction = null,
+            ThingDef stuff = null)
         {
             if (outfitStand == null || apparelDefs == null || apparelDefs.Count == 0)
                 return 0;
@@ -103,7 +46,7 @@ namespace BetterTradersGuild.Helpers.RoomContents
                 }
 
                 // Create the apparel item
-                Apparel apparel = CreateApparelWithQuality(apparelDef, minQuality, maxQuality);
+                Apparel apparel = CreateApparelWithQuality(apparelDef, minQuality, maxQuality, stuff);
                 if (apparel == null) continue;
 
                 // Apply faction color if VEF is active
@@ -132,17 +75,21 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // apparelDef: The apparel ThingDef to create
         // minQuality: Minimum quality (inclusive)
         // maxQuality: Maximum quality (inclusive)
+        // stuff: stuff for a stuffable def, or null for its default stuff
         // Returns: Created Apparel with random quality, or null if creation failed
         private static Apparel CreateApparelWithQuality(
             ThingDef apparelDef,
             QualityCategory minQuality,
-            QualityCategory maxQuality)
+            QualityCategory maxQuality,
+            ThingDef stuff)
         {
             // Determine stuff if required
             ThingDef stuffDef = null;
             if (apparelDef.MadeFromStuff)
             {
-                stuffDef = GenStuff.DefaultStuffFor(apparelDef);
+                stuffDef = stuff != null && stuff.IsStuff && stuff.stuffProps.CanMake(apparelDef)
+                    ? stuff
+                    : GenStuff.DefaultStuffFor(apparelDef);
                 if (stuffDef == null)
                 {
                     Log.Warning($"[Better Traders Guild] Could not find default stuff for '{apparelDef.defName}'");

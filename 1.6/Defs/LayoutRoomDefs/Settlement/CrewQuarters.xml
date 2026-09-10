@@ -39,8 +39,8 @@
 
     </prefabs>
 
-    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
     <modExtensions>
+      <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
       <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
         <rules>
           <!-- A different decorative plant per pot (covers pots the firefoam customizer adds) -->
@@ -50,6 +50,54 @@
             <perGrower>true</perGrower>
           </li>
         </rules>
+      </li>
+
+      <!-- Stocking rule applied by BTG_StockOutfitStands to the outfit stands in this room
+           (the ones ShelfCustomizer swaps in for empty subroom shelves): each stand shows a
+           random outfit from a crew member's wardrobe. -->
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension">
+        <rule>
+          <sets>
+            <!-- Off-duty synthread shirt and pants -->
+            <li>
+              <apparel>
+                <li>Apparel_CollarShirt</li>
+                <li>Apparel_Pants</li>
+              </apparel>
+              <stuff>Synthread</stuff>
+            </li>
+            <!-- Marine armour -->
+            <li>
+              <apparel>
+                <li>Apparel_PowerArmor</li>
+                <li>Apparel_PowerArmorHelmet</li>
+              </apparel>
+            </li>
+            <!-- Vacsuit -->
+            <li>
+              <apparel>
+                <li>Apparel_Vacsuit</li>
+                <li>Apparel_VacsuitHelmet</li>
+              </apparel>
+            </li>
+            <!-- Recon armour -->
+            <li>
+              <apparel>
+                <li>Apparel_ArmorRecon</li>
+                <li>Apparel_ArmorHelmetRecon</li>
+              </apparel>
+            </li>
+            <!-- Panthera-leather body strap (Ideology) -->
+            <li MayRequire="Ludeon.RimWorld.Ideology">
+              <apparel>
+                <li>Apparel_BodyStrap</li>
+              </apparel>
+              <stuff>Leather_Panthera</stuff>
+            </li>
+          </sets>
+          <minQuality>Normal</minQuality>
+          <maxQuality>Excellent</maxQuality>
+        </rule>
       </li>
     </modExtensions>
   </LayoutRoomDef>

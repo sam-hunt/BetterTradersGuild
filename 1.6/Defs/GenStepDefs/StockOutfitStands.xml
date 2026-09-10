@@ -3,29 +3,41 @@
   <!--
     Better Traders Guild - Stock Outfit Stands GenStep
 
-    Stocks empty outfit stands across the map with a vacsuit and helmet, each stand
-    rolling the chance independently. Mirrors CorridorAirlockDefenceSpawner's
-    airlock policy (50% of stands, Normal/Good quality) so a station whose rooms BTG
-    did not author (VGE2's Traders Guild station) reads the same as BTG's airlocks.
-    Stands already holding anything are left alone.
+    Stocks every empty outfit stand on the map. Rooms built by the platform step are
+    dressed first from the OutfitStandRuleExtension on their LayoutRoomDefs (see
+    LayoutRoomDefs/Settlement/{Armory,Corridor,CrewQuarters}.xml); the rule below is the
+    map-wide default for whatever no room rule covered, which is every stand on stations
+    BTG did not author (VGE2's Traders Guild station leaves its steel stands empty) and any
+    stray stand on BTG's own maps. Stands already holding anything are skipped.
 
-    XML-configurable parameters:
-    - apparel: one of each per stocked stand
-    - chancePerStand: probability an empty stand is stocked
-    - minQuality / maxQuality: uniform quality roll per item
+    Rule fields (BetterTradersGuild.Helpers.MapGeneration.OutfitStandRule):
+    - sets: candidate outfits; a stocked stand gets one of each item of exactly one set,
+      with an optional set-level stuff for the stuffable pieces
+    - chancePerStand: probability an empty stand is stocked (default 1)
+    - minQuality / maxQuality: uniform quality roll per item (default Normal~Excellent)
+    - perStand: pick a set per stand (true, default) or one set for all (false)
+
+    The default mirrors the corridor airlock policy (half the stands, a Normal/Good vacsuit)
+    so a station whose rooms BTG did not author reads the same as BTG's airlocks.
   -->
 
   <GenStepDef>
     <defName>BTG_StockOutfitStands</defName>
     <order>315</order>
     <genStep Class="BetterTradersGuild.MapGeneration.GenStep_StockOutfitStands">
-      <apparel>
-        <li>Apparel_Vacsuit</li>
-        <li>Apparel_VacsuitHelmet</li>
-      </apparel>
-      <chancePerStand>0.5</chancePerStand>
-      <minQuality>Normal</minQuality>
-      <maxQuality>Good</maxQuality>
+      <rule>
+        <sets>
+          <li>
+            <apparel>
+              <li>Apparel_Vacsuit</li>
+              <li>Apparel_VacsuitHelmet</li>
+            </apparel>
+          </li>
+        </sets>
+        <chancePerStand>0.5</chancePerStand>
+        <minQuality>Normal</minQuality>
+        <maxQuality>Good</maxQuality>
+      </rule>
     </genStep>
   </GenStepDef>
 </Defs>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    When Vanilla Gravship Expanded - Chapter 2 is active, the armory's outfit stands display
+    VGE2's combat vacsuit (powered vacuum armour) instead of vanilla marine armour: a spacer
+    faction living in orbit would stock the armour built for it. Reaches every BTG-generated
+    armory, which in practice means the smuggler's den (Traders Guild settlements run VGE2's
+    own station while it is active). The rule lives on BTG_Armory's OutfitStandRuleExtension
+    (LayoutRoomDefs/Settlement/Armory.xml); only its sets are swapped, so the quality roll
+    and stocking chance stay as authored there.
+  -->
+  <Operation Class="PatchOperationConditional" MayRequire="vanillaexpanded.gravship2">
+    <xpath>/Defs/ThingDef[defName="VGE_Apparel_CombatVacsuit"]</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>/Defs/LayoutRoomDef[defName="BTG_Armory"]/modExtensions/li[@Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension"]/rule/sets</xpath>
+      <value>
+        <sets>
+          <li>
+            <apparel>
+              <li MayRequire="vanillaexpanded.gravship2">VGE_Apparel_CombatVacsuit</li>
+              <li MayRequire="vanillaexpanded.gravship2">VGE_Apparel_CombatVacsuitHelmet</li>
+            </apparel>
+          </li>
+        </sets>
+      </value>
+    </match>
+  </Operation>
+</Patch>
