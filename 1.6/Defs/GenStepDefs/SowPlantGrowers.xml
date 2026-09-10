@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Sow Plant Growers GenStep
+
+    Sows every empty plant grower on the map (hydroponics basins, plant pots, modded
+    growers). Rooms built by the platform step are planted first from the
+    PlantGrowerRulesExtension on their LayoutRoomDefs (see LayoutRoomDefs/Settlement/*);
+    the rules below are the map-wide defaults for whatever no room rule covered, which is
+    every grower on stations BTG did not author (VGE2's Traders Guild station leaves its
+    basins empty) and any stray grower on BTG's own maps. Growers already holding a plant
+    are skipped.
+
+    Rule fields (BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRule):
+    - grower: grower ThingDef the rule covers (omit = any grower)
+    - plants: explicit candidate plants
+    - sowTag: adds every sowable plant with this tag (mod-added plants included)
+    - growthRange: growth of the spawned plant (0.0-1.0); default 1~1
+    - perGrower: roll per grower (true) or once for all covered growers (false, default)
+    Rules apply in order; a grower takes the first rule it matches and can grow.
+
+    Run after BTG_PlaceWallConduits where prefabs ship no conduits: unpowered basins
+    rot their plants. Vanilla corn lacks the Hydroponic sow tag.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SowPlantGrowers</defName>
+    <order>310</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SowPlantGrowers">
+      <rules>
+        <!-- Basins: a random food crop each -->
+        <li>
+          <grower>HydroponicsBasin</grower>
+          <plants>
+            <li>Plant_Rice</li>
+            <li>Plant_Potato</li>
+            <li>Plant_Strawberry</li>
+          </plants>
+          <growthRange>0.1~0.9</growthRange>
+          <perGrower>true</perGrower>
+        </li>
+        <!-- Any other grower: a random decorative plant each, in bloom -->
+        <li>
+          <sowTag>Decorative</sowTag>
+          <perGrower>true</perGrower>
+        </li>
+      </rules>
+    </genStep>
+  </GenStepDef>
+</Defs>

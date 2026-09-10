@@ -38,5 +38,19 @@
       </AncientLockerBank_Row>
 
     </prefabs>
+
+    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
+        <rules>
+          <!-- A different decorative plant per pot (covers pots the firefoam customizer adds) -->
+          <li>
+            <grower>PlantPot</grower>
+            <sowTag>Decorative</sowTag>
+            <perGrower>true</perGrower>
+          </li>
+        </rules>
+      </li>
+    </modExtensions>
   </LayoutRoomDef>
 </Defs>

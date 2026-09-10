@@ -31,6 +31,9 @@
       <li>BTG_ExtendLandingPadPipes</li>    <!-- order 260 -->
       <li>BTG_SetWallLampColor</li>         <!-- order 265 -->
 
+      <!-- Plant every empty grower from the room defs' planting rules, then the map defaults -->
+      <li>BTG_SowPlantGrowers</li>        <!-- order 310 -->
+
       <!-- Spawn defenders last -->
       <li>BTG_SettlementPawnsLoot</li>      <!-- order 700 -->
       <li>BTG_SpawnSentryDrones</li>        <!-- order 705 -->

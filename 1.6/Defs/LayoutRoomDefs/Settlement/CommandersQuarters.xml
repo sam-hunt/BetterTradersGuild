@@ -101,5 +101,20 @@
       <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">0.6</BTG_Mech_Cleansweeper>
     </parts>
 
+
+    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
+        <rules>
+          <!-- Roses -->
+          <li>
+            <grower>PlantPot</grower>
+            <plants>
+              <li>Plant_Rose</li>
+            </plants>
+          </li>
+        </rules>
+      </li>
+    </modExtensions>
   </LayoutRoomDef>
 </Defs>

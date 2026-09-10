@@ -1,5 +1,4 @@
 using System.Linq;
-using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
@@ -18,10 +17,7 @@ namespace BetterTradersGuild.RoomContents.Classroom
             foreach (CellRect roomRect in room.rects)
             {
                 RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
             }
-
-
         }
     }
 }

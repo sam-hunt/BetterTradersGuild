@@ -37,6 +37,9 @@
       <li>BTG_ExtendLandingPadPipes</li>     <!-- order 260 -->
       <li>BTG_SmugglersDenWallLampColor</li> <!-- order 265; red corridor/armory lamps -->
 
+      <!-- Plant every empty grower from the room defs' planting rules, then the map defaults -->
+      <li>BTG_SowPlantGrowers</li>        <!-- order 310 -->
+
       <!-- Pre-populate vault stock from quest reward choice -->
       <li>BTG_GenerateQuestVaultStock</li>   <!-- order 698 -->
 

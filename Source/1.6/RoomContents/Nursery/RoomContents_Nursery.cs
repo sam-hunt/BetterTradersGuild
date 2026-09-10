@@ -86,15 +86,12 @@ namespace BetterTradersGuild.RoomContents.Nursery
 
             // 8. Post-processing: Paint furniture with matching pastel colors
             //    Colors match the checkered floor pattern for a cohesive nursery look
-            // 9. Post-processing: Spawn daylilies in plant pots
-            //    CRITICAL: This must happen AFTER base.FillRoom() since plant pots
-            //    are spawned by XML prefabs in base.FillRoom()
+            //    (plant pots are sown later by the BTG_SowPlantGrowers GenStep)
             if (room.rects?.Count > 0)
             {
                 foreach (CellRect roomRect in room.rects)
                 {
                     RoomFurniturePastelPainter.PaintFurniture(map, roomRect);
-                    RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
                 }
             }
         }

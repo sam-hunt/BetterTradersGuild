@@ -107,5 +107,28 @@
       </BTG_Mech_Paramedic>
     </parts>
 
+
+    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
+        <rules>
+          <!-- Healroot near harvest -->
+          <li>
+            <grower>HydroponicsBasin</grower>
+            <plants>
+              <li>Plant_Healroot</li>
+            </plants>
+            <growthRange>0.7~1.0</growthRange>
+          </li>
+          <!-- Roses -->
+          <li>
+            <grower>PlantPot</grower>
+            <plants>
+              <li>Plant_Rose</li>
+            </plants>
+          </li>
+        </rules>
+      </li>
+    </modExtensions>
   </LayoutRoomDef>
 </Defs>

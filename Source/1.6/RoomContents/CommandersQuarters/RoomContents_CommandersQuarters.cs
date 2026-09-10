@@ -69,7 +69,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
             //    Lounge prefabs will avoid bedroom area if bedroomRect.Width > 0
             base.FillRoom(map, room, faction, threatPoints);
 
-            // 8. Post-processing: Fix bookcase contents and spawn plants
+            // 8. Post-processing: Fix bookcase contents
             //    CRITICAL: This must happen AFTER base.FillRoom() since lounge
             //    bookshelves are spawned by base.FillRoom()
             //    ALWAYS runs - fixes books even if bedroom placement failed
@@ -79,10 +79,7 @@ namespace BetterTradersGuild.RoomContents.CommandersQuarters
                 {
                     RoomBookcaseHelper.InsertBooksIntoBookcases(map, roomRect);
 
-                    // 9. Spawn decorative plants (roses) in all plant pots
-                    RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Rose, growth: 1.0f);
-
-                    // 10. Connect VFE Spacer air purifier to power (does nothing if VFE Spacer not installed)
+                    // 9. Connect VFE Spacer air purifier to power (does nothing if VFE Spacer not installed)
                     RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.VFES_AirPurifier);
                 }
             }
