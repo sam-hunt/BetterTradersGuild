@@ -67,38 +67,61 @@ namespace BetterTradersGuild.Helpers.RoomContents
             // Populate each outfit stand with apparel
             foreach (Building_OutfitStand outfitStand in uniqueStands)
             {
-                OutfitStandHarFixer.NormalizeOutfitStand(outfitStand);
-                foreach (ThingDef apparelDef in apparelDefs)
+                FillOutfitStand(outfitStand, apparelDefs, minQuality, maxQuality, faction);
+            }
+        }
+
+        // Adds one of each apparel def to a single outfit stand, the primitive the area
+        // scan above reduces to. Map-wide passes (GenStep_StockOutfitStands) call it
+        // directly. Normalizes the stand for HAR first (see OutfitStandHarFixer).
+        // Returns: number of apparel items added
+        public static int FillOutfitStand(
+            Building_OutfitStand outfitStand,
+            List<ThingDef> apparelDefs,
+            QualityCategory minQuality = QualityCategory.Normal,
+            QualityCategory maxQuality = QualityCategory.Excellent,
+            Faction faction = null)
+        {
+            if (outfitStand == null || apparelDefs == null || apparelDefs.Count == 0)
+                return 0;
+
+            OutfitStandHarFixer.NormalizeOutfitStand(outfitStand);
+
+            int added = 0;
+            foreach (ThingDef apparelDef in apparelDefs)
+            {
+                if (apparelDef == null)
                 {
-                    if (apparelDef == null)
-                    {
-                        Log.Warning("[Better Traders Guild] Null apparel def in list, skipping");
-                        continue;
-                    }
+                    Log.Warning("[Better Traders Guild] Null apparel def in list, skipping");
+                    continue;
+                }
 
-                    if (!apparelDef.IsApparel)
-                    {
-                        Log.Warning($"[Better Traders Guild] ThingDef '{apparelDef.defName}' is not apparel, skipping");
-                        continue;
-                    }
+                if (!apparelDef.IsApparel)
+                {
+                    Log.Warning($"[Better Traders Guild] ThingDef '{apparelDef.defName}' is not apparel, skipping");
+                    continue;
+                }
 
-                    // Create the apparel item
-                    Apparel apparel = CreateApparelWithQuality(apparelDef, minQuality, maxQuality);
-                    if (apparel == null) continue;
+                // Create the apparel item
+                Apparel apparel = CreateApparelWithQuality(apparelDef, minQuality, maxQuality);
+                if (apparel == null) continue;
 
-                    // Apply faction color if VEF is active
-                    ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
+                // Apply faction color if VEF is active
+                ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
 
-                    // Add to outfit stand using the dedicated API
-                    bool success = outfitStand.AddApparel(apparel);
-                    if (!success)
-                    {
-                        // Clean up if insertion failed
-                        Log.Warning($"[Better Traders Guild] Failed to add '{apparelDef.defName}' to outfit stand at {outfitStand.Position}");
-                        apparel.Destroy(DestroyMode.Vanish);
-                    }
+                // Add to outfit stand using the dedicated API
+                if (outfitStand.AddApparel(apparel))
+                {
+                    added++;
+                }
+                else
+                {
+                    // Clean up if insertion failed
+                    Log.Warning($"[Better Traders Guild] Failed to add '{apparelDef.defName}' to outfit stand at {outfitStand.Position}");
+                    apparel.Destroy(DestroyMode.Vanish);
                 }
             }
+            return added;
         }
 
         // Creates an apparel item with randomized quality within the specified range.
