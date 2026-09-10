@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Settlement Map Generator, Vanilla Gravship Expanded 2 variant
+
+    Used instead of BTG_SettlementMapGenerator when VGE2's Traders Guild station
+    patch is live (VGE2Integration.Available): VGE2 replaces vanilla's
+    SettlementPlatform GenStepDef with its own prefab-built station, and players
+    would rather keep that station than lose it to BTG's layout. So this pipeline's
+    platform step IS the vanilla def (now VGE2's station), and BTG layers its
+    additions on top. Garrison and loot stay vanilla (SettlementPawnsLoot,
+    LordJob_DefendBase) and vanilla's defeat rule applies: this generator is
+    deliberately NOT one of TradersGuildHelper.IsBTGGeneratedMap's, so the security
+    census never latches here. Revisit with the S5 tracker item once BTG prefabs
+    (S4) put BTG rooms on the station.
+
+    No MayRequire: every step referenced here exists without VGE2 (vanilla defs plus
+    BTG's own). The def is simply never selected unless VGE2's station is live.
+  -->
+
+  <MapGeneratorDef ParentName="SpaceMapGenerator">
+    <defName>BTG_SettlementMapGenerator_VGE2</defName>
+    <!-- No label: MapGeneratorDef labels are translated (DefInjected/MapGeneratorDef),
+         and nothing player-facing reads this one; like BTG_SmugglersDenMapGenerator. -->
+
+    <!-- Vanilla's value for SettlementPlatform; kept explicit so the two agree -->
+    <defeatRequiresCantReachUnfogged>false</defeatRequiresCantReachUnfogged>
+
+    <genSteps>
+      <!-- Vanilla def, replaced by VGE2 with GenStep_OrbitalPlatform_Custom -->
+      <li>SettlementPlatform</li>          <!-- order 200 -->
+
+      <!-- BTG layers over the prefab station (all keyed on the SpawnRect it publishes) -->
+      <li>BTG_PlaceWallConduits</li>       <!-- order 300 -->
+      <li>BTG_SpawnCargoVaultHatch</li>    <!-- order 305 -->
+      <li>BTG_FillHydroponics</li>         <!-- order 310 -->
+      <li>BTG_StockOutfitStands</li>       <!-- order 315 -->
+
+      <!-- Vanilla garrison, loot and LordJob_DefendBase -->
+      <li>SettlementPawnsLoot</li>         <!-- order 700 -->
+    </genSteps>
+
+  </MapGeneratorDef>
+</Defs>

@@ -18,6 +18,13 @@ namespace BetterTradersGuild.DefRefs
         // - BTG_SettlementPostProcess: Custom GenStep for terrain/pipes/lighting
         public static MapGeneratorDef BTG_SettlementMapGenerator;
 
+        // Variant selected when Vanilla Gravship Expanded 2's Traders Guild station patch
+        // is live (VGE2Integration.Available): vanilla's (VGE2-replaced) SettlementPlatform
+        // step, then BTG's layered steps (conduits, vault hatch, hydroponics, outfit
+        // stands), then vanilla SettlementPawnsLoot. Deliberately not a BTG-generated map
+        // for TradersGuildHelper.IsBTGGeneratedMap (vanilla defeat rule applies).
+        public static MapGeneratorDef BTG_SettlementMapGenerator_VGE2;
+
         // Custom MapGeneratorDef for the cargo vault pocket map.
         //
         // Inherits from SpaceMapGenerator to get space rendering properties.

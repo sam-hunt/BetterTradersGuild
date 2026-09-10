@@ -51,9 +51,10 @@ namespace BetterTradersGuild
             _ = CWTLIntegration.Available;
             _ = VREAIntegration.Available;
 
-            // UMW is consumed through def instances, which do NOT survive a reload — its
-            // resolution is an explicit idempotent call so it re-runs here every load.
+            // UMW and VGE2 are consumed through def instances, which do NOT survive a reload —
+            // their resolution is an explicit idempotent call so it re-runs here every load.
             UMWIntegration.Resolve();
+            VGE2Integration.Resolve();
         }
     }
 }
