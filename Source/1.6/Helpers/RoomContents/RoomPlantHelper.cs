@@ -77,10 +77,9 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // USAGE: Designed for reuse in any RoomContentsWorker with hydroponics. Call this AFTER
         // base.FillRoom() to spawn plants in basins placed by XML prefabs.
         //
-        // Common hydroponic-compatible plants:
+        // Common hydroponic-compatible plants (vanilla corn is NOT one):
         // - Plant_Rice: Fast-growing food crop (3 days)
         // - Plant_Potato: Reliable food crop (5.5 days)
-        // - Plant_Corn: High-yield food crop (14 days)
         // - Plant_Healroot: Medicinal herb (9 days)
         // - Plant_Strawberry: Food/beauty hybrid (4.6 days)
         // map: The map to spawn plants on

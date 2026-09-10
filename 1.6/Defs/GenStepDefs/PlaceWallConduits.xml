@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Place Wall Conduits GenStep
+
+    Lays a HiddenConduit under every wall and door cell inside the platform step's
+    SpawnRect so the station's LifeSupportUnits (and VGE2 power sockets) form one
+    grid that reaches every powered fixture near a wall. BTG's own layouts get the
+    same wiring from LayoutConduitPlacer during structure generation; this step is
+    for prefab-built stations (VGE2's Traders Guild station) that ship without it.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_PlaceWallConduits</defName>
+    <order>300</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_PlaceWallConduits" />
+  </GenStepDef>
+</Defs>

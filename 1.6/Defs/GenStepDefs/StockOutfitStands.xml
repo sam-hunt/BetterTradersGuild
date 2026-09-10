@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Stock Outfit Stands GenStep
+
+    Stocks empty outfit stands across the map with a vacsuit and helmet, each stand
+    rolling the chance independently. Mirrors CorridorAirlockDefenceSpawner's
+    airlock policy (50% of stands, Normal/Good quality) so a station whose rooms BTG
+    did not author (VGE2's Traders Guild station) reads the same as BTG's airlocks.
+    Stands already holding anything are left alone.
+
+    XML-configurable parameters:
+    - apparel: one of each per stocked stand
+    - chancePerStand: probability an empty stand is stocked
+    - minQuality / maxQuality: uniform quality roll per item
+  -->
+
+  <GenStepDef>
+    <defName>BTG_StockOutfitStands</defName>
+    <order>315</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_StockOutfitStands">
+      <apparel>
+        <li>Apparel_Vacsuit</li>
+        <li>Apparel_VacsuitHelmet</li>
+      </apparel>
+      <chancePerStand>0.5</chancePerStand>
+      <minQuality>Normal</minQuality>
+      <maxQuality>Good</maxQuality>
+    </genStep>
+  </GenStepDef>
+</Defs>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Fill Hydroponics GenStep
+
+    Sows every empty hydroponics basin on the map with a random food crop from the
+    list, at a random growth per basin. Map-wide default for stations whose rooms
+    BTG did not author (VGE2's Traders Guild station); BTG's own rooms sow theirs
+    in their RoomContentsWorkers, and basins already holding a plant are skipped.
+
+    XML-configurable parameters:
+    - plants: hydroponic-compatible crops (Hydroponic sow tag), one picked per basin
+    - growthRange: growth rolled per basin (0.0-1.0)
+
+    Run after BTG_PlaceWallConduits: unpowered basins rot their plants.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_FillHydroponics</defName>
+    <order>310</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_FillHydroponics">
+      <plants>
+        <li>Plant_Rice</li>
+        <li>Plant_Potato</li>
+        <li>Plant_Strawberry</li>
+      </plants>
+      <growthRange>0.1~0.9</growthRange>
+    </genStep>
+  </GenStepDef>
+</Defs>
