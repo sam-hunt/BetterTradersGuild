@@ -44,7 +44,7 @@
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <BTG_Settings_UseCustomLayouts>Use custom settlement map generator</BTG_Settings_UseCustomLayouts>
-  <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nWith Vanilla Gravship Expanded - Chapter 2 active, its Traders Guild station is generated instead and this adds the cargo vault hatch, sown hydroponics and stocked outfit stands to it.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to.</BTG_Settings_UseCustomLayoutsDesc>
+  <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nWith Vanilla Gravship Expanded - Chapter 2 active, its Traders Guild station is generated instead but still adds some of our improvements.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- {0} = percentage -->
