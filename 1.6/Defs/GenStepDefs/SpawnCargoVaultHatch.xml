@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Spawn Cargo Vault Hatch GenStep
+
+    Places the cargo vault hatch on a station whose rooms BTG did not lay out
+    (VGE2's Traders Guild station): the clear 3x3 spot with a one-cell clear ring,
+    roofed, nearest the station centre, inside the platform step's SpawnRect. BTG's
+    own layouts place the hatch from the ShuttleBay room worker instead. Honours
+    enableCargoVault (sealed variant when off) exactly as that path does.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_SpawnCargoVaultHatch</defName>
+    <order>305</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SpawnCargoVaultHatch" />
+  </GenStepDef>
+</Defs>
