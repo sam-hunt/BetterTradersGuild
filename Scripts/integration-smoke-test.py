@@ -22,12 +22,13 @@ engine.REPO_ROOT = Path(__file__).resolve().parent.parent
 engine.PACKAGE_ID = "shunter.bettertradersguild"
 
 # RATIONALE: Odyssey is BTG's hard dep; Biotech is MayRequire-gated (xenotype
-# ScenPart) and VREA's own hard dep. The five optional mods are exactly the
+# ScenPart) and VREA's own hard dep. The optional mods are exactly the
 # Integrations/ roster - each activates conditional patches or reflection
 # that never runs otherwise: HAR (outfit stand body-type fixer), VEF (PipeSystem
-# landing pad pipes), VREA (android stand gate), CWTL (attack CanAttack
-# gate), UMW (silver-inlay melee trait + nursery knife). VEF is also VREA's
-# hard dep and must load before it. Probe last (auto-quit).
+# landing pad pipes), VGE1+VGE2 (VGE2-based settlement pipeline, station doodad
+# reskins, lamp retune), VREA (android stand gate), CWTL (attack CanAttack
+# gate), UMW (silver-inlay melee trait + nursery knife). VEF is also VREA's and
+# VGE's hard dep and must load before them; VGE2 needs VGE1. Probe last (auto-quit).
 engine.SMOKE_ACTIVE_MODS = [
     "brrainz.harmony",
     "ludeon.rimworld",
@@ -35,6 +36,8 @@ engine.SMOKE_ACTIVE_MODS = [
     "ludeon.rimworld.odyssey",
     "erdelf.humanoidalienraces",
     "oskarpotocki.vanillafactionsexpanded.core",
+    "vanillaexpanded.gravship",
+    "vanillaexpanded.gravship2",
     "vanillaracesexpanded.android",
     "kearril.choosewheretoland",
     "shunter.uniquemeleeweapons",
@@ -53,6 +56,7 @@ engine.INTEGRATION_PATTERNS = {
     "VREA": ["VREAndroids"],
     "VEF/PipeSystem": ["PipeSystem", "VEF."],
     "UMW": ["UniqueMeleeWeapons", "UMW_"],
+    "VGE": ["VanillaGravshipExpanded", "VGE_", "VGE2_"],
 }
 
 raise SystemExit(engine.main())
