@@ -101,6 +101,8 @@ BTG uses a declarative, XML-driven approach for custom map generation.
 | GenStep                     | Purpose                                                      |
 | --------------------------- | ------------------------------------------------------------ |
 | `BTG_SettlementPlatform`    | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
+| `BTG_PlaceWallConduitsAndPipes` | HiddenConduit + VE hidden pipes under every wall/door in `SpawnRect`, after room fill (VGE2 pipeline uses the conduits-only `BTG_PlaceWallConduits`; must precede `BTG_ExtendLandingPadPipes`) |
+| `BTG_PrimePipeNetworks`     | Fill VE tanks, close/unclaim valves (BTG pipelines only)     |
 | `BTG_SpawnEntranceDefences` | Spawn autocannons flanking perimeter entrances               |
 | `BTG_ReplaceTerrain`        | Replace AncientTile → MetalTile                              |
 | `BTG_PaintTerrain`          | Paint terrain with BTG_OrbitalSteel color                    |

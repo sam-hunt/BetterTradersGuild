@@ -31,6 +31,10 @@
       <!-- Core platform generation using forked smuggler's den layout -->
       <li>BTG_SmugglersDenPlatform</li>     <!-- order 200 -->
 
+      <!-- Hidden conduits + VE pipes under every wall, then tanks filled and valves locked down -->
+      <li>BTG_PlaceWallConduitsAndPipes</li> <!-- order 240 -->
+      <li>BTG_PrimePipeNetworks</li>         <!-- order 245 -->
+
       <!-- Static post-processing -->
       <!-- BTG_ReplaceTerrain skipped for run-down look -->
       <!-- BTG_PaintTerrain skipped for run-down look -->

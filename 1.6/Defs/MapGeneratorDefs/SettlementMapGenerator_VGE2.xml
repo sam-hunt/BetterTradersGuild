@@ -30,8 +30,9 @@
       <!-- Vanilla def, replaced by VGE2 with GenStep_OrbitalPlatform_Custom -->
       <li>SettlementPlatform</li>          <!-- order 200 -->
 
-      <!-- BTG layers over the prefab station (all keyed on the SpawnRect it publishes) -->
-      <li>BTG_PlaceWallConduits</li>       <!-- order 300 -->
+      <!-- BTG layers over the prefab station (all keyed on the SpawnRect it publishes).
+           Conduits only: the station ships no VE tanks or valves for hidden pipes to feed. -->
+      <li>BTG_PlaceWallConduits</li>       <!-- order 240 -->
       <li>BTG_SpawnCargoVaultHatch</li>    <!-- order 305 -->
       <li>BTG_SowPlantGrowers</li>        <!-- order 310 -->
       <li>BTG_StockOutfitStands</li>       <!-- order 315 -->

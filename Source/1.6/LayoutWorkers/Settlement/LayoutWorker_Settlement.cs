@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BetterTradersGuild.DefRefs;
-using BetterTradersGuild.Helpers.MapGeneration;
 using RimWorld;
 using Verse;
 
@@ -10,25 +9,16 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
 {
     // Custom LayoutWorker for BTG Settlement orbital platforms.
     //
-    // Extends vanilla LayoutWorker_OrbitalPlatform with pre-spawn hooks and
-    // infrastructure setup that must happen during structure generation.
+    // Extends vanilla LayoutWorker_OrbitalPlatform with layout-time constraints
+    // (a ShuttleBay-sized room) and an error guard around the spawn.
     //
-    // LIFECYCLE:
-    // 1. BASE SPAWN: Vanilla orbital platform generation (walls, doors, rooms, contents)
-    // 2. POST-SPAWN INFRASTRUCTURE: Hidden conduits, pipe network tanks, valves
-    //
-    // NOTE: Post-spawn aesthetics and external infrastructure are handled by separate GenSteps
-    // which run AFTER all structure generation completes (including external landing pads):
-    // - GenStep_ReplaceTerrain (order 250): Replace AncientTile with MetalTile
-    // - GenStep_PaintTerrain (order 255): Paint terrain with BTG_OrbitalSteel
-    // - GenStep_ExtendLandingPadPipes (order 260): Extend VE pipes to landing pads
-    // - GenStep_SetWallLampColor (order 265): Set WallLamp glow color
-    // - GenStep_SpawnSentryDrones (order 705): Spawn sentry drones
-    //
-    // ARCHITECTURE:
-    // The LayoutWorker handles operations on things spawned by base.Spawn().
-    // The GenStep handles operations that need external features (landing pads, terrain)
-    // which are generated after the LayoutWorker returns.
+    // Everything that operates on the spawned structure lives in GenSteps, which run
+    // after GenStep_OrbitalPlatform returns (so after room contents, external landing
+    // pads and the SpawnRect var exist): BTG_PlaceWallConduitsAndPipes (240),
+    // BTG_PrimePipeNetworks (245), BTG_ReplaceTerrain/BTG_PaintTerrain (250/255),
+    // BTG_ExtendLandingPadPipes (260), BTG_SetWallLampColor (265), the grower/stand
+    // steps (310/315) and the defender steps (700+). See the pipeline defs under
+    // 1.6/Defs/MapGeneratorDefs/.
     public class LayoutWorker_Settlement : LayoutWorker_OrbitalPlatform
     {
         // Context flag: true while BTG structure sketch generation is in progress.
@@ -121,7 +111,8 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
                  r.TryGetRectOfSize(MinShuttleBayHeight, MinShuttleBayWidth, out _)));
         }
 
-        // Main entry point - overrides vanilla Spawn with clear pre/post hooks.
+        // Guards the vanilla spawn so a failing room worker leaves a partial structure
+        // instead of aborting the whole platform GenStep.
         public override void Spawn(
             LayoutStructureSketch layoutStructureSketch,
             Map map,
@@ -132,10 +123,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             bool canReuseSketch = false,
             Faction faction = null)
         {
-            // ═══════════════════════════════════════════════════════════════════
-            // BASE SPAWN: Vanilla orbital platform generation
-            // (walls, doors, room layouts, RoomContentsWorkers, furniture)
-            // ═══════════════════════════════════════════════════════════════════
+            // Vanilla: walls, doors, floors, then every RoomContentsWorker
             try
             {
                 base.Spawn(layoutStructureSketch, map, pos, threatPoints, allSpawnedThings, roofs, canReuseSketch, faction);
@@ -145,28 +133,6 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
                 Log.Error($"[Better Traders Guild] Error during settlement layout generation " +
                           $"(room contents may be incomplete): {e}");
             }
-
-            // ═══════════════════════════════════════════════════════════════════
-            // POST-SPAWN INFRASTRUCTURE: Power and fluid networks
-            // These operate on things spawned by base.Spawn(), so they work here.
-            // ═══════════════════════════════════════════════════════════════════
-
-            // Place hidden conduits and VE pipes under all walls
-            LayoutConduitPlacer.PlaceHiddenConduits(map, layoutStructureSketch);
-
-            // Fill VE pipe network tanks to operational levels
-            PipeNetworkTankFiller.FillTanksOnMap(map);
-
-            // Close all VE pipe valves and remove faction ownership (lockdown state)
-            PipeValveHandler.CloseAllValvesAndClearFaction(map);
-
-            // NOTE: The following are handled by separate GenSteps (order 250-705)
-            // because they require external features that don't exist until after
-            // the LayoutWorker returns:
-            // - GenStep_ReplaceTerrain / GenStep_PaintTerrain (terrain aesthetics)
-            // - GenStep_ExtendLandingPadPipes (needs external landing pads)
-            // - GenStep_SetWallLampColor (lighting aesthetics)
-            // - GenStep_SpawnSentryDrones (sentry drone spawning)
         }
     }
 }
