@@ -12,6 +12,12 @@ namespace BetterTradersGuild
     // those only feed the settlement points roll — the den's garrison is sized by
     // its quest — so they alone gate on useCustomLayouts.
     //
+    // The other exception is the spacer-tier toggle at the top: it is a def-layer,
+    // restart-required switch (it gates the PawnKinds/Faction_Settlement XML patches
+    // via PatchOperationSettingGatedSequence), so it reaches every TradersGuild
+    // pawn spawn — BTG's own maps, peaceful visits, and VGE2's station alike. The
+    // den is untouched either way: its Salvager kinds are never patched.
+    //
     // The defender resupply knobs render as an indented subgroup under the
     // entrenched-AI toggle, which is their true prerequisite: the resupply job is a
     // node of the BTG_DefendStructure duty, so it runs wherever the entrenched lord
@@ -21,6 +27,18 @@ namespace BetterTradersGuild
     // knobs still fully govern.
     public partial class BetterTradersGuildSettings
     {
+        // Spacer-tier TG defenders ("Spacer-tier defenders" in the settings UI).
+        // When true (default), the PawnKinds/Faction_Settlement patch files apply:
+        // spacer-tier weapons/armor/implants/gear quality on the five combat kinds
+        // and an elite-leaning Settlement pawnGroupMaker. When false, those files
+        // no-op and TG defenders roll with vanilla loadouts and weights; the
+        // Citizen/Child vacuum-protection fixes stay on regardless. Read by
+        // PatchOperationSettingGatedSequence during XML patching, so it takes
+        // effect on the next game start only. A balance preference, not a compat
+        // switch: deliberately not tied to VGE2 detection, and never annotated
+        // as recommended in either state.
+        public bool useSpacerTierDefenders = true;
+
         // Defender AI style ("Entrenched defender AI" in the settings UI). When
         // true (default), defenders use BTG's bounded lord
         // (LordJob_BTGDefendStructure): they hold the structure, never assault or
@@ -82,6 +100,7 @@ namespace BetterTradersGuild
 
         private void ExposeDefenderSettings()
         {
+            Scribe_Values.Look(ref useSpacerTierDefenders, "useSpacerTierDefenders", true);
             Scribe_Values.Look(ref useEntrenchedDefenders, "useEntrenchedDefenders", true);
             Scribe_Values.Look(ref resupplyMealsPerDefender, "resupplyMealsPerDefender", 2);
             Scribe_Values.Look(ref resupplyTriggersRaid, "resupplyTriggersRaid", true);
@@ -104,6 +123,7 @@ namespace BetterTradersGuild
 
         private void ResetDefenderSettings()
         {
+            useSpacerTierDefenders = true;
             useEntrenchedDefenders = true;
             resupplyMealsPerDefender = 2;
             resupplyTriggersRaid = true;
@@ -116,6 +136,18 @@ namespace BetterTradersGuild
         private void DrawDefendersSection(Listing_Standard listing)
         {
             SectionHeader(listing, "BTG_Settings_Defenders".Translate());
+
+            // Spacer-tier gear + elite-leaning garrison weights, or vanilla. Def-layer
+            // and restart-required (see the header). Tagged vanilla/default only —
+            // no recommendation either way.
+            string spacerTierLabel = Annotate(
+                "BTG_Settings_SpacerTierDefenders".Translate(),
+                vanilla: !useSpacerTierDefenders,
+                isDefault: useSpacerTierDefenders);
+            listing.CheckboxLabeled(spacerTierLabel, ref useSpacerTierDefenders,
+                "BTG_Settings_SpacerTierDefendersDesc".Translate());
+
+            listing.Gap(12f);
 
             // Defender AI style: BTG's bounded entrenched lord vs vanilla
             // DefendBase. The headline choice for the section. Not gated on

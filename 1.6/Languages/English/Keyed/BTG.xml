@@ -51,6 +51,10 @@
   <BTG_Settings_SentryDronePresence>Additional sentry drone presence: {0}%</BTG_Settings_SentryDronePresence>
   <BTG_Settings_SentryDroneDesc>Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike.</BTG_Settings_SentryDroneDesc>
 
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <BTG_Settings_SpacerTierDefenders>Spacer-tier defenders (requires restart)</BTG_Settings_SpacerTierDefenders>
+  <BTG_Settings_SpacerTierDefendersDesc>Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way.</BTG_Settings_SpacerTierDefendersDesc>
+
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <BTG_Settings_EntrenchedDefenders>Entrenched defender AI</BTG_Settings_EntrenchedDefenders>
   <BTG_Settings_EntrenchedDefendersDesc>Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nGoverns settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).\nDecided when a map is generated; only affects maps entered afterwards.</BTG_Settings_EntrenchedDefendersDesc>
