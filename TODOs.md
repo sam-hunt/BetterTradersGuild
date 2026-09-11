@@ -20,6 +20,7 @@ claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../Vanill
     - BTG settlement: armory stands all marine armour; airlock stands half vacsuit/half bare; crew quarters stands a mixed wardrobe (synthread shirt+pants, marine, vacsuit, recon, panthera body strap); no stray empty stand dressed unexpectedly
     - smuggler's den: same rooms; with VGE2 active every armory stand shows a VGE combat vacsuit instead of marine armour (LayoutRoomDef_Armory_VGE2.xml), and the den has several armories
     - BTG+VGE2 settlement: half the station's 14 steel stands hold a vacsuit, faction-tinted
+  - eyeball power and pipe nets after the GenStep move (batch with the above): settlement + den one grid, tanks filled, valves closed/unowned, landing pad pipes still join the network; VGE2 station basins/lamps powered
   - refactor airlock defenses to appear similar to VGE2s?
   - map which of our mod settings affect VGE2 mapgen
   - author/patch BTG side/corner prefabs
