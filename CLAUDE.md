@@ -101,6 +101,7 @@ BTG uses a declarative, XML-driven approach for custom map generation.
 | GenStep                     | Purpose                                                      |
 | --------------------------- | ------------------------------------------------------------ |
 | `BTG_SettlementPlatform`    | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
+| `BTG_SwapPlatformCannons_VGE2` | Under VGE2 only: 2 of the 4 inert corner `GaussCannon`s become faction-owned `VGE_EnemyGaussCannon`s (also in the den pipeline; a factionless turret can never target, so the claim is the point) |
 | `BTG_PlaceWallConduitsAndPipes` | HiddenConduit + VE hidden pipes under every wall/door in `SpawnRect`, after room fill (VGE2 pipeline uses the conduits-only `BTG_PlaceWallConduits`; must precede `BTG_ExtendLandingPadPipes`) |
 | `BTG_PrimePipeNetworks`     | Fill VE tanks, close/unclaim valves (BTG pipelines only)     |
 | `BTG_SpawnEntranceDefences` | Spawn autocannons flanking perimeter entrances               |

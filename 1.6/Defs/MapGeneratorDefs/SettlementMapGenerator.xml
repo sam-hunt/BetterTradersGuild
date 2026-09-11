@@ -25,6 +25,11 @@
       <!-- Core orbital platform generation using BTG_SettlementPlatform layout -->
       <li>BTG_SettlementPlatform</li>       <!-- order 200 -->
 
+      <!-- Under VGE2, two corner cannons become live VGE_EnemyGaussCannons owned by the settlement.
+           Currently unreachable (VGE2 routes settlements to BTG_SettlementMapGenerator_VGE2), kept so a
+           future option to restore this generator under VGE2 needs no further work. -->
+      <li MayRequire="vanillaexpanded.gravship2">BTG_SwapPlatformCannons_VGE2</li> <!-- order 205 -->
+
       <!-- Hidden conduits + VE pipes under every wall, then tanks filled and valves locked down -->
       <li>BTG_PlaceWallConduitsAndPipes</li> <!-- order 240 -->
       <li>BTG_PrimePipeNetworks</li>        <!-- order 245 -->
