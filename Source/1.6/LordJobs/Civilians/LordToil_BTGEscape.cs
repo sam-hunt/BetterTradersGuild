@@ -21,6 +21,10 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //   * the shuttle waits until every still-active walker - including the caretaker/pilot,
     //     who is himself a walker - has boarded, then leaves,
     //   * a downed walker or an un-ferryable orphaned infant never deadlocks the launch.
+    // A walker whose route just closed still counts as bound for the craft it was last
+    // heading to, for EscapeGraceTracker.LiftOffGraceTicks: reachability flickers at the
+    // 30-tick sample rate (see the tracker), and one closed-door sample used to send the
+    // shuttle off with a child alone while the caretaker stood behind the door.
     public class LordToil_BTGEscape : LordToil
     {
         private const int LiftOffCheckInterval = 30;
@@ -29,11 +33,16 @@ namespace BetterTradersGuild.LordJobs.Civilians
         // only the adult duty) can reuse the same focus.
         protected IntVec3 focus;
 
+        // Shared with the owning lord job (and its defend toil) so the per-walker
+        // last-destination memory survives Escape <-> Defend swaps.
+        private readonly EscapeGraceTracker grace;
+
         public override IntVec3 FlagLoc => focus;
 
-        public LordToil_BTGEscape(IntVec3 focus)
+        public LordToil_BTGEscape(IntVec3 focus, EscapeGraceTracker grace)
         {
             this.focus = focus;
+            this.grace = grace;
         }
 
         public override void UpdateAllDuties()
@@ -76,17 +85,28 @@ namespace BetterTradersGuild.LordJobs.Civilians
         }
 
         // A walker still "bound for" this launchable is one that is alive, not downed, not yet
-        // aboard any launchable, and whose preferred launchable is this one. Those gate its
-        // lift-off; everyone else (aboard, downed, or dead) does not.
+        // aboard any launchable, and whose preferred launchable is this one - or was, within
+        // the lift-off grace window, and has none reachable right now (presumed blocked, not
+        // gone). Those gate its lift-off; everyone else (aboard, downed, or dead) does not.
         private bool AnyWalkerStillBoundFor(Thing launchable, Map map)
         {
+            int now = Find.TickManager.TicksGame;
             foreach (Pawn pawn in lord.ownedPawns)
             {
                 if (pawn?.Dead != false || pawn.Downed)
                     continue;
                 if (LaunchableEscapeHelper.IsAboardAnyLaunchable(pawn, map))
                     continue;
-                if (LaunchableEscapeHelper.PreferredLaunchable(pawn) == launchable)
+
+                Thing preferred = LaunchableEscapeHelper.PreferredLaunchable(pawn);
+                if (preferred != null)
+                {
+                    grace.NoteBound(pawn, preferred, now);
+                    if (preferred == launchable)
+                        return true;
+                    continue;
+                }
+                if (grace.RecentlyBoundFor(pawn, launchable, now))
                     return true;
             }
             return false;

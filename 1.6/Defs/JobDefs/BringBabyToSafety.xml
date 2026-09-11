@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - NPC crib tuck job definition
+
+    BTG_BringBabyToSafety: the caretaker/garrison "put this infant back in a crib" job.
+    Runs vanilla's own JobDriver_BringBabyToSafety unchanged; only the carry flags differ.
+    Vanilla's BringBabyToSafety keeps the JobDef defaults (dropThingBeforeJob true,
+    carryThingAfterJob false), which are fine for a colonist fetching a baby off the floor
+    but wrong for BTG's carers, who routinely START the tuck already holding the infant (a
+    ferry interrupted by a lord phase change, a bottle-feed's aftermath): starting the
+    vanilla job dropped the infant at the carer's feet, the driver's pickup toils lifted it
+    again, and any interruption mid-walk dropped it once more - the visible pick/drop/retuck
+    churn. With these flags the driver's already-carrying jump is taken directly and an
+    interrupted tuck keeps the infant in arms for whichever giver runs next (the tuck's own
+    carried branch, or the escape carry).
+
+    A separate JobDef rather than retargeting vanilla's so colony childcare is untouched.
+    Used by: JobGiver_BTGTuckBabyInCrib (shelter/stranded caretaker and garrison duties).
+  -->
+
+  <JobDef>
+    <defName>BTG_BringBabyToSafety</defName>
+    <driverClass>JobDriver_BringBabyToSafety</driverClass>
+    <reportString>putting TargetA somewhere safe.</reportString>
+    <forceCompleteBeforeNextJob>true</forceCompleteBeforeNextJob>
+    <dropThingBeforeJob>false</dropThingBeforeJob>
+    <carryThingAfterJob>true</carryThingAfterJob>
+  </JobDef>
+
+</Defs>

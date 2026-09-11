@@ -177,9 +177,10 @@ namespace BetterTradersGuild.AI.Civilians
         }
 
         // Custom lift-off with no world destination: the launchable's occupants have escaped.
-        // Detach the occupants from their lord first (so the escape lord shrinks and self-cleans
-        // instead of tracking pawns that are effectively gone), then launch. A destination-less
-        // launch makes the vanilla leaving skyfaller play the real take-off animation and, on
+        // Detach the occupants from their lord and end their jobs first (so the escape lord
+        // shrinks and self-cleans instead of tracking pawns that are effectively gone, and no
+        // in-flight job can blow up when the sky-exit tears them down), then launch. A
+        // destination-less launch makes the vanilla leaving skyfaller play the real take-off animation and, on
         // reaching the sky, ExitMap the occupants (they leave play cleanly - no corpses, no
         // traveling world object) and tear the craft down.
         //
@@ -198,7 +199,7 @@ namespace BetterTradersGuild.AI.Civilians
             if (transporter?.innerContainer == null)
                 return;
 
-            DetachOccupantsFromLords(transporter);
+            PrepareOccupantsForDeparture(transporter);
 
             // Shuttle: hand it to vanilla's fly-away job. dropMode None keeps the escapees aboard
             // rather than dumping them back onto the platform; with no destination tile set on the
@@ -232,13 +233,31 @@ namespace BetterTradersGuild.AI.Civilians
         }
 
         // Remove every launchable occupant from its lord so the escape lord shrinks and self-
-        // cleans right away. When the craft's takeoff finishes the occupants ExitMap with no
-        // lord left to notify.
-        private static void DetachOccupantsFromLords(CompTransporter transporter)
+        // cleans right away, and end whatever job it is running. When the craft's takeoff
+        // finishes the occupants ExitMap with no lord left to notify.
+        //
+        // The job end matters for infants: a pawn in a container still ticks its job tracker
+        // (Pawn.Tick only skips world pawns), and Need_Rest's involuntary sleep starts a
+        // LayDown job on a carried baby targeting its carrier. That job rode into the pod,
+        // and when the leaving skyfaller ExitMap'd the occupants, LayDown's finish action ran
+        // Toils_LayDown.ApplyBedThoughts on an unspawned pawn, whose GetRoom() is null - a
+        // red NRE. It only fires once mindState.applyBedThoughtsOnLeave has latched (after the
+        // first few thousand ticks of any lay-down, and never reset), which is why it was
+        // intermittent. Clearing the flag makes the finish action a no-op both here and for
+        // any LayDown the baby starts again during the ascent (the next apply tick is 60000
+        // ticks out, so it cannot re-latch); StopAll ends the current job while nothing else
+        // is mid-teardown. Escapees are gone for good, so the lost bed thought is moot.
+        private static void PrepareOccupantsForDeparture(CompTransporter transporter)
         {
             List<Pawn> occupants = transporter.innerContainer.OfType<Pawn>().ToList();
             for (int i = 0; i < occupants.Count; i++)
-                occupants[i].GetLord()?.RemovePawn(occupants[i]);
+            {
+                Pawn occupant = occupants[i];
+                occupant.GetLord()?.RemovePawn(occupant);
+                if (occupant.mindState != null)
+                    occupant.mindState.applyBedThoughtsOnLeave = false;
+                occupant.jobs?.StopAll();
+            }
         }
 
         private static void LaunchWithoutDestination(Thing launchable, CompTransporter transporter)
