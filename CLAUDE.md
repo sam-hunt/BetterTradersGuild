@@ -101,6 +101,7 @@ BTG uses a declarative, XML-driven approach for custom map generation.
 | GenStep                     | Purpose                                                      |
 | --------------------------- | ------------------------------------------------------------ |
 | `BTG_SettlementPlatform`    | Core structure via `GenStep_OrbitalPlatform` with BTG layout |
+| `BTG_SwapPlatformCannons_VGE2` | Under VGE2 only: 2 of the 4 inert corner `GaussCannon`s become faction-owned `VGE_EnemyGaussCannon`s (also in the den pipeline; a factionless turret can never target, so the claim is the point) |
 | `BTG_SpawnEntranceDefences` | Spawn autocannons flanking perimeter entrances               |
 | `BTG_ReplaceTerrain`        | Replace AncientTile → MetalTile                              |
 | `BTG_PaintTerrain`          | Paint terrain with BTG_OrbitalSteel color                    |

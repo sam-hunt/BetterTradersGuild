@@ -31,6 +31,9 @@
       <!-- Core platform generation using forked smuggler's den layout -->
       <li>BTG_SmugglersDenPlatform</li>     <!-- order 200 -->
 
+      <!-- Under VGE2, two corner cannons become live VGE_EnemyGaussCannons owned by the den -->
+      <li MayRequire="vanillaexpanded.gravship2">BTG_SwapPlatformCannons_VGE2</li> <!-- order 205 -->
+
       <!-- Static post-processing -->
       <!-- BTG_ReplaceTerrain skipped for run-down look -->
       <!-- BTG_PaintTerrain skipped for run-down look -->
