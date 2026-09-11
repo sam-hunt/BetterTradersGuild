@@ -28,7 +28,8 @@ claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../Vanill
   - allow optionally
   - upgrade BTG TG settlement map size even without VGE2?
   - Enable vault access needn't depend on custom mapgen
-  - Investigate/Activate VGE Gauss cannon code/other VGE TG mechanics
+  - eyeball the den under VGE2 (batch with the above): 2 of 4 corner cannons are live VGE_EnemyGaussCannons owned by the den, jammer stun message on landing, they fire at the parked ship once it ends
+  - Investigate/Activate other VGE TG mechanics (gauss cannons done: S16)
   - VGE2 TG/Salvager Shuttle texture replacement
   - Surface one-time mapgen options if VGE2 and BTG mapgen are both enabled:
     - Use BTG every time
