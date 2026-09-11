@@ -53,6 +53,10 @@ namespace BetterTradersGuild
             listing.CheckboxLabeled(layoutsLabel, ref useCustomLayouts,
                 "BTG_Settings_UseCustomLayoutsDesc".Translate());
 
+            // Under VGE2 the toggle still means "BTG content on the settlement map",
+            // but the map itself is VGE2's station (MapParentMapGeneratorDef).
+            VGE2Note(listing, "BTG_Settings_UseCustomLayoutsVGE2Note");
+
             listing.Gap(12f);
 
             // LifeSupportUnit power output

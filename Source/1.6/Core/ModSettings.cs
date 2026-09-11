@@ -1,3 +1,4 @@
+using BetterTradersGuild.Integrations;
 using BetterTradersGuild.WorldComponents;
 using UnityEngine;
 using Verse;
@@ -106,6 +107,25 @@ namespace BetterTradersGuild
             if (isDefault)
                 label += " " + "BTG_Settings_Default".Translate();
             return label;
+        }
+
+        // One-line yellow note shown only while Vanilla Gravship Expanded - Chapter 2's
+        // Traders Guild station is live (VGE2Integration.Available): under it, Traders
+        // Guild settlements generate from VGE2's prefab station with BTG layered on
+        // top, which changes what some settings reach. The note is the ONLY place that
+        // discloses this: tooltips stay VGE2-agnostic, since most players never run
+        // both mods and shouldn't read about one they don't have. Small font, not
+        // tiny, and never tinted for the non-VGE2 case (the tooltip convention above
+        // still holds for everything else).
+        private static void VGE2Note(Listing_Standard listing, string key)
+        {
+            if (!VGE2Integration.Available)
+                return;
+            Color prevColor = GUI.color;
+            GUI.color = Color.yellow;
+            listing.Label(key.Translate());
+            GUI.color = prevColor;
+            listing.Gap(4f);
         }
 
         // Slider label with the explanatory text as a hover tooltip. The explicit

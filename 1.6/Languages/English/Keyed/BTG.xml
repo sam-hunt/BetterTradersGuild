@@ -44,7 +44,11 @@
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <BTG_Settings_UseCustomLayouts>Use custom settlement map generator</BTG_Settings_UseCustomLayouts>
-  <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nWith Vanilla Gravship Expanded - Chapter 2 active, its Traders Guild station is generated instead but still adds some of our improvements.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to.</BTG_Settings_UseCustomLayoutsDesc>
+  <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to.</BTG_Settings_UseCustomLayoutsDesc>
+
+  <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now.</BTG_Settings_DefendersVGE2Note>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- {0} = percentage -->

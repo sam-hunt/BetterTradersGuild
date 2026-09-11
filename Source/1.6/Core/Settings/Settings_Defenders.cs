@@ -1,3 +1,4 @@
+using BetterTradersGuild.Integrations;
 using UnityEngine;
 using Verse;
 
@@ -71,14 +72,15 @@ namespace BetterTradersGuild
         // ships default OFF to avoid surprising existing players; the world value
         // is a floor-raise only (never below the vanilla roll). Settlements only:
         // the den's points always come from its quest, so this never applies there.
-        // Requires useCustomLayouts.
+        // Requires useCustomLayouts and BTG's own generator: under VGE2 the settlement
+        // garrison is vanilla's roll, so the UI greys this subgroup out there too.
         public bool scaleDefendersToThreatLevel = false;
 
         // Threat points multiplier for initial defender generation. Applied to the
         // base points (flat vanilla roll, or threat-scaled when
         // scaleDefendersToThreatLevel is on). Range: 0.5-3.0. Default: 1.0 (no
-        // modification). Settlements only, same as scaleDefendersToThreatLevel.
-        // Requires useCustomLayouts.
+        // modification). Settlements only, same as scaleDefendersToThreatLevel,
+        // including the VGE2 grey-out.
         public float threatPointsMultiplier = 1.0f;
 
         // Additional sentry drone presence as a factor of threat points.
@@ -149,6 +151,12 @@ namespace BetterTradersGuild
 
             listing.Gap(12f);
 
+            // Under VGE2 the settlement garrison is vanilla's (BTG_SettlementPawnsNoLoot,
+            // LordJob_DefendBase, vanilla defeat rule; see SettlementMapGenerator_VGE2.xml),
+            // so everything below the spacer-tier toggle reaches only the smuggler's
+            // den until the S5 tracker item lands BTG's garrison on the station.
+            VGE2Note(listing, "BTG_Settings_DefendersVGE2Note");
+
             // Defender AI style: BTG's bounded entrenched lord vs vanilla
             // DefendBase. The headline choice for the section. Not gated on
             // useCustomLayouts: it also decides the smuggler's den garrison's lord.
@@ -196,24 +204,27 @@ namespace BetterTradersGuild
 
             // Initial settlement garrison subgroup: the only knobs here that are
             // truly settlement-only (the den's garrison is sized by its quest), so
-            // they alone grey out with the custom-layouts master toggle.
+            // they alone grey out with the custom-layouts master toggle, and also
+            // under VGE2, where the settlement garrison is vanilla's points roll
+            // (GenStep_BTGSettlementPawns never runs) and nothing reads them at all.
             listing.Label("BTG_Settings_InitialGarrison".Translate());
             listing.Gap(4f);
 
-            GUI.enabled = useCustomLayouts;
+            bool initialGarrisonEnabled = useCustomLayouts && !VGE2Integration.Available;
+            GUI.enabled = initialGarrisonEnabled;
             listing.Indent(16f);
             listing.ColumnWidth -= 16f;
 
             // While gated off the effective state is "no scaling" (= vanilla, and
             // also the shipped default), so the annotations follow the shown state
             // rather than the stored one.
-            bool scalingShownOff = !(useCustomLayouts && scaleDefendersToThreatLevel);
+            bool scalingShownOff = !(initialGarrisonEnabled && scaleDefendersToThreatLevel);
             string scaleLabel = Annotate(
                 "BTG_Settings_ScaleDefenders".Translate(),
                 vanilla: scalingShownOff,
                 isDefault: scalingShownOff);
             CheckboxLabeledGated(listing, scaleLabel, ref scaleDefendersToThreatLevel,
-                "BTG_Settings_ScaleDefendersDesc".Translate(), useCustomLayouts);
+                "BTG_Settings_ScaleDefendersDesc".Translate(), initialGarrisonEnabled);
 
             listing.Gap(8f);
 
@@ -226,7 +237,7 @@ namespace BetterTradersGuild
             // Discard the slider result while gated off: greyed sliders still take
             // drags (the fade is visual only), and the stored value must survive.
             float multiplierSliderValue = listing.Slider(threatPointsMultiplier, 0.5f, 3.0f);
-            if (useCustomLayouts)
+            if (initialGarrisonEnabled)
                 threatPointsMultiplier = (int)System.Math.Round(multiplierSliderValue * 10f) / 10f;
 
             listing.ColumnWidth += 16f;
