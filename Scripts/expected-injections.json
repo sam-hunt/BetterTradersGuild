@@ -13,6 +13,9 @@
       "ludeon.rimworld",
       "ludeon.rimworld.biotech",
       "ludeon.rimworld.odyssey",
+      "oskarpotocki.vanillafactionsexpanded.core",
+      "vanillaexpanded.gravship",
+      "vanillaexpanded.gravship2",
       "shunter.uniquemeleeweapons",
       "shunter.bettertradersguild",
       "shunter.l10nprobe"
@@ -36,37 +39,43 @@
     "DutyDef": {
       "BTG_DefendStructure.thinkNode.subNodes.8.mealContainerDefNames": {
         "english": [
-          "Pallet_SurvivalMeals"
+          "Pallet_SurvivalMeals",
+          "VGE_SpacerPallet_SurvivalMeals"
         ],
         "isCollection": true
       },
       "BTG_ShelterAdult.thinkNode.subNodes.2.mealContainerDefNames": {
         "english": [
-          "Pallet_SurvivalMeals"
+          "Pallet_SurvivalMeals",
+          "VGE_SpacerPallet_SurvivalMeals"
         ],
         "isCollection": true
       },
       "BTG_ShelterChild.thinkNode.subNodes.2.mealContainerDefNames": {
         "english": [
-          "Pallet_SurvivalMeals"
+          "Pallet_SurvivalMeals",
+          "VGE_SpacerPallet_SurvivalMeals"
         ],
         "isCollection": true
       },
       "BTG_StrandedAdult.thinkNode.subNodes.3.mealContainerDefNames": {
         "english": [
-          "Pallet_SurvivalMeals"
+          "Pallet_SurvivalMeals",
+          "VGE_SpacerPallet_SurvivalMeals"
         ],
         "isCollection": true
       },
       "BTG_StrandedChild.thinkNode.subNodes.2.mealContainerDefNames": {
         "english": [
-          "Pallet_SurvivalMeals"
+          "Pallet_SurvivalMeals",
+          "VGE_SpacerPallet_SurvivalMeals"
         ],
         "isCollection": true
       },
       "BTG_StrandedDefender.thinkNode.subNodes.2.mealContainerDefNames": {
         "english": [
-          "Pallet_SurvivalMeals"
+          "Pallet_SurvivalMeals",
+          "VGE_SpacerPallet_SurvivalMeals"
         ],
         "isCollection": true
       }
@@ -95,6 +104,11 @@
       "BTG_IndependentTraders.pawnsPlural": {
         "english": "traders",
         "required": true
+      }
+    },
+    "GenStepDef": {
+      "BTG_SowPlantGrowers.genStep.rules.1.sowTag": {
+        "english": "Decorative"
       }
     },
     "JobDef": {
@@ -147,6 +161,29 @@
         "required": true
       }
     },
+    "LayoutRoomDef": {
+      "BTG_Classroom.modExtensions.0.rules.0.sowTag": {
+        "english": "Decorative"
+      },
+      "BTG_CrewQuarters.modExtensions.0.rules.0.sowTag": {
+        "english": "Decorative"
+      },
+      "BTG_Greenhouse.modExtensions.0.rules.1.sowTag": {
+        "english": "Decorative"
+      },
+      "BTG_MessHall.modExtensions.0.rules.0.sowTag": {
+        "english": "Decorative"
+      },
+      "BTG_Nursery.modExtensions.0.rules.0.sowTag": {
+        "english": "Decorative"
+      },
+      "BTG_RecRoom.modExtensions.0.rules.0.sowTag": {
+        "english": "Decorative"
+      },
+      "BTG_Workshop.modExtensions.0.rules.0.sowTag": {
+        "english": "Decorative"
+      }
+    },
     "MapGeneratorDef": {
       "BTG_CargoVaultMapGenerator.label": {
         "english": "cargo vault",
@@ -154,6 +191,10 @@
       },
       "BTG_SettlementMapGenerator.label": {
         "english": "settlement platform",
+        "required": true
+      },
+      "BTG_SettlementMapGenerator_VGE2.label": {
+        "english": "space",
         "required": true
       },
       "BTG_SmugglersDenMapGenerator.label": {
@@ -590,6 +631,49 @@
       },
       "BTG_CargoVaultHatch_Sealed.label": {
         "english": "sealed cargo vault hatch",
+        "required": true
+      },
+      "BTG_Shuttle_VGE2.comps.CompLaunchable.cooldownEndedMessage": {
+        "english": "{0} is ready to launch again.",
+        "required": true,
+        "normalized": "BTG_Shuttle_VGE2.comps.1.cooldownEndedMessage"
+      },
+      "BTG_Shuttle_VGE2.comps.CompRefuelable.fuelGizmoLabel": {
+        "english": "Chemfuel",
+        "required": true,
+        "normalized": "BTG_Shuttle_VGE2.comps.3.fuelGizmoLabel"
+      },
+      "BTG_Shuttle_VGE2.comps.CompRefuelable.fuelLabel": {
+        "english": "Chemfuel",
+        "required": true,
+        "normalized": "BTG_Shuttle_VGE2.comps.3.fuelLabel"
+      },
+      "BTG_Shuttle_VGE2.description": {
+        "english": "A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations.",
+        "required": true
+      },
+      "BTG_Shuttle_VGE2.label": {
+        "english": "guild shuttle",
+        "required": true
+      },
+      "BTG_Shuttle_VGE2Incoming.label": {
+        "english": "guild shuttle (incoming)",
+        "required": true
+      },
+      "BTG_Shuttle_VGE2Incoming.skyfaller.shadow": {
+        "english": "Things/Skyfaller/SkyfallerShadowRectangle"
+      },
+      "BTG_Shuttle_VGE2Leaving.label": {
+        "english": "guild shuttle (leaving)",
+        "required": true
+      },
+      "BTG_Shuttle_VGE2Leaving.skyfaller.shadow": {
+        "english": "Things/Skyfaller/SkyfallerShadowRectangle"
+      }
+    },
+    "TransportShipDef": {
+      "BTG_Ship_Shuttle_VGE2.label": {
+        "english": "guild shuttle",
         "required": true
       }
     },
