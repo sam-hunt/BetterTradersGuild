@@ -65,13 +65,15 @@ namespace BetterTradersGuild
             listing.Begin(new Rect(0f, 0f, innerWidth - 8f, 99999f));
             GameFont prevFont = Text.Font;
 
-            // Grouped by player activity: trade with the guild, generate their
-            // settlements, fight their garrisons (settlements and smuggler's den
-            // alike; resupply renders inside as a subgroup), storyteller dials.
+            // Grouped by player activity: trade with the guild, storyteller dials for
+            // its quests, generate their settlements, fight their garrisons
+            // (settlements and smuggler's den alike; resupply renders inside as a
+            // subgroup). Events sits second so the smuggler's den quest is introduced
+            // before the generation and garrison settings that refer to it.
             DrawTradingSection(listing);
+            DrawEventsSection(listing);
             DrawSettlementGenerationSection(listing);
             DrawDefendersSection(listing);
-            DrawEventsSection(listing);
 
             Text.Font = prevFont;
             settingsHeight = listing.CurHeight;
