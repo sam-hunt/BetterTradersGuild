@@ -633,46 +633,46 @@
         "english": "sealed cargo vault hatch",
         "required": true
       },
-      "BTG_Shuttle_VGE2.comps.CompLaunchable.cooldownEndedMessage": {
+      "BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage": {
         "english": "{0} is ready to launch again.",
         "required": true,
-        "normalized": "BTG_Shuttle_VGE2.comps.1.cooldownEndedMessage"
+        "normalized": "BTG_GuildShuttle.comps.1.cooldownEndedMessage"
       },
-      "BTG_Shuttle_VGE2.comps.CompRefuelable.fuelGizmoLabel": {
+      "BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel": {
         "english": "Chemfuel",
         "required": true,
-        "normalized": "BTG_Shuttle_VGE2.comps.3.fuelGizmoLabel"
+        "normalized": "BTG_GuildShuttle.comps.3.fuelGizmoLabel"
       },
-      "BTG_Shuttle_VGE2.comps.CompRefuelable.fuelLabel": {
+      "BTG_GuildShuttle.comps.CompRefuelable.fuelLabel": {
         "english": "Chemfuel",
         "required": true,
-        "normalized": "BTG_Shuttle_VGE2.comps.3.fuelLabel"
+        "normalized": "BTG_GuildShuttle.comps.3.fuelLabel"
       },
-      "BTG_Shuttle_VGE2.description": {
+      "BTG_GuildShuttle.description": {
         "english": "A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations.",
         "required": true
       },
-      "BTG_Shuttle_VGE2.label": {
+      "BTG_GuildShuttle.label": {
         "english": "guild shuttle",
         "required": true
       },
-      "BTG_Shuttle_VGE2Incoming.label": {
+      "BTG_GuildShuttleIncoming.label": {
         "english": "guild shuttle (incoming)",
         "required": true
       },
-      "BTG_Shuttle_VGE2Incoming.skyfaller.shadow": {
+      "BTG_GuildShuttleIncoming.skyfaller.shadow": {
         "english": "Things/Skyfaller/SkyfallerShadowRectangle"
       },
-      "BTG_Shuttle_VGE2Leaving.label": {
+      "BTG_GuildShuttleLeaving.label": {
         "english": "guild shuttle (leaving)",
         "required": true
       },
-      "BTG_Shuttle_VGE2Leaving.skyfaller.shadow": {
+      "BTG_GuildShuttleLeaving.skyfaller.shadow": {
         "english": "Things/Skyfaller/SkyfallerShadowRectangle"
       }
     },
     "TransportShipDef": {
-      "BTG_Ship_Shuttle_VGE2.label": {
+      "BTG_Ship_GuildShuttle.label": {
         "english": "guild shuttle",
         "required": true
       }

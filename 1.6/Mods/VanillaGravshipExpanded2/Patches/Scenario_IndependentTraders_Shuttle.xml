@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
   <!--
-    Under VGE2 the Independent Traders scenario lands in BTG_Shuttle_VGE2 (the unlocked,
+    Under VGE2 the Independent Traders scenario lands in BTG_GuildShuttle (the unlocked,
     unpaintable guild shuttle) instead of a painted vanilla PassengerShuttle, so the
     starting craft matches the shuttles parked on VGE2's Traders Guild stations.
     ScenPart_PlayerPawnsArriveShuttle resolves the TransportShipDef by shipThing and hides
@@ -19,7 +19,7 @@
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ScenarioDef[defName="BTG_IndependentTraders"]/scenario/parts/li[def="BTG_PlayerPawnsArriveShuttle"]</xpath>
     <value>
-      <shuttleDef>BTG_Shuttle_VGE2</shuttleDef>
+      <shuttleDef>BTG_GuildShuttle</shuttleDef>
     </value>
   </Operation>
 

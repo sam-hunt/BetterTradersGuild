@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!--
-    BTG_Shuttle_VGE2: a working passenger shuttle wearing Vanilla Gravship Expanded 2's
+    BTG_GuildShuttle: a working passenger shuttle wearing Vanilla Gravship Expanded 2's
     locked-shuttle art. Lives in the VGE2 compat root (LoadFolders.xml) because its
     textures belong to VGE2 and its strings are optional-mod content.
 
@@ -18,7 +18,7 @@
   -->
 
   <ThingDef ParentName="BuildingBase">
-    <defName>BTG_Shuttle_VGE2</defName>
+    <defName>BTG_GuildShuttle</defName>
     <label>guild shuttle</label>
     <description>A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations.</description>
     <thingClass>Building_PassengerShuttle</thingClass>
@@ -88,12 +88,12 @@
     </inspectorTabs>
     <comps>
       <li Class="CompProperties_Shuttle">
-        <shipDef>BTG_Ship_Shuttle_VGE2</shipDef>
+        <shipDef>BTG_Ship_GuildShuttle</shipDef>
       </li>
       <li Class="CompProperties_Launchable">
         <fuelPerTile>3</fuelPerTile>
         <minFuelCost>50</minFuelCost>
-        <skyfallerLeaving>BTG_Shuttle_VGE2Leaving</skyfallerLeaving>
+        <skyfallerLeaving>BTG_GuildShuttleLeaving</skyfallerLeaving>
         <worldObjectDef>PassengerShuttle</worldObjectDef>
         <cooldownTicks>3750</cooldownTicks>
         <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
@@ -132,11 +132,11 @@
   </ThingDef>
 
   <TransportShipDef>
-    <defName>BTG_Ship_Shuttle_VGE2</defName>
+    <defName>BTG_Ship_GuildShuttle</defName>
     <label>guild shuttle</label>
-    <shipThing>BTG_Shuttle_VGE2</shipThing>
-    <arrivingSkyfaller>BTG_Shuttle_VGE2Incoming</arrivingSkyfaller>
-    <leavingSkyfaller>BTG_Shuttle_VGE2Leaving</leavingSkyfaller>
+    <shipThing>BTG_GuildShuttle</shipThing>
+    <arrivingSkyfaller>BTG_GuildShuttleIncoming</arrivingSkyfaller>
+    <leavingSkyfaller>BTG_GuildShuttleLeaving</leavingSkyfaller>
     <worldObject>PassengerShuttle</worldObject>
     <playerShuttle>true</playerShuttle>
   </TransportShipDef>
@@ -144,7 +144,7 @@
   <!-- Skyfallers: vanilla PassengerShuttleIncoming/Leaving with the VGE2 art. The vanilla
        thingClasses draw the skyfaller def's own graphicData, so the texPath must repeat here. -->
   <ThingDef ParentName="ShuttleSkyfallerBase">
-    <defName>BTG_Shuttle_VGE2Incoming</defName>
+    <defName>BTG_GuildShuttleIncoming</defName>
     <label>guild shuttle (incoming)</label>
     <thingClass>PassengerShuttleIncoming</thingClass>
     <graphicData>
@@ -184,7 +184,7 @@
   </ThingDef>
 
   <ThingDef ParentName="ShuttleSkyfallerBase">
-    <defName>BTG_Shuttle_VGE2Leaving</defName>
+    <defName>BTG_GuildShuttleLeaving</defName>
     <label>guild shuttle (leaving)</label>
     <thingClass>PassengerShuttleLeaving</thingClass>
     <rotatable>true</rotatable>

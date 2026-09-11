@@ -3,7 +3,7 @@
   <!--
     Makes VGE2's decorative locked shuttle hackable. VGE2's own mechanics (deconstruct for
     the ShuttleEngine, non-claimable scenery) are untouched until the hack completes; then
-    CompPromoteOnHack replaces the building in place with BTG_Shuttle_VGE2 (same cell,
+    CompPromoteOnHack replaces the building in place with BTG_GuildShuttle (same cell,
     rotation and hit points, owned by the hacker's faction) and, on a Traders Guild
     settlement map, turns the guild hostile as stealing a shuttle should.
 
@@ -37,7 +37,7 @@
         <hackedMessage>{HACKER_labelShort} has overridden the magnetic clamps on {SUBJECT_labelNoParenthesisDef}.</hackedMessage>
       </li>
       <li Class="BetterTradersGuild.Comps.CompProperties_PromoteOnHack">
-        <promoteTo>BTG_Shuttle_VGE2</promoteTo>
+        <promoteTo>BTG_GuildShuttle</promoteTo>
       </li>
     </value>
   </Operation>

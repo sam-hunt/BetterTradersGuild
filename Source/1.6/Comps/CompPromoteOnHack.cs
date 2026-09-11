@@ -8,7 +8,7 @@ namespace BetterTradersGuild.Comps
     // Attached beside CompHackable via XML patch. When the hack completes, the parent is
     // replaced in place by promoteTo: same cell, rotation and hit points, owned by the
     // hacker's faction. Used to turn VGE2's decorative VGE2_LockedShuttle into the working
-    // BTG_Shuttle_VGE2 (1.6/Mods/VanillaGravshipExpanded2/).
+    // BTG_GuildShuttle (1.6/Mods/VanillaGravshipExpanded2/).
     public class CompProperties_PromoteOnHack : CompProperties
     {
         public ThingDef promoteTo;
