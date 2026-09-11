@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - "Spacer-tier defenders" setting (default on, requires restart). Turning it off returns Traders Guild defenders to vanilla weapons, armor, implants, gear quality and garrison composition, for players who prefer the vanilla balance or another mod's tuning of the Traders Guild encounter. The vacuum-protection fixes for citizens and children stay on regardless.
 
+### Fixed
+
+- Outfit-stand apparel is now faction-coloured for Steam Workshop installs of Vanilla Expanded Framework (the check only recognised local copies of the mod). The same check gated the Unique Melee Weapons caretaker knife.
+
 ## [1.1.1] - 2026-08-22
 
 ### Fixed

@@ -46,7 +46,7 @@ namespace BetterTradersGuild.Integrations
             StationPatchActive = false;
             try
             {
-                ModActive = ModsConfig.IsActive(PackageId);
+                ModActive = ModDetection.IsActive(PackageId);
                 if (!ModActive)
                     return; // VGE2 not active - stay silent.
 
