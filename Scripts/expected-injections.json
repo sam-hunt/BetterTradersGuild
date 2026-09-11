@@ -116,6 +116,10 @@
         "english": "boarding TargetA.",
         "required": true
       },
+      "BTG_BringBabyToSafety.reportString": {
+        "english": "putting TargetA somewhere safe.",
+        "required": true
+      },
       "BTG_CallResupply.reportString": {
         "english": "calling for resupply.",
         "required": true
