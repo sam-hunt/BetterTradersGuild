@@ -8,10 +8,12 @@
     SettlementPlatform GenStepDef with its own prefab-built station, and players
     would rather keep that station than lose it to BTG's layout. So this pipeline's
     platform step IS the vanilla def (now VGE2's station), and BTG layers its
-    additions on top. Garrison and loot stay vanilla (SettlementPawnsLoot,
-    LordJob_DefendBase) and vanilla's defeat rule applies: this generator is
-    deliberately NOT one of TradersGuildHelper.IsBTGGeneratedMap's, so the security
-    census never latches here. Revisit with the S5 tracker item once BTG prefabs
+    additions on top. The garrison stays vanilla (GenStep_SettlementPawnsLoot,
+    LordJob_DefendBase, flat points roll) but without vanilla's scattered floor
+    loot: BTG_SettlementPawnsNoLoot is the vanilla worker with lootMarketValue 0~0,
+    since the station's own crates and containers already carry the loot. Vanilla's
+    defeat rule applies: this generator is deliberately NOT one of
+    TradersGuildHelper.IsBTGGeneratedMap's, so the security census never latches here. Revisit with the S5 tracker item once BTG prefabs
     (S4) put BTG rooms on the station.
 
     No MayRequire: every step referenced here exists without VGE2 (vanilla defs plus
@@ -37,8 +39,8 @@
       <li>BTG_SowPlantGrowers</li>        <!-- order 310 -->
       <li>BTG_StockOutfitStands</li>       <!-- order 315 -->
 
-      <!-- Vanilla garrison, loot and LordJob_DefendBase -->
-      <li>SettlementPawnsLoot</li>         <!-- order 700 -->
+      <!-- Vanilla garrison and LordJob_DefendBase, no floor loot -->
+      <li>BTG_SettlementPawnsNoLoot</li>   <!-- order 700 -->
     </genSteps>
 
   </MapGeneratorDef>

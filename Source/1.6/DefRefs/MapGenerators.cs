@@ -21,7 +21,8 @@ namespace BetterTradersGuild.DefRefs
         // Variant selected when Vanilla Gravship Expanded 2's Traders Guild station patch
         // is live (VGE2Integration.Available): vanilla's (VGE2-replaced) SettlementPlatform
         // step, then BTG's layered steps (conduits, vault hatch, hydroponics, outfit
-        // stands), then vanilla SettlementPawnsLoot. Deliberately not a BTG-generated map
+        // stands), then BTG_SettlementPawnsNoLoot (vanilla garrison and lord, no floor
+        // loot). Deliberately not a BTG-generated map
         // for TradersGuildHelper.IsBTGGeneratedMap (vanilla defeat rule applies).
         public static MapGeneratorDef BTG_SettlementMapGenerator_VGE2;
 

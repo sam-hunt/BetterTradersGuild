@@ -112,6 +112,7 @@ BTG uses a declarative, XML-driven approach for custom map generation.
 | `BTG_SowPlantGrowers`       | Sow every empty grower: room defs' `PlantGrowerRulesExtension` rules first, then map defaults (also in the den and VGE2 pipelines) |
 | `BTG_StockOutfitStands`     | Dress every empty outfit stand: room defs' `OutfitStandRuleExtension` rule first, then the map default (also in the den and VGE2 pipelines) |
 | `BTG_SettlementPawnsLoot`   | Pawn spawning (loot disabled via `lootMarketValue: 0~0`)     |
+| `BTG_SettlementPawnsNoLoot` | VGE2 pipeline only: the unmodified vanilla worker with `lootMarketValue: 0~0` (vanilla lord and points roll, no floor loot) |
 | `BTG_SpawnSentryDrones`     | Spawn additional sentry drones (uses ModSettings)            |
 
 **Swapping MapGeneratorDef:** Patch `Settlement.MapGeneratorDef` property getter (not `MapParent` - `Settlement` overrides it).

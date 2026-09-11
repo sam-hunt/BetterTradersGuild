@@ -10,6 +10,14 @@
 
     Setting lootMarketValue to 0~0 causes the loot branch to skip generation
     (FloatRange.IsZeros is true) while preserving pawn spawning.
+
+    BTG_SettlementPawnsNoLoot is the same idea on the unmodified vanilla class:
+    vanilla garrison, vanilla LordJob_DefendBase, vanilla points roll, just no floor
+    loot. The VGE2-based settlement pipeline uses it so that VGE2's prefab station
+    (whose crates and containers already carry the loot) is not also littered with
+    vanilla's scattered stacks, without pulling in BTG's bounded lord or defender
+    scaling (those wait on the S5 integration work). lootMarketValue is a public field
+    on the vanilla GenStep, so no C# is involved.
   -->
 
   <GenStepDef>
@@ -17,6 +25,16 @@
     <order>700</order>
     <genStep Class="BetterTradersGuild.MapGeneration.GenStep_BTGSettlementPawns">
       <!-- Zero range disables loot generation while keeping pawn spawning -->
+      <lootMarketValue>0~0</lootMarketValue>
+      <requiresRoof>true</requiresRoof>
+    </genStep>
+  </GenStepDef>
+
+  <GenStepDef>
+    <defName>BTG_SettlementPawnsNoLoot</defName>
+    <order>700</order>
+    <genStep Class="GenStep_SettlementPawnsLoot">
+      <!-- Vanilla worker; zero range disables loot generation while keeping pawn spawning -->
       <lootMarketValue>0~0</lootMarketValue>
       <requiresRoof>true</requiresRoof>
     </genStep>
