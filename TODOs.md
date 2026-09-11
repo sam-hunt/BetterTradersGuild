@@ -32,7 +32,8 @@ claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../Vanill
   - ~~Investigate other VGE TG mechanic interactions: defeat trigger, vault stock preservation~~ surveyed 2026-09-11, no active bug; outcomes in Docs/VGE2_INTEGRATION.md section 7
   - test S9 before release: hack a locked shuttle on a VGE2 station (lockout fires; promotion keeps cell/rotation/HP, player-owned, launches; TG turns hostile); guild shuttle shows in the scenario editor shuttle picker; an Independent Traders start lands in it unpainted
   - optional: den landing pad spawns the unpainted guild shuttle instead of the painted PassengerShuttle under VGE2
-  - Defender overhaul opt-out toggle: spec ready in Docs/Specs/SPEC-defender-overhaul-toggle.md (settings-gated PatchOperationToggledSequence; lets players revert pawnkind rebalance + garrison weights to vanilla for VGE mapgen)
+  - S7 spacer-tier toggle: dev-mode check TG kinds show vanilla values with useSpacerTierDefenders off (and BTG values on) before release; both states boot clean
+  - VGE2 balance reset button (S18): second reset button shown only under VGE2, resets the settings that act on that encounter to VE-tuned defaults (best effort)
 
 - Refactor subroom packing and subroom calculator use common centering derived from rect bounds, same as waste filler
 - Rare Subroom placement small room off-by-one?

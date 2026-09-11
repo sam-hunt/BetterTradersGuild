@@ -5,6 +5,12 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- "Spacer-tier defenders" setting (default on, requires restart). Turning it off returns Traders Guild defenders to vanilla weapons, armor, implants, gear quality and garrison composition, for players who prefer the vanilla balance or another mod's tuning of the Traders Guild encounter. The vacuum-protection fixes for citizens and children stay on regardless.
+
 ## [1.1.1] - 2026-08-22
 
 ### Fixed
