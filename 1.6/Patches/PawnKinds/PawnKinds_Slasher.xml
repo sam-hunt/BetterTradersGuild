@@ -12,203 +12,211 @@
   not vanilla defines it on the concrete def, so the Add can never create a duplicate node
   (duplicates are error-logged then silently key-merged by XmlInheritance) and the patch keeps
   working if a game update moves a field between the concrete def and its abstract parents.
+  Whole file gated on the useSpacerTierDefenders mod setting (requires restart): when it is off,
+  the sequence below applies nothing and the def keeps its vanilla values.
 -->
 <Patch>
 
-  <!-- Increase combat power: 140 → 160 -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/combatPower</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <combatPower>160</combatPower>
-    </value>
-  </Operation>
+  <Operation Class="BetterTradersGuild.PatchOperationSettingGatedSequence">
+    <setting>useSpacerTierDefenders</setting>
+    <operations>
 
-  <!-- Override gear health: inherit 0.7~3.2 from SlasherBase → 1~1 (100% health) -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/gearHealthRange</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <gearHealthRange>1~1</gearHealthRange>
-    </value>
-  </Operation>
+      <!-- Increase combat power: 140 → 160 -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/combatPower</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <combatPower>160</combatPower>
+        </value>
+      </li>
 
-  <!-- Add item quality: Good -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/itemQuality</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <itemQuality>Good</itemQuality>
-    </value>
-  </Operation>
+      <!-- Override gear health: inherit 0.7~3.2 from SlasherBase → 1~1 (100% health) -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/gearHealthRange</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <gearHealthRange>1~1</gearHealthRange>
+        </value>
+      </li>
 
-  <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelTags</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <apparelTags Inherit="False">
-        <li>SpacerMilitary</li>
-        <li>IndustrialBasic</li>
-      </apparelTags>
-    </value>
-  </Operation>
+      <!-- Add item quality: Good -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/itemQuality</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <itemQuality>Good</itemQuality>
+        </value>
+      </li>
 
-  <!-- Increase apparel budget: 300~1400 → 2000~3500 -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelMoney</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <apparelMoney>2000~3500</apparelMoney>
-    </value>
-  </Operation>
+      <!-- Replace apparel tags: SpacerMilitary (armor) + IndustrialBasic (OnSkin underlayers) -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelTags</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <apparelTags Inherit="False">
+            <li>SpacerMilitary</li>
+            <li>IndustrialBasic</li>
+          </apparelTags>
+        </value>
+      </li>
 
-  <!-- Replace weapon tags: remove MedievalMeleeDecent, keep only Advanced -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponTags</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <weaponTags Inherit="False">
-        <li>MedievalMeleeAdvanced</li>
-      </weaponTags>
-    </value>
-  </Operation>
+      <!-- Increase apparel budget: 300~1400 → 2000~3500 -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelMoney</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <apparelMoney>2000~3500</apparelMoney>
+        </value>
+      </li>
 
-  <!-- Add UltratechMelee if Royalty DLC present -->
-  <Operation Class="PatchOperationConditional">
-    <xpath>/Defs/ThingDef[defName="MeleeWeapon_MonoSword"]</xpath>
-    <match Class="PatchOperationAdd">
-      <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponTags</xpath>
-      <value>
-        <li>UltratechMelee</li>
-      </value>
-    </match>
-  </Operation>
+      <!-- Replace weapon tags: remove MedievalMeleeDecent, keep only Advanced -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponTags</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <weaponTags Inherit="False">
+            <li>MedievalMeleeAdvanced</li>
+          </weaponTags>
+        </value>
+      </li>
 
-  <!-- Increase weapon budget: 200~500 → 2500~3500 (for ultratech weapons) -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponMoney</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <weaponMoney>2500~3500</weaponMoney>
-    </value>
-  </Operation>
+      <!-- Add UltratechMelee if Royalty DLC present -->
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="MeleeWeapon_MonoSword"]</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponTags</xpath>
+          <value>
+            <li>UltratechMelee</li>
+          </value>
+        </match>
+      </li>
 
-  <!-- Override apparelRequired: ShieldBelt + Marine armor + Marine helmet (97% vacuum resistance) -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelRequired</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <apparelRequired Inherit="False">
-        <li>Apparel_ShieldBelt</li>
-        <li>Apparel_PowerArmor</li>
-        <li>Apparel_PowerArmorHelmet</li>
-      </apparelRequired>
-    </value>
-  </Operation>
+      <!-- Increase weapon budget: 200~500 → 2500~3500 (for ultratech weapons) -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/weaponMoney</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <weaponMoney>2500~3500</weaponMoney>
+        </value>
+      </li>
 
-  <!-- Increase implant chance: 15% → 40% -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsChance</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <techHediffsChance>0.40</techHediffsChance>
-    </value>
-  </Operation>
+      <!-- Override apparelRequired: ShieldBelt + Marine armor + Marine helmet (97% vacuum resistance) -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/apparelRequired</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <apparelRequired Inherit="False">
+            <li>Apparel_ShieldBelt</li>
+            <li>Apparel_PowerArmor</li>
+            <li>Apparel_PowerArmorHelmet</li>
+          </apparelRequired>
+        </value>
+      </li>
 
-  <!-- Increase implant budget: 700~1200 → 1000~2000 -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsMoney</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <techHediffsMoney>1000~2000</techHediffsMoney>
-    </value>
-  </Operation>
+      <!-- Increase implant chance: 15% → 40% -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsChance</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <techHediffsChance>0.40</techHediffsChance>
+        </value>
+      </li>
 
-  <!-- Add implant max amount: 2 (default 1). The priciest single implant in the tag pool is
-       ~1300, so without a second slot the budget above ~1300 is unspendable. -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsMaxAmount</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <techHediffsMaxAmount>2</techHediffsMaxAmount>
-    </value>
-  </Operation>
+      <!-- Increase implant budget: 700~1200 → 1000~2000 -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsMoney</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <techHediffsMoney>1000~2000</techHediffsMoney>
+        </value>
+      </li>
 
-  <!-- Increase weapon biocoding: 20% → 80% -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/biocodeWeaponChance</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <biocodeWeaponChance>0.80</biocodeWeaponChance>
-    </value>
-  </Operation>
+      <!-- Add implant max amount: 2 (default 1). The priciest single implant in the tag pool is
+           ~1300, so without a second slot the budget above ~1300 is unspendable. -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/techHediffsMaxAmount</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <techHediffsMaxAmount>2</techHediffsMaxAmount>
+        </value>
+      </li>
 
-  <!-- Add combat drugs chance: 35% -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/combatEnhancingDrugsChance</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <combatEnhancingDrugsChance>0.35</combatEnhancingDrugsChance>
-    </value>
-  </Operation>
+      <!-- Increase weapon biocoding: 20% → 80% -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/biocodeWeaponChance</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <biocodeWeaponChance>0.80</biocodeWeaponChance>
+        </value>
+      </li>
 
-  <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack, [10% Android]) -->
-  <Operation Class="PatchOperationRemove" MayRequire="Ludeon.RimWorld.Biotech">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/xenotypeSet</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
-    <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
-    <value>
-      <xenotypeSet>
-        <xenotypeChances>
-          <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.40</Hussar>
-          <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
-          <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
-          <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
-        </xenotypeChances>
-      </xenotypeSet>
-    </value>
+      <!-- Add combat drugs chance: 35% -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/combatEnhancingDrugsChance</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <combatEnhancingDrugsChance>0.35</combatEnhancingDrugsChance>
+        </value>
+      </li>
+
+      <!-- Biotech: Override xenotype chances (40% Hussar, 10% Genie, 30% Starjack, [10% Android]) -->
+      <li Class="PatchOperationRemove" MayRequire="Ludeon.RimWorld.Biotech">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]/xenotypeSet</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Biotech">
+        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Slasher"]</xpath>
+        <value>
+          <xenotypeSet>
+            <xenotypeChances>
+              <Hussar MayRequire="Ludeon.RimWorld.Biotech">0.40</Hussar>
+              <Genie MayRequire="Ludeon.RimWorld.Biotech">0.10</Genie>
+              <Starjack MayRequire="Ludeon.RimWorld.Biotech">0.30</Starjack>
+              <VRE_Android_Awakened MayRequire="OskarPotocki.VanillaRacesExpanded.Android">0.10</VRE_Android_Awakened>
+            </xenotypeChances>
+          </xenotypeSet>
+        </value>
+      </li>
+    </operations>
   </Operation>
 
 </Patch>

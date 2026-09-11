@@ -16,71 +16,79 @@
   not vanilla defines it on the concrete def, so the Add can never create a duplicate node
   (duplicates are error-logged then silently key-merged by XmlInheritance) and the patch keeps
   working if a game update moves a field between the concrete def and its abstract parents.
+  Whole file gated on the useSpacerTierDefenders mod setting (requires restart): when it is off,
+  the sequence below applies nothing and the def keeps its vanilla values.
 -->
 <Patch>
 
-  <!-- Synthread clothing for Citizens and mid-tier combatants -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[
-      defName="TradersGuild_Citizen" or
-      defName="TradersGuild_Gunner" or
-      defName="TradersGuild_Slasher" or
-      defName="TradersGuild_Heavy"
-    ]/specificApparelRequirements</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[
-      defName="TradersGuild_Citizen" or
-      defName="TradersGuild_Gunner" or
-      defName="TradersGuild_Slasher" or
-      defName="TradersGuild_Heavy"
-    ]</xpath>
-    <value>
-      <specificApparelRequirements>
-        <li>
-          <bodyPartGroup>Torso</bodyPartGroup>
-          <apparelLayer>OnSkin</apparelLayer>
-          <stuff>Synthread</stuff>
-        </li>
-        <li>
-          <bodyPartGroup>Legs</bodyPartGroup>
-          <apparelLayer>OnSkin</apparelLayer>
-          <stuff>Synthread</stuff>
-        </li>
-      </specificApparelRequirements>
-    </value>
-  </Operation>
+  <Operation Class="BetterTradersGuild.PatchOperationSettingGatedSequence">
+    <setting>useSpacerTierDefenders</setting>
+    <operations>
 
-  <!-- Hyperweave clothing for Elite tier and children (guild kids get the best) -->
-  <Operation Class="PatchOperationRemove">
-    <xpath>/Defs/PawnKindDef[
-      defName="TradersGuild_Elite" or
-      defName="TradersGuild_Magister" or
-      defName="TradersGuild_Child"
-    ]/specificApparelRequirements</xpath>
-    <success>Always</success>
-  </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/PawnKindDef[
-      defName="TradersGuild_Elite" or
-      defName="TradersGuild_Magister" or
-      defName="TradersGuild_Child"
-    ]</xpath>
-    <value>
-      <specificApparelRequirements>
-        <li>
-          <bodyPartGroup>Torso</bodyPartGroup>
-          <apparelLayer>OnSkin</apparelLayer>
-          <stuff>Hyperweave</stuff>
-        </li>
-        <li>
-          <bodyPartGroup>Legs</bodyPartGroup>
-          <apparelLayer>OnSkin</apparelLayer>
-          <stuff>Hyperweave</stuff>
-        </li>
-      </specificApparelRequirements>
-    </value>
+      <!-- Synthread clothing for Citizens and mid-tier combatants -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[
+          defName="TradersGuild_Citizen" or
+          defName="TradersGuild_Gunner" or
+          defName="TradersGuild_Slasher" or
+          defName="TradersGuild_Heavy"
+        ]/specificApparelRequirements</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[
+          defName="TradersGuild_Citizen" or
+          defName="TradersGuild_Gunner" or
+          defName="TradersGuild_Slasher" or
+          defName="TradersGuild_Heavy"
+        ]</xpath>
+        <value>
+          <specificApparelRequirements>
+            <li>
+              <bodyPartGroup>Torso</bodyPartGroup>
+              <apparelLayer>OnSkin</apparelLayer>
+              <stuff>Synthread</stuff>
+            </li>
+            <li>
+              <bodyPartGroup>Legs</bodyPartGroup>
+              <apparelLayer>OnSkin</apparelLayer>
+              <stuff>Synthread</stuff>
+            </li>
+          </specificApparelRequirements>
+        </value>
+      </li>
+
+      <!-- Hyperweave clothing for Elite tier and children (guild kids get the best) -->
+      <li Class="PatchOperationRemove">
+        <xpath>/Defs/PawnKindDef[
+          defName="TradersGuild_Elite" or
+          defName="TradersGuild_Magister" or
+          defName="TradersGuild_Child"
+        ]/specificApparelRequirements</xpath>
+        <success>Always</success>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/PawnKindDef[
+          defName="TradersGuild_Elite" or
+          defName="TradersGuild_Magister" or
+          defName="TradersGuild_Child"
+        ]</xpath>
+        <value>
+          <specificApparelRequirements>
+            <li>
+              <bodyPartGroup>Torso</bodyPartGroup>
+              <apparelLayer>OnSkin</apparelLayer>
+              <stuff>Hyperweave</stuff>
+            </li>
+            <li>
+              <bodyPartGroup>Legs</bodyPartGroup>
+              <apparelLayer>OnSkin</apparelLayer>
+              <stuff>Hyperweave</stuff>
+            </li>
+          </specificApparelRequirements>
+        </value>
+      </li>
+    </operations>
   </Operation>
 
 </Patch>

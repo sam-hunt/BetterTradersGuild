@@ -9,28 +9,36 @@
   threat points setting sets a lower bound for points on our defence force. This results in a
   skew towards higher combatPower pawnkinds which we balance by spawning sheltering civilians
   separately in some rooms.
+  Whole file gated on the useSpacerTierDefenders mod setting (requires restart): when it is off,
+  the sequence below applies nothing and the def keeps its vanilla values.
 -->
 <Patch>
 
-  <!-- Replace Settlement pawnGroupMaker with balanced military/civilian mix -->
-  <Operation Class="PatchOperationReplace">
-    <xpath>/Defs/FactionDef[defName="TradersGuild"]/pawnGroupMakers/li[kindDef="Settlement"]</xpath>
-    <value>
-      <li>
-        <kindDef>Settlement</kindDef>
-        <options>
-          <!-- Civilians -->
-          <TradersGuild_Child MayRequire="Ludeon.RimWorld.Biotech">4</TradersGuild_Child>
-          <TradersGuild_Citizen>12</TradersGuild_Citizen>
-          <!-- Military -->
-          <TradersGuild_Gunner>10</TradersGuild_Gunner>
-          <TradersGuild_Elite>8</TradersGuild_Elite>
-          <TradersGuild_Slasher>4</TradersGuild_Slasher>
-          <TradersGuild_Heavy>4</TradersGuild_Heavy>
-          <TradersGuild_Magister>3</TradersGuild_Magister>
-        </options>
+  <Operation Class="BetterTradersGuild.PatchOperationSettingGatedSequence">
+    <setting>useSpacerTierDefenders</setting>
+    <operations>
+
+      <!-- Replace Settlement pawnGroupMaker with balanced military/civilian mix -->
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/FactionDef[defName="TradersGuild"]/pawnGroupMakers/li[kindDef="Settlement"]</xpath>
+        <value>
+          <li>
+            <kindDef>Settlement</kindDef>
+            <options>
+              <!-- Civilians -->
+              <TradersGuild_Child MayRequire="Ludeon.RimWorld.Biotech">4</TradersGuild_Child>
+              <TradersGuild_Citizen>12</TradersGuild_Citizen>
+              <!-- Military -->
+              <TradersGuild_Gunner>10</TradersGuild_Gunner>
+              <TradersGuild_Elite>8</TradersGuild_Elite>
+              <TradersGuild_Slasher>4</TradersGuild_Slasher>
+              <TradersGuild_Heavy>4</TradersGuild_Heavy>
+              <TradersGuild_Magister>3</TradersGuild_Magister>
+            </options>
+          </li>
+        </value>
       </li>
-    </value>
+    </operations>
   </Operation>
 
 </Patch>
