@@ -56,7 +56,7 @@ namespace BetterTradersGuild.Integrations
         {
             try
             {
-                ModActive = ModsConfig.IsActive(PackageId);
+                ModActive = ModDetection.IsActive(PackageId);
                 if (!ModActive)
                     return; // UMW not active — stay silent.
 

@@ -20,8 +20,9 @@ namespace BetterTradersGuild.LordJobs.Civilians
     //               the shelter is compromised (hostile inside / breached /
     //               vacuum / door unsealed) OR a walker can already reach a
     //               launchable (the way out is open, whoever opened it)]──────▶ Escape
-    //   Escape   ──[no walker can reach any launchable, and the shelter's own
-    //               door is no longer what seals them in]─────────────────────▶ Stranded
+    //   Escape   ──[no walker has reached any launchable for a whole grace window
+    //               (EscapeGraceTracker), and the shelter's own door is no longer
+    //               what seals them in]───────────────────────────────────────▶ Stranded
     //   Stranded ──[a walker can reach a launchable again]─────────────────────▶ Escape
     //   Escape/Stranded ──[family member actively attacked AND a child walker
     //               still needs covering AND an adult can fight]──────────────▶ Defend
@@ -70,6 +71,12 @@ namespace BetterTradersGuild.LordJobs.Civilians
         // Null on saves from before this field existed; ShouldCarryInfant treats that as
         // unscoped so a mid-escape legacy save can't strand its babies.
         private List<Pawn> shelterInfants;
+
+        // Hysteresis for the escape -> stranded demotion and the escape toil's lift-off
+        // gating (see EscapeGraceTracker). Lazily created so pre-tracker saves get one.
+        private EscapeGraceTracker escapeGrace;
+
+        private EscapeGraceTracker Grace => escapeGrace ??= new EscapeGraceTracker();
 
         public LordJob_BTGShelterCivilians()
         {
@@ -154,13 +161,13 @@ namespace BetterTradersGuild.LordJobs.Civilians
             graph.AddToil(shelter);
             graph.StartingToil = shelter;
 
-            LordToil_BTGEscape escape = new LordToil_BTGEscape(subroomCenter);
+            LordToil_BTGEscape escape = new LordToil_BTGEscape(subroomCenter, Grace);
             graph.AddToil(escape);
 
             LordToil_BTGStranded stranded = new LordToil_BTGStranded(subroomCenter);
             graph.AddToil(stranded);
 
-            LordToil_BTGDefend defend = new LordToil_BTGDefend(subroomCenter);
+            LordToil_BTGDefend defend = new LordToil_BTGDefend(subroomCenter, Grace);
             graph.AddToil(defend);
 
             // Every transition ends in-progress jobs (and wakes sleepers) once the new toil's
@@ -189,6 +196,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             toEscape.AddPostAction(new TransitionAction_WakeAll());
             toEscape.AddPostAction(new TransitionAction_BTGDropMidFeedBabies());
             toEscape.AddPostAction(new TransitionAction_EndAllJobs());
+            toEscape.AddPostAction(new TransitionAction_Custom(RestartStrandedClock));
             graph.AddTransition(toEscape);
 
             // Demote only when the escape has actually failed, not while it is still opening the
@@ -197,10 +205,13 @@ namespace BetterTradersGuild.LordJobs.Civilians
             // reachability is ALWAYS false during the door-hack prelude. Without the door guard
             // this demoted the family within one check interval of deciding to escape, into a
             // stranded phase it could never leave - it starved in the locked subroom.
+            // And only after reachability has been false for a whole grace window: CanReach
+            // flickers at this sample rate, and demoting on a single false sample flapped the
+            // lord between escape and stranded, whose tuck duty re-cribbed the infant the escape
+            // was carrying out (see EscapeGraceTracker / ShouldStrand).
             Transition toStranded = new Transition(escape, stranded);
             toStranded.AddTrigger(new Trigger_Custom(signal =>
-                signal.type == TriggerSignalType.Tick && DueForCheck()
-                && !AnyWalkerCanReachLaunchable() && !StillOpeningShelterDoor()));
+                signal.type == TriggerSignalType.Tick && DueForCheck() && ShouldStrand()));
             toStranded.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toStranded);
 
@@ -215,6 +226,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             toEscapeAgain.AddPostAction(new TransitionAction_WakeAll());
             toEscapeAgain.AddPostAction(new TransitionAction_BTGDropMidFeedBabies());
             toEscapeAgain.AddPostAction(new TransitionAction_EndAllJobs());
+            toEscapeAgain.AddPostAction(new TransitionAction_Custom(RestartStrandedClock));
             graph.AddTransition(toEscapeAgain);
 
             // Reactive self-defense. Fires on the periodic scan AND instantly on any harm
@@ -249,6 +261,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             fromDefend.AddTrigger(new Trigger_Custom(signal =>
                 signal.type == TriggerSignalType.Tick && DueForCheck() && !ShouldDefend()));
             fromDefend.AddPostAction(new TransitionAction_BTGEndAdultJobs());
+            fromDefend.AddPostAction(new TransitionAction_Custom(RestartStrandedClock));
             graph.AddTransition(fromDefend);
 
             return graph;
@@ -258,6 +271,26 @@ namespace BetterTradersGuild.LordJobs.Civilians
         private static bool DueForCheck()
         {
             return Find.TickManager.TicksGame % TransitionCheckIntervalTicks == 0;
+        }
+
+        // Escape -> stranded gate. The door-hack prelude keeps restarting the grace clock (an
+        // unreachable launchable is expected while the family is still sealed in); after
+        // that, the tracker demotes once reachability has been false for the whole window.
+        private bool ShouldStrand()
+        {
+            int now = Find.TickManager.TicksGame;
+            if (StillOpeningShelterDoor())
+            {
+                Grace.Reset(now);
+                return false;
+            }
+            return Grace.ShouldStrand(AnyWalkerCanReachLaunchable(), now);
+        }
+
+        // Post action of every edge INTO escape: the demotion window counts from here.
+        private void RestartStrandedClock()
+        {
+            Grace.Reset(Find.TickManager.TicksGame);
         }
 
         // True if any living, un-downed lord walker (caretaker or child - the pawns who
@@ -393,6 +426,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
             base.ExposeData();
             Scribe_Values.Look(ref subroomCenter, "subroomCenter");
             Scribe_Collections.Look(ref shelterInfants, "shelterInfants", LookMode.Reference);
+            Scribe_Deep.Look(ref escapeGrace, "escapeGrace");
             // Dead-and-cleaned-up infants resolve to null references on load; drop them so
             // ShouldCarryInfant's Contains never matches a null and saves don't re-grow.
             if (Scribe.mode == LoadSaveMode.PostLoadInit)

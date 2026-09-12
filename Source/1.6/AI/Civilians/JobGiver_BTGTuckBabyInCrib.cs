@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BetterTradersGuild.DefRefs;
 using BetterTradersGuild.LordJobs.Civilians;
 using RimWorld;
 using Verse;
@@ -9,8 +10,10 @@ namespace BetterTradersGuild.AI.Civilians
     // Caretaker behaviour: put any loose or downed infant/baby back into a free crib. Scans
     // the caretaker's own faction for spawned babies/newborns that are NOT currently in a bed
     // (crawled out, or knocked down on the floor), confirms a crib is actually available
-    // (ChildcareUtility.SafePlaceForBaby resolves to a Building_Bed), and issues the vanilla
-    // bring-to-safety job, which carries the baby and tucks it in correctly.
+    // (ChildcareUtility.SafePlaceForBaby resolves to a Building_Bed), and issues the
+    // bring-to-safety job, which carries the baby and tucks it in correctly. The job is
+    // BTG_BringBabyToSafety - vanilla's driver under carry flags that never drop an infant
+    // the carer is already holding (see the JobDef); vanilla's own def drops on start.
     //
     // Only acts when a crib is free, so it never hauls a baby to a random floor spot; no-op
     // when the caretaker can't manipulate or can't haul the baby. Used by the shelter and
@@ -42,7 +45,7 @@ namespace BetterTradersGuild.AI.Civilians
                 && (carriedBaby.DevelopmentalStage.Baby() || carriedBaby.DevelopmentalStage.Newborn())
                 && ChildcareUtility.CanSuckle(carriedBaby, out _))
             {
-                return ChildcareUtility.MakeBringBabyToSafetyJob(pawn, carriedBaby);
+                return MakeTuckJob(carriedBaby);
             }
 
             Pawn best = null;
@@ -82,7 +85,15 @@ namespace BetterTradersGuild.AI.Civilians
                 }
             }
 
-            return best != null ? ChildcareUtility.MakeBringBabyToSafetyJob(pawn, best) : null;
+            return best != null ? MakeTuckJob(best) : null;
+        }
+
+        // Mirrors ChildcareUtility.MakeBringBabyToSafetyJob with the BTG JobDef.
+        private static Job MakeTuckJob(Pawn baby)
+        {
+            Job job = JobMaker.MakeJob(Jobs.BTG_BringBabyToSafety, baby);
+            job.count = 1;
+            return job;
         }
     }
 }

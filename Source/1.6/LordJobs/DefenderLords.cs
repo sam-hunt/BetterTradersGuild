@@ -36,6 +36,13 @@ namespace BetterTradersGuild.LordJobs
         // True if the lord is a settlement defender garrison lord of either AI
         // style. Lets the gestator site find the existing garrison to reinforce
         // without caring which style the current setting selects.
+        //
+        // Deliberately also matches vanilla LordJob_DefendBase, which is what the
+        // VGE2-based settlement pipeline (BTG_SettlementMapGenerator_VGE2) hands its
+        // garrison. So a caller like SecurityDefeatUtility would happily count a
+        // vanilla garrison too: anything that walks defender lords for BTG's defeat
+        // rule must keep gating on TradersGuildHelper.IsBTGGeneratedMap first, as the
+        // IsDefeated postfix and SecurityCensus do today.
         public static bool IsDefenderLord(Lord lord)
         {
             return lord?.LordJob is LordJob_BTGDefendStructure

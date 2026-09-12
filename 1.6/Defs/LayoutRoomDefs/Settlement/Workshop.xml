@@ -10,7 +10,6 @@
 
   <LayoutRoomDef>
     <defName>BTG_Workshop</defName>
-    <roomContentsWorkerType>BetterTradersGuild.RoomContents.Workshop.RoomContents_Workshop</roomContentsWorkerType>
 
     <edgeTerrain>MetalTile</edgeTerrain>
     <floorTypes>
@@ -120,5 +119,18 @@
       <!-- Fabricor mech - primary crafting assistant -->
       <BTG_Mech_Fabricor MayRequire="Ludeon.RimWorld.Biotech">0.85</BTG_Mech_Fabricor>
     </parts>
+
+    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
+        <rules>
+          <!-- One decorative plant type for the whole room, in bloom -->
+          <li>
+            <grower>PlantPot</grower>
+            <sowTag>Decorative</sowTag>
+          </li>
+        </rules>
+      </li>
+    </modExtensions>
   </LayoutRoomDef>
 </Defs>

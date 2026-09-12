@@ -81,6 +81,12 @@ The smuggler's den quest site always uses its own map generator, whatever this i
   -->
   <BTG_Settings_UseCustomLayoutsDesc>Gera os assentamentos da Guilda dos Mercadores com uma estética menos abandonada.\nDesative se você usa outros mods de geração de mapa ou prefere os layouts originais.\nO local da missão do covil de contrabandistas sempre usa seu próprio gerador de mapa, seja qual for o valor definido aqui.</BTG_Settings_UseCustomLayoutsDesc>
 
+  <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 está ativo: sua estação da Guilda dos Mercadores é gerada em vez disso, com algumas das adições deste mod aplicadas por cima.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2 está ativo: as configurações abaixo atualmente afetam apenas o covil de contrabandistas. Suas estações da Guilda dos Mercadores mantêm guarnições e regras de derrota originais por enquanto.</BTG_Settings_DefendersVGE2Note>
+
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- "cofre" is Odyssey pt-BR AncientSafe.label and "alcapao" its AncientHatch word.
        "hangar de onibus espaciais" is mod-coined: vanilla pt-BR has no word for a shuttle
@@ -88,12 +94,12 @@ The smuggler's den quest site always uses its own map generator, whatever this i
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>Ativar acesso ao cofre de carga</BTG_Settings_EnableCargoVault>
   <!-- EN:
-When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.
+When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.
 When disabled, cargo vaults spawn sealed and inaccessible.
 Only affects newly generated settlements, and requires the custom settlement map generator.
 The smuggler's den vault is controlled by its quest reward instead of this setting.
   -->
-  <BTG_Settings_EnableCargoVaultDesc>Quando ativado, os alçapões dos cofres de carga nos hangares de ônibus espaciais podem ser hackeados para acessar o inventário comercial.\nQuando desativado, os cofres de carga aparecem selados e inacessíveis.\nAfeta apenas os assentamentos gerados a partir de então, e requer o gerador de mapa de assentamento personalizado.\nO cofre do covil de contrabandistas é controlado pela recompensa da missão, não por esta configuração.</BTG_Settings_EnableCargoVaultDesc>
+  <BTG_Settings_EnableCargoVaultDesc>Quando ativado, o alçapão do cofre de carga de cada assentamento pode ser hackeado para acessar o inventário comercial.\nQuando desativado, os cofres de carga aparecem selados e inacessíveis.\nAfeta apenas os assentamentos gerados a partir de então, e requer o gerador de mapa de assentamento personalizado.\nO cofre do covil de contrabandistas é controlado pela recompensa da missão, não por esta configuração.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- "drone sentinela" is Odyssey pt-BR Drone_Sentry.label. -->
@@ -104,6 +110,15 @@ Factor of threat points used for additional patrolling sentry drones.
 Applies to settlements and the smuggler's den alike.
   -->
   <BTG_Settings_SentryDroneDesc>Fração dos pontos de ameaça usada para drones sentinelas adicionais em patrulha.\nAplica-se tanto a assentamentos quanto ao covil de contrabandistas.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>Defensores de nível espacial (requer reinício)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN:
+Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.
+Disable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way.
+  -->
+  <BTG_Settings_SpacerTierDefendersDesc>Os defensores da Guilda dos Mercadores recebem armas, armaduras, implantes e qualidade de equipamento de nível espacial, e as guarnições tendem a ter mais elites.\nDesative para conjuntos de equipamento e composição de guarnição originais. A proteção contra o vácuo para cidadãos e crianças permanece de qualquer forma.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

@@ -41,6 +41,12 @@ namespace BetterTradersGuild.LordJobs
         private Faction faction;
         private IntVec3 baseCenter;
 
+        // Hysteresis for the escape -> stranded demotion and the escape toil's lift-off
+        // gating (see EscapeGraceTracker). Lazily created so pre-tracker saves get one.
+        private EscapeGraceTracker escapeGrace;
+
+        private EscapeGraceTracker Grace => escapeGrace ??= new EscapeGraceTracker();
+
         // Built lazily on first path request and freed in Dispose. Not saved:
         // rebuilt from StructureBoundsCache after load. walkGridBuilt (rather
         // than IsCreated) marks completion so the no-bounds fallback — grid
@@ -85,7 +91,7 @@ namespace BetterTradersGuild.LordJobs
             // settlement patch's map-parent check fails once vanilla reparents the map
             // to DestroyedSettlement; the den patch early-outs on the site's latched
             // defeat signal), so abandon-phase pawns never re-trigger defeat logic.
-            LordToil_BTGEscape escape = new LordToil_BTGEscape(baseCenter);
+            LordToil_BTGEscape escape = new LordToil_BTGEscape(baseCenter, Grace);
             graph.AddToil(escape);
 
             LordToil_BTGStrandedDefender stranded = new LordToil_BTGStrandedDefender(baseCenter);
@@ -101,15 +107,21 @@ namespace BetterTradersGuild.LordJobs
                 signal.type == TriggerSignalType.Tick && DueForCheck() && MapDefeated()));
             abandon.AddPostAction(new TransitionAction_WakeAll());
             abandon.AddPostAction(new TransitionAction_EndAllJobs());
+            abandon.AddPostAction(new TransitionAction_Custom(RestartStrandedClock));
             graph.AddTransition(abandon);
 
             // Escape <-> stranded on launchable reachability, mirroring the civilian
             // lord (reachability can return: a door gets hacked open, a blocking fire
             // burns out), minus its shelter-door special cases - defenders start free.
+            // Demotion waits out EscapeGraceTracker's grace window like the civilian
+            // lord's: a single unreachable sample flapped the phases, and the stranded
+            // duties' tuck re-cribbed infants the escape was carrying out.
             Transition toStranded = new Transition(escape, stranded);
             toStranded.AddTrigger(new Trigger_Custom(signal =>
                 signal.type == TriggerSignalType.Tick && DueForCheck()
-                && !LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map)));
+                && Grace.ShouldStrand(
+                    LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map),
+                    Find.TickManager.TicksGame)));
             toStranded.AddPostAction(new TransitionAction_EndAllJobs());
             graph.AddTransition(toStranded);
 
@@ -119,6 +131,7 @@ namespace BetterTradersGuild.LordJobs
                 && LaunchableEscapeHelper.AnyLaunchableReachable(lord.ownedPawns, Map)));
             toEscapeAgain.AddPostAction(new TransitionAction_WakeAll());
             toEscapeAgain.AddPostAction(new TransitionAction_EndAllJobs());
+            toEscapeAgain.AddPostAction(new TransitionAction_Custom(RestartStrandedClock));
             graph.AddTransition(toEscapeAgain);
 
             return graph;
@@ -127,6 +140,12 @@ namespace BetterTradersGuild.LordJobs
         private static bool DueForCheck()
         {
             return Find.TickManager.TicksGame % TransitionCheckIntervalTicks == 0;
+        }
+
+        // Post action of every edge INTO escape: the demotion window counts from here.
+        private void RestartStrandedClock()
+        {
+            Grace.Reset(Find.TickManager.TicksGame);
         }
 
         private bool MapDefeated()
@@ -190,6 +209,7 @@ namespace BetterTradersGuild.LordJobs
             base.ExposeData();
             Scribe_References.Look(ref faction, "faction");
             Scribe_Values.Look(ref baseCenter, "baseCenter");
+            Scribe_Deep.Look(ref escapeGrace, "escapeGrace");
         }
     }
 }

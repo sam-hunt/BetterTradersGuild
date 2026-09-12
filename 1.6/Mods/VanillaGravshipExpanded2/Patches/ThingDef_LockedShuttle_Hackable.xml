@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Makes VGE2's decorative locked shuttle hackable. VGE2's own mechanics (deconstruct for
+    the ShuttleEngine, non-claimable scenery) are untouched until the hack completes; then
+    CompPromoteOnHack replaces the building in place with BTG_GuildShuttle (same cell,
+    rotation and hit points, owned by the hacker's faction) and, on a Traders Guild
+    settlement map, turns the guild hostile as stealing a shuttle should.
+
+    Hack tuning follows Odyssey's ancient stockpile hatch (defence 39000, 6~18 h lockouts,
+    intellectual 4) scaled down per design: 25000 work, 4~8 h lockouts. Lockouts roll on
+    the hacker's HackingStealth stat as in vanilla.
+
+    The Conditional adds an empty comps node only if VGE2 ships none (true today), so a
+    future VGE2 comps list merges instead of duplicating the node.
+  -->
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[defName="VGE2_LockedShuttle"]/comps</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="VGE2_LockedShuttle"]</xpath>
+      <value>
+        <comps />
+      </value>
+    </nomatch>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="VGE2_LockedShuttle"]/comps</xpath>
+    <value>
+      <li Class="CompProperties_Hackable">
+        <defence>25000</defence>
+        <effectHacking>HackingTerminal</effectHacking>
+        <lockoutDurationHoursRange>4~8</lockoutDurationHoursRange>
+        <intellectualSkillPrerequisite>4</intellectualSkillPrerequisite>
+        <notHackedInspectString>Hack to override the magnetic clamps.</notHackedInspectString>
+        <hackedMessage>{HACKER_labelShort} has overridden the magnetic clamps on {SUBJECT_labelNoParenthesisDef}.</hackedMessage>
+      </li>
+      <li Class="BetterTradersGuild.Comps.CompProperties_PromoteOnHack">
+        <promoteTo>BTG_GuildShuttle</promoteTo>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

@@ -7,6 +7,8 @@
        EnterTransporter. -->
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>entre dans TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>met TargetA à l'abri.</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>appelle un ravitaillement.</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->

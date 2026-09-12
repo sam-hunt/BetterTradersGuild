@@ -77,5 +77,18 @@
     <parts>
       <BTG_PlantPot_Corner>1.0</BTG_PlantPot_Corner>
     </parts>
+
+    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
+        <rules>
+          <!-- One decorative plant type for the whole room, in bloom -->
+          <li>
+            <grower>PlantPot</grower>
+            <sowTag>Decorative</sowTag>
+          </li>
+        </rules>
+      </li>
+    </modExtensions>
   </LayoutRoomDef>
 </Defs>

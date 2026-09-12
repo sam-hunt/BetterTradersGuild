@@ -72,6 +72,11 @@ namespace BetterTradersGuild.DefRefs
         // its transporter container. TargetA = launchable. See JobDriver_BTGBoardLaunchable.
         public static JobDef BTG_BoardLaunchable;
 
+        // NPC crib tuck: vanilla JobDriver_BringBabyToSafety under carry flags that keep
+        // an already-held infant in arms (no drop on start, kept on interruption).
+        // TargetA = baby. See Defs/JobDefs/BringBabyToSafety.xml.
+        public static JobDef BTG_BringBabyToSafety;
+
         static Jobs() => DefOfHelper.EnsureInitializedInCtor(typeof(Jobs));
     }
 }

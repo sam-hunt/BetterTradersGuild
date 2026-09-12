@@ -12,12 +12,12 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
     //
     // CONNECTION MODEL:
     // The structure's fluid network lives as hidden (underground) pipes laid under
-    // every wall/door by LayoutConduitPlacer. To connect a pad we trace a path from
-    // the pad back to that network and lay pipe along it. The path's GOAL is the
-    // first existing hidden pipe, NOT "any wall": some walls (e.g. vanilla NarrowHalls
-    // partitions, which aren't part of the structure sketch) never get a hidden pipe,
-    // so stopping at the nearest wall could terminate beside dead infrastructure and
-    // never join the network.
+    // every wall/door inside the SpawnRect by GenStep_PlaceWallConduits (240), which
+    // must therefore run before this step. To connect a pad we trace a path from the
+    // pad back to that network and lay pipe along it. The path's GOAL is the first
+    // existing hidden pipe, NOT "any wall": walls outside the SpawnRect (dock and ring
+    // platform structures) carry no pipe, so stopping at the nearest wall could
+    // terminate beside dead infrastructure and never join the network.
     //
     // PATHING IS TERRAIN-BASED, NOT PAWN-BASED:
     // Pipes run *under* walls and doors, so edifices do not block the path. The only
@@ -52,7 +52,7 @@ namespace BetterTradersGuild.LayoutWorkers.Settlement
             if (visiblePipeDefs.Count == 0) return;
 
             // Hidden pipes are what the under-wall network is actually made of. They are
-            // all co-located (LayoutConduitPlacer stacks every def at the same cell), so
+            // all co-located (the wall conduit step stacks every def at the same cell), so
             // the first one is a sufficient stop-goal for the path search and the full
             // set is what we lay once inside the structure.
             IReadOnlyList<ThingDef> hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();

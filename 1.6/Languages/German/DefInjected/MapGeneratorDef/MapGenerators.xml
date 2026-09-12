@@ -6,6 +6,10 @@
   <!-- Odyssey de SettlementPlatform.label, verbatim. -->
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>Siedlungsplattform</BTG_SettlementMapGenerator.label>
+  <!-- This def sets no label of its own and inherits vanilla SpaceMapGenerator's;
+       Odyssey de Space.label/SpacePocket.label, verbatim. -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>Weltraum</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>Schmugglernest-Plattform</BTG_SmugglersDenMapGenerator.label>
 

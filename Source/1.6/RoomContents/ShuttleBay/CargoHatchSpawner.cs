@@ -25,7 +25,7 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
     // When cargo vault is disabled: spawns BTG_CargoVaultHatch_Sealed (permanently sealed)
     public static class CargoVaultHatchSpawner
     {
-        private const int HATCH_SIZE = 3;
+        public const int HATCH_SIZE = 3;
 
         // Finds the best position for the cargo hatch and spawns it.
         // Returns the CellRect of the spawned hatch for blocking purposes, or default if spawn failed.
@@ -42,18 +42,17 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 return default;
             }
 
-            // Choose hatch type: quest site comp overrides mod setting
-            bool enableVault = BetterTradersGuildMod.Settings.enableCargoVault;
-            var questComp = map.Parent?.GetComponent<WorldObjectComp_QuestVault>();
-            if (questComp != null)
-            {
-                enableVault = questComp.HasCargoVault;
-            }
+            return SpawnHatchAt(map, position);
+        }
 
-            ThingDef hatchDef = enableVault
-                ? Things.BTG_CargoVaultHatch
-                : Things.BTG_CargoVaultHatch_Sealed;
-
+        // Spawns the hatch centered on an already-chosen cell. Shared by the ShuttleBay
+        // room worker (position from the room's free regions) and the map-wide
+        // GenStep_SpawnCargoVaultHatch (position from StationHatchPlacer), so the
+        // hackable-vs-sealed choice lives in exactly one place.
+        // Returns: The CellRect occupied by the hatch, or default if spawning failed.
+        public static CellRect SpawnHatchAt(Map map, IntVec3 center)
+        {
+            ThingDef hatchDef = HatchDefFor(map);
             if (hatchDef == null)
             {
                 Log.Warning("[Better Traders Guild] Cargo vault hatch def not found.");
@@ -61,9 +60,25 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             }
 
             Thing hatch = ThingMaker.MakeThing(hatchDef);
-            GenSpawn.Spawn(hatch, position, map, WipeMode.VanishOrMoveAside);
+            GenSpawn.Spawn(hatch, center, map, WipeMode.VanishOrMoveAside);
 
-            return GetBlockingRectFromCenter(position);
+            return GetBlockingRectFromCenter(center);
+        }
+
+        // Hackable hatch when the cargo vault is enabled, permanently sealed variant when
+        // it is not. On quest sites the site's quest comp overrides the mod setting.
+        private static ThingDef HatchDefFor(Map map)
+        {
+            bool enableVault = BetterTradersGuildMod.Settings.enableCargoVault;
+            var questComp = map.Parent?.GetComponent<WorldObjectComp_QuestVault>();
+            if (questComp != null)
+            {
+                enableVault = questComp.HasCargoVault;
+            }
+
+            return enableVault
+                ? Things.BTG_CargoVaultHatch
+                : Things.BTG_CargoVaultHatch_Sealed;
         }
 
         // Calculates the blocking rect from a center position.

@@ -12,6 +12,8 @@
 
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>TargetA에 탑승하는 중</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>TargetA 안전한 곳에 두는 중</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>보급 요청 중</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->

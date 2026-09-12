@@ -2,6 +2,8 @@
 
 Upgrades TradersGuild pawns to spacer-level gear, fixing the vanilla issue where a wealthy spacer faction uses industrial-tier equipment.
 
+**Gated by the `useSpacerTierDefenders` mod setting (requires restart):** every file except `PawnKinds_Citizen.xml` and `PawnKinds_Child.xml` (vacuum-protection fixes) wraps its operations in one `BetterTradersGuild.PatchOperationSettingGatedSequence`, as does `../Faction_Settlement.xml` (garrison weights). With the setting off those files apply nothing and the kinds keep vanilla values.
+
 ## Design Constraints
 
 **Critical:** The vanilla PawnKindDef hierarchy shares abstract bases with Salvager (space pirate) pawns:
@@ -33,7 +35,7 @@ TradersGuildBase (Abstract)
 | -------- | -----------: | --------------------------------------- | ---------------------------------- | ---------- | --------- |
 | Citizen  |     45 -> 45 | Vacsuit + Helmet                        | —                                  | —          | —         |
 | Child    |            — | Child Vacsuit + Helmet + Shield         | —                                  | —          | —         |
-| Gunner   |     85 → 110 | Marine Armor                            | SpacerGun                          | 40%        | Good      |
+| Gunner   |     85 → 130 | Marine Armor                            | SpacerGun                          | 40%        | Good      |
 | Slasher  |    140 → 160 | Shield + Marine Armor                   | MedievalMeleeAdvanced (+Ultratech) | 40%        | Good      |
 | Heavy    |    140 → 170 | Marine Armor                            | GunHeavy + SpacerGun               | 40%        | Good      |
 | Elite    |    130 → 180 | Cataphract (Royalty) or Marine          | SpacerGun + GunHeavy               | 65%, max 4 | Excellent |

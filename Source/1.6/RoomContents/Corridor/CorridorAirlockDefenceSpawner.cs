@@ -1,22 +1,19 @@
 using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
-using BetterTradersGuild.Helpers.RoomContents;
 using RimWorld;
 using Verse;
-using static BetterTradersGuild.Helpers.RoomContents.OutfitStandHarFixer;
 
 namespace BetterTradersGuild.RoomContents.Corridor
 {
-    // Finds AncientBlastDoors on corridor rect edges, replaces each with an
-    // airlock defense prefab (airlock + autocannons), and populates the
-    // prefab's outfit stands with vacsuits.
+    // Finds AncientBlastDoors on corridor rect edges and replaces each with an
+    // airlock defense prefab (airlock + autocannons). The prefab's outfit stands
+    // are stocked later by BTG_StockOutfitStands from the corridor def's
+    // OutfitStandRuleExtension (Corridor.xml).
     //
     // Must run BEFORE base room content placement so the airlock space is
     // occupied and unavailable for other prefab placement.
     public static class CorridorAirlockDefenceSpawner
     {
-        private const float PopulateChancePerStand = 0.5f;
-
         public static void SpawnAirlockDefences(Map map, LayoutRoom room, Faction faction)
         {
             PrefabDef prefab = Prefabs.BTG_AirlockDefences;
@@ -45,8 +42,6 @@ namespace BetterTradersGuild.RoomContents.Corridor
                     PrefabUtility.SpawnPrefab(prefab, map, cell, rotation.Value, faction);
                 }
             }
-
-            PopulateVacsuitStands(map, room, faction);
         }
 
         // Returns the prefab rotation based on which edge of the rect the cell is on.
@@ -68,58 +63,6 @@ namespace BetterTradersGuild.RoomContents.Corridor
             if (onWest) return Rot4.West;
 
             return null;
-        }
-
-        // Populates outfit stands placed by the airlock defense prefab with vacsuits.
-        // Each stand has a 50% chance of being populated with a vacsuit and helmet.
-        private static void PopulateVacsuitStands(Map map, LayoutRoom room, Faction faction)
-        {
-            List<ThingDef> vacsuitSet = new List<ThingDef>();
-            if (Things.Apparel_Vacsuit != null) vacsuitSet.Add(Things.Apparel_Vacsuit);
-            if (Things.Apparel_VacsuitHelmet != null) vacsuitSet.Add(Things.Apparel_VacsuitHelmet);
-            if (vacsuitSet.Count == 0) return;
-
-            HashSet<Building_OutfitStand> stands = new HashSet<Building_OutfitStand>();
-
-            foreach (CellRect rect in room.rects)
-            {
-                foreach (IntVec3 cell in rect.Cells)
-                {
-                    if (!cell.InBounds(map)) continue;
-
-                    foreach (Thing thing in cell.GetThingList(map))
-                    {
-                        if (thing is Building_OutfitStand stand)
-                            stands.Add(stand);
-                    }
-                }
-            }
-
-            foreach (Building_OutfitStand stand in stands)
-            {
-                NormalizeOutfitStand(stand);
-
-                if (!Rand.Chance(PopulateChancePerStand))
-                    continue;
-
-                foreach (ThingDef apparelDef in vacsuitSet)
-                {
-                    ThingDef stuffDef = apparelDef.MadeFromStuff ? GenStuff.DefaultStuffFor(apparelDef) : null;
-                    Apparel apparel = (Apparel)ThingMaker.MakeThing(apparelDef, stuffDef);
-
-                    CompQuality comp = apparel.TryGetComp<CompQuality>();
-                    if (comp != null)
-                    {
-                        QualityCategory quality = Rand.Chance(0.6f) ? QualityCategory.Normal : QualityCategory.Good;
-                        comp.SetQuality(quality, ArtGenerationContext.Outsider);
-                    }
-
-                    ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
-
-                    if (!stand.AddApparel(apparel))
-                        apparel.Destroy(DestroyMode.Vanish);
-                }
-            }
         }
     }
 }

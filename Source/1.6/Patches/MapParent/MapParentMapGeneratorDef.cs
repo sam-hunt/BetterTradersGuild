@@ -1,4 +1,5 @@
 using BetterTradersGuild.DefRefs;
+using BetterTradersGuild.Integrations;
 using HarmonyLib;
 using RimWorld.Planet;
 using Verse;
@@ -22,6 +23,9 @@ namespace BetterTradersGuild.Patches.MapParentPatches
     //   - BTG_SettlementPlatform: GenStep_OrbitalPlatform with BTG_SettlementPlatform layout
     //   - BTG_SettlementPawnsLoot: GenStep_BTGSettlementPawns (loot disabled, bounded defender lord)
     //   - BTG_SettlementPostProcess: Custom GenStep for terrain/pipes/lighting
+    // - With Vanilla Gravship Expanded 2's station live, BTG_SettlementMapGenerator_VGE2
+    //   instead: vanilla's (VGE2-replaced) platform step plus BTG's layered steps
+    //   (see 1.6/Defs/MapGeneratorDefs/SettlementMapGenerator_VGE2.xml)
     //
     // WHY THIS APPROACH:
     // - No reflection needed to swap layoutDef or lootMarketValue
@@ -45,7 +49,13 @@ namespace BetterTradersGuild.Patches.MapParentPatches
         // EXECUTION FLOW:
         // 1. Check if custom layouts feature enabled in mod settings
         // 2. Check if this is a TradersGuild settlement
-        // 3. If yes: Override result with BTG_SettlementMapGenerator
+        // 3. Pick the pipeline: when Vanilla Gravship Expanded 2's Traders Guild station
+        //    patch is live, BTG_SettlementMapGenerator_VGE2 (VGE2's station with BTG's
+        //    additions layered on); otherwise BTG_SettlementMapGenerator (BTG's own layout)
+        //
+        // useCustomLayouts therefore means "BTG content on the settlement map" in both
+        // worlds: ON under VGE2 = VGE2 station + BTG layers; OFF = whatever vanilla (or
+        // VGE2's replace of vanilla) generates, untouched.
         //
         // WHY Priority.Last:
         // Other mods postfix this same getter to swap in their own generator, and at least one
@@ -65,12 +75,16 @@ namespace BetterTradersGuild.Patches.MapParentPatches
             if (!TradersGuildHelper.IsTradersGuildSettlement(__instance))
                 return;
 
+            MapGeneratorDef generator = VGE2Integration.Available
+                ? MapGenerators.BTG_SettlementMapGenerator_VGE2
+                : MapGenerators.BTG_SettlementMapGenerator;
+
             // Check custom MapGeneratorDef is available
-            if (MapGenerators.BTG_SettlementMapGenerator == null)
+            if (generator == null)
                 return;
 
             // Override result with custom MapGeneratorDef
-            __result = MapGenerators.BTG_SettlementMapGenerator;
+            __result = generator;
         }
     }
 }

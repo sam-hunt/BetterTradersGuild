@@ -74,16 +74,22 @@ The smuggler's den quest site always uses its own map generator, whatever this i
   -->
   <BTG_Settings_UseCustomLayoutsDesc>Génère les colonies de la guilde des commerçants avec une esthétique moins abandonnée.\nDésactivez cette option si vous utilisez d'autres mods de génération de carte ou si vous préférez les agencements d'origine.\nLe site de la quête du repaire de contrebandiers utilise toujours son propre générateur de carte, quel que soit ce paramètre.</BTG_Settings_UseCustomLayoutsDesc>
 
+  <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 est actif : sa station de la guilde des commerçants est générée à la place, avec certains ajouts de ce mod superposés.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2 est actif : les paramètres ci-dessous n'affectent actuellement que le repaire de contrebandiers. Ses stations de la guilde des commerçants conservent pour l'instant les garnisons et règles de défaite d'origine.</BTG_Settings_DefendersVGE2Note>
+
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>Activer l'accès au coffre à cargaison</BTG_Settings_EnableCargoVault>
   <!-- EN:
-When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.
+When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.
 When disabled, cargo vaults spawn sealed and inaccessible.
 Only affects newly generated settlements, and requires the custom settlement map generator.
 The smuggler's den vault is controlled by its quest reward instead of this setting.
   -->
-  <BTG_Settings_EnableCargoVaultDesc>Lorsque cette option est activée, les trappes des coffres à cargaison des hangars à navettes peuvent être piratées pour accéder à l'inventaire commercial.\nLorsqu'elle est désactivée, les coffres à cargaison apparaissent scellés et inaccessibles.\nN'affecte que les colonies générées par la suite et nécessite le générateur de carte de colonie personnalisé.\nLe coffre à cargaison du repaire de contrebandiers est contrôlé par la récompense de sa quête plutôt que par ce paramètre.</BTG_Settings_EnableCargoVaultDesc>
+  <BTG_Settings_EnableCargoVaultDesc>Lorsque cette option est activée, la trappe du coffre à cargaison de chaque colonie peut être piratée pour accéder à l'inventaire commercial.\nLorsqu'elle est désactivée, les coffres à cargaison apparaissent scellés et inaccessibles.\nN'affecte que les colonies générées par la suite et nécessite le générateur de carte de colonie personnalisé.\nLe coffre à cargaison du repaire de contrebandiers est contrôlé par la récompense de sa quête plutôt que par ce paramètre.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
@@ -93,6 +99,15 @@ Factor of threat points used for additional patrolling sentry drones.
 Applies to settlements and the smuggler's den alike.
   -->
   <BTG_Settings_SentryDroneDesc>Proportion des points de menace consacrée aux drones sentinelles supplémentaires en patrouille.\nS'applique aux colonies et au repaire de contrebandiers de la même façon.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>Défenseurs de niveau spatial (nécessite un redémarrage)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN:
+Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.
+Disable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way.
+  -->
+  <BTG_Settings_SpacerTierDefendersDesc>Les défenseurs de la guilde des commerçants reçoivent des armes, armures, implants et une qualité d'équipement de niveau spatial, et les garnisons comptent davantage d'élites.\nDésactivez cette option pour revenir à l'équipement et à la composition de garnison d'origine. La protection contre le vide des civils et des enfants reste inchangée dans les deux cas.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

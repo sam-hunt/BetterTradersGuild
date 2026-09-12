@@ -1,3 +1,4 @@
+using BetterTradersGuild.Integrations;
 using UnityEngine;
 using Verse;
 
@@ -12,6 +13,12 @@ namespace BetterTradersGuild
     // those only feed the settlement points roll — the den's garrison is sized by
     // its quest — so they alone gate on useCustomLayouts.
     //
+    // The other exception is the spacer-tier toggle at the top: it is a def-layer,
+    // restart-required switch (it gates the PawnKinds/Faction_Settlement XML patches
+    // via PatchOperationSettingGatedSequence), so it reaches every TradersGuild
+    // pawn spawn — BTG's own maps, peaceful visits, and VGE2's station alike. The
+    // den is untouched either way: its Salvager kinds are never patched.
+    //
     // The defender resupply knobs render as an indented subgroup under the
     // entrenched-AI toggle, which is their true prerequisite: the resupply job is a
     // node of the BTG_DefendStructure duty, so it runs wherever the entrenched lord
@@ -21,6 +28,18 @@ namespace BetterTradersGuild
     // knobs still fully govern.
     public partial class BetterTradersGuildSettings
     {
+        // Spacer-tier TG defenders ("Spacer-tier defenders" in the settings UI).
+        // When true (default), the PawnKinds/Faction_Settlement patch files apply:
+        // spacer-tier weapons/armor/implants/gear quality on the five combat kinds
+        // and an elite-leaning Settlement pawnGroupMaker. When false, those files
+        // no-op and TG defenders roll with vanilla loadouts and weights; the
+        // Citizen/Child vacuum-protection fixes stay on regardless. Read by
+        // PatchOperationSettingGatedSequence during XML patching, so it takes
+        // effect on the next game start only. A balance preference, not a compat
+        // switch: deliberately not tied to VGE2 detection, and never annotated
+        // as recommended in either state.
+        public bool useSpacerTierDefenders = true;
+
         // Defender AI style ("Entrenched defender AI" in the settings UI). When
         // true (default), defenders use BTG's bounded lord
         // (LordJob_BTGDefendStructure): they hold the structure, never assault or
@@ -53,14 +72,15 @@ namespace BetterTradersGuild
         // ships default OFF to avoid surprising existing players; the world value
         // is a floor-raise only (never below the vanilla roll). Settlements only:
         // the den's points always come from its quest, so this never applies there.
-        // Requires useCustomLayouts.
+        // Requires useCustomLayouts and BTG's own generator: under VGE2 the settlement
+        // garrison is vanilla's roll, so the UI greys this subgroup out there too.
         public bool scaleDefendersToThreatLevel = false;
 
         // Threat points multiplier for initial defender generation. Applied to the
         // base points (flat vanilla roll, or threat-scaled when
         // scaleDefendersToThreatLevel is on). Range: 0.5-3.0. Default: 1.0 (no
-        // modification). Settlements only, same as scaleDefendersToThreatLevel.
-        // Requires useCustomLayouts.
+        // modification). Settlements only, same as scaleDefendersToThreatLevel,
+        // including the VGE2 grey-out.
         public float threatPointsMultiplier = 1.0f;
 
         // Additional sentry drone presence as a factor of threat points.
@@ -82,6 +102,7 @@ namespace BetterTradersGuild
 
         private void ExposeDefenderSettings()
         {
+            Scribe_Values.Look(ref useSpacerTierDefenders, "useSpacerTierDefenders", true);
             Scribe_Values.Look(ref useEntrenchedDefenders, "useEntrenchedDefenders", true);
             Scribe_Values.Look(ref resupplyMealsPerDefender, "resupplyMealsPerDefender", 2);
             Scribe_Values.Look(ref resupplyTriggersRaid, "resupplyTriggersRaid", true);
@@ -104,6 +125,7 @@ namespace BetterTradersGuild
 
         private void ResetDefenderSettings()
         {
+            useSpacerTierDefenders = true;
             useEntrenchedDefenders = true;
             resupplyMealsPerDefender = 2;
             resupplyTriggersRaid = true;
@@ -116,6 +138,24 @@ namespace BetterTradersGuild
         private void DrawDefendersSection(Listing_Standard listing)
         {
             SectionHeader(listing, "BTG_Settings_Defenders".Translate());
+
+            // Spacer-tier gear + elite-leaning garrison weights, or vanilla. Def-layer
+            // and restart-required (see the header). Tagged vanilla/default only —
+            // no recommendation either way.
+            string spacerTierLabel = Annotate(
+                "BTG_Settings_SpacerTierDefenders".Translate(),
+                vanilla: !useSpacerTierDefenders,
+                isDefault: useSpacerTierDefenders);
+            listing.CheckboxLabeled(spacerTierLabel, ref useSpacerTierDefenders,
+                "BTG_Settings_SpacerTierDefendersDesc".Translate());
+
+            listing.Gap(12f);
+
+            // Under VGE2 the settlement garrison is vanilla's (BTG_SettlementPawnsNoLoot,
+            // LordJob_DefendBase, vanilla defeat rule; see SettlementMapGenerator_VGE2.xml),
+            // so everything below the spacer-tier toggle reaches only the smuggler's
+            // den until the S5 tracker item lands BTG's garrison on the station.
+            VGE2Note(listing, "BTG_Settings_DefendersVGE2Note");
 
             // Defender AI style: BTG's bounded entrenched lord vs vanilla
             // DefendBase. The headline choice for the section. Not gated on
@@ -164,24 +204,27 @@ namespace BetterTradersGuild
 
             // Initial settlement garrison subgroup: the only knobs here that are
             // truly settlement-only (the den's garrison is sized by its quest), so
-            // they alone grey out with the custom-layouts master toggle.
+            // they alone grey out with the custom-layouts master toggle, and also
+            // under VGE2, where the settlement garrison is vanilla's points roll
+            // (GenStep_BTGSettlementPawns never runs) and nothing reads them at all.
             listing.Label("BTG_Settings_InitialGarrison".Translate());
             listing.Gap(4f);
 
-            GUI.enabled = useCustomLayouts;
+            bool initialGarrisonEnabled = useCustomLayouts && !VGE2Integration.Available;
+            GUI.enabled = initialGarrisonEnabled;
             listing.Indent(16f);
             listing.ColumnWidth -= 16f;
 
             // While gated off the effective state is "no scaling" (= vanilla, and
             // also the shipped default), so the annotations follow the shown state
             // rather than the stored one.
-            bool scalingShownOff = !(useCustomLayouts && scaleDefendersToThreatLevel);
+            bool scalingShownOff = !(initialGarrisonEnabled && scaleDefendersToThreatLevel);
             string scaleLabel = Annotate(
                 "BTG_Settings_ScaleDefenders".Translate(),
                 vanilla: scalingShownOff,
                 isDefault: scalingShownOff);
             CheckboxLabeledGated(listing, scaleLabel, ref scaleDefendersToThreatLevel,
-                "BTG_Settings_ScaleDefendersDesc".Translate(), useCustomLayouts);
+                "BTG_Settings_ScaleDefendersDesc".Translate(), initialGarrisonEnabled);
 
             listing.Gap(8f);
 
@@ -194,7 +237,7 @@ namespace BetterTradersGuild
             // Discard the slider result while gated off: greyed sliders still take
             // drags (the fade is visual only), and the stored value must survive.
             float multiplierSliderValue = listing.Slider(threatPointsMultiplier, 0.5f, 3.0f);
-            if (useCustomLayouts)
+            if (initialGarrisonEnabled)
                 threatPointsMultiplier = (int)System.Math.Round(multiplierSliderValue * 10f) / 10f;
 
             listing.ColumnWidth += 16f;

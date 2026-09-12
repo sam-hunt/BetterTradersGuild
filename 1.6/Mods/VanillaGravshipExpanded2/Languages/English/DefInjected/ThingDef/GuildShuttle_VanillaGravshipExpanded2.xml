@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The guild shuttle defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear VGE2's
+       locked-shuttle art, so they load only from this LoadFolders-gated compat root. Their
+       injections must live here too: MayRequire is honored on defs but IGNORED on DefInjected
+       entries, so a main-tree injection would log a found-no-def error for every user without
+       VGE2 installed. -->
+
+  <!-- BTG_GuildShuttle -->
+  <BTG_GuildShuttle.label>guild shuttle</BTG_GuildShuttle.label>
+  <BTG_GuildShuttle.description>A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations.</BTG_GuildShuttle.description>
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>Chemfuel</BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>Chemfuel</BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>
+  <BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>{0} is ready to launch again.</BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>
+
+  <!-- BTG_GuildShuttleIncoming -->
+  <BTG_GuildShuttleIncoming.label>guild shuttle (incoming)</BTG_GuildShuttleIncoming.label>
+
+  <!-- BTG_GuildShuttleLeaving -->
+  <BTG_GuildShuttleLeaving.label>guild shuttle (leaving)</BTG_GuildShuttleLeaving.label>
+
+</LanguageData>

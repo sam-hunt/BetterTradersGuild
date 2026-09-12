@@ -87,5 +87,28 @@
       <!-- Agricultural mech - tends crops in greenhouse -->
       <BTG_Mech_Agrihand MayRequire="Ludeon.RimWorld.Biotech">1.0</BTG_Mech_Agrihand>
     </parts>
+
+    <!-- Planting rules applied by BTG_SowPlantGrowers to the growers in this room -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.PlantGrowerRulesExtension">
+        <rules>
+          <!-- Rice in every basin, one shared growth: its 3-day cycle keeps the agrihand harvest/replant loop busy -->
+          <li>
+            <grower>HydroponicsBasin</grower>
+            <plants>
+              <li>Plant_Rice</li>
+            </plants>
+            <growthRange>0.1~0.9</growthRange>
+          </li>
+          <!-- Young decorative plants, a different one per pot -->
+          <li>
+            <grower>PlantPot</grower>
+            <sowTag>Decorative</sowTag>
+            <growthRange>0.25~0.65</growthRange>
+            <perGrower>true</perGrower>
+          </li>
+        </rules>
+      </li>
+    </modExtensions>
   </LayoutRoomDef>
 </Defs>

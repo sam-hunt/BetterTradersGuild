@@ -6,6 +6,10 @@
   <!-- Verbatim from Odyssey es SettlementPlatform.label. -->
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>plataforma de asentamiento</BTG_SettlementMapGenerator.label>
+  <!-- This def sets no label of its own and inherits vanilla SpaceMapGenerator's;
+       verbatim from Core/Odyssey es MapGeneratorDef/SpaceMapGenerator.xml Space.label. -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>espacio</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>plataforma de guarida de contrabandistas</BTG_SmugglersDenMapGenerator.label>
 

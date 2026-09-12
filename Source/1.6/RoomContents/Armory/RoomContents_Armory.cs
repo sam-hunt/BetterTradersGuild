@@ -11,11 +11,10 @@ namespace BetterTradersGuild.RoomContents.Armory
 
             if (room.rects == null || room.rects.Count == 0) return;
 
+            // Outfit stands are stocked later by BTG_StockOutfitStands from this room def's
+            // OutfitStandRuleExtension (Armory.xml).
             foreach (CellRect roomRect in room.rects)
-            {
                 ArmoryShelfFiller.FillWeaponShelves(map, roomRect);
-                ArmoryOutfitStandHandler.SpawnMarineArmorInOutfitStands(map, roomRect, faction);
-            }
         }
     }
 }

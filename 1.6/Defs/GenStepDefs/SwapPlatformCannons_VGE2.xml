@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Swap Platform Cannons GenStep (Vanilla Gravship Expanded 2)
+
+    When Vanilla Gravship Expanded - Chapter 2 is active, two of the four inert vanilla
+    GaussCannons the platform step spawns at the platform corners become VGE2's live
+    VGE_EnemyGaussCannon, owned by the map's faction, so BTG's platforms defend
+    themselves the way VGE2's own Traders Guild station does. The other two corners
+    keep the vanilla cannon; the count is below VGE2's station average on purpose,
+    since each destroyed cannon has a chance of leaving a gravcore.
+
+    What the live cannon does (VGE code, not ours): it only ever targets things on the
+    player's gravship substructure, never pawns on foot; it is stunned for a while when
+    the player lands with a signal jammer off cooldown; it fires a discovery letter when
+    unfogged. The MayRequire on the def keeps the VGE_EnemyGaussCannon reference from
+    loading without VGE2; the pipelines list this step with the same MayRequire.
+
+    Same footprint as GaussCannon (9x9) is required: the platform step sizes the terrain
+    pads from the cannon def it spawned.
+  -->
+
+  <GenStepDef MayRequire="vanillaexpanded.gravship2">
+    <defName>BTG_SwapPlatformCannons_VGE2</defName>
+    <order>205</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_SwapPlatformCannons">
+      <fromDef>GaussCannon</fromDef>
+      <toDef>VGE_EnemyGaussCannon</toDef>
+      <count>2</count>
+    </genStep>
+  </GenStepDef>
+</Defs>

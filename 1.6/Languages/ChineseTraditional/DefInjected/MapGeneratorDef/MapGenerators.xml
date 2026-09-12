@@ -6,6 +6,10 @@
   <BTG_CargoVaultMapGenerator.label>貨物保險庫</BTG_CargoVaultMapGenerator.label>
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>據點平台</BTG_SettlementMapGenerator.label>
+  <!-- This def sets no label of its own; it inherits vanilla SpaceMapGenerator's
+       (Odyssey zh-Hant Space.label = 太空). -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>太空</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>走私巢穴平台</BTG_SmugglersDenMapGenerator.label>
 

@@ -146,21 +146,12 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             base.FillRoom(map, room, faction, threatPoints);
 
             // 6. Customize subrooms with random items, furniture, and pawns
-            // Run customizers in order - firefoam popper markers may add plant pots which get plants later
+            // Run customizers in order - firefoam popper markers may add plant pots, which the
+            // BTG_SowPlantGrowers GenStep plants afterwards from the room def's rules
             FirefoamPopperCustomizer.Customize(map, subroomRects, faction);
             ShelfCustomizer.CustomizeSmallShelves(map, subroomRects);
             ShelfCustomizer.CustomizeEmptyShelves(map, subroomRects, faction);
             TableCustomizer.Customize(map, subroomRects);
-
-            // 7. Post-processing: spawn plants in any plant pots (random mix of decorative plants)
-            // Query all plants with "Decorative" sowTag - this automatically supports mod-added plants
-            var decorativePlants = DefDatabase<ThingDef>.AllDefs
-                .Where(p => p.plant?.sowTags?.Contains("Decorative") == true)
-                .ToList();
-            foreach (CellRect rect in room.rects)
-            {
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, rect, decorativePlants, growth: 1.0f);
-            }
         }
 
         // Override to prevent XML-defined prefabs (like lockers) from spawning inside subrooms or waste fillers.

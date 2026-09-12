@@ -31,11 +31,24 @@
       <!-- Core platform generation using forked smuggler's den layout -->
       <li>BTG_SmugglersDenPlatform</li>     <!-- order 200 -->
 
+      <!-- Under VGE2, two corner cannons become live VGE_EnemyGaussCannons owned by the den -->
+      <li MayRequire="vanillaexpanded.gravship2">BTG_SwapPlatformCannons_VGE2</li> <!-- order 205 -->
+
+      <!-- Hidden conduits + VE pipes under every wall, then tanks filled and valves locked down -->
+      <li>BTG_PlaceWallConduitsAndPipes</li> <!-- order 240 -->
+      <li>BTG_PrimePipeNetworks</li>         <!-- order 245 -->
+
       <!-- Static post-processing -->
       <!-- BTG_ReplaceTerrain skipped for run-down look -->
       <!-- BTG_PaintTerrain skipped for run-down look -->
       <li>BTG_ExtendLandingPadPipes</li>     <!-- order 260 -->
       <li>BTG_SmugglersDenWallLampColor</li> <!-- order 265; red corridor/armory lamps -->
+
+      <!-- Plant every empty grower from the room defs' planting rules, then the map defaults -->
+      <li>BTG_SowPlantGrowers</li>        <!-- order 310 -->
+
+      <!-- Dress every empty outfit stand from the room defs' stocking rules, then the map default -->
+      <li>BTG_StockOutfitStands</li>       <!-- order 315 -->
 
       <!-- Pre-populate vault stock from quest reward choice -->
       <li>BTG_GenerateQuestVaultStock</li>   <!-- order 698 -->

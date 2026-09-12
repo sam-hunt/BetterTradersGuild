@@ -3,6 +3,8 @@
 
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>登上TargetA。</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>将TargetA安置到安全处。</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>呼叫补给。</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->

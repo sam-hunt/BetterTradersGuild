@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_Ship_GuildShuttle (TransportShipDef, MayRequire vanillaexpanded.gravship2). See the
+       ThingDef file beside this one for why these injections live in the VGE2-gated compat root
+       rather than the main Languages tree. -->
+
+  <!-- EN: guild shuttle -->
+  <BTG_Ship_GuildShuttle.label>navette de la guilde</BTG_Ship_GuildShuttle.label>
+
+</LanguageData>

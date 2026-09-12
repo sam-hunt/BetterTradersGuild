@@ -13,8 +13,10 @@ namespace BetterTradersGuild.Helpers.RoomContents
     // a line of hidden conduits/pipes from an interior position to the nearest room edge.
     //
     // DESIGN NOTE:
-    // The edge cell itself is excluded because LayoutConduitPlacer already places
-    // infrastructure under walls during initial layout generation.
+    // The edge cell itself is excluded because GenStep_PlaceWallConduits lays the
+    // infrastructure under every wall and door after all rooms are filled. Room
+    // workers run before that step, so they only ever see prefab-embedded
+    // transmitters; the wall network is a promise this step keeps later.
     public static class RoomEdgeConnector
     {
         // Places a line of things from startPos toward the nearest room edge.

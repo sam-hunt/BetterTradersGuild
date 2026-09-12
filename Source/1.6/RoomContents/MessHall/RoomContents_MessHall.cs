@@ -21,7 +21,6 @@ namespace BetterTradersGuild.RoomContents.MessHall
             foreach (CellRect roomRect in room.rects)
             {
                 RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.Table_interactive_2x2c);
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Daylily, growth: 1.0f);
                 FillShelvesWithMeals(map, roomRect);
             }
 

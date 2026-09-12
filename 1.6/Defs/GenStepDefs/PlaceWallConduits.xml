@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Place Wall Conduits GenSteps
+
+    Lay a HiddenConduit under every wall and door cell inside the platform step's
+    SpawnRect so the station's LifeSupportUnits (and VGE2 power sockets) form one
+    grid that reaches every powered fixture near a wall. Runs after the platform step
+    (room contents already placed) and before BTG_ExtendLandingPadPipes (260), whose
+    path search needs the hidden pipe network to exist.
+
+    Two defs, one class: BTG's own layouts also want the VE hidden pipes under the
+    same cells (tank/valve prefabs and the landing-pad extension feed off them);
+    VGE2's prefab station ships no tanks or valves, so it gets conduits only.
+  -->
+
+  <GenStepDef>
+    <defName>BTG_PlaceWallConduitsAndPipes</defName>
+    <order>240</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_PlaceWallConduits">
+      <includeHiddenPipes>true</includeHiddenPipes>
+    </genStep>
+  </GenStepDef>
+
+  <GenStepDef>
+    <defName>BTG_PlaceWallConduits</defName>
+    <order>240</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_PlaceWallConduits">
+      <includeHiddenPipes>false</includeHiddenPipes>
+    </genStep>
+  </GenStepDef>
+</Defs>

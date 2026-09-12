@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    BTG_GuildShuttle: a working passenger shuttle wearing Vanilla Gravship Expanded 2's
+    locked-shuttle art. Lives in the VGE2 compat root (LoadFolders.xml) because its
+    textures belong to VGE2 and its strings are optional-mod content.
+
+    Behaviour is vanilla PassengerShuttle (Odyssey): same thingClass, size, comps, fuel
+    and mass numbers, so every class-keyed vanilla feature (caravan shuttle travel,
+    refuel from cargo, the escape lord's fly-away path) applies unchanged. Differences:
+    not buildable (no designation category / research), not paintable (VGE2 ships no
+    mask textures, so a paint would tint the whole sprite), Cutout shader.
+
+    Reached two ways: a hacked VGE2_LockedShuttle is promoted to this def in place
+    (Patches/ThingDef_LockedShuttle_Hackable.xml + CompPromoteOnHack), and the
+    Independent Traders scenario lands in one under VGE2
+    (Patches/Scenario_IndependentTraders_Shuttle.xml).
+  -->
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>BTG_GuildShuttle</defName>
+    <label>guild shuttle</label>
+    <description>A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations.</description>
+    <thingClass>Building_PassengerShuttle</thingClass>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <altitudeLayer>Building</altitudeLayer>
+    <pathCost>50</pathCost>
+    <blockWind>true</blockWind>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <size>(3,5)</size>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconScale>1</uiIconScale>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/OrbitalStation/LockedShuttle/LockedShuttle</texPath>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(3,5)</drawSize>
+      <shadowData>
+        <volume>(1.8, 1.0, 4.1)</volume>
+        <offset>(-0.1, 0, 0)</offset>
+      </shadowData>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Flammability>0.5</Flammability>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Comfort>0.65</Comfort>
+    </statBases>
+    <tickerType>Normal</tickerType>
+    <costList>
+      <Steel>250</Steel>
+      <Plasteel>150</Plasteel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <ShuttleEngine>1</ShuttleEngine>
+    </costList>
+    <canOverlapZones>true</canOverlapZones>
+    <killedLeavings>
+      <Steel>50</Steel>
+      <Plasteel>50</Plasteel>
+      <ChunkSlagSteel>4</ChunkSlagSteel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </killedLeavings>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(2, 0, 0)</interactionCellOffset>
+    <defaultPlacingRot>East</defaultPlacingRot>
+    <selectable>true</selectable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <drawerType>RealtimeOnly</drawerType>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+    <building>
+      <claimable>false</claimable>
+      <paintable>false</paintable>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <isInert>true</isInert>
+      <forcedCostLeavings>
+        <li>ShuttleEngine</li>
+      </forcedCostLeavings>
+    </building>
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Shuttle">
+        <shipDef>BTG_Ship_GuildShuttle</shipDef>
+      </li>
+      <li Class="CompProperties_Launchable">
+        <fuelPerTile>3</fuelPerTile>
+        <minFuelCost>50</minFuelCost>
+        <skyfallerLeaving>BTG_GuildShuttleLeaving</skyfallerLeaving>
+        <worldObjectDef>PassengerShuttle</worldObjectDef>
+        <cooldownTicks>3750</cooldownTicks>
+        <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
+        <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
+      </li>
+      <li Class="CompProperties_Transporter">
+        <massCapacity>500</massCapacity>
+        <max1PerGroup>true</max1PerGroup>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
+        <pawnExitSound>Shuttle_PawnExit</pawnExitSound>
+        <showMassInInspectString>true</showMassInInspectString>
+      </li>
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>400</fuelCapacity>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <initialConfigurableTargetFuelLevel>400</initialConfigurableTargetFuelLevel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelLabel>Chemfuel</fuelLabel>
+        <fuelGizmoLabel>Chemfuel</fuelGizmoLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+      <li Class="CompProperties_AmbientSound">
+        <sound>ShuttleIdle_Ambience</sound>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <TransportShipDef>
+    <defName>BTG_Ship_GuildShuttle</defName>
+    <label>guild shuttle</label>
+    <shipThing>BTG_GuildShuttle</shipThing>
+    <arrivingSkyfaller>BTG_GuildShuttleIncoming</arrivingSkyfaller>
+    <leavingSkyfaller>BTG_GuildShuttleLeaving</leavingSkyfaller>
+    <worldObject>PassengerShuttle</worldObject>
+    <playerShuttle>true</playerShuttle>
+  </TransportShipDef>
+
+  <!-- Skyfallers: vanilla PassengerShuttleIncoming/Leaving with the VGE2 art. The vanilla
+       thingClasses draw the skyfaller def's own graphicData, so the texPath must repeat here. -->
+  <ThingDef ParentName="ShuttleSkyfallerBase">
+    <defName>BTG_GuildShuttleIncoming</defName>
+    <label>guild shuttle (incoming)</label>
+    <thingClass>PassengerShuttleIncoming</thingClass>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/OrbitalStation/LockedShuttle/LockedShuttle</texPath>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(3,5)</drawSize>
+    </graphicData>
+    <size>(3,5)</size>
+    <skyfaller>
+      <anticipationSound>Shuttle_Landing</anticipationSound>
+      <anticipationSoundTicks>250</anticipationSoundTicks>
+      <ticksToImpactRange>200~250</ticksToImpactRange>
+      <minimalRoofDestruction>true</minimalRoofDestruction>
+      <shadowSize>(3.5,5.5)</shadowSize>
+      <rotationCurve>
+        <points>
+          <li>(0,30)</li>
+          <li>(0.5,5)</li>
+          <li>(0.9,-5)</li>
+          <li>(0.95,0)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0.95,2.5)</li>
+          <li>(1,0)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0.6,0.6)</li>
+          <li>(0.95,0.1)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+  </ThingDef>
+
+  <ThingDef ParentName="ShuttleSkyfallerBase">
+    <defName>BTG_GuildShuttleLeaving</defName>
+    <label>guild shuttle (leaving)</label>
+    <thingClass>PassengerShuttleLeaving</thingClass>
+    <rotatable>true</rotatable>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/OrbitalStation/LockedShuttle/LockedShuttle</texPath>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(3,5)</drawSize>
+    </graphicData>
+    <size>(3,5)</size>
+    <skyfaller>
+      <reversed>true</reversed>
+      <anticipationSound>Shuttle_Leaving</anticipationSound>
+      <anticipationSoundTicks>-10</anticipationSoundTicks>
+      <ticksToImpactRange>-40~-15</ticksToImpactRange>
+      <moteSpawnTime>0.05</moteSpawnTime>
+      <shadow>Things/Skyfaller/SkyfallerShadowRectangle</shadow>
+      <shadowSize>(3.5,5.5)</shadowSize>
+      <motesPerCell>1</motesPerCell>
+      <rotationCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.15,10)</li>
+          <li>(0.5,-5)</li>
+        </points>
+      </rotationCurve>
+      <zPositionCurve>
+        <points>
+          <li>(0,0)</li>
+          <li>(0.08,2)</li>
+        </points>
+      </zPositionCurve>
+      <speedCurve>
+        <points>
+          <li>(0,0.2)</li>
+          <li>(0.4,0.7)</li>
+        </points>
+      </speedCurve>
+    </skyfaller>
+  </ThingDef>
+
+</Defs>

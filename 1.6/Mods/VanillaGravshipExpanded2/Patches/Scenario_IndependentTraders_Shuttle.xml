@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Under VGE2 the Independent Traders scenario lands in BTG_GuildShuttle (the unlocked,
+    unpaintable guild shuttle) instead of a painted vanilla PassengerShuttle, so the
+    starting craft matches the shuttles parked on VGE2's Traders Guild stations.
+    ScenPart_PlayerPawnsArriveShuttle resolves the TransportShipDef by shipThing and hides
+    its paint row for unpaintable defs, so only the two fields below change. A save whose
+    VGE2 was removed later falls back to PassengerShuttle inside the ScenPart.
+
+    Remove(success Always) + Add rather than Replace: the repo idiom for upserting a field
+    without depending on its presence.
+  -->
+
+  <Operation Class="PatchOperationRemove">
+    <success>Always</success>
+    <xpath>/Defs/ScenarioDef[defName="BTG_IndependentTraders"]/scenario/parts/li[def="BTG_PlayerPawnsArriveShuttle"]/shuttleDef</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ScenarioDef[defName="BTG_IndependentTraders"]/scenario/parts/li[def="BTG_PlayerPawnsArriveShuttle"]</xpath>
+    <value>
+      <shuttleDef>BTG_GuildShuttle</shuttleDef>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationRemove">
+    <success>Always</success>
+    <xpath>/Defs/ScenarioDef[defName="BTG_IndependentTraders"]/scenario/parts/li[def="BTG_PlayerPawnsArriveShuttle"]/paintColor</xpath>
+  </Operation>
+
+</Patch>

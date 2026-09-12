@@ -42,7 +42,7 @@ namespace BetterTradersGuild
             // Both weights are pushed onto their QuestScriptDefs by
             // BetterTradersGuildMod.ApplyQuestWeightSettings when the settings
             // window closes. Trade request (peaceful) first, den (combat) second,
-            // matching the trade-then-combat section order of the window itself.
+            // matching the trade-then-combat flow of the window itself.
             string tradeQuestLabel = Annotate(
                 "BTG_Settings_TradeRequestQuestWeight".Translate(tradeRequestQuestWeight.ToString("F2")),
                 recommended: tradeRequestQuestWeight == 1.0f,

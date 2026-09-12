@@ -5,6 +5,9 @@
   <BTG_CargoVaultMapGenerator.label>грузовое хранилище</BTG_CargoVaultMapGenerator.label>
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>платформа поселения</BTG_SettlementMapGenerator.label>
+  <!-- BTG_SettlementMapGenerator_VGE2 sets no label of its own and inherits vanilla SpaceMapGenerator's, i.e. Space.label. -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>космос</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>платформа логова контрабандистов</BTG_SmugglersDenMapGenerator.label>
 

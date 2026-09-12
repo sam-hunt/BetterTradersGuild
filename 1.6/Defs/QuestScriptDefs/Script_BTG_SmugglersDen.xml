@@ -48,9 +48,8 @@
         </li>
 
         <!-- Find nearest TG settlement (quest giver). A hostile TG can still give
-             this quest (down-weighted, vanilla Script_BanditCamp pattern); the
-             rewards node then offers goodwill only and the description drops the
-             cargo vault pitch. -->
+             this quest (vanilla Script_BanditCamp pattern); the rewards node then
+             offers goodwill only and the description drops the cargo vault pitch. -->
         <li Class="BetterTradersGuild.QuestNodes.QuestNode_GetNearestTGSettlement">
           <storeAs>settlement</storeAs>
           <storeFactionAs>faction</storeFactionAs>
@@ -111,7 +110,7 @@
              out from under the player. Vanilla opportunity sites carry no hostility
              fail either (Script_BanditCamp even allows a hostile asker) - and since
              allowHostile above, neither does the offer: a hostile TG offers the
-             quest too, just rarely and for goodwill only. -->
+             quest too, for goodwill only. -->
 
         <!-- Timeout, for a quest accepted but never engaged. Disarmed permanently
              once the den map generates (vanilla opportunity-site idiom, see

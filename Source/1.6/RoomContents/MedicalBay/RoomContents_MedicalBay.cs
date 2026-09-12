@@ -18,13 +18,9 @@ namespace BetterTradersGuild.RoomContents.MedicalBay
 
             foreach (CellRect roomRect in room.rects)
             {
-                float healrootGrowth = Rand.Range(0.7f, 1.0f);
-                RoomPlantHelper.SpawnPlantsInHydroponics(map, roomRect, Things.Plant_Healroot, healrootGrowth);
-                RoomPlantHelper.SpawnPlantsInPlantPots(map, roomRect, Things.Plant_Rose, growth: 1.0f);
                 RoomEdgeConnector.ConnectBuildingsToConduitNetwork(map, roomRect, Things.Facility_VitalsCentre);
                 MedicineShelfFiller.FillMedicineShelves(map, roomRect);
             }
-
         }
     }
 }

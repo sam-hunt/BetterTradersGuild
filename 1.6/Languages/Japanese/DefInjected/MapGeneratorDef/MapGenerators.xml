@@ -7,6 +7,11 @@
   <BTG_CargoVaultMapGenerator.label>貨物保管庫</BTG_CargoVaultMapGenerator.label>
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>入植用プラットフォーム</BTG_SettlementMapGenerator.label>
+  <!-- BTG_SettlementMapGenerator_VGE2 never overrides <label> (see the def's own comment), so it
+       renders its parent SpaceMapGenerator's own label unchanged; reused verbatim from Odyssey
+       ja's own Space.label. -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>宇宙</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>密輸業者の巣窟プラットフォーム</BTG_SmugglersDenMapGenerator.label>
 

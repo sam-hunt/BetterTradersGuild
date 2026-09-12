@@ -1,94 +1,87 @@
 using System.Collections.Generic;
 using BetterTradersGuild.DefRefs;
-using RimWorld;
 using Verse;
 
 namespace BetterTradersGuild.Helpers.MapGeneration
 {
-    // Places hidden conduits and VE pipes under walls during layout generation.
+    // Places hidden conduits and VE pipes under walls after map generation.
     //
     // PURPOSE:
     // Creates a station-wide power and resource network by placing hidden infrastructure
-    // under all walls in the generated structure. This ensures all electrical devices
-    // are connected to power sources (LifeSupportUnits) and VE pipe networks are unified.
+    // under all walls and doors of the generated structure. This ensures all electrical
+    // devices are connected to power sources (LifeSupportUnits) and VE pipe networks are
+    // unified.
     //
-    // TECHNICAL APPROACH:
-    // - Iterates room rects' edge cells (walls are on rect edges, not interior)
-    // - O(perimeter) instead of O(area) - efficient for large structures
-    // - Places HiddenConduit under walls/doors (vanilla power network)
-    // - Also places any VE hidden pipes from HiddenPipeHelper
-    //
-    // LEARNING NOTE (Room Rect Edges):
-    // Room rects INCLUDE their walls. The edge cells of each rect correspond to
-    // the room's walls, so we iterate just the edges instead of checking every cell.
-    // For a 20x20 room: edges = 76 cells vs interior = 400 cells (5x fewer checks).
+    // ORDERING:
+    // The sole caller is GenStep_PlaceWallConduits, which runs after the platform step,
+    // i.e. after every RoomContentsWorker has filled its room. Room workers therefore
+    // never see these conduits; they wire interior fixtures toward the room-rect edge
+    // (RoomEdgeConnector) and rely on this pass to make the wall cell itself live.
     public static class LayoutConduitPlacer
     {
-        // Places hidden conduits (and VE hidden pipes) under all wall and door cells.
-        //
-        // BEHAVIOR:
-        // - HiddenConduit under all walls and doors (invisible, clean aesthetics)
-        // - Also spawns any VE hidden pipes at same locations
-        // - Tracks processed cells to avoid duplicates at shared walls
-        // map: The map being generated
-        // sketch: The LayoutStructureSketch containing structure data
+        // Places a HiddenConduit under every wall and door cell among the candidate
+        // cells (other cells are skipped, so a whole rect can be passed). Optionally also
+        // spawns the VE hidden pipes. Each def is checked separately, so a prefab that
+        // already embeds a HiddenConduit (subroom blast doors) still gets its pipes.
         // Returns: Number of conduit positions placed
-        public static int PlaceHiddenConduits(Map map, LayoutStructureSketch sketch)
+        public static int PlaceHiddenConduits(Map map, IEnumerable<IntVec3> candidateCells, bool includeHiddenPipes)
         {
-            StructureLayout layout = sketch.structureLayout;
-
-            IReadOnlyList<ThingDef> hiddenPipeDefs = HiddenPipeHelper.GetSupportedHiddenPipeDefs();
+            IReadOnlyList<ThingDef> hiddenPipeDefs = includeHiddenPipes
+                ? HiddenPipeHelper.GetSupportedHiddenPipeDefs()
+                : System.Array.Empty<ThingDef>();
 
             int placedCount = 0;
 
-            // Track cells we've already processed (rooms can share walls)
+            // Candidate cells may repeat (rooms share walls)
             HashSet<IntVec3> processedCells = new HashSet<IntVec3>();
 
-            // Iterate through all rooms in the structure
-            foreach (LayoutRoom room in layout.Rooms)
+            foreach (IntVec3 cell in candidateCells)
             {
-                if (room.rects == null)
+                if (!processedCells.Add(cell))
                     continue;
 
-                // Iterate through all rects in the room (corridors have multiple rects)
-                foreach (CellRect rect in room.rects)
+                // Bounds check (defensive)
+                if (!cell.InBounds(map))
+                    continue;
+
+                // Check what's at this cell
+                Building edifice = cell.GetEdifice(map);
+                if (edifice == null)
+                    continue;
+
+                // Only place conduits under walls and doors
+                if (!edifice.def.IsDoor && edifice.def.building?.isPlaceOverableWall != true)
+                    continue;
+
+                if (!HasThingOfDef(map, cell, Things.HiddenConduit))
                 {
-                    // Iterate edge cells only (walls are on edges, not interior)
-                    foreach (IntVec3 edgeCell in rect.EdgeCells)
-                    {
-                        // Skip if already processed (shared walls between rooms)
-                        if (!processedCells.Add(edgeCell))
-                            continue;
+                    Thing conduit = ThingMaker.MakeThing(Things.HiddenConduit);
+                    GenSpawn.Spawn(conduit, cell, map);
+                    placedCount++;
+                }
 
-                        // Bounds check (defensive)
-                        if (!edgeCell.InBounds(map))
-                            continue;
+                // Also spawn any VE hidden pipes at this location
+                foreach (ThingDef hiddenPipeDef in hiddenPipeDefs)
+                {
+                    if (HasThingOfDef(map, cell, hiddenPipeDef))
+                        continue;
 
-                        // Check what's at this edge cell
-                        Building edifice = edgeCell.GetEdifice(map);
-                        if (edifice == null)
-                            continue;
-
-                        // Only place conduits under walls and doors
-                        if (!edifice.def.IsDoor && edifice.def.building?.isPlaceOverableWall != true)
-                            continue;
-
-                        // Create and spawn the conduit
-                        Thing conduit = ThingMaker.MakeThing(Things.HiddenConduit);
-                        GenSpawn.Spawn(conduit, edgeCell, map);
-                        placedCount++;
-
-                        // Also spawn any VE hidden pipes at this location
-                        foreach (ThingDef hiddenPipeDef in hiddenPipeDefs)
-                        {
-                            Thing pipe = ThingMaker.MakeThing(hiddenPipeDef);
-                            GenSpawn.Spawn(pipe, edgeCell, map);
-                        }
-                    }
+                    Thing pipe = ThingMaker.MakeThing(hiddenPipeDef);
+                    GenSpawn.Spawn(pipe, cell, map);
                 }
             }
 
             return placedCount;
+        }
+
+        private static bool HasThingOfDef(Map map, IntVec3 cell, ThingDef def)
+        {
+            foreach (Thing thing in cell.GetThingList(map))
+            {
+                if (thing.def == def)
+                    return true;
+            }
+            return false;
         }
     }
 }

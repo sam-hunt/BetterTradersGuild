@@ -26,12 +26,12 @@ namespace BetterTradersGuild.QuestNodes
         public SlateRef<bool> allowHostile = false;
         public SlateRef<int> maxTileDistance = 64;
 
-        // Vanilla down-weights hostile quest-givers rather than excluding them
-        // (Script_BanditCamp: hostileWeight 0.15 vs nonHostileWeight 1). A relative
-        // weight can't apply with a single candidate faction, so approximate it as
-        // an offer chance rolled once per generation attempt.
-        private const float HostileOfferChance = 0.15f;
-
+        // No hostile-giver down-weight here on purpose. Vanilla's hostileWeight
+        // (QuestNode_GetPawn, Script_BanditCamp) is a relative weight among candidate
+        // factions; with the Traders Guild as the sole candidate it would pick it with
+        // probability 1, so vanilla offers at full weight too. A random roll in
+        // TestRun would also be cached per tick by QuestScriptDef.CanRun and block
+        // dev-forced generation while paused.
         protected override bool TestRunInt(Slate slate)
         {
             Map map = slate.Get<Map>("map");
@@ -40,9 +40,6 @@ namespace BetterTradersGuild.QuestNodes
 
             Settlement settlement = FindNearestTGSettlement(map, slate);
             if (settlement == null)
-                return false;
-
-            if (settlement.Faction.HostileTo(Faction.OfPlayer) && !Rand.Chance(HostileOfferChance))
                 return false;
 
             // IMPORTANT: Set slate values during TestRunInt so subsequent nodes can access them

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!--
+    Better Traders Guild - Prime Pipe Networks GenStep
+
+    Fills the VE pipe network storage tanks BTG's prefabs place and closes/unclaims
+    their valves (station lockdown). Runs after BTG_PlaceWallConduitsAndPipes has laid
+    the hidden pipes and before BTG_ExtendLandingPadPipes. No MayRequire: the code
+    self-guards and is a no-op without a VE pipe mod. Not in the VGE2 pipeline (its
+    station has no BTG tanks or valves).
+  -->
+
+  <GenStepDef>
+    <defName>BTG_PrimePipeNetworks</defName>
+    <order>245</order>
+    <genStep Class="BetterTradersGuild.MapGeneration.GenStep_PrimePipeNetworks" />
+  </GenStepDef>
+</Defs>

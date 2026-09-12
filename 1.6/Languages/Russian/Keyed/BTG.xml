@@ -56,18 +56,28 @@
   <BTG_Settings_UseCustomLayouts>Использовать свой генератор карт поселений</BTG_Settings_UseCustomLayouts>
   <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
   <BTG_Settings_UseCustomLayoutsDesc>Поселения гильдии торговцев будут выглядеть обжитыми, а не заброшенными.\nОтключите, если вы используете другие моды на генерацию карт или предпочитаете оригинальную планировку.\nМесто задания «Логово контрабандистов» всегда использует свой генератор карт, независимо от этой настройки.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Активен мод Vanilla Gravship Expanded - Chapter 2: вместо этого генерируется его станция гильдии торговцев, а поверх неё накладываются некоторые дополнения этого мода.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Активен мод Vanilla Gravship Expanded - Chapter 2: настройки ниже сейчас влияют только на логово контрабандистов. Его станции гильдии торговцев пока сохраняют оригинальные гарнизоны и правила поражения.</BTG_Settings_DefendersVGE2Note>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>Разрешить доступ к грузовому хранилищу</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
-  <BTG_Settings_EnableCargoVaultDesc>Если включено, люки грузовых хранилищ в ангарах челноков можно взломать и добраться до товаров торговца.\nЕсли выключено, грузовые хранилища создаются наглухо запечатанными.\nВлияет только на вновь создаваемые поселения и только когда включён свой генератор карт поселений.\nХранилище логова контрабандистов управляется наградой за его задание, а не этой настройкой.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>Если включено, люк грузового хранилища каждого поселения можно взломать и добраться до товаров торговца.\nЕсли выключено, грузовые хранилища создаются наглухо запечатанными.\nВлияет только на вновь создаваемые поселения и только когда включён свой генератор карт поселений.\nХранилище логова контрабандистов управляется наградой за его задание, а не этой настройкой.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>Дополнительные дроны-дозорные: {0}%</BTG_Settings_SentryDronePresence>
   <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
   <BTG_Settings_SentryDroneDesc>Доля очков угрозы, которая тратится на дополнительные патрульные дроны-дозорные.\nДействует как для поселений, так и для логова контрабандистов.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>Защитники космического уровня (требуется перезапуск)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>Защитники гильдии торговцев получают оружие, броню, импланты и снаряжение космического уровня, а гарнизоны чаще состоят из элитных бойцов.\nОтключите, чтобы вернуть оригинальное снаряжение и состав гарнизона. Защита от вакуума для мирных жителей и детей сохраняется в любом случае.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

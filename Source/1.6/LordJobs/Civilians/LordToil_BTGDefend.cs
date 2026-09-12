@@ -15,7 +15,7 @@ namespace BetterTradersGuild.LordJobs.Civilians
     // "bound for" it).
     public class LordToil_BTGDefend : LordToil_BTGEscape
     {
-        public LordToil_BTGDefend(IntVec3 focus) : base(focus)
+        public LordToil_BTGDefend(IntVec3 focus, EscapeGraceTracker grace) : base(focus, grace)
         {
         }
 

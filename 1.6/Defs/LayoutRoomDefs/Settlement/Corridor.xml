@@ -27,6 +27,27 @@
       <BTG_Mech_Cleansweeper MayRequire="Ludeon.RimWorld.Biotech">1.0</BTG_Mech_Cleansweeper>
     </parts>
 
+    <!-- Stocking rule applied by BTG_StockOutfitStands to the outfit stands in this room
+         (the BTG_AirlockDefences prefab's pair beside each airlock): half of them hold a
+         Normal/Good vacsuit, the rest stay bare. Inherited by BTG_CorridorDefense. -->
+    <modExtensions>
+      <li Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension">
+        <rule>
+          <sets>
+            <li>
+              <apparel>
+                <li>Apparel_Vacsuit</li>
+                <li>Apparel_VacsuitHelmet</li>
+              </apparel>
+            </li>
+          </sets>
+          <chancePerStand>0.5</chancePerStand>
+          <minQuality>Normal</minQuality>
+          <maxQuality>Good</maxQuality>
+        </rule>
+      </li>
+    </modExtensions>
+
   </LayoutRoomDef>
 
   <!-- Defensive corridor variant with barricades -->

@@ -25,7 +25,7 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
         {
             var outcomes = new List<(float weight, Action<Building_Storage, Map, Faction> action)>
             {
-                (23f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map, faction)),
+                (23f, (shelf, map, faction) => ReplaceShelfWithOutfitStand(shelf, map)),
                 (18f, (shelf, map, faction) => ReplaceShelfWithSculpture(shelf, map)),
                 (18f, (shelf, map, faction) => ReplaceShelfWithBookcase(shelf, map)),
                 (5f,  (shelf, map, faction) => TryReplaceShelfWith(shelf, map, Things.ChessTable, Things.Steel)),
@@ -481,8 +481,9 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             }
         }
 
-        // Replaces a shelf with an outfit stand and adds a random apparel set.
-        private static void ReplaceShelfWithOutfitStand(Building_Storage shelf, Map map, Faction faction)
+        // Replaces a shelf with an empty outfit stand; BTG_StockOutfitStands dresses it later
+        // from the crew quarters def's OutfitStandRuleExtension (CrewQuarters.xml).
+        private static void ReplaceShelfWithOutfitStand(Building_Storage shelf, Map map)
         {
             if (Things.Building_OutfitStand == null) return;
 
@@ -497,90 +498,6 @@ namespace BetterTradersGuild.RoomContents.CrewQuarters
             if (Colors.BTG_OrbitalSteel != null && standThing is Building building)
             {
                 building.ChangePaint(Colors.BTG_OrbitalSteel);
-            }
-
-            // Add random apparel set
-            if (standThing is Building_OutfitStand outfitStand)
-            {
-                OutfitStandHarFixer.NormalizeOutfitStand(outfitStand);
-                AddRandomApparelSet(outfitStand, faction);
-            }
-        }
-
-        // Adds a random apparel set to an outfit stand.
-        private static void AddRandomApparelSet(Building_OutfitStand stand, Faction faction)
-        {
-            // Build list of available apparel sets using DefRefs
-            var apparelSets = new List<List<(ThingDef apparel, ThingDef stuff)>>
-            {
-                // Synthread shirt + pants
-                new List<(ThingDef, ThingDef)>
-                {
-                    (Things.Apparel_CollarShirt, Things.Synthread),
-                    (Things.Apparel_Pants, Things.Synthread)
-                },
-                // Power armor set
-                new List<(ThingDef, ThingDef)>
-                {
-                    (Things.Apparel_PowerArmor, null),
-                    (Things.Apparel_PowerArmorHelmet, null)
-                },
-                // Vacsuit set
-                new List<(ThingDef, ThingDef)>
-                {
-                    (Things.Apparel_Vacsuit, null),
-                    (Things.Apparel_VacsuitHelmet, null)
-                },
-                // Recon armor set
-                new List<(ThingDef, ThingDef)>
-                {
-                    (Things.Apparel_ArmorRecon, null),
-                    (Things.Apparel_ArmorHelmetRecon, null)
-                }
-            };
-
-            // Add slave harness set if available (Ideology)
-            if (Things.Apparel_BodyStrap != null)
-            {
-                apparelSets.Add(new List<(ThingDef, ThingDef)>
-                {
-                    (Things.Apparel_BodyStrap, Things.Leather_Panthera)
-                });
-            }
-
-            // Pick random set
-            var selectedSet = apparelSets.RandomElement();
-
-            // Spawn each piece
-            foreach (var (apparelDef, stuffDef) in selectedSet)
-            {
-                if (apparelDef == null) continue;
-
-                ThingDef actualStuff = stuffDef;
-                if (actualStuff == null && apparelDef.MadeFromStuff)
-                {
-                    actualStuff = GenStuff.DefaultStuffFor(apparelDef);
-                }
-
-                Apparel apparel = (Apparel)ThingMaker.MakeThing(apparelDef, actualStuff);
-
-                // Set quality
-                CompQuality compQuality = apparel.TryGetComp<CompQuality>();
-                if (compQuality != null)
-                {
-                    QualityCategory quality = (QualityCategory)Rand.RangeInclusive(
-                        (int)QualityCategory.Normal, (int)QualityCategory.Excellent);
-                    compQuality.SetQuality(quality, ArtGenerationContext.Outsider);
-                }
-
-                // Apply faction color if VEF is active
-                ApparelFactionColorHelper.TryApplyFactionColor(apparel, faction);
-
-                // Add to outfit stand
-                if (!stand.AddApparel(apparel))
-                {
-                    apparel.Destroy(DestroyMode.Vanish);
-                }
             }
         }
 

@@ -222,6 +222,10 @@ namespace BetterTradersGuild
         // Map.generatorDef records what actually generated the map and is scribed,
         // so the answer is per-map, survives save/load, and is immune to the
         // setting being toggled mid-save.
+        //
+        // BTG_SettlementMapGenerator_VGE2 (BTG layers on VGE2's prefab station) is
+        // deliberately excluded: its garrison is vanilla's LordJob_DefendBase and its
+        // defences are VGE2's, so vanilla's defeat rule applies there, not the census.
         public static bool IsBTGGeneratedMap(Verse.Map map)
         {
             MapGeneratorDef generator = map?.generatorDef;

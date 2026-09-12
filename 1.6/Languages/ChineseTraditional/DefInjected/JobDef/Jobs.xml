@@ -7,6 +7,8 @@
   <!-- Core zh-Hant EnterTransporter.reportString. -->
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>進入TargetA</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>將TargetA安置到安全處</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>呼叫補給中</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->
