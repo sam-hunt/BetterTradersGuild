@@ -14,6 +14,7 @@ claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../Vanill
 
 - VGE2 integration (working doc + tracker: Docs/VGE2_INTEGRATION.md)
   - combat vacsuits patch for pawnkinds (incl salvagers on smuggler's den?)
+  - in-game test: under VGE2 the den pad parks an unpainted east-facing salvager dropship, the hack promotes it in place, and it launches/lands with VGE2's thruster animation
   - smuggler's den storeroom, armory and workshop doodads. control room consoles?
   - refactor airlock defenses to appear similar to VGE2s?
   - map which of our mod settings affect VGE2 mapgen — surveyed 2026-09-11: on VGE2 TG settlements only useCustomLayouts, enableCargoVault and the life-support power setting act; the whole Garrison & Combat section (entrenched defenders, resupply, threat scaling, sentry drones, security defeat fraction) is den-only there, but the EN descriptions still say custom-layout settlements
