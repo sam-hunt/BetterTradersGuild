@@ -5,12 +5,14 @@ All notable changes to Better Traders Guild will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<!-- Entries are short one-liners ready to paste as Steam Workshop change notes: what changed for the player, no rationale, no def names, no sub-bullets. -->
+
 ## [Unreleased]
 
 ### Changed
 
-- Guild gunners, slashers and heavy gunners wear VGE2's combat vacsuit instead of marine armor when Vanilla Gravship Expanded 2 is loaded.
-- Crew quarters outfit stands now show hyperweave off-duty wear and marine armor (prestige under Royalty), plus the siegebreaker, prestige vacsuit and combat vacsuit sets when Vanilla Armour Expanded, Vanilla Gravship Expanded 1 or 2 are loaded. Recon armor and the plain vacsuit no longer appear there.
+- Mid-tier guild defenders wear the combat vacsuit under Vanilla Gravship Expanded 2.
+- Crew quarters outfit stands show finer wardrobes, with prestige and modded armor sets when available.
 
 ## [1.2.0] - 2026-09-12
 
