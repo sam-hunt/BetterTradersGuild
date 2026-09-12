@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The salvager dropship defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear
+       VGE2's dropship art, so they load only from this LoadFolders-gated compat root and
+       their injections must live here too (see GuildShuttle_VanillaGravshipExpanded2.xml).
+       The incoming/leaving skyfallers are VGE2's own defs, so they have no BTG strings. -->
+
+  <!-- BTG_SalvagerDropship -->
+  <BTG_SalvagerDropship.label>salvager dropship</BTG_SalvagerDropship.label>
+  <BTG_SalvagerDropship.description>A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations.</BTG_SalvagerDropship.description>
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>Chemfuel</BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>Chemfuel</BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>
+  <BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>{0} is ready to launch again.</BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>
+
+</LanguageData>

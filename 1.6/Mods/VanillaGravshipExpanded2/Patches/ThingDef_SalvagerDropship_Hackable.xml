@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Makes VGE2's salvager dropship hackable, the den-side twin of
+    ThingDef_LockedShuttle_Hackable.xml. VGE2's own mechanics (raid arrivals through its
+    TransportShip, deconstruct for the ShuttleEngine, non-claimable) are untouched until
+    the hack completes; then CompPromoteOnHack replaces the building in place with
+    BTG_SalvagerDropship (same cell, rotation and hit points, owned by the hacker's
+    faction). The hostility penalty in CompPromoteOnHack only fires on a standing Traders
+    Guild settlement map, so hacking the one parked on the Salvagers' smugglers den costs
+    nothing beyond the fight already had.
+
+    Hack tuning matches the locked shuttle: 25000 work, 4~8 h lockouts, intellectual 4.
+
+    The Conditional adds an empty comps node only if VGE2 ships none (it ships Shuttle and
+    Transporter today), so the add below merges into whatever list VGE2 has.
+  -->
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[defName="VGE_SalvagerDropship"]/comps</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[defName="VGE_SalvagerDropship"]</xpath>
+      <value>
+        <comps />
+      </value>
+    </nomatch>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="VGE_SalvagerDropship"]/comps</xpath>
+    <value>
+      <li Class="CompProperties_Hackable">
+        <defence>25000</defence>
+        <effectHacking>HackingTerminal</effectHacking>
+        <lockoutDurationHoursRange>4~8</lockoutDurationHoursRange>
+        <intellectualSkillPrerequisite>4</intellectualSkillPrerequisite>
+        <notHackedInspectString>Hack to bypass the flight lockout.</notHackedInspectString>
+        <hackedMessage>{HACKER_labelShort} has bypassed the flight lockout on {SUBJECT_labelNoParenthesisDef}.</hackedMessage>
+      </li>
+      <li Class="BetterTradersGuild.Comps.CompProperties_PromoteOnHack">
+        <promoteTo>BTG_SalvagerDropship</promoteTo>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

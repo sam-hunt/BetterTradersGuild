@@ -30,7 +30,8 @@
     - AncientSealedCrate: RoomContents_ShuttleBay uses it as a conduit marker.
     - AncientShipBeacon: LandingPadDetector keys on it (VGE2_NavBeacon candidate).
     - ShelfCustomizer's C#-spawned AncientSafe/AncientSealedCrate/AncientBox_* swaps.
-    - PassengerShuttle vs VGE_SalvagerDropship: pending design decision.
+    - PassengerShuttle -> VGE_SalvagerDropship: den-only (the Salvagers' craft), so
+      RoomContents_ShuttleBay swaps it in C# keyed on the owning faction.
 
     The forage AI's meal-container list (JobGiver_BTGForageInStructure) includes
     VGE_SpacerPallet_SurvivalMeals so defenders still crack the swapped pallet.

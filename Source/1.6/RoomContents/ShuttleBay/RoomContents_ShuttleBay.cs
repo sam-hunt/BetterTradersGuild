@@ -17,7 +17,9 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
     // Generation sequence:
     // 1. Find best placement for landing pad (prefer corners, avoid walls with doors)
     // 2. Calculate and store landing pad area for validation (prevents other prefab overlap)
-    // 3. Spawn landing pad prefab (VGE-enhanced or vanilla version)
+    // 3. Spawn landing pad prefab (VGE-enhanced or vanilla version), then swap its shuttle
+    //    for VGE2's salvager dropship on the Salvagers' den, face it east, paint it (when
+    //    paintable) and hook it to the VE chemfuel network
     // 4. Spawn required walls from PlacementCalculator (for edge/center placements)
     // 5. Calculate cargo hatch position (center of largest free area)
     // 6. Call base.FillRoom() for XML-defined prefabs (forklift, edge furniture)
@@ -74,14 +76,17 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
                 // 3. Spawn landing pad prefab using PrefabUtility API
                 SpawnLandingPadPrefab(map, placement);
 
-                // 3a. Normalize the shuttle to always face east (the prefab machinery
+                // 3a. On the Salvagers' den under VGE2, park a salvager dropship instead
+                SwapShuttleForSalvagerDropship(map, faction);
+
+                // 3b. Normalize the shuttle to always face east (the prefab machinery
                 //     rotates contained things along with the pad placement)
                 EnsureShuttleFacesEast(map);
 
-                // 3b. Paint the PassengerShuttle to match the owning faction's color
+                // 3c. Paint the shuttle to match the owning faction's color (paintable defs only)
                 PaintShuttleInLandingPad(map, faction);
 
-                // 3c. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
+                // 3d. Connect the shuttle to the chemfuel pipe network (VE Chemfuel Expanded)
                 // Landing pad is placed in the first rect, so use that for edge connection
                 ConnectShuttleToPipeNetwork(map, primaryRect);
 
@@ -172,14 +177,45 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
             PrefabUtility.SpawnPrefab(prefab, map, placement.Position, placement.Rotation, null);
         }
 
-        // Finds the shuttle spawned by the landing pad prefab, or null if the pad
-        // failed to place or the shuttle is missing.
+        // Finds the craft on the landing pad (the prefab's PassengerShuttle, or the salvager
+        // dropship swapped in for it), or null if the pad failed to place or it is missing.
+        // Keyed on CompShuttle rather than a def so both craft resolve.
         private Building FindShuttleInLandingPad(Map map)
         {
             if (this.landingPadRect.Width == 0) return null;
 
-            var furniture = PaintableFurnitureHelper.GetPaintableFurniture(map, this.landingPadRect);
-            return furniture.FirstOrDefault(b => b.def == Things.PassengerShuttle);
+            return this.landingPadRect.Cells
+                .Where(c => c.InBounds(map))
+                .SelectMany(c => c.GetThingList(map))
+                .OfType<Building>()
+                .FirstOrDefault(b => b.TryGetComp<CompShuttle>() != null);
+        }
+
+        // On the smugglers den, whose owner is the Salvagers, Vanilla Gravship Expanded 2's
+        // VGE_SalvagerDropship replaces the vanilla PassengerShuttle: same 3x5 footprint on
+        // the same cell, spawned facing east up front. It is VGE2's decorative CompShuttle
+        // building, made hackable into a working BTG_SalvagerDropship by the compat root's
+        // patch (1.6/Mods/VanillaGravshipExpanded2/), and not paintable. Keyed on the owning
+        // faction rather than on VGE2 alone so a Traders Guild settlement that still
+        // generates through BTG's own pipeline keeps its guild-pattern shuttle.
+        //
+        // The vanilla shuttle's CompShuttle registered a TransportShip on spawn; an unstarted
+        // ship never ticks but would sit in the manager forever, so dispose it (which for a
+        // playerShuttle def just detaches and deregisters) before destroying the building.
+        private void SwapShuttleForSalvagerDropship(Map map, Faction faction)
+        {
+            if (Things.VGE_SalvagerDropship == null || faction?.def != Factions.Salvagers) return;
+
+            Building shuttle = FindShuttleInLandingPad(map);
+            if (shuttle == null || shuttle.def == Things.VGE_SalvagerDropship) return;
+
+            IntVec3 center = shuttle.Position;
+            TransportShip ship = shuttle.TryGetComp<CompShuttle>()?.shipParent;
+            if (ship != null && !ship.Disposed)
+                ship.Dispose();
+            shuttle.Destroy(DestroyMode.Vanish);
+
+            GenSpawn.Spawn(ThingMaker.MakeThing(Things.VGE_SalvagerDropship), center, map, Rot4.East);
         }
 
         // The prefab machinery spawns the shuttle rotated along with the pad placement,
@@ -201,14 +237,16 @@ namespace BetterTradersGuild.RoomContents.ShuttleBay
         // Paints the shuttle in the landing pad area to match the owning faction's color:
         // the nearest paintable structure ColorDef to faction.Color (exact BTG_Rust for
         // TradersGuild, Structure_RedPastel for the smugglers den's Salvagers). Skips
-        // painting on faction-less maps, leaving the vanilla shuttle look.
+        // painting on faction-less maps, leaving the vanilla shuttle look, and skips
+        // unpaintable craft (VGE2's salvager dropship ships no mask, so a paint would tint
+        // the whole sprite).
         // Called immediately after prefab spawn so the shuttle exists on the map.
         private void PaintShuttleInLandingPad(Map map, Faction faction)
         {
             if (faction == null) return;
 
             Building shuttle = FindShuttleInLandingPad(map);
-            if (shuttle == null) return;
+            if (shuttle == null || shuttle.def.building?.paintable != true) return;
 
             PaintableFurnitureHelper.TryPaint(shuttle, PaintableFurnitureHelper.NearestStructureColor(faction.Color));
         }

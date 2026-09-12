@@ -138,6 +138,8 @@ namespace BetterTradersGuild.DefRefs
         public static ThingDef VFES_AirPurifier;
         [MayRequire("vanillaexpanded.gravship")]
         public static ThingDef VGE_VacBarrierQuintuple;
+        [MayRequire("vanillaexpanded.gravship2")]
+        public static ThingDef VGE_SalvagerDropship;
 
         // === VFE MEDICAL MODULE ===
         [MayRequire("VanillaExpanded.VFEMedical")]

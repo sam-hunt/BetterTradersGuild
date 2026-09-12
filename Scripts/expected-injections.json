@@ -673,11 +673,38 @@
       },
       "BTG_GuildShuttleLeaving.skyfaller.shadow": {
         "english": "Things/Skyfaller/SkyfallerShadowRectangle"
+      },
+      "BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage": {
+        "english": "{0} is ready to launch again.",
+        "required": true,
+        "normalized": "BTG_SalvagerDropship.comps.1.cooldownEndedMessage"
+      },
+      "BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel": {
+        "english": "Chemfuel",
+        "required": true,
+        "normalized": "BTG_SalvagerDropship.comps.3.fuelGizmoLabel"
+      },
+      "BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel": {
+        "english": "Chemfuel",
+        "required": true,
+        "normalized": "BTG_SalvagerDropship.comps.3.fuelLabel"
+      },
+      "BTG_SalvagerDropship.description": {
+        "english": "A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations.",
+        "required": true
+      },
+      "BTG_SalvagerDropship.label": {
+        "english": "salvager dropship",
+        "required": true
       }
     },
     "TransportShipDef": {
       "BTG_Ship_GuildShuttle.label": {
         "english": "guild shuttle",
+        "required": true
+      },
+      "BTG_Ship_SalvagerDropship.label": {
+        "english": "salvager dropship",
         "required": true
       }
     },
