@@ -40,5 +40,6 @@ claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../Vanill
 - Mod integration: VE Brewing whisky shelf in Captain's quarters?
 - Mod integration: Include UMW weapons in unique weapon pools?
 
+- propagate the Steam-postfix-tolerant mod detection helper (Integrations/ModDetection.cs, BTG commit f60e7a0) to the other mods and the template repo: replace every ModsConfig.IsActive(string) in C# with it (exact match misses `id_steam` Workshop installs; MayRequire/IfModActive were never affected). Known sites: UniqueWeaponsUnbound AlphaArmouryIntegration.cs and VanillaSkillsExpandedIntegration.cs; grep the rest. Clean session.
 - upstream l10n: sidecar freshness check only compares label/description, so an English edit to a nested field (quest rulesStrings) never forces a regen
 - upstream missing faction check on Building_AndroidStand.CannotUseNowReason(Pawn)
