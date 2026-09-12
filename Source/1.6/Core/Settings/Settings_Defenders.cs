@@ -175,7 +175,8 @@ namespace BetterTradersGuild
             listing.Gap(16f);
 
             // Garrison defeat threshold. Governs settlements and the den alike.
-            int defeatPercentageDisplay = (int)(securityDefeatFraction * 100f);
+            // Round, never truncate: a stored 0.55f reads back as 54.99999 in float.
+            int defeatPercentageDisplay = Mathf.RoundToInt(securityDefeatFraction * 100f);
             string defeatLabel = Annotate(
                 "BTG_Settings_SecurityDefeatThreshold".Translate(defeatPercentageDisplay),
                 vanilla: defeatPercentageDisplay == 100,
@@ -184,12 +185,12 @@ namespace BetterTradersGuild
             LabelWithTooltip(listing, defeatLabel, "BTG_Settings_SecurityDefeatThresholdDesc".Translate());
 
             float defeatSliderValue = listing.Slider(securityDefeatFraction * 100f, 50f, 100f);
-            securityDefeatFraction = (int)(System.Math.Round(defeatSliderValue / 5f) * 5f) / 100f;
+            securityDefeatFraction = Mathf.RoundToInt(defeatSliderValue / 5f) * 5 / 100f;
 
             listing.Gap(12f);
 
             // Additional sentry drone presence. Settlements and den alike.
-            int dronePercentageDisplay = (int)(sentryDronePresence * 100f);
+            int dronePercentageDisplay = Mathf.RoundToInt(sentryDronePresence * 100f);
             string droneLabel = Annotate(
                 "BTG_Settings_SentryDronePresence".Translate(dronePercentageDisplay),
                 vanilla: dronePercentageDisplay == 0,
@@ -198,7 +199,7 @@ namespace BetterTradersGuild
             LabelWithTooltip(listing, droneLabel, "BTG_Settings_SentryDroneDesc".Translate());
 
             float droneSliderValue = listing.Slider(sentryDronePresence * 100f, 0f, 200f);
-            sentryDronePresence = (int)(System.Math.Round(droneSliderValue / 5f) * 5f) / 100f;
+            sentryDronePresence = Mathf.RoundToInt(droneSliderValue / 5f) * 5 / 100f;
 
             listing.Gap(12f);
 
