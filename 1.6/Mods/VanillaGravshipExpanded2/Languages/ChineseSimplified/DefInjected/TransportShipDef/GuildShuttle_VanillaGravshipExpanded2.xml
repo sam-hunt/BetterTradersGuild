@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_Ship_GuildShuttle (TransportShipDef). See the ThingDef file beside this one's
+       counterpart at 1.6/Mods/VanillaGravshipExpanded2/Languages/English/DefInjected/ThingDef/
+       for why these injections live in the VGE2-gated compat root rather than the main
+       Languages tree. -->
+
+  <!-- EN: guild shuttle -->
+  <BTG_Ship_GuildShuttle.label>商会穿梭机</BTG_Ship_GuildShuttle.label>
+
+</LanguageData>

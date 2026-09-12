@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_GuildShuttle, BTG_GuildShuttleIncoming, BTG_GuildShuttleLeaving (ThingDef, MayRequire
+       vanillaexpanded.gravship2). These injections mirror the English compat root at
+       1.6/Mods/VanillaGravshipExpanded2/Languages/English/DefInjected/ThingDef/: the LoadFolders
+       gate on 1.6/Mods/VanillaGravshipExpanded2 is the only thing that keeps them from erroring
+       on startup for users without VGE2, since the DefInjected loader never reads MayRequire
+       attributes. -->
+
+  <!-- "ギルドのシャトル" matches BTG_Settings_TradeRequestQuestWeightDesc's own rendering of
+       "the guild's shuttle". Description built on Odyssey ja's own PassengerShuttle.description
+       ("長距離旅行用に設計されたバイオ液化燃料を動力とするシャトルです.軌道上まで移動することも
+       可能です."), reused verbatim at both ends. -->
+  <!-- EN: guild shuttle -->
+  <BTG_GuildShuttle.label>ギルドのシャトル</BTG_GuildShuttle.label>
+  <!-- EN: A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations. -->
+  <BTG_GuildShuttle.description>長距離旅行用に設計され,商人ギルドが各ステーションで用いている仕様に基づいて造られた,バイオ液化燃料を動力とするシャトルです.磁気クランプは解除されており,軌道上まで移動することも可能です.</BTG_GuildShuttle.description>
+  <!-- Verbatim from Odyssey ja PassengerShuttle.comps.CompRefuelable.fuelLabel. -->
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>バイオ液化燃料</BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>
+  <!-- Verbatim from Odyssey ja PassengerShuttle.comps.CompRefuelable.fuelGizmoLabel. -->
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>バイオ液化燃料</BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- Verbatim from Odyssey ja PassengerShuttle.comps.CompLaunchable.cooldownEndedMessage. -->
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>{0}は再発進する準備が整いました.</BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>
+
+  <!-- Matches Odyssey ja's own PassengerShuttleIncoming.label pattern ("旅客シャトル (接近中)"). -->
+  <!-- EN: guild shuttle (incoming) -->
+  <BTG_GuildShuttleIncoming.label>ギルドのシャトル (接近中)</BTG_GuildShuttleIncoming.label>
+
+  <!-- Matches Odyssey ja's own PassengerShuttleLeaving.label pattern ("旅客シャトル (離脱中)"). -->
+  <!-- EN: guild shuttle (leaving) -->
+  <BTG_GuildShuttleLeaving.label>ギルドのシャトル (離脱中)</BTG_GuildShuttleLeaving.label>
+
+</LanguageData>

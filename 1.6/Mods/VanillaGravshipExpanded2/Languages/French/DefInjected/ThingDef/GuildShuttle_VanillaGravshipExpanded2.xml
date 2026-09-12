@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_GuildShuttle (ThingDef, MayRequire vanillaexpanded.gravship2). These injections mirror
+       the English compat root at
+       1.6/Mods/VanillaGravshipExpanded2/Languages/English/DefInjected/ThingDef/: the LoadFolders
+       gate on 1.6/Mods/VanillaGravshipExpanded2 is the only thing that keeps them from erroring on
+       startup for users without VGE2, since the DefInjected loader never reads MayRequire
+       attributes. -->
+
+  <!-- EN: guild shuttle -->
+  <BTG_GuildShuttle.label>navette de la guilde</BTG_GuildShuttle.label>
+  <!-- EN: A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations. -->
+  <BTG_GuildShuttle.description>Une navette alimentée au chemfuel conçue pour de longs trajets, construite selon le modèle que la guilde des commerçants utilise dans ses stations. Ses brides magnétiques ont été neutralisées, et elle est capable d'atteindre des sites orbitaux.</BTG_GuildShuttle.description>
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>Chemfuel</BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>Chemfuel</BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>{0} est prêt à être lancé à nouveau.</BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>
+
+  <!-- EN: guild shuttle (incoming) -->
+  <BTG_GuildShuttleIncoming.label>navette de la guilde (en approche)</BTG_GuildShuttleIncoming.label>
+
+  <!-- EN: guild shuttle (leaving) -->
+  <BTG_GuildShuttleLeaving.label>navette de la guilde (en partance)</BTG_GuildShuttleLeaving.label>
+
+</LanguageData>

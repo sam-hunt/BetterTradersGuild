@@ -56,18 +56,28 @@
   <BTG_Settings_UseCustomLayouts>전용 정착지 지도 생성기 사용</BTG_Settings_UseCustomLayouts>
   <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
   <BTG_Settings_UseCustomLayoutsDesc>교역 조합 정착지를 버려진 느낌이 덜한 모습으로 생성합니다.\n다른 지도 생성 모드를 사용하거나 기본 배치를 선호한다면 해제하세요.\n밀수업자 소굴 임무 지역은 이 설정과 관계없이 항상 자체 지도 생성기를 사용합니다.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2가 활성화되어 있습니다. 대신 해당 모드의 교역 조합 정거장이 생성되며, 이 모드가 추가하는 일부 요소가 그 위에 겹쳐 적용됩니다.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2가 활성화되어 있습니다. 아래 설정은 현재 밀수업자 소굴에만 적용됩니다. 해당 모드의 교역 조합 정거장은 당분간 기본 수비대와 패배 규칙을 그대로 유지합니다.</BTG_Settings_DefendersVGE2Note>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>화물 금고 접근 허용</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
-  <BTG_Settings_EnableCargoVaultDesc>활성화하면 왕복선 격납고의 화물 금고 해치를 해킹하여 교역 물품에 접근할 수 있습니다.\n비활성화하면 화물 금고가 밀폐된 채로 생성되어 접근할 수 없습니다.\n새로 생성되는 정착지에만 적용되며, 전용 정착지 지도 생성기가 필요합니다.\n밀수업자 소굴의 화물 금고는 이 설정이 아니라 임무 보상에 따라 결정됩니다.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>활성화하면 각 정착지의 화물 금고 해치를 해킹하여 교역 물품에 접근할 수 있습니다.\n비활성화하면 화물 금고가 밀폐된 채로 생성되어 접근할 수 없습니다.\n새로 생성되는 정착지에만 적용되며, 전용 정착지 지도 생성기가 필요합니다.\n밀수업자 소굴의 화물 금고는 이 설정이 아니라 임무 보상에 따라 결정됩니다.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>추가 센트리 드론 배치: {0}%</BTG_Settings_SentryDronePresence>
   <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
   <BTG_Settings_SentryDroneDesc>순찰하는 센트리 드론을 추가로 배치하는 데 사용할 위협 지수의 비율입니다.\n정착지와 밀수업자 소굴 모두에 적용됩니다.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>우주 시대 수준 방어군 (재시작 필요)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>교역 조합 방어군이 우주 시대 수준의 무기, 방어구, 임플란트, 장비 품질을 갖추게 되며, 수비대는 정예 위주로 구성됩니다.\n해제하면 기본 장비 구성과 수비대 편성으로 되돌아갑니다. 시민과 어린이를 위한 진공 보호 장비는 어느 쪽이든 유지됩니다.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

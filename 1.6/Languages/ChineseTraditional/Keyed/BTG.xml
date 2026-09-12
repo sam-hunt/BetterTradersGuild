@@ -47,8 +47,8 @@
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>啟用貨物保險庫存取</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
-  <BTG_Settings_EnableCargoVaultDesc>啟用後，太空梭機庫內的貨物保險庫艙門可以破解，以取用貿易庫存。\n關閉後，貨物保險庫會以密封狀態生成，無法進入。\n只影響新生成的據點，並需要自訂據點地圖生成器。\n走私巢穴的保險庫由其任務獎勵控制，不受此設定影響。</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>啟用後，每個據點的貨物保險庫艙門都可以破解，以取用貿易庫存。\n關閉後，貨物保險庫會以密封狀態生成，無法進入。\n只影響新生成的據點，並需要自訂據點地圖生成器。\n走私巢穴的保險庫由其任務獎勵控制，不受此設定影響。</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->
@@ -70,6 +70,10 @@
   <BTG_Settings_UseCustomLayouts>使用自訂據點地圖生成器</BTG_Settings_UseCustomLayouts>
   <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
   <BTG_Settings_UseCustomLayoutsDesc>生成的商人公會據點不會顯得那麼廢棄。\n若使用其他地圖生成模組或偏好原版佈局，請關閉此項。\n無論此項如何設定，走私巢穴任務地點一律使用它自己的地圖生成器。</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 已啟用：改為生成其商人公會據點，並在其上疊加本模組的部分附加內容。</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2 已啟用：以下設定目前只影響走私巢穴。其商人公會據點暫時仍維持原版駐軍與戰敗規則。</BTG_Settings_DefendersVGE2Note>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- 哨衛無人機 is Odyssey zh-Hant Drone_Sentry.label (NOT 哨兵, which zh-Hans uses). -->
@@ -77,6 +81,12 @@
   <BTG_Settings_SentryDronePresence>額外哨衛無人機數量：{0}%</BTG_Settings_SentryDronePresence>
   <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
   <BTG_Settings_SentryDroneDesc>用於產生額外巡邏哨衛無人機的威脅點數係數。\n據點與走私巢穴都適用。</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>太空級守衛(需要重新啟動)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>商人公會守衛獲得太空級武器、護甲、植入物及裝備品質，駐軍也會更偏向精英。\n關閉後恢復原版裝備與駐軍組成。不論此設定開啟或關閉，平民與兒童的真空防護皆不受影響。</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- AI is set solid in zh-Hant values (Core ChooseAIStoryteller = 選擇AI故事敘述者),

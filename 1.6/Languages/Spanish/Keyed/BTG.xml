@@ -61,12 +61,16 @@
   <BTG_Settings_UseCustomLayouts>Usar generador de mapas de asentamiento propio</BTG_Settings_UseCustomLayouts>
   <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
   <BTG_Settings_UseCustomLayoutsDesc>Genera asentamientos del gremio de comerciantes con un aspecto menos abandonado.\nDesactívalo si usas otros mods de generación de mapas o si prefieres los diseños originales.\nEl sitio de la misión de la guarida de contrabandistas siempre usa su propio generador de mapas, sea cual sea el valor de este ajuste.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 está activo: en su lugar se genera su estación del gremio de comerciantes, con algunas de las incorporaciones de este mod superpuestas.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2 está activo: los ajustes de abajo actualmente solo afectan a la guarida de contrabandistas. Sus estaciones del gremio de comerciantes conservan las guarniciones y las reglas de derrota originales por ahora.</BTG_Settings_DefendersVGE2Note>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>Habilitar el acceso a la bóveda de carga</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
-  <BTG_Settings_EnableCargoVaultDesc>Si está activado, las escotillas de las bóvedas de carga de los hangares de transbordadores se pueden hackear para acceder al inventario comercial.\nSi está desactivado, las bóvedas de carga aparecen selladas e inaccesibles.\nSolo afecta a los asentamientos generados a partir de ahora, y requiere el generador de mapas de asentamiento propio.\nLa bóveda de la guarida de contrabandistas se controla mediante la recompensa de su misión, no por este ajuste.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>Si está activado, la escotilla de la bóveda de carga de cada asentamiento se puede hackear para acceder al inventario comercial.\nSi está desactivado, las bóvedas de carga aparecen selladas e inaccesibles.\nSolo afecta a los asentamientos generados a partir de ahora, y requiere el generador de mapas de asentamiento propio.\nLa bóveda de la guarida de contrabandistas se controla mediante la recompensa de su misión, no por este ajuste.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- Vanilla es writes percentages tight ({0}%) but watts spaced ({0} W); both are copied exactly. -->
@@ -74,6 +78,12 @@
   <BTG_Settings_SentryDronePresence>Presencia adicional de drones centinela: {0}%</BTG_Settings_SentryDronePresence>
   <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
   <BTG_Settings_SentryDroneDesc>Proporción de los puntos de amenaza que se destina a drones centinela de patrulla adicionales.\nSe aplica tanto a los asentamientos como a la guarida de contrabandistas.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>Defensores de nivel espacial (requiere reiniciar)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>Los defensores del gremio de comerciantes reciben armas, armaduras, implantes y calidad de equipo de nivel espacial, y las guarniciones tienden más hacia combatientes de élite.\nDesactívalo para volver al equipo y la composición de guarnición originales. La protección contra el vacío para los ciudadanos y los niños se mantiene en cualquier caso.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

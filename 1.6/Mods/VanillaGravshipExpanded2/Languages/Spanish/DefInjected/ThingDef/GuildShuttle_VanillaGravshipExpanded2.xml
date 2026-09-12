@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- BTG_GuildShuttle, BTG_GuildShuttleIncoming, BTG_GuildShuttleLeaving (ThingDef,
+       MayRequire vanillaexpanded.gravship2). These injections mirror the English compat
+       root at 1.6/Mods/VanillaGravshipExpanded2/Languages/English/DefInjected/ThingDef/:
+       the guild shuttle defs wear VGE2's locked-shuttle art, so they load only from this
+       LoadFolders-gated compat root, and MayRequire is honored on defs but IGNORED on
+       DefInjected entries, so a main-tree injection would log a found-no-def error for
+       every user without VGE2 installed. -->
+
+  <!-- EN: guild shuttle -->
+  <BTG_GuildShuttle.label>transbordador del gremio</BTG_GuildShuttle.label>
+  <!-- EN: A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations. -->
+  <BTG_GuildShuttle.description>Un transbordador impulsado por biocombustible diseñado para viajes de larga distancia, construido según el patrón que el gremio de comerciantes usa en sus estaciones. Sus abrazaderas magnéticas han sido burladas, y es capaz de alcanzar ubicaciones en órbita.</BTG_GuildShuttle.description>
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>Biocombustible</BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>Biocombustible</BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>{0} está listo para lanzarse de nuevo.</BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>
+
+  <!-- EN: guild shuttle (incoming) -->
+  <BTG_GuildShuttleIncoming.label>transbordador del gremio (llegando)</BTG_GuildShuttleIncoming.label>
+
+  <!-- EN: guild shuttle (leaving) -->
+  <BTG_GuildShuttleLeaving.label>transbordador del gremio (saliendo)</BTG_GuildShuttleLeaving.label>
+
+</LanguageData>

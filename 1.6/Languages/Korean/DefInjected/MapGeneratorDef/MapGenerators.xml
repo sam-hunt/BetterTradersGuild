@@ -5,6 +5,9 @@
   <BTG_CargoVaultMapGenerator.label>화물 금고</BTG_CargoVaultMapGenerator.label>
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>정착지 플랫폼</BTG_SettlementMapGenerator.label>
+  <!-- Sets no label of its own; inherits vanilla SpaceMapGenerator's "space". -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>우주</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>밀수업자 소굴 플랫폼</BTG_SmugglersDenMapGenerator.label>
 

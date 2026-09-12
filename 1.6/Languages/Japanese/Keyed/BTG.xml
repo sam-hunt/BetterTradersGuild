@@ -85,17 +85,31 @@
   <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
   <BTG_Settings_UseCustomLayoutsDesc>商人ギルドの入植地を,廃墟らしさを抑えた外観で生成します.\n他のマップ生成MODを使用している場合や,バニラの配置を好む場合は無効にしてください.\n密輸業者の巣窟のクエストサイトは,この設定に関わらず常に専用のマップ生成を使用します.</BTG_Settings_UseCustomLayoutsDesc>
 
+  <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2が有効です: 代わりにそちらの商人ギルドの入植地が生成され,このMODの追加要素の一部がその上に重ねられます.</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2が有効です: 以下の設定は現在,密輸業者の巣窟にのみ影響します.そちらの商人ギルドの入植地は,当面はバニラの守備隊と敗退ルールのままです.</BTG_Settings_DefendersVGE2Note>
+
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>貨物保管庫への進入を有効にする</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
-  <BTG_Settings_EnableCargoVaultDesc>有効にすると,シャトル格納庫にある貨物保管庫のハッチをハッキングして,交易品の在庫にアクセスできます.\n無効にすると,貨物保管庫は封鎖された状態で生成され,進入できません.\n新しく生成される入植地にのみ影響し,専用の入植地マップ生成が必要です.\n密輸業者の巣窟の保管庫は,この設定ではなくクエスト報酬によって制御されます.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>有効にすると,各入植地の貨物保管庫のハッチをハッキングして,交易品の在庫にアクセスできます.\n無効にすると,貨物保管庫は封鎖された状態で生成され,進入できません.\n新しく生成される入植地にのみ影響し,専用の入植地マップ生成が必要です.\n密輸業者の巣窟の保管庫は,この設定ではなくクエスト報酬によって制御されます.</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>セントリードローンの追加配備: {0}%</BTG_Settings_SentryDronePresence>
   <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
   <BTG_Settings_SentryDroneDesc>巡回するセントリードローンを追加するために使用する,脅威ポイントの割合です.\n入植地にも密輸業者の巣窟にも適用されます.</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- "宇宙世紀" is Core ja's own TechLevel_Spacer; エリート matches Core's own Mercenary_Elite /
+       Odyssey's Salvager_Elite PawnKindDef labels. -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>宇宙世紀級の防衛部隊 (再起動が必要)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>商人ギルドの防衛部隊が身につける武器,防具,インプラント,装備の品質はすべて宇宙世紀級になり,守備隊はエリート寄りの構成になります.\n無効にすると,バニラの装備一式と守備隊構成に戻ります.市民と子供の真空対策は,どちらの設定でも維持されます.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The guild shuttle defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear VGE2's
+       locked-shuttle art, so they load only from this LoadFolders-gated compat root. Their
+       injections must live here too: MayRequire is honored on defs but IGNORED on DefInjected
+       entries, so a main-tree injection would log a found-no-def error for every user without
+       VGE2 installed. -->
+
+  <!-- EN: guild shuttle -->
+  <BTG_GuildShuttle.label>ônibus espacial da Guilda</BTG_GuildShuttle.label>
+  <!-- EN: A chemfuel-powered shuttle designed for long-distance travel, built to the pattern the Traders Guild uses across its stations. Its magnetic clamps have been overridden, and it is capable of reaching orbital locations. -->
+  <BTG_GuildShuttle.description>Um ônibus espacial movido a combustível químico projetado para viagens de longa distância, construído segundo o padrão que a Guilda dos Mercadores usa em suas estações. Seus grampos magnéticos foram burlados, e é capaz de alcançar locais na órbita.</BTG_GuildShuttle.description>
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>Combustível Químico</BTG_GuildShuttle.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>Combustível Químico</BTG_GuildShuttle.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>{0} está pronto para lançar novamente.</BTG_GuildShuttle.comps.CompLaunchable.cooldownEndedMessage>
+
+  <!-- EN: guild shuttle (incoming) -->
+  <BTG_GuildShuttleIncoming.label>ônibus espacial da Guilda (chegando)</BTG_GuildShuttleIncoming.label>
+
+  <!-- EN: guild shuttle (leaving) -->
+  <BTG_GuildShuttleLeaving.label>ônibus espacial da Guilda (partindo)</BTG_GuildShuttleLeaving.label>
+
+</LanguageData>

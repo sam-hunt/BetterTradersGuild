@@ -58,17 +58,29 @@
   <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
   <BTG_Settings_UseCustomLayoutsDesc>生成的商会定居点不会显得那么荒废。\n若使用其他地图生成模组或偏好原版布局，请关闭此项。\n无论此项如何设置，走私巢穴任务地点始终使用其自身的地图生成器。</BTG_Settings_UseCustomLayoutsDesc>
 
+  <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
+  <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 已启用：将改为生成其商会空间站，并叠加了本模组的部分附加内容。</BTG_Settings_UseCustomLayoutsVGE2Note>
+  <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: the settings below currently only affect the smuggler's den. Its Traders Guild stations keep vanilla garrisons and defeat rules for now. -->
+  <BTG_Settings_DefendersVGE2Note>Vanilla Gravship Expanded - Chapter 2 已启用：以下设置目前仅影响走私巢穴。其商会空间站暂时仍沿用原版守备队与战败规则。</BTG_Settings_DefendersVGE2Note>
+
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->
   <BTG_Settings_EnableCargoVault>启用货物保险库访问</BTG_Settings_EnableCargoVault>
-  <!-- EN: When enabled, cargo vault hatches in shuttle bays can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
-  <BTG_Settings_EnableCargoVaultDesc>启用后，穿梭机库内的货物保险库舱门可被骇入，以取用贸易库存。\n关闭后，货物保险库将以封闭状态生成且无法进入。\n仅影响新生成的定居点，且需要开启自定义定居点地图生成器。\n走私巢穴的保险库由其任务奖励控制，不受此设置影响。</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
+  <BTG_Settings_EnableCargoVaultDesc>启用后，每个定居点的货物保险库舱门均可被骇入，以取用贸易库存。\n关闭后，货物保险库将以封闭状态生成且无法进入。\n仅影响新生成的定居点，且需要开启自定义定居点地图生成器。\n走私巢穴的保险库由其任务奖励控制，不受此设置影响。</BTG_Settings_EnableCargoVaultDesc>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>额外哨兵无人机数量：{0}%</BTG_Settings_SentryDronePresence>
   <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
   <BTG_Settings_SentryDroneDesc>用于生成额外巡逻哨兵无人机的威胁点数系数。\n定居点与走私巢穴均适用。</BTG_Settings_SentryDroneDesc>
+
+  <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
+  <!-- EN: Spacer-tier defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>太空时代级守卫（需要重启游戏）</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>商会守卫将获得太空时代级别的武器、护甲、义体与装备品质，守备队构成也会更偏向精英兵种。\n关闭后将采用原版装备与守备队构成。无论此项如何设置，公民与儿童的真空防护均保持不变。</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->

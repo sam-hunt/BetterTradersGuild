@@ -6,6 +6,8 @@
        BTG's NPC-safe BTG_* copies reuse the vanilla wording 1:1 where one exists. -->
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>embarcando en TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>poniendo a TargetA a salvo.</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>pidiendo reabastecimiento.</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->

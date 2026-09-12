@@ -9,6 +9,10 @@
   <BTG_CargoVaultMapGenerator.label>Cofre de Carga</BTG_CargoVaultMapGenerator.label>
   <!-- EN: settlement platform -->
   <BTG_SettlementMapGenerator.label>Plataforma de Assentamento</BTG_SettlementMapGenerator.label>
+  <!-- BTG_SettlementMapGenerator_VGE2 sets no label, inheriting vanilla SpaceMapGenerator's
+       own "space" - verbatim Odyssey pt-BR SpaceMapGenerator.label (Title Case). -->
+  <!-- EN: space -->
+  <BTG_SettlementMapGenerator_VGE2.label>Espaço</BTG_SettlementMapGenerator_VGE2.label>
   <!-- EN: smuggler's den platform -->
   <BTG_SmugglersDenMapGenerator.label>Plataforma de Covil de Contrabandistas</BTG_SmugglersDenMapGenerator.label>
 

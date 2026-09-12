@@ -7,6 +7,8 @@
 
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>betritt TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>bringt TargetA an einen sicheren Ort.</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>fordert Nachschub an.</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->

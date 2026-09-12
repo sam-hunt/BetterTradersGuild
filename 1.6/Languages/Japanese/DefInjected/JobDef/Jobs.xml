@@ -13,6 +13,8 @@
   <!-- Verbatim from Odyssey ja EnterTransporter.reportString. -->
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>TargetAに乗り込んでいる</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>TargetAを安全な場所へ避難中</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>補給を要請中</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->

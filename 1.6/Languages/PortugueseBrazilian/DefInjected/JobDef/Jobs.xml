@@ -13,6 +13,8 @@
          instead of mirroring the vanilla slip. -->
   <!-- EN: boarding TargetA. -->
   <BTG_BoardLaunchable.reportString>entrando em TargetA.</BTG_BoardLaunchable.reportString>
+  <!-- EN: putting TargetA somewhere safe. -->
+  <BTG_BringBabyToSafety.reportString>colocando TargetA em um lugar seguro.</BTG_BringBabyToSafety.reportString>
   <!-- EN: calling for resupply. -->
   <BTG_CallResupply.reportString>pedindo reabastecimento.</BTG_CallResupply.reportString>
   <!-- EN: carrying TargetA to safety. -->
