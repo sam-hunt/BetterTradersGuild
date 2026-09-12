@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Under Royalty the crew quarters' outfit stands show prestige marine armour in place of the
+    plain marine set: the guild's wealth shows in its wardrobe. The set lives on BTG_CrewQuarters'
+    OutfitStandRuleExtension (LayoutRoomDefs/Settlement/CrewQuarters.xml); only the one set is
+    swapped, so the other sets, the quality roll and the stocking chance stay as authored there.
+    A swap needs a patch because MayRequire can only drop a node, never choose between two.
+  -->
+
+  <Operation Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
+    <xpath>/Defs/LayoutRoomDef[defName="BTG_CrewQuarters"]/modExtensions/li[@Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension"]/rule/sets/li[apparel/li="Apparel_PowerArmor"]</xpath>
+    <value>
+      <li>
+        <apparel>
+          <li>Apparel_ArmorMarinePrestige</li>
+          <li>Apparel_ArmorMarineHelmetPrestige</li>
+        </apparel>
+      </li>
+    </value>
+  </Operation>
+</Patch>

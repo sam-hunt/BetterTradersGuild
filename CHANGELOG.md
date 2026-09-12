@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Guild gunners, slashers and heavy gunners wear VGE2's combat vacsuit instead of marine armor when Vanilla Gravship Expanded 2 is loaded.
+- Crew quarters outfit stands now show hyperweave off-duty wear and marine armor (prestige under Royalty), plus the prestige siegebreaker, prestige vacsuit and combat vacsuit sets when Vanilla Armour Expanded, Vanilla Gravship Expanded 1 or 2 are loaded. Recon armor and the plain vacsuit no longer appear there.
 
 ## [1.2.0] - 2026-09-12
 

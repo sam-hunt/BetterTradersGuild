@@ -54,37 +54,50 @@
 
       <!-- Stocking rule applied by BTG_StockOutfitStands to the outfit stands in this room
            (the ones ShelfCustomizer swaps in for empty subroom shelves): each stand shows a
-           random outfit from a crew member's wardrobe. -->
+           random outfit from a crew member's wardrobe. Optional-content sets gate inline with
+           MayRequire (all listed ids must be active; the loader drops the node otherwise), so
+           each id appears exactly once here and the set is discoverable from this file. -->
       <li Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension">
         <rule>
           <sets>
-            <!-- Off-duty synthread shirt and pants -->
+            <!-- Off-duty hyperweave shirt and pants -->
             <li>
               <apparel>
                 <li>Apparel_CollarShirt</li>
                 <li>Apparel_Pants</li>
               </apparel>
-              <stuff>Synthread</stuff>
+              <stuff>Hyperweave</stuff>
             </li>
-            <!-- Marine armour -->
+            <!-- Marine armour. Patches/LayoutRoomDef_CrewQuarters_Royalty.xml swaps this set for
+                 prestige marine armour (Apparel_ArmorMarinePrestige + helmet) under Royalty. -->
             <li>
               <apparel>
                 <li>Apparel_PowerArmor</li>
                 <li>Apparel_PowerArmorHelmet</li>
               </apparel>
             </li>
-            <!-- Vacsuit -->
-            <li>
+            <!-- Prestige siegebreaker armour (Vanilla Armour Expanded; the set ships from its
+                 Royalty-gated load root, so both ids are required) -->
+            <li MayRequire="Ludeon.RimWorld.Royalty,VanillaExpanded.VARME">
               <apparel>
-                <li>Apparel_Vacsuit</li>
-                <li>Apparel_VacsuitHelmet</li>
+                <li>VAE_Apparel_RoyalSiegeArmor</li>
+                <li>VAE_Headgear_RoyalSiegeHelmet</li>
               </apparel>
             </li>
-            <!-- Recon armour -->
-            <li>
+            <!-- Prestige vacsuit (Vanilla Gravship Expanded - Chapter 1; also from a Royalty-gated
+                 load root, so both ids are required) -->
+            <li MayRequire="Ludeon.RimWorld.Royalty,vanillaexpanded.gravship">
               <apparel>
-                <li>Apparel_ArmorRecon</li>
-                <li>Apparel_ArmorHelmetRecon</li>
+                <li>VGE_Apparel_Vacsuit_Prestige</li>
+                <li>VGE_Apparel_VacsuitHelmet_Prestige</li>
+              </apparel>
+            </li>
+            <!-- Combat vacsuit (Vanilla Gravship Expanded - Chapter 2; what the mid-tier defenders
+                 wear under VGE2, see Patches/PawnKinds/PawnKinds_Gunner.xml) -->
+            <li MayRequire="vanillaexpanded.gravship2">
+              <apparel>
+                <li>VGE_Apparel_CombatVacsuit</li>
+                <li>VGE_Apparel_CombatVacsuitHelmet</li>
               </apparel>
             </li>
             <!-- Panthera-leather body strap (Ideology) -->
