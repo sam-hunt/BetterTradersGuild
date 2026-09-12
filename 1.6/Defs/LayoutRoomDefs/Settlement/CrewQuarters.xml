@@ -76,12 +76,11 @@
                 <li>Apparel_PowerArmorHelmet</li>
               </apparel>
             </li>
-            <!-- Prestige siegebreaker armour (Vanilla Armour Expanded; the set ships from its
-                 Royalty-gated load root, so both ids are required) -->
-            <li MayRequire="Ludeon.RimWorld.Royalty,VanillaExpanded.VARME">
+            <!-- Siegebreaker armour (Vanilla Armour Expanded; its def names still say HeavyMarine) -->
+            <li MayRequire="VanillaExpanded.VARME">
               <apparel>
-                <li>VAE_Apparel_RoyalSiegeArmor</li>
-                <li>VAE_Headgear_RoyalSiegeHelmet</li>
+                <li>VAE_Apparel_HeavyMarineArmor</li>
+                <li>VAE_Headgear_HeavyMarineHelmet</li>
               </apparel>
             </li>
             <!-- Prestige vacsuit (Vanilla Gravship Expanded - Chapter 1; also from a Royalty-gated
