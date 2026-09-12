@@ -4,7 +4,7 @@
 
   Upgrades Heavy to spacer-level heavy weapons specialist:
   - GunHeavy + SpacerGun weapons (minigun, LMG, charge weapons)
-  - Power armor (marine armor) + Power armor helmet
+  - Marine armor + Marine helmet, or VGE2's combat vacsuit + helmet when VGE2 is loaded
   - 40% implant chance, 50% weapon biocoding
   - Good quality gear in better condition
 
@@ -104,19 +104,38 @@
         </value>
       </li>
 
-      <!-- Add apparelRequired: Power Armor -->
+      <!-- Clear apparelRequired so the conditional's Add below can never duplicate it. -->
       <li Class="PatchOperationRemove">
         <xpath>/Defs/PawnKindDef[defName="TradersGuild_Heavy"]/apparelRequired</xpath>
         <success>Always</success>
       </li>
-      <li Class="PatchOperationAdd">
-        <xpath>/Defs/PawnKindDef[defName="TradersGuild_Heavy"]</xpath>
-        <value>
-          <apparelRequired Inherit="False">
-            <li>Apparel_PowerArmor</li>
-            <li>Apparel_PowerArmorHelmet</li>
-          </apparelRequired>
-        </value>
+
+      <!-- Armor: VGE2's combat vacsuit when it exists, else Marine armor. Def-presence check rather
+           than a MayRequire so it holds whatever the load order. The combat vacsuit trades sharp
+           armor (0.88 vs 1.06) for the best vacuum rating available: VGE1 (a VGE2 dependency) cuts
+           the vanilla helmet vacuum offsets, so a Marine set sits at 85% under VGE2 while the combat
+           vacsuit set reaches 99%. VGE2 sets generateAllowChance 0 on both defs, which only gates
+           the apparelTags fill; apparelRequired bypasses it. -->
+      <li Class="PatchOperationConditional">
+        <xpath>/Defs/ThingDef[defName="VGE_Apparel_CombatVacsuit"]</xpath>
+        <match Class="PatchOperationAdd">
+          <xpath>/Defs/PawnKindDef[defName="TradersGuild_Heavy"]</xpath>
+          <value>
+            <apparelRequired Inherit="False">
+              <li>VGE_Apparel_CombatVacsuit</li>
+              <li>VGE_Apparel_CombatVacsuitHelmet</li>
+            </apparelRequired>
+          </value>
+        </match>
+        <nomatch Class="PatchOperationAdd">
+          <xpath>/Defs/PawnKindDef[defName="TradersGuild_Heavy"]</xpath>
+          <value>
+            <apparelRequired Inherit="False">
+              <li>Apparel_PowerArmor</li>
+              <li>Apparel_PowerArmorHelmet</li>
+            </apparelRequired>
+          </value>
+        </nomatch>
       </li>
 
       <!-- Increase implant chance: 15% → 40% -->

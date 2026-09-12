@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Guild gunners, slashers and heavy gunners wear VGE2's combat vacsuit instead of marine armor when Vanilla Gravship Expanded 2 is loaded.
+
 ## [1.2.0] - 2026-09-12
 
 ### Added
