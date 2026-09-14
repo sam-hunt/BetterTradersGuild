@@ -37,7 +37,7 @@ namespace BetterTradersGuild
 
         public const int CargoVaultWealthMax = 200000;
         public const int CargoVaultWealthStep = 1000;
-        public const int CargoVaultWealthDefault = 75000;
+        public const int CargoVaultWealthDefault = 100000;
         public int cargoVaultMaxWealth = CargoVaultWealthDefault;
 
         public int CargoVaultStackCap =>
