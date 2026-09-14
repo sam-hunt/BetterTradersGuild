@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The smuggler's den vault reward icon shows the open hatch, which reads better at quest-dialog size.
 - Mid-tier guild defenders wear the combat vacsuit under Vanilla Gravship Expanded 2.
 - Crew quarters outfit stands show finer wardrobes, with prestige and modded armor sets when available.
 
