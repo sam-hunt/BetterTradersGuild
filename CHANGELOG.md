@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Settings sliders cap how many stacks and how much wealth a cargo vault spawns; the rest stays in the trade inventory.
+
 ### Changed
 
 - Mid-tier guild defenders wear the combat vacsuit under Vanilla Gravship Expanded 2.

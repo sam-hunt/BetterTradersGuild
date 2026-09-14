@@ -1,3 +1,4 @@
+using BetterTradersGuild.RoomContents.CargoVault;
 using Verse;
 
 namespace BetterTradersGuild
@@ -21,16 +22,44 @@ namespace BetterTradersGuild
         // smuggler's den the quest comp overrides this, so it is never consulted there.
         public bool enableCargoVault = true;
 
+        // Cargo vault spawn caps. Some modded orbital traders carry enough stock to
+        // crash the game when it is all spawned into the vault at once, so the vault
+        // spawns at most this many stacks / this much market value (proportionally
+        // across item types; pawns always spawn but count). The rest stays in the
+        // trade inventory. Each slider has one extra notch past its max that means
+        // unlimited, stored as max + step so the sentinel survives a round-trip
+        // through the slider; the *Cap accessors translate it for consumers.
+        // Applies to every vault, including the smuggler's den, so never gated.
+        public const int CargoVaultStacksMax = 350;
+        public const int CargoVaultStacksStep = 5;
+        public const int CargoVaultStacksDefault = 200;
+        public int cargoVaultMaxStacks = CargoVaultStacksDefault;
+
+        public const int CargoVaultWealthMax = 200000;
+        public const int CargoVaultWealthStep = 1000;
+        public const int CargoVaultWealthDefault = 75000;
+        public int cargoVaultMaxWealth = CargoVaultWealthDefault;
+
+        public int CargoVaultStackCap =>
+            cargoVaultMaxStacks > CargoVaultStacksMax ? CargoLimitAllocator.Unlimited : cargoVaultMaxStacks;
+
+        public float CargoVaultWealthCap =>
+            cargoVaultMaxWealth > CargoVaultWealthMax ? CargoLimitAllocator.Unlimited : cargoVaultMaxWealth;
+
         private void ExposeTradingSettings()
         {
             Scribe_Values.Look(ref traderRotationIntervalDays, "traderRotationIntervalDays", 30);
             Scribe_Values.Look(ref enableCargoVault, "enableCargoVault", true);
+            Scribe_Values.Look(ref cargoVaultMaxStacks, "cargoVaultMaxStacks", CargoVaultStacksDefault);
+            Scribe_Values.Look(ref cargoVaultMaxWealth, "cargoVaultMaxWealth", CargoVaultWealthDefault);
         }
 
         private void ResetTradingSettings()
         {
             traderRotationIntervalDays = 30;
             enableCargoVault = true;
+            cargoVaultMaxStacks = CargoVaultStacksDefault;
+            cargoVaultMaxWealth = CargoVaultWealthDefault;
         }
 
         private void DrawTradingSection(Listing_Standard listing)
@@ -48,6 +77,32 @@ namespace BetterTradersGuild
 
             listing.Gap(12f);
 
+            // Spawn caps: not gated on useCustomLayouts because the den vault honours
+            // them too. The top notch of each slider reads "Unlimited".
+            string stacksValue = cargoVaultMaxStacks > CargoVaultStacksMax
+                ? "BTG_Settings_Unlimited".Translate().ToString()
+                : cargoVaultMaxStacks.ToString();
+            string stacksLabel = Annotate(
+                "BTG_Settings_CargoVaultMaxStacks".Translate(stacksValue),
+                isDefault: cargoVaultMaxStacks == CargoVaultStacksDefault);
+            LabelWithTooltip(listing, stacksLabel, "BTG_Settings_CargoVaultMaxStacksDesc".Translate());
+            cargoVaultMaxStacks = SteppedSliderWithUnlimited(listing, cargoVaultMaxStacks,
+                CargoVaultStacksMax, CargoVaultStacksStep);
+
+            listing.Gap(12f);
+
+            string wealthValue = cargoVaultMaxWealth > CargoVaultWealthMax
+                ? "BTG_Settings_Unlimited".Translate().ToString()
+                : "BTG_Settings_CargoVaultMaxWealthValue".Translate(cargoVaultMaxWealth.ToString("N0")).ToString();
+            string wealthLabel = Annotate(
+                "BTG_Settings_CargoVaultMaxWealth".Translate(wealthValue),
+                isDefault: cargoVaultMaxWealth == CargoVaultWealthDefault);
+            LabelWithTooltip(listing, wealthLabel, "BTG_Settings_CargoVaultMaxWealthDesc".Translate());
+            cargoVaultMaxWealth = SteppedSliderWithUnlimited(listing, cargoVaultMaxWealth,
+                CargoVaultWealthMax, CargoVaultWealthStep);
+
+            listing.Gap(12f);
+
             string intervalLabel = Annotate(
                 "BTG_Settings_TraderRotationInterval".Translate(traderRotationIntervalDays),
                 vanilla: traderRotationIntervalDays == 30,
@@ -59,6 +114,15 @@ namespace BetterTradersGuild
             traderRotationIntervalDays = (int)(System.Math.Round(sliderValue / 5f) * 5f);
 
             listing.Gap(24f);
+        }
+
+        // Integer slider from 0 to max in the given step, plus one final notch
+        // (max + step) that stands for unlimited. Values snap to the step.
+        private static int SteppedSliderWithUnlimited(Listing_Standard listing, int value, int max, int step)
+        {
+            float slider = listing.Slider(value, 0f, max + step);
+            int snapped = (int)(System.Math.Round(slider / step) * step);
+            return snapped > max ? max + step : snapped;
         }
     }
 }

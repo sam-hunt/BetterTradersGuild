@@ -9,8 +9,9 @@ namespace BetterTradersGuild.RoomContents.CargoVault
 {
     // RoomContentsWorker for the cargo vault room.
     // Populates the room with items from the parent settlement's trade inventory.
-    // Uses weighted random selection (higher value = higher probability).
-    // Items are removed from trade inventory and spawned in the vault.
+    // Items are removed from trade inventory and spawned in the vault, up to the
+    // stack and wealth caps in mod settings (see CargoSelector); the remainder stays
+    // in the trade inventory.
     //
     // Also spawns the exit subroom prefab (9x9 walled room with doors) in the center.
     // The doors prevent wild animals from escaping through the portal.
@@ -55,17 +56,20 @@ namespace BetterTradersGuild.RoomContents.CargoVault
             if (stock == null || stock.Count == 0)
                 return;
 
-            // Select ALL cargo (removes from stock)
-            List<Thing> cargo = CargoSelector.SelectCargo(stock);
+            // Get settlement ID for deterministic shelf placement and cargo selection
+            // Uses fallback to cached ID if settlement was defeated
+            int settlementID = CargoVaultHelper.GetSettlementId(map);
+
+            // Select cargo within the spawn caps (removes it from stock; the rest stays
+            // in the trade inventory)
+            BetterTradersGuildSettings settings = BetterTradersGuildMod.Settings;
+            List<Thing> cargo = CargoSelector.SelectCargo(stock, settlementID,
+                settings.CargoVaultStackCap, settings.CargoVaultWealthCap);
             if (cargo.Count == 0)
                 return;
 
             // Categorize into items and pawns
             CargoSelector.CategorizeItems(cargo, out List<Thing> items, out List<Pawn> pawns);
-
-            // Get settlement ID for deterministic shelf placement
-            // Uses fallback to cached ID if settlement was defeated
-            int settlementID = CargoVaultHelper.GetSettlementId(map);
 
             // Track items that couldn't be spawned to return to trade inventory
             var unspawnedItems = new List<Thing>();

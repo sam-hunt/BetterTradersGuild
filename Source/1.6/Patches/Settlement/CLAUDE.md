@@ -135,7 +135,8 @@ The cargo vault displays physical items from the settlement's trade inventory. S
 ```
 1. Player enters settlement → Map.FinalizeInit → Stock generated if null (SettlementMapGenerated patch)
 2. While visiting → Stock frozen (RegenerateStock/TryDestroyStock patches block changes)
-3. Player opens cargo vault → Items spawned from stock (CargoSelector removes from stock)
+3. Player opens cargo vault → Items spawned from stock (CargoSelector removes from stock, up to
+   the stack/wealth caps in settings; the excess is left in stock, so it stays tradeable)
 4. Vault locked (pawn relock action) → Remaining items returned to stock (CargoReturnHelper)
 5. Vault hatch despawns (map unload) → Remaining items returned to stock (CargoReturnHelper)
 6. Player defeats settlement → Stock transferred to MapComponent cache (CheckDefeated patch)

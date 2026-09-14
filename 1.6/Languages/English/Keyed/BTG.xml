@@ -32,6 +32,15 @@
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <BTG_Settings_EnableCargoVault>Enable cargo vault access</BTG_Settings_EnableCargoVault>
   <BTG_Settings_EnableCargoVaultDesc>When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- {0} = stack count, or BTG_Settings_Unlimited -->
+  <BTG_Settings_CargoVaultMaxStacks>Cargo vault stack limit: {0}</BTG_Settings_CargoVaultMaxStacks>
+  <BTG_Settings_CargoVaultMaxStacksDesc>The most item stacks a cargo vault will spawn when hacked open.\nEvery kind of item keeps roughly its share of the inventory, and slaves or animals always spawn but count toward the limit.\nWhatever does not fit stays in the settlement's trade inventory for caravan trading.\nSome modded orbital traders carry enough stock to crash the game if it all spawns at once; slide fully right to remove the limit anyway.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- {0} = BTG_Settings_CargoVaultMaxWealthValue, or BTG_Settings_Unlimited -->
+  <BTG_Settings_CargoVaultMaxWealth>Cargo vault wealth limit: {0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- {0} = market value in silver, formatted with thousands separators -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0} silver</BTG_Settings_CargoVaultMaxWealthValue>
+  <BTG_Settings_CargoVaultMaxWealthDesc>The most market value a cargo vault will spawn when hacked open.\nEvery kind of item keeps roughly its share of the inventory, and slaves or animals always spawn but count toward the limit.\nWhatever does not fit stays in the settlement's trade inventory for caravan trading.\nSlide fully right to remove the limit.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <BTG_Settings_Unlimited>Unlimited</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- {0} = days -->
