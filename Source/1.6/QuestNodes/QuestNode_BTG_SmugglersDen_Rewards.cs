@@ -207,8 +207,22 @@ namespace BetterTradersGuild.QuestNodes
     {
         public TraderKindDef traderKindDef;
 
-        // Explicit null check instead of ?? - Texture2D is a UnityEngine.Object (see CLAUDE.md)
-        private static readonly Texture2D Icon = ResolveIcon();
+        // The hatch texture ships in BTG's Textures/ folder, so an in-process play-data
+        // reload (main-menu language switch) destroys it while this type initializer never
+        // re-runs. The getter re-resolves when the cached reference is Unity-null. Explicit
+        // == null, never ?? - Texture2D is a UnityEngine.Object (see CLAUDE.md). The
+        // BadTex fallback is a vanilla resource and persists across reloads.
+        private static Texture2D icon = ResolveIcon();
+
+        private static Texture2D Icon
+        {
+            get
+            {
+                if (icon == null)
+                    icon = ResolveIcon();
+                return icon;
+            }
+        }
 
         private static Texture2D ResolveIcon()
         {

@@ -41,6 +41,7 @@ namespace BetterTradersGuild.Comps
     {
         // Cached reference to the Claim icon texture.
         // Uses vanilla's claim icon for consistency.
+        // Vanilla-resourced textures persist across play-data reloads, so a plain static is fine.
         // Loaded in static constructor per RimWorld requirements.
         private static readonly Texture2D ClaimIcon;
 

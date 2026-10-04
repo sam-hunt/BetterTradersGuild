@@ -19,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mid-tier guild defenders wear the combat vacsuit under Vanilla Gravship Expanded 2.
 - Crew quarters outfit stands show finer wardrobes, with prestige and modded armor sets when available.
 
+### Fixed
+
+- The smugglers' den reward icon no longer goes blank after switching language without restarting the game.
+
 ## [1.2.0] - 2026-09-12
 
 ### Added
