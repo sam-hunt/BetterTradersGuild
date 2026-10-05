@@ -3,6 +3,7 @@
     <TargetFramework>net472</TargetFramework>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <!-- RimWorld Installation Path Configuration -->
