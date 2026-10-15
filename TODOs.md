@@ -41,5 +41,6 @@ claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../Vanill
 - Mod integration: Include UMW weapons in unique weapon pools?
 
 - propagate the Steam-postfix-tolerant mod detection helper (Integrations/ModDetection.cs, BTG commit f60e7a0) to the other mods and the template repo: replace every ModsConfig.IsActive(string) in C# with it (exact match misses `id_steam` Workshop installs; MayRequire/IfModActive were never affected). Known sites: UniqueWeaponsUnbound AlphaArmouryIntegration.cs and VanillaSkillsExpandedIntegration.cs; grep the rest. Clean session.
+- upstream l10n smoke engine: cross-reference errors raised by a BTG patch (DirectXmlCrossRefLoader stack, no mod frame) classify as `other`, so the 2026-10-15 prestige-armour MayRequire bug passed the gate; attribute unresolved-cross-ref errors by scanning active mods' Defs/Patches for the wanted defName
 - upstream l10n: sidecar freshness check only compares label/description, so an English edit to a nested field (quest rulesStrings) never forces a regen
 - upstream missing faction check on Building_AndroidStand.CannotUseNowReason(Pawn)
