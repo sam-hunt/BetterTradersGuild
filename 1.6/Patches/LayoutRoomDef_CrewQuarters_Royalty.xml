@@ -6,17 +6,28 @@
     OutfitStandRuleExtension (LayoutRoomDefs/Settlement/CrewQuarters.xml); only the one set is
     swapped, so the other sets, the quality roll and the stocking chance stay as authored there.
     A swap needs a patch because MayRequire can only drop a node, never choose between two.
+
+    Gated by PatchOperationFindMod, not by a MayRequire attribute on the Operation: the patch
+    loader (ModContentPack.LoadPatches, same on 1.6 and 1.7) instantiates every Operation
+    unconditionally and only honours MayRequire on def nodes and on list/field nodes inside a
+    value, so an Operation-level attribute is silently ignored and this swap used to apply on
+    every modlist, logging two unresolved-cross-reference errors without Royalty.
   -->
 
-  <Operation Class="PatchOperationReplace" MayRequire="Ludeon.RimWorld.Royalty">
-    <xpath>/Defs/LayoutRoomDef[defName="BTG_CrewQuarters"]/modExtensions/li[@Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension"]/rule/sets/li[apparel/li="Apparel_PowerArmor"]</xpath>
-    <value>
-      <li>
-        <apparel>
-          <li>Apparel_ArmorMarinePrestige</li>
-          <li>Apparel_ArmorMarineHelmetPrestige</li>
-        </apparel>
-      </li>
-    </value>
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Royalty</li>
+    </mods>
+    <match Class="PatchOperationReplace">
+      <xpath>/Defs/LayoutRoomDef[defName="BTG_CrewQuarters"]/modExtensions/li[@Class="BetterTradersGuild.Helpers.MapGeneration.OutfitStandRuleExtension"]/rule/sets/li[apparel/li="Apparel_PowerArmor"]</xpath>
+      <value>
+        <li>
+          <apparel>
+            <li>Apparel_ArmorMarinePrestige</li>
+            <li>Apparel_ArmorMarineHelmetPrestige</li>
+          </apparel>
+        </li>
+      </value>
+    </match>
   </Operation>
 </Patch>
