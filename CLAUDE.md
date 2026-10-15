@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Better Traders Guild** is a RimWorld 1.6 mod that expands player interactions with the Traders Guild faction. Requires Odyssey DLC and Harmony.
+**Better Traders Guild** is a RimWorld 1.6 and 1.7 mod that expands player interactions with the Traders Guild faction. Requires Odyssey DLC and Harmony.
 
 **Key Features:**
 

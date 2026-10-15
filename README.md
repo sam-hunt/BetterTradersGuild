@@ -2,7 +2,7 @@
 
 > A RimWorld mod enhancing the Odyssey Traders Guild faction
 
-[![RimWorld](https://img.shields.io/badge/RimWorld-1.6-blue.svg)](https://rimworldgame.com/)
+[![RimWorld](https://img.shields.io/badge/RimWorld-1.6%20%7C%201.7-blue.svg)](https://rimworldgame.com/)
 [![Odyssey DLC](https://img.shields.io/badge/DLC-Odyssey-red.svg)](https://store.steampowered.com/app/2380740/RimWorld__Odyssey/)
 [![Subscribers](https://img.shields.io/steam/subscriptions/3684587591?logo=steam&label=subscribers)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
 [![Downloads](https://img.shields.io/steam/downloads/3684587591?logo=steam&label=downloads)](https://steamcommunity.com/sharedfiles/filedetails/?id=3684587591)
@@ -39,7 +39,7 @@ This mod brings the Traders Guild in line with other factions:
 
 ## Requirements
 
-- **RimWorld 1.6** or later
+- **RimWorld 1.6** or **1.7**
 - **Odyssey DLC** (required - depends on Odyssey's TradersGuild faction)
 - **Harmony** (auto-download from Steam Workshop if you don't have it)
 
