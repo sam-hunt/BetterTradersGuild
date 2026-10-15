@@ -35,9 +35,11 @@ namespace BetterTradersGuild
         public const int CargoVaultStacksDefault = 200;
         public int cargoVaultMaxStacks = CargoVaultStacksDefault;
 
-        public const int CargoVaultWealthMax = 200000;
-        public const int CargoVaultWealthStep = 1000;
-        public const int CargoVaultWealthDefault = 100000;
+        // The wealth default is a last-resort crash guard, set high enough that
+        // vanilla and reasonably balanced modded traders never reach it.
+        public const int CargoVaultWealthMax = 500000;
+        public const int CargoVaultWealthStep = 5000;
+        public const int CargoVaultWealthDefault = 250000;
         public int cargoVaultMaxWealth = CargoVaultWealthDefault;
 
         public int CargoVaultStackCap =>
