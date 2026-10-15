@@ -67,6 +67,18 @@
   <BTG_Settings_EnableCargoVault>启用货物保险库访问</BTG_Settings_EnableCargoVault>
   <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
   <BTG_Settings_EnableCargoVaultDesc>启用后，每个定居点的货物保险库舱门均可被骇入，以取用贸易库存。\n关闭后，货物保险库将以封闭状态生成且无法进入。\n仅影响新生成的定居点，且需要开启自定义定居点地图生成器。\n走私巢穴的保险库由其任务奖励控制，不受此设置影响。</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>货物保险库堆叠上限：{0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>货物保险库被骇入开启时最多生成的物品堆数；其余物品仍留在定居点的贸易库存中。\n若某个模组商人的保险库导致游戏崩溃或卡顿，请调低此项。滑块拖到最右侧表示不设上限。</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>货物保险库财富上限：{0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0}白银</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>货物保险库被骇入开启时所生成物品的市场价值上限；其余物品仍留在定居点的贸易库存中。\n滑块拖到最右侧表示不设上限。</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>无限制</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->

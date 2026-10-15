@@ -21,6 +21,10 @@ what is specific to Better Traders Guild.
 **Exiled Traders** 추방된 상인, **cargo claim** 화물 인수권, **medbay** 의무실,
 **docked vessel** 정박 중인 선박, **docking bays** 정박 구역, **(Vanilla)**
 (기본값), **entrenched defender AI** 농성형 방어군 AI, **garrison** 수비대.
+**salvager dropship** 인양단 상륙정 (인양단 = Odyssey salvagers, 상륙정 = Odyssey `AncientRustedDropship`'s dropship),
+**stack limit** 물품 더미 한도 (vanilla ko has no stack noun; 더미 is the Core heap word),
+**wealth limit** 자산 한도 (`{0} silver` = `은 {0}`, no particle after the number),
+**Unlimited** 제한 없음 (Core `Unlimited`).
 `BTG_Settings_ModName` is the localized Workshop title
 `교역 조합 확장판` and must stay in sync with the title line of
 `.steamworkshop/Description/Korean.txt` (see the CLAUDE.md localization note).

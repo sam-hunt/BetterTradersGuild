@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The salvager dropship defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear
+       VGE2's dropship art, so they load only from this LoadFolders-gated compat root and
+       their injections must live here too (see GuildShuttle_VanillaGravshipExpanded2.xml).
+       The incoming/leaving skyfallers are VGE2's own defs, so they have no BTG strings. -->
+
+  <!-- BTG_SalvagerDropship -->
+  <!-- EN: salvager dropship -->
+  <BTG_SalvagerDropship.label>打捞者登陆艇</BTG_SalvagerDropship.label>
+  <!-- EN: A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations. -->
+  <BTG_SalvagerDropship.description>以化合燃料驱动的重装甲登陆艇，由打捞者为深入敌方领地的突袭行动而建造。其飞行锁定已被绕过，因此能够抵达轨道地点。</BTG_SalvagerDropship.description>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>化合燃料</BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>化合燃料</BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>{0}已准备好再次发射。</BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>
+
+</LanguageData>

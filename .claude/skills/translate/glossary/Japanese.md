@@ -38,6 +38,7 @@ points** 脅威ポイント, **orbital steel / rust** 軌道スチール色 / �
 **entrenched defender AI** 籠城型の防衛AI, **resupply** 補給, **fencing stolen
 cargo** 積荷の横流し (vanilla ja's own phrase, Core BackstoryDef). "TG maps" is
 spelled out as **ギルドのマップ** — a Japanese initialism would be opaque.
+**salvager dropship** 略奪者のドロップシップ (略奪者 is Odyssey ja's Salvagers.label; ドロップシップ is the katakana rendering of VGE2's "dropship", paralleling ギルドのシャトル), **stack limit** スタック上限, **wealth limit** 資産上限 (資産 as in the scale-defenders setting; `{0}シルバー` for the value), **Unlimited** 無制限.
 `BTG_Settings_ModName` is the localized Workshop title
 `商人ギルド拡張MOD` and must stay in sync with the title line of
 `.steamworkshop/Description/Japanese.txt` (see the CLAUDE.md localization note).

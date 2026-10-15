@@ -88,6 +88,18 @@ Only affects newly generated settlements, and requires the custom settlement map
 The smuggler's den vault is controlled by its quest reward instead of this setting.
   -->
   <BTG_Settings_EnableCargoVaultDesc>Lorsque cette option est activée, la trappe du coffre à cargaison de chaque colonie peut être piratée pour accéder à l'inventaire commercial.\nLorsqu'elle est désactivée, les coffres à cargaison apparaissent scellés et inaccessibles.\nN'affecte que les colonies générées par la suite et nécessite le générateur de carte de colonie personnalisé.\nLe coffre à cargaison du repaire de contrebandiers est contrôlé par la récompense de sa quête plutôt que par ce paramètre.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>Limite de piles du coffre à cargaison : {0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>Nombre maximal de piles d'objets qu'un coffre à cargaison fait apparaître lorsqu'il est piraté. Le reste demeure dans l'inventaire commercial de la colonie.\nRéduisez cette valeur si le coffre d'un commerçant issu d'un mod plante ou ralentit le jeu. Faites glisser complètement à droite pour supprimer la limite.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>Limite de richesse du coffre à cargaison : {0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0} d'argent</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>Valeur marchande maximale qu'un coffre à cargaison fait apparaître lorsqu'il est piraté. Le reste demeure dans l'inventaire commercial de la colonie.\nFaites glisser complètement à droite pour supprimer la limite.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>illimitée</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->

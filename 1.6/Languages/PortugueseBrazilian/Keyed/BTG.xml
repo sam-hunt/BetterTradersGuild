@@ -98,6 +98,18 @@ Only affects newly generated settlements, and requires the custom settlement map
 The smuggler's den vault is controlled by its quest reward instead of this setting.
   -->
   <BTG_Settings_EnableCargoVaultDesc>Quando ativado, o alçapão do cofre de carga de cada assentamento pode ser hackeado para acessar o inventário comercial.\nQuando desativado, os cofres de carga aparecem selados e inacessíveis.\nAfeta apenas os assentamentos gerados a partir de então, e requer o gerador de mapa de assentamento personalizado.\nO cofre do covil de contrabandistas é controlado pela recompensa da missão, não por esta configuração.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>Limite de pilhas do cofre de carga: {0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>O máximo de pilhas de itens que um cofre de carga gera quando é hackeado; o restante permanece no inventário comercial do assentamento.\nReduza este valor se o cofre de um comerciante de mod travar ou deixar o jogo lento. Deslize totalmente para a direita para não ter limite.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>Limite de riqueza do cofre de carga: {0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0} de prata</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>O maior valor de mercado que um cofre de carga gera quando é hackeado; o restante permanece no inventário comercial do assentamento.\nDeslize totalmente para a direita para não ter limite.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>Ilimitado</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- "drone sentinela" is Odyssey pt-BR Drone_Sentry.label. -->

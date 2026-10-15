@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The salvager dropship defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear
+       VGE2's dropship art, so they load only from this LoadFolders-gated compat root and
+       their injections must live here too (see GuildShuttle_VanillaGravshipExpanded2.xml).
+       The incoming/leaving skyfallers are VGE2's own defs, so they have no BTG strings. -->
+
+  <!-- EN: salvager dropship -->
+  <BTG_SalvagerDropship.label>Schrottpiraten-Landungsschiff</BTG_SalvagerDropship.label>
+  <!-- EN: A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations. -->
+  <BTG_SalvagerDropship.description>Ein mit Sprit betriebenes, schwer gepanzertes Landungsschiff, das Schrottpiraten für Vorstöße in feindliches Gebiet gebaut haben. Seine Flugsperre wurde umgangen, sodass es Orbitalstandorte erreichen kann.</BTG_SalvagerDropship.description>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>Sprit</BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>Sprit</BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>{0} ist wieder startbereit.</BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>
+
+</LanguageData>

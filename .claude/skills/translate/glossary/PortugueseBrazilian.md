@@ -74,3 +74,13 @@ the symbol is a plain **direct object** (`… burlou a segurança e abriu
 `AncientHatch` (`terminou de hackear {SUBJECT_labelNoParenthesisDef}.`).
 Restructuring beats hedging — the same conclusion the de, es and fr sections
 reach.
+
+## Cargo vault limits and salvager dropship
+
+**salvager dropship** nave de desembarque dos Salteadores (`dropship` is VGE2's
+own term with no vanilla pt-BR rendering; "Salteadores" is Odyssey's
+`Salvagers.label`, capitalized like the guild shuttle's "da Guilda"; the
+ThingDef and TransportShipDef labels are identical). **stack limit** limite de
+pilhas, **wealth limit** limite de riqueza, **{0} silver** `{0} de prata`,
+**Unlimited** Ilimitado (masculine, agreeing with "limite" in both slider
+labels).

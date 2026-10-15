@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The salvager dropship defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear
+       VGE2's dropship art, so they load only from this LoadFolders-gated compat root and
+       their injections must live here too (see GuildShuttle_VanillaGravshipExpanded2.xml).
+       The incoming/leaving skyfallers are VGE2's own defs, so they have no BTG strings. -->
+
+  <!-- BTG_SalvagerDropship -->
+  <!-- "略奪者" is Odyssey ja's Salvagers.label. Description built on the GuildShuttle one
+       (Odyssey ja PassengerShuttle.description), with "ドロップシップ" as the natural
+       katakana rendering of VGE2's "dropship". -->
+  <!-- EN: salvager dropship -->
+  <BTG_SalvagerDropship.label>略奪者のドロップシップ</BTG_SalvagerDropship.label>
+  <!-- EN: A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations. -->
+  <BTG_SalvagerDropship.description>略奪者が敵地への侵攻のために造った,バイオ液化燃料を動力とする重装甲のドロップシップです.飛行ロックは解除されており,軌道上まで移動することも可能です.</BTG_SalvagerDropship.description>
+  <!-- Verbatim from Odyssey ja PassengerShuttle.comps.CompRefuelable.fuelLabel. -->
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>バイオ液化燃料</BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>
+  <!-- Verbatim from Odyssey ja PassengerShuttle.comps.CompRefuelable.fuelGizmoLabel. -->
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>バイオ液化燃料</BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- Verbatim from Odyssey ja PassengerShuttle.comps.CompLaunchable.cooldownEndedMessage. -->
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>{0}は再発進する準備が整いました.</BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>
+
+</LanguageData>

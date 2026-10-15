@@ -64,6 +64,18 @@
   <BTG_Settings_EnableCargoVault>화물 금고 접근 허용</BTG_Settings_EnableCargoVault>
   <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
   <BTG_Settings_EnableCargoVaultDesc>활성화하면 각 정착지의 화물 금고 해치를 해킹하여 교역 물품에 접근할 수 있습니다.\n비활성화하면 화물 금고가 밀폐된 채로 생성되어 접근할 수 없습니다.\n새로 생성되는 정착지에만 적용되며, 전용 정착지 지도 생성기가 필요합니다.\n밀수업자 소굴의 화물 금고는 이 설정이 아니라 임무 보상에 따라 결정됩니다.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>화물 금고 물품 더미 한도: {0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>화물 금고를 해킹하여 열 때 생성되는 물품 더미의 최대 개수입니다. 나머지는 정착지의 교역 물품으로 남습니다.\n모드 상인의 금고 때문에 게임에 오류가 나거나 느려진다면 이 값을 낮추세요. 슬라이더를 맨 오른쪽으로 옮기면 제한이 없어집니다.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>화물 금고 자산 한도: {0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>은 {0}</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>화물 금고를 해킹하여 열 때 생성되는 최대 시장 가치입니다. 나머지는 정착지의 교역 물품으로 남습니다.\n슬라이더를 맨 오른쪽으로 옮기면 제한이 없어집니다.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>제한 없음</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->

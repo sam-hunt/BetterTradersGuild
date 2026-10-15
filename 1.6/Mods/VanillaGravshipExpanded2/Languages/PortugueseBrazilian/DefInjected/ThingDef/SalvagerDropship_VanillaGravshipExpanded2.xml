@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The salvager dropship defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear
+       VGE2's dropship art, so they load only from this LoadFolders-gated compat root and
+       their injections must live here too (see GuildShuttle_VanillaGravshipExpanded2.xml).
+       The incoming/leaving skyfallers are VGE2's own defs, so they have no BTG strings. -->
+
+  <!-- BTG_SalvagerDropship -->
+  <!-- EN: salvager dropship -->
+  <BTG_SalvagerDropship.label>nave de desembarque dos Salteadores</BTG_SalvagerDropship.label>
+  <!-- EN: A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations. -->
+  <BTG_SalvagerDropship.description>Uma nave de desembarque movida a combustível químico e fortemente blindada, construída pelos Salteadores para incursões em território inimigo. Seu bloqueio de voo foi burlado, e é capaz de alcançar locais na órbita.</BTG_SalvagerDropship.description>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>Combustível Químico</BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>Combustível Químico</BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>{0} está pronto para lançar novamente.</BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>
+
+</LanguageData>

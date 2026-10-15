@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- See the ThingDef file beside this one for why these injections live in the
+       VGE2-gated compat root rather than the main Languages tree. -->
+
+  <!-- BTG_Ship_SalvagerDropship -->
+  <!-- EN: salvager dropship -->
+  <BTG_Ship_SalvagerDropship.label>略奪者のドロップシップ</BTG_Ship_SalvagerDropship.label>
+
+</LanguageData>

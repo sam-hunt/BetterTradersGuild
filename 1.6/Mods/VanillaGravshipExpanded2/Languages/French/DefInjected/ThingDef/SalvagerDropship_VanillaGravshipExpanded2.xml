@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The salvager dropship defs (1.6/Mods/VanillaGravshipExpanded2/Defs/ThingDefs) wear
+       VGE2's dropship art, so they load only from this LoadFolders-gated compat root and
+       their injections must live here too (see GuildShuttle_VanillaGravshipExpanded2.xml).
+       The incoming/leaving skyfallers are VGE2's own defs, so they have no BTG strings. -->
+
+  <!-- BTG_SalvagerDropship -->
+  <!-- EN: salvager dropship -->
+  <BTG_SalvagerDropship.label>vaisseau de largage des récupérateurs</BTG_SalvagerDropship.label>
+  <!-- EN: A chemfuel-powered, heavily armored dropship built by salvagers for incursions into enemy territory. Its flight lockout has been bypassed, and it is capable of reaching orbital locations. -->
+  <BTG_SalvagerDropship.description>Un vaisseau de largage fortement blindé, alimenté au chemfuel, construit par les récupérateurs pour leurs incursions en territoire ennemi. Son blocage de vol a été contourné, et il est capable d'atteindre des sites orbitaux.</BTG_SalvagerDropship.description>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>Chemfuel</BTG_SalvagerDropship.comps.CompRefuelable.fuelLabel>
+  <!-- EN: Chemfuel -->
+  <BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>Chemfuel</BTG_SalvagerDropship.comps.CompRefuelable.fuelGizmoLabel>
+  <!-- EN: {0} is ready to launch again. -->
+  <BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>{0} est prêt à être lancé à nouveau.</BTG_SalvagerDropship.comps.CompLaunchable.cooldownEndedMessage>
+
+</LanguageData>

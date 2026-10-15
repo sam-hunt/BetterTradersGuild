@@ -69,6 +69,19 @@
   <BTG_Settings_EnableCargoVault>Habilitar el acceso a la bóveda de carga</BTG_Settings_EnableCargoVault>
   <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
   <BTG_Settings_EnableCargoVaultDesc>Si está activado, la escotilla de la bóveda de carga de cada asentamiento se puede hackear para acceder al inventario comercial.\nSi está desactivado, las bóvedas de carga aparecen selladas e inaccesibles.\nSolo afecta a los asentamientos generados a partir de ahora, y requiere el generador de mapas de asentamiento propio.\nLa bóveda de la guarida de contrabandistas se controla mediante la recompensa de su misión, no por este ajuste.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- "pila" is Core es's item-stack term (NoMergeTarget); "Ilimitado" is Core es Unlimited verbatim. -->
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>Límite de pilas de la bóveda de carga: {0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>El máximo de pilas de objetos que genera una bóveda de carga al hackearla; el resto permanece en el inventario comercial del asentamiento.\nReduce este valor si la bóveda de un comerciante añadido por un mod bloquea o ralentiza el juego. Desliza el control del todo a la derecha para no tener límite.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>Límite de riqueza de la bóveda de carga: {0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0} de plata</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>El máximo de valor de mercado que genera una bóveda de carga al hackearla; el resto permanece en el inventario comercial del asentamiento.\nDesliza el control del todo a la derecha para no tener límite.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>Ilimitado</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- Vanilla es writes percentages tight ({0}%) but watts spaced ({0} W); both are copied exactly. -->

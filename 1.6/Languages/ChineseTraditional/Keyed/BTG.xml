@@ -47,6 +47,18 @@
   <BTG_Settings_EnableCargoVault>啟用貨物保險庫存取</BTG_Settings_EnableCargoVault>
   <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
   <BTG_Settings_EnableCargoVaultDesc>啟用後，每個據點的貨物保險庫艙門都可以破解，以取用貿易庫存。\n關閉後，貨物保險庫會以密封狀態生成，無法進入。\n只影響新生成的據點，並需要自訂據點地圖生成器。\n走私巢穴的保險庫由其任務獎勵控制，不受此設定影響。</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>貨物保險庫堆疊上限：{0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>貨物保險庫被破解開啟時最多生成的物品堆疊數；其餘仍留在據點的貿易庫存中。\n若模組商人的保險庫導致遊戲當機或卡頓，請調低此值。滑桿拉到最右側則不設限。</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>貨物保險庫財富上限：{0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0}白銀</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>貨物保險庫被破解開啟時最多生成的市場價格總額；其餘仍留在據點的貿易庫存中。\n滑桿拉到最右側則不設限。</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>無限制</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->

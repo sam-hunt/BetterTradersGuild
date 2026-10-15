@@ -30,7 +30,10 @@ pass — check them first before composing anything new:
 **cargo vault** 货物保险库 (hatch variants 货物保险库安全舱门 / 封闭舱门 / 出口),
 **shuttle bay** 穿梭机库, **smuggler's den** 走私巢穴, **threat points**
 威胁点数, **orbital steel / rust** 轨道钢 / 锈色, **independent traders**
-独立商人, **Exiled Traders** 流放商人, **cargo claim** 货物提取权.
+独立商人, **Exiled Traders** 流放商人, **cargo claim** 货物提取权,
+**salvager dropship** 打捞者登陆艇 (dropship 登陆艇 is VGE2's term; 打捞者 is
+Odyssey `Salvagers.label`), **Unlimited** (slider max, fills a `{0}` after
+上限：) 无限制, **stack limit / wealth limit** 堆叠上限 / 财富上限 (`{0}白银`).
 `BTG_Settings_ModName` is the localized Workshop title
 `强化商会` and must stay in sync with the title line of
 `.steamworkshop/Description/ChineseSimplified.txt` (see the CLAUDE.md localization note) (it is also injected into the Empire-fix dialog as a

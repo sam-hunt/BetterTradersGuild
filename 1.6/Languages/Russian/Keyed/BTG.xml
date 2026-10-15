@@ -64,6 +64,18 @@
   <BTG_Settings_EnableCargoVault>Разрешить доступ к грузовому хранилищу</BTG_Settings_EnableCargoVault>
   <!-- EN: When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting. -->
   <BTG_Settings_EnableCargoVaultDesc>Если включено, люк грузового хранилища каждого поселения можно взломать и добраться до товаров торговца.\nЕсли выключено, грузовые хранилища создаются наглухо запечатанными.\nВлияет только на вновь создаваемые поселения и только когда включён свой генератор карт поселений.\nХранилище логова контрабандистов управляется наградой за его задание, а не этой настройкой.</BTG_Settings_EnableCargoVaultDesc>
+  <!-- EN: Cargo vault stack limit: {0} -->
+  <BTG_Settings_CargoVaultMaxStacks>Лимит стопок в грузовом хранилище: {0}</BTG_Settings_CargoVaultMaxStacks>
+  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>Наибольшее число стопок предметов, которое появляется в грузовом хранилище после взлома; остальное остаётся в товарах поселения.\nСнизьте, если из-за хранилища торговца из мода игра вылетает или тормозит. Сдвиньте ползунок до упора вправо, чтобы снять ограничение.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: Cargo vault wealth limit: {0} -->
+  <BTG_Settings_CargoVaultMaxWealth>Лимит рыночной стоимости грузового хранилища: {0}</BTG_Settings_CargoVaultMaxWealth>
+  <!-- EN: {0} silver -->
+  <BTG_Settings_CargoVaultMaxWealthValue>{0} серебра</BTG_Settings_CargoVaultMaxWealthValue>
+  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>Наибольшая рыночная стоимость предметов, которая появляется в грузовом хранилище после взлома; остальное остаётся в товарах поселения.\nСдвиньте ползунок до упора вправо, чтобы снять ограничение.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: Unlimited -->
+  <BTG_Settings_Unlimited>Без ограничений</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->

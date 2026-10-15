@@ -39,6 +39,14 @@ opaque. `BTG_Settings_ModName` is the localized Workshop title
 `Bessere Händlergilde` and must stay in sync with the title line of
 `.steamworkshop/Description/German.txt` (see the CLAUDE.md localization note).
 
+Cargo vault limits (settings sliders): **stack limit** Stapellimit des
+Frachttresors, **wealth limit** Wertlimit des Frachttresors, **{0} silver**
+{0} Silber, **Unlimited** unbegrenzt (lowercase, because it fills the `{0}`
+after the colon of both limit labels). **salvager dropship**
+Schrottpiraten-Landungsschiff (Odyssey `Salvagers.label` is Schrottpiraten;
+"dropship" is VGE2's term, rendered Landungsschiff; the ThingDef and
+TransportShipDef labels are identical).
+
 ## Trait adjectives — `SilverInlay` / `BTG_SilverInlayMelee`
 
 `traitAdjectives` are **bare attributive adjectives** in vanilla de (Odyssey

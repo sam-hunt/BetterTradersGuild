@@ -54,7 +54,10 @@ traders** 獨立商人, **Exiled Traders** 流放商人, **cargo claim** 貨物�
 bay / roster** 泊位 / 停泊排班, **orbital ring** 軌道環, **trade frequency**
 貿易頻道, **transponder** 應答機, **threshold** 門檻, **selection weight** 權重,
 **contact (inside man)** 內線, **entrenched defender AI** 固守型守衛AI (AI set
-solid, per Core's 選擇AI故事敘述者).
+solid, per Core's 選擇AI故事敘述者), **dropship (VGE2)** 登陸艇 (**salvager
+dropship** 打撈者登陸艇; salvagers is Odyssey's 打撈者), **stack limit / wealth
+limit** 堆疊上限 / 財富上限 (堆疊 is Core's stack word), **Unlimited** 無限制
+(reads in the 「…上限：{0}」 slot), **{0} silver** {0}白銀 (digits attach directly).
 
 `BTG_Settings_ModName` is the localized Workshop title **強化商人公會** and must
 stay in sync with the title line of

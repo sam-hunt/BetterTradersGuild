@@ -24,6 +24,8 @@ are near-exact templates — check them first before composing anything new:
 |---|---|---|---|
 | leader (`leaderTitle`) | chef | | Core `PlayerColony`, Odyssey `GravshipCrew`/`Salvagers` all use chef; TradersGuild's own is maître du commerce — relevant to `Script_BTG_SmugglersDen`'s `[asker_faction_leaderTitle]` token |
 | smuggler | contrebandier | | Core `Orbital_PirateMerchant.label` — grounds BTG's own "smuggler's den" compound below |
+| salvager dropship (VGE2 compat) | vaisseau de largage des récupérateurs | navette (reserved for the guild shuttle) | `récupérateur` is Odyssey fr `Salvager_Elite`/`Salvager_Pirate`; `largage` echoes Core `capsule de largage`; masculine head noun keeps the cooldown message `est prêt` |
+| cargo vault stack / wealth limit; Unlimited | Limite de piles / Limite de richesse du coffre à cargaison : {0}; illimitée | | `pile` is vanilla fr's stack term (`seulement des piles avec des repas similaires`); `illimitée` agrees with the feminine `limite` it fills and stays lowercase after the colon; the value is `{0} d'argent` (`silver` = argent) |
 
 ## Mod-coined terms (pending native review)
 

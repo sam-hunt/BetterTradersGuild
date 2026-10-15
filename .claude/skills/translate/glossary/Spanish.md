@@ -35,7 +35,14 @@ transbordadores, **smuggler's den** guarida de contrabandistas (echoing Odyssey'
 Comerciantes exiliados, **cargo claim** derecho de carga, **medbay** enfermería,
 **docked vessel** Nave atracada, **docking bays** muelles de atraque,
 **(Vanilla)** (Original), **entrenched defender AI** IA de defensores
-atrincherados, **resupply** reabastecimiento. "TG maps" is spelled out as
+atrincherados, **resupply** reabastecimiento. **salvager dropship** nave de desembarco de chatarreros (salvagers = Odyssey
+`Salvagers.label` chatarreros; dropship = nave de desembarco, echoing Core's
+`cápsula de desembarco`; the cooldown message uses the invariant frame
+`{0} puede lanzarse de nuevo.` because the feminine noun would break the
+GuildShuttle `está listo`), **stack limit** límite de pilas (`pila` = Core
+`NoMergeTarget`), **wealth limit** límite de riqueza, **{0} silver** `{0} de
+plata` (Core `{1} de plata`), **Unlimited** Ilimitado (Core `Unlimited`
+verbatim). "TG maps" is spelled out as
 **mapas del gremio** — a Spanish initialism would be opaque.
 `BTG_Settings_ModName` is the localized Workshop title
 `Gremio de comerciantes mejorado` and must stay in sync with the title line of
