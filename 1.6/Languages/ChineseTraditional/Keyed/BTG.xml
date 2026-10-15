@@ -41,8 +41,6 @@
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>據點初始駐軍</BTG_Settings_InitialGarrison>
   <!-- Core zh-Hant RestoreToDefaultSettings. -->
-  <!-- EN: Reset to defaults -->
-  <BTG_Settings_ResetToDefaults>恢復為預設值</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <!-- EN: Enable cargo vault access -->

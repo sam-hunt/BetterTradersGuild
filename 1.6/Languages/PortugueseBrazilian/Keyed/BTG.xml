@@ -52,8 +52,6 @@
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>Guarnição Inicial do Assentamento</BTG_Settings_InitialGarrison>
   <!-- Shaped from Core pt-BR RestoreToDefaultSettings ("Restaurar Padroes"). -->
-  <!-- EN: Reset to defaults -->
-  <BTG_Settings_ResetToDefaults>Restaurar padrões</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->

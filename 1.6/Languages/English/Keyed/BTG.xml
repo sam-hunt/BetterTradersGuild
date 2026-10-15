@@ -27,7 +27,6 @@
   <!-- Subgroup labels within Garrison & Combat -->
   <BTG_Settings_Resupply>Defender Resupply</BTG_Settings_Resupply>
   <BTG_Settings_InitialGarrison>Initial settlement garrison</BTG_Settings_InitialGarrison>
-  <BTG_Settings_ResetToDefaults>Reset to defaults</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
   <BTG_Settings_EnableCargoVault>Enable cargo vault access</BTG_Settings_EnableCargoVault>

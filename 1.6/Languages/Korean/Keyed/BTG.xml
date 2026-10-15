@@ -34,8 +34,6 @@
   <BTG_Settings_Resupply>방어군 보급</BTG_Settings_Resupply>
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>초기 정착지 수비대</BTG_Settings_InitialGarrison>
-  <!-- EN: Reset to defaults -->
-  <BTG_Settings_ResetToDefaults>기본값 복원</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->

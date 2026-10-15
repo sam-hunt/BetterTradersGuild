@@ -59,8 +59,6 @@
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>入植地の初期防衛部隊</BTG_Settings_InitialGarrison>
   <!-- Verbatim from Core ja RestoreToDefaultSettings. -->
-  <!-- EN: Reset to defaults -->
-  <BTG_Settings_ResetToDefaults>デフォルトに戻す</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->

@@ -35,8 +35,6 @@
   <BTG_Settings_Resupply>Nachschub für Verteidiger</BTG_Settings_Resupply>
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>Anfängliche Siedlungsgarnison</BTG_Settings_InitialGarrison>
-  <!-- EN: Reset to defaults -->
-  <BTG_Settings_ResetToDefaults>Auf Standard zurücksetzen</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->

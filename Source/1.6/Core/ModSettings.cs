@@ -80,7 +80,7 @@ namespace BetterTradersGuild
             listing.End();
             Widgets.EndScrollView();
 
-            if (Widgets.ButtonText(buttonRect, "BTG_Settings_ResetToDefaults".Translate()))
+            if (Widgets.ButtonText(buttonRect, "RestoreToDefaultSettings".Translate()))
                 ResetToDefaults();
         }
 

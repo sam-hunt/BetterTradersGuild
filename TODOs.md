@@ -2,10 +2,12 @@ TODOs
 
 claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../VanillaExpanded/VanillaGravshipExpanded --add-dir ../VanillaExpanded/VanillaExpandedFramework
 
+- upstream VGE2 fix: GenSpawn_Spawn_Patch.Prefix hands oxygen packs/astrorigs to hostile newborns and children (BTG crib spawns) without checking the apparel's developmentalStageFilter, logging "tried to wear ... but is not allowed to"
 - eyeball the cargo vault stack/wealth caps in-game (sliders, Unlimited notch, dev-mode trim log, trimmed vault looks proportional, relock returns stock)
+- script a test to nail the exact wealth distributions of vanilla trader stock generators to determine whether our caps are tuned okay
 - cargo vault cap: hold the spawned subset constant across relocks. Today relock merges the leftovers back into stock and the next hack re-caps the whole pool, so a capped vault tops back up from never-shown stock (fine as a crash fix; total lootable is unchanged). Fix = per-settlement record of the first hack's chosen entries (SettlementStockCache or world comp), later hacks spawn only from it, reset on trader rotation. Nuance: return must not merge (merge destroys the absorbed Thing and its ID) or must tag things with a marker comp; works on existing saves since a vault with no record seeds one on its next hack.
 - Investigate Simple Warrants fulfilment
-- Translate the unreleased keys before the next release: `Scripts/check-translations.py` fails (108 errors, exit 1) because the cargo vault cap settings (six `BTG_Settings_CargoVault*` / `BTG_Settings_Unlimited` Keyed strings) and the VGE2 salvager dropship (six DefInjected keys for `BTG_SalvagerDropship` / `BTG_Ship_SalvagerDropship`, under the `1.6/Mods/VanillaGravshipExpanded2` root) have English only, in all nine languages. Neither feature is in v1.2.0, so nothing shipped untranslated, but the release gate will block until a `/translate` pass per language lands. Bump the l10n pin first (v1.1.0 here; the family is on v1.3.1).
+- Translate the unreleased keys before the next release: `Scripts/check-translations.py` fails (108 errors, exit 1) because the cargo vault cap settings (six `BTG_Settings_CargoVault*` / `BTG_Settings_Unlimited` Keyed strings) and the VGE2 salvager dropship (six DefInjected keys for `BTG_SalvagerDropship` / `BTG_Ship_SalvagerDropship`, under the `1.6/Mods/VanillaGravshipExpanded2` root) have English only, in all nine languages. Neither feature is in v1.2.0, so nothing shipped untranslated, but the release gate will block until a `/translate` pass per language lands. Bump the l10n pin first (v1.1.0 here; the family is on ~~v1.3.1~~ v1.7.0).
 
 - update About.xml/steamworkshop description to note VGE2 compat
 - update workshop page images

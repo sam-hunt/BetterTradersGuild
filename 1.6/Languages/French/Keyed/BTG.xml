@@ -47,8 +47,6 @@
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>Garnison initiale de la colonie</BTG_Settings_InitialGarrison>
   <!-- Verbatim from Core fr ResetBinding. -->
-  <!-- EN: Reset to defaults -->
-  <BTG_Settings_ResetToDefaults>Réinitialiser les valeurs par défaut</BTG_Settings_ResetToDefaults>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
   <!-- EN: Trader rotation interval: {0} days -->
