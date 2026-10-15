@@ -9,19 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-16
+
 ### Added
 
+- RimWorld 1.7 support.
 - Settings sliders cap how many stacks and how much wealth a cargo vault spawns; the rest stays in the trade inventory.
+- Under Vanilla Gravship Expanded 2, a hackable salvager dropship sits parked at the smuggler's den.
 
 ### Changed
 
 - The smuggler's den vault reward icon shows the open hatch, which reads better at quest-dialog size.
 - Mid-tier guild defenders wear the combat vacsuit under Vanilla Gravship Expanded 2.
 - Crew quarters outfit stands show finer wardrobes, with prestige and modded armor sets when available.
+- The settings window's reset button uses the game's own Restore defaults label.
 
 ### Fixed
 
-- The smugglers' den reward icon no longer goes blank after switching language without restarting the game.
+- The smuggler's den reward icon no longer goes blank after switching language without restarting the game.
+- Defender percentage sliders round to the nearest step instead of truncating.
 
 ## [1.2.0] - 2026-09-12
 
@@ -287,6 +293,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.3.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.0
 [1.2.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.2.0
 [1.1.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.1.1
 [1.1.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.1.0
