@@ -15,8 +15,8 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
         // Returns true if Vanilla Expanded Framework is loaded.
         // Cached after first check for performance. Postfix-tolerant (ModDetection):
-        // the plain ModsConfig.IsActive check this used until 2026-09-12 missed every
-        // Steam Workshop install of VEF, so stand apparel stayed uncoloured for them.
+        // the plain ModsConfig.IsActive check this used until 2026-09-12 missed a
+        // Workshop copy of VEF active beside a local copy of it (the "_steam" postfix case).
         public static bool IsVEFActive => _vefActive ??
             (_vefActive = ModDetection.IsActive("OskarPotocki.VanillaFactionsExpanded.Core")).Value;
 
