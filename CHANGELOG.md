@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-10-18
+
+### Changed
+
+- The mod preview image shows the RimWorld 1.7 badge.
+
 ## [1.3.0] - 2026-10-16
 
 ### Added
@@ -293,6 +299,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.3.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.1
 [1.3.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.0
 [1.2.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.2.0
 [1.1.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.1.1

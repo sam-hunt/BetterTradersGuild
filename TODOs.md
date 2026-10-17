@@ -7,6 +7,7 @@
 ### VGE2 Integration (working doc + tracker: Docs/VGE2_INTEGRATION.md)
 
 - `claude --add-dir ../VanillaExpanded/VanillaGravshipExpanded2 --add-dir ../VanillaExpanded/VanillaGravshipExpanded --add-dir ../VanillaExpanded/VanillaExpandedFramework`
+- upstream VGE2 fix: GenSpawn_Spawn_Patch.Prefix hands oxygen packs/astrorigs to hostile newborns and children (BTG crib spawns) without checking the apparel's developmentalStageFilter, logging "tried to wear ... but is not allowed to"
 - author/patch BTG side/corner prefabs for nursery/commander/crew-quarters/medbay
 - does VGE need its own a l10n world as it does in shipcracker?
 - scope chance of combat vacsuit on independent traders starting pawns possible?
@@ -33,7 +34,6 @@
 - upstream l10n smoke engine: cross-reference errors raised by a BTG patch (DirectXmlCrossRefLoader stack, no mod frame) classify as `other`, so the 2026-10-15 prestige-armour MayRequire bug passed the gate; attribute unresolved-cross-ref errors by scanning active mods' Defs/Patches for the wanted defName
 - upstream l10n: sidecar freshness check only compares label/description, so an English edit to a nested field (quest rulesStrings) never forces a regen
 - upstream missing faction check on Building_AndroidStand.CannotUseNowReason(Pawn)
-- upstream VGE2 fix: GenSpawn_Spawn_Patch.Prefix hands oxygen packs/astrorigs to hostile newborns and children (BTG crib spawns) without checking the apparel's developmentalStageFilter, logging "tried to wear ... but is not allowed to"
 
 ## Other mod integration
 
