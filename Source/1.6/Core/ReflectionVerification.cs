@@ -2,6 +2,7 @@ using BetterTradersGuild.Helpers.Reflection;
 using BetterTradersGuild.Helpers.RoomContents;
 using BetterTradersGuild.Integrations;
 using BetterTradersGuild.Patches.CaravanPatches;
+using BetterTradersGuild.Patches.DebugToolsPatches;
 using BetterTradersGuild.Patches.MechGestatorPatches;
 using BetterTradersGuild.Patches.PawnNameColorUtilityPatches;
 using BetterTradersGuild.Patches.SettlementPatches;
@@ -42,6 +43,7 @@ namespace BetterTradersGuild
             SiteCheckAllEnemiesDefeated.VerifyPatched();
             TransportersArrivalActionTradeCanTradeWith.VerifyPatched();
             TransportersArrivalActionTradeArrived.VerifyPatched();
+            DebugToolsSpawningSpawnWorldObject.VerifyPatched();
 
             // Optional-mod integrations — soft dependencies. Forcing each static constructor makes
             // it resolve now and self-report drift (silent unless the mod is present but shifted).
