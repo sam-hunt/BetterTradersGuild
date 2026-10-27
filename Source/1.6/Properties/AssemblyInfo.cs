@@ -27,8 +27,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.3.1.0")]
-[assembly: AssemblyFileVersion("1.3.1.0")]
+[assembly: AssemblyVersion("1.3.2.0")]
+[assembly: AssemblyFileVersion("1.3.2.0")]
 // Mirrors About.xml <modVersion> verbatim, including any SemVer prerelease suffix
 // (1.3.0-rc.1); the two numeric attributes above can't hold one and stay X.Y.Z.0.
-[assembly: AssemblyInformationalVersion("1.3.1")]
+[assembly: AssemblyInformationalVersion("1.3.2")]

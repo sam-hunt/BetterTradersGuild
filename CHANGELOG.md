@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-10-27
+
 ### Fixed
 
 - The dev-mode Spawn world object tool now works in orbit and asks which faction owns a spawned settlement, instead of creating an ownerless one that floods the log with errors.
@@ -303,6 +305,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.3.2]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.2
 [1.3.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.1
 [1.3.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.0
 [1.2.0]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.2.0
