@@ -35,10 +35,16 @@ namespace BetterTradersGuild.Patches.DebugToolsPatches
         private static readonly MethodInfo Target = AccessTools.Method(
             typeof(DebugToolsSpawning), "SpawnWorldObject");
 
+        // The return type is checked too: Harmony throws from PatchAll (aborting every later
+        // patch class) when the method's return type can't be assigned to __result, which a
+        // vanilla refactor to a yield-based IEnumerable would trigger.
+        private static bool TargetValid =>
+            Target != null && typeof(List<DebugActionNode>).IsAssignableFrom(Target.ReturnType);
+
         [HarmonyPrepare]
         public static bool Prepare()
         {
-            return Target != null;
+            return TargetValid;
         }
 
         [HarmonyTargetMethod]
@@ -49,9 +55,9 @@ namespace BetterTradersGuild.Patches.DebugToolsPatches
 
         public static void VerifyPatched()
         {
-            if (Target == null)
+            if (!TargetValid)
                 Log.Warning("[Better Traders Guild] DebugToolsSpawning.SpawnWorldObject method not found via "
-                    + "reflection; the dev-mode Spawn world object tool will keep spawning factionless "
+                    + "reflection, or no longer returns List<DebugActionNode>; the dev-mode Spawn world object tool will keep spawning factionless "
                     + "settlements that throw drawing errors. RimWorld API may have changed.");
         }
 
