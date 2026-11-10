@@ -17,7 +17,7 @@ namespace BetterTradersGuild.Comps
         }
     }
 
-    // ThingComp that adds a "Force Claim" gizmo to bypass vanilla claiming restrictions.
+    // ThingComp that adds a "Force claim" gizmo to bypass vanilla claiming restrictions.
     //
     // PURPOSE:
     // Vanilla claiming is blocked map-wide when any hostile pawn is present. This prevents
@@ -52,7 +52,7 @@ namespace BetterTradersGuild.Comps
             ClaimIcon = ContentFinder<Texture2D>.Get("UI/Designators/Claim", true);
         }
 
-        // Returns the "Force Claim" gizmo when building is not player-owned.
+        // Returns the "Force claim" gizmo when building is not player-owned.
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             // Only show gizmo if not player-owned

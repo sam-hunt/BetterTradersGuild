@@ -13,7 +13,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>BTG_CargoVaultHatch_Sealed</defName>
     <label>sealed cargo vault hatch</label>
-    <description>A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders.</description>
+    <description>A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out.</description>
     <size>(3,3)</size>
     <useHitPoints>false</useHitPoints>
     <thingClass>Building</thingClass>

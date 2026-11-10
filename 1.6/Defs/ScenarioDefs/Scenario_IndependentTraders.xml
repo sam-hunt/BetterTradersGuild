@@ -4,7 +4,7 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>BTG_IndependentTraders</defName>
     <label>Independent Traders</label>
-    <description>After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn.</description>
+    <description>After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. You have a hold full of silver, and you're heading down to build a home of your own.</description>
     <scenario>
       <summary>Three ex-guild traders and a shuttle.</summary>
       <playerFaction>

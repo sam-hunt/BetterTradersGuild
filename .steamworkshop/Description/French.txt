@@ -6,31 +6,31 @@ La guilde des commerçants est la faction à l'origine des événements de comme
 [hr][/hr]
 [h2]Commerce pacifique[/h2]
 [list]
-[*]Visitez la guilde des commerçants sur la carte du monde en navette lorsque les relations sont neutres ou meilleures
-[*]Les colonies de la guilde des commerçants alternent entre différents types de commerçants orbitaux selon un calendrier configurable
+[*]Rendez visite en navette à la guilde des commerçants depuis la carte du monde lorsque les relations sont neutres ou meilleures.
+[*]Les colonies de la guilde des commerçants alternent entre différents types de commerçants orbitaux selon un calendrier configurable.
 [*]Prévisualisez quel commerçant est amarré depuis la carte du monde et planifiez vos trajets autour de la planète !
-[*]Demandes de commerce orbital : les colonies de la guilde des commerçants envoient des missions de livraison par navette, avec des récompenses en bonne entente et en argent
+[*]Demandes de commerce orbital : les colonies de la guilde des commerçants envoient des missions de livraison par navette, avec des récompenses en bonne entente et en argent.
 [/list]
 
 [h2]Génération de carte repensée[/h2]
 [list]
-[*]Nouveaux types de salles (centre de contrôle, quartiers de l'équipage, cale à cargaison, salon du commandant, infirmerie, et plus encore)
-[*]Les objets du coffre à cargaison sont générés à partir de l'inventaire commercial : les voler les retire de leur stock commercial sur la carte du monde
-[*]Un aspect habité, digne de riches commerçants
+[*]Nouveaux types de salles (centre de contrôle, quartiers de l'équipage, cale à cargaison, salon du commandant, infirmerie, et plus encore).
+[*]Les objets du coffre à cargaison proviennent de l'inventaire commercial de la colonie. Tout ce que vous volez disparaît de son inventaire commercial.
+[*]Des intérieurs meublés et habités, dignes de riches commerçants.
 [/list]
 
 [h2]Colonies vivantes[/h2]
 [list]
-[*]Les garnisons retranchées défendent leur base au lieu de se ruer dans le vide : elles tiennent la structure, mangent, dorment, soignent leurs blessures, et demandent des largages de ravitaillement (ainsi que des renforts) lors de sièges prolongés
-[*]Les mécanoïdes ouvriers vaquent à leurs tâches : les médiktoïdes secourent et soignent les blessés, les nettoïdes gardent les couloirs propres, les agritoïdes cultivent la serre
-[*]Les civils se mettent à l'abri pendant l'assaut et foncent vers la navette si l'abri est percé
-[*]Venez à bout d'une colonie en anéantissant sa force de défense : les survivants renoncent plutôt que de se battre jusqu'à la mort
+[*]Les garnisons retranchées défendent leur base au lieu de se ruer dans le vide. Elles y mangent, dorment et soignent leurs blessures, et demandent des largages de ravitaillement et des renforts lors d'un long siège.
+[*]Les mécanoïdes ouvriers continuent de travailler. Les médiktoïdes secourent et soignent les blessés, les nettoïdes nettoient les couloirs et les agritoïdes cultivent la serre.
+[*]Les civils se mettent à l'abri pendant l'assaut et foncent vers la navette si l'abri est percé.
+[*]Anéantissez la force de défense d'une colonie pour la faire tomber. Les survivants abandonneront la station plutôt que de se battre jusqu'à la mort.
 [/list]
 
 [h2]Quête du repaire de contrebandiers[/h2]
 [list]
 [*]Découvrez la génération de carte d'assaut personnalisée de BTG, même si vous êtes engagé dans des relations amicales, ou si vous préférez la génération de carte d'un autre mod pour les colonies de la guilde des commerçants (par exemple VGE2).
-[*]Choisissez votre récompense : la bonne entente avec la faction, ou le droit sur les biens du coffre à cargaison du commerçant orbital
+[*]Choisissez votre récompense : la bonne entente avec la faction, ou la cargaison d'un commerçant orbital à prendre vous-même dans le coffre.
 [/list]
 
 [h2]Nouveaux scénarios[/h2]
@@ -38,7 +38,7 @@ La guilde des commerçants est la faction à l'origine des événements de comme
 [*][b]Commerçants indépendants[/b] : quittez la guilde pour voler de vos propres ailes. Commencez avec une navette, de l'argent, et des relations alliées avec vos anciens employeurs.
 [*][b]Commerçants exilés[/b] : une mission de récupération qui tourne mal réveille une ruche mécanoïde. La guilde vous abandonne. Récupérez ce que vous pouvez et survivez avec les mécanoïdes à vos trousses. Pas pour les âmes sensibles.
 [/olist]
-Éléments de scénario réutilisables : arrivées par navette, armes uniques avec traits, coloration des tenues, bonne entente avec les factions, et configuration des emplacements de colons par xénotype
+Éléments de scénario réutilisables : arrivée par navette, arme unique avec traits au choix, couleur des tenues, bonne entente avec les factions et xénotypes de départ
 
 [hr][/hr]
 [h1]Compatibilité[/h1]
@@ -64,10 +64,7 @@ R : Peut-être ! Il ajoute davantage d'occasions de commerce. Les colonies de la
 R : Tout est configurable dans les paramètres du mod.
 
 [b]Q : Pourquoi un type de commerçant précis n'apparaît-il pas ?[/b]
-R : Les types de commerçants sont sélectionnés aléatoirement selon des valeurs de fréquence. Certains sont plus rares que d'autres. Attendez de nouvelles rotations ou vérifiez d'autres colonies. La fréquence des types de commerçants ajoutés par d'autres mods n'est pas forcément équilibrée.
-
-[b]Q : Est-ce que ceci a été fait à l'aide de LLM !?[/b]
-R : Une partie du code fastidieux, et la plupart des localisations. Je suis ingénieur logiciel de métier, et j'écris du code depuis 25 ans. Tout le code est relu et testé manuellement. Tous les rapports de bugs et les conflits de mods sont suivis personnellement, dans la mesure du temps et des détails disponibles. Tout l'art est soit commandé à des humains, soit réalisé à la main dans Krita, soit les deux.
+R : Les types de commerçants sont choisis au hasard, et certains sont plus rares que d'autres. Attendez une rotation ou vérifiez d'autres colonies. Les types de commerçants ajoutés par d'autres mods peuvent être plus ou moins fréquents que prévu.
 
 [hr][/hr]
 [h2]Liens[/h2]

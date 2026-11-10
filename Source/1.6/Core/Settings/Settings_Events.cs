@@ -2,7 +2,7 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    // "Events & Quests" settings section — storyteller frequency dials for BTG's
+    // "Events and quests" settings section — storyteller frequency dials for BTG's
     // quests. Future incident/quest knobs belong here too.
     public partial class BetterTradersGuildSettings
     {

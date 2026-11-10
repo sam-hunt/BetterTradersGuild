@@ -4,7 +4,7 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>BTG_ExiledTraders</defName>
     <label>Exiled Traders</label>
-    <description>A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.\n\nNote: This is a difficult scenario and is not recommended for new players.</description>
+    <description>Your crew took a routine salvage job at an orbital relay, but the relay hid a mechanoid beacon and you woke the mechhive. The Traders Guild revoked your membership before the signal had finished broadcasting. You have no allies and few supplies, and the mechanoids are coming.\n\nNote: This is a difficult scenario and is not recommended for new players.</description>
     <scenario>
       <summary>Three exiled traders hunted by mechanoids.</summary>
       <playerFaction>

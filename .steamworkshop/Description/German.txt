@@ -6,31 +6,31 @@ Die Händlergilde ist die Fraktion hinter den Orbitalhändler-Ereignissen in Rim
 [hr][/hr]
 [h2]Friedlicher Handel[/h2]
 [list]
-[*]Besuche die Händlergilde per Raumfähre auf der Weltkarte, wenn die Beziehungen neutral oder besser sind
-[*]Siedlungen wechseln ihre Orbitalhändlertypen nach einem konfigurierbaren Zeitplan
+[*]Besuche die Händlergilde per Raumfähre auf der Weltkarte, wenn die Beziehungen neutral oder besser sind.
+[*]Siedlungen wechseln ihre Orbitalhändlertypen nach einem konfigurierbaren Zeitplan.
 [*]Sieh auf der Weltkarte, welcher Händler angedockt ist, und plane deine Reisen um den Planeten!
-[*]Orbitalhandelsanfragen: Siedlungen der Händlergilde verschicken Lieferaufträge per Raumfähre mit Ruf und Silber als Belohnung
+[*]Orbitalhandelsanfragen: Siedlungen der Händlergilde verschicken Lieferaufträge per Raumfähre mit Ruf und Silber als Belohnung.
 [/list]
 
 [h2]Überarbeitete Kartengenerierung[/h2]
 [list]
-[*]Neue Raumtypen (Kontrollzentrum, Mannschaftsquartiere, Frachtraum, Kommandantenlounge, Krankenstation und mehr)
-[*]Gegenstände im Frachttresor stammen aus dem Handelsbestand: Stiehlst du sie, fehlen sie im Handelsbestand auf der Weltkarte
-[*]Belebte, wohnliche Optik, wie es sich für wohlhabende Händler gehört
+[*]Neue Raumtypen (Kontrollzentrum, Mannschaftsquartiere, Frachtraum, Kommandantenlounge, Krankenstation und mehr).
+[*]Die Gegenstände im Frachttresor stammen aus dem Handelsbestand der Siedlung. Was du stiehlst, fehlt anschließend in ihrem Handelsbestand.
+[*]Eingerichtete, bewohnte Innenräume, wie es sich für wohlhabende Händler gehört.
 [/list]
 
 [h2]Lebendige Siedlungen[/h2]
 [list]
-[*]Verschanzte Garnisonen verteidigen ihr Zuhause, statt sich ins Vakuum zu stürzen: Sie halten das Gebäude, essen, schlafen, versorgen ihre Wunden und fordern bei langen Belagerungen Nachschub (und Verstärkung) an
-[*]Arbeitsmechs gehen ihrer Arbeit nach: Notfallsanitäter retten und behandeln Verwundete, Putzhelfer halten die Gänge sauber, Agrarhelfer bestellen das Gewächshaus
-[*]Zivilisten suchen bei einem Angriff Schutz und flüchten zur Raumfähre, falls ihr Schutzraum durchbrochen wird
-[*]Schwäche die Sicherheitskräfte einer Siedlung entscheidend, um sie zu brechen: Die Überlebenden ergreifen die Flucht, statt bis zum Tod zu kämpfen
+[*]Verschanzte Garnisonen verteidigen ihr Zuhause, statt sich ins Vakuum zu stürzen. Sie essen, schlafen und versorgen ihre Wunden im Inneren und fordern bei einer langen Belagerung Nachschub und Verstärkung an.
+[*]Arbeitsmechs arbeiten weiter. Notfallsanitäter retten und behandeln Verwundete, Putzhelfer halten die Gänge sauber und Agrarhelfer bestellen das Gewächshaus.
+[*]Zivilisten suchen bei einem Angriff Schutz und flüchten zur Raumfähre, falls ihr Schutzraum durchbrochen wird.
+[*]Setze die Sicherheitskräfte einer Siedlung außer Gefecht, um sie zu bezwingen. Die Überlebenden verlassen die Station, statt bis zum Tod zu kämpfen.
 [/list]
 
 [h2]Schmugglernest-Quest[/h2]
 [list]
 [*]Erlebe die BTG-eigene Kartengenerierung für Angriffe, auch wenn du auf freundliche Beziehungen setzt oder für Siedlungen der Händlergilde die Kartengenerierung eines anderen Mods bevorzugst (z.B. VGE2).
-[*]Wähle deine Belohnung: Ruf bei der Fraktion oder einen Frachtanspruch auf die Waren im Frachttresor des Orbitalhändlers
+[*]Wähle deine Belohnung: Ruf bei der Fraktion oder die Fracht eines Orbitalhändlers, die du dir selbst aus dem Frachttresor holst.
 [/list]
 
 [h2]Neue Szenarien[/h2]
@@ -38,7 +38,7 @@ Die Händlergilde ist die Fraktion hinter den Orbitalhändler-Ereignissen in Rim
 [*][b]Unabhängige Händler[/b]: Verlasst die Gilde, um euer eigenes Geschäft aufzubauen. Startet mit einer Raumfähre, Silber und verbündetem Ruf bei euren ehemaligen Arbeitgebern.
 [*][b]Verbannte Händler[/b]: Ein schiefgelaufener Bergungsauftrag weckt ein Mechnest. Die Gilde lässt euch fallen. Sammelt, was ihr könnt, und überlebt mit Mechanoiden im Nacken. Nichts für schwache Nerven.
 [/olist]
-Wiederverwendbare Szenario-Bausteine: Ankunft per Raumfähre, einzigartige Waffen mit besonderen Eigenschaften, Farbe der Startkleidung, Ruf bei Fraktionen und Xenotyp-Konfiguration der Startcharaktere
+Wiederverwendbare Szenario-Bausteine: Ankunft per Raumfähre, eine einzigartige Waffe mit gewählten Merkmalen, Farbe der Startkleidung, Ruf bei Fraktionen und Start-Xenotypen
 
 [hr][/hr]
 [h1]Kompatibilität[/h1]
@@ -64,10 +64,7 @@ A: Möglich! Er bietet mehr Handelsmöglichkeiten. Siedlungen der Händlergilde 
 A: Alles in den Mod-Einstellungen konfigurierbar.
 
 [b]F: Warum taucht ein bestimmter Händlertyp nicht auf?[/b]
-A: Händlertypen werden zufällig anhand von Häufigkeitswerten ausgewählt. Manche sind seltener als andere. Warte auf den nächsten Wechsel oder überprüfe andere Siedlungen. Die Häufigkeit von Händlertypen aus anderen Mods ist möglicherweise nicht ausgeglichen.
-
-[b]F: Wurde das mit LLMs erstellt!?[/b]
-A: Ein Teil der Fleißarbeit im Code, und die meisten Lokalisierungen. Ich bin von Beruf Softwareentwickler und schreibe seit 25 Jahren Code. Aller Code wird manuell überprüft und getestet. Fehlerberichte und Mod-Konflikte verfolge ich persönlich weiter, soweit Zeit und Detailtiefe es erlauben. Alle Grafiken sind entweder bei Menschen in Auftrag gegeben, von Hand in Krita erstellt, oder beides.
+A: Händlertypen werden zufällig ausgewählt, und manche sind seltener als andere. Warte auf einen Wechsel oder überprüfe andere Siedlungen. Händlertypen aus anderen Mods können häufiger oder seltener vorkommen als vorgesehen.
 
 [hr][/hr]
 [h2]Links[/h2]

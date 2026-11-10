@@ -34,6 +34,7 @@ pass — check them first before composing anything new:
 **salvager dropship** 打捞者登陆艇 (dropship 登陆艇 is VGE2's term; 打捞者 is
 Odyssey `Salvagers.label`), **Unlimited** (slider max, fills a `{0}` after
 上限：) 无限制, **stack limit / wealth limit** 堆叠上限 / 财富上限 (`{0}白银`).
+**force claim** 强制占有 (Core `DesignatorClaim` 占有), **spacer-tech** (attributive) 太空时代 / 太空时代科技 (Core `TechLevel_Spacer`), **defender strength** 守卫强度 (replaces 威胁点数 in player text), **Paint** (scenario row) 粉饰 (Core `Paint`).
 `BTG_Settings_ModName` is the localized Workshop title
 `强化商会` and must stay in sync with the title line of
 `.steamworkshop/Description/ChineseSimplified.txt` (see the CLAUDE.md localization note) (it is also injected into the Empire-fix dialog as a

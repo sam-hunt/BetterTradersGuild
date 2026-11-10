@@ -14,8 +14,8 @@
   <!-- BTG_CargoVaultHatch_Sealed -->
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>запечатанный люк грузового хранилища</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>Укреплённый люк, ведущий в защищённое грузовое хранилище станции. Его наглухо запечатали, чтобы налётчики не добрались до содержимого.</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>Укреплённый люк, ведущий в защищённое грузовое хранилище станции. Его наглухо запечатали, чтобы не пустить налётчиков.</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- BTG_CargoVaultExit -->
   <!-- EN: cargo vault exit -->

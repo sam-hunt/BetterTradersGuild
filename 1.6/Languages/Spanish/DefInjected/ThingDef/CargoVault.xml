@@ -20,8 +20,8 @@
 
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>escotilla sellada de la bóveda de carga</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>Una escotilla reforzada que conduce a la bóveda de carga segura de la estación. Ha sido sellada de forma excesivamente drástica para negar el acceso a los asaltantes.</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>Una escotilla reforzada que conduce a la bóveda de carga segura de la estación. Se ha sellado con demasiado celo para impedir la entrada a los asaltantes.</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- EN: cargo vault exit -->
   <BTG_CargoVaultExit.label>salida de la bóveda de carga</BTG_CargoVaultExit.label>

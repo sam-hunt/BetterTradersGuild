@@ -2,7 +2,7 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    // "Settlement Generation" settings section. useCustomLayouts is the master
+    // "Settlement generation" settings section. useCustomLayouts is the master
     // toggle for BTG's custom SETTLEMENT generation only: the smuggler's den quest
     // site hard-wires its own map generator on its WorldObjectDef and never
     // consults it. Controls elsewhere that gate on useCustomLayouts do so because

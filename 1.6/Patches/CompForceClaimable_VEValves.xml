@@ -14,7 +14,7 @@
     - VGE_AstrofuelValve (VE Gravships)
 
     BEHAVIOR:
-    Adds a "Force Claim" gizmo that appears when valve is not player-owned.
+    Adds a "Force claim" gizmo that appears when valve is not player-owned.
     Clicking it immediately transfers ownership to player faction.
   -->
 

@@ -22,7 +22,7 @@ what is specific to Better Traders Guild.
 право на груз, **medbay** медотсек, **docked vessel** пришвартованное судно,
 **(Vanilla)** (как в оригинале), **salvager dropship** десантный корабль сталкеров
 (VGE2 `dropship`), **cargo vault stack / wealth limit** лимит стопок / лимит рыночной
-стоимости грузового хранилища (value `{0} серебра`), **Unlimited** без ограничений. `BTG_Settings_ModName` is the localized Workshop title
+стоимости грузового хранилища (value `{0} серебра`), **Unlimited** без ограничений, **Force claim** Захватить принудительно (Core `DesignatorClaim` = Захватить), **Start with goodwill** Начальная репутация, **Fuel %** Топливо, %. `BTG_Settings_ModName` is the localized Workshop title
 `Улучшенная гильдия торговцев` and must stay in sync with the title line of
 `.steamworkshop/Description/Russian.txt` (see the CLAUDE.md localization note).
 

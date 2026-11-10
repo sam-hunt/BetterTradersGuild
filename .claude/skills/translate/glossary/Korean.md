@@ -25,6 +25,7 @@ what is specific to Better Traders Guild.
 **stack limit** 물품 더미 한도 (vanilla ko has no stack noun; 더미 is the Core heap word),
 **wealth limit** 자산 한도 (`{0} silver` = `은 {0}`, no particle after the number),
 **Unlimited** 제한 없음 (Core `Unlimited`).
+**force claim** 강제 점거 (Core `DesignatorClaim` = 점거), **defender strength** 방어군 전력 (replaces 위협 지수 in the multiplier label; threat points keeps 위협 지수 elsewhere).
 `BTG_Settings_ModName` is the localized Workshop title
 `교역 조합 확장판` and must stay in sync with the title line of
 `.steamworkshop/Description/Korean.txt` (see the CLAUDE.md localization note).

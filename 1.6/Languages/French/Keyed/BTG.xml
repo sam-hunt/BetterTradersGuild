@@ -26,6 +26,13 @@
   <!-- EN: Their people are still protecting them. -->
   <BTG_AdoptBlockedByGuardians>Les siens montent encore la garde.</BTG_AdoptBlockedByGuardians>
 
+  <!-- ========== FORCE CLAIM GIZMO ========== -->
+  <!-- Gizmo on VE pipe valves the player does not own yet -->
+  <!-- EN: Force claim -->
+  <BTG_ForceClaim_Label>Forcer la revendication</BTG_ForceClaim_Label>
+  <!-- EN: Claim this building even while enemies remain on the map. Normally nothing can be claimed until every enemy is gone. -->
+  <BTG_ForceClaim_Desc>Revendique ce bâtiment même s'il reste des ennemis sur la carte. Normalement, rien ne peut être revendiqué avant que tous les ennemis aient disparu.</BTG_ForceClaim_Desc>
+
   <!-- ========== INSPECT STRINGS ========== -->
   <!-- "amarré" is Odyssey fr's own word for a docked ship (TheGravship.description). -->
   <!-- EN: Docked vessel -->
@@ -36,13 +43,13 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>Commerce</BTG_Settings_Trading>
-  <!-- EN: Settlement Generation -->
+  <!-- EN: Settlement generation -->
   <BTG_Settings_MapGeneration>Génération de colonies</BTG_Settings_MapGeneration>
-  <!-- EN: Garrison & Combat -->
+  <!-- EN: Garrison and combat -->
   <BTG_Settings_Defenders>Garnison et combat</BTG_Settings_Defenders>
-  <!-- EN: Events & Quests -->
+  <!-- EN: Events and quests -->
   <BTG_Settings_Events>Événements et quêtes</BTG_Settings_Events>
-  <!-- EN: Defender Resupply -->
+  <!-- EN: Defender resupply -->
   <BTG_Settings_Resupply>Ravitaillement des défenseurs</BTG_Settings_Resupply>
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>Garnison initiale de la colonie</BTG_Settings_InitialGarrison>
@@ -57,20 +64,16 @@
   <BTG_Settings_BTGRecommended>(suggéré)</BTG_Settings_BTGRecommended>
   <!-- EN: (default) -->
   <BTG_Settings_Default>(par défaut)</BTG_Settings_Default>
-  <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
+  <!-- EN: How often orbital traders rotate at Traders Guild settlements. -->
   <BTG_Settings_TraderRotationDesc1>Fréquence de rotation des commerçants orbitaux dans les colonies de la guilde des commerçants.</BTG_Settings_TraderRotationDesc1>
-  <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
-  <BTG_Settings_TraderRotationDesc2>Valeurs plus basses = plus de variété, mais moins de temps pour atteindre les colonies éloignées.</BTG_Settings_TraderRotationDesc2>
+  <!-- EN: Lower values will give more variety, but less time to reach distant settlements. -->
+  <BTG_Settings_TraderRotationDesc2>Plus la valeur est basse, plus la variété est grande, mais moins vous avez de temps pour atteindre les colonies éloignées.</BTG_Settings_TraderRotationDesc2>
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <!-- EN: Use custom settlement map generator -->
   <BTG_Settings_UseCustomLayouts>Utiliser le générateur de carte de colonie personnalisé</BTG_Settings_UseCustomLayouts>
-  <!-- EN:
-Generate TradersGuild settlements with less abandoned-looking aesthetics.
-Disable if using other map generation mods or prefer vanilla layouts.
-The smuggler's den quest site always uses its own map generator, whatever this is set to.
-  -->
-  <BTG_Settings_UseCustomLayoutsDesc>Génère les colonies de la guilde des commerçants avec une esthétique moins abandonnée.\nDésactivez cette option si vous utilisez d'autres mods de génération de carte ou si vous préférez les agencements d'origine.\nLe site de la quête du repaire de contrebandiers utilise toujours son propre générateur de carte, quel que soit ce paramètre.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: When enabled, Traders Guild settlements will generate with furnished, lived-in interiors. When disabled, they will use the vanilla layouts, or allow other mods' map generation to run.\nThe smuggler's den always uses its own map generator. -->
+  <BTG_Settings_UseCustomLayoutsDesc>Lorsque cette option est activée, les colonies de la guilde des commerçants sont générées avec des intérieurs meublés et habités. Lorsqu'elle est désactivée, elles utilisent les agencements d'origine, ou laissent la main au générateur de carte d'autres mods.\nLe repaire de contrebandiers utilise toujours son propre générateur de carte.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
   <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
@@ -90,62 +93,44 @@ The smuggler's den vault is controlled by its quest reward instead of this setti
   <BTG_Settings_EnableCargoVaultDesc>Lorsque cette option est activée, la trappe du coffre à cargaison de chaque colonie peut être piratée pour accéder à l'inventaire commercial.\nLorsqu'elle est désactivée, les coffres à cargaison apparaissent scellés et inaccessibles.\nN'affecte que les colonies générées par la suite et nécessite le générateur de carte de colonie personnalisé.\nLe coffre à cargaison du repaire de contrebandiers est contrôlé par la récompense de sa quête plutôt que par ce paramètre.</BTG_Settings_EnableCargoVaultDesc>
   <!-- EN: Cargo vault stack limit: {0} -->
   <BTG_Settings_CargoVaultMaxStacks>Limite de piles du coffre à cargaison : {0}</BTG_Settings_CargoVaultMaxStacks>
-  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
-  <BTG_Settings_CargoVaultMaxStacksDesc>Nombre maximal de piles d'objets qu'un coffre à cargaison fait apparaître lorsqu'il est piraté. Le reste demeure dans l'inventaire commercial de la colonie.\nRéduisez cette valeur si le coffre d'un commerçant issu d'un mod plante ou ralentit le jeu. Faites glisser complètement à droite pour supprimer la limite.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: The maximum number of item stacks a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nLower this if a modded trader's vault slows or crashes the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>Le nombre maximal de piles d'objets qu'un coffre à cargaison contiendra une fois piraté. Le reste demeurera dans l'inventaire commercial de la colonie.\nRéduisez cette valeur si le coffre d'un commerçant issu d'un mod ralentit ou plante le jeu. Faites glisser complètement à droite pour supprimer la limite.</BTG_Settings_CargoVaultMaxStacksDesc>
   <!-- EN: Cargo vault wealth limit: {0} -->
   <BTG_Settings_CargoVaultMaxWealth>Limite de richesse du coffre à cargaison : {0}</BTG_Settings_CargoVaultMaxWealth>
   <!-- EN: {0} silver -->
   <BTG_Settings_CargoVaultMaxWealthValue>{0} d'argent</BTG_Settings_CargoVaultMaxWealthValue>
-  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
-  <BTG_Settings_CargoVaultMaxWealthDesc>Valeur marchande maximale qu'un coffre à cargaison fait apparaître lorsqu'il est piraté. Le reste demeure dans l'inventaire commercial de la colonie.\nFaites glisser complètement à droite pour supprimer la limite.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: The maximum market value of the items a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>La valeur marchande maximale des objets qu'un coffre à cargaison contiendra une fois piraté. Le reste demeurera dans l'inventaire commercial de la colonie.\nFaites glisser complètement à droite pour supprimer la limite.</BTG_Settings_CargoVaultMaxWealthDesc>
   <!-- EN: Unlimited -->
   <BTG_Settings_Unlimited>illimitée</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>Présence supplémentaire de drones sentinelles : {0}%</BTG_Settings_SentryDronePresence>
-  <!-- EN:
-Factor of threat points used for additional patrolling sentry drones.
-Applies to settlements and the smuggler's den alike.
-  -->
-  <BTG_Settings_SentryDroneDesc>Proportion des points de menace consacrée aux drones sentinelles supplémentaires en patrouille.\nS'applique aux colonies et au repaire de contrebandiers de la même façon.</BTG_Settings_SentryDroneDesc>
+  <!-- EN: Adjust the number of extra sentry drones on patrol. The number also grows with your colony's threat level. -->
+  <BTG_Settings_SentryDroneDesc>Ajuste le nombre de drones sentinelles supplémentaires en patrouille. Ce nombre augmente aussi avec le niveau de menace de votre colonie.</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
-  <!-- EN: Spacer-tier defenders (requires restart) -->
-  <BTG_Settings_SpacerTierDefenders>Défenseurs de niveau spatial (nécessite un redémarrage)</BTG_Settings_SpacerTierDefenders>
-  <!-- EN:
-Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.
-Disable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way.
-  -->
-  <BTG_Settings_SpacerTierDefendersDesc>Les défenseurs de la guilde des commerçants reçoivent des armes, armures, implants et une qualité d'équipement de niveau spatial, et les garnisons comptent davantage d'élites.\nDésactivez cette option pour revenir à l'équipement et à la composition de garnison d'origine. La protection contre le vide des civils et des enfants reste inchangée dans les deux cas.</BTG_Settings_SpacerTierDefendersDesc>
+  <!-- EN: Spacer-tech defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>Défenseurs de niveau technique spatial (nécessite un redémarrage)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: When enabled, Traders Guild defenders will carry spacer-tech weapons, armor and implants of better quality, and garrisons will include more elite fighters. When disabled, they will use vanilla equipment and the vanilla garrison mix.\nCitizens and children will have vacuum protection either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>Lorsque cette option est activée, les défenseurs de la guilde des commerçants porteront des armes, des armures et des implants de niveau technique spatial et de meilleure qualité, et les garnisons compteront davantage d'élites. Lorsqu'elle est désactivée, ils utiliseront l'équipement et la composition de garnison d'origine.\nLes civils et les enfants auront une protection contre le vide dans les deux cas.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->
   <BTG_Settings_EntrenchedDefenders>IA de défenseurs retranchés</BTG_Settings_EntrenchedDefenders>
-  <!-- EN:
-Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.
-Disable to revert to vanilla defender AI (defends the base, then assaults).
-Governs settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).
-Decided when a map is generated; only affects maps entered afterwards.
-  -->
-  <BTG_Settings_EntrenchedDefendersDesc>Les défenseurs tiennent leur structure et ne lancent jamais d'assaut ni ne poursuivent les intrus dans le vide, se nourrissant et se reposant à l'intérieur de leur base.\nDésactivez cette option pour revenir à l'IA de défenseurs d'origine (défend la base, puis lance un assaut).\nRégit les garnisons de colonie (lorsque le générateur de carte de colonie personnalisé est activé) et la garnison du repaire de contrebandiers (toujours).\nDéterminé à la génération de la carte. N'affecte que les cartes visitées par la suite.</BTG_Settings_EntrenchedDefendersDesc>
+  <!-- EN: When enabled, defenders will stay inside their base to eat and rest, and will never assault or chase intruders into vacuum. When disabled, they will defend the base and then assault, as in vanilla.\nSettlement garrisons need the custom settlement map generator for this. The smuggler's den garrison does not.\nThis is decided when a map is generated, so it will only affect maps you enter afterwards. -->
+  <BTG_Settings_EntrenchedDefendersDesc>Lorsque cette option est activée, les défenseurs resteront à l'intérieur de leur base pour manger et se reposer, et ne lanceront jamais d'assaut ni ne poursuivront les intrus dans le vide. Lorsqu'elle est désactivée, ils défendront la base puis lanceront un assaut, comme dans le jeu d'origine.\nLes garnisons des colonies nécessitent pour cela le générateur de carte de colonie personnalisé, contrairement à celle du repaire de contrebandiers.\nCe choix est fait à la génération de la carte, il n'affectera donc que les cartes visitées par la suite.</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- EN: Scale defenders to colony threat level -->
   <BTG_Settings_ScaleDefenders>Adapter les défenseurs au niveau de menace de la colonie</BTG_Settings_ScaleDefenders>
-  <!-- EN:
-Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).
-Vanilla gives every settlement a similar fixed-strength garrison regardless of your progress.
-Settlements only: the smuggler's den garrison is sized by its quest instead.
-  -->
-  <BTG_Settings_ScaleDefendersDesc>La force initiale des défenseurs évolue avec la richesse et la difficulté de votre colonie, comme pour les raids (jamais en dessous du niveau de référence d'origine).\nLe jeu d'origine attribue à chaque colonie une garnison de force fixe similaire, quels que soient vos progrès.\nColonies uniquement : la garnison du repaire de contrebandiers est dimensionnée par sa quête à la place.</BTG_Settings_ScaleDefendersDesc>
-  <!-- EN: Defender threat points multiplier: {0}x -->
-  <BTG_Settings_ThreatMultiplier>Multiplicateur des points de menace des défenseurs : {0}x</BTG_Settings_ThreatMultiplier>
-  <!-- EN:
-Higher values = more/stronger initial defenders when entering settlements.
-Settlements only: the smuggler's den garrison is sized by its quest instead.
-  -->
-  <BTG_Settings_ThreatMultiplierDesc>Valeurs plus élevées = défenseurs initiaux plus nombreux ou plus puissants à l'entrée dans les colonies.\nColonies uniquement : la garnison du repaire de contrebandiers est dimensionnée par sa quête à la place.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: When enabled, a settlement's starting garrison will grow with your colony's wealth and the difficulty, like raids do. It will never be weaker than the vanilla garrison. When disabled, every settlement will have a similar garrison no matter how far you have progressed.\nThe smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ScaleDefendersDesc>Lorsque cette option est activée, la garnison initiale d'une colonie grandira avec la richesse de votre colonie et la difficulté, comme les raids. Elle ne sera jamais plus faible que la garnison d'origine. Lorsqu'elle est désactivée, chaque colonie aura une garnison similaire, quels que soient vos progrès.\nLa garnison du repaire de contrebandiers est dimensionnée par sa quête à la place.</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Defender strength multiplier: {0}x -->
+  <BTG_Settings_ThreatMultiplier>Multiplicateur de force des défenseurs : {0}x</BTG_Settings_ThreatMultiplier>
+  <!-- EN: Higher values will give settlements more and stronger defenders when you first enter them.\nThe smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ThreatMultiplierDesc>Plus la valeur est élevée, plus les colonies auront de défenseurs, et de plus puissants, lorsque vous y entrerez pour la première fois.\nLa garnison du repaire de contrebandiers est dimensionnée par sa quête à la place.</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- garnison is Core fr AncientGarrison.label; tourelles and mécanoïdes are Core fr vocabulary. -->
@@ -153,22 +138,15 @@ Settlements only: the smuggler's den garrison is sized by its quest instead.
   <!-- {0} = percentage -->
   <!-- EN: Garrison defeat threshold: {0}% -->
   <BTG_Settings_SecurityDefeatThreshold>Seuil de défaite de la garnison : {0}%</BTG_Settings_SecurityDefeatThreshold>
-  <!-- EN:
-How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.
-Counts defending guards and patrolling sentry drones, not turrets or worker mechs.
-100% means fighting to the last defender.
-  -->
-  <BTG_Settings_SecurityDefeatThresholdDesc>Proportion de la force de défense initiale d'une colonie ou d'un repaire de contrebandiers qui doit être mise hors de combat avant que la faction n'abandonne la carte.\nSeuls les gardes en défense et les drones sentinelles en patrouille sont comptés, pas les tourelles ni les mécanoïdes ouvriers.\n100% signifie combattre jusqu'au dernier défenseur.</BTG_Settings_SecurityDefeatThresholdDesc>
+  <!-- EN: The share of the original defenders that must be downed before the faction gives up a settlement or the smuggler's den.\nGuards and patrolling sentry drones count. Turrets and worker mechs do not.\nAt 100% they will fight to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>La proportion des défenseurs initiaux qui doit être mise hors de combat avant que la faction n'abandonne une colonie ou le repaire de contrebandiers.\nLes gardes et les drones sentinelles en patrouille comptent. Les tourelles et les mécanoïdes ouvriers ne comptent pas.\nÀ 100%, ils se battront jusqu'au dernier défenseur.</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- "unité de survie" is Odyssey fr LifeSupportUnit.label. -->
-  <!-- EN: LifeSupportUnit power output: {0}W -->
+  <!-- EN: Life support unit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>Production d'énergie de l'unité de survie : {0} W</BTG_Settings_LifeSupportPower>
-  <!-- EN:
-Power output from orbital LifeSupportUnits.
-Changes the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps.
-  -->
-  <BTG_Settings_LifeSupportDesc>Production d'énergie des unités de survie orbitales.\nModifie le type de bâtiment lui-même, ce qui affecte donc toutes les plateformes orbitales de la planète, pas seulement les cartes de la guilde.</BTG_Settings_LifeSupportDesc>
+  <!-- EN: The power produced by each life support unit.\nThis changes every life support unit, so it will affect all orbital platforms, not only Traders Guild settlements. -->
+  <BTG_Settings_LifeSupportDesc>L'énergie produite par chaque unité de survie.\nCela modifie toutes les unités de survie, donc toutes les plateformes orbitales sont affectées, pas seulement les colonies de la guilde des commerçants.</BTG_Settings_LifeSupportDesc>
 
   <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
   <!-- EN: Trade request quest weight: {0} -->
@@ -198,22 +176,18 @@ Set to 0 to stop the quest being offered at all.
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>Rations de ravitaillement par défenseur : {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <!-- EN:
-When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.
-Set to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.
-Requires entrenched defender AI. Applies to settlements and the smuggler's den alike.
-  -->
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>Lorsque des défenseurs affamés ont épuisé toute la nourriture à l'intérieur de la structure, ils utilisent une console de communication pour appeler une capsule de cargo de rations de survie : ce nombre de rations par défenseur survivant.\nRéglez sur 0 pour désactiver entièrement les appels de ravitaillement. Au maximum une capsule atterrit par carte toutes les 6 heures.\nNécessite l'IA de défenseurs retranchés. S'applique aux colonies et au repaire de contrebandiers de la même façon.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- EN: The number of packaged survival meals delivered for each surviving defender when a starving garrison calls for resupply. Defenders will use a comms console to make the call once the food inside their base has run out.\nSet to 0 to disable resupply calls. Only one drop can land on a map every 6 hours.\nRequires entrenched defender AI. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>Le nombre de rations de survie livrées pour chaque défenseur survivant lorsqu'une garnison affamée demande un ravitaillement. Les défenseurs utiliseront une console de com pour lancer l'appel une fois la nourriture de leur base épuisée.\nRéglez sur 0 pour désactiver les appels de ravitaillement. Une seule capsule peut atterrir sur une carte toutes les 6 heures.\nNécessite l'IA de défenseurs retranchés.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>Appeler des renforts</BTG_Settings_ResupplyTriggersRaid>
-  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile. -->
-  <BTG_Settings_ResupplyTriggersRaidDesc>Lorsqu'un appel de ravitaillement aboutit, envoie également un raid de renforts de la faction de la garnison par capsules de largage pour traquer vos colons. Ils arrivent comme un raid normal et non comme des défenseurs confinés. Faible probabilité qu'ils atterrissent juste sur vos colons, en groupe plus réduit. Ne se déclenche que si la faction de la carte est hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
+  <!-- EN: When enabled, a successful resupply call will also bring a drop pod raid from the garrison's faction to hunt your colonists. The raiders will attack freely instead of holding the base, and will sometimes land right on top of your colonists in a smaller group. This will only happen while the faction is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>Lorsque cette option est activée, un appel de ravitaillement réussi enverra aussi un raid par capsules de largage de la faction de la garnison, qui traquera vos colons. Les pillards attaqueront librement au lieu de tenir la base, et atterriront parfois juste sur vos colons, avec un effectif plus réduit. Cela n'arrivera que si la faction est hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- EN: Relock cargo vault -->
   <BTG_CargoVaultHatch_RelockLabel>Reverrouiller le coffre à cargaison</BTG_CargoVaultHatch_RelockLabel>
-  <!-- EN: Relock the cargo vault. Contents will be returned to station inventory. -->
-  <BTG_CargoVaultHatch_RelockDesc>Reverrouille le coffre à cargaison. Son contenu sera rendu à l'inventaire de la station.</BTG_CargoVaultHatch_RelockDesc>
+  <!-- EN: Relock the cargo vault. Its contents will be returned to the settlement's trade inventory. -->
+  <BTG_CargoVaultHatch_RelockDesc>Reverrouille le coffre à cargaison. Son contenu sera rendu à l'inventaire commercial de la colonie.</BTG_CargoVaultHatch_RelockDesc>
 
   <!-- ========== SMUGGLER'S DEN QUEST ========== -->
   <!-- EN: Cargo claim: {0} -->
@@ -240,6 +214,29 @@ Would you like to reset your relations with {0} to neutral, or remain hostile fo
   <!-- EN: Remain hostile for now -->
   <BTG_EmpireRelationFix_LeaveHostile>Rester hostile pour le moment</BTG_EmpireRelationFix_LeaveHostile>
 
+  <!-- ========== SCENARIO EDITOR: SCENARIO PARTS ========== -->
+  <!-- Vanilla fr writes the ellipsis as one character, as in AddDrug. -->
+  <!-- EN: Trait {0} -->
+  <BTG_ScenPart_TraitNumbered>Trait {0}</BTG_ScenPart_TraitNumbered>
+  <!-- EN: Choose trait... -->
+  <BTG_ScenPart_ChooseTrait>Choisir un trait…</BTG_ScenPart_ChooseTrait>
+  <!-- EN: Add trait... -->
+  <BTG_ScenPart_AddTrait>Ajouter un trait…</BTG_ScenPart_AddTrait>
+  <!-- EN: Custom color -->
+  <BTG_ScenPart_CustomColor>Couleur personnalisée</BTG_ScenPart_CustomColor>
+  <!-- EN: Start with goodwill -->
+  <BTG_ScenPart_FactionGoodwill_Summary>Commencer avec une bonne entente</BTG_ScenPart_FactionGoodwill_Summary>
+  <!-- EN: {0} (not launchable) -->
+  <BTG_ScenPart_NotLaunchable>{0} (lancement impossible)</BTG_ScenPart_NotLaunchable>
+  <!-- EN: Fuel % -->
+  <BTG_ScenPart_FuelPercent>Carburant %</BTG_ScenPart_FuelPercent>
+  <!-- EN: Paint -->
+  <BTG_ScenPart_Paint>Peinture</BTG_ScenPart_Paint>
+  <!-- EN: No paint -->
+  <BTG_ScenPart_NoPaint>Sans peinture</BTG_ScenPart_NoPaint>
+  <!-- EN: Xenotypes -->
+  <BTG_ScenPart_Xenotypes>Xénotypes</BTG_ScenPart_Xenotypes>
+
   <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
   <!-- Odyssey fr's TheGravship GameStartDialog is the direct template: the gravlite
        sentence, the launch sentence and the "« voir la planète »" sentence are verbatim,
@@ -254,14 +251,7 @@ On the world map, select 'view planet' to choose a landing spot on the planet.
 The Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.
   -->
   <BTG_GameStartDialog_ExiledTraders>Votre transpondeur de guilde est mort, et la ruche mécanoïde suit votre signal. Ses machines de meurtre effrayantes arriveront bientôt. Rassemblez les précieux panneaux de gravlite, puis utilisez votre vaisseau gravitationnel pour fuir vers un endroit sûr sur la planète ci-dessous.\n\nPour lancer le vaisseau, sélectionnez la console de pilotage, puis sélectionnez la commande de lancement.\n\nSur la carte du monde, sélectionnez « voir la planète » pour choisir un site d'atterrissage sur la planète.\n\nLa guilde ne vous aidera pas, et où que vous alliez, les mécanoïdes finiront par vous trouver. Pour les arrêter, vous devez trouver et vaincre la ruche mécanoïde elle-même.</BTG_GameStartDialog_ExiledTraders>
-  <!-- The two English hyphen-dashes are reflowed into ":" and "," rather than converted:
-       vanilla fr's dash rate is only 1.6 per 100k, so adding even one here would run well
-       above it. -->
-  <!-- EN:
-The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.
-
-Your shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.
-  -->
-  <BTG_GameStartDialog_IndependentTraders>La fréquence commerciale émet son adieu tandis que votre navette quitte l'anneau orbital. Des années de courses pour la guilde, de marges partagées et de quais bondés : tout cela est derrière vous. Sans rancune. Juste de plus grands projets.\n\nVotre navette file vers des terres vierges, mais l'argent seul ne vous gardera pas en vie ici. La guilde traitera toujours avec de vieux amis, mais il vous faut d'abord un foyer.</BTG_GameStartDialog_IndependentTraders>
+  <!-- EN: The Traders Guild is behind you now, along with the split margins and the crowded docking bays. There are no hard feelings. You just have bigger plans.\n\nYour shuttle is burning toward the unclaimed wilds, and silver alone won't keep you alive out here. The Guild will still deal with old friends, but first you need a home. -->
+  <BTG_GameStartDialog_IndependentTraders>La guilde des commerçants est derrière vous, avec ses marges partagées et ses quais d'amarrage bondés. Sans rancune. Vous avez simplement de plus grands projets.\n\nVotre navette fonce vers les terres vierges, et l'argent seul ne suffira pas à vous garder en vie ici. La guilde traitera encore avec de vieux amis, mais il vous faut d'abord un foyer.</BTG_GameStartDialog_IndependentTraders>
 
 </LanguageData>

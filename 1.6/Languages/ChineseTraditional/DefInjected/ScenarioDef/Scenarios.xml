@@ -6,28 +6,28 @@
        (identical English); 機械巢穴 is its WorldObjectDef Mechhive.label. -->
   <!-- EN: Exiled Traders -->
   <BTG_ExiledTraders.label>流放商人</BTG_ExiledTraders.label>
-  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+  <!-- EN: Your crew took a routine salvage job at an orbital relay, but the relay hid a mechanoid beacon and you woke the mechhive. The Traders Guild revoked your membership before the signal had finished broadcasting. You have no allies and few supplies, and the mechanoids are coming.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.description>一次在軌道中繼站的例行打撈作業出了岔子。一個隱藏的機械族信標，你的船員喚醒了機械巢穴。商人公會立刻與這場風波劃清界線，信號還沒廣播完就撤銷了你的會籍。沒有盟友，補給短缺，機械大軍逼近，你已經無處可去，只能往下走。\n\n注意：這是一個困難的腳本，不建議新手玩家遊玩。</BTG_ExiledTraders.description>
+  <BTG_ExiledTraders.description>你的船員在軌道中繼站接下一份例行的打撈工作，但中繼站裡藏著一個機械族信標，你們喚醒了機械巢穴。商人公會在信號還沒廣播完之前就撤銷了你的會籍。你沒有盟友，補給也所剩無幾，而機械族正在逼近。\n\n注意：這是一個困難的腳本，不建議新手玩家遊玩。</BTG_ExiledTraders.description>
   <!-- EN: Exiled Traders -->
   <BTG_ExiledTraders.scenario.name>流放商人</BTG_ExiledTraders.scenario.name>
-  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+  <!-- EN: Your crew took a routine salvage job at an orbital relay, but the relay hid a mechanoid beacon and you woke the mechhive. The Traders Guild revoked your membership before the signal had finished broadcasting. You have no allies and few supplies, and the mechanoids are coming.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.scenario.description>一次在軌道中繼站的例行打撈作業出了岔子。一個隱藏的機械族信標，你的船員喚醒了機械巢穴。商人公會立刻與這場風波劃清界線，信號還沒廣播完就撤銷了你的會籍。沒有盟友，補給短缺，機械大軍逼近，你已經無處可去，只能往下走。\n\n注意：這是一個困難的腳本，不建議新手玩家遊玩。</BTG_ExiledTraders.scenario.description>
+  <BTG_ExiledTraders.scenario.description>你的船員在軌道中繼站接下一份例行的打撈工作，但中繼站裡藏著一個機械族信標，你們喚醒了機械巢穴。商人公會在信號還沒廣播完之前就撤銷了你的會籍。你沒有盟友，補給也所剩無幾，而機械族正在逼近。\n\n注意：這是一個困難的腳本，不建議新手玩家遊玩。</BTG_ExiledTraders.scenario.description>
   <!-- EN: Three exiled traders hunted by mechanoids. -->
   <BTG_ExiledTraders.scenario.summary>三名被機械族追捕的流放商人。</BTG_ExiledTraders.scenario.summary>
 
   <!-- BTG_IndependentTraders -->
   <!-- EN: Independent Traders -->
   <BTG_IndependentTraders.label>獨立商人</BTG_IndependentTraders.label>
-  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
-  <BTG_IndependentTraders.description>為商人公會跑了多年貨運之後，你受夠了分薄的利潤，也受夠了為泊位爭來爭去。當你的太空梭駛離軌道環，貿易頻道啁啾一聲冷淡的道別，前方天地豁然開朗。貨艙裡裝滿白銀與野心，其餘的都得靠你自己去掙。</BTG_IndependentTraders.description>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. You have a hold full of silver, and you're heading down to build a home of your own. -->
+  <BTG_IndependentTraders.description>為商人公會跑了多年貨運之後，你受夠了分薄的利潤，也受夠了為泊位爭來爭去。當你的太空梭駛離軌道環，貿易頻道啁啾一聲，冷淡地道別，前方天地豁然開朗。你的貨艙裡裝滿白銀，你正要降落到下方，建立屬於自己的家園。</BTG_IndependentTraders.description>
   <!-- EN: Independent Traders -->
   <BTG_IndependentTraders.scenario.name>獨立商人</BTG_IndependentTraders.scenario.name>
-  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
-  <BTG_IndependentTraders.scenario.description>為商人公會跑了多年貨運之後，你受夠了分薄的利潤，也受夠了為泊位爭來爭去。當你的太空梭駛離軌道環，貿易頻道啁啾一聲冷淡的道別，前方天地豁然開朗。貨艙裡裝滿白銀與野心，其餘的都得靠你自己去掙。</BTG_IndependentTraders.scenario.description>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. You have a hold full of silver, and you're heading down to build a home of your own. -->
+  <BTG_IndependentTraders.scenario.description>為商人公會跑了多年貨運之後，你受夠了分薄的利潤，也受夠了為泊位爭來爭去。當你的太空梭駛離軌道環，貿易頻道啁啾一聲，冷淡地道別，前方天地豁然開朗。你的貨艙裡裝滿白銀，你正要降落到下方，建立屬於自己的家園。</BTG_IndependentTraders.scenario.description>
   <!-- EN: Three ex-guild traders and a shuttle. -->
   <BTG_IndependentTraders.scenario.summary>三名前公會商人和一艘太空梭。</BTG_IndependentTraders.scenario.summary>
 

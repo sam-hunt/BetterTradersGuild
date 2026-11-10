@@ -17,8 +17,8 @@
 
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>trappe scellée du coffre à cargaison</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>Une trappe renforcée qui mène au coffre à cargaison sécurisé de la station. Elle a été scellée de façon excessive pour empêcher les pillards d'y accéder.</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>Une trappe renforcée qui mène au coffre à cargaison sécurisé de la station. Elle a été scellée avec un zèle excessif pour tenir les pillards à l'écart.</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- EN: cargo vault exit -->
   <BTG_CargoVaultExit.label>sortie du coffre à cargaison</BTG_CargoVaultExit.label>

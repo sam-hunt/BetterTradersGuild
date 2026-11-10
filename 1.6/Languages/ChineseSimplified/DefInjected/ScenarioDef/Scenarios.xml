@@ -4,28 +4,28 @@
   <!-- BTG_ExiledTraders -->
   <!-- EN: Exiled Traders -->
   <BTG_ExiledTraders.label>流放商人</BTG_ExiledTraders.label>
-  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+  <!-- EN: Your crew took a routine salvage job at an orbital relay, but the relay hid a mechanoid beacon and you woke the mechhive. The Traders Guild revoked your membership before the signal had finished broadcasting. You have no allies and few supplies, and the mechanoids are coming.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.description>一次在轨道中继站的例行打捞作业出了岔子。一个隐藏的机械族信标，你的船员唤醒了机械主巢。商会立刻与这场灾祸撇清关系，信号还没广播完就吊销了你的会籍。没有盟友，补给短缺，机械大军步步逼近，你已无处可去，只能向下。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.description>
+  <BTG_ExiledTraders.description>你的船员接了一份轨道中继站的例行打捞工作，可中继站里藏着一个机械族信标，你们唤醒了机械主巢。信号还没广播完，商会就吊销了你的会籍。你没有盟友，补给也所剩无几，而机械族正在逼近。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.description>
   <!-- EN: Exiled Traders -->
   <BTG_ExiledTraders.scenario.name>流放商人</BTG_ExiledTraders.scenario.name>
-  <!-- EN: A routine salvage job at an orbital relay gone wrong. A hidden mechanoid beacon, and your crew woke the mechhive. The Traders Guild wasted no time distancing themselves from the fallout, revoking your membership before the signal even finished broadcasting. With no allies, low supplies and the swarm closing in, you have nowhere left to go but down.
+  <!-- EN: Your crew took a routine salvage job at an orbital relay, but the relay hid a mechanoid beacon and you woke the mechhive. The Traders Guild revoked your membership before the signal had finished broadcasting. You have no allies and few supplies, and the mechanoids are coming.
 
 Note: This is a difficult scenario and is not recommended for new players. -->
-  <BTG_ExiledTraders.scenario.description>一次在轨道中继站的例行打捞作业出了岔子。一个隐藏的机械族信标，你的船员唤醒了机械主巢。商会立刻与这场灾祸撇清关系，信号还没广播完就吊销了你的会籍。没有盟友，补给短缺，机械大军步步逼近，你已无处可去，只能向下。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.scenario.description>
+  <BTG_ExiledTraders.scenario.description>你的船员接了一份轨道中继站的例行打捞工作，可中继站里藏着一个机械族信标，你们唤醒了机械主巢。信号还没广播完，商会就吊销了你的会籍。你没有盟友，补给也所剩无几，而机械族正在逼近。\n\n注意：这是个高难度的剧本，不建议新玩家尝试。</BTG_ExiledTraders.scenario.description>
   <!-- EN: Three exiled traders hunted by mechanoids. -->
   <BTG_ExiledTraders.scenario.summary>三名流放商人遭机械族追杀。</BTG_ExiledTraders.scenario.summary>
 
   <!-- BTG_IndependentTraders -->
   <!-- EN: Independent Traders -->
   <BTG_IndependentTraders.label>独立商人</BTG_IndependentTraders.label>
-  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
-  <BTG_IndependentTraders.description>为商会跑了多年货运之后，你受够了分薄的利润和为泊位争抢不休。当你的穿梭机驶离轨道环，贸易频道响起一声冷淡的道别，前方天地豁然开朗。货舱里装满白银与野心，其余的都得靠你自己去挣。</BTG_IndependentTraders.description>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. You have a hold full of silver, and you're heading down to build a home of your own. -->
+  <BTG_IndependentTraders.description>为商会跑了多年货运之后，你受够了分薄的利润和为泊位争抢不休。当你的穿梭机驶离轨道环，贸易频道响起一声冷淡的道别，前方天地豁然开朗。货舱里装满白银，你正要下降到星球上，建立属于自己的家园。</BTG_IndependentTraders.description>
   <!-- EN: Independent Traders -->
   <BTG_IndependentTraders.scenario.name>独立商人</BTG_IndependentTraders.scenario.name>
-  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. With a hold full of silver and ambition, the rest you'll have to earn. -->
-  <BTG_IndependentTraders.scenario.description>为商会跑了多年货运之后，你受够了分薄的利润和为泊位争抢不休。当你的穿梭机驶离轨道环，贸易频道响起一声冷淡的道别，前方天地豁然开朗。货舱里装满白银与野心，其余的都得靠你自己去挣。</BTG_IndependentTraders.scenario.description>
+  <!-- EN: After years running cargo for the Traders Guild, you've had enough of splitting profits and fighting over docking bays. As your shuttle clears the orbital ring, the trade frequency chirps its indifferent farewell while the sky opens up ahead. You have a hold full of silver, and you're heading down to build a home of your own. -->
+  <BTG_IndependentTraders.scenario.description>为商会跑了多年货运之后，你受够了分薄的利润和为泊位争抢不休。当你的穿梭机驶离轨道环，贸易频道响起一声冷淡的道别，前方天地豁然开朗。货舱里装满白银，你正要下降到星球上，建立属于自己的家园。</BTG_IndependentTraders.scenario.description>
   <!-- EN: Three ex-guild traders and a shuttle. -->
   <BTG_IndependentTraders.scenario.summary>三名前商会商人和一架穿梭机。</BTG_IndependentTraders.scenario.summary>
 

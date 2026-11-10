@@ -57,7 +57,7 @@ bay / roster** 泊位 / 停泊排班, **orbital ring** 軌道環, **trade freque
 solid, per Core's 選擇AI故事敘述者), **dropship (VGE2)** 登陸艇 (**salvager
 dropship** 打撈者登陸艇; salvagers is Odyssey's 打撈者), **stack limit / wealth
 limit** 堆疊上限 / 財富上限 (堆疊 is Core's stack word), **Unlimited** 無限制
-(reads in the 「…上限：{0}」 slot), **{0} silver** {0}白銀 (digits attach directly).
+(reads in the 「…上限：{0}」 slot), **{0} silver** {0}白銀 (digits attach directly). **spacer-tech** 太空科技 (Core Synthread description; TechLevel_Spacer is 太空), **Force claim** 強制佔據 (Core DesignatorClaim 佔據), **rigged vault (den quest)** 出老千 (gambling-cheat idiom).
 
 `BTG_Settings_ModName` is the localized Workshop title **強化商人公會** and must
 stay in sync with the title line of

@@ -20,8 +20,8 @@
 
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>alçapão selado do cofre de carga</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>Um alçapão reforçado que leva ao cofre de carga seguro da estação. Ele foi selado de forma exagerada para impedir o acesso de invasores.</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>Um alçapão reforçado que leva ao cofre de carga seguro da estação. Foi selado com zelo exagerado para manter os invasores do lado de fora.</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- EN: cargo vault exit -->
   <BTG_CargoVaultExit.label>saída do cofre de carga</BTG_CargoVaultExit.label>

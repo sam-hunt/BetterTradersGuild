@@ -6,31 +6,31 @@ A Guilda dos Mercadores é a facção responsável pelos eventos de comerciantes
 [hr][/hr]
 [h2]Comércio Pacífico[/h2]
 [list]
-[*]Visite a Guilda dos Mercadores no mapa-múndi por meio de um ônibus espacial quando o relacionamento estiver Neutro ou melhor
-[*]Os assentamentos alternam entre os tipos de comerciante orbital seguindo um cronograma configurável
+[*]Visite a Guilda dos Mercadores no mapa-múndi por meio de um ônibus espacial quando as relações estiverem Neutras ou melhores.
+[*]Os assentamentos alternam entre os tipos de comerciante orbital seguindo um cronograma configurável.
 [*]Veja com antecedência, no mapa-múndi, qual comerciante está atracado e planeje suas viagens pelo planeta!
-[*]Solicitações de comércio orbital: assentamentos da Guilda enviam tarefas de entrega por ônibus espacial com recompensas em boa vontade e prata
+[*]Solicitações de comércio orbital: assentamentos da Guilda enviam tarefas de entrega por ônibus espacial com recompensas em boa vontade e prata.
 [/list]
 
 [h2]Geração de Mapa Reformulada[/h2]
 [list]
-[*]Novos tipos de cômodo (Centro de Controle, Alojamento da Tripulação, Porão de Carga, Salão do Comandante, Enfermaria e muito mais)
-[*]Os itens do cofre de carga surgem a partir do inventário comercial: roube-os e eles desaparecem do estoque comercial do mapa-múndi
-[*]Estética de ambiente habitado, digna de mercadores ricos
+[*]Novos tipos de cômodo (Centro de Controle, Alojamento da Tripulação, Porão de Carga, Salão do Comandante, Enfermaria e muito mais).
+[*]Os itens do cofre de carga vêm do inventário comercial do assentamento. Tudo o que você roubar desaparece do estoque comercial dele.
+[*]Interiores mobiliados e com aspecto de habitados, à altura de mercadores ricos.
 [/list]
 
 [h2]Assentamentos Vivos[/h2]
 [list]
-[*]Guarnições entrincheiradas defendem seu lar em vez de avançar para o vácuo: mantêm a estrutura, comem, dormem, tratam seus ferimentos e pedem lançamentos de reabastecimento (e reforços) durante cercos longos
-[*]Mecanoides trabalhadores seguem com suas tarefas: paramédicos resgatam e tratam os feridos, limpadores mantêm os corredores limpos, agrimãos cultivam a estufa
-[*]Civis se abrigam durante o ataque e correm para o ônibus espacial caso o abrigo seja invadido
-[*]Derrote um assentamento debilitando sua força de segurança. Os sobreviventes abandonam a nave em vez de lutar até a morte
+[*]Guarnições entrincheiradas defendem seu lar em vez de avançar para o vácuo. Elas comem, dormem e tratam as feridas lá dentro, e pedem reabastecimento e reforços durante um cerco longo.
+[*]Mecanoides trabalhadores continuam em serviço. Paramédicos resgatam e tratam os feridos, limpadores mantêm os corredores limpos e agrimãos cultivam a estufa.
+[*]Civis se abrigam durante o ataque e correm para o ônibus espacial caso o abrigo seja invadido.
+[*]Debilite a força de segurança de um assentamento para derrotá-lo. Os sobreviventes abandonarão a estação em vez de lutar até a morte.
 [/list]
 
 [h2]Missão do Covil de Contrabandistas[/h2]
 [list]
 [*]Experimente a geração de mapa de ataque personalizada da BTG, mesmo que você esteja comprometido com relações amigáveis ou prefira a geração de mapa de outro mod para assentamentos da Guilda dos Mercadores (ex.: VGE2).
-[*]Escolha sua recompensa: boa vontade da facção ou reivindique para si os itens do cofre de carga do comerciante orbital
+[*]Escolha sua recompensa: boa vontade da facção ou a carga de um comerciante orbital para você retirar do cofre.
 [/list]
 
 [h2]Novos Cenários[/h2]
@@ -38,7 +38,7 @@ A Guilda dos Mercadores é a facção responsável pelos eventos de comerciantes
 [*][b]Mercadores Independentes[/b]: deixe a Guilda para seguir seu próprio caminho. Comece com um ônibus espacial, prata e uma posição aliada com seus antigos empregadores.
 [*][b]Mercadores Exilados[/b]: um trabalho de recuperação que deu errado desperta uma mecholmeia. A Guilda corta os laços com você. Recolha o que puder e sobreviva com mecanoides em seu rastro. Não é para os fracos de coração.
 [/olist]
-Partes de cenário reutilizáveis: chegadas de ônibus espacial, armas únicas com características, coloração de vestuário, boa vontade da facção e configuração de xenótipo para os personagens iniciais
+Partes de cenário reutilizáveis: chegada de ônibus espacial, uma arma única com traços escolhidos, cor do vestuário, boa vontade da facção e xenótipos iniciais
 
 [hr][/hr]
 [h1]Compatibilidade[/h1]
@@ -64,10 +64,7 @@ R: Talvez! O mod adiciona mais oportunidades de comércio. Os assentamentos da G
 R: Tudo isso é configurável nas opções do mod.
 
 [b]P: Por que um tipo específico de comerciante não está aparecendo?[/b]
-R: Os tipos de comerciante são escolhidos de forma aleatória, com base em valores de frequência. Alguns são mais raros que outros. Aguarde as próximas rotações ou verifique outros assentamentos. A frequência dos tipos de comerciante adicionados por outros mods pode não estar equilibrada.
-
-[b]P: Isso foi feito usando LLMs!?[/b]
-R: Parte do código mais repetitivo, e a maioria das localizações. Sou engenheiro de software por profissão e escrevo código há 25 anos. Todo o código é revisado e testado manualmente. Todos os relatórios de bugs e conflitos de mods são acompanhados pessoalmente, conforme o tempo e o nível de detalhe permitem. Toda a arte é encomendada de artistas humanos, feita à mão no Krita, ou ambas.
+R: Os tipos de comerciante são escolhidos ao acaso, e alguns são mais raros que outros. Aguarde uma rotação ou verifique outros assentamentos. Os tipos de comerciante de outros mods podem ser mais ou menos comuns do que o pretendido.
 
 [hr][/hr]
 [h2]Links[/h2]

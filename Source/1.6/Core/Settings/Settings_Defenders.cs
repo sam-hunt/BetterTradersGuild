@@ -4,7 +4,7 @@ using Verse;
 
 namespace BetterTradersGuild
 {
-    // "Garrison & Combat" settings section — how BTG garrisons fight, give up, and
+    // "Garrison and combat" settings section — how BTG garrisons fight, give up, and
     // sustain themselves. Everything here governs BTG-generated maps: custom-layout
     // settlements AND the smuggler's den quest site (whose generator ignores
     // useCustomLayouts entirely), so these controls are NOT greyed out under the
@@ -28,7 +28,7 @@ namespace BetterTradersGuild
     // knobs still fully govern.
     public partial class BetterTradersGuildSettings
     {
-        // Spacer-tier TG defenders ("Spacer-tier defenders" in the settings UI).
+        // Spacer-tier TG defenders ("Spacer-tech defenders" in the settings UI).
         // When true (default), the PawnKinds/Faction_Settlement patch files apply:
         // spacer-tier weapons/armor/implants/gear quality on the five combat kinds
         // and an elite-leaning Settlement pawnGroupMaker. When false, those files

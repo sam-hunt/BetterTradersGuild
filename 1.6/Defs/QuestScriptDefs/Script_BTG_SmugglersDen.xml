@@ -29,7 +29,7 @@
          not advertise the cargo vault reward, since only goodwill is offered then. -->
     <questDescriptionRules>
       <rulesStrings>
-        <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact who can pull strings on the docking roster to stack the cargo vault and sweeten the deal.</li>
+        <li>questDescription(askerFactionHostile==False)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\nThe Guild is offering salvage rights as payment for clearing the outpost. They have a contact on the inside who can pull strings on the docking roster to stack the cargo vault in your favor and sweeten the deal.</li>
         <li>questDescription(askerFactionHostile==True)->[asker_faction_leaderTitle] [asker_nameFull] of [asker_faction_name] has sent word of a Salvager outpost operating near [settlement_label]. The station has been intercepting Guild convoys and fencing stolen cargo.\n\n[asker_nameDef] makes it clear that, despite your hostile relations, destroying the outpost would be seen as a gesture of goodwill. It could be a great opportunity to improve relations with the Guild.</li>
       </rulesStrings>
     </questDescriptionRules>

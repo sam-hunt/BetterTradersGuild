@@ -7,7 +7,7 @@
 
   <!-- BTG_CargoVaultHatch_Sealed -->
   <BTG_CargoVaultHatch_Sealed.label>sealed cargo vault hatch</BTG_CargoVaultHatch_Sealed.label>
-  <BTG_CargoVaultHatch_Sealed.description>A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders.</BTG_CargoVaultHatch_Sealed.description>
+  <BTG_CargoVaultHatch_Sealed.description>A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out.</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- BTG_CargoVaultExit -->
   <BTG_CargoVaultExit.label>cargo vault exit</BTG_CargoVaultExit.label>

@@ -17,8 +17,8 @@
   <BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>ハッキングで保安ロックを解除する.</BTG_CargoVaultHatch.comps.CompHackable.notHackedInspectString>
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>封鎖された貨物保管庫のハッチ</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>ステーションの厳重な貨物保管庫へ通じる,補強されたハッチです.襲撃者の侵入を防ぐため,過剰なまでに封鎖されています.</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>ステーションの厳重な貨物保管庫へ通じる,補強されたハッチです.襲撃者を締め出すために,過剰なまでに封鎖されています.</BTG_CargoVaultHatch_Sealed.description>
   <!-- EN: cargo vault exit -->
   <BTG_CargoVaultExit.label>貨物保管庫の出口</BTG_CargoVaultExit.label>
   <!-- EN: A secure ladder and hatch providing access back to the station's shuttle bay above. -->

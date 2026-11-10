@@ -16,6 +16,13 @@
   <!-- EN: Their people are still protecting them. -->
   <BTG_AdoptBlockedByGuardians>他们的族人仍在保护他们。</BTG_AdoptBlockedByGuardians>
 
+  <!-- ========== FORCE CLAIM GIZMO ========== -->
+  <!-- Gizmo on VE pipe valves the player does not own yet -->
+  <!-- EN: Force claim -->
+  <BTG_ForceClaim_Label>强制占有</BTG_ForceClaim_Label>
+  <!-- EN: Claim this building even while enemies remain on the map. Normally nothing can be claimed until every enemy is gone. -->
+  <BTG_ForceClaim_Desc>即使地图上仍有敌人，也可以占有此建筑。通常在敌人全部消失之前，无法占有任何东西。</BTG_ForceClaim_Desc>
+
   <!-- ========== INSPECT STRINGS ========== -->
   <!-- EN: Docked vessel -->
   <BTG_DockedVessel>停靠的飞船</BTG_DockedVessel>
@@ -25,13 +32,13 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>贸易</BTG_Settings_Trading>
-  <!-- EN: Settlement Generation -->
+  <!-- EN: Settlement generation -->
   <BTG_Settings_MapGeneration>定居点生成</BTG_Settings_MapGeneration>
-  <!-- EN: Garrison & Combat -->
+  <!-- EN: Garrison and combat -->
   <BTG_Settings_Defenders>守备与战斗</BTG_Settings_Defenders>
-  <!-- EN: Events & Quests -->
+  <!-- EN: Events and quests -->
   <BTG_Settings_Events>事件与任务</BTG_Settings_Events>
-  <!-- EN: Defender Resupply -->
+  <!-- EN: Defender resupply -->
   <BTG_Settings_Resupply>守卫补给</BTG_Settings_Resupply>
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>定居点初始守备队</BTG_Settings_InitialGarrison>
@@ -45,16 +52,16 @@
   <BTG_Settings_BTGRecommended>（建议）</BTG_Settings_BTGRecommended>
   <!-- EN: (default) -->
   <BTG_Settings_Default>（默认）</BTG_Settings_Default>
-  <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
+  <!-- EN: How often orbital traders rotate at Traders Guild settlements. -->
   <BTG_Settings_TraderRotationDesc1>商会定居点的轨道贸易商多久轮换一次。</BTG_Settings_TraderRotationDesc1>
-  <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
-  <BTG_Settings_TraderRotationDesc2>数值越低，商人种类越丰富，但抵达远处定居点的时间也越紧张。</BTG_Settings_TraderRotationDesc2>
+  <!-- EN: Lower values will give more variety, but less time to reach distant settlements. -->
+  <BTG_Settings_TraderRotationDesc2>数值越低，商人种类越丰富，但赶到远处定居点的时间会更紧。</BTG_Settings_TraderRotationDesc2>
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <!-- EN: Use custom settlement map generator -->
   <BTG_Settings_UseCustomLayouts>使用自定义定居点地图生成器</BTG_Settings_UseCustomLayouts>
-  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
-  <BTG_Settings_UseCustomLayoutsDesc>生成的商会定居点不会显得那么荒废。\n若使用其他地图生成模组或偏好原版布局，请关闭此项。\n无论此项如何设置，走私巢穴任务地点始终使用其自身的地图生成器。</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: When enabled, Traders Guild settlements will generate with furnished, lived-in interiors. When disabled, they will use the vanilla layouts, or allow other mods' map generation to run.\nThe smuggler's den always uses its own map generator. -->
+  <BTG_Settings_UseCustomLayoutsDesc>启用后，商会定居点生成时会带有布置齐全、充满生活气息的内部空间。禁用后，将使用原版布局，或交由其他模组的地图生成接管。\n走私巢穴始终使用其自身的地图生成器。</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
   <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
@@ -69,44 +76,44 @@
   <BTG_Settings_EnableCargoVaultDesc>启用后，每个定居点的货物保险库舱门均可被骇入，以取用贸易库存。\n关闭后，货物保险库将以封闭状态生成且无法进入。\n仅影响新生成的定居点，且需要开启自定义定居点地图生成器。\n走私巢穴的保险库由其任务奖励控制，不受此设置影响。</BTG_Settings_EnableCargoVaultDesc>
   <!-- EN: Cargo vault stack limit: {0} -->
   <BTG_Settings_CargoVaultMaxStacks>货物保险库堆叠上限：{0}</BTG_Settings_CargoVaultMaxStacks>
-  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
-  <BTG_Settings_CargoVaultMaxStacksDesc>货物保险库被骇入开启时最多生成的物品堆数；其余物品仍留在定居点的贸易库存中。\n若某个模组商人的保险库导致游戏崩溃或卡顿，请调低此项。滑块拖到最右侧表示不设上限。</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: The maximum number of item stacks a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nLower this if a modded trader's vault slows or crashes the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>货物保险库被骇入后，库内最多可含的物品堆叠数。其余物品仍会留在定居点的贸易库存中。\n若某个模组商人的保险库导致游戏卡顿或崩溃，请调低此项。滑块拖到最右侧表示不设上限。</BTG_Settings_CargoVaultMaxStacksDesc>
   <!-- EN: Cargo vault wealth limit: {0} -->
   <BTG_Settings_CargoVaultMaxWealth>货物保险库财富上限：{0}</BTG_Settings_CargoVaultMaxWealth>
   <!-- EN: {0} silver -->
   <BTG_Settings_CargoVaultMaxWealthValue>{0}白银</BTG_Settings_CargoVaultMaxWealthValue>
-  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
-  <BTG_Settings_CargoVaultMaxWealthDesc>货物保险库被骇入开启时所生成物品的市场价值上限；其余物品仍留在定居点的贸易库存中。\n滑块拖到最右侧表示不设上限。</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: The maximum market value of the items a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>货物保险库被骇入后，库内物品的市场价值上限。其余物品仍会留在定居点的贸易库存中。\n滑块拖到最右侧表示不设上限。</BTG_Settings_CargoVaultMaxWealthDesc>
   <!-- EN: Unlimited -->
   <BTG_Settings_Unlimited>无限制</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>额外哨兵无人机数量：{0}%</BTG_Settings_SentryDronePresence>
-  <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
-  <BTG_Settings_SentryDroneDesc>用于生成额外巡逻哨兵无人机的威胁点数系数。\n定居点与走私巢穴均适用。</BTG_Settings_SentryDroneDesc>
+  <!-- EN: Adjust the number of extra sentry drones on patrol. The number also grows with your colony's threat level. -->
+  <BTG_Settings_SentryDroneDesc>调整额外巡逻哨兵无人机的数量。数量也会随你殖民地的威胁等级增加。</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
-  <!-- EN: Spacer-tier defenders (requires restart) -->
-  <BTG_Settings_SpacerTierDefenders>太空时代级守卫（需要重启游戏）</BTG_Settings_SpacerTierDefenders>
-  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
-  <BTG_Settings_SpacerTierDefendersDesc>商会守卫将获得太空时代级别的武器、护甲、义体与装备品质，守备队构成也会更偏向精英兵种。\n关闭后将采用原版装备与守备队构成。无论此项如何设置，公民与儿童的真空防护均保持不变。</BTG_Settings_SpacerTierDefendersDesc>
+  <!-- EN: Spacer-tech defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>太空时代科技守卫（需要重启游戏）</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: When enabled, Traders Guild defenders will carry spacer-tech weapons, armor and implants of better quality, and garrisons will include more elite fighters. When disabled, they will use vanilla equipment and the vanilla garrison mix.\nCitizens and children will have vacuum protection either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>启用后，商会守卫会配备品质更好的太空时代武器、护甲和义体，守备队中也会有更多精英战士。禁用后，他们将使用原版装备和原版的守备队构成。\n无论是否启用，公民与儿童都会有真空防护。</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->
   <BTG_Settings_EntrenchedDefenders>固守型守卫AI</BTG_Settings_EntrenchedDefenders>
-  <!-- EN: Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nGoverns settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).\nDecided when a map is generated; only affects maps entered afterwards. -->
-  <BTG_Settings_EntrenchedDefendersDesc>守卫会坚守其驻地结构，绝不主动出击、也不会追击入侵者进入真空，并在基地内取食和休息。\n关闭以恢复原版守卫AI（先防守基地，随后发起进攻）。\n适用于定居点守备队（当自定义定居点地图生成器开启时）以及走私巢穴守备队（始终适用）。\n该行为在地图生成时确定，仅影响此后进入的地图。</BTG_Settings_EntrenchedDefendersDesc>
+  <!-- EN: When enabled, defenders will stay inside their base to eat and rest, and will never assault or chase intruders into vacuum. When disabled, they will defend the base and then assault, as in vanilla.\nSettlement garrisons need the custom settlement map generator for this. The smuggler's den garrison does not.\nThis is decided when a map is generated, so it will only affect maps you enter afterwards. -->
+  <BTG_Settings_EntrenchedDefendersDesc>启用后，守卫会留在基地内进食和休息，绝不会主动出击，也不会追击入侵者进入真空。禁用后，他们会像原版一样先防守基地，再发起进攻。\n定居点守备队需要开启自定义定居点地图生成器才会如此，走私巢穴守备队则不需要。\n该行为在地图生成时确定，因此只会影响此后进入的地图。</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- EN: Scale defenders to colony threat level -->
   <BTG_Settings_ScaleDefenders>守卫强度随殖民地威胁等级缩放</BTG_Settings_ScaleDefenders>
-  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
-  <BTG_Settings_ScaleDefendersDesc>初始守卫强度会像袭击一样随你殖民地的财富与难度提升（永不低于原版基准）。\n原版则不论你的进度如何，都给每个定居点配置强度相近的固定驻军。\n仅适用于定居点：走私巢穴的守备队规模由其任务决定。</BTG_Settings_ScaleDefendersDesc>
-  <!-- EN: Defender threat points multiplier: {0}x -->
-  <BTG_Settings_ThreatMultiplier>守卫威胁点数倍率：{0}x</BTG_Settings_ThreatMultiplier>
-  <!-- EN: Higher values = more/stronger initial defenders when entering settlements.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
-  <BTG_Settings_ThreatMultiplierDesc>数值越高，进入定居点时的初始守卫越多、越强。\n仅适用于定居点：走私巢穴的守备队规模由其任务决定。</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: When enabled, a settlement's starting garrison will grow with your colony's wealth and the difficulty, like raids do. It will never be weaker than the vanilla garrison. When disabled, every settlement will have a similar garrison no matter how far you have progressed.\nThe smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ScaleDefendersDesc>启用后，定居点的初始守备队会像袭击一样，随你殖民地的财富与难度而增强，但不会弱于原版守备队。禁用后，无论你的进度如何，每个定居点的守备队都大致相同。\n走私巢穴的守备队规模则由其任务决定。</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Defender strength multiplier: {0}x -->
+  <BTG_Settings_ThreatMultiplier>守卫强度倍率：{0}x</BTG_Settings_ThreatMultiplier>
+  <!-- EN: Higher values will give settlements more and stronger defenders when you first enter them.\nThe smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ThreatMultiplierDesc>数值越高，你初次进入时，定居点的守卫就会越多、越强。\n走私巢穴的守备队规模则由其任务决定。</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- 守备队 is Odyssey zh AncientGarrison.label (远古守备队); -->
@@ -114,14 +121,14 @@
   <!-- {0} = percentage -->
   <!-- EN: Garrison defeat threshold: {0}% -->
   <BTG_Settings_SecurityDefeatThreshold>守备队战败阈值：{0}%</BTG_Settings_SecurityDefeatThreshold>
-  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
-  <BTG_Settings_SecurityDefeatThresholdDesc>定居点或走私巢穴的初始防守力量需有多大比例被打倒，其所属派系才会放弃该地图。\n只计入驻守的守卫与巡逻的哨兵无人机，不计入炮塔与工作机械族。\n设为100%表示战至最后一名守卫。</BTG_Settings_SecurityDefeatThresholdDesc>
+  <!-- EN: The share of the original defenders that must be downed before the faction gives up a settlement or the smuggler's den.\nGuards and patrolling sentry drones count. Turrets and worker mechs do not.\nAt 100% they will fight to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>初始守卫中需有多大比例被打倒，派系才会放弃定居点或走私巢穴。\n驻守的守卫与巡逻的哨兵无人机计入，炮塔与工作机械族不计入。\n设为100%时，他们会战至最后一名守卫。</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
-  <!-- EN: LifeSupportUnit power output: {0}W -->
+  <!-- EN: Life support unit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>生命维持单元电力输出：{0}W</BTG_Settings_LifeSupportPower>
-  <!-- EN: Power output from orbital LifeSupportUnits.\nChanges the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps. -->
-  <BTG_Settings_LifeSupportDesc>轨道生命维持单元的电力输出。\n此项更改的是建筑类型本身，因此会影响星球上的所有轨道设施，而不仅限于商会地图。</BTG_Settings_LifeSupportDesc>
+  <!-- EN: The power produced by each life support unit.\nThis changes every life support unit, so it will affect all orbital platforms, not only Traders Guild settlements. -->
+  <BTG_Settings_LifeSupportDesc>每个生命维持单元产生的电力。\n此项会修改所有生命维持单元，因此会影响所有轨道设施，而不仅限于商会定居点。</BTG_Settings_LifeSupportDesc>
 
   <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
   <!-- EN: Trade request quest weight: {0} -->
@@ -144,18 +151,18 @@
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>每名守卫的补给食物数量：{0}</BTG_Settings_ResupplyMealsPerDefender>
-  <!-- EN: When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.\nSet to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike. -->
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>当挨饿的守卫耗尽驻地内的所有食物时，他们会使用通讯台呼叫一个运输舱，空投生存食物：数量为每名幸存守卫对应此处设定的份数。\n设为0可完全禁用补给呼叫。每张地图每6小时最多降落一次。\n需要固守型守卫AI。定居点与走私巢穴均适用。</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <!-- EN: The number of packaged survival meals delivered for each surviving defender when a starving garrison calls for resupply. Defenders will use a comms console to make the call once the food inside their base has run out.\nSet to 0 to disable resupply calls. Only one drop can land on a map every 6 hours.\nRequires entrenched defender AI. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>守备队饥饿并呼叫补给时，每名幸存守卫可获得多少份包装生存食物。守卫会在基地内的食物耗尽后使用通讯台发出呼叫。\n设为0可禁用补给呼叫。每张地图每6小时只会降落一次空投。\n需要固守型守卫AI。</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>呼叫增援</BTG_Settings_ResupplyTriggersRaid>
-  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile. -->
-  <BTG_Settings_ResupplyTriggersRaidDesc>补给呼叫成功时，同时召唤一批乘运输舱降临的守备队所属派系增援部队，前来追杀你的殖民者。他们以普通袭击的形式抵达，而非受活动范围限制的守卫。有小概率以更小的规模直接空投到你的殖民者头顶。仅在该地图所属派系处于敌对状态时触发。</BTG_Settings_ResupplyTriggersRaidDesc>
+  <!-- EN: When enabled, a successful resupply call will also bring a drop pod raid from the garrison's faction to hunt your colonists. The raiders will attack freely instead of holding the base, and will sometimes land right on top of your colonists in a smaller group. This will only happen while the faction is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>启用后，补给呼叫成功时，守备队所属派系还会派出一批乘运输舱降临的袭击者追杀你的殖民者。袭击者会主动进攻而不是留守基地，有时还会以更小的规模直接降落在你的殖民者头顶。仅在该派系处于敌对状态时才会发生。</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- EN: Relock cargo vault -->
   <BTG_CargoVaultHatch_RelockLabel>重新锁闭货物保险库</BTG_CargoVaultHatch_RelockLabel>
-  <!-- EN: Relock the cargo vault. Contents will be returned to station inventory. -->
-  <BTG_CargoVaultHatch_RelockDesc>重新锁闭货物保险库。库内物品将返还至空间站库存。</BTG_CargoVaultHatch_RelockDesc>
+  <!-- EN: Relock the cargo vault. Its contents will be returned to the settlement's trade inventory. -->
+  <BTG_CargoVaultHatch_RelockDesc>重新锁闭货物保险库。库内物品将返还至定居点的贸易库存。</BTG_CargoVaultHatch_RelockDesc>
 
   <!-- ========== SMUGGLER'S DEN QUEST ========== -->
   <!-- EN: Cargo claim: {0} -->
@@ -173,10 +180,39 @@
   <!-- EN: Remain hostile for now -->
   <BTG_EmpireRelationFix_LeaveHostile>暂时保持敌对</BTG_EmpireRelationFix_LeaveHostile>
 
+  <!-- ========== SCENARIO EDITOR: SCENARIO PARTS ========== -->
+  <!-- Row label beside the Nth required weapon trait. {0} = 1-based trait number -->
+  <!-- EN: Trait {0} -->
+  <BTG_ScenPart_TraitNumbered>特性{0}</BTG_ScenPart_TraitNumbered>
+  <!-- EN: Choose trait... -->
+  <BTG_ScenPart_ChooseTrait>选择特性...</BTG_ScenPart_ChooseTrait>
+  <!-- EN: Add trait... -->
+  <BTG_ScenPart_AddTrait>添加特性...</BTG_ScenPart_AddTrait>
+  <!-- Button text when the starting apparel color matches no named color -->
+  <!-- EN: Custom color -->
+  <BTG_ScenPart_CustomColor>自定义颜色</BTG_ScenPart_CustomColor>
+  <!-- Scenario summary intro; the per-faction goodwill entries are listed under it -->
+  <!-- EN: Start with goodwill -->
+  <BTG_ScenPart_FactionGoodwill_Summary>开局好感度</BTG_ScenPart_FactionGoodwill_Summary>
+  <!-- {0} = shuttle label -->
+  <!-- EN: {0} (not launchable) -->
+  <BTG_ScenPart_NotLaunchable>{0}（无法发射）</BTG_ScenPart_NotLaunchable>
+  <!-- Row label beside the starting fuel percentage field -->
+  <!-- EN: Fuel % -->
+  <BTG_ScenPart_FuelPercent>燃料%</BTG_ScenPart_FuelPercent>
+  <!-- Row label beside the shuttle paint color picker -->
+  <!-- EN: Paint -->
+  <BTG_ScenPart_Paint>粉饰</BTG_ScenPart_Paint>
+  <!-- EN: No paint -->
+  <BTG_ScenPart_NoPaint>无粉饰</BTG_ScenPart_NoPaint>
+  <!-- Row label beside the per-slot xenotype pickers -->
+  <!-- EN: Xenotypes -->
+  <BTG_ScenPart_Xenotypes>异种人</BTG_ScenPart_Xenotypes>
+
   <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
   <!-- EN: Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself. -->
   <BTG_GameStartDialog_ExiledTraders>你的商会应答机已经失效，机械主巢正在追踪你的信号。那些可怕的杀戮机械很快就会到来。搜集贵重的逆重板，然后利用你的逆重飞船逃往下方星球的安全地点。\n\n要发射逆重飞船，请选择飞船控制台，然后点击「发射」指令。\n\n在世界地图上，使用「查看星球」以选择一个降落点。\n\n商会不会帮你，而且无论你逃到哪里，机械族最终都会找到你。若要根除威胁，你必须找到机械主巢并击败它。</BTG_GameStartDialog_ExiledTraders>
-  <!-- EN: The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home. -->
-  <BTG_GameStartDialog_IndependentTraders>你的穿梭机驶离轨道环时，贸易频道响起了一声道别。多年的商会跑单、分薄的利润、拥挤的泊位，统统抛在身后。没有怨恨，只有更大的抱负。\n\n穿梭机朝着无主的荒野加速而去，可光靠白银在这里活不下来。商会仍愿与老朋友做生意，但首先，你需要一个家。</BTG_GameStartDialog_IndependentTraders>
+  <!-- EN: The Traders Guild is behind you now, along with the split margins and the crowded docking bays. There are no hard feelings. You just have bigger plans.\n\nYour shuttle is burning toward the unclaimed wilds, and silver alone won't keep you alive out here. The Guild will still deal with old friends, but first you need a home. -->
+  <BTG_GameStartDialog_IndependentTraders>商会已被你抛在身后，分薄的利润和拥挤的泊位也一并留在了过去。没有怨恨，只是你有了更大的打算。\n\n你的穿梭机正朝着无主的荒野飞去，可光靠白银在这里活不下来。商会仍愿意与老朋友做生意，但你得先有一个家。</BTG_GameStartDialog_IndependentTraders>
 
 </LanguageData>

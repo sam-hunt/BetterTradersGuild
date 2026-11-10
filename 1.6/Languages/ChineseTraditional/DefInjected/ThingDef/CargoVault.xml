@@ -19,8 +19,8 @@
   <!-- BTG_CargoVaultHatch_Sealed -->
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>貨物保險庫密封艙門</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>一道通往軌道平台安全貨物保險庫的強化艙門。為了阻止襲擊者進入，它被過度密封了。</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>一道通往軌道平台安全貨物保險庫的強化艙門。它封得過於嚴實，好把襲擊者擋在外面。</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- BTG_CargoVaultExit -->
   <!-- EN: cargo vault exit -->

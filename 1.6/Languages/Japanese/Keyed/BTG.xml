@@ -17,7 +17,7 @@
        scenario dialogs at the bottom of this file. Corner brackets 「」 are vanilla ja's
        mark for quoted TEXT (note contents, map inscriptions), a different slot.
        Zero dashes: vanilla ja runs 6.3 em dashes per 100k chars, and BTG's English has
-       none, so the two hyphens in the Independent Traders dialog are reflowed. -->
+       none. -->
 
   <!-- ========== FLOAT MENU OPTIONS ========== -->
   <!-- EN: (requires signal jammer) -->
@@ -39,6 +39,13 @@
   <!-- EN: Their people are still protecting them. -->
   <BTG_AdoptBlockedByGuardians>まだ仲間たちに守られています.</BTG_AdoptBlockedByGuardians>
 
+  <!-- ========== FORCE CLAIM GIZMO ========== -->
+  <!-- Core ja's DesignatorClaim is "領有を主張". -->
+  <!-- EN: Force claim -->
+  <BTG_ForceClaim_Label>強制的に領有を主張</BTG_ForceClaim_Label>
+  <!-- EN: Claim this building even while enemies remain on the map. Normally nothing can be claimed until every enemy is gone. -->
+  <BTG_ForceClaim_Desc>マップに敵が残っていても,この建築物の領有を主張します.通常は,敵が全員いなくなるまで何も領有を主張できません.</BTG_ForceClaim_Desc>
+
   <!-- ========== INSPECT STRINGS ========== -->
   <!-- EN: Docked vessel -->
   <BTG_DockedVessel>ドッキング中の船</BTG_DockedVessel>
@@ -48,13 +55,13 @@
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <!-- EN: Trading -->
   <BTG_Settings_Trading>交易</BTG_Settings_Trading>
-  <!-- EN: Settlement Generation -->
+  <!-- EN: Settlement generation -->
   <BTG_Settings_MapGeneration>入植地生成</BTG_Settings_MapGeneration>
-  <!-- EN: Garrison & Combat -->
+  <!-- EN: Garrison and combat -->
   <BTG_Settings_Defenders>防衛部隊と戦闘</BTG_Settings_Defenders>
-  <!-- EN: Events & Quests -->
+  <!-- EN: Events and quests -->
   <BTG_Settings_Events>イベントとクエスト</BTG_Settings_Events>
-  <!-- EN: Defender Resupply -->
+  <!-- EN: Defender resupply -->
   <BTG_Settings_Resupply>防衛部隊への補給</BTG_Settings_Resupply>
   <!-- EN: Initial settlement garrison -->
   <BTG_Settings_InitialGarrison>入植地の初期防衛部隊</BTG_Settings_InitialGarrison>
@@ -70,18 +77,16 @@
   <BTG_Settings_BTGRecommended>(推奨)</BTG_Settings_BTGRecommended>
   <!-- EN: (default) -->
   <BTG_Settings_Default>(デフォルト)</BTG_Settings_Default>
-  <!-- EN: How often orbital traders rotate at TradersGuild settlements. -->
+  <!-- EN: How often orbital traders rotate at Traders Guild settlements. -->
   <BTG_Settings_TraderRotationDesc1>商人ギルドの入植地で軌道上の商人が入れ替わる頻度です.</BTG_Settings_TraderRotationDesc1>
-  <!-- The English "=" equivalence is reflowed into the ほど...ほど correlative, which is
-       how Japanese states this relation. -->
-  <!-- EN: Lower values = more variety, but less time to reach distant settlements. -->
-  <BTG_Settings_TraderRotationDesc2>値を小さくするほど商人の種類は豊富になりますが,遠くの入植地にたどり着くまでの猶予は短くなります.</BTG_Settings_TraderRotationDesc2>
+  <!-- EN: Lower values will give more variety, but less time to reach distant settlements. -->
+  <BTG_Settings_TraderRotationDesc2>値を小さくすると商人の種類は増えますが,遠くの入植地へ向かう時間の余裕は少なくなります.</BTG_Settings_TraderRotationDesc2>
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <!-- EN: Use custom settlement map generator -->
   <BTG_Settings_UseCustomLayouts>専用の入植地マップ生成を使用する</BTG_Settings_UseCustomLayouts>
-  <!-- EN: Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to. -->
-  <BTG_Settings_UseCustomLayoutsDesc>商人ギルドの入植地を,廃墟らしさを抑えた外観で生成します.\n他のマップ生成MODを使用している場合や,バニラの配置を好む場合は無効にしてください.\n密輸業者の巣窟のクエストサイトは,この設定に関わらず常に専用のマップ生成を使用します.</BTG_Settings_UseCustomLayoutsDesc>
+  <!-- EN: When enabled, Traders Guild settlements will generate with furnished, lived-in interiors. When disabled, they will use the vanilla layouts, or allow other mods' map generation to run.\nThe smuggler's den always uses its own map generator. -->
+  <BTG_Settings_UseCustomLayoutsDesc>有効にすると,商人ギルドの入植地は家具が置かれた,生活感のある内装で生成されます.無効にすると,バニラの配置が使われるか,他のMODのマップ生成が実行されます.\n密輸業者の巣窟は,常に専用のマップ生成を使用します.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
   <!-- EN: Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top. -->
@@ -96,46 +101,46 @@
   <BTG_Settings_EnableCargoVaultDesc>有効にすると,各入植地の貨物保管庫のハッチをハッキングして,交易品の在庫にアクセスできます.\n無効にすると,貨物保管庫は封鎖された状態で生成され,進入できません.\n新しく生成される入植地にのみ影響し,専用の入植地マップ生成が必要です.\n密輸業者の巣窟の保管庫は,この設定ではなくクエスト報酬によって制御されます.</BTG_Settings_EnableCargoVaultDesc>
   <!-- EN: Cargo vault stack limit: {0} -->
   <BTG_Settings_CargoVaultMaxStacks>貨物保管庫のスタック上限: {0}</BTG_Settings_CargoVaultMaxStacks>
-  <!-- EN: The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit. -->
-  <BTG_Settings_CargoVaultMaxStacksDesc>貨物保管庫をハッキングで開けた時に生成されるアイテムスタックの最大数です.残りは入植地の交易品の在庫に残ります.\nMODで追加された商人の保管庫でゲームがクラッシュしたり重くなったりする場合は,この値を小さくしてください.右端までスライドすると上限がなくなります.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <!-- EN: The maximum number of item stacks a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nLower this if a modded trader's vault slows or crashes the game. Slide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxStacksDesc>貨物保管庫をハッキングで開けた時に中に入るアイテムスタックの最大数です.残りは入植地の交易品の在庫に残ります.\nMODで追加された商人の保管庫でゲームが重くなったりクラッシュしたりする場合は,この値を小さくしてください.右端までスライドすると上限がなくなります.</BTG_Settings_CargoVaultMaxStacksDesc>
   <!-- EN: Cargo vault wealth limit: {0} -->
   <BTG_Settings_CargoVaultMaxWealth>貨物保管庫の資産上限: {0}</BTG_Settings_CargoVaultMaxWealth>
   <!-- EN: {0} silver -->
   <BTG_Settings_CargoVaultMaxWealthValue>{0}シルバー</BTG_Settings_CargoVaultMaxWealthValue>
-  <!-- EN: The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit. -->
-  <BTG_Settings_CargoVaultMaxWealthDesc>貨物保管庫をハッキングで開けた時に生成される標準小売価格の合計の最大値です.残りは入植地の交易品の在庫に残ります.\n右端までスライドすると上限がなくなります.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <!-- EN: The maximum market value of the items a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nSlide fully right for no limit. -->
+  <BTG_Settings_CargoVaultMaxWealthDesc>貨物保管庫をハッキングで開けた時に中に入るアイテムの標準小売価格の最大値です.残りは入植地の交易品の在庫に残ります.\n右端までスライドすると上限がなくなります.</BTG_Settings_CargoVaultMaxWealthDesc>
   <!-- EN: Unlimited -->
   <BTG_Settings_Unlimited>無制限</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- EN: Additional sentry drone presence: {0}% -->
   <BTG_Settings_SentryDronePresence>セントリードローンの追加配備: {0}%</BTG_Settings_SentryDronePresence>
-  <!-- EN: Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike. -->
-  <BTG_Settings_SentryDroneDesc>巡回するセントリードローンを追加するために使用する,脅威ポイントの割合です.\n入植地にも密輸業者の巣窟にも適用されます.</BTG_Settings_SentryDroneDesc>
+  <!-- EN: Adjust the number of extra sentry drones on patrol. The number also grows with your colony's threat level. -->
+  <BTG_Settings_SentryDroneDesc>巡回する追加のセントリードローンの数を調整します.この数は,コロニーの脅威レベルに応じても増えます.</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
-  <!-- "宇宙世紀" is Core ja's own TechLevel_Spacer; エリート matches Core's own Mercenary_Elite /
-       Odyssey's Salvager_Elite PawnKindDef labels. -->
-  <!-- EN: Spacer-tier defenders (requires restart) -->
-  <BTG_Settings_SpacerTierDefenders>宇宙世紀級の防衛部隊 (再起動が必要)</BTG_Settings_SpacerTierDefenders>
-  <!-- EN: Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way. -->
-  <BTG_Settings_SpacerTierDefendersDesc>商人ギルドの防衛部隊が身につける武器,防具,インプラント,装備の品質はすべて宇宙世紀級になり,守備隊はエリート寄りの構成になります.\n無効にすると,バニラの装備一式と守備隊構成に戻ります.市民と子供の真空対策は,どちらの設定でも維持されます.</BTG_Settings_SpacerTierDefendersDesc>
+  <!-- "宇宙技術" is Core ja's own rendering of "spacer-tech" (Shuttle.description); エリート
+       matches Core's own Mercenary_Elite / Odyssey's Salvager_Elite PawnKindDef labels. -->
+  <!-- EN: Spacer-tech defenders (requires restart) -->
+  <BTG_Settings_SpacerTierDefenders>宇宙技術の防衛部隊 (再起動が必要)</BTG_Settings_SpacerTierDefenders>
+  <!-- EN: When enabled, Traders Guild defenders will carry spacer-tech weapons, armor and implants of better quality, and garrisons will include more elite fighters. When disabled, they will use vanilla equipment and the vanilla garrison mix.\nCitizens and children will have vacuum protection either way. -->
+  <BTG_Settings_SpacerTierDefendersDesc>有効にすると,商人ギルドの防衛部隊は宇宙技術の高品質な武器,防具,インプラントを身につけ,守備隊にはエリートの戦闘員が増えます.無効にすると,バニラの装備と守備隊構成になります.\n市民と子供の真空対策は,どちらの設定でも維持されます.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <!-- EN: Entrenched defender AI -->
   <BTG_Settings_EntrenchedDefenders>籠城型の防衛AI</BTG_Settings_EntrenchedDefenders>
-  <!-- EN: Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nGoverns settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).\nDecided when a map is generated; only affects maps entered afterwards. -->
-  <BTG_Settings_EntrenchedDefendersDesc>防衛部隊は拠点の構造物を守り続け,真空へ突撃したり侵入者を追跡したりせず,基地の中で食事と休息をとります.\n無効にすると,バニラの防衛AI(基地を守り,その後に突撃する)に戻ります.\n入植地の防衛部隊(専用の入植地マップ生成が有効な場合)と密輸業者の巣窟の防衛部隊(常に)を対象とします.\nマップが生成された時点で決定されるため,それ以降に入ったマップにのみ影響します.</BTG_Settings_EntrenchedDefendersDesc>
+  <!-- EN: When enabled, defenders will stay inside their base to eat and rest, and will never assault or chase intruders into vacuum. When disabled, they will defend the base and then assault, as in vanilla.\nSettlement garrisons need the custom settlement map generator for this. The smuggler's den garrison does not.\nThis is decided when a map is generated, so it will only affect maps you enter afterwards. -->
+  <BTG_Settings_EntrenchedDefendersDesc>有効にすると,防衛部隊は基地の中で食事と休息をとり,真空へ突撃したり侵入者を追跡したりすることは決してありません.無効にすると,バニラと同じように,基地を守ったあとで突撃します.\n入植地の防衛部隊にこの設定を適用するには,専用の入植地マップ生成が必要です.密輸業者の巣窟の防衛部隊には必要ありません.\nマップが生成される時に決まるため,設定を変えたあとに入ったマップにのみ影響します.</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <!-- EN: Scale defenders to colony threat level -->
   <BTG_Settings_ScaleDefenders>防衛部隊をコロニーの脅威レベルに合わせる</BTG_Settings_ScaleDefenders>
-  <!-- EN: Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
-  <BTG_Settings_ScaleDefendersDesc>襲撃と同じように,初期の防衛部隊の戦力がコロニーの資産と難易度に応じて増減します(バニラの基準値を下回ることはありません).\nバニラでは,進行度にかかわらずどの入植地もほぼ一定の戦力の駐屯部隊になります.\n入植地にのみ適用され,密輸業者の巣窟の防衛部隊はクエストによって規模が決まります.</BTG_Settings_ScaleDefendersDesc>
-  <!-- EN: Defender threat points multiplier: {0}x -->
-  <BTG_Settings_ThreatMultiplier>防衛部隊の脅威ポイント倍率: {0}x</BTG_Settings_ThreatMultiplier>
-  <!-- EN: Higher values = more/stronger initial defenders when entering settlements.\nSettlements only: the smuggler's den garrison is sized by its quest instead. -->
-  <BTG_Settings_ThreatMultiplierDesc>値を大きくするほど,入植地に入った時の初期の防衛部隊が多く,強くなります.\n入植地にのみ適用され,密輸業者の巣窟の防衛部隊はクエストによって規模が決まります.</BTG_Settings_ThreatMultiplierDesc>
+  <!-- EN: When enabled, a settlement's starting garrison will grow with your colony's wealth and the difficulty, like raids do. It will never be weaker than the vanilla garrison. When disabled, every settlement will have a similar garrison no matter how far you have progressed.\nThe smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ScaleDefendersDesc>有効にすると,襲撃と同じように,入植地の初期の守備隊はコロニーの資産と難易度に応じて大きくなります.バニラの守備隊より弱くなることはありません.無効にすると,進行度にかかわらず,どの入植地もほぼ同じ規模の守備隊になります.\n密輸業者の巣窟の守備隊は,代わりにクエストによって規模が決まります.</BTG_Settings_ScaleDefendersDesc>
+  <!-- EN: Defender strength multiplier: {0}x -->
+  <BTG_Settings_ThreatMultiplier>防衛部隊の戦力倍率: {0}x</BTG_Settings_ThreatMultiplier>
+  <!-- EN: Higher values will give settlements more and stronger defenders when you first enter them.\nThe smuggler's den garrison is sized by its quest instead. -->
+  <BTG_Settings_ThreatMultiplierDesc>値を大きくすると,初めて入った時の入植地の防衛部隊が多く,強くなります.\n密輸業者の巣窟の守備隊は,代わりにクエストによって規模が決まります.</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- 守備隊 is the mod-decided word for a garrison force (vanilla ja AncientGarrison is 駐屯地, a place). -->
@@ -143,15 +148,15 @@
   <!-- {0} = percentage -->
   <!-- EN: Garrison defeat threshold: {0}% -->
   <BTG_Settings_SecurityDefeatThreshold>守備隊の敗退しきい値: {0}%</BTG_Settings_SecurityDefeatThreshold>
-  <!-- EN: How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender. -->
-  <BTG_Settings_SecurityDefeatThresholdDesc>入植地や密輸業者の巣窟の初期防衛戦力がどれだけ無力化されると,その派閥がマップを放棄するかを決めます.\n防衛にあたる衛兵と巡回中のセントリードローンのみを数え,タレットや作業用メカは数えません.\n100%にすると,最後の一人まで戦います.</BTG_Settings_SecurityDefeatThresholdDesc>
+  <!-- EN: The share of the original defenders that must be downed before the faction gives up a settlement or the smuggler's den.\nGuards and patrolling sentry drones count. Turrets and worker mechs do not.\nAt 100% they will fight to the last defender. -->
+  <BTG_Settings_SecurityDefeatThresholdDesc>派閥が入植地や密輸業者の巣窟を放棄するのは,最初の防衛部隊の何割がダウンしたときかを決めます.\n衛兵と巡回中のセントリードローンは数に入り,タレットと作業用メカは入りません.\n100%にすると,最後の一人まで戦います.</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- "生命維持ユニット" is Odyssey ja's own LifeSupportUnit.label. -->
-  <!-- EN: LifeSupportUnit power output: {0}W -->
+  <!-- EN: Life support unit power output: {0}W -->
   <BTG_Settings_LifeSupportPower>生命維持ユニットの電力出力: {0}W</BTG_Settings_LifeSupportPower>
-  <!-- EN: Power output from orbital LifeSupportUnits.\nChanges the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps. -->
-  <BTG_Settings_LifeSupportDesc>軌道上の生命維持ユニットの電力出力です.\n建物の種類そのものを変更するため,商人ギルドのマップに限らず,惑星上のすべての軌道プラットフォームに影響します.</BTG_Settings_LifeSupportDesc>
+  <!-- EN: The power produced by each life support unit.\nThis changes every life support unit, so it will affect all orbital platforms, not only Traders Guild settlements. -->
+  <BTG_Settings_LifeSupportDesc>生命維持ユニット1基が生み出す電力です.\nすべての生命維持ユニットが変更されるため,商人ギルドの入植地だけでなく,すべての軌道プラットフォームに影響します.</BTG_Settings_LifeSupportDesc>
 
   <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
   <!-- EN: Trade request quest weight: {0} -->
@@ -176,20 +181,18 @@
   <!-- "通信機" is Core ja's CommsConsole.label; "非常用食品" its MealSurvivalPack.label. -->
   <!-- EN: Resupply meals per defender: {0} -->
   <BTG_Settings_ResupplyMealsPerDefender>防衛部隊1人あたりの補給食料: {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <!-- EN: When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.\nSet to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike. -->
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>構造物内の食料をすべて使い果たして飢えた防衛部隊は,通信機を使って非常用食品を積んだ貨物ポッドを呼び寄せます.この値は,生存している防衛部隊1人あたりの数です.\n0に設定すると,補給の要請自体を完全に無効にします.投下は1マップにつき6時間ごとに最大1回です.\n籠城型の防衛AIが必要です.入植地にも密輸業者の巣窟にも適用されます.</BTG_Settings_ResupplyMealsPerDefenderDesc>
-  <!-- Vanilla ja has no {0}h string; units attach tight throughout, so the English form
-       is kept as-is. -->
+  <!-- EN: The number of packaged survival meals delivered for each surviving defender when a starving garrison calls for resupply. Defenders will use a comms console to make the call once the food inside their base has run out.\nSet to 0 to disable resupply calls. Only one drop can land on a map every 6 hours.\nRequires entrenched defender AI. -->
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>飢えた守備隊が補給を要請した時に,生き残っている防衛部隊1人につき届けられる非常用食品の数です.基地の中の食料が尽きると,防衛部隊は通信機を使って要請を出します.\n0に設定すると,補給の要請は行われなくなります.投下は1つのマップにつき6時間に1回までです.\n籠城型の防衛AIが必要です.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <!-- EN: Call in reinforcements -->
   <BTG_Settings_ResupplyTriggersRaid>増援を要請する</BTG_Settings_ResupplyTriggersRaid>
-  <!-- EN: When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile. -->
-  <BTG_Settings_ResupplyTriggersRaidDesc>補給の要請が成功した時,守備隊の派閥による増援のドロップポッド襲撃も発生し,あなたのキャラクターを狙います.増援は行動範囲を制限された防衛部隊ではなく,通常の襲撃として現れます.低い確率で,少人数のまま真上に降下してくることがあります.マップの派閥が敵対している間のみ発生します.</BTG_Settings_ResupplyTriggersRaidDesc>
+  <!-- EN: When enabled, a successful resupply call will also bring a drop pod raid from the garrison's faction to hunt your colonists. The raiders will attack freely instead of holding the base, and will sometimes land right on top of your colonists in a smaller group. This will only happen while the faction is hostile. -->
+  <BTG_Settings_ResupplyTriggersRaidDesc>有効にすると,補給の要請が成功した時に,守備隊の派閥によるドロップポッド襲撃も発生し,入植者を狙います.襲撃者は基地を守らずに自由に攻撃し,時には少人数で入植者の真上に降下してきます.この襲撃は,その派閥が敵対している間にのみ発生します.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <!-- EN: Relock cargo vault -->
   <BTG_CargoVaultHatch_RelockLabel>貨物保管庫を再施錠</BTG_CargoVaultHatch_RelockLabel>
-  <!-- EN: Relock the cargo vault. Contents will be returned to station inventory. -->
-  <BTG_CargoVaultHatch_RelockDesc>貨物保管庫を再び施錠します.中身はステーションの在庫に戻されます.</BTG_CargoVaultHatch_RelockDesc>
+  <!-- EN: Relock the cargo vault. Its contents will be returned to the settlement's trade inventory. -->
+  <BTG_CargoVaultHatch_RelockDesc>貨物保管庫を再び施錠します.中身は入植地の交易品の在庫に戻されます.</BTG_CargoVaultHatch_RelockDesc>
 
   <!-- ========== SMUGGLER'S DEN QUEST ========== -->
   <!-- EN: Cargo claim: {0} -->
@@ -207,16 +210,41 @@
   <!-- EN: Remain hostile for now -->
   <BTG_EmpireRelationFix_LeaveHostile>当面は敵対したままにする</BTG_EmpireRelationFix_LeaveHostile>
 
+  <!-- ========== SCENARIO EDITOR: SCENARIO PARTS ========== -->
+  <!-- "特性" is Core ja's Trait; the "..." button frames follow Core ja's AddDrug
+       ("ドラッグを追加...") and ChooseMechColor ("メカの色を選択..."). -->
+  <!-- EN: Trait {0} -->
+  <BTG_ScenPart_TraitNumbered>特性{0}</BTG_ScenPart_TraitNumbered>
+  <!-- EN: Choose trait... -->
+  <BTG_ScenPart_ChooseTrait>特性を選択...</BTG_ScenPart_ChooseTrait>
+  <!-- EN: Add trait... -->
+  <BTG_ScenPart_AddTrait>特性を追加...</BTG_ScenPart_AddTrait>
+  <!-- EN: Custom color -->
+  <BTG_ScenPart_CustomColor>カスタムカラー</BTG_ScenPart_CustomColor>
+  <!-- "友好値" is Core ja's goodwill. -->
+  <!-- EN: Start with goodwill -->
+  <BTG_ScenPart_FactionGoodwill_Summary>開始時の友好値</BTG_ScenPart_FactionGoodwill_Summary>
+  <!-- "打ち上げ" is the launch verb in Odyssey ja's gravship strings. -->
+  <!-- EN: {0} (not launchable) -->
+  <BTG_ScenPart_NotLaunchable>{0} (打ち上げ不可)</BTG_ScenPart_NotLaunchable>
+  <!-- EN: Fuel % -->
+  <BTG_ScenPart_FuelPercent>燃料%</BTG_ScenPart_FuelPercent>
+  <!-- "ペイント" follows Core ja's Stat_Building_PaintColor ("ペイントカラー"). -->
+  <!-- EN: Paint -->
+  <BTG_ScenPart_Paint>ペイント</BTG_ScenPart_Paint>
+  <!-- EN: No paint -->
+  <BTG_ScenPart_NoPaint>ペイントなし</BTG_ScenPart_NoPaint>
+  <!-- Core ja's Xenotype is "ゼノタイプ". -->
+  <!-- EN: Xenotypes -->
+  <BTG_ScenPart_Xenotypes>ゼノタイプ</BTG_ScenPart_Xenotypes>
+
   <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
   <!-- Odyssey ja's TheGravship GameStartDialog is the direct template: the gravlite
        sentence, the launch sentence, the "惑星を見る" sentence and the closing mechhive
        sentence are reused verbatim, ASCII double quotes included. -->
   <!-- EN: Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself. -->
   <BTG_GameStartDialog_ExiledTraders>ギルドの発信器は沈黙し,メカハイブがあなたの信号を追跡しています.あの恐ろしい殺人マシンはすぐにでも追いつくでしょう.貴重品である重力軽量パネルを回収し,グラヴシップで目の前にある惑星の,安全そうな場所に逃げなければなりません.\n\nグラヴシップを打ち上げるには,パイロットコンソールを選択し,発射コマンドを選択してください.\n\nワールドマップで"惑星を見る"を選択し,着陸地点を選びましょう.\n\nギルドは助けてくれません.そして,どこへ逃げようとも最終的にはメカノイドに見つけられます.これを止めるには,メカハイブそのものを見つけ出し,打ち負かさなければなりません.</BTG_GameStartDialog_ExiledTraders>
-  <!-- The English uses two " - " hyphen breaks; Japanese carries both with an ordinary
-       comma-and-clause structure rather than introducing a dash. "船倉" is vanilla ja's
-       word for a ship's hold (Core BackstoryDef). -->
-  <!-- EN: The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home. -->
-  <BTG_GameStartDialog_IndependentTraders>シャトルが軌道リングを抜けると,交易用の周波数が別れの合図を短く鳴らしました.ギルドの運送に追われた年月も,分け合った利ざやも,混み合ったドッキングベイも,すべて後ろに置いてきました.恨みはありません.あるのは,より大きな計画だけです.\n\nシャトルは誰のものでもない荒野へと降りていきますが,ここではシルバーだけで生き延びることはできません.ギルドはこれからも昔なじみと取引してくれるでしょう.しかしまずは,拠点が必要です.</BTG_GameStartDialog_IndependentTraders>
+  <!-- EN: The Traders Guild is behind you now, along with the split margins and the crowded docking bays. There are no hard feelings. You just have bigger plans.\n\nYour shuttle is burning toward the unclaimed wilds, and silver alone won't keep you alive out here. The Guild will still deal with old friends, but first you need a home. -->
+  <BTG_GameStartDialog_IndependentTraders>商人ギルドは,分け合う利ざやや混み合ったドッキングベイとともに,もう過去のものです.恨みはありません.ただ,もっと大きな計画があるだけです.\n\nシャトルは誰のものでもない荒野へ全速で向かっていますが,ここではシルバーだけで生き延びることはできません.ギルドは昔なじみとは今も取引してくれるでしょう.しかしまずは,拠点が必要です.</BTG_GameStartDialog_IndependentTraders>
 
 </LanguageData>

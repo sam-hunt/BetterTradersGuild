@@ -14,8 +14,8 @@
   <!-- BTG_CargoVaultHatch_Sealed -->
   <!-- EN: sealed cargo vault hatch -->
   <BTG_CargoVaultHatch_Sealed.label>货物保险库封闭舱门</BTG_CargoVaultHatch_Sealed.label>
-  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to deny access to raiders. -->
-  <BTG_CargoVaultHatch_Sealed.description>一扇通往空间站安全货物保险库的加固舱门。为阻止袭击者进入，它已被过度封死。</BTG_CargoVaultHatch_Sealed.description>
+  <!-- EN: A reinforced hatch leading to the station's secure cargo vault. It has been over-aggressively sealed to keep raiders out. -->
+  <BTG_CargoVaultHatch_Sealed.description>一扇通往空间站安全货物保险库的加固舱门。为防袭击者闯入，它被封得太死。</BTG_CargoVaultHatch_Sealed.description>
 
   <!-- BTG_CargoVaultExit -->
   <!-- EN: cargo vault exit -->

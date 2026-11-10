@@ -6,31 +6,31 @@ The Traders Guild are the faction behind orbital trader events in RimWorld's Ody
 [hr][/hr]
 [h2]Peaceful Trading[/h2]
 [list]
-[*]Visit the Traders Guild on the world map via shuttle when relations are Neutral or better
-[*]Settlements cycle through orbital trader types on a configurable schedule
+[*]Visit the Traders Guild on the world map via shuttle when relations are Neutral or better.
+[*]Settlements cycle through orbital trader types on a configurable schedule.
 [*]Preview which trader is docked on the world map and plan your trips around the planet!
-[*]Orbital trade requests - Guild settlements send shuttle delivery jobs with goodwill and silver rewards
+[*]Orbital trade requests - Guild settlements send shuttle delivery jobs with goodwill and silver rewards.
 [/list]
 
 [h2]Overhauled Map Generation[/h2]
 [list]
-[*]New room types (Control Center, Crew Quarters, Cargo Hold, Commander's Lounge, Medbay, and more)
-[*]Cargo vault items spawn from trade inventory - steal it and it's gone from their world-layer trade stock
-[*]Lived-in aesthetics befitting wealthy merchants
+[*]New room types (Control Center, Crew Quarters, Cargo Hold, Commander's Lounge, Medbay, and more).
+[*]Cargo vault items come from the settlement's trade inventory. Anything you steal is gone from their trade stock.
+[*]Furnished, lived-in interiors that suit wealthy merchants.
 [/list]
 
 [h2]Living Settlements[/h2]
 [list]
-[*]Entrenched garrisons defend their home instead of charging into vacuum: they hold the structure, eat, sleep, tend to wounds, and call in resupply drops (and reinforcements) during long sieges
-[*]Worker mechs go about their jobs: paramedics rescue and treat casualties, cleansweepers keep the halls clean, agrihands farm the greenhouse
-[*]Civilians take shelter during assault and make a break for the shuttle if the shelter is breached
-[*]Break a settlement by crippling its security force; survivors abandon ship rather than fighting to the death
+[*]Entrenched garrisons defend their home instead of charging into vacuum. They eat, sleep and tend their wounds inside, and call in resupply drops and reinforcements during a long siege.
+[*]Worker mechs keep working. Paramedics rescue and treat casualties, cleansweepers clean the halls and agrihands farm the greenhouse.
+[*]Civilians take shelter during assault and make a break for the shuttle if the shelter is breached.
+[*]Cripple a settlement's security force to break it. The survivors will abandon the station rather than fight to the death.
 [/list]
 
 [h2]Smuggler's Den Quest[/h2]
 [list]
 [*]Experience the custom BTG assault map generation, even if you're committed to friendly relations, or prefer a different mod's map generation for Traders Guild settlements (e.g. VGE2).
-[*]Choose your reward: Faction goodwill, or claim orbital trader cargo vault goods for yourself
+[*]Choose your reward: faction goodwill, or an orbital trader's cargo to take from the vault yourself.
 [/list]
 
 [h2]New Scenarios[/h2]
@@ -38,7 +38,7 @@ The Traders Guild are the faction behind orbital trader events in RimWorld's Ody
 [*][b]Independent Traders[/b] - Leave the Guild to strike out on your own. Start with a shuttle, silver, and allied standing with your former employers.
 [*][b]Exiled Traders[/b] - A salvage job gone wrong awakens a mechhive. The Guild cuts you loose. Scavenge what you can and survive with mechanoids on your tail. Not for the faint of heart.
 [/olist]
-Reusable scenario parts: shuttle arrivals, unique weapons with traits, apparel coloring, faction goodwill, and xenotype pawn slot configuration
+Reusable scenario parts: shuttle arrival, a unique weapon with chosen traits, apparel color, faction goodwill and starting xenotypes
 
 [hr][/hr]
 [h1]Compatibility[/h1]
@@ -64,10 +64,7 @@ A: Possibly! It adds more trading opportunities. Guild settlements have much hig
 A: All configurable in mod settings.
 
 [b]Q: Why isn't a specific trader type showing up?[/b]
-A: Trader types are selected randomly based on commonality values. Some are rarer than others. Wait for rotations or check other settlements. Commonality of trader types from other mods might not be balanced.
-
-[b]Q: Was this made using LLMs!?[/b]
-A: Some of the grunt code, and most localizations. I'm a software engineer by trade, and have been writing code for 25 years. All code is manually reviewed and tested; all bug reports and mod-conflicts followed up personally as time and detail allows. All art is either commissioned from humans, hand-authored in Krita, or both.
+A: Trader types are picked at random and some are rarer than others. Wait for a rotation or check other settlements. Trader types from other mods might be more or less common than intended.
 
 [hr][/hr]
 [h2]Links[/h2]

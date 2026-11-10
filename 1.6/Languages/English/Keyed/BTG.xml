@@ -16,21 +16,21 @@
 
   <!-- ========== FORCE CLAIM GIZMO ========== -->
   <!-- Gizmo on VE pipe valves the player does not own yet -->
-  <BTG_ForceClaim_Label>Force Claim</BTG_ForceClaim_Label>
-  <BTG_ForceClaim_Desc>Bypass standard claiming rules and immediately claim this building. Normally, claiming is blocked while hostile pawns are anywhere on the map. This allows room-by-room progression through the station.</BTG_ForceClaim_Desc>
+  <BTG_ForceClaim_Label>Force claim</BTG_ForceClaim_Label>
+  <BTG_ForceClaim_Desc>Claim this building even while enemies remain on the map. Normally nothing can be claimed until every enemy is gone.</BTG_ForceClaim_Desc>
 
   <!-- ========== INSPECT STRINGS ========== -->
   <BTG_DockedVessel>Docked vessel</BTG_DockedVessel>
-  <!-- {0} = trader label, {1} = days remaining (e.g., "3.2") -->
+  <!-- {0} = BTG_DockedVessel, {1} = trader label, {2} = days remaining (e.g., "3.2") -->
   <BTG_DockedVesselDeparts>{0}: {1} (departs in {2} days)</BTG_DockedVesselDeparts>
 
   <!-- ========== MOD SETTINGS: SECTION HEADERS ========== -->
   <BTG_Settings_Trading>Trading</BTG_Settings_Trading>
-  <BTG_Settings_MapGeneration>Settlement Generation</BTG_Settings_MapGeneration>
-  <BTG_Settings_Defenders>Garrison &amp; Combat</BTG_Settings_Defenders>
-  <BTG_Settings_Events>Events &amp; Quests</BTG_Settings_Events>
-  <!-- Subgroup labels within Garrison & Combat -->
-  <BTG_Settings_Resupply>Defender Resupply</BTG_Settings_Resupply>
+  <BTG_Settings_MapGeneration>Settlement generation</BTG_Settings_MapGeneration>
+  <BTG_Settings_Defenders>Garrison and combat</BTG_Settings_Defenders>
+  <BTG_Settings_Events>Events and quests</BTG_Settings_Events>
+  <!-- Subgroup labels within Garrison and combat -->
+  <BTG_Settings_Resupply>Defender resupply</BTG_Settings_Resupply>
   <BTG_Settings_InitialGarrison>Initial settlement garrison</BTG_Settings_InitialGarrison>
 
   <!-- ========== MOD SETTINGS: CARGO VAULT ========== -->
@@ -38,12 +38,12 @@
   <BTG_Settings_EnableCargoVaultDesc>When enabled, each settlement's cargo vault hatch can be hacked to access trade inventory.\nWhen disabled, cargo vaults spawn sealed and inaccessible.\nOnly affects newly generated settlements, and requires the custom settlement map generator.\nThe smuggler's den vault is controlled by its quest reward instead of this setting.</BTG_Settings_EnableCargoVaultDesc>
   <!-- {0} = stack count, or BTG_Settings_Unlimited -->
   <BTG_Settings_CargoVaultMaxStacks>Cargo vault stack limit: {0}</BTG_Settings_CargoVaultMaxStacks>
-  <BTG_Settings_CargoVaultMaxStacksDesc>The most item stacks a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nLower this if a modded trader's vault crashes or lags the game. Slide fully right for no limit.</BTG_Settings_CargoVaultMaxStacksDesc>
+  <BTG_Settings_CargoVaultMaxStacksDesc>The maximum number of item stacks a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nLower this if a modded trader's vault slows or crashes the game. Slide fully right for no limit.</BTG_Settings_CargoVaultMaxStacksDesc>
   <!-- {0} = BTG_Settings_CargoVaultMaxWealthValue, or BTG_Settings_Unlimited -->
   <BTG_Settings_CargoVaultMaxWealth>Cargo vault wealth limit: {0}</BTG_Settings_CargoVaultMaxWealth>
   <!-- {0} = market value in silver, formatted with thousands separators -->
   <BTG_Settings_CargoVaultMaxWealthValue>{0} silver</BTG_Settings_CargoVaultMaxWealthValue>
-  <BTG_Settings_CargoVaultMaxWealthDesc>The most market value a cargo vault spawns when hacked open; the rest stays in the settlement's trade inventory.\nSlide fully right for no limit.</BTG_Settings_CargoVaultMaxWealthDesc>
+  <BTG_Settings_CargoVaultMaxWealthDesc>The maximum market value of the items a cargo vault will contain when it is hacked open. The rest will stay in the settlement's trade inventory.\nSlide fully right for no limit.</BTG_Settings_CargoVaultMaxWealthDesc>
   <BTG_Settings_Unlimited>Unlimited</BTG_Settings_Unlimited>
 
   <!-- ========== MOD SETTINGS: TRADER ROTATION ========== -->
@@ -52,12 +52,12 @@
   <BTG_Settings_Vanilla>(vanilla)</BTG_Settings_Vanilla>
   <BTG_Settings_BTGRecommended>(suggested)</BTG_Settings_BTGRecommended>
   <BTG_Settings_Default>(default)</BTG_Settings_Default>
-  <BTG_Settings_TraderRotationDesc1>How often orbital traders rotate at TradersGuild settlements.</BTG_Settings_TraderRotationDesc1>
-  <BTG_Settings_TraderRotationDesc2>Lower values = more variety, but less time to reach distant settlements.</BTG_Settings_TraderRotationDesc2>
+  <BTG_Settings_TraderRotationDesc1>How often orbital traders rotate at Traders Guild settlements.</BTG_Settings_TraderRotationDesc1>
+  <BTG_Settings_TraderRotationDesc2>Lower values will give more variety, but less time to reach distant settlements.</BTG_Settings_TraderRotationDesc2>
 
   <!-- ========== MOD SETTINGS: CUSTOM LAYOUTS ========== -->
   <BTG_Settings_UseCustomLayouts>Use custom settlement map generator</BTG_Settings_UseCustomLayouts>
-  <BTG_Settings_UseCustomLayoutsDesc>Generate TradersGuild settlements with less abandoned-looking aesthetics.\nDisable if using other map generation mods or prefer vanilla layouts.\nThe smuggler's den quest site always uses its own map generator, whatever this is set to.</BTG_Settings_UseCustomLayoutsDesc>
+  <BTG_Settings_UseCustomLayoutsDesc>When enabled, Traders Guild settlements will generate with furnished, lived-in interiors. When disabled, they will use the vanilla layouts, or allow other mods' map generation to run.\nThe smuggler's den always uses its own map generator.</BTG_Settings_UseCustomLayoutsDesc>
 
   <!-- Yellow notes shown only while Vanilla Gravship Expanded - Chapter 2's Traders Guild station is active -->
   <BTG_Settings_UseCustomLayoutsVGE2Note>Vanilla Gravship Expanded - Chapter 2 is active: its Traders Guild station is generated instead, with some of this mod's additions layered on top.</BTG_Settings_UseCustomLayoutsVGE2Note>
@@ -66,32 +66,32 @@
   <!-- ========== MOD SETTINGS: SENTRY DRONES ========== -->
   <!-- {0} = percentage -->
   <BTG_Settings_SentryDronePresence>Additional sentry drone presence: {0}%</BTG_Settings_SentryDronePresence>
-  <BTG_Settings_SentryDroneDesc>Factor of threat points used for additional patrolling sentry drones.\nApplies to settlements and the smuggler's den alike.</BTG_Settings_SentryDroneDesc>
+  <BTG_Settings_SentryDroneDesc>Adjust the number of extra sentry drones on patrol. The number also grows with your colony's threat level.</BTG_Settings_SentryDroneDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER GEAR ========== -->
-  <BTG_Settings_SpacerTierDefenders>Spacer-tier defenders (requires restart)</BTG_Settings_SpacerTierDefenders>
-  <BTG_Settings_SpacerTierDefendersDesc>Traders Guild defenders get spacer-tier weapons, armor, implants and gear quality, and garrisons lean toward elites.\nDisable for vanilla loadouts and garrison mix. Vacuum protection for citizens and children stays either way.</BTG_Settings_SpacerTierDefendersDesc>
+  <BTG_Settings_SpacerTierDefenders>Spacer-tech defenders (requires restart)</BTG_Settings_SpacerTierDefenders>
+  <BTG_Settings_SpacerTierDefendersDesc>When enabled, Traders Guild defenders will carry spacer-tech weapons, armor and implants of better quality, and garrisons will include more elite fighters. When disabled, they will use vanilla equipment and the vanilla garrison mix.\nCitizens and children will have vacuum protection either way.</BTG_Settings_SpacerTierDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER AI ========== -->
   <BTG_Settings_EntrenchedDefenders>Entrenched defender AI</BTG_Settings_EntrenchedDefenders>
-  <BTG_Settings_EntrenchedDefendersDesc>Defenders hold their structure and never assault or chase intruders into vacuum, foraging and resting inside their base.\nDisable to revert to vanilla defender AI (defends the base, then assaults).\nGoverns settlement garrisons (when the custom settlement map generator is on) and the smuggler's den garrison (always).\nDecided when a map is generated; only affects maps entered afterwards.</BTG_Settings_EntrenchedDefendersDesc>
+  <BTG_Settings_EntrenchedDefendersDesc>When enabled, defenders will stay inside their base to eat and rest, and will never assault or chase intruders into vacuum. When disabled, they will defend the base and then assault, as in vanilla.\nSettlement garrisons need the custom settlement map generator for this. The smuggler's den garrison does not.\nThis is decided when a map is generated, so it will only affect maps you enter afterwards.</BTG_Settings_EntrenchedDefendersDesc>
 
   <!-- ========== MOD SETTINGS: DEFENDER THREAT POINTS ========== -->
   <BTG_Settings_ScaleDefenders>Scale defenders to colony threat level</BTG_Settings_ScaleDefenders>
-  <BTG_Settings_ScaleDefendersDesc>Initial defender strength scales with your colony's wealth and difficulty, like raids do (never below the vanilla baseline).\nVanilla gives every settlement a similar fixed-strength garrison regardless of your progress.\nSettlements only: the smuggler's den garrison is sized by its quest instead.</BTG_Settings_ScaleDefendersDesc>
+  <BTG_Settings_ScaleDefendersDesc>When enabled, a settlement's starting garrison will grow with your colony's wealth and the difficulty, like raids do. It will never be weaker than the vanilla garrison. When disabled, every settlement will have a similar garrison no matter how far you have progressed.\nThe smuggler's den garrison is sized by its quest instead.</BTG_Settings_ScaleDefendersDesc>
   <!-- {0} = multiplier (e.g., "1.5") -->
-  <BTG_Settings_ThreatMultiplier>Defender threat points multiplier: {0}x</BTG_Settings_ThreatMultiplier>
-  <BTG_Settings_ThreatMultiplierDesc>Higher values = more/stronger initial defenders when entering settlements.\nSettlements only: the smuggler's den garrison is sized by its quest instead.</BTG_Settings_ThreatMultiplierDesc>
+  <BTG_Settings_ThreatMultiplier>Defender strength multiplier: {0}x</BTG_Settings_ThreatMultiplier>
+  <BTG_Settings_ThreatMultiplierDesc>Higher values will give settlements more and stronger defenders when you first enter them.\nThe smuggler's den garrison is sized by its quest instead.</BTG_Settings_ThreatMultiplierDesc>
 
   <!-- ========== MOD SETTINGS: GARRISON DEFEAT ========== -->
   <!-- {0} = percentage -->
   <BTG_Settings_SecurityDefeatThreshold>Garrison defeat threshold: {0}%</BTG_Settings_SecurityDefeatThreshold>
-  <BTG_Settings_SecurityDefeatThresholdDesc>How much of a settlement's or smugglers den's original defence force must be downed before the faction gives up the map.\nCounts defending guards and patrolling sentry drones, not turrets or worker mechs.\n100% means fighting to the last defender.</BTG_Settings_SecurityDefeatThresholdDesc>
+  <BTG_Settings_SecurityDefeatThresholdDesc>The share of the original defenders that must be downed before the faction gives up a settlement or the smuggler's den.\nGuards and patrolling sentry drones count. Turrets and worker mechs do not.\nAt 100% they will fight to the last defender.</BTG_Settings_SecurityDefeatThresholdDesc>
 
   <!-- ========== MOD SETTINGS: LIFE SUPPORT ========== -->
   <!-- {0} = watts -->
-  <BTG_Settings_LifeSupportPower>LifeSupportUnit power output: {0}W</BTG_Settings_LifeSupportPower>
-  <BTG_Settings_LifeSupportDesc>Power output from orbital LifeSupportUnits.\nChanges the building type itself, so it affects every orbital platform on the planet, not only Traders Guild maps.</BTG_Settings_LifeSupportDesc>
+  <BTG_Settings_LifeSupportPower>Life support unit power output: {0}W</BTG_Settings_LifeSupportPower>
+  <BTG_Settings_LifeSupportDesc>The power produced by each life support unit.\nThis changes every life support unit, so it will affect all orbital platforms, not only Traders Guild settlements.</BTG_Settings_LifeSupportDesc>
 
   <!-- ========== MOD SETTINGS: QUEST WEIGHTS ========== -->
   <!-- {0} = selection weight (e.g., "1.00") -->
@@ -110,13 +110,13 @@
   <!-- ========== MOD SETTINGS: DEFENDER RESUPPLY ========== -->
   <!-- {0} = meals per defender -->
   <BTG_Settings_ResupplyMealsPerDefender>Resupply meals per defender: {0}</BTG_Settings_ResupplyMealsPerDefender>
-  <BTG_Settings_ResupplyMealsPerDefenderDesc>When starving defenders have exhausted all food inside the structure, they use a comms console to call in a survival-meal cargo pod: this many meals per surviving defender.\nSet to 0 to disable resupply calls entirely. At most one drop lands per map every 6 hours.\nRequires entrenched defender AI. Applies to settlements and the smuggler's den alike.</BTG_Settings_ResupplyMealsPerDefenderDesc>
+  <BTG_Settings_ResupplyMealsPerDefenderDesc>The number of packaged survival meals delivered for each surviving defender when a starving garrison calls for resupply. Defenders will use a comms console to make the call once the food inside their base has run out.\nSet to 0 to disable resupply calls. Only one drop can land on a map every 6 hours.\nRequires entrenched defender AI.</BTG_Settings_ResupplyMealsPerDefenderDesc>
   <BTG_Settings_ResupplyTriggersRaid>Call in reinforcements</BTG_Settings_ResupplyTriggersRaid>
-  <BTG_Settings_ResupplyTriggersRaidDesc>When a resupply call succeeds, also summon a drop-pod raid of the garrison faction's reinforcements to hunt your pawns. They arrive as a normal raid rather than as bounded defenders. Small chance they drop right on top of your pawns in a smaller group. Only fires while the map's faction is hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
+  <BTG_Settings_ResupplyTriggersRaidDesc>When enabled, a successful resupply call will also bring a drop pod raid from the garrison's faction to hunt your colonists. The raiders will attack freely instead of holding the base, and will sometimes land right on top of your colonists in a smaller group. This will only happen while the faction is hostile.</BTG_Settings_ResupplyTriggersRaidDesc>
 
   <!-- ========== CARGO VAULT HATCH ========== -->
   <BTG_CargoVaultHatch_RelockLabel>Relock cargo vault</BTG_CargoVaultHatch_RelockLabel>
-  <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Contents will be returned to station inventory.</BTG_CargoVaultHatch_RelockDesc>
+  <BTG_CargoVaultHatch_RelockDesc>Relock the cargo vault. Its contents will be returned to the settlement's trade inventory.</BTG_CargoVaultHatch_RelockDesc>
 
   <!-- ========== SMUGGLER'S DEN QUEST ========== -->
   <!-- {0} = trader kind label (e.g., "exotic goods") -->
@@ -152,6 +152,6 @@
 
   <!-- ========== SCENARIO: GAME START DIALOGS ========== -->
   <BTG_GameStartDialog_ExiledTraders>Your guild transponder is dead, and the mechhive tracks your signal. Its terrifying murder machines will arrive soon. Gather the valuable gravlite panels, then use your gravship to flee to a safe location on the planet below.\n\nTo launch the gravship, select the pilot console, then select the launch command.\n\nOn the world map, select 'view planet' to choose a landing spot on the planet.\n\nThe Guild won't help you, and wherever you go, the mechanoids will eventually find you. To stop them, you must find and defeat the mechhive itself.</BTG_GameStartDialog_ExiledTraders>
-  <BTG_GameStartDialog_IndependentTraders>The trade frequency chirps its farewell as your shuttle clears the orbital ring. Years of guild runs, split margins, and crowded docking bays - all behind you. No hard feelings. Just bigger plans.\n\nYour shuttle burns toward unclaimed wilds, yet silver alone won't keep you alive out here. The guild will still deal with old friends - but first, you need a home.</BTG_GameStartDialog_IndependentTraders>
+  <BTG_GameStartDialog_IndependentTraders>The Traders Guild is behind you now, along with the split margins and the crowded docking bays. There are no hard feelings. You just have bigger plans.\n\nYour shuttle is burning toward the unclaimed wilds, and silver alone won't keep you alive out here. The Guild will still deal with old friends, but first you need a home.</BTG_GameStartDialog_IndependentTraders>
 
 </LanguageData>
