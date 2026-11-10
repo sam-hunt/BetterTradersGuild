@@ -58,7 +58,7 @@ namespace BetterTradersGuild.ScenParts
                 Rect xenotypesLabel = new Rect(rect.x - 200f, rect.y + RowHeight * 2f, 200f, RowHeight);
                 xenotypesLabel.xMax -= 4f;
                 Text.Anchor = TextAnchor.UpperRight;
-                Widgets.Label(xenotypesLabel, "Xenotypes");
+                Widgets.Label(xenotypesLabel, "BTG_ScenPart_Xenotypes".Translate());
                 Text.Anchor = TextAnchor.UpperLeft;
 
                 for (int i = 0; i < pawnChoiceCount; i++)

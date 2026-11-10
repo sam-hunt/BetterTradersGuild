@@ -16,7 +16,7 @@ namespace BetterTradersGuild.ScenParts
         public override void DoEditInterface(Listing_ScenEdit listing)
         {
             Rect rect = listing.GetScenPartRect(this, RowHeight);
-            string label = ColorDefForCurrentColor()?.LabelCap.ToString() ?? "Custom color";
+            string label = ColorDefForCurrentColor()?.LabelCap.ToString() ?? "BTG_ScenPart_CustomColor".Translate().ToString();
             if (Widgets.ButtonText(rect, label))
             {
                 FloatMenuUtility.MakeMenu(

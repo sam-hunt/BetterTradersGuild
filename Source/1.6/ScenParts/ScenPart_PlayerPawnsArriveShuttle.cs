@@ -29,12 +29,12 @@ namespace BetterTradersGuild.ScenParts
 
             string shuttleLabel = IsLaunchable(resolved)
                 ? resolved.LabelCap.ToString()
-                : resolved.LabelCap + " (not launchable)";
+                : "BTG_ScenPart_NotLaunchable".Translate(resolved.LabelCap).ToString();
             if (Widgets.ButtonText(shuttleRect, shuttleLabel))
             {
                 FloatMenuUtility.MakeMenu(
                     PossibleShuttleDefs(),
-                    d => IsLaunchable(d) ? d.LabelCap.ToString() : d.LabelCap + " (not launchable)",
+                    d => IsLaunchable(d) ? d.LabelCap.ToString() : "BTG_ScenPart_NotLaunchable".Translate(d.LabelCap).ToString(),
                     d => delegate
                     {
                         shuttleDef = d;
@@ -48,7 +48,7 @@ namespace BetterTradersGuild.ScenParts
             Rect fuelLabelRect = new Rect(rect.x - 200f, fuelRect.y, 200f, RowHeight);
             fuelLabelRect.xMax -= 4f;
             Text.Anchor = TextAnchor.UpperRight;
-            Widgets.Label(fuelLabelRect, "Fuel %");
+            Widgets.Label(fuelLabelRect, "BTG_ScenPart_FuelPercent".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
             fuelPctDisplay = Mathf.RoundToInt(initialFuelPct * 100f);
             Widgets.TextFieldNumeric(fuelRect, ref fuelPctDisplay, ref fuelBuf, 0f, 100f);
@@ -61,13 +61,13 @@ namespace BetterTradersGuild.ScenParts
                 Rect paintLabelRect = new Rect(rect.x - 200f, colorRect.y, 200f, RowHeight);
                 paintLabelRect.xMax -= 4f;
                 Text.Anchor = TextAnchor.UpperRight;
-                Widgets.Label(paintLabelRect, "Paint");
+                Widgets.Label(paintLabelRect, "BTG_ScenPart_Paint".Translate());
                 Text.Anchor = TextAnchor.UpperLeft;
-                string colorLabel = paintColor != null ? paintColor.LabelCap.ToString() : "No paint";
+                string colorLabel = paintColor != null ? paintColor.LabelCap.ToString() : "BTG_ScenPart_NoPaint".Translate().ToString();
                 if (Widgets.ButtonText(colorRect, colorLabel))
                 {
                     List<FloatMenuOption> options = new List<FloatMenuOption>();
-                    options.Add(new FloatMenuOption("No paint", delegate { paintColor = null; }));
+                    options.Add(new FloatMenuOption("BTG_ScenPart_NoPaint".Translate(), delegate { paintColor = null; }));
                     foreach (ColorDef cd in DefDatabase<ColorDef>.AllDefs)
                     {
                         ColorDef local = cd;

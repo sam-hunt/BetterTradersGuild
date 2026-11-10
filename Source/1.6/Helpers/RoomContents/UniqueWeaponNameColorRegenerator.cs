@@ -104,10 +104,13 @@ namespace BetterTradersGuild.Helpers.RoomContents
         // Generates weapon name using trait adjectives, color, and weapon type.
         // Format: "[adjective] [color] [weapon_type]"
         // Examples: "Golden Charge Rifle", "Brilliant Revolver"
+        // Every piece is already-localized def text, so the fallbacks are def-derived too
+        // rather than English literals: no color drops the color word, and no namer labels
+        // falls back to the weapon's own label.
         private static string GenerateWeaponName(CompUniqueWeapon uniqueComp)
         {
             if (uniqueComp == null)
-                return "Unique Weapon";
+                return null;
 
             // Collect all adjectives from traits
             var allAdjectives = new List<string>();
@@ -121,25 +124,23 @@ namespace BetterTradersGuild.Helpers.RoomContents
 
             // Get the weapon color (or null if not set yet)
             ColorDef color = ColorField != null ? (ColorDef)ColorField.GetValue(uniqueComp) : null;
-            string colorName = color?.label ?? "Blue";
+            string colorName = color?.label;
 
             // Get weapon type from component properties
-            string weaponType = "Weapon";
+            string weaponType = uniqueComp.parent.def.label;
             if (uniqueComp.Props?.namerLabels != null && uniqueComp.Props.namerLabels.Count > 0)
             {
                 weaponType = uniqueComp.Props.namerLabels.RandomElement();
             }
 
             // Build the final name
+            var parts = new List<string>();
             if (allAdjectives.Count > 0)
-            {
-                string adjective = allAdjectives.RandomElement();
-                return $"{adjective.CapitalizeFirst()} {colorName.CapitalizeFirst()} {weaponType}";
-            }
-            else
-            {
-                return $"{colorName.CapitalizeFirst()} {weaponType}";
-            }
+                parts.Add(allAdjectives.RandomElement().CapitalizeFirst());
+            if (!colorName.NullOrEmpty())
+                parts.Add(colorName.CapitalizeFirst());
+            parts.Add(parts.Count > 0 ? weaponType : weaponType.CapitalizeFirst());
+            return string.Join(" ", parts);
         }
     }
 }

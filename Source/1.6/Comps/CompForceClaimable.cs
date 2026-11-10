@@ -64,10 +64,8 @@ namespace BetterTradersGuild.Comps
             // Create Force Claim gizmo
             Command_Action forceClaimGizmo = new Command_Action
             {
-                defaultLabel = "Force Claim",
-                defaultDesc = "Bypass standard claiming rules and immediately claim this building. " +
-                              "Normally, claiming is blocked while hostile pawns are anywhere on the map. " +
-                              "This allows room-by-room progression through the station.",
+                defaultLabel = "BTG_ForceClaim_Label".Translate(),
+                defaultDesc = "BTG_ForceClaim_Desc".Translate(),
                 icon = ClaimIcon,
                 action = delegate
                 {

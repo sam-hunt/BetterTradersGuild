@@ -46,7 +46,7 @@ namespace BetterTradersGuild.ScenParts
             Rect qualityLabelRect = new Rect(rect.x - 200f, rect.y + RowHeight, 200f, RowHeight);
             qualityLabelRect.xMax -= 4f;
             Text.Anchor = TextAnchor.UpperRight;
-            Widgets.Label(qualityLabelRect, "Quality");
+            Widgets.Label(qualityLabelRect, "Quality".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
             Rect qualityBtnRect = new Rect(rect.x, rect.y + RowHeight, rect.width, RowHeight);
             string qualityLabel = quality.HasValue
@@ -78,7 +78,7 @@ namespace BetterTradersGuild.ScenParts
                 Rect traitLabelRect = new Rect(rect.x - 200f, rowY, 200f, RowHeight);
                 traitLabelRect.xMax -= 4f;
                 Text.Anchor = TextAnchor.UpperRight;
-                Widgets.Label(traitLabelRect, "Trait " + (i + 1));
+                Widgets.Label(traitLabelRect, "BTG_ScenPart_TraitNumbered".Translate(i + 1));
                 Text.Anchor = TextAnchor.UpperLeft;
 
                 Rect traitBtnRect = new Rect(rect.x, rowY, rect.width - removeButtonWidth, RowHeight);
@@ -86,7 +86,7 @@ namespace BetterTradersGuild.ScenParts
 
                 int index = i;
                 WeaponTraitDef current = requiredTraits[i];
-                string traitLabel = current != null ? current.LabelCap.ToString() : "Choose trait...";
+                string traitLabel = current != null ? current.LabelCap.ToString() : "BTG_ScenPart_ChooseTrait".Translate().ToString();
                 if (Widgets.ButtonText(traitBtnRect, traitLabel))
                 {
                     FloatMenuUtility.MakeMenu(
@@ -110,7 +110,7 @@ namespace BetterTradersGuild.ScenParts
             if (canAddMore)
             {
                 Rect addRect = new Rect(rect.x, rect.y + RowHeight * (2 + traitCount), rect.width, RowHeight);
-                if (Widgets.ButtonText(addRect, "Add trait..."))
+                if (Widgets.ButtonText(addRect, "BTG_ScenPart_AddTrait".Translate()))
                 {
                     FloatMenuUtility.MakeMenu(
                         CompatibleTraitDefs(-1),

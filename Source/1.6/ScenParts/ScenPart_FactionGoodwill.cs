@@ -86,7 +86,7 @@ namespace BetterTradersGuild.ScenParts
 
         public override string Summary(Scenario scen)
         {
-            return ScenSummaryList.SummaryWithList(scen, SummaryTag, "Start with goodwill");
+            return ScenSummaryList.SummaryWithList(scen, SummaryTag, "BTG_ScenPart_FactionGoodwill_Summary".Translate());
         }
 
         public override IEnumerable<string> GetSummaryListEntries(string tag)
