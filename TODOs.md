@@ -1,8 +1,11 @@
 # TODOs
 
+- Re-upload the recompressed gallery images to the Workshop page
+
 ## Feature work
 
 - Way more backstories?!
+- Investigate whether the smuggler's den _should_ send recurring raid reinforcements. Today it sends none: vanilla TimedDetectionRaids never starts on gravship-landed maps, so only storyteller threats and survivor resupply calls arrive. Resupply raids also fire post-defeat, since CanTriggerNow has no IsPostDefeatMap gate
 
 ### VGE2 Integration (working doc + tracker: Docs/VGE2_INTEGRATION.md)
 
@@ -31,8 +34,6 @@
 
 ### Upstream
 
-- upstream l10n smoke engine: cross-reference errors raised by a BTG patch (DirectXmlCrossRefLoader stack, no mod frame) classify as `other`, so the 2026-10-15 prestige-armour MayRequire bug passed the gate; attribute unresolved-cross-ref errors by scanning active mods' Defs/Patches for the wanted defName
-- upstream l10n: sidecar freshness check only compares label/description, so an English edit to a nested field (quest rulesStrings) never forces a regen
 - upstream missing faction check on Building_AndroidStand.CannotUseNowReason(Pawn)
 
 ## Other mod integration
