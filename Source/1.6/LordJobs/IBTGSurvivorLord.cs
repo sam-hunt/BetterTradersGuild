@@ -5,9 +5,10 @@ namespace BetterTradersGuild.LordJobs
     // abandon-ship chain, the sheltering civilians, and the worker/passive mechs.
     //
     // The survivor label override (PawnNameColorUtilityPawnNameColorOf) uses it to
-    // recolor only genuine survivors: pawns arriving in raid lords after defeat (the
-    // den site inherits TimedDetectionRaids, so hostile reinforcements can drop in
-    // post-defeat) never match and keep their hostile label. Lordless garrison-faction
+    // recolor only genuine survivors: pawns arriving in raid lords after defeat (a
+    // stranded civilian's resupply call can summon a garrison-faction raid, and the
+    // storyteller treats a gravship-landed den as a home map) never match and keep
+    // their hostile label. Lordless garrison-faction
     // pawns (crib infants; permanently downed sentry drones) count as survivors
     // without needing the marker - nothing arrives on these maps lordless and hostile.
     public interface IBTGSurvivorLord

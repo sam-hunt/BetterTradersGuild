@@ -6,6 +6,8 @@
     Inherits from SpaceSite (which inherits from Site) to get:
     - Space layer rendering (expandingIcon, fullyExpandedInSpace)
     - Vanilla Site comps (DefeatAllEnemiesQuest, TimedDetectionRaids, FormCaravan, etc.)
+      (TimedDetectionRaids is inherited but never starts: Site.PostMapGenerate skips it
+      on gravship-landed maps, the only way in. See SitePartWorker_SmugglersDen.)
 
     Overrides mapGenerator with BTG_SmugglersDenMapGenerator for custom settlement layout.
     Uses Inherit="True" on comps to preserve parent comps while adding QuestVault.

@@ -147,7 +147,7 @@ namespace BetterTradersGuild.Patches.PawnNameColorUtilityPatches
                 return;
 
             // Genuine survivors only - see IBTGSurvivorLord. Pawns arriving in raid
-            // lords after defeat (den TimedDetectionRaids reinforcements) stay red.
+            // lords after defeat (resupply-call reinforcements) stay red.
             Lord lord = pawn.GetLord();
             if (lord != null && !(lord.LordJob is IBTGSurvivorLord))
                 return;
