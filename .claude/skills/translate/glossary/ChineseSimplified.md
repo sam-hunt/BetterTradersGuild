@@ -45,3 +45,12 @@ colorized mod name).
 `traitAdjectives` must be **bare attributive words** that read as a prefix on
 a weapon noun (银/白银/闪耀/银白/精良 → 银白长剑), never a 的-terminated
 phrase.
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | 逆重跳跃船 | Coined, pending native review: Odyssey 逆重 + Royalty 跳跃 (`Apparel_PackJump` 跳跃背包) + 船. A Workshop pack exists ("Vanilla Gravship Expanded - 简&繁中文汉化包") but is not on GitHub and could not be read on 2026-11-18 (Workshop search returned HTTP 500); align to it if its terms surface. |
+| pilot cockpit | 驾驶舱 | Same source. |

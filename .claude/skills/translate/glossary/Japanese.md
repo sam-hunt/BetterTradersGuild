@@ -62,3 +62,12 @@ who *receives* the favor. BTG ships
 `この取引の要求を満たした功績として,誰に[asker_faction_royalFavorLabel]を与えますか?`
 instead. Same lesson pt-BR's section records from its own direction: frequency
 is not correctness, and it applies to vanilla's own data.
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | グラヴジャンパー | Coined, pending native review: katakana like Odyssey グラヴシップ and Royalty ジャンプパック; parallels パイロットコンソール. No community Japanese VGE pack was found on GitHub or by web search on 2026-11-18. |
+| pilot cockpit | パイロットコックピット | Same source. |

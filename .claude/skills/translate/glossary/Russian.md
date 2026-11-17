@@ -37,3 +37,12 @@ The five shipped values (from the DefInjected XML, both the `SilverInlay`
 main-tree entries and the `BTG_SilverInlayMelee` UMW compat-root mirror):
 серебряный (silver), посеребрённый (silvered), блестящий (gleaming),
 серебристый (argent), изящный (fine).
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | гравипрыжковый корабль (m.) | Community pack `OneCodeUnit/VanillaRussianExpanded` (`VGE_Gravjumper`, `VGE_PilotCockpit.label`), fetched 2026-11-18. Its own `TheGravship` dialog uses the same two sentences. |
+| pilot cockpit | кабина пилота (acc. кабину пилота) | Same source. |

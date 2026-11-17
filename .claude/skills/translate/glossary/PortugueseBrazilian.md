@@ -84,3 +84,12 @@ ThingDef and TransportShipDef labels are identical). **stack limit** limite de
 pilhas, **wealth limit** limite de riqueza, **{0} silver** `{0} de prata`,
 **Unlimited** Ilimitado (masculine, agreeing with "limite" in both slider
 labels).
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | gravisaltador (m.) | Community pack `RafaelNaymaier/Traducao-Vanilla-Expanded-PT-BR` (`VGE_Gravjumper`, `VGE_PilotCockpit.label`), fetched 2026-11-18. Masculine, so `seu gravisaltador` / `o gravisaltador` where the base string has `sua gravinave` / `a gravinave`. |
+| pilot cockpit | cockpit do piloto | Same source. |

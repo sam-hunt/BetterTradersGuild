@@ -71,3 +71,12 @@ the sentence was rebuilt so the symbol is a plain **direct object**
 preposition entirely — the same move vanilla es makes in `AncientHatch`
 ("ha terminado de hackear {SUBJECT_labelNoParenthesisDef}."). Restructuring
 beats `{replace:}` whenever the sentence allows it.
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | gravisaltador (m.) | Community pack `LordMordelon/RML` (`VGE_Gravjumper`, `VGE_PilotCockpit.label`), fetched 2026-11-18. The pack is SpanishLatin; no Castilian VGE pack was found, and neither term is regional. Masculine, so `tu gravisaltador` / `el gravisaltador`. |
+| pilot cockpit | cabina de pilotaje | Same source. |

@@ -78,3 +78,12 @@ reuses verbatim: that curly pair is Odyssey's single `“` in 89k value-chars
 `traitAdjectives` must be **bare attributive words** that read as a prefix on a
 weapon noun (白銀/銀/閃亮/銀白/精良 → 銀白長劍), never a 的- or 之-terminated
 phrase. Same rule Odyssey's own `GoldInlay` follows (黃金/金).
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | 重力跳躍船 | Coined, pending native review: Odyssey 重力 + Royalty 跳躍 (`Apparel_PackJump` 跳躍背包) + 船. A Workshop pack exists ("Vanilla Gravship Expanded - 简&繁中文汉化包") but is not on GitHub and could not be read on 2026-11-18 (Workshop search returned HTTP 500); align to it if its terms surface. |
+| pilot cockpit | 駕駛艙 | Same source. |

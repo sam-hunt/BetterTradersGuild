@@ -66,3 +66,12 @@ plain **direct object** (`… a contourné la sécurité et ouvert {SUBJECT_…D
 which is also what vanilla fr does in `AncientHatch` (`a terminé de pirater
 {SUBJECT_labelNoParenthesisDef}.`). Restructuring beats fighting the worker —
 the same conclusion the de and es sections reach from their own directions.
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | sauteur gravitationnel (m.), second mention `le sauteur` | Coined, pending native review: parallels Odyssey `vaisseau gravitationnel` and `console de pilotage`. No community French VGE pack was found on GitHub or by web search on 2026-11-18. |
+| pilot cockpit | poste de pilotage (m.) | Same source. |

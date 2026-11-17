@@ -46,3 +46,12 @@ same term (`mechanite`, `armor penetration`) because each was grounded
 against a different tar subset. **Ground this mod's own trader/orbital
 terms independently against the Core + Odyssey tars rather than assuming a
 weapon-mod sibling's word for an adjacent concept transfers.**
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | 중력도약선 | Community pack RimWorldKorea `RMK` (`VGE_Gravjumper`, `VGE_PilotCockpit.label`), fetched 2026-11-18. Vanilla's pilot console is 조종석, so the cockpit needs the pack's distinct word. |
+| pilot cockpit | 콕핏 콘솔 | Same source. |

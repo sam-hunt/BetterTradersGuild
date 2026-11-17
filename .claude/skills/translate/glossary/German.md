@@ -67,3 +67,12 @@ since the checker enforces placeholder parity.** Rebuild the sentence so the
 symbol lands in a nominative slot instead: BTG's `hackedMessage` is
 `{HACKER_labelShort} hat das Sicherheitssystem umgangen – {SUBJECT_…Def} ist
 offen.`
+
+## Vanilla Gravship Expanded terms (`BTG_GameStartDialog_ExiledTraders_VGE`)
+
+The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown only under VGE. Keep the rest of the two strings identical.
+
+| English | Use | Source |
+|---|---|---|
+| gravjumper | Gravspringer (m.) | Coined, pending native review: Odyssey `Grav-` compounds (Gravschiff, Gravkern) + Royalty `Sprungrucksack`; parallels `Pilotenkonsole`. No community German VGE pack was found on GitHub or by web search on 2026-11-18. |
+| pilot cockpit | Pilotencockpit (n.) | Same source. |
