@@ -85,5 +85,5 @@ The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown onl
 
 | English | Use | Source |
 |---|---|---|
-| gravjumper | 重力跳躍船 | Coined, pending native review: Odyssey 重力 + Royalty 跳躍 (`Apparel_PackJump` 跳躍背包) + 船. A Workshop pack exists ("Vanilla Gravship Expanded - 简&繁中文汉化包") but is not on GitHub and could not be read on 2026-11-18 (Workshop search returned HTTP 500); align to it if its terms surface. |
-| pilot cockpit | 駕駛艙 | Same source. |
+| gravjumper | 重力梭 | Community Workshop pack "Vanilla Gravship Expanded_zh" (id 3627299714, `Cont/Chapter 1/Languages/ChineseTraditional/`: `VGE_Gravjumper`, `VGE_PilotCockpit.label`), read from the local subscription 2026-11-18. Not on GitHub; its page forbids reposting, so cite terms only. |
+| pilot cockpit | 駕駛座艙 | Same source. |
