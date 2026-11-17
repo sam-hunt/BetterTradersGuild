@@ -14,6 +14,10 @@
       tanks (the scattered steel stays, as it does in VGE's version).
     - VGE_ScenPart_SpawnMechDestroyers puts VGE's dormant mechanoid destroyers on the relay
       map, as in its own scenario.
+    - The start dialog swaps to a Keyed variant naming the gravjumper and its pilot
+      cockpit. VGE rewrites its own dialog as inline English, which would leave every
+      other language untranslated here, so ours stays a textKey (Remove(success Always) +
+      Add, the repo's upsert idiom).
 
     Lives in a LoadFolders-gated root because Operations cannot be MayRequire-gated. The
     removes are deliberately not success=Always: both target our own def, so a miss means
@@ -32,6 +36,17 @@
       <li Class="VanillaGravshipExpanded.ScenPart_SpawnMechDestroyers">
         <def>VGE_ScenPart_SpawnMechDestroyers</def>
       </li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationRemove">
+    <success>Always</success>
+    <xpath>/Defs/ScenarioDef[defName="BTG_ExiledTraders"]/scenario/parts/li[def="GameStartDialog"]/textKey</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ScenarioDef[defName="BTG_ExiledTraders"]/scenario/parts/li[def="GameStartDialog"]</xpath>
+    <value>
+      <textKey>BTG_GameStartDialog_ExiledTraders_VGE</textKey>
     </value>
   </Operation>
 

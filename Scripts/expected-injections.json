@@ -1,6 +1,6 @@
 {
   "meta": {
-    "gameBuild": "1.7.5005 rev1082",
+    "gameBuild": "1.7.5011 rev24",
     "activeDlcs": [
       "Core",
       "Biotech",
@@ -520,7 +520,7 @@
         "required": true
       },
       "BTG_ExiledTraders.scenario.parts.GameStartDialog.textKey": {
-        "english": "BTG_GameStartDialog_ExiledTraders",
+        "english": "BTG_GameStartDialog_ExiledTraders_VGE",
         "normalized": "BTG_ExiledTraders.scenario.parts.3.textKey"
       },
       "BTG_ExiledTraders.scenario.parts.PlanetLayerFixed.connections.0.tag": {
@@ -530,6 +530,10 @@
       "BTG_ExiledTraders.scenario.parts.PlanetLayerFixed.tag": {
         "english": "Orbit",
         "normalized": "BTG_ExiledTraders.scenario.parts.1.tag"
+      },
+      "BTG_ExiledTraders.scenario.parts.VGE_ChooseStartingGravship.tag": {
+        "english": "Gravjumper",
+        "normalized": "BTG_ExiledTraders.scenario.parts.20.tag"
       },
       "BTG_ExiledTraders.scenario.summary": {
         "english": "Three exiled traders hunted by mechanoids.",
