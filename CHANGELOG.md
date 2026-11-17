@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The Exiled Traders scenario now lets you choose a starting gravship under Vanilla Gravship Expanded.
+
 ## [1.3.3] - 2026-10-29
 
 ### Changed

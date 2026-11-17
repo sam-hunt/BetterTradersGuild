@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Exiled Traders is a re-theme of vanilla's TheGravship scenario, and VGE reworks that
+    scenario by defName only (VGE's 1.6/Patches/Scenarios.xml and Odyssey.xml), so without
+    this file ours kept the plain Odyssey start under VGE: no "choose a starting gravship"
+    page and a vanilla prefab ship. Mirror what VGE does to TheGravship, verified against
+    VGE v1.02:
+
+    - VGE_ChooseStartingGravship drives both the config page (Scenario.GetFirstConfigPage
+      postfix) and the prefab spawn (DoGravship prefix). Same tag and tank fills as VGE's
+      own TheGravship patch; VGE2 adds more Gravjumper-tagged ships to the same list.
+    - Starting chemfuel and steel go, since the chosen ship arrives with filled astrofuel
+      tanks (the scattered steel stays, as it does in VGE's version).
+    - VGE_ScenPart_SpawnMechDestroyers puts VGE's dormant mechanoid destroyers on the relay
+      map, as in its own scenario.
+
+    Lives in a LoadFolders-gated root because Operations cannot be MayRequire-gated. The
+    removes are deliberately not success=Always: both target our own def, so a miss means
+    the two files drifted and should be loud.
+  -->
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ScenarioDef[defName="BTG_ExiledTraders"]/scenario/parts</xpath>
+    <value>
+      <li Class="VanillaGravshipExpanded.ScenPart_ChooseStartingGravship">
+        <def>VGE_ChooseStartingGravship</def>
+        <tag>Gravjumper</tag>
+        <startingAstrofuel>100</startingAstrofuel>
+        <startingOxygen>125</startingOxygen>
+      </li>
+      <li Class="VanillaGravshipExpanded.ScenPart_SpawnMechDestroyers">
+        <def>VGE_ScenPart_SpawnMechDestroyers</def>
+      </li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ScenarioDef[defName="BTG_ExiledTraders"]/scenario/parts/li[@Class="ScenPart_StartingThing_Defined" and thingDef="Chemfuel"]</xpath>
+  </Operation>
+
+  <Operation Class="PatchOperationRemove">
+    <xpath>/Defs/ScenarioDef[defName="BTG_ExiledTraders"]/scenario/parts/li[@Class="ScenPart_StartingThing_Defined" and thingDef="Steel"]</xpath>
+  </Operation>
+
+</Patch>

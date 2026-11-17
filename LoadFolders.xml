@@ -20,6 +20,7 @@
          a load root, so the plain 1.6 entry above never sees Mods/. -->
     <li IfModActive="shunter.uniquemeleeweapons">1.6/Mods/UniqueMeleeWeapons</li>
     <li IfModActive="ludeon.rimworld.biotech">1.6/Mods/Biotech</li>
+    <li IfModActive="vanillaexpanded.gravship">1.6/Mods/VanillaGravshipExpanded</li>
     <li IfModActive="vanillaexpanded.gravship2">1.6/Mods/VanillaGravshipExpanded2</li>
   </v1.6>
   <v1.7>
@@ -32,6 +33,7 @@
     <li>1.6</li>
     <li IfModActive="shunter.uniquemeleeweapons">1.6/Mods/UniqueMeleeWeapons</li>
     <li IfModActive="ludeon.rimworld.biotech">1.6/Mods/Biotech</li>
+    <li IfModActive="vanillaexpanded.gravship">1.6/Mods/VanillaGravshipExpanded</li>
     <li IfModActive="vanillaexpanded.gravship2">1.6/Mods/VanillaGravshipExpanded2</li>
   </v1.7>
 </loadFolders>
