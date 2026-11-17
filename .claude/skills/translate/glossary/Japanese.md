@@ -69,5 +69,5 @@ The key is `BTG_GameStartDialog_ExiledTraders` with two nouns swapped, shown onl
 
 | English | Use | Source |
 |---|---|---|
-| gravjumper | グラヴジャンパー | Coined, pending native review: katakana like Odyssey グラヴシップ and Royalty ジャンプパック; parallels パイロットコンソール. No community Japanese VGE pack was found on GitHub or by web search on 2026-11-18. |
+| gravjumper | グラヴジャンパー | Community Workshop pack "Vanilla Gravship Expanded - Chapter 1 日本語翻訳" (id 3610061171, `1.6/Common/Languages/Japanese/`: `VGE_Gravjumper`, `VGE_PilotCockpit.label`), read from the local subscription 2026-11-18. Not on GitHub. The pass had coined the same two words before the pack was read. |
 | pilot cockpit | パイロットコックピット | Same source. |
