@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Entries are short one-liners ready to paste as Steam Workshop change notes: what changed for the player, no rationale, no def names, no sub-bullets. -->
 
-## [Unreleased]
+## [1.3.4] - 2026-11-18
 
 ### Fixed
 
 - The Exiled Traders scenario now lets you choose a starting gravship under Vanilla Gravship Expanded.
+- The scenario editor parts and the force claim button can now be translated.
+
+### Changed
+
+- Settings, scenario, quest and Workshop text reworded to read more like vanilla, in every language.
 
 ## [1.3.3] - 2026-10-29
 
@@ -315,6 +320,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settlement generation is WIP
 
+[1.3.4]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.4
 [1.3.3]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.3
 [1.3.2]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.2
 [1.3.1]: https://github.com/sam-hunt/BetterTradersGuild/releases/tag/v1.3.1

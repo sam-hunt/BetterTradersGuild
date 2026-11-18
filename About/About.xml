@@ -3,7 +3,7 @@
   <name>Better Traders Guild</name>
   <author>Sam Hunt</author>
   <packageId>shunter.bettertradersguild</packageId>
-  <modVersion>1.3.3</modVersion>
+  <modVersion>1.3.4</modVersion>
   <description>Overhauls the Traders Guild faction from the Odyssey DLC.
 
 While relations are good you can visit their orbital settlements by shuttle to trade. Each settlement's trader rotates over time, and the Guild will send trade request quests.

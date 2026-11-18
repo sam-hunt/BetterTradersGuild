@@ -1,6 +1,7 @@
 # TODOs
 
 - Re-upload the recompressed gallery images to the Workshop page
+- `PatchOperationFindMod` on a DLC name silently misses after an in-process reload (main-menu language switch) when the game started in a language that translates the DLC label: gate `1.6/Patches/LayoutRoomDef_CrewQuarters_Royalty.xml` by package id instead (`MayRequire` on the added nodes, or a `LoadFolders.xml` `IfModActive` root) and fix the `CLAUDE.md` line recommending `FindMod`
 
 ## Feature work
 
